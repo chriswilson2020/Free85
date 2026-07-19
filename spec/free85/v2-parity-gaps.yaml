@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "release": "2.0.0",
   "source": "TI-85 Guidebook public user-facing behaviour",
-  "statuses": ["partial", "missing", "hardware-dependent"],
+  "statuses": ["equivalent", "partial", "missing", "hardware-dependent"],
   "gaps": [
-    { "id": "parity.ledger", "area": "audit", "status": "partial", "owner": "14.0", "target": "command-level guidebook traceability" },
+    { "id": "parity.ledger", "area": "audit", "status": "equivalent", "owner": "14.0", "target": "command-level guidebook traceability" },
     { "id": "storage.objects", "area": "data", "status": "partial", "owner": "14.1", "target": "typed named objects and reserved variables" },
     { "id": "storage.capacity", "area": "data", "status": "partial", "owner": "14.1", "target": "dynamic capacity with deterministic memory accounting" },
     { "id": "memory.browser", "area": "memory", "status": "partial", "owner": "14.1", "target": "per-object sizes selection deletion and recovery" },

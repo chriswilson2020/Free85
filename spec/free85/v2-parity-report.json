@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 1,
+  "release": "2.0.0",
+  "phase": "14.0",
+  "inventory": {
+    "groups": 41,
+    "entries": 298,
+    "groupsByStatus": {
+      "equivalent": 6,
+      "partial": 24,
+      "missing": 7,
+      "hardware-dependent": 3,
+      "excluded-clean-room": 1
+    },
+    "entriesByStatus": {
+      "equivalent": 45,
+      "partial": 187,
+      "missing": 48,
+      "hardware-dependent": 13,
+      "excluded-clean-room": 5
+    }
+  },
+  "gaps": {
+    "total": 36,
+    "byStatus": {
+      "equivalent": 1,
+      "partial": 23,
+      "missing": 10,
+      "hardware-dependent": 2
+    },
+    "equivalentPercent": 2.78
+  },
+  "workPackages": [
+    {
+      "id": "14.0",
+      "name": "command-level-parity-ledger",
+      "gaps": [
+        {
+          "id": "parity.ledger",
+          "status": "equivalent"
+        }
+      ]
+    },
+    {
+      "id": "14.1",
+      "name": "object-store-names-capacity",
+      "gaps": [
+        {
+          "id": "storage.objects",
+          "status": "partial"
+        },
+        {
+          "id": "storage.capacity",
+          "status": "partial"
+        },
+        {
+          "id": "memory.browser",
+          "status": "partial"
+        }
+      ]
+    },
+    {
+      "id": "14.2",
+      "name": "numeric-modes-bases-boolean",
+      "gaps": [
+        {
+          "id": "numeric.utilities",
+          "status": "partial"
+        },
+        {
+          "id": "numeric.calculus",
+          "status": "partial"
+        },
+        {
+          "id": "mode.display",
+          "status": "partial"
+        },
+        {
+          "id": "base.full",
+          "status": "partial"
+        },
+        {
+          "id": "base.boolean",
+          "status": "missing"
+        }
+      ]
+    },
+    {
+      "id": "14.3",
+      "name": "shared-graph-engine",
+      "gaps": [
+        {
+          "id": "graph.core",
+          "status": "partial"
+        },
+        {
+          "id": "graph.format",
+          "status": "partial"
+        },
+        {
+          "id": "graph.zoom",
+          "status": "partial"
+        }
+      ]
+    },
+    {
+      "id": "14.4",
+      "name": "graph-drawing-persistence",
+      "gaps": [
+        {
+          "id": "graph.draw",
+          "status": "missing"
+        },
+        {
+          "id": "graph.persistence",
+          "status": "missing"
+        }
+      ]
+    },
+    {
+      "id": "14.5",
+      "name": "polar-parametric-diffeq",
+      "gaps": [
+        {
+          "id": "graph.polar",
+          "status": "missing"
+        },
+        {
+          "id": "graph.parametric",
+          "status": "missing"
+        },
+        {
+          "id": "graph.diffeq",
+          "status": "missing"
+        },
+        {
+          "id": "coordinates.modes",
+          "status": "partial"
+        }
+      ]
+    },
+    {
+      "id": "14.6",
+      "name": "collections-linear-algebra",
+      "gaps": [
+        {
+          "id": "list.complete",
+          "status": "partial"
+        },
+        {
+          "id": "matrix.complete",
+          "status": "partial"
+        },
+        {
+          "id": "vector.complete",
+          "status": "partial"
+        },
+        {
+          "id": "complex.collections",
+          "status": "partial"
+        }
+      ]
+    },
+    {
+      "id": "14.7",
+      "name": "solver-statistics",
+      "gaps": [
+        {
+          "id": "solver.complete",
+          "status": "partial"
+        },
+        {
+          "id": "statistics.models",
+          "status": "partial"
+        },
+        {
+          "id": "statistics.commands",
+          "status": "partial"
+        },
+        {
+          "id": "statistics.xyline",
+          "status": "missing"
+        }
+      ]
+    },
+    {
+      "id": "14.8",
+      "name": "programming-language",
+      "gaps": [
+        {
+          "id": "program.control",
+          "status": "partial"
+        },
+        {
+          "id": "program.io",
+          "status": "partial"
+        },
+        {
+          "id": "program.catalog",
+          "status": "partial"
+        },
+        {
+          "id": "equation.string",
+          "status": "missing"
+        }
+      ]
+    },
+    {
+      "id": "14.9",
+      "name": "constants-characters-memory-link",
+      "gaps": [
+        {
+          "id": "constants.user",
+          "status": "missing"
+        },
+        {
+          "id": "characters.extended",
+          "status": "partial"
+        },
+        {
+          "id": "memory.complete",
+          "status": "partial"
+        },
+        {
+          "id": "link.transfer",
+          "status": "hardware-dependent"
+        },
+        {
+          "id": "link.backup",
+          "status": "hardware-dependent"
+        }
+      ]
+    },
+    {
+      "id": "14.10",
+      "name": "release-hardening",
+      "gaps": [
+        {
+          "id": "release.2.0",
+          "status": "missing"
+        }
+      ]
+    }
+  ],
+  "cleanRoom": {
+    "proprietaryInputsRequiredForPublicValidation": false,
+    "exclusions": [
+      "TI-binary-programs",
+      "TI-token-streams",
+      "TI-file-formats",
+      "TI-ROM-calls",
+      "TI-internal-data-structures"
+    ]
+  }
+}

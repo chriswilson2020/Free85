@@ -4,6 +4,7 @@ import { existsSync } from "node:fs";
 import { Ti85Machine } from "../src/ti85.js";
 import { Free85Harness } from "../test/helpers/free85-harness.js";
 import { bitmapToPbm, cellRows, readRightAlignedNumber } from "./free85-lcd-ocr.js";
+import { oracleFailureMessage, oracleFailures } from "./free85-oracle-policy.js";
 
 const config = JSON.parse(await readFile("spec/free85/oracle-vectors.yaml", "utf8"));
 const coverage = JSON.parse(await readFile("spec/free85/guidebook-coverage.yaml", "utf8"));
@@ -143,10 +144,11 @@ function guidebookSummary() {
   ]));
 }
 
-if (!romPath || !existsSync(romPath)) {
+if (!romPath) {
   console.log("Free85 private oracle: SKIP (set TI85_ORACLE_ROM to a user-supplied 128 KiB ROM to enable it). ");
   process.exit(0);
 }
+if (!existsSync(romPath)) throw new Error("TI85_ORACLE_ROM was set but the supplied file does not exist");
 
 const rom = await readFile(romPath);
 if (rom.length !== Ti85Machine.ROM_SIZE) throw new Error(`Oracle ROM must be exactly ${Ti85Machine.ROM_SIZE} bytes`);
@@ -223,8 +225,7 @@ console.log(JSON.stringify({
   privateArtifactsWritten: writePrivate
 }, null, 2));
 
-const regressions = results.filter(({ classification }) => classification === "free85-regression");
-const unreadable = results.filter(({ classification }) => classification === "oracle-observation-unreadable");
-if (regressions.length || unreadable.length) {
-  throw new Error(`Oracle validation failed: ${regressions.length} Free85 regressions, ${unreadable.length} unreadable oracle observations`);
+const failures = oracleFailures(results, stateResults);
+if (failures.regressions.length || failures.unreadable.length || failures.stateProbeFailures.length) {
+  throw new Error(oracleFailureMessage(failures));
 }

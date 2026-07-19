@@ -25,7 +25,8 @@ TI85_ORACLE_ROM=/private/path/TI85.ROM npm run validate:free85:complete
 ```
 
 If the variable is absent, the oracle lane reports `SKIP` and exits
-successfully. A ROM must be exactly 128 KiB. The script reports its SHA-256
+successfully. If it is set, a missing or invalid file is a hard failure. A ROM
+must be exactly 128 KiB. The script reports its SHA-256
 fingerprint for local reproducibility but never copies or prints ROM contents.
 
 Add `--write-private` to write a detailed JSON report and the final monochrome
@@ -51,7 +52,9 @@ readability, and LCD state—not framebuffer identity.
 
 Classifications are explicit: `equivalent`, `free85-regression`,
 `oracle-observation-unreadable`, or `intentional-or-unresolved-divergence`.
-Unreadable output fails the lane rather than being silently treated as parity.
+Any uncertain OCR cell invalidates the complete observation. Unreadable output
+and failed application-state probes fail the lane rather than being silently
+treated as parity.
 
 ## What “exhaustive” means here
 

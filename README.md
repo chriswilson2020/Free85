@@ -122,6 +122,8 @@ SJASMPLUS=/absolute/path/to/sjasmplus npm run release:free85
 - [Phase 13 validation result](spec/free85/oracle-report.json)
 - [Free85 2.0 execution roadmap](docs/Free85-2.0-roadmap.md)
 - [Free85 2.0 parity gap ledger](spec/free85/v2-parity-gaps.yaml)
+- [Guidebook command-level ledger](spec/free85/guidebook-command-ledger.yaml)
+- [Free85 2.0 parity progress](spec/free85/v2-parity-report.json)
 - [Firmware documentation](firmware/free85/README.md)
 - [Release manifest](spec/free85/release.json)
 - [Performance report](spec/free85/performance.json)

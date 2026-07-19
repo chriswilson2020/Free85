@@ -14,8 +14,8 @@ The current ROM enters a standalone Free85 home screen after the splash. It
 provides an interrupt-fed key event queue, a 48-character multi-row editor,
 cursor movement and blinking, delete, clear, insert/overwrite mode, one-shot
 2ND, one-shot and locked ALPHA, two soft-menu pages, and dismissible dialogs.
-All physical, printed shifted, and alpha surfaces either edit/navigate, invoke
-a later-phase operation, or show an explicit planned-feature message.
+All physical, printed shifted, and alpha surfaces now edit, navigate, or invoke
+a completed operation; Phase 11 removes the development placeholders.
 
 ## Phase 3 numeric core
 
@@ -231,6 +231,34 @@ framebuffer, is 8,704 bytes, leaving 24,064 bytes free. Tests cover lifecycle
 and reset persistence, expressions, all control forms, input, calls,
 list/matrix access, graph launch, runaway interruption, exact error lines, and
 reviewed LCD framebuffers.
+
+## Phase 11 complete parity
+
+Phase 11 completes every registered physical, shifted, alpha, menu, and
+application surface. The first home soft-key page opens math, graph, variables,
+memory, and system screens; the second opens lists, matrices, vectors,
+statistics, and programs. The shifted menu keys expose callable math,
+constants, unit conversions, comparisons, number-base display, variable
+browsing, memory management, and native link diagnostics.
+
+`2ND+F1` through `2ND+F5` store the current evaluated entry in five independent
+packed-decimal memories, or recall a slot when the editor is empty. These slots,
+variables, programs, custom-menu assignments, and settings survive ordinary
+machine resets. The memory screen can clear variables or programs, restore
+settings, or perform an intentional full reset.
+
+The system screen switches radians/degrees and automatic/scientific display,
+adjusts hardware contrast, and links to memory management. `2ND+ALPHA` toggles
+lowercase alpha, `2ND+ENTER` restores the previous entry, and `2ND+ON` disables
+the LCD and timer until a subsequent ON interrupt wakes the calculator.
+Comparison operators produce numeric `1` or `0` and are available to both the
+home evaluator and program conditions.
+
+Phase 11 occupies ROM bank 6. Its full RAM reservation, including stack and
+framebuffer, is 8,960 bytes, leaving 23,808 bytes free. The parity suite tests
+every new surface, persistence, settings and reset behavior, all six comparison
+operators, base conversion, link-line I/O, and the off/wake path. The generated
+coverage report requires every feature to be complete and test-backed.
 
 ## Clean-room rules
 

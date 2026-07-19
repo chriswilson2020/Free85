@@ -12,6 +12,16 @@ lcd_init:
     OUT (PORT_CONTROL), A
     RET
 
+lcd_enable:
+    LD A, LCD_CONTROL_ON
+    OUT (PORT_CONTROL), A
+    RET
+
+lcd_disable:
+    LD A, $01
+    OUT (PORT_CONTROL), A
+    RET
+
 ; lcd_clear
 ; Clears the full 128 by 64 framebuffer.
 ; Clobbers: AF, BC, DE, HL
@@ -23,4 +33,3 @@ lcd_clear:
     LD (HL), A
     LDIR
     RET
-

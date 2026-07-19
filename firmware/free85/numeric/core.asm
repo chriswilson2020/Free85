@@ -407,6 +407,9 @@ numeric_format_result:
     LD A, B
     DEC A
     LD (NP_STORED_DIGITS), A    ; last significant index
+    LD A, (P11_DISPLAY_MODE)
+    OR A
+    JP NZ, .scientific
     LD A, (NUM_RESULT + NUM_EXPONENT)
     BIT 7, A
     JR NZ, .negative_exp

@@ -16,13 +16,15 @@ The repository includes:
 
 ## Current status
 
-Phases 0-10 are implemented: boot/diagnostics, UI and editor, packed-BCD numeric
+Phases 0-11 are implemented: boot/diagnostics, UI and editor, packed-BCD numeric
 core, expression parsing, scientific functions, graphing, tables, numerical
 tools, complex numbers, lists, matrices, vectors, statistics, regression,
 statistical plots, simultaneous equations, polynomial roots, native strings,
 an alphabetical callable catalog, a character palette, and a persistent custom
-menu, and a persistent on-calculator programming environment. Phase 11 key and
-menu parity is next.
+menu, a persistent on-calculator programming environment, system settings,
+five numeric memories, variables and memory management, number-base display,
+native link diagnostics, power control, lowercase alpha, and complete key/menu
+parity.
 
 Graph tests compare exact 1,024-byte LCD framebuffers and reviewed lossless PNG
 goldens. Failures produce expected, actual, and red/blue diff images under

@@ -25,6 +25,10 @@ ui_handle_key:
     LD A, C
     JP Z, PHASE6_HANDLE_KEY
     LD A, (UI_SCREEN_MODE)
+    CP SCREEN_SYSTEM
+    LD A, C
+    JP NC, ui_call_phase11_handle_key
+    LD A, (UI_SCREEN_MODE)
     CP SCREEN_PROGRAM_LIST
     LD A, C
     JP NC, ui_call_phase10_handle_key
@@ -114,6 +118,34 @@ ui_handle_second:
     LD A, ACTION_MODIFIER_SECOND
     LD (UI_LAST_MODIFIER), A
     LD A, B
+    CP KEY_F5 + 1
+    JP C, ui_phase11_memory_slot
+    CP KEY_MORE
+    JP Z, ui_open_system
+    CP KEY_ALPHA
+    JP Z, ui_toggle_lower_alpha
+    CP KEY_X_VAR
+    JP Z, ui_open_link
+    CP KEY_MULTIPLY
+    JP Z, ui_open_math
+    CP KEY_4
+    JP Z, ui_open_constants
+    CP KEY_5
+    JP Z, ui_open_conversions
+    CP KEY_STO
+    JP Z, ui_open_variables
+    CP KEY_1
+    JP Z, ui_open_base
+    CP KEY_2
+    JP Z, ui_open_tests
+    CP KEY_3
+    JP Z, ui_open_variables
+    CP KEY_PLUS
+    JP Z, ui_open_memory
+    CP KEY_ON
+    JP Z, ui_power_off
+    CP KEY_ENTER
+    JP Z, ui_previous_entry
     CP KEY_GRAPH
     JP Z, ui_call_phase6_solve
     CP KEY_CLEAR
@@ -266,7 +298,23 @@ ui_handle_normal:
     JP Z, ui_open_vector
     CP KEY_F4
     JP Z, ui_open_statistics
+    CP KEY_F5
+    JP Z, ui_open_programs
 .soft_regular:
+    LD A, (UI_MENU_PAGE)
+    OR A
+    JR NZ, .planned_soft
+    LD A, B
+    CP KEY_F1
+    JP Z, ui_open_math
+    CP KEY_F2
+    JP Z, ui_call_phase6_open_graph
+    CP KEY_F3
+    JP Z, ui_open_variables
+    CP KEY_F4
+    JP Z, ui_open_memory
+    JP ui_open_system
+.planned_soft:
     LD A, (UI_MENU_PAGE)
     OR A
     LD A, B
@@ -361,7 +409,34 @@ ui_get_alpha_character:
     LD HL, alpha_character_table
     ADD HL, DE
     LD A, (HL)
+    CP 'A'
+    RET C
+    CP 'Z' + 1
+    RET NC
+    LD C, A
+    LD A, (UI_MODIFIERS)
+    BIT 3, A
+    LD A, C
+    RET Z
+    ADD A, 32
     RET
+
+ui_toggle_lower_alpha:
+    LD A, (UI_MODIFIERS)
+    XOR MODIFIER_ALPHA_LOWER
+    LD (UI_MODIFIERS), A
+    JP screen_show_home
+
+ui_previous_entry:
+    CALL history_previous
+    JP C, ui_notice_history
+    JP screen_show_home
+
+ui_power_off:
+    CALL lcd_disable
+    HALT
+    CALL lcd_enable
+    JP screen_show_home
 
 ; Banked application entry wrappers. Home/UI code is fixed, so every entry
 ; explicitly maps the bank it expects instead of relying on the last screen.
@@ -469,6 +544,65 @@ ui_open_programs:
     LD A, 5
     CALL bank_select
     JP PHASE10_OPEN_LIST
+
+ui_call_phase11_handle_key:
+    LD C, A
+    LD A, 6
+    CALL bank_select
+    LD A, C
+    JP PHASE11_HANDLE_KEY
+
+ui_open_system:
+    LD A, 6
+    CALL bank_select
+    JP PHASE11_OPEN_SYSTEM
+
+ui_open_math:
+    LD A, 6
+    CALL bank_select
+    JP PHASE11_OPEN_MATH
+
+ui_open_constants:
+    LD A, 6
+    CALL bank_select
+    JP PHASE11_OPEN_CONSTANTS
+
+ui_open_conversions:
+    LD A, 6
+    CALL bank_select
+    JP PHASE11_OPEN_CONVERSIONS
+
+ui_open_base:
+    LD A, 6
+    CALL bank_select
+    JP PHASE11_OPEN_BASE
+
+ui_open_tests:
+    LD A, 6
+    CALL bank_select
+    JP PHASE11_OPEN_TESTS
+
+ui_open_variables:
+    LD A, 6
+    CALL bank_select
+    JP PHASE11_OPEN_VARIABLES
+
+ui_open_memory:
+    LD A, 6
+    CALL bank_select
+    JP PHASE11_OPEN_MEMORY
+
+ui_open_link:
+    LD A, 6
+    CALL bank_select
+    JP PHASE11_OPEN_LINK
+
+ui_phase11_memory_slot:
+    LD C, A
+    LD A, 6
+    CALL bank_select
+    LD A, C
+    JP PHASE11_MEMORY_SLOT
 
 ; Blinks the cursor every 128 timer ticks while the home screen is active.
 ui_tick:

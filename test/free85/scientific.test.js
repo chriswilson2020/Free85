@@ -32,6 +32,8 @@ function evaluate(expression, { degrees = false, settleFrames = 120 } = {}) {
   if (degrees) {
     harness.tap("2ND");
     harness.tap("MORE");
+    harness.tap("F1");
+    harness.tap("EXIT");
   }
   typeExpression(harness, expression);
   harness.tap("ENTER");

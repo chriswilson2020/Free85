@@ -28,14 +28,14 @@ test("Free85 specifications register the complete physical keypad", async () => 
   assert.equal(coverage.alpha_mappings.percent, 100);
 });
 
-test("Free85 distinguishes tested surfaces from planned calculator features", async () => {
+test("Free85 reports complete, tested parity with no planned features", async () => {
   const { keymap, features } = await readFree85Specifications();
-  assert.equal(keymap.keys.every(({ status }) => status === "planned"), true);
-  assert.equal(features.features.filter(({ status }) => status === "tested").length, 103);
-  assert.equal(features.features.filter(({ status }) => status === "planned").length, 19);
-  assert.equal(features.features.every(({ status }) => status === "planned" || status === "tested"), true);
-  assert.equal(features.features.filter(({ status }) => status === "tested").every(({ implementation, tests }) => implementation && tests.length > 0), true);
-  assert.equal(features.features.filter(({ status }) => status === "planned").every(({ implementation, tests }) => implementation === null && tests.length === 0), true);
+  assert.equal(keymap.keys.every(({ status, tests }) => status === "complete" && tests.length > 0), true);
+  assert.equal(features.features.filter(({ status }) => status === "complete").length, 122);
+  assert.equal(features.features.every(({ status }) => status === "complete"), true);
+  assert.equal(features.features.every(({ implementation, documentation, tests }) => (
+    implementation && documentation && tests.length > 0
+  )), true);
 });
 
 test("checked-in Free85 coverage report matches its source specifications", async () => {
@@ -44,7 +44,7 @@ test("checked-in Free85 coverage report matches its source specifications", asyn
   assert.deepEqual(checkedIn, createFree85Coverage(specifications));
 });
 
-test("tested Free85 features reference stable test identifiers", async () => {
+test("complete Free85 features reference stable test identifiers", async () => {
   const { features } = await readFree85Specifications();
   const testSources = await Promise.all([
     readFile("test/free85/keypad.test.js", "utf8"),
@@ -56,7 +56,8 @@ test("tested Free85 features reference stable test identifiers", async () => {
     readFile("test/free85/collections.test.js", "utf8"),
     readFile("test/free85/statistics-solvers.test.js", "utf8"),
     readFile("test/free85/strings-catalog-custom.test.js", "utf8"),
-    readFile("test/free85/programming.test.js", "utf8")
+    readFile("test/free85/programming.test.js", "utf8"),
+    readFile("test/free85/parity.test.js", "utf8")
   ]);
   const combined = testSources.join("\n");
   const referenced = new Set(features.features.flatMap(({ tests }) => tests));

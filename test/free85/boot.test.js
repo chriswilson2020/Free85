@@ -14,7 +14,7 @@ test("Free85 ROM has eight exact 16 KiB banks and fixed vectors", async () => {
     const start = page * 0x4000;
     assert.equal(rom.subarray(start, start + 7).toString("ascii"), "FREE85\0");
     assert.equal(rom[start + 7], page);
-    if (page === 1) {
+    if (page === 1 || page === 2) {
       assert.equal(rom[start + 8], 0xc3);
       assert.equal(rom.subarray(start + 8, start + 0x4000).some((byte) => byte !== 0xff), true);
     } else {
@@ -26,9 +26,10 @@ test("Free85 ROM has eight exact 16 KiB banks and fixed vectors", async () => {
 test("Free85 initializes RAM, banking, interrupts, LCD, and a visible splash", () => {
   const machine = Ti85Machine.fromRomFile(FREE85_ROM_PATH);
   machine.runFrame();
+  machine.runFrame();
   const state = machine.getDebugState();
 
-  assert.deepEqual([machine.read8(0x8000), machine.read8(0x8001), machine.read8(0x8002), machine.read8(0x8003)], [70, 56, 53, 6]);
+  assert.deepEqual([machine.read8(0x8000), machine.read8(0x8001), machine.read8(0x8002), machine.read8(0x8003)], [70, 56, 53, 7]);
   assert.equal(state.memory.romBank, 1);
   assert.equal(state.cpu.interruptMode, 1);
   assert.equal(state.cpu.IFF1, true);

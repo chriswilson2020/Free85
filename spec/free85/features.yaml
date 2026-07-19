@@ -1098,10 +1098,14 @@
     {
       "id": "app.matrix",
       "category": "app",
-      "status": "planned",
-      "implementation": null,
-      "documentation": null,
-      "tests": [],
+      "status": "tested",
+      "implementation": "firmware/free85/collections/phase7.asm",
+      "documentation": "firmware/free85/README.md#phase-7-collection-and-complex-applications",
+      "tests": [
+        "collections.editors",
+        "matrix.operations",
+        "matrix.errors"
+      ],
       "surfaces": [
         {
           "key": "7",
@@ -1144,10 +1148,13 @@
     {
       "id": "app.vector",
       "category": "app",
-      "status": "planned",
-      "implementation": null,
-      "documentation": null,
-      "tests": [],
+      "status": "tested",
+      "implementation": "firmware/free85/collections/phase7.asm",
+      "documentation": "firmware/free85/README.md#phase-7-collection-and-complex-applications",
+      "tests": [
+        "collections.editors",
+        "vector.operations"
+      ],
       "surfaces": [
         {
           "key": "8",
@@ -1190,10 +1197,13 @@
     {
       "id": "menu.complex",
       "category": "menu",
-      "status": "planned",
-      "implementation": null,
-      "documentation": null,
-      "tests": [],
+      "status": "tested",
+      "implementation": "firmware/free85/collections/phase7.asm",
+      "documentation": "firmware/free85/README.md#phase-7-collection-and-complex-applications",
+      "tests": [
+        "collections.editors",
+        "complex.operations"
+      ],
       "surfaces": [
         {
           "key": "9",
@@ -1468,10 +1478,13 @@
     {
       "id": "app.lists",
       "category": "app",
-      "status": "planned",
-      "implementation": null,
-      "documentation": null,
-      "tests": [],
+      "status": "tested",
+      "implementation": "firmware/free85/collections/phase7.asm",
+      "documentation": "firmware/free85/README.md#phase-7-collection-and-complex-applications",
+      "tests": [
+        "collections.editors",
+        "list.operations"
+      ],
       "surfaces": [
         {
           "key": "-",

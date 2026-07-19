@@ -55,7 +55,7 @@ test("ALPHA supports one-shot entry and lock cycling", () => {
   assert.equal(harness.machine.read8(FREE85_MODIFIERS_ADDRESS) & 0x06, 0);
 });
 
-test("[ui.menus] soft-menu pages and unfinished applications show explicit dialogs", () => {
+test("[ui.menus] soft-menu pages expose implemented applications and planned dialogs", () => {
   const harness = Free85Harness.boot();
   harness.tap("F1");
   assert.equal(harness.machine.read8(FREE85_UI_MODE_ADDRESS), 1);
@@ -65,7 +65,7 @@ test("[ui.menus] soft-menu pages and unfinished applications show explicit dialo
   harness.tap("MORE");
   assert.notEqual(harness.signature().checksum, firstPage);
   harness.tap("F1");
-  assert.equal(harness.machine.read8(FREE85_UI_MODE_ADDRESS), 1);
+  assert.equal(harness.machine.read8(FREE85_UI_MODE_ADDRESS), 5);
   harness.tap("EXIT");
   harness.tap("GRAPH");
   assert.equal(harness.machine.read8(FREE85_UI_MODE_ADDRESS), 2);

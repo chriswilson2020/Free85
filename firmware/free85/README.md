@@ -110,6 +110,32 @@ Phase 6 code occupies bank 1 and calls the fixed packed-BCD/parser kernel in
 bank 0. This keeps graph-domain failures local to individual samples and leaves
 later ROM banks available for subsequent application phases.
 
+## Phase 7 collection and complex applications
+
+`2ND+9`, `2ND+-`, `2ND+7`, and `2ND+8` open the complex, list, matrix, and
+vector editors. The second home soft-menu page also opens the list, matrix, and
+vector applications. `ALPHA` switches between operands A and B, arrow keys
+select elements, and decimal values are committed with `ENTER`. `+` and `-`
+resize bounded collections; `X-VAR` chooses the matrix row or column dimension.
+
+Complex values store rectangular real/imaginary components and provide polar
+conversion, component access, magnitude, argument, conjugate, arithmetic,
+squaring, and principal square roots, including negative-real roots. Lists hold
+at most eight packed-decimal elements and provide element-wise editing, sum,
+product, minimum, maximum, mean, median, population standard deviation, sort,
+cumulative sum, and sequence generation.
+
+Matrices are limited to 3x3 and support rectangular dimensions, indexing,
+addition, subtraction, scalar and matrix multiplication, transpose,
+determinant, identity, inverse with row pivoting, reduced row-echelon form, and
+linear-system solving using the first column of matrix B as the right-hand
+side. Vectors contain two or three components and provide addition,
+subtraction, scalar multiplication, magnitude, normalisation, dot product,
+3D cross product, and angle. Dimension, singular-matrix, and zero-vector
+failures are recoverable dialogs. Phase 7 occupies ROM bank 2; its total RAM
+reservation, including the framebuffer and stack, is 4,608 bytes, leaving
+28,160 bytes free.
+
 ## Clean-room rules
 
 - Do not copy or translate code, fonts, tables, layouts, or other data from a

@@ -57,3 +57,10 @@ Independent numerical vectors cover roots, extrema, Y1/Y2 intersections,
 central-difference derivatives, 64-panel Simpson integration, the home solver,
 and tolerance selection. Solver roots are checked together with their residual;
 an unbounded discontinuity may not be accepted merely because its sign changes.
+
+Phase 7 adds keypad-driven editor workflows and packed-decimal result vectors
+for complex arithmetic and roots, list aggregation and ordering, matrix
+determinants/transposition/multiplication/inversion/RREF/linear solving, and
+vector norm/dot/cross/angle operations. Error vectors assert recoverable
+dimension and singularity dialogs. Collection maximums and population standard
+deviation semantics are documented in the firmware guide.

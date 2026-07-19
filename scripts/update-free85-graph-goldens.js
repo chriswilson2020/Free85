@@ -14,6 +14,12 @@ const cases = [
   { name: "reciprocal", expression: "1/X" },
   { name: "square-root", expression: "SQRT(X)" }
 ];
+const screenCases = [
+  { name: "phase7-complex-editor", keys: ["2ND", "9"] },
+  { name: "phase7-list-editor", keys: ["2ND", "-"] },
+  { name: "phase7-matrix-editor", keys: ["2ND", "7"] },
+  { name: "phase7-vector-editor", keys: ["2ND", "8"] }
+];
 
 function typeExpression(harness, expression) {
   for (let index = 0; index < expression.length; index += 1) {
@@ -53,6 +59,18 @@ for (const graphCase of cases) {
     checksum: bitmap.checksum.toString(16).padStart(8, "0").toUpperCase()
   });
   console.log(`Approved ${graphCase.name}: ${graphCase.expression} (${bitmap.litPixelCount} pixels)`);
+}
+for (const screenCase of screenCases) {
+  const harness = Free85Harness.boot();
+  for (const key of screenCase.keys) harness.tap(key);
+  const bitmap = harness.machine.renderLcdBitmap();
+  writeLcdGolden(screenCase.name, bitmap);
+  manifest.cases.push({
+    ...screenCase,
+    litPixelCount: bitmap.litPixelCount,
+    checksum: bitmap.checksum.toString(16).padStart(8, "0").toUpperCase()
+  });
+  console.log(`Approved ${screenCase.name}: ${screenCase.keys.join("+")} (${bitmap.litPixelCount} pixels)`);
 }
 const manifestPath = fileURLToPath(new URL("../test/free85/goldens/graphs/manifest.json", import.meta.url));
 writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);

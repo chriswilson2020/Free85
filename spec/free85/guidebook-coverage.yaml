@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "title": "TI-85 Guidebook",
+    "use": "Behavioural traceability only; headings are paraphrased and no copyrighted pages are redistributed"
+  },
+  "statuses": ["equivalent", "intentional-divergence", "not-in-free85", "hardware-dependent"],
+  "chapters": [
+    { "chapter": 1, "topic": "operation, modes, editing and previous entries", "status": "equivalent", "evidence": ["test/free85/ui.test.js", "test/free85/parity.test.js"] },
+    { "chapter": 2, "topic": "variables and stored data", "status": "equivalent", "evidence": ["test/free85/expression.test.js", "test/free85/parity.test.js"] },
+    { "chapter": 3, "topic": "mathematics, calculus and comparisons", "status": "equivalent", "evidence": ["test/free85/numeric.test.js", "test/free85/scientific.test.js", "test/free85/parity.test.js"] },
+    { "chapter": 4, "topic": "Cartesian function graphing, table, trace and analysis", "status": "equivalent", "evidence": ["test/free85/graph.test.js"] },
+    { "chapter": 5, "topic": "polar graphing", "status": "not-in-free85", "reason": "Free85 v1 specifies Cartesian graphing" },
+    { "chapter": 6, "topic": "parametric graphing", "status": "not-in-free85", "reason": "Free85 v1 specifies Cartesian graphing" },
+    { "chapter": 7, "topic": "differential-equation graphing", "status": "not-in-free85", "reason": "not part of the Free85 v1 contract" },
+    { "chapter": 8, "topic": "physical constants and unit conversions", "status": "equivalent", "evidence": ["test/free85/scientific.test.js", "test/free85/parity.test.js"] },
+    { "chapter": 9, "topic": "strings and characters", "status": "equivalent", "evidence": ["test/free85/strings-catalog-custom.test.js"] },
+    { "chapter": 10, "topic": "number bases and Boolean operations", "status": "intentional-divergence", "reason": "Free85 v1 provides decimal/hex/binary views; full TI Boolean surface is outside the contract", "evidence": ["test/free85/parity.test.js"] },
+    { "chapter": 11, "topic": "complex numbers", "status": "equivalent", "evidence": ["test/free85/collections.test.js"] },
+    { "chapter": 12, "topic": "lists", "status": "equivalent", "evidence": ["test/free85/collections.test.js"] },
+    { "chapter": 13, "topic": "matrices and vectors", "status": "equivalent", "evidence": ["test/free85/collections.test.js"] },
+    { "chapter": 14, "topic": "polynomial and simultaneous-equation solving", "status": "equivalent", "evidence": ["test/free85/statistics-solvers.test.js"] },
+    { "chapter": 15, "topic": "statistics and statistical plots", "status": "equivalent", "evidence": ["test/free85/statistics-solvers.test.js"] },
+    { "chapter": 16, "topic": "calculator programming", "status": "intentional-divergence", "reason": "Free85 implements its documented native subset rather than TI token compatibility", "evidence": ["test/free85/programming.test.js"] },
+    { "chapter": 17, "topic": "custom menus and application surfaces", "status": "intentional-divergence", "reason": "Free85 supplies native catalog/custom workflows without proprietary TI applications", "evidence": ["test/free85/strings-catalog-custom.test.js"] },
+    { "chapter": 18, "topic": "memory management", "status": "equivalent", "evidence": ["test/free85/parity.test.js"] },
+    { "chapter": 19, "topic": "calculator linking", "status": "hardware-dependent", "reason": "native link-port paths are tested in emulation; physical interoperability needs hardware", "evidence": ["test/free85/parity.test.js"] },
+    { "chapter": "appendices", "topic": "function index, system variables and error conditions", "status": "intentional-divergence", "reason": "Free85 documents its own functions, memory model and recoverable errors", "evidence": ["docs/Free85-specification.md", "docs/known-limitations.md"] }
+  ]
+}

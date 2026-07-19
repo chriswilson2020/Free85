@@ -16,7 +16,7 @@ The repository includes:
 
 ## Current status
 
-Free85 1.0 completes Phases 0-12: boot/diagnostics, UI and editor, packed-BCD numeric
+Free85 1.0 completes Phases 0-13: boot/diagnostics, UI and editor, packed-BCD numeric
 core, expression parsing, scientific functions, graphing, tables, numerical
 tools, complex numbers, lists, matrices, vectors, statistics, regression,
 statistical plots, simultaneous equations, polynomial roots, native strings,
@@ -36,6 +36,11 @@ coverage, performance report, source, notices, and browser entry point.
 Graph tests compare exact 1,024-byte LCD framebuffers and reviewed lossless PNG
 goldens. Failures produce expected, actual, and red/blue diff images under
 `test-results/free85-visual/`.
+
+Phase 13 adds an optional clean-room differential suite for a user-owned TI-85
+ROM: 270 numeric comparisons, application-state probes, private LCD diagnostics,
+and chapter-level guidebook traceability. The public build and tests remain
+fully independent of proprietary files.
 
 ## Run the calculator
 
@@ -69,6 +74,12 @@ npm test
 npm run benchmark:free85
 npm run test:free85:stress
 npm run test:free85:soak
+```
+
+To add the optional private behavioural comparison:
+
+```sh
+TI85_ORACLE_ROM=/private/path/TI85.ROM npm run test:free85:oracle
 ```
 
 Approved graph screens are intentionally updated only with:
@@ -107,6 +118,8 @@ SJASMPLUS=/absolute/path/to/sjasmplus npm run release:free85
 - [Full implementation specification](docs/Free85-specification.md)
 - [Product definition](spec/free85/product.md)
 - [Validation rules](spec/free85/validation.md)
+- [Clean-room oracle validation](docs/oracle-validation.md)
+- [Phase 13 validation result](spec/free85/oracle-report.json)
 - [Firmware documentation](firmware/free85/README.md)
 - [Release manifest](spec/free85/release.json)
 - [Performance report](spec/free85/performance.json)

@@ -66,6 +66,58 @@
       ],
       "litPixelCount": 723,
       "checksum": "3BC82107"
+    },
+    {
+      "name": "phase8-statistics-editor",
+      "keys": [
+        "STAT"
+      ],
+      "litPixelCount": 725,
+      "checksum": "93DE99AA"
+    },
+    {
+      "name": "phase8-simultaneous-editor",
+      "keys": [
+        "2ND",
+        "STAT"
+      ],
+      "litPixelCount": 775,
+      "checksum": "CEF538E3"
+    },
+    {
+      "name": "phase8-polynomial-editor",
+      "keys": [
+        "2ND",
+        "PRGM"
+      ],
+      "litPixelCount": 808,
+      "checksum": "39105F72"
+    },
+    {
+      "name": "phase8-scatter-plot",
+      "keys": [
+        "F4"
+      ],
+      "litPixelCount": 165,
+      "checksum": "AFDC97B9"
+    },
+    {
+      "name": "phase8-histogram-plot",
+      "keys": [
+        "F5"
+      ],
+      "litPixelCount": 801,
+      "checksum": "2CD872B1"
+    },
+    {
+      "name": "phase8-box-plot",
+      "keys": [
+        "MORE",
+        "MORE",
+        "F5"
+      ],
+      "litPixelCount": 661,
+      "checksum": "96D5D989"
     }
   ]
 }

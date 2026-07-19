@@ -439,10 +439,15 @@
     {
       "id": "app.statistics",
       "category": "app",
-      "status": "planned",
-      "implementation": null,
-      "documentation": null,
-      "tests": [],
+      "status": "tested",
+      "implementation": "firmware/free85/statistics/phase8.asm",
+      "documentation": "firmware/free85/README.md#phase-8-statistics-and-specialist-solvers",
+      "tests": [
+        "statistics.editors",
+        "statistics.one-variable",
+        "statistics.two-variable",
+        "statistics.plots"
+      ],
       "surfaces": [
         {
           "key": "STAT",
@@ -453,10 +458,13 @@
     {
       "id": "app.simultaneous",
       "category": "app",
-      "status": "planned",
-      "implementation": null,
-      "documentation": null,
-      "tests": [],
+      "status": "tested",
+      "implementation": "firmware/free85/statistics/phase8.asm",
+      "documentation": "firmware/free85/README.md#phase-8-statistics-and-specialist-solvers",
+      "tests": [
+        "solver.simultaneous",
+        "solver.simultaneous-status"
+      ],
       "surfaces": [
         {
           "key": "STAT",
@@ -481,10 +489,10 @@
     {
       "id": "app.polynomial",
       "category": "app",
-      "status": "planned",
-      "implementation": null,
-      "documentation": null,
-      "tests": [],
+      "status": "tested",
+      "implementation": "firmware/free85/statistics/phase8.asm",
+      "documentation": "firmware/free85/README.md#phase-8-statistics-and-specialist-solvers",
+      "tests": ["solver.polynomial"],
       "surfaces": [
         {
           "key": "PRGM",

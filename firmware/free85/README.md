@@ -136,6 +136,30 @@ failures are recoverable dialogs. Phase 7 occupies ROM bank 2; its total RAM
 reservation, including the framebuffer and stack, is 4,608 bytes, leaving
 28,160 bytes free.
 
+## Phase 8 statistics and specialist solvers
+
+`STAT` opens paired editable X/Y data columns backed by the eight-element list
+storage; `ALPHA` changes columns and `+`/`-` resize both columns together.
+One-variable summaries provide mean, median, minimum, maximum, Tukey-hinge
+quartiles, sample variance and standard deviation (denominator `n-1`), and
+population variance and standard deviation (denominator `n`). Two-variable
+statistics provide both means, least-squares linear regression
+`y = intercept + slope*x`, and Pearson correlation. Scatter, four-bin
+histogram, and box plots are rendered directly into the exact LCD framebuffer.
+
+`2ND+STAT` opens an augmented-matrix editor for simultaneous linear equations.
+It solves 2x2, 3x3, and 4x4 systems with pivoted Gauss-Jordan elimination and
+reports unique, inconsistent, and underdetermined systems separately.
+`2ND+PRGM` opens the polynomial editor. Degrees 2 through 4 are supported;
+simultaneous complex Durand-Kerner iteration returns real/imaginary root pairs,
+including non-real quadratic and quartic roots. Zero leading coefficients and
+invalid statistical samples produce recoverable notices.
+
+Phase 8 occupies ROM bank 3. Its full RAM reservation, including framebuffer
+and stack, is 6,144 bytes, leaving 26,624 bytes free. Statistical columns remain
+bounded at eight values, simultaneous systems at 4x4, and polynomials at degree
+four.
+
 ## Clean-room rules
 
 - Do not copy or translate code, fonts, tables, layouts, or other data from a

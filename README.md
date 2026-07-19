@@ -42,6 +42,12 @@ ROM: 270 numeric comparisons, application-state probes, private LCD diagnostics,
 and chapter-level guidebook traceability. The public build and tests remain
 fully independent of proprietary files.
 
+Free85 2.0 work has reached Phase 14.1. Schema 13 adds a typed named-object
+directory, a 22,784-byte compacting heap, retryable migration from the 1.0
+state, exact capacity accounting, and an object-aware memory browser. The 2.0
+gap report now records 4 of 36 gaps as equivalent; later math, graph,
+collection, programming, link, and release packages remain explicitly open.
+
 ## Run the calculator
 
 Requires Node.js 24 or newer.
@@ -121,6 +127,7 @@ SJASMPLUS=/absolute/path/to/sjasmplus npm run release:free85
 - [Clean-room oracle validation](docs/oracle-validation.md)
 - [Phase 13 validation result](spec/free85/oracle-report.json)
 - [Free85 2.0 execution roadmap](docs/Free85-2.0-roadmap.md)
+- [Free85 typed object-store contract](docs/Free85-object-store.md)
 - [Free85 2.0 parity gap ledger](spec/free85/v2-parity-gaps.yaml)
 - [Guidebook command-level ledger](spec/free85/guidebook-command-ledger.yaml)
 - [Free85 2.0 parity progress](spec/free85/v2-parity-report.json)

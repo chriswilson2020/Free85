@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "release": "2.0.0",
-  "phase": "14.0",
+  "phase": "14.1",
   "inventory": {
     "groups": 41,
     "entries": 298,
@@ -23,12 +23,12 @@
   "gaps": {
     "total": 36,
     "byStatus": {
-      "equivalent": 1,
-      "partial": 23,
+      "equivalent": 4,
+      "partial": 20,
       "missing": 10,
       "hardware-dependent": 2
     },
-    "equivalentPercent": 2.78
+    "equivalentPercent": 11.11
   },
   "workPackages": [
     {
@@ -47,15 +47,15 @@
       "gaps": [
         {
           "id": "storage.objects",
-          "status": "partial"
+          "status": "equivalent"
         },
         {
           "id": "storage.capacity",
-          "status": "partial"
+          "status": "equivalent"
         },
         {
           "id": "memory.browser",
-          "status": "partial"
+          "status": "equivalent"
         }
       ]
     },

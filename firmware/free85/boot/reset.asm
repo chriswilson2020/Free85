@@ -45,8 +45,10 @@ state_init:
     CP '5'
     JR NZ, .fresh
     LD A, (STATE_VERSION)
+    CP 13
+    JR Z, .validate_objects
     CP 12
-    JR Z, .volatile
+    JR Z, .migrate_objects
 .fresh:
     LD HL, SYSTEM_STATE_BASE
     LD DE, SYSTEM_STATE_BASE + 1
@@ -60,7 +62,7 @@ state_init:
     LD (STATE_MAGIC_1), A
     LD A, '5'
     LD (STATE_MAGIC_2), A
-    LD A, 12
+    LD A, 13
     LD (STATE_VERSION), A
     CALL PHASE6_INIT
     LD A, 2
@@ -78,6 +80,26 @@ state_init:
     LD A, 6
     CALL bank_select
     CALL PHASE11_INIT
+    LD A, 7
+    CALL bank_select
+    CALL PHASE14_INIT
+    LD A, 1
+    CALL bank_select
+    JR .volatile
+.migrate_objects:
+    LD A, 7
+    CALL bank_select
+    CALL PHASE14_INIT
+    LD A, 13
+    LD (STATE_VERSION), A
+    LD A, 1
+    CALL bank_select
+    JR .volatile
+.validate_objects:
+    LD A, 7
+    CALL bank_select
+    CALL PHASE14_VALIDATE
+    CALL C, PHASE14_INIT
     LD A, 1
     CALL bank_select
 .volatile:

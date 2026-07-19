@@ -56,6 +56,13 @@ and pictures. Add reserved system variables, typed memory accounting,
 individual deletion, resizing, and transactional schema migration. This is
 the foundation for larger equation collections and all later persistence.
 
+Implemented in schema 13. Bank 7 owns the typed directory and compacting heap,
+legacy A-Z values are exposed as reserved real objects without being moved,
+and warm resets preserve dynamic objects. Schema-12 migration commits the new
+version only after rebuilding the directory. The memory screen shows the
+selected object's name, type, and size and supports arrow selection plus
+individual deletion. See `docs/Free85-object-store.md` for the binary contract.
+
 ### 14.2 - Numeric utilities, modes, bases, and Boolean operations
 
 Add the missing integer/fraction utilities, random generation, interpolation,

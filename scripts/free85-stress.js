@@ -9,7 +9,7 @@ for (let index = 0; index < eventCount; index += 1) {
 }
 
 const state = harness.machine.getDebugState();
-if (harness.machine.read8(0x8000) !== 70 || harness.machine.read8(0x8003) !== 12) {
+if (harness.machine.read8(0x8000) !== 70 || harness.machine.read8(0x8003) !== 13) {
   throw new Error("Free85 state header was corrupted during the key-event stress run");
 }
 if (state.cpu.registers.SP < 0xfb00 || state.cpu.registers.SP > 0xfc00) {

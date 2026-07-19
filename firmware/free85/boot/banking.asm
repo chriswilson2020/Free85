@@ -25,3 +25,15 @@ bank_select_force:
 bank_get:
     LD A, (CURRENT_ROM_BANK)
     RET
+
+; Callable from bank 6: execute the selected-object deletion in bank 7 and
+; restore the caller's ROM window before returning.
+bank_call_phase14_delete_selected:
+    LD A, 7
+    CALL bank_select
+    CALL PHASE14_DELETE_SELECTED
+    PUSH AF
+    LD A, 6
+    CALL bank_select
+    POP AF
+    RET

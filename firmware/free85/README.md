@@ -283,6 +283,22 @@ known limitations, and browser-default integration are recorded by
 exact framebuffer goldens, a 10,000-key-event stress run, the 180-second soak,
 and the static GitHub Pages build.
 
+## Phase 14.1 typed object store
+
+Schema 13 uses bank 7 for a 64-entry typed directory and compacting payload
+heap. Eleven public object kinds cover real and complex numbers, lists,
+matrices, vectors, strings, equations, programs, constants, graph databases,
+and pictures. Existing A-Z packed values are registered as external, reserved
+real objects, so migration does not relocate or reinterpret them.
+
+The public jump table supports validation, create, type-and-name lookup,
+deletion, grow/shrink, and compaction. Moving a payload updates every affected
+directory address. Warm reset preserves the directory and heap; schema-12
+migration writes schema 13 only after rebuilding adapters, making interruption
+retryable. The memory browser shows name, type, and size, selects with arrows,
+and deletes with `DEL`. The complete layout and API are documented in
+`docs/Free85-object-store.md`.
+
 ## Clean-room rules
 
 - Do not copy or translate code, fonts, tables, layouts, or other data from a

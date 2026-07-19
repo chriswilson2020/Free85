@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": 12,
+  "phase": "14.1",
   "source": "spec/free85/features.yaml",
   "physical_keys": {
     "total": 50,
@@ -34,14 +34,14 @@
   "tests_referenced": 52,
   "rom_usage": {
     "total_bytes": 131072,
-    "used_bytes": 35983,
-    "free_bytes": 95089,
+    "used_bytes": 37354,
+    "free_bytes": 93718,
     "banks": [
       {
         "page": 0,
-        "used_bytes": 12414,
-        "free_bytes": 3970,
-        "percent_used": 75.77
+        "used_bytes": 12480,
+        "free_bytes": 3904,
+        "percent_used": 76.17
       },
       {
         "page": 1,
@@ -75,15 +75,15 @@
       },
       {
         "page": 6,
-        "used_bytes": 2081,
-        "free_bytes": 14303,
-        "percent_used": 12.7
+        "used_bytes": 2378,
+        "free_bytes": 14006,
+        "percent_used": 14.51
       },
       {
         "page": 7,
-        "used_bytes": 8,
-        "free_bytes": 16376,
-        "percent_used": 0.05
+        "used_bytes": 1016,
+        "free_bytes": 15368,
+        "percent_used": 6.2
       }
     ]
   },
@@ -91,7 +91,8 @@
     "system_state_bytes": 7536,
     "stack_reserved_bytes": 256,
     "framebuffer_bytes": 1024,
-    "phase12_reserved_bytes": 8816,
-    "free_bytes": 23952
+    "phase14_reserved_bytes": 31488,
+    "object_heap_bytes": 22784,
+    "free_bytes": 0
   }
 }

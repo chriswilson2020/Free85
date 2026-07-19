@@ -98,3 +98,10 @@ name a registered 2.0 gap owner and a concrete completion target. The generated
 `v2-parity-report.json` is rejected when stale. Phase 14.0 also makes explicit
 bad ROM paths, uncertain OCR cells, and failed application-state probes fatal
 to private oracle runs.
+
+Phase 14.1 adds direct Z80 validation of the schema-13 typed object store. The
+suite covers every public type identifier, named lookup, directory exhaustion,
+heap exhaustion, grow and shrink relocation, deletion compaction, payload and
+address preservation, warm-reset persistence, retryable schema-12 migration,
+and legacy-value preservation. The memory browser has a reviewed raw 1,024-byte
+LCD fixture and PNG, and its delete path is driven through physical keys.

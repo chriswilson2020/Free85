@@ -23,7 +23,7 @@
     { "chapter": 15, "topic": "statistics and statistical plots", "status": "partial", "evidence": ["test/free85/statistics-solvers.test.js"], "reason": "regression families forecasts command forms and xyline remain" },
     { "chapter": 16, "topic": "calculator programming", "status": "partial", "evidence": ["test/free85/programming.test.js"], "reason": "labels jumps repeat menus and complete I/O remain" },
     { "chapter": 17, "topic": "worked application examples", "status": "partial", "reason": "examples depend on graph calculus matrix and programming gaps tracked by their owning chapters" },
-    { "chapter": 18, "topic": "memory management", "status": "partial", "evidence": ["test/free85/parity.test.js"], "reason": "typed sizes browsing and individual deletion remain" },
+    { "chapter": 18, "topic": "memory management", "status": "partial", "evidence": ["test/free85/parity.test.js", "test/free85/object-store.test.js"], "reason": "typed sizes browsing and individual deletion are implemented; 14.9 link selection and backup workflows remain" },
     { "chapter": 19, "topic": "calculator linking", "status": "hardware-dependent", "evidence": ["test/free85/parity.test.js"], "reason": "item transfer and backup require emulator loopback plus separately reported hardware validation" },
     { "chapter": "appendices", "topic": "functions, system variables and errors", "status": "partial", "evidence": ["spec/free85/guidebook-command-ledger.yaml"], "reason": "the command ledger is complete but implementation gaps remain" }
   ]

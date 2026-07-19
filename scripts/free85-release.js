@@ -12,8 +12,8 @@ const performance = JSON.parse(performanceText);
 const packageJson = JSON.parse(packageText);
 
 if (rom.length !== 131072) throw new Error(`Release ROM is ${rom.length} bytes instead of 131072`);
-if (coverage.phase !== 12 || coverage.features.complete_test_percent !== 100) {
-  throw new Error("Release coverage is not Phase 12 at 100 percent");
+if (coverage.features.complete_test_percent !== 100) {
+  throw new Error("Release coverage is not at 100 percent");
 }
 if (performance.phase !== 12 || performance.release !== packageJson.version) {
   throw new Error("Release performance report does not match the package version");
@@ -23,7 +23,9 @@ const manifest = {
   schema_version: 1,
   name: "Free85",
   version: packageJson.version,
-  phase: 12,
+  phase: coverage.phase,
+  target_release: "2.0.0",
+  status: coverage.phase === 12 ? "stable" : "development",
   license: "MIT",
   rom: {
     path: "ROM/FREE85.ROM",

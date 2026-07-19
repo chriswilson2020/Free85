@@ -37,6 +37,14 @@ npm run dev
 Then open <http://localhost:3000/>. The bundled open-source Free85 ROM loads
 automatically; another compatible 128 KiB ROM can be selected from the page.
 
+The calculator is also deployed from `main` by the GitHub Pages workflow. Every
+deployment runs the validation suite first and publishes only the browser app,
+emulator sources, and Free85 ROM. Build the same static artifact locally with:
+
+```sh
+npm run build:pages
+```
+
 For a terminal framebuffer preview:
 
 ```sh

@@ -1,13 +1,13 @@
 {
-  "phase": 7,
+  "phase": 8,
   "rom_bytes": 131072,
   "page_size": 16384,
   "pages": [
     {
       "page": 0,
-      "used_bytes": 11493,
-      "free_bytes": 4891,
-      "percent_used": 70.15
+      "used_bytes": 11564,
+      "free_bytes": 4820,
+      "percent_used": 70.58
     },
     {
       "page": 1,
@@ -23,9 +23,9 @@
     },
     {
       "page": 3,
-      "used_bytes": 8,
-      "free_bytes": 16376,
-      "percent_used": 0.05
+      "used_bytes": 5932,
+      "free_bytes": 10452,
+      "percent_used": 36.21
     },
     {
       "page": 4,
@@ -53,10 +53,10 @@
     }
   ],
   "ram": {
-    "system_state_bytes": 3328,
+    "system_state_bytes": 4864,
     "stack_reserved_bytes": 256,
     "framebuffer_bytes": 1024,
-    "phase7_reserved_bytes": 4608,
-    "free_bytes": 28160
+    "phase8_reserved_bytes": 6144,
+    "free_bytes": 26624
   }
 }

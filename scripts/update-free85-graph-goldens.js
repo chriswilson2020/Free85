@@ -18,7 +18,10 @@ const screenCases = [
   { name: "phase7-complex-editor", keys: ["2ND", "9"] },
   { name: "phase7-list-editor", keys: ["2ND", "-"] },
   { name: "phase7-matrix-editor", keys: ["2ND", "7"] },
-  { name: "phase7-vector-editor", keys: ["2ND", "8"] }
+  { name: "phase7-vector-editor", keys: ["2ND", "8"] },
+  { name: "phase8-statistics-editor", keys: ["STAT"] },
+  { name: "phase8-simultaneous-editor", keys: ["2ND", "STAT"] },
+  { name: "phase8-polynomial-editor", keys: ["2ND", "PRGM"] }
 ];
 
 function typeExpression(harness, expression) {
@@ -71,6 +74,32 @@ for (const screenCase of screenCases) {
     checksum: bitmap.checksum.toString(16).padStart(8, "0").toUpperCase()
   });
   console.log(`Approved ${screenCase.name}: ${screenCase.keys.join("+")} (${bitmap.litPixelCount} pixels)`);
+}
+for (const plotCase of [
+  { name: "phase8-scatter-plot", keys: ["F4"] },
+  { name: "phase8-histogram-plot", keys: ["F5"] },
+  { name: "phase8-box-plot", keys: ["MORE", "MORE", "F5"] }
+]) {
+  const harness = Free85Harness.boot();
+  harness.tap("STAT");
+  for (const value of [1, 2, 3, 4]) {
+    harness.tap(String(value));
+    harness.tap("ENTER");
+  }
+  harness.tap("ALPHA");
+  for (const value of [2, 4, 3, 8]) {
+    harness.tap(String(value));
+    harness.tap("ENTER");
+  }
+  for (const key of plotCase.keys) harness.tap(key);
+  harness.runFrames(500);
+  const bitmap = harness.machine.renderLcdBitmap();
+  writeLcdGolden(plotCase.name, bitmap);
+  manifest.cases.push({
+    ...plotCase,
+    litPixelCount: bitmap.litPixelCount,
+    checksum: bitmap.checksum.toString(16).padStart(8, "0").toUpperCase()
+  });
 }
 const manifestPath = fileURLToPath(new URL("../test/free85/goldens/graphs/manifest.json", import.meta.url));
 writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);

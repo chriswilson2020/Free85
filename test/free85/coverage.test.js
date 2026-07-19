@@ -31,8 +31,8 @@ test("Free85 specifications register the complete physical keypad", async () => 
 test("Free85 distinguishes tested surfaces from planned calculator features", async () => {
   const { keymap, features } = await readFree85Specifications();
   assert.equal(keymap.keys.every(({ status }) => status === "planned"), true);
-  assert.equal(features.features.filter(({ status }) => status === "tested").length, 95);
-  assert.equal(features.features.filter(({ status }) => status === "planned").length, 27);
+  assert.equal(features.features.filter(({ status }) => status === "tested").length, 98);
+  assert.equal(features.features.filter(({ status }) => status === "planned").length, 24);
   assert.equal(features.features.every(({ status }) => status === "planned" || status === "tested"), true);
   assert.equal(features.features.filter(({ status }) => status === "tested").every(({ implementation, tests }) => implementation && tests.length > 0), true);
   assert.equal(features.features.filter(({ status }) => status === "planned").every(({ implementation, tests }) => implementation === null && tests.length === 0), true);
@@ -53,7 +53,8 @@ test("tested Free85 features reference stable test identifiers", async () => {
     readFile("test/free85/expression.test.js", "utf8"),
     readFile("test/free85/scientific.test.js", "utf8"),
     readFile("test/free85/graph.test.js", "utf8"),
-    readFile("test/free85/collections.test.js", "utf8")
+    readFile("test/free85/collections.test.js", "utf8"),
+    readFile("test/free85/statistics-solvers.test.js", "utf8")
   ]);
   const combined = testSources.join("\n");
   const referenced = new Set(features.features.flatMap(({ tests }) => tests));

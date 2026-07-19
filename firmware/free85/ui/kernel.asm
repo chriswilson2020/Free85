@@ -25,6 +25,10 @@ ui_handle_key:
     LD A, C
     JP Z, PHASE6_HANDLE_KEY
     LD A, (UI_SCREEN_MODE)
+    CP SCREEN_STATISTICS
+    LD A, C
+    JP NC, ui_call_phase8_handle_key
+    LD A, (UI_SCREEN_MODE)
     CP SCREEN_COMPLEX
     LD A, C
     JP NC, ui_call_phase7_handle_key
@@ -106,6 +110,10 @@ ui_handle_second:
     JP Z, ui_call_phase6_solve
     CP KEY_CLEAR
     JP Z, ui_call_phase6_tolerance
+    CP KEY_STAT
+    JP Z, ui_open_simult
+    CP KEY_PRGM
+    JP Z, ui_open_polynomial
     CP KEY_DIVIDE
     JP Z, ui_call_phase6_open_graph
     CP KEY_7
@@ -172,6 +180,8 @@ ui_handle_normal:
     JP Z, ui_notice_awake
     CP KEY_GRAPH
     JP Z, ui_call_phase6_open_graph
+    CP KEY_STAT
+    JP Z, ui_open_statistics
     CP KEY_F5 + 1
     JR C, .soft_key
 
@@ -236,6 +246,8 @@ ui_handle_normal:
     JP Z, ui_open_matrix
     CP KEY_F3
     JP Z, ui_open_vector
+    CP KEY_F4
+    JP Z, ui_open_statistics
 .soft_regular:
     LD A, (UI_MENU_PAGE)
     OR A
@@ -376,6 +388,28 @@ ui_open_vector:
     LD A, 2
     CALL bank_select
     JP PHASE7_OPEN_VECTOR
+
+ui_call_phase8_handle_key:
+    LD C, A
+    LD A, 3
+    CALL bank_select
+    LD A, C
+    JP PHASE8_HANDLE_KEY
+
+ui_open_statistics:
+    LD A, 3
+    CALL bank_select
+    JP PHASE8_OPEN_STATS
+
+ui_open_simult:
+    LD A, 3
+    CALL bank_select
+    JP PHASE8_OPEN_SIMULT
+
+ui_open_polynomial:
+    LD A, 3
+    CALL bank_select
+    JP PHASE8_OPEN_POLY
 
 ; Blinks the cursor every 128 timer ticks while the home screen is active.
 ui_tick:

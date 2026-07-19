@@ -25,7 +25,9 @@ const screenCases = [
   { name: "phase9-strings-editor", keys: ["2ND", "6"] },
   { name: "phase9-catalog", keys: ["2ND", "CUSTOM"] },
   { name: "phase9-custom", keys: ["CUSTOM"] },
-  { name: "phase9-characters", keys: ["2ND", "0"] }
+  { name: "phase9-characters", keys: ["2ND", "0"] },
+  { name: "phase10-program-list", keys: ["PRGM"] },
+  { name: "phase10-program-editor", keys: ["PRGM", "F1"] }
 ];
 
 function typeExpression(harness, expression) {
@@ -38,6 +40,20 @@ function typeExpression(harness, expression) {
       harness.tap("(-)");
     } else {
       harness.tap(character);
+    }
+  }
+}
+
+function installProgram(harness, lines) {
+  harness.machine.write8(0x9510, 1);
+  for (const [index, character] of [..."TEST\0"].entries()) {
+    harness.machine.write8(0x9520 + index, character.charCodeAt(0));
+  }
+  for (let line = 0; line < lines.length; line += 1) {
+    const address = 0x9540 + line * 49;
+    harness.machine.write8(address, lines[line].length);
+    for (let index = 0; index < lines[line].length; index += 1) {
+      harness.machine.write8(address + 1 + index, lines[line].charCodeAt(index));
     }
   }
 }
@@ -78,6 +94,24 @@ for (const screenCase of screenCases) {
     checksum: bitmap.checksum.toString(16).padStart(8, "0").toUpperCase()
   });
   console.log(`Approved ${screenCase.name}: ${screenCase.keys.join("+")} (${bitmap.litPixelCount} pixels)`);
+}
+for (const programCase of [
+  { name: "phase10-program-input", lines: ["INPUT A"] },
+  { name: "phase10-program-error", lines: ["1->A", "BROKEN"] }
+]) {
+  const harness = Free85Harness.boot();
+  installProgram(harness, programCase.lines);
+  harness.tap("PRGM");
+  harness.tap("F3");
+  harness.runFrames(20);
+  const bitmap = harness.machine.renderLcdBitmap();
+  writeLcdGolden(programCase.name, bitmap);
+  manifest.cases.push({
+    ...programCase,
+    litPixelCount: bitmap.litPixelCount,
+    checksum: bitmap.checksum.toString(16).padStart(8, "0").toUpperCase()
+  });
+  console.log(`Approved ${programCase.name} (${bitmap.litPixelCount} pixels)`);
 }
 for (const plotCase of [
   { name: "phase8-scatter-plot", keys: ["F4"] },

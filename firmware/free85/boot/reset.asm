@@ -32,7 +32,7 @@ main_loop:
     JR main_loop
 
 ; state_init
-; Validates the persistent header and initializes volatile Phase 9 state.
+; Validates the persistent header and initializes volatile Phase 10 state.
 ; Clobbers: AF, BC, DE, HL
 state_init:
     LD A, (STATE_MAGIC_0)
@@ -45,12 +45,12 @@ state_init:
     CP '5'
     JR NZ, .fresh
     LD A, (STATE_VERSION)
-    CP 9
+    CP 10
     JR Z, .volatile
 .fresh:
     LD HL, SYSTEM_STATE_BASE
     LD DE, SYSTEM_STATE_BASE + 1
-    LD BC, PHASE9_STATE_BYTES - 1
+    LD BC, PHASE10_STATE_BYTES - 1
     XOR A
     LD (HL), A
     LDIR
@@ -60,7 +60,7 @@ state_init:
     LD (STATE_MAGIC_1), A
     LD A, '5'
     LD (STATE_MAGIC_2), A
-    LD A, 9
+    LD A, 10
     LD (STATE_VERSION), A
     CALL PHASE6_INIT
     LD A, 2
@@ -72,6 +72,9 @@ state_init:
     LD A, 4
     CALL bank_select
     CALL PHASE9_INIT
+    LD A, 5
+    CALL bank_select
+    CALL PHASE10_INIT
     LD A, 1
     CALL bank_select
 .volatile:

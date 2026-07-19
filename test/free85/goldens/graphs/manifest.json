@@ -129,6 +129,40 @@
       "checksum": "C65744BA"
     },
     {
+      "name": "phase10-program-list",
+      "keys": [
+        "PRGM"
+      ],
+      "litPixelCount": 737,
+      "checksum": "D16E590A"
+    },
+    {
+      "name": "phase10-program-editor",
+      "keys": [
+        "PRGM",
+        "F1"
+      ],
+      "litPixelCount": 371,
+      "checksum": "649E9ECB"
+    },
+    {
+      "name": "phase10-program-input",
+      "lines": [
+        "INPUT A"
+      ],
+      "litPixelCount": 244,
+      "checksum": "ACCF32C2"
+    },
+    {
+      "name": "phase10-program-error",
+      "lines": [
+        "1->A",
+        "BROKEN"
+      ],
+      "litPixelCount": 425,
+      "checksum": "14F1846A"
+    },
+    {
       "name": "phase8-scatter-plot",
       "keys": [
         "F4"

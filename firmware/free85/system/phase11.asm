@@ -454,6 +454,12 @@ p11_render_variables:
 p11_memory_key:
     CP KEY_EXIT
     JP Z, screen_show_home
+    CP KEY_UP
+    JR Z, .previous_object
+    CP KEY_DOWN
+    JR Z, .next_object
+    CP KEY_DEL
+    JR Z, .delete_object
     CP KEY_F1
     JR Z, .clear_variables
     CP KEY_F2
@@ -464,6 +470,28 @@ p11_memory_key:
     JR Z, .reset_all
     CP KEY_F5
     JP Z, phase11_open_link
+    JP p11_render_memory
+.previous_object:
+    LD A, (P14_SELECTED)
+    OR A
+    JR Z, .render
+    DEC A
+    LD (P14_SELECTED), A
+    JR .render
+.next_object:
+    LD A, (P14_OBJECT_COUNT)
+    OR A
+    JR Z, .render
+    LD B, A
+    LD A, (P14_SELECTED)
+    INC A
+    CP B
+    JR NC, .render
+    LD (P14_SELECTED), A
+.render:
+    JP p11_render_memory
+.delete_object:
+    CALL bank_call_phase14_delete_selected
     JP p11_render_memory
 .clear_variables:
     LD HL, VARIABLES
@@ -496,22 +524,96 @@ p11_render_memory:
     LD B, 0
     LD C, 0
     CALL text_draw_string
-    LD HL, p11_text_free
+    LD HL, p11_text_objects
     LD B, 0
-    LD C, 2
+    LD C, 1
     CALL text_draw_string
-    LD HL, p11_text_free_bytes
-    LD B, 6
-    LD C, 2
-    CALL text_draw_string
-    LD HL, p11_text_version
+    LD A, (P14_OBJECT_COUNT)
+    LD B, 8
+    LD C, 1
+    CALL p11_draw_u8
+    CALL p11_selected_object
+    JR C, .empty
+    PUSH IX
+    POP HL
+    LD (P14_WORK_ENTRY), HL
+    LD DE, P14_ENTRY_NAME
+    ADD HL, DE
     LD B, 0
-    LD C, 4
+    LD C, 3
+    CALL text_draw_string
+    LD HL, p11_text_type
+    LD B, 3
+    LD C, 3
+    CALL text_draw_string
+    LD HL, (P14_WORK_ENTRY)
+    PUSH HL
+    POP IX
+    LD A, (IX + P14_ENTRY_TYPE)
+    LD B, 8
+    LD C, 3
+    CALL p11_draw_u8
+    LD HL, p11_text_size
+    LD B, 11
+    LD C, 3
+    CALL text_draw_string
+    LD HL, (P14_WORK_ENTRY)
+    PUSH HL
+    POP IX
+    LD L, (IX + P14_ENTRY_SIZE_LO)
+    LD H, (IX + P14_ENTRY_SIZE_LO + 1)
+    LD B, 16
+    LD C, 3
+    CALL p11_draw_u16
+    JR .help
+.empty:
+    LD HL, p11_text_no_objects
+    LD B, 0
+    LD C, 3
+    CALL text_draw_string
+.help:
+    LD HL, p11_text_object_help
+    LD B, 0
+    LD C, 5
     CALL text_draw_string
     LD HL, p11_menu_memory
     LD B, 0
     LD C, 7
     JP text_draw_string
+
+; Output: IX = selected used directory entry, carry when no object exists.
+p11_selected_object:
+    LD A, (P14_OBJECT_COUNT)
+    OR A
+    JR Z, .missing
+    LD C, A
+    LD A, (P14_SELECTED)
+    CP C
+    JR C, .valid_selection
+    XOR A
+    LD (P14_SELECTED), A
+.valid_selection:
+    LD C, A
+    LD IX, P14_DIRECTORY
+    LD B, P14_ENTRY_COUNT
+.scan:
+    LD A, (IX + P14_ENTRY_FLAGS)
+    AND P14_FLAG_USED
+    JR Z, .next
+    LD A, C
+    OR A
+    JR Z, .found
+    DEC C
+.next:
+    LD DE, P14_ENTRY_SIZE
+    ADD IX, DE
+    DJNZ .scan
+.missing:
+    SCF
+    RET
+.found:
+    OR A
+    RET
 
 ; ---------------------------------------------------------------------------
 ; Native link status/line exercise
@@ -732,6 +834,57 @@ p11_draw_u8:
     LD HL, P11_WORK_BUFFER + 16
     JP text_draw_string
 
+; Input: HL = unsigned value, B/C = text column/row.
+p11_draw_u16:
+    PUSH BC
+    LD IX, P11_WORK_BUFFER + 16
+    XOR A
+    LD (P14_STATUS), A
+    LD BC, 10000
+    CALL p11_u16_digit
+    LD BC, 1000
+    CALL p11_u16_digit
+    LD BC, 100
+    CALL p11_u16_digit
+    LD BC, 10
+    CALL p11_u16_digit
+    LD A, 1
+    LD BC, 1
+    CALL p11_u16_digit
+    LD (IX), 0
+    POP BC
+    LD HL, P11_WORK_BUFFER + 16
+    JP text_draw_string
+
+; Divide the remaining HL by one decimal place BC. A forces a zero digit.
+p11_u16_digit:
+    LD E, A
+    LD D, '0'
+.subtract:
+    OR A
+    SBC HL, BC
+    JR C, .remainder
+    INC D
+    JR .subtract
+.remainder:
+    ADD HL, BC
+    LD A, (P14_STATUS)
+    OR A
+    JR NZ, .write
+    LD A, D
+    CP '0'
+    JR NZ, .start
+    LD A, E
+    OR A
+    RET Z
+.start:
+    LD A, 1
+    LD (P14_STATUS), A
+.write:
+    LD (IX), D
+    INC IX
+    RET
+
 p11_notice_memory_error:
     LD HL, p11_text_memory_error
     JP screen_show_notice
@@ -818,10 +971,12 @@ p11_menu_system: DB "ANG FMT  -   +  MEM",0
 p11_text_variables: DB "VARIABLES",0
 p11_text_var_help: DB "ARROWS SELECT",0
 p11_menu_variables: DB "ENTER RECALL CLR",0
-p11_text_memory: DB "MEMORY",0
-p11_text_free: DB "FREE",0
-p11_text_free_bytes: DB "23952 BYTES",0
-p11_text_version: DB "FREE85 1.0",0
+p11_text_memory: DB "MEMORY 2.0",0
+p11_text_objects: DB "OBJECTS",0
+p11_text_type: DB "TYPE",0
+p11_text_size: DB "SIZE",0
+p11_text_no_objects: DB "NO OBJECTS",0
+p11_text_object_help: DB "UP/DN SELECT DEL",0
 p11_menu_memory: DB "VAR PGM SET ALL LNK",0
 p11_text_link: DB "NATIVE LINK",0
 p11_text_native: DB "FREE85 PROTOCOL",0

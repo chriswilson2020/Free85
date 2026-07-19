@@ -183,7 +183,7 @@ test("[parity.variables-memory] variable recall and scoped memory clearing work"
   shifted(fullReset, "+");
   fullReset.tap("F4");
   fullReset.runFrames(35);
-  assert.equal(fullReset.machine.read8(0x8003), 12);
+  assert.equal(fullReset.machine.read8(0x8003), 13);
   assert.equal(fullReset.packedNumber(VARIABLES_ADDRESS), 0);
 });
 

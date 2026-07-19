@@ -3,11 +3,13 @@ import { createHash } from "node:crypto";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
-test("[release.bundle] Free85 1.0 ships a reproducible open release bundle", async () => {
+test("[release.bundle] the checked-in development ROM remains reproducible", async () => {
   const manifest = JSON.parse(await readFile("spec/free85/release.json", "utf8"));
   const rom = await readFile(manifest.rom.path);
   assert.equal(manifest.version, "1.0.0");
-  assert.equal(manifest.phase, 12);
+  assert.equal(manifest.phase, "14.1");
+  assert.equal(manifest.target_release, "2.0.0");
+  assert.equal(manifest.status, "development");
   assert.equal(manifest.license, "MIT");
   assert.equal(rom.length, 131072);
   assert.equal(createHash("sha256").update(rom).digest("hex"), manifest.rom.sha256);
@@ -24,7 +26,7 @@ test("[release.bundle] Free85 1.0 ships a reproducible open release bundle", asy
 test("[release.coverage-performance] release reports retain all parity and timing gates", async () => {
   const coverage = JSON.parse(await readFile("spec/free85/coverage.json", "utf8"));
   const performance = JSON.parse(await readFile("spec/free85/performance.json", "utf8"));
-  assert.equal(coverage.phase, 12);
+  assert.equal(coverage.phase, "14.1");
   assert.equal(coverage.physical_keys.percent, 100);
   assert.equal(coverage.shifted_functions.percent, 100);
   assert.equal(coverage.alpha_mappings.percent, 100);

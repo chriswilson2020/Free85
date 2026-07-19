@@ -5,9 +5,9 @@
   "statuses": ["equivalent", "partial", "missing", "hardware-dependent"],
   "gaps": [
     { "id": "parity.ledger", "area": "audit", "status": "equivalent", "owner": "14.0", "target": "command-level guidebook traceability" },
-    { "id": "storage.objects", "area": "data", "status": "partial", "owner": "14.1", "target": "typed named objects and reserved variables" },
-    { "id": "storage.capacity", "area": "data", "status": "partial", "owner": "14.1", "target": "dynamic capacity with deterministic memory accounting" },
-    { "id": "memory.browser", "area": "memory", "status": "partial", "owner": "14.1", "target": "per-object sizes selection deletion and recovery" },
+    { "id": "storage.objects", "area": "data", "status": "equivalent", "owner": "14.1", "target": "typed named objects and reserved variables", "evidence": ["firmware/free85/system/object_store.asm", "test/free85/object-store.test.js", "docs/Free85-object-store.md"] },
+    { "id": "storage.capacity", "area": "data", "status": "equivalent", "owner": "14.1", "target": "dynamic capacity with deterministic memory accounting", "evidence": ["firmware/free85/system/object_store.asm", "test/free85/object-store.test.js"] },
+    { "id": "memory.browser", "area": "memory", "status": "equivalent", "owner": "14.1", "target": "per-object sizes selection deletion and recovery", "evidence": ["firmware/free85/system/phase11.asm", "test/free85/goldens/graphs/phase14-memory-browser.lcd"] },
     { "id": "numeric.utilities", "area": "math", "status": "partial", "owner": "14.2", "target": "random integer fraction modulus gcd lcm sign rounding percent roots and min/max" },
     { "id": "numeric.calculus", "area": "math", "status": "partial", "owner": "14.2", "target": "interpolation arc derivatives evaluation extrema and integral callables" },
     { "id": "mode.display", "area": "system", "status": "partial", "owner": "14.2", "target": "Normal Sci Eng Float and Fix modes" },

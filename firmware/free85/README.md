@@ -184,6 +184,54 @@ cover all four new screens, while behavioral tests cover every catalog entry,
 all string operations and conversions, character insertion, and custom-slot
 persistence.
 
+## Phase 10 programming environment
+
+`PRGM` opens a persistent four-slot program manager. Each program has a
+seven-character name and eight source lines, with the same 48-character bound
+as the home editor. F1-F5 create, edit, run, rename, and delete the selected
+program. In the source editor, `ALPHA` enters commands and identifiers,
+`2ND+0` inserts a space, `ENTER` or F3 saves and advances, and the remaining
+soft keys save, run, delete a line, or return to the list. `2ND+PRGM` remains
+the polynomial solver.
+
+The compact Free85 language is line based and uses uppercase commands:
+
+```text
+expression or value->V
+DISP expression
+INPUT V
+IF expression / ELSE / END
+WHILE expression / END
+FOR V,start,end / END
+CALL 1..4
+RETURN
+STOP
+GRAPH expression
+LSET index,expression
+LGET index,V
+MSET row,column,expression
+MGET row,column,V
+```
+
+Expressions and assignments are evaluated by the same packed-decimal parser,
+variables, functions, constants, and angle mode as the home screen. Conditions
+treat zero as false and all other numeric values as true. `FOR` is an ascending
+integer loop with one-digit inclusive bounds; list indices are 1-8 and matrix
+rows/columns are 1-3. `GRAPH` stores and opens the expression through the normal
+graph engine.
+
+Execution advances by one source statement per firmware tick. Consequently an
+infinite `WHILE` remains responsive: `ON`, `EXIT`, or `CLEAR` stops it without
+deleting source. Control nesting is bounded to eight frames and program calls
+to four frames. Syntax, stack, input, and missing-program failures preserve the
+one-based source line in RAM and display it on the run screen.
+
+Phase 10 occupies ROM bank 5. Its complete RAM reservation, including stack and
+framebuffer, is 8,704 bytes, leaving 24,064 bytes free. Tests cover lifecycle
+and reset persistence, expressions, all control forms, input, calls,
+list/matrix access, graph launch, runaway interruption, exact error lines, and
+reviewed LCD framebuffers.
+
 ## Clean-room rules
 
 - Do not copy or translate code, fonts, tables, layouts, or other data from a

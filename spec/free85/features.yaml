@@ -475,10 +475,10 @@
     {
       "id": "app.programs",
       "category": "app",
-      "status": "planned",
-      "implementation": null,
-      "documentation": null,
-      "tests": [],
+      "status": "tested",
+      "implementation": "firmware/free85/programming/phase10.asm",
+      "documentation": "firmware/free85/README.md#phase-10-programming-environment",
+      "tests": ["program.lifecycle", "program.expressions", "program.control-flow", "program.input", "program.data-and-calls", "program.graph", "program.stop", "program.errors"],
       "surfaces": [
         {
           "key": "PRGM",

@@ -25,6 +25,10 @@ ui_handle_key:
     LD A, C
     JP Z, PHASE6_HANDLE_KEY
     LD A, (UI_SCREEN_MODE)
+    CP SCREEN_PROGRAM_LIST
+    LD A, C
+    JP NC, ui_call_phase10_handle_key
+    LD A, (UI_SCREEN_MODE)
     CP SCREEN_STRINGS
     LD A, C
     JP NC, ui_call_phase9_handle_key
@@ -194,6 +198,8 @@ ui_handle_normal:
     JP Z, ui_open_statistics
     CP KEY_CUSTOM
     JP Z, ui_open_custom
+    CP KEY_PRGM
+    JP Z, ui_open_programs
     CP KEY_F5 + 1
     JR C, .soft_key
 
@@ -452,9 +458,25 @@ ui_open_characters:
     CALL bank_select
     JP PHASE9_OPEN_CHAR
 
+ui_call_phase10_handle_key:
+    LD C, A
+    LD A, 5
+    CALL bank_select
+    LD A, C
+    JP PHASE10_HANDLE_KEY
+
+ui_open_programs:
+    LD A, 5
+    CALL bank_select
+    JP PHASE10_OPEN_LIST
+
 ; Blinks the cursor every 128 timer ticks while the home screen is active.
 ui_tick:
     LD A, (UI_SCREEN_MODE)
+    CP SCREEN_PROGRAM_RUN
+    JR Z, .program
+    CP SCREEN_PROGRAM_INPUT
+    RET Z
     CP SCREEN_GRAPH
     JP Z, PHASE6_TICK
     CP SCREEN_TABLE
@@ -470,3 +492,7 @@ ui_tick:
     LD A, B
     LD (UI_CURSOR_TICK), A
     JP editor_toggle_cursor
+.program:
+    LD A, 5
+    CALL bank_select
+    JP PHASE10_TICK

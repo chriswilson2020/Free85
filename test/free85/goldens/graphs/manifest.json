@@ -94,6 +94,41 @@
       "checksum": "39105F72"
     },
     {
+      "name": "phase9-strings-editor",
+      "keys": [
+        "2ND",
+        "6"
+      ],
+      "litPixelCount": 433,
+      "checksum": "DD454B34"
+    },
+    {
+      "name": "phase9-catalog",
+      "keys": [
+        "2ND",
+        "CUSTOM"
+      ],
+      "litPixelCount": 497,
+      "checksum": "8147AA92"
+    },
+    {
+      "name": "phase9-custom",
+      "keys": [
+        "CUSTOM"
+      ],
+      "litPixelCount": 660,
+      "checksum": "F843F9B8"
+    },
+    {
+      "name": "phase9-characters",
+      "keys": [
+        "2ND",
+        "0"
+      ],
+      "litPixelCount": 434,
+      "checksum": "C65744BA"
+    },
+    {
       "name": "phase8-scatter-plot",
       "keys": [
         "F4"

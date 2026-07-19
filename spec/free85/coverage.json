@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": 8,
+  "phase": 9,
   "source": "spec/free85/features.yaml",
   "physical_keys": {
     "total": 50,
@@ -23,25 +23,25 @@
     "total": 122,
     "statuses": {
       "unplanned": 0,
-      "planned": 24,
+      "planned": 20,
       "implemented": 0,
-      "tested": 98,
+      "tested": 102,
       "complete": 0
     },
     "complete_with_tests": 0,
     "complete_test_percent": null
   },
-  "tests_referenced": 30,
+  "tests_referenced": 36,
   "rom_usage": {
     "total_bytes": 131072,
-    "used_bytes": 27287,
-    "free_bytes": 103785,
+    "used_bytes": 30016,
+    "free_bytes": 101056,
     "banks": [
       {
         "page": 0,
-        "used_bytes": 11564,
-        "free_bytes": 4820,
-        "percent_used": 70.58
+        "used_bytes": 11656,
+        "free_bytes": 4728,
+        "percent_used": 71.14
       },
       {
         "page": 1,
@@ -63,9 +63,9 @@
       },
       {
         "page": 4,
-        "used_bytes": 8,
-        "free_bytes": 16376,
-        "percent_used": 0.05
+        "used_bytes": 2645,
+        "free_bytes": 13739,
+        "percent_used": 16.14
       },
       {
         "page": 5,
@@ -88,10 +88,10 @@
     ]
   },
   "ram_usage": {
-    "system_state_bytes": 4864,
+    "system_state_bytes": 5376,
     "stack_reserved_bytes": 256,
     "framebuffer_bytes": 1024,
-    "phase8_reserved_bytes": 6144,
-    "free_bytes": 26624
+    "phase9_reserved_bytes": 6656,
+    "free_bytes": 26112
   }
 }

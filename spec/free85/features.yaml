@@ -503,10 +503,10 @@
     {
       "id": "app.custom_menu",
       "category": "app",
-      "status": "planned",
-      "implementation": null,
-      "documentation": null,
-      "tests": [],
+      "status": "tested",
+      "implementation": "firmware/free85/strings/phase9.asm",
+      "documentation": "firmware/free85/README.md#phase-9-strings-catalog-and-custom-menu",
+      "tests": ["custom.persistence"],
       "surfaces": [
         {
           "key": "CUSTOM",
@@ -517,10 +517,10 @@
     {
       "id": "app.catalog",
       "category": "app",
-      "status": "planned",
-      "implementation": null,
-      "documentation": null,
-      "tests": [],
+      "status": "tested",
+      "implementation": "firmware/free85/strings/phase9.asm",
+      "documentation": "firmware/free85/README.md#phase-9-strings-catalog-and-custom-menu",
+      "tests": ["catalog.callable"],
       "surfaces": [
         {
           "key": "CUSTOM",
@@ -1440,10 +1440,10 @@
     {
       "id": "menu.strings",
       "category": "menu",
-      "status": "planned",
-      "implementation": null,
-      "documentation": null,
-      "tests": [],
+      "status": "tested",
+      "implementation": "firmware/free85/strings/phase9.asm",
+      "documentation": "firmware/free85/README.md#phase-9-strings-catalog-and-custom-menu",
+      "tests": ["strings.editor", "strings.operations", "strings.conversion"],
       "surfaces": [
         {
           "key": "6",
@@ -1777,10 +1777,10 @@
     {
       "id": "menu.characters",
       "category": "menu",
-      "status": "planned",
-      "implementation": null,
-      "documentation": null,
-      "tests": [],
+      "status": "tested",
+      "implementation": "firmware/free85/strings/phase9.asm",
+      "documentation": "firmware/free85/README.md#phase-9-strings-catalog-and-custom-menu",
+      "tests": ["characters.palette"],
       "surfaces": [
         {
           "key": "0",

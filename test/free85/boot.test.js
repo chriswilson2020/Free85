@@ -30,7 +30,7 @@ test("Free85 initializes RAM, banking, interrupts, LCD, and a visible splash", (
   machine.runFrame();
   const state = machine.getDebugState();
 
-  assert.deepEqual([machine.read8(0x8000), machine.read8(0x8001), machine.read8(0x8002), machine.read8(0x8003)], [70, 56, 53, 11]);
+  assert.deepEqual([machine.read8(0x8000), machine.read8(0x8001), machine.read8(0x8002), machine.read8(0x8003)], [70, 56, 53, 12]);
   assert.equal(state.memory.romBank, 1);
   assert.equal(state.cpu.interruptMode, 1);
   assert.equal(state.cpu.IFF1, true);

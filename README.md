@@ -16,7 +16,7 @@ The repository includes:
 
 ## Current status
 
-Phases 0-11 are implemented: boot/diagnostics, UI and editor, packed-BCD numeric
+Free85 1.0 completes Phases 0-12: boot/diagnostics, UI and editor, packed-BCD numeric
 core, expression parsing, scientific functions, graphing, tables, numerical
 tools, complex numbers, lists, matrices, vectors, statistics, regression,
 statistical plots, simultaneous equations, polynomial roots, native strings,
@@ -25,6 +25,13 @@ menu, a persistent on-calculator programming environment, system settings,
 five numeric memories, variables and memory management, number-base display,
 native link diagnostics, power control, lowercase alpha, and complete key/menu
 parity.
+
+The Phase 12 release adds deterministic performance gates, redundant-bank-call
+elision, packed release RAM, cached graph tokenisation, precomputed graph
+scaling, convergence-aware transcendental series, faster transparent-space
+drawing, and a
+10,000-key-event stress test. The release manifest records the exact ROM hash,
+coverage, performance report, source, notices, and browser entry point.
 
 Graph tests compare exact 1,024-byte LCD framebuffers and reviewed lossless PNG
 goldens. Failures produce expected, actual, and red/blue diff images under
@@ -59,6 +66,8 @@ npm run run:free85 -- GRAPH
 
 ```sh
 npm test
+npm run benchmark:free85
+npm run test:free85:stress
 npm run test:free85:soak
 ```
 
@@ -87,12 +96,23 @@ SJASMPLUS=/absolute/path/to/sjasmplus npm run build:free85
 The build emits exactly eight 16 KiB pages at `ROM/FREE85.ROM` and reports
 per-bank usage under `firmware/free85/generated/`.
 
+To reproduce and validate the complete 1.0 release in one command:
+
+```sh
+SJASMPLUS=/absolute/path/to/sjasmplus npm run release:free85
+```
+
 ## Specification
 
 - [Full implementation specification](docs/Free85-specification.md)
 - [Product definition](spec/free85/product.md)
 - [Validation rules](spec/free85/validation.md)
 - [Firmware documentation](firmware/free85/README.md)
+- [Release manifest](spec/free85/release.json)
+- [Performance report](spec/free85/performance.json)
+- [Feature coverage](spec/free85/coverage.json)
+- [Known limitations](docs/known-limitations.md)
+- [Project notices](NOTICE.md)
 
 Free85 does not promise compatibility with TI programs, files, ROM calls, or
 internal data structures. Texas Instruments and TI-85 are referenced only to
@@ -101,4 +121,4 @@ endorsed by Texas Instruments.
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md).

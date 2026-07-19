@@ -10,7 +10,10 @@ Rebuild it with:
 npm run build:free85
 ```
 
+The 1.0 release's exact size and SHA-256 digest are recorded in
+`spec/free85/release.json`; `npm run release:free85` rebuilds the ROM and checks
+the complete release bundle.
+
 The ROM contains no Texas Instruments ROM code, disassembly, fonts, artwork,
 binary tables, or proprietary fixtures. Free85 does not redistribute and never
 requires an original `TI85.ROM`.
-

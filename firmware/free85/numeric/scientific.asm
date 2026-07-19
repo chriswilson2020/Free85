@@ -170,6 +170,19 @@ sci_set_one_result:
     LD (NUM_RESULT + NUM_DIGITS), A
     RET
 
+; HL/DE = packed numeric objects. Returns Z when all bytes are identical.
+; Clobbers AF, B, DE, HL.
+sci_objects_equal:
+    LD B, NUM_SIZE
+.loop:
+    LD A, (DE)
+    CP (HL)
+    RET NZ
+    INC DE
+    INC HL
+    DJNZ .loop
+    RET
+
 ; EXP(NUM_LEFT) -> NUM_RESULT.
 scientific_exp:
     LD A, (NUM_LEFT + NUM_FLAGS)
@@ -242,6 +255,10 @@ scientific_exp:
     RET C
     LD HL, NUM_RESULT
     LD DE, SCI_SUM
+    CALL sci_objects_equal
+    JR Z, .series_ready
+    LD HL, NUM_RESULT
+    LD DE, SCI_SUM
     CALL numeric_copy
     LD A, (SCI_COUNTER)
     INC A
@@ -251,6 +268,7 @@ scientific_exp:
     LD HL, SCI_SUM
     LD DE, NUM_RESULT
     CALL numeric_copy
+.series_ready:
     LD A, (SCI_LIMIT)
     LD (SCI_COUNTER), A
 .square_loop:
@@ -368,12 +386,17 @@ scientific_ln:
     RET C
     LD HL, NUM_RESULT
     LD DE, SCI_SUM
+    CALL sci_objects_equal
+    JR Z, .atanh_done
+    LD HL, NUM_RESULT
+    LD DE, SCI_SUM
     CALL numeric_copy
     LD A, (SCI_COUNTER)
     ADD A, 2
     LD (SCI_COUNTER), A
     CP 42
     JR C, .atanh_loop
+.atanh_done:
     LD A, 32
     LD DE, SCI_TEMP
     CALL sci_set_integer
@@ -533,6 +556,10 @@ scientific_sin:
     RET C
     LD HL, NUM_RESULT
     LD DE, SCI_SUM
+    CALL sci_objects_equal
+    RET Z
+    LD HL, NUM_RESULT
+    LD DE, SCI_SUM
     CALL numeric_copy
     LD A, (SCI_COUNTER)
     INC A
@@ -600,6 +627,10 @@ scientific_cos:
     CALL sci_add_objects
 .cos_combined:
     RET C
+    LD HL, NUM_RESULT
+    LD DE, SCI_SUM
+    CALL sci_objects_equal
+    RET Z
     LD HL, NUM_RESULT
     LD DE, SCI_SUM
     CALL numeric_copy
@@ -731,6 +762,10 @@ scientific_atan:
     RET C
     LD HL, NUM_RESULT
     LD DE, SCI_SUM
+    CALL sci_objects_equal
+    JR Z, .series_done
+    LD HL, NUM_RESULT
+    LD DE, SCI_SUM
     CALL numeric_copy
     LD A, (SCI_LIMIT)
     INC A
@@ -740,6 +775,7 @@ scientific_atan:
     LD (SCI_COUNTER), A
     CP 25
     JR C, .series
+.series_done:
     LD A, 8
     LD DE, SCI_TEMP
     CALL sci_set_integer

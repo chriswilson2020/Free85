@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "release": "1.0.0",
+  "phase": 12,
+  "clock_hz": 6000000,
+  "key_response": {
+    "frames": 1,
+    "tstates": 120002
+  },
+  "evaluation": {
+    "arithmetic": {
+      "frames": 3,
+      "tstates": 360010,
+      "result": "751.33333333333",
+      "error": 0
+    },
+    "sin": {
+      "frames": 13,
+      "tstates": 1560058,
+      "result": "0.84147098480797",
+      "error": 0
+    },
+    "exp": {
+      "frames": 26,
+      "tstates": 3120097,
+      "result": "2.7182818284583",
+      "error": 0
+    },
+    "ln": {
+      "frames": 63,
+      "tstates": 7560314,
+      "result": "0.69314718056122",
+      "error": 0
+    }
+  },
+  "graph": {
+    "linear": {
+      "frames": 123,
+      "tstates": 15240537
+    },
+    "quadratic": {
+      "frames": 292,
+      "tstates": 35521342
+    },
+    "sine": {
+      "frames": 2249,
+      "tstates": 270369281
+    }
+  },
+  "improvement_percent": {
+    "evaluation": {
+      "arithmetic": 0,
+      "sin": 0,
+      "exp": 43.48,
+      "ln": 34.37
+    },
+    "graph": {
+      "linear": 47.52,
+      "quadratic": 28.33,
+      "sine": 7.74
+    }
+  },
+  "limits": {
+    "key_response_frames": 1,
+    "evaluation_frames": {
+      "arithmetic": 4,
+      "sin": 15,
+      "exp": 30,
+      "ln": 70
+    },
+    "graph_frames": {
+      "linear": 150,
+      "quadratic": 320,
+      "sine": 2300
+    }
+  }
+}

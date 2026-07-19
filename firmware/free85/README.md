@@ -260,6 +260,29 @@ every new surface, persistence, settings and reset behavior, all six comparison
 operators, base conversion, link-line I/O, and the off/wake path. The generated
 coverage report requires every feature to be complete and test-backed.
 
+## Phase 12 optimisation and release
+
+Free85 1.0 avoids redundant bank-port writes, packs Phase 11 state without
+alignment gaps, skips transparent-space glyph work, caches parsed graph tokens,
+and precomputes the graph window's Y scale once per redraw. Transcendental
+series stop as soon as another term can no longer change the fourteen-digit
+packed result. These changes preserve exact graph framebuffers and numerical
+vectors while reducing deterministic emulated work.
+
+Against the checked-in Phase 11 baseline, EXP is over 43% faster, LN is over
+34% faster, a linear graph is 47.52% faster, and a quadratic graph is 28.33%
+faster. Ordinary key input remains
+visible within one 50 Hz display frame. Exact results and current limits live
+in `spec/free85/performance.json`.
+
+Release RAM, including stack and framebuffer, is 8,816 bytes, leaving 23,952
+bytes free. Versioned state is now schema 12. `FREE85.ROM`, source, build
+instructions, licences/notices, complete feature coverage, performance report,
+known limitations, and browser-default integration are recorded by
+`spec/free85/release.json`. Release validation includes the full public suite,
+exact framebuffer goldens, a 10,000-key-event stress run, the 180-second soak,
+and the static GitHub Pages build.
+
 ## Clean-room rules
 
 - Do not copy or translate code, fonts, tables, layouts, or other data from a
@@ -296,3 +319,4 @@ SJASMPLUS=/path/to/sjasmplus npm run build:free85
 The checked-in `ROM/FREE85.ROM` lets the normal Free85 tests run without an
 assembler. Use `npm run run:free85 -- GRAPH` for a headless framebuffer preview
 or `npm run test:free85:soak` for the three-minute emulated stability check.
+`npm run release:free85` rebuilds and validates the complete release bundle.

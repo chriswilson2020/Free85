@@ -820,8 +820,8 @@ p11_text_var_help: DB "ARROWS SELECT",0
 p11_menu_variables: DB "ENTER RECALL CLR",0
 p11_text_memory: DB "MEMORY",0
 p11_text_free: DB "FREE",0
-p11_text_free_bytes: DB "23808 BYTES",0
-p11_text_version: DB "FREE85 VERSION 11",0
+p11_text_free_bytes: DB "23952 BYTES",0
+p11_text_version: DB "FREE85 1.0",0
 p11_menu_memory: DB "VAR PGM SET ALL LNK",0
 p11_text_link: DB "NATIVE LINK",0
 p11_text_native: DB "FREE85 PROTOCOL",0

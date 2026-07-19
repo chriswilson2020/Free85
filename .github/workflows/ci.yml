@@ -25,7 +25,7 @@ jobs:
           node-version: 24
 
       - name: Run Free85 tests
-        run: npm test
+        run: npm run validate:free85
 
       - name: Upload visual regression diffs
         if: failure()
@@ -35,4 +35,3 @@ jobs:
           path: test-results/free85-visual/
           if-no-files-found: ignore
           retention-days: 14
-

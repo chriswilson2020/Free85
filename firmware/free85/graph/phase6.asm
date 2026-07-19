@@ -115,6 +115,7 @@ p6_start_plot:
     XOR A
     LD (GRAPH_PLOT_X), A
     LD (GRAPH_PREV_VALID), A
+    LD (GRAPH_TOKEN_VALID), A
     LD A, 64
     LD (GRAPH_TRACE_X), A
     LD HL, p6_const_zero
@@ -142,6 +143,25 @@ p6_start_plot:
     CALL numeric_copy
     LD HL, GRAPH_XMIN
     LD DE, GRAPH_CURRENT_X
+    CALL numeric_copy
+    ; yscale = 63 / (ymax-ymin), calculated once per redraw rather than once
+    ; for every plotted sample.
+    LD HL, GRAPH_YMAX
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    LD HL, GRAPH_YMIN
+    LD DE, NUM_RIGHT
+    CALL numeric_copy
+    CALL numeric_subtract
+    LD HL, NUM_RESULT
+    LD DE, NUM_RIGHT
+    CALL numeric_copy
+    LD HL, p6_const_63
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    CALL numeric_divide
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_YSCALE
     CALL numeric_copy
     LD A, 1
     LD (GRAPH_PLOT_ACTIVE), A
@@ -335,6 +355,7 @@ p6_current_slot_mask:
 
 ; A = slot. Evaluates at GRAPH_CURRENT_X and returns NUM_RESULT.
 p6_evaluate_slot:
+    LD (GRAPH_TOKEN_SLOT), A
     PUSH AF
     LD HL, GRAPH_CURRENT_X
     LD DE, VARIABLES + 23 * NUM_SIZE
@@ -351,7 +372,20 @@ p6_evaluate_slot:
     INC HL
     LD DE, EDITOR_BUFFER
     LDIR
+    LD A, (GRAPH_TOKEN_VALID)
+    OR A
+    JR Z, .tokenize
+    LD A, (GRAPH_TOKEN_VALID)
+    DEC A
+    LD B, A
+    LD A, (GRAPH_TOKEN_SLOT)
+    CP B
+    JR NZ, .tokenize
+    CALL numeric_evaluate_tokens
+    JR .evaluated
+.tokenize:
     CALL numeric_evaluate_expression
+.evaluated:
     JR NC, .ok
     XOR A
     LD (NUMERIC_ERROR), A
@@ -359,6 +393,9 @@ p6_evaluate_slot:
     SCF
     RET
 .ok:
+    LD A, (GRAPH_TOKEN_SLOT)
+    INC A
+    LD (GRAPH_TOKEN_VALID), A
     OR A
     RET
 
@@ -379,31 +416,9 @@ p6_map_result_y:
     AND NUM_SIGN
     JR NZ, .outside
     LD HL, NUM_RESULT
-    LD DE, GRAPH_WORK_1
-    CALL numeric_copy
-    LD HL, GRAPH_YMAX
     LD DE, NUM_LEFT
     CALL numeric_copy
-    LD HL, GRAPH_YMIN
-    LD DE, NUM_RIGHT
-    CALL numeric_copy
-    CALL numeric_subtract
-    RET C
-    LD HL, NUM_RESULT
-    LD DE, GRAPH_WORK_2
-    CALL numeric_copy
-    LD HL, GRAPH_WORK_1
-    LD DE, NUM_LEFT
-    CALL numeric_copy
-    LD HL, GRAPH_WORK_2
-    LD DE, NUM_RIGHT
-    CALL numeric_copy
-    CALL numeric_divide
-    RET C
-    LD HL, NUM_RESULT
-    LD DE, NUM_LEFT
-    CALL numeric_copy
-    LD HL, p6_const_63
+    LD HL, GRAPH_YSCALE
     LD DE, NUM_RIGHT
     CALL numeric_copy
     CALL numeric_multiply

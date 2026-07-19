@@ -893,6 +893,7 @@ numeric_evaluate_expression:
     JP Z, numeric_syntax_error
     CALL lexer_tokenize
     RET C
+numeric_evaluate_tokens:
     LD HL, TOKEN_BUFFER
     LD (PARSE_PTR), HL
     XOR A

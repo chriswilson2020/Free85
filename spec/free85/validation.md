@@ -71,3 +71,11 @@ stable test identifier, and exercises the final system, memory, menu, lowercase
 alpha, native link, power, previous-entry, number-base, and comparison paths.
 The generated report must show 100 percent registered physical keys, shifted
 functions, and alpha mappings, plus 100 percent complete features with tests.
+
+Phase 12 adds deterministic Z80 T-state and frame budgets for ordinary key
+response, representative arithmetic and transcendental expressions, and three
+graph workloads. It also requires the exact 128 KiB release ROM and SHA-256
+manifest, 10,000 automated key events without corruption or stack escape, the
+180-second emulated soak, complete licence and limitations documents, and a
+static-site build whose default ROM is Free85. Performance optimisation may not
+change accepted numerical vectors or reviewed LCD framebuffer goldens.

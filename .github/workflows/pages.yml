@@ -28,7 +28,7 @@ jobs:
           node-version: 24
 
       - name: Run validation suite
-        run: npm test
+        run: npm run validate:free85
 
       - name: Build Pages artifact
         run: npm run build:pages

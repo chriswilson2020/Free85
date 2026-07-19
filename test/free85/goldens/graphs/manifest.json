@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "width": 128,
+  "height": 64,
+  "cases": [
+    {
+      "name": "sine-5x",
+      "expression": "5*SIN(X)",
+      "frames": 2500,
+      "litPixelCount": 556,
+      "checksum": "4BE3F2EA"
+    },
+    {
+      "name": "parabola",
+      "expression": "X^2-4",
+      "frames": 500,
+      "litPixelCount": 360,
+      "checksum": "769A8861"
+    },
+    {
+      "name": "reciprocal",
+      "expression": "1/X",
+      "frames": 400,
+      "litPixelCount": 334,
+      "checksum": "F62A7543"
+    },
+    {
+      "name": "square-root",
+      "expression": "SQRT(X)",
+      "frames": 1100,
+      "litPixelCount": 302,
+      "checksum": "1F8749D6"
+    }
+  ]
+}

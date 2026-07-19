@@ -1,0 +1,62 @@
+{
+  "phase": 6,
+  "rom_bytes": 131072,
+  "page_size": 16384,
+  "pages": [
+    {
+      "page": 0,
+      "used_bytes": 11361,
+      "free_bytes": 5023,
+      "percent_used": 69.34
+    },
+    {
+      "page": 1,
+      "used_bytes": 3219,
+      "free_bytes": 13165,
+      "percent_used": 19.65
+    },
+    {
+      "page": 2,
+      "used_bytes": 8,
+      "free_bytes": 16376,
+      "percent_used": 0.05
+    },
+    {
+      "page": 3,
+      "used_bytes": 8,
+      "free_bytes": 16376,
+      "percent_used": 0.05
+    },
+    {
+      "page": 4,
+      "used_bytes": 8,
+      "free_bytes": 16376,
+      "percent_used": 0.05
+    },
+    {
+      "page": 5,
+      "used_bytes": 8,
+      "free_bytes": 16376,
+      "percent_used": 0.05
+    },
+    {
+      "page": 6,
+      "used_bytes": 8,
+      "free_bytes": 16376,
+      "percent_used": 0.05
+    },
+    {
+      "page": 7,
+      "used_bytes": 8,
+      "free_bytes": 16376,
+      "percent_used": 0.05
+    }
+  ],
+  "ram": {
+    "system_state_bytes": 1792,
+    "stack_reserved_bytes": 256,
+    "framebuffer_bytes": 1024,
+    "phase6_reserved_bytes": 3072,
+    "free_bytes": 29696
+  }
+}

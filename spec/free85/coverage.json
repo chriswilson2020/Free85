@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "phase": 6,
+  "source": "spec/free85/features.yaml",
+  "physical_keys": {
+    "total": 50,
+    "registered": 50,
+    "percent": 100,
+    "matrix": 49,
+    "special": 1
+  },
+  "shifted_functions": {
+    "total": 45,
+    "registered": 45,
+    "percent": 100
+  },
+  "alpha_mappings": {
+    "total": 27,
+    "registered": 27,
+    "percent": 100
+  },
+  "features": {
+    "total": 122,
+    "statuses": {
+      "unplanned": 0,
+      "planned": 31,
+      "implemented": 0,
+      "tested": 91,
+      "complete": 0
+    },
+    "complete_with_tests": 0,
+    "complete_test_percent": null
+  },
+  "tests_referenced": 17,
+  "rom_usage": {
+    "total_bytes": 131072,
+    "used_bytes": 14628,
+    "free_bytes": 116444,
+    "banks": [
+      {
+        "page": 0,
+        "used_bytes": 11361,
+        "free_bytes": 5023,
+        "percent_used": 69.34
+      },
+      {
+        "page": 1,
+        "used_bytes": 3219,
+        "free_bytes": 13165,
+        "percent_used": 19.65
+      },
+      {
+        "page": 2,
+        "used_bytes": 8,
+        "free_bytes": 16376,
+        "percent_used": 0.05
+      },
+      {
+        "page": 3,
+        "used_bytes": 8,
+        "free_bytes": 16376,
+        "percent_used": 0.05
+      },
+      {
+        "page": 4,
+        "used_bytes": 8,
+        "free_bytes": 16376,
+        "percent_used": 0.05
+      },
+      {
+        "page": 5,
+        "used_bytes": 8,
+        "free_bytes": 16376,
+        "percent_used": 0.05
+      },
+      {
+        "page": 6,
+        "used_bytes": 8,
+        "free_bytes": 16376,
+        "percent_used": 0.05
+      },
+      {
+        "page": 7,
+        "used_bytes": 8,
+        "free_bytes": 16376,
+        "percent_used": 0.05
+      }
+    ]
+  },
+  "ram_usage": {
+    "system_state_bytes": 1792,
+    "stack_reserved_bytes": 256,
+    "framebuffer_bytes": 1024,
+    "phase6_reserved_bytes": 3072,
+    "free_bytes": 29696
+  }
+}

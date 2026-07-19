@@ -1,0 +1,18 @@
+{
+  "name": "free85",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build:free85": "node scripts/build-free85.js",
+    "coverage:free85": "node scripts/free85-coverage.js",
+    "dev": "node scripts/dev-server.js",
+    "run:free85": "node scripts/run-free85.js",
+    "test": "node --test test/free85/*.test.js",
+    "test:free85": "node --test test/free85/*.test.js",
+    "test:free85:soak": "node scripts/free85-soak.js",
+    "update:free85:goldens": "node scripts/update-free85-graph-goldens.js"
+  }
+}
+

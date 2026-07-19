@@ -1,0 +1,8 @@
+.DS_Store
+node_modules/
+npm-debug.log*
+test-results/
+firmware/free85/generated/*.bin
+firmware/free85/generated/*.lst
+firmware/free85/generated/*.sym
+firmware/free85/generated/free85.map

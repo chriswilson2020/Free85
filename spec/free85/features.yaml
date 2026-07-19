@@ -1,0 +1,1897 @@
+{
+  "schema_version": 1,
+  "allowed_statuses": [
+    "unplanned",
+    "planned",
+    "implemented",
+    "tested",
+    "complete"
+  ],
+  "features": [
+    {
+      "id": "ui.soft_key.1",
+      "category": "ui",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.menus"
+      ],
+      "surfaces": [
+        {
+          "key": "F1",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "menu.memory_slot.1",
+      "category": "menu",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "F1",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "ui.soft_key.2",
+      "category": "ui",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.menus"
+      ],
+      "surfaces": [
+        {
+          "key": "F2",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "menu.memory_slot.2",
+      "category": "menu",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "F2",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "ui.soft_key.3",
+      "category": "ui",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.menus"
+      ],
+      "surfaces": [
+        {
+          "key": "F3",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "menu.memory_slot.3",
+      "category": "menu",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "F3",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "ui.soft_key.4",
+      "category": "ui",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.menus"
+      ],
+      "surfaces": [
+        {
+          "key": "F4",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "menu.memory_slot.4",
+      "category": "menu",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "F4",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "ui.soft_key.5",
+      "category": "ui",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.menus"
+      ],
+      "surfaces": [
+        {
+          "key": "F5",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "menu.memory_slot.5",
+      "category": "menu",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "F5",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "modifier.second",
+      "category": "modifier",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.modifiers"
+      ],
+      "surfaces": [
+        {
+          "key": "2ND",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "navigation.exit",
+      "category": "navigation",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/editor.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "EXIT",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "navigation.home",
+      "category": "navigation",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/editor.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "EXIT",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "menu.more",
+      "category": "menu",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.menus"
+      ],
+      "surfaces": [
+        {
+          "key": "MORE",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "system.mode",
+      "category": "system",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "MORE",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "navigation.up",
+      "category": "navigation",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/parser.asm",
+      "documentation": "firmware/free85/README.md#phase-4-expression-engine",
+      "tests": [
+        "expression.history"
+      ],
+      "surfaces": [
+        {
+          "key": "UP",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "navigation.down",
+      "category": "navigation",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/parser.asm",
+      "documentation": "firmware/free85/README.md#phase-4-expression-engine",
+      "tests": [
+        "expression.history"
+      ],
+      "surfaces": [
+        {
+          "key": "DOWN",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "modifier.alpha",
+      "category": "modifier",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.modifiers"
+      ],
+      "surfaces": [
+        {
+          "key": "ALPHA",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "modifier.alpha_lower",
+      "category": "modifier",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "ALPHA",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "input.variable_x",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "X-VAR",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "system.link",
+      "category": "system",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "X-VAR",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.lower_x",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "X-VAR",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "editor.delete",
+      "category": "editor",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/editor.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "DEL",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "editor.insert_mode",
+      "category": "editor",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/editor.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "DEL",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "navigation.left",
+      "category": "navigation",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/editor.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "LEFT",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "navigation.right",
+      "category": "navigation",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/editor.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "RIGHT",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "app.graph",
+      "category": "app",
+      "status": "tested",
+      "implementation": "firmware/free85/graph/phase6.asm",
+      "documentation": "firmware/free85/README.md#phase-6-graphing-and-numerical-tools",
+      "tests": ["graph.plot", "graph.cancel", "graph.trace-zoom-table", "graph.equations-intersection"],
+      "surfaces": [
+        {
+          "key": "GRAPH",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "app.solver",
+      "category": "app",
+      "status": "tested",
+      "implementation": "firmware/free85/graph/phase6.asm",
+      "documentation": "firmware/free85/README.md#phase-6-graphing-and-numerical-tools",
+      "tests": ["graph.numerical"],
+      "surfaces": [
+        {
+          "key": "GRAPH",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "app.statistics",
+      "category": "app",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "STAT",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "app.simultaneous",
+      "category": "app",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "STAT",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "app.programs",
+      "category": "app",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "PRGM",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "app.polynomial",
+      "category": "app",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "PRGM",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "app.custom_menu",
+      "category": "app",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "CUSTOM",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "app.catalog",
+      "category": "app",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "CUSTOM",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "editor.clear",
+      "category": "editor",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/editor.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "CLEAR",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "system.tolerance",
+      "category": "system",
+      "status": "tested",
+      "implementation": "firmware/free85/graph/phase6.asm",
+      "documentation": "firmware/free85/README.md#phase-6-graphing-and-numerical-tools",
+      "tests": ["graph.tolerance"],
+      "surfaces": [
+        {
+          "key": "CLEAR",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "math.log10",
+      "category": "math",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/scientific.asm",
+      "documentation": "firmware/free85/README.md#phase-5-scientific-functions",
+      "tests": [
+        "scientific.functions"
+      ],
+      "surfaces": [
+        {
+          "key": "LOG",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "math.pow10",
+      "category": "math",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/scientific.asm",
+      "documentation": "firmware/free85/README.md#phase-5-scientific-functions",
+      "tests": [
+        "scientific.functions"
+      ],
+      "surfaces": [
+        {
+          "key": "LOG",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.A",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "LOG",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "math.sin",
+      "category": "math",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/scientific.asm",
+      "documentation": "firmware/free85/README.md#phase-5-scientific-functions",
+      "tests": [
+        "scientific.functions",
+        "scientific.angle-modes"
+      ],
+      "surfaces": [
+        {
+          "key": "SIN",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "math.asin",
+      "category": "math",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/scientific.asm",
+      "documentation": "firmware/free85/README.md#phase-5-scientific-functions",
+      "tests": [
+        "scientific.functions",
+        "scientific.angle-modes"
+      ],
+      "surfaces": [
+        {
+          "key": "SIN",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.B",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "SIN",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "math.cos",
+      "category": "math",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/scientific.asm",
+      "documentation": "firmware/free85/README.md#phase-5-scientific-functions",
+      "tests": [
+        "scientific.functions"
+      ],
+      "surfaces": [
+        {
+          "key": "COS",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "math.acos",
+      "category": "math",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/scientific.asm",
+      "documentation": "firmware/free85/README.md#phase-5-scientific-functions",
+      "tests": [
+        "scientific.functions"
+      ],
+      "surfaces": [
+        {
+          "key": "COS",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.C",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "COS",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "math.tan",
+      "category": "math",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/scientific.asm",
+      "documentation": "firmware/free85/README.md#phase-5-scientific-functions",
+      "tests": [
+        "scientific.functions"
+      ],
+      "surfaces": [
+        {
+          "key": "TAN",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "math.atan",
+      "category": "math",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/scientific.asm",
+      "documentation": "firmware/free85/README.md#phase-5-scientific-functions",
+      "tests": [
+        "scientific.functions"
+      ],
+      "surfaces": [
+        {
+          "key": "TAN",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.D",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "TAN",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "math.power",
+      "category": "math",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/evaluator.asm",
+      "documentation": "firmware/free85/README.md#phase-3-numeric-core",
+      "tests": [
+        "numeric.arithmetic"
+      ],
+      "surfaces": [
+        {
+          "key": "^",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "constant.pi",
+      "category": "constant",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/scientific.asm",
+      "documentation": "firmware/free85/README.md#phase-5-scientific-functions",
+      "tests": [
+        "scientific.functions",
+        "scientific.constants"
+      ],
+      "surfaces": [
+        {
+          "key": "^",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.E",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "^",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "math.ln",
+      "category": "math",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/scientific.asm",
+      "documentation": "firmware/free85/README.md#phase-5-scientific-functions",
+      "tests": [
+        "scientific.functions"
+      ],
+      "surfaces": [
+        {
+          "key": "LN",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "math.exp",
+      "category": "math",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/scientific.asm",
+      "documentation": "firmware/free85/README.md#phase-5-scientific-functions",
+      "tests": [
+        "scientific.functions"
+      ],
+      "surfaces": [
+        {
+          "key": "LN",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.F",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "LN",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "input.scientific_exponent",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "EE",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "math.reciprocal",
+      "category": "math",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "EE",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.G",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "EE",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "input.open_parenthesis",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "(",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "input.open_bracket",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "(",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.H",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "(",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "input.close_parenthesis",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": ")",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "input.close_bracket",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": ")",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.I",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": ")",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "math.divide",
+      "category": "math",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/evaluator.asm",
+      "documentation": "firmware/free85/README.md#phase-3-numeric-core",
+      "tests": [
+        "numeric.arithmetic"
+      ],
+      "surfaces": [
+        {
+          "key": "/",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "menu.calculus",
+      "category": "menu",
+      "status": "tested",
+      "implementation": "firmware/free85/graph/phase6.asm",
+      "documentation": "firmware/free85/README.md#phase-6-graphing-and-numerical-tools",
+      "tests": ["graph.numerical"],
+      "surfaces": [
+        {
+          "key": "/",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.J",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "/",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "math.square",
+      "category": "math",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/evaluator.asm",
+      "documentation": "firmware/free85/README.md#phase-3-numeric-core",
+      "tests": [
+        "numeric.arithmetic"
+      ],
+      "surfaces": [
+        {
+          "key": "X^2",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "math.sqrt",
+      "category": "math",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/evaluator.asm",
+      "documentation": "firmware/free85/README.md#phase-3-numeric-core",
+      "tests": [
+        "numeric.arithmetic"
+      ],
+      "surfaces": [
+        {
+          "key": "X^2",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.K",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "X^2",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "input.digit.7",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "7",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "app.matrix",
+      "category": "app",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "7",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.L",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "7",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "input.digit.8",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "8",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "app.vector",
+      "category": "app",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "8",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.M",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "8",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "input.digit.9",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "9",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "menu.complex",
+      "category": "menu",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "9",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.N",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "9",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "math.multiply",
+      "category": "math",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/evaluator.asm",
+      "documentation": "firmware/free85/README.md#phase-3-numeric-core",
+      "tests": [
+        "numeric.arithmetic"
+      ],
+      "surfaces": [
+        {
+          "key": "*",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "menu.math",
+      "category": "menu",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "*",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.O",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "*",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "input.comma",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": ",",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "complex.angle",
+      "category": "complex",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": ",",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.P",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": ",",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "input.digit.4",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "4",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "menu.constants",
+      "category": "menu",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "4",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.Q",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "4",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "input.digit.5",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "5",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "menu.conversions",
+      "category": "menu",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "5",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.R",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "5",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "input.digit.6",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "6",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "menu.strings",
+      "category": "menu",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "6",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.S",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "6",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "math.subtract",
+      "category": "math",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/evaluator.asm",
+      "documentation": "firmware/free85/README.md#phase-3-numeric-core",
+      "tests": [
+        "numeric.arithmetic"
+      ],
+      "surfaces": [
+        {
+          "key": "-",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "app.lists",
+      "category": "app",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "-",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.T",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "-",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "variable.store",
+      "category": "variable",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/parser.asm",
+      "documentation": "firmware/free85/README.md#phase-4-expression-engine",
+      "tests": [
+        "expression.variables"
+      ],
+      "surfaces": [
+        {
+          "key": "STO",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "variable.recall",
+      "category": "variable",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "STO",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "input.digit.1",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "1",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "menu.number_base",
+      "category": "menu",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "1",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.U",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "1",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "input.digit.2",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "2",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "menu.tests",
+      "category": "menu",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "2",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.V",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "2",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "input.digit.3",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "3",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "app.variables",
+      "category": "app",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "3",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.W",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "3",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "math.add",
+      "category": "math",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/evaluator.asm",
+      "documentation": "firmware/free85/README.md#phase-3-numeric-core",
+      "tests": [
+        "numeric.arithmetic"
+      ],
+      "surfaces": [
+        {
+          "key": "+",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "app.memory",
+      "category": "app",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "+",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.X",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "+",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "power.on",
+      "category": "power",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "ON",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "power.off",
+      "category": "power",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "ON",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "input.digit.0",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "0",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "menu.characters",
+      "category": "menu",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "0",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.Y",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": "0",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "input.decimal_point",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": ".",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "input.statement_separator",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": ".",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "text.Z",
+      "category": "text",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.alpha-surfaces"
+      ],
+      "surfaces": [
+        {
+          "key": ".",
+          "modifier": "alpha"
+        }
+      ]
+    },
+    {
+      "id": "input.unary_minus",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/ui/kernel.asm",
+      "documentation": "firmware/free85/README.md#phase-2-ui-kernel",
+      "tests": [
+        "ui.editor"
+      ],
+      "surfaces": [
+        {
+          "key": "(-)",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "variable.answer",
+      "category": "variable",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/parser.asm",
+      "documentation": "firmware/free85/README.md#phase-4-expression-engine",
+      "tests": [
+        "expression.variables"
+      ],
+      "surfaces": [
+        {
+          "key": "(-)",
+          "modifier": "second"
+        }
+      ]
+    },
+    {
+      "id": "input.enter",
+      "category": "input",
+      "status": "tested",
+      "implementation": "firmware/free85/numeric/parser.asm",
+      "documentation": "firmware/free85/README.md#phase-4-expression-engine",
+      "tests": [
+        "expression.precedence"
+      ],
+      "surfaces": [
+        {
+          "key": "ENTER",
+          "modifier": "normal"
+        }
+      ]
+    },
+    {
+      "id": "history.previous_entry",
+      "category": "history",
+      "status": "planned",
+      "implementation": null,
+      "documentation": null,
+      "tests": [],
+      "surfaces": [
+        {
+          "key": "ENTER",
+          "modifier": "second"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1194 @@
+{
+  "schema_version": 1,
+  "inventory": "src/ti85-keys.js",
+  "keys": [
+    {
+      "physical_key": "F1",
+      "normal": {
+        "label": "F1",
+        "id": "ui.soft_key.1",
+        "behaviour": "Choose the first visible soft-menu item"
+      },
+      "second": {
+        "label": "M1",
+        "id": "menu.memory_slot.1",
+        "behaviour": "Open memory menu slot one"
+      },
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "F2",
+      "normal": {
+        "label": "F2",
+        "id": "ui.soft_key.2",
+        "behaviour": "Choose the second visible soft-menu item"
+      },
+      "second": {
+        "label": "M2",
+        "id": "menu.memory_slot.2",
+        "behaviour": "Open memory menu slot two"
+      },
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "F3",
+      "normal": {
+        "label": "F3",
+        "id": "ui.soft_key.3",
+        "behaviour": "Choose the third visible soft-menu item"
+      },
+      "second": {
+        "label": "M3",
+        "id": "menu.memory_slot.3",
+        "behaviour": "Open memory menu slot three"
+      },
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "F4",
+      "normal": {
+        "label": "F4",
+        "id": "ui.soft_key.4",
+        "behaviour": "Choose the fourth visible soft-menu item"
+      },
+      "second": {
+        "label": "M4",
+        "id": "menu.memory_slot.4",
+        "behaviour": "Open memory menu slot four"
+      },
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "F5",
+      "normal": {
+        "label": "F5",
+        "id": "ui.soft_key.5",
+        "behaviour": "Choose the fifth visible soft-menu item"
+      },
+      "second": {
+        "label": "M5",
+        "id": "menu.memory_slot.5",
+        "behaviour": "Open memory menu slot five"
+      },
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "2ND",
+      "normal": {
+        "label": "2nd",
+        "id": "modifier.second",
+        "behaviour": "Arm one shifted action"
+      },
+      "second": null,
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "EXIT",
+      "normal": {
+        "label": "EXIT",
+        "id": "navigation.exit",
+        "behaviour": "Return one navigation level"
+      },
+      "second": {
+        "label": "QUIT",
+        "id": "navigation.home",
+        "behaviour": "Return to the home calculator"
+      },
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "MORE",
+      "normal": {
+        "label": "MORE",
+        "id": "menu.more",
+        "behaviour": "Advance to the next menu page"
+      },
+      "second": {
+        "label": "MODE",
+        "id": "system.mode",
+        "behaviour": "Open calculator mode settings"
+      },
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "UP",
+      "normal": {
+        "label": "▲",
+        "id": "navigation.up",
+        "behaviour": "Move selection or cursor up"
+      },
+      "second": null,
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "DOWN",
+      "normal": {
+        "label": "▼",
+        "id": "navigation.down",
+        "behaviour": "Move selection or cursor down"
+      },
+      "second": null,
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "ALPHA",
+      "normal": {
+        "label": "ALPHA",
+        "id": "modifier.alpha",
+        "behaviour": "Arm or lock alphabetic entry"
+      },
+      "second": {
+        "label": "alpha",
+        "id": "modifier.alpha_lower",
+        "behaviour": "Select lowercase alphabetic entry"
+      },
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "X-VAR",
+      "normal": {
+        "label": "x-VAR",
+        "id": "input.variable_x",
+        "behaviour": "Insert the active graph variable"
+      },
+      "second": {
+        "label": "LINK",
+        "id": "system.link",
+        "behaviour": "Open local link diagnostics"
+      },
+      "alpha": {
+        "label": "x",
+        "id": "text.lower_x",
+        "behaviour": "Insert x"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "DEL",
+      "normal": {
+        "label": "DEL",
+        "id": "editor.delete",
+        "behaviour": "Delete at the editor cursor"
+      },
+      "second": {
+        "label": "INS",
+        "id": "editor.insert_mode",
+        "behaviour": "Toggle insert and overwrite mode"
+      },
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "LEFT",
+      "normal": {
+        "label": "◀",
+        "id": "navigation.left",
+        "behaviour": "Move selection or cursor left"
+      },
+      "second": null,
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "RIGHT",
+      "normal": {
+        "label": "▶",
+        "id": "navigation.right",
+        "behaviour": "Move selection or cursor right"
+      },
+      "second": null,
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "GRAPH",
+      "normal": {
+        "label": "GRAPH",
+        "id": "app.graph",
+        "behaviour": "Open the graph application"
+      },
+      "second": {
+        "label": "SOLVER",
+        "id": "app.solver",
+        "behaviour": "Open the general equation solver"
+      },
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "STAT",
+      "normal": {
+        "label": "STAT",
+        "id": "app.statistics",
+        "behaviour": "Open the statistics application"
+      },
+      "second": {
+        "label": "SIMULT",
+        "id": "app.simultaneous",
+        "behaviour": "Open the simultaneous-equation solver"
+      },
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "PRGM",
+      "normal": {
+        "label": "PRGM",
+        "id": "app.programs",
+        "behaviour": "Open the program manager"
+      },
+      "second": {
+        "label": "POLY",
+        "id": "app.polynomial",
+        "behaviour": "Open the polynomial solver"
+      },
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "CUSTOM",
+      "normal": {
+        "label": "CUSTOM",
+        "id": "app.custom_menu",
+        "behaviour": "Open the user custom menu"
+      },
+      "second": {
+        "label": "CATALOG",
+        "id": "app.catalog",
+        "behaviour": "Open the callable-feature catalog"
+      },
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "CLEAR",
+      "normal": {
+        "label": "CLEAR",
+        "id": "editor.clear",
+        "behaviour": "Clear the entry or dismiss an error"
+      },
+      "second": {
+        "label": "TOLER",
+        "id": "system.tolerance",
+        "behaviour": "Open numerical tolerance settings"
+      },
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "LOG",
+      "normal": {
+        "label": "LOG",
+        "id": "math.log10",
+        "behaviour": "Insert base-ten logarithm"
+      },
+      "second": {
+        "label": "10^x",
+        "id": "math.pow10",
+        "behaviour": "Insert ten raised to a power"
+      },
+      "alpha": {
+        "label": "A",
+        "id": "text.A",
+        "behaviour": "Insert A"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "SIN",
+      "normal": {
+        "label": "SIN",
+        "id": "math.sin",
+        "behaviour": "Insert sine"
+      },
+      "second": {
+        "label": "SIN^-1",
+        "id": "math.asin",
+        "behaviour": "Insert inverse sine"
+      },
+      "alpha": {
+        "label": "B",
+        "id": "text.B",
+        "behaviour": "Insert B"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "COS",
+      "normal": {
+        "label": "COS",
+        "id": "math.cos",
+        "behaviour": "Insert cosine"
+      },
+      "second": {
+        "label": "COS^-1",
+        "id": "math.acos",
+        "behaviour": "Insert inverse cosine"
+      },
+      "alpha": {
+        "label": "C",
+        "id": "text.C",
+        "behaviour": "Insert C"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "TAN",
+      "normal": {
+        "label": "TAN",
+        "id": "math.tan",
+        "behaviour": "Insert tangent"
+      },
+      "second": {
+        "label": "TAN^-1",
+        "id": "math.atan",
+        "behaviour": "Insert inverse tangent"
+      },
+      "alpha": {
+        "label": "D",
+        "id": "text.D",
+        "behaviour": "Insert D"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "^",
+      "normal": {
+        "label": "^",
+        "id": "math.power",
+        "behaviour": "Insert the power operator"
+      },
+      "second": {
+        "label": "π",
+        "id": "constant.pi",
+        "behaviour": "Insert pi"
+      },
+      "alpha": {
+        "label": "E",
+        "id": "text.E",
+        "behaviour": "Insert E"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "LN",
+      "normal": {
+        "label": "LN",
+        "id": "math.ln",
+        "behaviour": "Insert natural logarithm"
+      },
+      "second": {
+        "label": "e^x",
+        "id": "math.exp",
+        "behaviour": "Insert natural exponential"
+      },
+      "alpha": {
+        "label": "F",
+        "id": "text.F",
+        "behaviour": "Insert F"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "EE",
+      "normal": {
+        "label": "EE",
+        "id": "input.scientific_exponent",
+        "behaviour": "Insert a scientific-notation exponent"
+      },
+      "second": {
+        "label": "x^-1",
+        "id": "math.reciprocal",
+        "behaviour": "Insert reciprocal"
+      },
+      "alpha": {
+        "label": "G",
+        "id": "text.G",
+        "behaviour": "Insert G"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "(",
+      "normal": {
+        "label": "(",
+        "id": "input.open_parenthesis",
+        "behaviour": "Insert an opening parenthesis"
+      },
+      "second": {
+        "label": "[",
+        "id": "input.open_bracket",
+        "behaviour": "Insert an opening collection bracket"
+      },
+      "alpha": {
+        "label": "H",
+        "id": "text.H",
+        "behaviour": "Insert H"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": ")",
+      "normal": {
+        "label": ")",
+        "id": "input.close_parenthesis",
+        "behaviour": "Insert a closing parenthesis"
+      },
+      "second": {
+        "label": "]",
+        "id": "input.close_bracket",
+        "behaviour": "Insert a closing collection bracket"
+      },
+      "alpha": {
+        "label": "I",
+        "id": "text.I",
+        "behaviour": "Insert I"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "/",
+      "normal": {
+        "label": "÷",
+        "id": "math.divide",
+        "behaviour": "Insert division"
+      },
+      "second": {
+        "label": "CALC",
+        "id": "menu.calculus",
+        "behaviour": "Open numerical calculus tools"
+      },
+      "alpha": {
+        "label": "J",
+        "id": "text.J",
+        "behaviour": "Insert J"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "X^2",
+      "normal": {
+        "label": "x²",
+        "id": "math.square",
+        "behaviour": "Square the current value"
+      },
+      "second": {
+        "label": "√",
+        "id": "math.sqrt",
+        "behaviour": "Insert square root"
+      },
+      "alpha": {
+        "label": "K",
+        "id": "text.K",
+        "behaviour": "Insert K"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "7",
+      "normal": {
+        "label": "7",
+        "id": "input.digit.7",
+        "behaviour": "Insert digit seven"
+      },
+      "second": {
+        "label": "MATRX",
+        "id": "app.matrix",
+        "behaviour": "Open matrix tools"
+      },
+      "alpha": {
+        "label": "L",
+        "id": "text.L",
+        "behaviour": "Insert L"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "8",
+      "normal": {
+        "label": "8",
+        "id": "input.digit.8",
+        "behaviour": "Insert digit eight"
+      },
+      "second": {
+        "label": "VECTR",
+        "id": "app.vector",
+        "behaviour": "Open vector tools"
+      },
+      "alpha": {
+        "label": "M",
+        "id": "text.M",
+        "behaviour": "Insert M"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "9",
+      "normal": {
+        "label": "9",
+        "id": "input.digit.9",
+        "behaviour": "Insert digit nine"
+      },
+      "second": {
+        "label": "CPLX",
+        "id": "menu.complex",
+        "behaviour": "Open complex-number tools"
+      },
+      "alpha": {
+        "label": "N",
+        "id": "text.N",
+        "behaviour": "Insert N"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "*",
+      "normal": {
+        "label": "×",
+        "id": "math.multiply",
+        "behaviour": "Insert multiplication"
+      },
+      "second": {
+        "label": "MATH",
+        "id": "menu.math",
+        "behaviour": "Open the general mathematics menu"
+      },
+      "alpha": {
+        "label": "O",
+        "id": "text.O",
+        "behaviour": "Insert O"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": ",",
+      "normal": {
+        "label": ",",
+        "id": "input.comma",
+        "behaviour": "Insert an argument separator"
+      },
+      "second": {
+        "label": "∠",
+        "id": "complex.angle",
+        "behaviour": "Insert the polar-angle operator"
+      },
+      "alpha": {
+        "label": "P",
+        "id": "text.P",
+        "behaviour": "Insert P"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "4",
+      "normal": {
+        "label": "4",
+        "id": "input.digit.4",
+        "behaviour": "Insert digit four"
+      },
+      "second": {
+        "label": "CONS",
+        "id": "menu.constants",
+        "behaviour": "Open built-in and user constants"
+      },
+      "alpha": {
+        "label": "Q",
+        "id": "text.Q",
+        "behaviour": "Insert Q"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "5",
+      "normal": {
+        "label": "5",
+        "id": "input.digit.5",
+        "behaviour": "Insert digit five"
+      },
+      "second": {
+        "label": "CONV",
+        "id": "menu.conversions",
+        "behaviour": "Open unit conversions"
+      },
+      "alpha": {
+        "label": "R",
+        "id": "text.R",
+        "behaviour": "Insert R"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "6",
+      "normal": {
+        "label": "6",
+        "id": "input.digit.6",
+        "behaviour": "Insert digit six"
+      },
+      "second": {
+        "label": "STRNG",
+        "id": "menu.strings",
+        "behaviour": "Open string operations"
+      },
+      "alpha": {
+        "label": "S",
+        "id": "text.S",
+        "behaviour": "Insert S"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "-",
+      "normal": {
+        "label": "-",
+        "id": "math.subtract",
+        "behaviour": "Insert subtraction"
+      },
+      "second": {
+        "label": "LIST",
+        "id": "app.lists",
+        "behaviour": "Open list tools"
+      },
+      "alpha": {
+        "label": "T",
+        "id": "text.T",
+        "behaviour": "Insert T"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "STO",
+      "normal": {
+        "label": "STO▶",
+        "id": "variable.store",
+        "behaviour": "Store a value in a named variable"
+      },
+      "second": {
+        "label": "RCL",
+        "id": "variable.recall",
+        "behaviour": "Recall a named variable"
+      },
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "1",
+      "normal": {
+        "label": "1",
+        "id": "input.digit.1",
+        "behaviour": "Insert digit one"
+      },
+      "second": {
+        "label": "BASE",
+        "id": "menu.number_base",
+        "behaviour": "Open number-base tools"
+      },
+      "alpha": {
+        "label": "U",
+        "id": "text.U",
+        "behaviour": "Insert U"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "2",
+      "normal": {
+        "label": "2",
+        "id": "input.digit.2",
+        "behaviour": "Insert digit two"
+      },
+      "second": {
+        "label": "TEST",
+        "id": "menu.tests",
+        "behaviour": "Open comparison and logical tests"
+      },
+      "alpha": {
+        "label": "V",
+        "id": "text.V",
+        "behaviour": "Insert V"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "3",
+      "normal": {
+        "label": "3",
+        "id": "input.digit.3",
+        "behaviour": "Insert digit three"
+      },
+      "second": {
+        "label": "VARS",
+        "id": "app.variables",
+        "behaviour": "Open the variable browser"
+      },
+      "alpha": {
+        "label": "W",
+        "id": "text.W",
+        "behaviour": "Insert W"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "+",
+      "normal": {
+        "label": "+",
+        "id": "math.add",
+        "behaviour": "Insert addition"
+      },
+      "second": {
+        "label": "MEM",
+        "id": "app.memory",
+        "behaviour": "Open memory management"
+      },
+      "alpha": {
+        "label": "X",
+        "id": "text.X",
+        "behaviour": "Insert X"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "ON",
+      "normal": {
+        "label": "ON",
+        "id": "power.on",
+        "behaviour": "Wake the calculator or interrupt an operation"
+      },
+      "second": {
+        "label": "OFF",
+        "id": "power.off",
+        "behaviour": "Shut down the calculator"
+      },
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "0",
+      "normal": {
+        "label": "0",
+        "id": "input.digit.0",
+        "behaviour": "Insert digit zero"
+      },
+      "second": {
+        "label": "CHAR",
+        "id": "menu.characters",
+        "behaviour": "Open the character palette"
+      },
+      "alpha": {
+        "label": "Y",
+        "id": "text.Y",
+        "behaviour": "Insert Y"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": ".",
+      "normal": {
+        "label": ".",
+        "id": "input.decimal_point",
+        "behaviour": "Insert a decimal point"
+      },
+      "second": {
+        "label": ":",
+        "id": "input.statement_separator",
+        "behaviour": "Insert a program statement separator"
+      },
+      "alpha": {
+        "label": "Z",
+        "id": "text.Z",
+        "behaviour": "Insert Z"
+      },
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "(-)",
+      "normal": {
+        "label": "(-)",
+        "id": "input.unary_minus",
+        "behaviour": "Insert unary minus"
+      },
+      "second": {
+        "label": "ANS",
+        "id": "variable.answer",
+        "behaviour": "Insert the previous answer"
+      },
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    },
+    {
+      "physical_key": "ENTER",
+      "normal": {
+        "label": "ENTER",
+        "id": "input.enter",
+        "behaviour": "Confirm or evaluate"
+      },
+      "second": {
+        "label": "ENTRY",
+        "id": "history.previous_entry",
+        "behaviour": "Recall the previous entry"
+      },
+      "alpha": null,
+      "contexts": [
+        "diagnostic",
+        "home",
+        "menus",
+        "editors"
+      ],
+      "status": "planned",
+      "tests": []
+    }
+  ]
+}

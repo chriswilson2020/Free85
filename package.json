@@ -5,6 +5,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
+    "build:pages": "node scripts/build-pages.js",
     "build:free85": "node scripts/build-free85.js",
     "coverage:free85": "node scripts/free85-coverage.js",
     "dev": "node scripts/dev-server.js",
@@ -15,4 +16,3 @@
     "update:free85:goldens": "node scripts/update-free85-graph-goldens.js"
   }
 }
-

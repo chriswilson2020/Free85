@@ -160,6 +160,30 @@ and stack, is 6,144 bytes, leaving 26,624 bytes free. Statistical columns remain
 bounded at eight values, simultaneous systems at 4x4, and polynomials at degree
 four.
 
+## Phase 9 strings, catalog, and custom menu
+
+`2ND+6` opens a native string workspace with independent A and B values plus a
+result value. Strings are length-prefixed, NUL-terminated for display, and
+bounded to 31 characters. `ALPHA` enters letters, `X-VAR` changes the active
+value, `2ND+0` opens the character palette, and the arrow keys select the
+one-based substring start and length. The two soft-key pages provide
+concatenation, length, substring, character extraction, lexical comparison,
+number-to-string, string-to-number, copy, swap, and clear operations. Numeric
+conversions use the same packed-decimal objects as the home evaluator.
+
+`2ND+CUSTOM` opens an alphabetically ordered catalog of 56 callable functions,
+constants, and application commands. `ENTER` invokes the selected entry; F1-F5
+assign it to the corresponding custom slot. `CUSTOM` opens those five slots,
+and `MORE` returns to the catalog. Assignments live in versioned RAM and survive
+ordinary machine resets. `2ND+0` also opens a 26-character punctuation palette
+from home and inserts the selected character into the calling editor.
+
+Phase 9 occupies ROM bank 4. Its full RAM reservation, including framebuffer
+and stack, is 6,656 bytes, leaving 26,112 bytes free. Exact framebuffer goldens
+cover all four new screens, while behavioral tests cover every catalog entry,
+all string operations and conversions, character insertion, and custom-slot
+persistence.
+
 ## Clean-room rules
 
 - Do not copy or translate code, fonts, tables, layouts, or other data from a

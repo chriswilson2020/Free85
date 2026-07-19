@@ -48,6 +48,8 @@ for (let page = 0; page < pageCount; page += 1) {
         ? resolve(firmwareRoot, "banks/page2.asm")
       : page === 3
         ? resolve(firmwareRoot, "banks/page3.asm")
+      : page === 4
+        ? resolve(firmwareRoot, "banks/page4.asm")
       : resolve(firmwareRoot, "banks/empty.asm");
   const args = [
     "--nologo",
@@ -85,16 +87,16 @@ if (rom.length !== pageSize * pageCount) {
 await writeFile(romPath, rom);
 await writeFile(resolve(generatedRoot, "free85.map"), `${mapSections.join("\n")}\n`);
 await writeFile(resolve(generatedRoot, "usage.json"), `${JSON.stringify({
-  phase: 8,
+  phase: 9,
   rom_bytes: rom.length,
   page_size: pageSize,
   pages: usage,
   ram: {
-    system_state_bytes: 4864,
+    system_state_bytes: 5376,
     stack_reserved_bytes: 256,
     framebuffer_bytes: 1024,
-    phase8_reserved_bytes: 6144,
-    free_bytes: 0x8000 - 6144
+    phase9_reserved_bytes: 6656,
+    free_bytes: 0x8000 - 6656
   }
 }, null, 2)}\n`);
 

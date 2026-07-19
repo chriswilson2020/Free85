@@ -16,11 +16,12 @@ The repository includes:
 
 ## Current status
 
-Phases 0-8 are implemented: boot/diagnostics, UI and editor, packed-BCD numeric
+Phases 0-9 are implemented: boot/diagnostics, UI and editor, packed-BCD numeric
 core, expression parsing, scientific functions, graphing, tables, numerical
 tools, complex numbers, lists, matrices, vectors, statistics, regression,
-statistical plots, simultaneous equations, and polynomial roots. Phase 9
-strings, catalog, and custom-menu work is next.
+statistical plots, simultaneous equations, polynomial roots, native strings,
+an alphabetical callable catalog, a character palette, and a persistent custom
+menu. Phase 10 programming is next.
 
 Graph tests compare exact 1,024-byte LCD framebuffers and reviewed lossless PNG
 goldens. Failures produce expected, actual, and red/blue diff images under

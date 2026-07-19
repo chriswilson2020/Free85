@@ -21,7 +21,11 @@ const screenCases = [
   { name: "phase7-vector-editor", keys: ["2ND", "8"] },
   { name: "phase8-statistics-editor", keys: ["STAT"] },
   { name: "phase8-simultaneous-editor", keys: ["2ND", "STAT"] },
-  { name: "phase8-polynomial-editor", keys: ["2ND", "PRGM"] }
+  { name: "phase8-polynomial-editor", keys: ["2ND", "PRGM"] },
+  { name: "phase9-strings-editor", keys: ["2ND", "6"] },
+  { name: "phase9-catalog", keys: ["2ND", "CUSTOM"] },
+  { name: "phase9-custom", keys: ["CUSTOM"] },
+  { name: "phase9-characters", keys: ["2ND", "0"] }
 ];
 
 function typeExpression(harness, expression) {

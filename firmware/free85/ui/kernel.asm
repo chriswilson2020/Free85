@@ -25,6 +25,10 @@ ui_handle_key:
     LD A, C
     JP Z, PHASE6_HANDLE_KEY
     LD A, (UI_SCREEN_MODE)
+    CP SCREEN_STRINGS
+    LD A, C
+    JP NC, ui_call_phase9_handle_key
+    LD A, (UI_SCREEN_MODE)
     CP SCREEN_STATISTICS
     LD A, C
     JP NC, ui_call_phase8_handle_key
@@ -114,6 +118,12 @@ ui_handle_second:
     JP Z, ui_open_simult
     CP KEY_PRGM
     JP Z, ui_open_polynomial
+    CP KEY_CUSTOM
+    JP Z, ui_open_catalog
+    CP KEY_6
+    JP Z, ui_open_strings
+    CP KEY_0
+    JP Z, ui_open_characters
     CP KEY_DIVIDE
     JP Z, ui_call_phase6_open_graph
     CP KEY_7
@@ -159,21 +169,21 @@ ui_handle_second:
 ui_handle_normal:
     LD B, A
     CP KEY_EXIT
-    JR Z, .exit
+    JP Z, .exit
     CP KEY_CLEAR
-    JR Z, .clear
+    JP Z, .clear
     CP KEY_MORE
-    JR Z, .more
+    JP Z, .more
     CP KEY_DEL
-    JR Z, .delete
+    JP Z, .delete
     CP KEY_LEFT
-    JR Z, .left
+    JP Z, .left
     CP KEY_RIGHT
-    JR Z, .right
+    JP Z, .right
     CP KEY_UP
-    JR Z, .history_up
+    JP Z, .history_up
     CP KEY_DOWN
-    JR Z, .history_down
+    JP Z, .history_down
     CP KEY_ENTER
     JP Z, ui_evaluate
     CP KEY_ON
@@ -182,6 +192,8 @@ ui_handle_normal:
     JP Z, ui_call_phase6_open_graph
     CP KEY_STAT
     JP Z, ui_open_statistics
+    CP KEY_CUSTOM
+    JP Z, ui_open_custom
     CP KEY_F5 + 1
     JR C, .soft_key
 
@@ -410,6 +422,35 @@ ui_open_polynomial:
     LD A, 3
     CALL bank_select
     JP PHASE8_OPEN_POLY
+
+ui_call_phase9_handle_key:
+    LD C, A
+    LD A, 4
+    CALL bank_select
+    LD A, C
+    JP PHASE9_HANDLE_KEY
+
+ui_open_strings:
+    LD A, 4
+    CALL bank_select
+    JP PHASE9_OPEN_STRINGS
+
+ui_open_catalog:
+    LD A, 4
+    CALL bank_select
+    JP PHASE9_OPEN_CATALOG
+
+ui_open_custom:
+    LD A, 4
+    CALL bank_select
+    JP PHASE9_OPEN_CUSTOM
+
+ui_open_characters:
+    LD A, SCREEN_HOME
+    LD (P9_RETURN_SCREEN), A
+    LD A, 4
+    CALL bank_select
+    JP PHASE9_OPEN_CHAR
 
 ; Blinks the cursor every 128 timer ticks while the home screen is active.
 ui_tick:

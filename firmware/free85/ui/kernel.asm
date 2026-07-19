@@ -24,6 +24,10 @@ ui_handle_key:
     CP SCREEN_TABLE
     LD A, C
     JP Z, PHASE6_HANDLE_KEY
+    LD A, (UI_SCREEN_MODE)
+    CP SCREEN_COMPLEX
+    LD A, C
+    JP NC, ui_call_phase7_handle_key
     LD B, A
     XOR A
     LD (UI_LAST_MODIFIER), A
@@ -99,11 +103,19 @@ ui_handle_second:
     LD (UI_LAST_MODIFIER), A
     LD A, B
     CP KEY_GRAPH
-    JP Z, PHASE6_SOLVE_HOME
+    JP Z, ui_call_phase6_solve
     CP KEY_CLEAR
-    JP Z, PHASE6_TOLERANCE_UI
+    JP Z, ui_call_phase6_tolerance
     CP KEY_DIVIDE
-    JP Z, PHASE6_OPEN_GRAPH
+    JP Z, ui_call_phase6_open_graph
+    CP KEY_7
+    JP Z, ui_open_matrix
+    CP KEY_8
+    JP Z, ui_open_vector
+    CP KEY_9
+    JP Z, ui_open_complex
+    CP KEY_MINUS
+    JP Z, ui_open_list
     CP KEY_EXIT
     JP Z, screen_show_home
     CP KEY_MORE
@@ -113,7 +125,7 @@ ui_handle_second:
     CALL ui_get_second_insert
     LD A, H
     OR L
-    JR Z, .planned
+    JP Z, .planned
     CALL editor_insert_string
     JP C, ui_notice_entry_full
     JP screen_show_home
@@ -159,7 +171,7 @@ ui_handle_normal:
     CP KEY_ON
     JP Z, ui_notice_awake
     CP KEY_GRAPH
-    JP Z, PHASE6_OPEN_GRAPH
+    JP Z, ui_call_phase6_open_graph
     CP KEY_F5 + 1
     JR C, .soft_key
 
@@ -167,7 +179,7 @@ ui_handle_normal:
     CALL ui_get_normal_insert
     LD A, H
     OR L
-    JR Z, .planned
+    JP Z, .planned
     CALL editor_insert_string
     JP C, ui_notice_entry_full
     JP screen_show_home
@@ -214,6 +226,17 @@ ui_handle_normal:
     JP C, ui_notice_history
     JP screen_show_home
 .soft_key:
+    LD A, (UI_MENU_PAGE)
+    OR A
+    JR Z, .soft_regular
+    LD A, B
+    CP KEY_F1
+    JP Z, ui_open_list
+    CP KEY_F2
+    JP Z, ui_open_matrix
+    CP KEY_F3
+    JP Z, ui_open_vector
+.soft_regular:
     LD A, (UI_MENU_PAGE)
     OR A
     LD A, B
@@ -309,6 +332,50 @@ ui_get_alpha_character:
     ADD HL, DE
     LD A, (HL)
     RET
+
+; Banked application entry wrappers. Home/UI code is fixed, so every entry
+; explicitly maps the bank it expects instead of relying on the last screen.
+ui_call_phase6_open_graph:
+    LD A, 1
+    CALL bank_select
+    JP PHASE6_OPEN_GRAPH
+
+ui_call_phase6_tolerance:
+    LD A, 1
+    CALL bank_select
+    JP PHASE6_TOLERANCE_UI
+
+ui_call_phase6_solve:
+    LD A, 1
+    CALL bank_select
+    JP PHASE6_SOLVE_HOME
+
+ui_call_phase7_handle_key:
+    LD C, A
+    LD A, 2
+    CALL bank_select
+    LD A, C
+    JP PHASE7_HANDLE_KEY
+
+ui_open_complex:
+    LD A, 2
+    CALL bank_select
+    JP PHASE7_OPEN_COMPLEX
+
+ui_open_list:
+    LD A, 2
+    CALL bank_select
+    JP PHASE7_OPEN_LIST
+
+ui_open_matrix:
+    LD A, 2
+    CALL bank_select
+    JP PHASE7_OPEN_MATRIX
+
+ui_open_vector:
+    LD A, 2
+    CALL bank_select
+    JP PHASE7_OPEN_VECTOR
 
 ; Blinks the cursor every 128 timer ticks while the home screen is active.
 ui_tick:

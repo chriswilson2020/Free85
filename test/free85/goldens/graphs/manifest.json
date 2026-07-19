@@ -30,6 +30,42 @@
       "frames": 1100,
       "litPixelCount": 302,
       "checksum": "1F8749D6"
+    },
+    {
+      "name": "phase7-complex-editor",
+      "keys": [
+        "2ND",
+        "9"
+      ],
+      "litPixelCount": 676,
+      "checksum": "C8D972A5"
+    },
+    {
+      "name": "phase7-list-editor",
+      "keys": [
+        "2ND",
+        "-"
+      ],
+      "litPixelCount": 720,
+      "checksum": "0367066F"
+    },
+    {
+      "name": "phase7-matrix-editor",
+      "keys": [
+        "2ND",
+        "7"
+      ],
+      "litPixelCount": 735,
+      "checksum": "888293D3"
+    },
+    {
+      "name": "phase7-vector-editor",
+      "keys": [
+        "2ND",
+        "8"
+      ],
+      "litPixelCount": 723,
+      "checksum": "3BC82107"
     }
   ]
 }

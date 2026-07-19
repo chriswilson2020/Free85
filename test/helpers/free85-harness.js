@@ -62,4 +62,17 @@ export class Free85Harness {
       (_, index) => this.machine.read8(FREE85_RESULT_BUFFER_ADDRESS + index)
     ));
   }
+
+  packedNumber(address) {
+    const sign = (this.machine.read8(address) & 0x80) === 0 ? 1 : -1;
+    const exponentByte = this.machine.read8(address + 1);
+    const exponent = exponentByte < 0x80 ? exponentByte : exponentByte - 0x100;
+    const digits = [];
+    for (let index = 0; index < 7; index += 1) {
+      const byte = this.machine.read8(address + 2 + index);
+      digits.push(byte >>> 4, byte & 0x0f);
+    }
+    if (digits.every((digit) => digit === 0)) return 0;
+    return sign * Number(`${digits[0]}.${digits.slice(1).join("")}`) * (10 ** exponent);
+  }
 }

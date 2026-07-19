@@ -16,9 +16,10 @@ The repository includes:
 
 ## Current status
 
-Phases 0-6 are implemented: boot/diagnostics, UI and editor, packed-BCD numeric
-core, expression parsing, scientific functions, graphing, tables, and numerical
-tools. Phase 7 (complex numbers, lists, matrices, and vectors) is next.
+Phases 0-7 are implemented: boot/diagnostics, UI and editor, packed-BCD numeric
+core, expression parsing, scientific functions, graphing, tables, numerical
+tools, complex numbers, lists, matrices, and vectors. Phase 8 statistics and
+specialist solvers are next.
 
 Graph tests compare exact 1,024-byte LCD framebuffers and reviewed lossless PNG
 goldens. Failures produce expected, actual, and red/blue diff images under

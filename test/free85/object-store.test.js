@@ -1,5 +1,4 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
 import test from "node:test";
 import { FREE85_BOOT_FRAMES, Free85Harness } from "../helpers/free85-harness.js";
 import { assertLcdGolden } from "../helpers/lcd-visual.js";
@@ -14,14 +13,19 @@ const HEAP_LIMIT = 0xfb00;
 const VARIABLES = 0x8218;
 const NAME_BUFFER = 0x80c0;
 
-const symbols = new Map(readFileSync("firmware/free85/generated/page7.sym", "utf8")
-  .split("\n")
-  .map((line) => line.match(/^([a-zA-Z0-9_]+): EQU 0x([0-9A-Fa-f]+)$/))
-  .filter(Boolean)
-  .map((match) => [match[1], Number.parseInt(match[2], 16)]));
+// Bank 7's public jump table is part of the firmware ABI. Tests deliberately
+// use it instead of assembler-generated symbol files, which are not required
+// in a clean checkout running the checked-in ROM.
+const STORE_ENTRY_POINTS = new Map([
+  ["phase14_create", 0x400e],
+  ["phase14_lookup", 0x4011],
+  ["phase14_delete", 0x4014],
+  ["phase14_resize", 0x4017],
+  ["phase14_compact", 0x401a]
+]);
 
 function callStore(machine, name, { A = 0, BC = 0, HL = 0 } = {}) {
-  const address = symbols.get(name);
+  const address = STORE_ENTRY_POINTS.get(name);
   assert.ok(address, `missing ${name}`);
   machine.writePort(0x05, 7);
   machine.write8(0x800a, 7);

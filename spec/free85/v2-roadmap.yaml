@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "release": "2.0.0",
+  "umbrellaPhase": 14,
+  "requires": ["phase-13-oracle-validation"],
+  "completionRule": "All applicable v2 parity gaps are equivalent and every work-package gate passes",
+  "workPackages": [
+    {
+      "id": "14.0",
+      "name": "command-level-parity-ledger",
+      "dependsOn": [],
+      "owns": ["parity.ledger"],
+      "gates": ["every guidebook entry classified", "every applicable entry has an owner", "clean-room exclusions explicit"]
+    },
+    {
+      "id": "14.1",
+      "name": "object-store-names-capacity",
+      "dependsOn": ["14.0"],
+      "owns": ["storage.objects", "storage.capacity", "memory.browser"],
+      "gates": ["typed objects persist across reset", "schema migration is transactional", "low-memory failures preserve data"]
+    },
+    {
+      "id": "14.2",
+      "name": "numeric-modes-bases-boolean",
+      "dependsOn": ["14.1"],
+      "owns": ["numeric.utilities", "numeric.calculus", "mode.display", "base.full", "base.boolean"],
+      "gates": ["independent numeric vectors pass", "all display modes round deterministically", "base boundary properties pass"]
+    },
+    {
+      "id": "14.3",
+      "name": "shared-graph-engine",
+      "dependsOn": ["14.1", "14.2"],
+      "owns": ["graph.core", "graph.format", "graph.zoom"],
+      "gates": ["Cartesian goldens unchanged or reviewed", "discontinuities remain isolated", "all redraws are cancellable"]
+    },
+    {
+      "id": "14.4",
+      "name": "graph-drawing-persistence",
+      "dependsOn": ["14.3"],
+      "owns": ["graph.draw", "graph.persistence"],
+      "gates": ["every drawing primitive has a golden", "picture/database round trips are exact", "drawing is program-callable"]
+    },
+    {
+      "id": "14.5",
+      "name": "polar-parametric-diffeq",
+      "dependsOn": ["14.3"],
+      "owns": ["graph.polar", "graph.parametric", "graph.diffeq", "coordinates.modes"],
+      "gates": ["each mode edits plots traces and tables", "mode-specific variables persist", "oracle semantic cases are classified"]
+    },
+    {
+      "id": "14.6",
+      "name": "collections-linear-algebra",
+      "dependsOn": ["14.1", "14.2"],
+      "owns": ["list.complete", "matrix.complete", "vector.complete", "complex.collections"],
+      "gates": ["independent linear-algebra residuals pass", "dimension errors recover", "complex collection values round trip"]
+    },
+    {
+      "id": "14.7",
+      "name": "solver-statistics",
+      "dependsOn": ["14.2", "14.3", "14.6"],
+      "owns": ["solver.complete", "statistics.models", "statistics.commands", "statistics.xyline"],
+      "gates": ["all regression coefficients match references", "forecast and solver residuals pass", "invalid samples recover"]
+    },
+    {
+      "id": "14.8",
+      "name": "programming-language",
+      "dependsOn": ["14.4", "14.5", "14.6", "14.7"],
+      "owns": ["program.control", "program.io", "program.catalog", "equation.string"],
+      "gates": ["every new callable surface runs in programs", "runaway programs remain interruptible", "error lines remain exact"]
+    },
+    {
+      "id": "14.9",
+      "name": "constants-characters-memory-link",
+      "dependsOn": ["14.1", "14.8"],
+      "owns": ["constants.user", "characters.extended", "memory.complete", "link.transfer", "link.backup"],
+      "gates": ["objects survive transfer and backup", "duplicate and low-memory recovery pass", "two-machine fault-injected loopback passes"]
+    },
+    {
+      "id": "14.10",
+      "name": "release-hardening",
+      "dependsOn": ["14.0", "14.1", "14.2", "14.3", "14.4", "14.5", "14.6", "14.7", "14.8", "14.9"],
+      "owns": ["release.2.0"],
+      "gates": ["zero applicable missing or partial gaps", "public private visual stress soak and performance lanes pass", "ROM Pages and reports reproduce from clean checkout"]
+    }
+  ]
+}

@@ -64,3 +64,10 @@ determinants/transposition/multiplication/inversion/RREF/linear solving, and
 vector norm/dot/cross/angle operations. Error vectors assert recoverable
 dimension and singularity dialogs. Collection maximums and population standard
 deviation semantics are documented in the firmware guide.
+
+Phase 11 performs the final parity audit. It rejects any remaining `planned`
+feature, requires every feature to carry an implementation, documentation, and
+stable test identifier, and exercises the final system, memory, menu, lowercase
+alpha, native link, power, previous-entry, number-base, and comparison paths.
+The generated report must show 100 percent registered physical keys, shifted
+functions, and alpha mappings, plus 100 percent complete features with tests.

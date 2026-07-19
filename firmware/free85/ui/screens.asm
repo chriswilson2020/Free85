@@ -51,6 +51,16 @@ screen_show_home:
     JP editor_toggle_cursor
 
 screen_draw_status:
+    LD A, (P11_DISPLAY_MODE)
+    OR A
+    JR Z, .auto_format
+    LD A, (ANGLE_MODE)
+    OR A
+    LD HL, text_status_rad_sci
+    JR Z, .angle_ready
+    LD HL, text_status_deg_sci
+    JR .angle_ready
+.auto_format:
     LD A, (ANGLE_MODE)
     OR A
     LD HL, text_status_rad
@@ -78,6 +88,13 @@ screen_draw_status:
     JR Z, .draw_alpha
     LD HL, text_alpha_lock_status
 .draw_alpha:
+    BIT 3, A
+    JR Z, .alpha_case_ready
+    LD HL, text_alpha_lower_status
+    BIT 2, A
+    JR Z, .alpha_case_ready
+    LD HL, text_alpha_lower_lock_status
+.alpha_case_ready:
     LD B, 13
     LD C, 0
     CALL text_draw_string
@@ -160,9 +177,13 @@ text_calculator:  DB "CALCULATOR", 0
 text_home:        DB "FREE85 HOME", 0
 text_status_rad:  DB "RAD AUTO", 0
 text_status_deg:  DB "DEG AUTO", 0
+text_status_rad_sci: DB "RAD SCI", 0
+text_status_deg_sci: DB "DEG SCI", 0
 text_second_status: DB "2ND", 0
 text_alpha_status: DB "A", 0
+text_alpha_lower_status: DB "a", 0
 text_alpha_lock_status: DB "LOCK", 0
+text_alpha_lower_lock_status: DB "lock", 0
 text_insert_status: DB "INS", 0
 text_overwrite_status: DB "OVR", 0
 text_feature_planned: DB "FEATURE PLANNED", 0

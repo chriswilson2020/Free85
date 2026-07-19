@@ -12,6 +12,12 @@ TOKEN_LPAREN     EQU 8
 TOKEN_RPAREN     EQU 9
 TOKEN_ARROW      EQU 10
 TOKEN_COMMA      EQU 11
+TOKEN_EQUAL      EQU 12
+TOKEN_NOT_EQUAL  EQU 13
+TOKEN_LESS       EQU 14
+TOKEN_LESS_EQUAL EQU 15
+TOKEN_GREATER    EQU 16
+TOKEN_GREATER_EQUAL EQU 17
 
 LEX_PTR          EQU PARSER_STATE + 0
 LEX_REMAIN       EQU PARSER_STATE + 2
@@ -67,7 +73,7 @@ lexer_tokenize:
     LD C, 1
     CP '+'
     LD A, TOKEN_PLUS
-    JR Z, .emit_operator
+    JP Z, .emit_operator
     LD A, (HL)
     CP '-'
     JR NZ, .not_minus
@@ -81,35 +87,90 @@ lexer_tokenize:
     JR NZ, .minus
     LD A, TOKEN_ARROW
     LD C, 2
-    JR .emit_operator
+    JP .emit_operator
 .minus:
     LD A, TOKEN_MINUS
-    JR .emit_operator
+    JP .emit_operator
 .not_minus:
     LD A, (HL)
     CP '*'
     LD A, TOKEN_MULTIPLY
-    JR Z, .emit_operator
+    JP Z, .emit_operator
     LD A, (HL)
     CP '/'
     LD A, TOKEN_DIVIDE
-    JR Z, .emit_operator
+    JP Z, .emit_operator
     LD A, (HL)
     CP '^'
     LD A, TOKEN_POWER
-    JR Z, .emit_operator
+    JP Z, .emit_operator
     LD A, (HL)
     CP '('
     LD A, TOKEN_LPAREN
-    JR Z, .emit_operator
+    JP Z, .emit_operator
     LD A, (HL)
     CP ')'
     LD A, TOKEN_RPAREN
-    JR Z, .emit_operator
+    JP Z, .emit_operator
     LD A, (HL)
     CP ','
     LD A, TOKEN_COMMA
-    JR Z, .emit_operator
+    JP Z, .emit_operator
+    LD A, (HL)
+    CP '='
+    LD A, TOKEN_EQUAL
+    JP Z, .emit_operator
+    LD A, (HL)
+    CP '<'
+    JR NZ, .not_less
+    INC HL
+    LD A, (LEX_REMAIN)
+    CP 2
+    JR C, .less
+    LD A, (HL)
+    DEC HL
+    CP '='
+    JR NZ, .less
+    LD A, TOKEN_LESS_EQUAL
+    LD C, 2
+    JP .emit_operator
+.less:
+    LD A, TOKEN_LESS
+    JP .emit_operator
+.not_less:
+    LD A, (HL)
+    CP '>'
+    JR NZ, .not_greater
+    INC HL
+    LD A, (LEX_REMAIN)
+    CP 2
+    JR C, .greater
+    LD A, (HL)
+    DEC HL
+    CP '='
+    JR NZ, .greater
+    LD A, TOKEN_GREATER_EQUAL
+    LD C, 2
+    JP .emit_operator
+.greater:
+    LD A, TOKEN_GREATER
+    JP .emit_operator
+.not_greater:
+    LD A, (HL)
+    CP '!'
+    JR NZ, .invalid_operator
+    INC HL
+    LD A, (LEX_REMAIN)
+    CP 2
+    JR C, .invalid_operator
+    LD A, (HL)
+    DEC HL
+    CP '='
+    JR NZ, .invalid_operator
+    LD A, TOKEN_NOT_EQUAL
+    LD C, 2
+    JR .emit_operator
+.invalid_operator:
     JP numeric_syntax_error
 .emit_operator:
     PUSH BC
@@ -367,16 +428,132 @@ parser_negate_top:
     OR A
     RET
 
-; assignment -> addition [ ARROW identifier ]
+; assignment -> comparison [ ARROW identifier ]
 parser_parse_assignment:
-    CALL parser_parse_addition
+    CALL parser_parse_comparison
     RET C
     CALL parser_current_type
     CP TOKEN_ARROW
-    JR Z, .assignment
+    JP Z, parser_assignment_store
     OR A
     RET
-.assignment:
+
+; comparison -> addition [ relation addition ]
+parser_parse_comparison:
+    CALL parser_parse_addition
+    RET C
+    CALL parser_current_type
+    CP TOKEN_EQUAL
+    JR C, .done
+    CP TOKEN_GREATER_EQUAL + 1
+    JR NC, .done
+    LD (PARSE_OPERATOR), A
+    CALL parser_advance
+    CALL parser_parse_addition
+    RET C
+    JP parser_apply_comparison
+.done:
+    OR A
+    RET
+
+parser_apply_comparison:
+    LD DE, NUM_RIGHT
+    CALL parser_pop
+    RET C
+    LD DE, NUM_LEFT
+    CALL parser_pop
+    RET C
+    CALL parser_compare_values
+    LD B, A
+    LD HL, NUM_RESULT
+    LD BC, NUM_SIZE
+    PUSH AF
+    CALL numeric_clear_bytes
+    POP AF
+    LD B, A
+    LD A, (PARSE_OPERATOR)
+    CP TOKEN_EQUAL
+    JR Z, .equal
+    CP TOKEN_NOT_EQUAL
+    JR Z, .not_equal
+    CP TOKEN_LESS
+    JR Z, .less
+    CP TOKEN_LESS_EQUAL
+    JR Z, .less_equal
+    CP TOKEN_GREATER
+    JR Z, .greater
+    LD A, B
+    CP $FF
+    JR Z, .false
+    JR .true
+.equal:
+    LD A, B
+    OR A
+    JR Z, .true
+    JR .false
+.not_equal:
+    LD A, B
+    OR A
+    JR NZ, .true
+    JR .false
+.less:
+    LD A, B
+    CP $FF
+    JR Z, .true
+    JR .false
+.less_equal:
+    LD A, B
+    CP 1
+    JR NZ, .true
+    JR .false
+.greater:
+    LD A, B
+    CP 1
+    JR Z, .true
+    JR .false
+.true:
+    LD A, $10
+    LD (NUM_RESULT + NUM_DIGITS), A
+.false:
+    JP parser_push_result
+
+; Returns A=$FF when left<right, 0 equal, 1 left>right.
+parser_compare_values:
+    LD A, (NUM_LEFT + NUM_FLAGS)
+    AND NUM_SIGN
+    LD B, A
+    LD (PARSE_VARIABLE), A
+    LD A, (NUM_RIGHT + NUM_FLAGS)
+    AND NUM_SIGN
+    CP B
+    JR Z, .same_sign
+    LD A, B
+    OR A
+    LD A, 1
+    RET Z
+    LD A, $FF
+    RET
+.same_sign:
+    CALL numeric_compare_magnitude
+    JR Z, .equal
+    JR C, .magnitude_less
+    LD A, (PARSE_VARIABLE)
+    OR A
+    LD A, 1
+    RET Z
+    LD A, $FF
+    RET
+.magnitude_less:
+    LD A, (PARSE_VARIABLE)
+    OR A
+    LD A, $FF
+    RET Z
+    LD A, 1
+    RET
+.equal:
+    XOR A
+    RET
+parser_assignment_store:
     CALL parser_advance
     CALL parser_current_type
     CP TOKEN_IDENTIFIER

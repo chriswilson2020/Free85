@@ -43,8 +43,9 @@ features that are not implemented yet.
 
 Later phases add the calculator kernel, numeric model, expression language,
 scientific functions, graphing, collections, statistics, solvers, strings,
-catalog/custom menus, and programming environment. A later integration phase
-changes the website default only after the diagnostic firmware is reliable.
+catalog/custom menus, and programming environment. Phase 11 completes system,
+memory, link, power, and every remaining key/menu surface; the website then
+ships Free85 as its default ROM.
 
 ## Definition of a complete feature
 

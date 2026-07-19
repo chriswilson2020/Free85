@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "name": "Free85",
+  "version": "1.0.0",
+  "phase": 12,
+  "license": "MIT",
+  "rom": {
+    "path": "ROM/FREE85.ROM",
+    "bytes": 131072,
+    "sha256": "cefee82f5264ba376e32cec81f009a758e9dfda4eb1efb7bf4312887f92ecc06",
+    "banks": 8,
+    "bank_bytes": 16384
+  },
+  "source": "firmware/free85/",
+  "build_instructions": "README.md#build-the-rom",
+  "coverage_report": "spec/free85/coverage.json",
+  "performance_report": "spec/free85/performance.json",
+  "known_limitations": "docs/known-limitations.md",
+  "notices": [
+    "LICENSE",
+    "NOTICE.md",
+    "firmware/free85/LICENSE"
+  ],
+  "browser_default": "public/ti85-app.js"
+}

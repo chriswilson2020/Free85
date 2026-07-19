@@ -1,18 +1,24 @@
 {
   "name": "free85",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "license": "MIT",
   "type": "module",
   "scripts": {
     "build:pages": "node scripts/build-pages.js",
     "build:free85": "node scripts/build-free85.js",
+    "benchmark:free85": "node scripts/free85-performance.js",
     "coverage:free85": "node scripts/free85-coverage.js",
     "dev": "node scripts/dev-server.js",
     "run:free85": "node scripts/run-free85.js",
+    "release:free85": "npm run build:free85 && npm run coverage:free85 && npm run update:free85:performance && npm run update:free85:release && npm test && npm run test:free85:stress && npm run test:free85:soak && npm run build:pages",
     "test": "node --test test/free85/*.test.js",
     "test:free85": "node --test test/free85/*.test.js",
     "test:free85:soak": "node scripts/free85-soak.js",
-    "update:free85:goldens": "node scripts/update-free85-graph-goldens.js"
+    "test:free85:stress": "node scripts/free85-stress.js",
+    "update:free85:performance": "node scripts/free85-performance.js --write",
+    "update:free85:release": "node scripts/free85-release.js --write",
+    "update:free85:goldens": "node scripts/update-free85-graph-goldens.js",
+    "validate:free85": "npm test && npm run benchmark:free85 && npm run test:free85:stress && npm run test:free85:soak"
   }
 }

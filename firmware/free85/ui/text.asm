@@ -33,11 +33,13 @@ text_draw_char:
     PUSH AF
     LD A, B
     CP TEXT_COLUMNS
-    JR NC, .discard
+    JP NC, .discard
     LD A, C
     CP TEXT_ROWS
-    JR NC, .discard
+    JP NC, .discard
     POP AF
+    CP ' '
+    RET Z                       ; spaces are transparent on the cleared canvas
     CP 32
     JR NC, .lower_ok
     LD A, '?'

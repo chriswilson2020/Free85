@@ -45,7 +45,9 @@ Later phases add the calculator kernel, numeric model, expression language,
 scientific functions, graphing, collections, statistics, solvers, strings,
 catalog/custom menus, and programming environment. Phase 11 completes system,
 memory, link, power, and every remaining key/menu surface; the website then
-ships Free85 as its default ROM.
+ships Free85 as its default ROM. Phase 12 measures and optimises hot paths,
+publishes the reproducible 1.0 release bundle, and locks release completeness,
+performance, stress, soak, and browser-default behavior into validation.
 
 ## Definition of a complete feature
 

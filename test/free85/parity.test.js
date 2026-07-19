@@ -13,7 +13,7 @@ const VARIABLES_ADDRESS = 0x8218;
 const P11_DISPLAY_MODE_ADDRESS = 0x9d03;
 const P11_CONTRAST_ADDRESS = 0x9d04;
 const P11_LINK_STATE_ADDRESS = 0x9d05;
-const P11_OUTPUT_BUFFER_ADDRESS = 0x9d60;
+const P11_OUTPUT_BUFFER_ADDRESS = 0x9d36;
 const DIALOG_KIND_ADDRESS = 0x8019;
 
 function shifted(harness, key) {
@@ -183,7 +183,7 @@ test("[parity.variables-memory] variable recall and scoped memory clearing work"
   shifted(fullReset, "+");
   fullReset.tap("F4");
   fullReset.runFrames(35);
-  assert.equal(fullReset.machine.read8(0x8003), 11);
+  assert.equal(fullReset.machine.read8(0x8003), 12);
   assert.equal(fullReset.packedNumber(VARIABLES_ADDRESS), 0);
 });
 

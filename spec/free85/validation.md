@@ -89,3 +89,12 @@ deterministic numeric vectors and five application-state probes; the existing
 public suite remains authoritative for errors, screen goldens, stress, soak,
 timing, and every Free85 feature. `guidebook-coverage.yaml` separately records
 equivalent, divergent, out-of-scope, and hardware-dependent guidebook areas.
+
+Phase 14.0 replaces the coarse chapter summary with a command-level Free85 2.0
+ledger. Every inventoried function, instruction, mode, semantic family, and
+major workflow has exactly one classification. An `equivalent` group requires
+implementation evidence; partial, missing, and hardware-dependent groups must
+name a registered 2.0 gap owner and a concrete completion target. The generated
+`v2-parity-report.json` is rejected when stale. Phase 14.0 also makes explicit
+bad ROM paths, uncertain OCR cells, and failed application-state probes fatal
+to private oracle runs.

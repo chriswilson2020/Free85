@@ -79,7 +79,7 @@ export function readRightAlignedNumber(bitmap, options = {}) {
     .filter(({ lastColumn, text }) => lastColumn >= 18 && /^[-0-9.E?]+$/.test(text) && !/^\?+$/.test(text));
   if (candidates.length === 0) return null;
   const candidate = candidates[candidates.length - 1];
-  return { ...candidate, value: candidate.text.replace(/\?/g, "") };
+  return { ...candidate, value: candidate.text.includes("?") ? null : candidate.text };
 }
 
 export function bitmapToPbm(bitmap) {

@@ -3,6 +3,8 @@ node_modules/
 dist/
 npm-debug.log*
 test-results/
+oracle-results/
+TI85.ROM
 firmware/free85/generated/*.bin
 firmware/free85/generated/*.lst
 firmware/free85/generated/*.sym

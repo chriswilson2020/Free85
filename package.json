@@ -16,9 +16,11 @@
     "test:free85": "node --test test/free85/*.test.js",
     "test:free85:soak": "node scripts/free85-soak.js",
     "test:free85:stress": "node scripts/free85-stress.js",
+    "test:free85:oracle": "node scripts/free85-oracle.js --full",
     "update:free85:performance": "node scripts/free85-performance.js --write",
     "update:free85:release": "node scripts/free85-release.js --write",
     "update:free85:goldens": "node scripts/update-free85-graph-goldens.js",
-    "validate:free85": "npm test && npm run benchmark:free85 && npm run test:free85:stress && npm run test:free85:soak"
+    "validate:free85": "npm test && npm run benchmark:free85 && npm run test:free85:stress && npm run test:free85:soak",
+    "validate:free85:complete": "npm run validate:free85 && npm run test:free85:oracle"
   }
 }

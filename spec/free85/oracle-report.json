@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "phase": 13,
+  "observedOn": "2026-07-19",
+  "cleanRoom": true,
+  "oracleRom": {
+    "size": 131072,
+    "sha256": "9522c3a5378448a8a716c036ff09574d961ff9dc68ca1497781d2b3e629e6b78",
+    "contentsRetained": false
+  },
+  "differential": {
+    "numericVectors": 270,
+    "equivalent": 270,
+    "free85Regressions": 0,
+    "unreadableObservations": 0,
+    "unresolvedDivergences": 0,
+    "applicationStateProbes": 5,
+    "applicationStateProbesPassed": 5
+  },
+  "publicValidation": {
+    "tests": 88,
+    "passed": 88,
+    "keyStressEvents": 10000,
+    "soakFrames": 9000,
+    "soakEmulatedSeconds": 180,
+    "performanceGatesPassed": true
+  },
+  "guidebookTraceability": {
+    "equivalent": 12,
+    "intentionalDivergence": 4,
+    "notInFree85": 3,
+    "hardwareDependent": 1
+  },
+  "notes": [
+    "Counts are semantic observations, not pixel-equality claims.",
+    "No proprietary ROM bytes, screenshots, glyphs, disassembly, or binary fixtures are retained.",
+    "Out-of-scope guidebook areas are not counted as Free85 regressions."
+  ]
+}

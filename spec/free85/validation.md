@@ -79,3 +79,13 @@ manifest, 10,000 automated key events without corruption or stack escape, the
 180-second emulated soak, complete licence and limitations documents, and a
 static-site build whose default ROM is Free85. Performance optimisation may not
 change accepted numerical vectors or reviewed LCD framebuffer goldens.
+
+Phase 13 adds an optional clean-room oracle lane. When `TI85_ORACLE_ROM` names
+a user-owned 128 KiB ROM, the harness boots it through the public calculator
+interface, sends physical key sequences, calibrates an in-memory numeric OCR
+reader, and compares semantic results with Free85 and independent expected
+values. It stores no ROM bytes or TI glyph fixtures. The full lane covers 270
+deterministic numeric vectors and five application-state probes; the existing
+public suite remains authoritative for errors, screen goldens, stress, soak,
+timing, and every Free85 feature. `guidebook-coverage.yaml` separately records
+equivalent, divergent, out-of-scope, and hardware-dependent guidebook areas.

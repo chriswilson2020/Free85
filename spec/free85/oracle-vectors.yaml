@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Clean-room semantic vectors for optional comparison with a user-supplied TI-85 ROM",
+  "fixed": [
+    { "id": "arith-add", "chapter": 3, "topic": "arithmetic", "expression": "2+3", "expected": "5" },
+    { "id": "arith-subtract", "chapter": 3, "topic": "arithmetic", "expression": "5-12", "expected": "-7" },
+    { "id": "arith-multiply", "chapter": 3, "topic": "arithmetic", "expression": "12*12", "expected": "144" },
+    { "id": "arith-divide", "chapter": 3, "topic": "arithmetic", "expression": "1/4", "expected": "0.25" },
+    { "id": "decimal-add", "chapter": 3, "topic": "decimal arithmetic", "expression": "0.1+0.2", "expected": "0.3" },
+    { "id": "decimal-subtract", "chapter": 3, "topic": "decimal arithmetic", "expression": "12.5-2.75", "expected": "9.75" },
+    { "id": "precedence-1", "chapter": 3, "topic": "operator precedence", "expression": "2+3*4", "expected": "14" },
+    { "id": "precedence-2", "chapter": 3, "topic": "parentheses", "expression": "(2+3)*4", "expected": "20" },
+    { "id": "negative-add", "chapter": 3, "topic": "negative numbers", "expression": "-2+5", "expected": "3" },
+    { "id": "negative-product", "chapter": 3, "topic": "negative numbers", "expression": "-2*-3", "expected": "6" },
+    { "id": "integer-power", "chapter": 3, "topic": "powers", "expression": "2^9", "expected": "512" },
+    { "id": "zero-power", "chapter": 3, "topic": "powers", "expression": "2^0", "expected": "1" },
+    { "id": "fraction-third", "chapter": 3, "topic": "rounding", "expression": "2/3", "expected": "0.66666666666667", "comparison": "numeric-tolerance" },
+    { "id": "large-product", "chapter": 3, "topic": "precision", "expression": "999*999", "expected": "998001" }
+  ],
+  "generated": {
+    "seed": 851985,
+    "count": 256,
+    "integerRange": [-9999, 9999],
+    "operators": ["+", "-", "*", "/"],
+    "excludeZeroDivisors": true,
+    "comparison": "numeric-tolerance"
+  },
+  "stateVectors": [
+    { "id": "screen-graph", "chapter": 4, "keys": ["GRAPH"], "assertion": "screen-changes-and-remains-readable" },
+    { "id": "screen-stat", "chapter": 15, "keys": ["STAT"], "assertion": "screen-changes-and-remains-readable" },
+    { "id": "screen-program", "chapter": 16, "keys": ["PRGM"], "assertion": "screen-changes-and-remains-readable" },
+    { "id": "screen-custom", "chapter": 17, "keys": ["CUSTOM"], "assertion": "screen-changes-and-remains-readable" },
+    { "id": "screen-mode", "chapter": 1, "keys": ["2ND", "MORE"], "assertion": "screen-changes-and-remains-readable" }
+  ]
+}

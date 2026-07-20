@@ -70,6 +70,65 @@ export const SCREEN_CASES = [
     keys: ["2ND", "7", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER", "F3", 600]
   },
   { name: "ch13-vector-editor", keys: ["2ND", "8", "3", "ENTER", "4", "ENTER", "0", "ENTER"] },
+  // The polynomial editor holding x^2-5x+6; entry wraps back to COEFF 2.
+  {
+    name: "ch14-poly-editor",
+    keys: ["2ND", "PRGM", "1", "ENTER", "(-)", "5", "ENTER", "6", "ENTER"]
+  },
+  // x^2+2x+5 solved with F1; the frames let the root search finish before
+  // the browser opens on ROOT 1 (RE -1, IM 2).
+  {
+    name: "ch14-poly-roots",
+    keys: ["2ND", "PRGM", "1", "ENTER", "2", "ENTER", "5", "ENTER", "F1", 40000]
+  },
+  // The simultaneous editor holding the system 2x+y=5, x-y=1.
+  {
+    name: "ch14-simult-editor",
+    keys: ["2ND", "STAT", "2", "ENTER", "1", "ENTER", "5", "ENTER",
+      "1", "ENTER", "(-)", "1", "ENTER", "1", "ENTER"]
+  },
+  // The same system solved with F1: UNIQUE SOLUTION, X 2, Y 1.
+  {
+    name: "ch14-simult-result",
+    keys: ["2ND", "STAT", "2", "ENTER", "1", "ENTER", "5", "ENTER",
+      "1", "ENTER", "(-)", "1", "ENTER", "1", "ENTER", "F1", 1500]
+  },
+  // Five pairs (1,2)..(5,5): + grows the shared length to 5, ALPHA switches
+  // to the Y column. The capture wraps back to the Y column's first entry.
+  {
+    name: "ch15-stat-editor",
+    keys: ["STAT", "+", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER",
+      "5", "ENTER", "ALPHA", "2", "ENTER", "4", "ENTER", "5", "ENTER",
+      "4", "ENTER", "5", "ENTER"]
+  },
+  // The same pairs fitted with F3 (LIN): SLOPE 0.6, INTER 2.2.
+  {
+    name: "ch15-regression-result",
+    keys: ["STAT", "+", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER",
+      "5", "ENTER", "ALPHA", "2", "ENTER", "4", "ENTER", "5", "ENTER",
+      "4", "ENTER", "5", "ENTER", "F3", 800]
+  },
+  // The same pairs plotted with F4 (SCAT).
+  {
+    name: "ch15-scatter",
+    keys: ["STAT", "+", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER",
+      "5", "ENTER", "ALPHA", "2", "ENTER", "4", "ENTER", "5", "ENTER",
+      "4", "ENTER", "5", "ENTER", "F4", 600]
+  },
+  // The chapter's eight-value one-variable column, drawn with F5 (HIST) and
+  // with the third soft-key page's F5 (BOX).
+  {
+    name: "ch15-histogram",
+    keys: ["STAT", "+", "+", "+", "+", "2", "ENTER", "4", "ENTER", "4", "ENTER",
+      "4", "ENTER", "5", "ENTER", "5", "ENTER", "7", "ENTER", "9", "ENTER",
+      "F5", 600]
+  },
+  {
+    name: "ch15-box-plot",
+    keys: ["STAT", "+", "+", "+", "+", "2", "ENTER", "4", "ENTER", "4", "ENTER",
+      "4", "ENTER", "5", "ENTER", "5", "ENTER", "7", "ENTER", "9", "ENTER",
+      "MORE", "MORE", "F5", 600]
+  },
   { name: "ch18-memory-browser", keys: ["2ND", "+"] },
   { name: "manual-boot", keys: [] },
   { name: "manual-first-calc", keys: ["2", "+", "3", "ENTER"] },

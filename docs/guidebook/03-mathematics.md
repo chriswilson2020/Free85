@@ -4,11 +4,24 @@ This is the book's core reference for calculating with single numbers: the
 arithmetic operators and their precedence, powers and roots, logarithms,
 trigonometry, hyperbolic functions, factorials and combinatorics, the numeric
 utility functions, the comparison operators, and the numerical-calculus
-callables that analyse a stored function. Every example below was run on a
+commands that analyse a stored function. Every example below was run on a
 fresh machine, and every result is quoted exactly as the calculator displays
 it. Free85 works in fourteen significant decimal digits throughout; the
 display format only changes how a result is presented, never what is stored
 (see the mode screen in Chapter 1: Operating the Calculator).
+
+## Finding the functions
+
+The `MATH` menu ([F1] from the home screen, or the `MATH` legend on
+[2nd] [×]) holds the most-used scalar functions:
+
+![The MATH menu opened with F1](images/manual-soft-menu.png)
+
+Its first page carries `ABS(`, `SQRT(`, `FACT(`, `NPR(`, and `NCR(`, and
+its second page the hyperbolic family. Everything else in this chapter
+lives in the catalog ([2nd] [CUSTOM]), described in chapter 1. Wherever a
+function is filed, there is always a shortcut: every name in this chapter
+can simply be typed letter by letter with [ALPHA].
 
 ## Arithmetic and the order of operations
 
@@ -46,7 +59,9 @@ left to right as `(6/2)*PI` and answers `= 9.4247779607694`; parenthesise the
 denominator when you mean `6/(2PI)`.
 
 For very large and very small numbers, the [EE] key types the exponent
-marker `E`: `1E-3` answers `= 0.001` and `1E3+2` answers `= 1002`. Exponents
+marker `E`: `1E-3` answers `= 0.001` and `1E3+2` answers `= 1002`. (That is
+`E` between digits; standing alone, `E` names Euler's constant instead, as
+the logarithms section shows.) Exponents
 run from `-128` through `127`, and results that overflow that range stop
 with the `NUMERIC OVERFLOW` error screen rather than silently losing
 precision.
@@ -125,9 +140,9 @@ In `DEG` mode ([2nd] [MORE] [F1], status line `DEG AUTO`):
 The fourteen-digit arithmetic shows itself at the edges: in radians,
 `SIN(PI/2)` answers `= 0.9999999999939` rather than `1`, because `PI` itself
 is a fourteen-digit value; in degrees, `COS(60)` answers
-`= 0.49999999999989`. The tiny error is real and honest, and it is why
-results you know should be round sometimes miss by a whisker in the last
-digits.
+`= 0.49999999999989`. The tiny error is real, not a display artefact, and
+it is why results you know should be round sometimes miss by a whisker in
+the last digits.
 
 Each trigonometric function takes exactly one argument; `SIN(1,2)` answers
 `SYNTAX ERROR`. Out-of-range inverse arguments, such as `ASIN(2)`, answer
@@ -139,19 +154,9 @@ Conversions covers that menu in full.
 
 ## Hyperbolic functions
 
-The `MATH` menu ([F1] from the home screen, or the `MATH` legend on
-[2nd] [×]) holds the scalar function library:
-
-![The MATH menu opened with F1](images/manual-soft-menu.png)
-
-Page one carries `ABS(`, `SQRT(`, `FACT(`, `NPR(`, and `NCR(`; press [MORE]
-and page two carries the hyperbolic family: `SINH(`, `COSH(`, `TANH(`,
-`ASINH(`, and `ACOSH(`. The sixth member, `ATANH(`, lives in the catalog
-([2nd] [CUSTOM]), and, like every function in this chapter, they can all
-simply be typed letter by letter with [ALPHA].
-
-The hyperbolics take their argument as a plain number, unaffected by the
-angle mode:
+The `MATH` menu's second page carries `SINH(`, `COSH(`, `TANH(`, `ASINH(`,
+and `ACOSH(`. The sixth member, `ATANH(`, lives in the catalog. All six
+take their argument as a plain number, unaffected by the angle mode:
 
 - `SINH(1)` answers `= 1.1752011936434`.
 - `COSH(1)` answers `= 1.5430806348149`.
@@ -165,8 +170,8 @@ least 1, so `ACOSH(0.5)` answers `DOMAIN ERROR`, and so does `ATANH(1)`.
 
 ## Factorials, permutations, and combinations
 
-`FACT(`, on the `MATH` menu's first page, is Free85's spelling of the
-function other calculators list as `factorial` or `x!`:
+`FACT(`, on the `MATH` menu's first page, computes the factorial
+(elsewhere `factorial` or `x!`):
 
 - `FACT(0)` answers `= 1` and `FACT(5)` answers `= 120`.
 - The argument must be a whole number from 0 through 69: `FACT(2.5)` and
@@ -186,35 +191,33 @@ Both expect whole numbers with `r` no larger than `n`; `NCR(2,3)` answers
 
 ## Numeric utilities
 
-A family of utility functions rounds out the scalar toolkit. They live in
-the catalog ([2nd] [CUSTOM]) rather than on the `MATH` menu, and the quickest
-route is often to type the name with [ALPHA] or to keep your favourites on
-the custom menu (chapter 1). Every example below is a verified run:
+A family of utility functions rounds out the scalar toolkit. None of them
+sit on the `MATH` menu, so type the names with [ALPHA], paste them from the
+catalog, or keep your favourites on the custom menu (chapter 1):
 
 - **`ABS(`** strips the sign: `ABS(-7)` answers `= 7`.
-- **`INT(`** keeps the whole-number part, truncating toward zero:
-  `INT(12.9)` answers `= 12` and `INT(-12.9)` answers `= -12`. This is the
-  behaviour other calculators call `iPart`; Free85 has no separate
-  floor-style `int` that would round `-12.9` down to `-13`.
-- **`FRAC(`** keeps the fractional part, with the sign of its argument:
-  `FRAC(12.75)` answers `= 0.75` and `FRAC(-12.75)` answers `= -0.75`.
-  Other calculators list this as `fPart`.
+- **`INT(`** keeps the whole-number part, truncating toward zero
+  (elsewhere `iPart`): `INT(12.9)` answers `= 12` and `INT(-12.9)` answers
+  `= -12`. Free85 has no separate floor-style `int` that would round
+  `-12.9` down to `-13`.
+- **`FRAC(`** keeps the fractional part, with the sign of its argument
+  (elsewhere `fPart`): `FRAC(12.75)` answers `= 0.75` and `FRAC(-12.75)`
+  answers `= -0.75`.
 - **`ROUND(x,n)`** rounds to `n` decimal places, 0 through 11:
   `ROUND(PI,4)` answers `= 3.1416`.
 - **`SIGN(`** answers `= 1`, `= 0`, or `= -1`: `SIGN(-3)` answers `= -1`
   and `SIGN(0)` answers `= 0`.
-- **`MOD(x,y)`** is the remainder of `x` divided by `y` (the operation
-  other calculators spell `mod`), with the sign taken from `x`:
-  `MOD(17,5)` answers `= 2`, `MOD(-7,3)` answers `= -1`, and `MOD(7,-3)`
-  answers `= 1`. `MOD(5,0)` answers `DIVIDE BY ZERO`.
+- **`MOD(x,y)`** is the remainder of `x` divided by `y` (elsewhere
+  `mod`), with the sign taken from `x`: `MOD(17,5)` answers `= 2`,
+  `MOD(-7,3)` answers `= -1`, and `MOD(7,-3)` answers `= 1`. `MOD(5,0)`
+  answers `DIVIDE BY ZERO`.
 - **`GCD(` and `LCM(`** work on whole numbers: `GCD(84,30)` answers `= 6`
   and `LCM(6,8)` answers `= 24`.
 - **`MIN(` and `MAX(`** take exactly two arguments: `MIN(-2,3)` answers
   `= -2` and `MAX(-2,3)` answers `= 3`. (`MIN(1,2,3)` answers
   `SYNTAX ERROR`; nest calls for longer lists.)
-- **`PCT(x,p)`** is Free85's spelling of the operation other calculators
-  list as `percent`: it answers `p` percent of `x`, so `PCT(200,15)`
-  answers `= 30` and `PCT(80,25)` answers `= 20`.
+- **`PCT(x,p)`** answers `p` percent of `x` (elsewhere `percent`):
+  `PCT(200,15)` answers `= 30` and `PCT(80,25)` answers `= 20`.
 - **`ROOT(x,n)`**, described under powers and roots above, is the nth-root
   companion to this family.
 - **`RAND()`** returns a pseudo-random value between 0 and 1 with four
@@ -257,7 +260,7 @@ Chapter 16: Calculator Programming puts these operators to work in `If` and
 
 ## Numerical calculus
 
-Free85's calculus functions analyse the **active graph equation** rather
+Free85's calculus commands analyse the *active graph equation* rather
 than taking an expression as an argument. This is a deliberate design: the
 short forms keep expressions comfortably inside the entry line. Store a
 function once, then evaluate, differentiate, integrate, and search it from
@@ -265,15 +268,15 @@ the home screen, from programs, or from the catalog.
 
 To store the function, type it on the home entry line using [x-VAR] for the
 variable and press [GRAPH]: [x-VAR] [x²] [GRAPH] stores `X^2` as `Y1` and
-plots it. Let the plot run to completion; the callables read the stored
-equation, and if you interrupt the plot with [EXIT] the equation is not yet
-ready, so `EVAL(3)` answers `SYNTAX ERROR` until you plot it through once.
-When the plot finishes, press [EXIT] to return home; your entry is still on
-the line, so press [CLEAR] and put the callables to work:
+plots it. Let the plot run to completion; the calculus commands read the
+stored equation, and if you interrupt the plot with [EXIT] the equation is
+not yet ready, so `EVAL(3)` answers `SYNTAX ERROR` until you plot it
+through once. When the plot finishes, press [EXIT] to return home; your
+entry is still on the line, so press [CLEAR] and put the commands to work:
 
 ![EVAL(3) evaluating the stored X^2](images/ch03-calculus-eval.png)
 
-With `X^2` stored, each callable below is a verified run:
+With `X^2` stored as the active equation:
 
 - **`EVAL(x)`** evaluates the active equation: `EVAL(3)` answers `= 9`.
 - **`NDER(x)`** takes a central numerical derivative: `NDER(3)` answers
@@ -281,7 +284,7 @@ With `X^2` stored, each callable below is a verified run:
 - **`FNINT(a,b)`** integrates over `[a,b]` with a 64-panel composite
   Simpson rule: `FNINT(0,2)` answers `= 2.6666666666667`, the fourteen-digit
   8/3.
-- **`FMIN(a,b)` and `FMAX(a,b)`** search `[a,b]` and return the **location**
+- **`FMIN(a,b)` and `FMAX(a,b)`** search `[a,b]` and return the *location*
   of the extremum, not its value: `FMIN(-2,2)` answers
   `= 0.00011982342365967`, the numerical minimum of the parabola near zero,
   and `FMAX(-2,2)` answers `= -1.9997326856357`, closing in on the `-2`
@@ -293,20 +296,17 @@ With `X^2` stored, each callable below is a verified run:
 - **`ARC(a,b)`** sums a 64-segment polyline approximation to the arc
   length: `ARC(0,1)` answers `= 1.4789246603114`.
 
-[2nd] [CLEAR] (the `TOLER` legend) cycles the numeric tolerance through
-`1E-6`, `1E-8`, and `1E-10`, confirming each press with a
-`TOLERANCE CHANGED` notice; a fresh machine starts at `1E-6`. The
-root-hunting analyses of chapters 4 and 14 test their residuals against
-this setting.
-
 If you are arriving from another calculator's manual, the names map like
-this: the expression-argument forms `evalF`, `nDer`, `der1`, and `der2`
-correspond to storing the expression as `Y1` and calling `EVAL(` and
-`NDER(`; there is no separate second-derivative callable, so `der2`
-workflows mean applying `NDER(` to a stored derivative expression. A
-polynomial evaluator such as `peval` is likewise covered by storing the
-polynomial and calling `EVAL(`, and the polynomial's roots come from the
-`POLY` solver in Chapter 14: Equation, Polynomial, and Simultaneous Solving.
+this (Free85 spelling first, then the name elsewhere):
+
+- `EVAL(` covers the expression-argument evaluators `eval` and `evalF`.
+- `NDER(` covers the numerical derivatives `nDer` and `der1`. There is no
+  separate second-derivative command, so for `der2` workflows apply
+  `NDER(` to a stored derivative expression.
+- `EVAL(` on a stored polynomial covers the polynomial evaluator `peval`;
+  the polynomial's roots come from the `POLY` solver in Chapter 14:
+  Equation, Polynomial, and Simultaneous Solving.
+- `INTER(` and `ARC(` correspond to `inter` and `arc`.
 
 The same analysis (roots, extrema, derivative, and integral, plus
 intersection between equations) is available graphically from the graph
@@ -315,7 +315,13 @@ you type. Chapter 4: Cartesian Graphing, Drawing, Formats, and Persistence
 covers that workflow, the `Y2` and `Y3` slots, and everything else about
 the graph screen.
 
-## Angle formats
+Finally, [2nd] [CLEAR] (the `TOLER` legend) cycles the numeric tolerance
+through `1E-6`, `1E-8`, and `1E-10`, confirming each press with a
+`TOLERANCE CHANGED` notice; a fresh machine starts at `1E-6`. The
+root-hunting analyses of chapters 4 and 14 test their residuals against
+this setting.
+
+## Angle and fraction display
 
 Angles in Free85 are plain decimal numbers, read as radians or degrees
 according to the `RAD`/`DEG` mode set on the mode screen (chapter 1). The

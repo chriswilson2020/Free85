@@ -6,7 +6,7 @@
   },
   "statuses": ["equivalent", "partial", "missing", "hardware-dependent", "excluded-clean-room"],
   "chapters": [
-    { "chapter": 1, "topic": "operation, modes, editing and previous entries", "status": "partial", "evidence": ["test/free85/ui.test.js", "test/free85/parity.test.js"], "reason": "engineering and fixed-place display modes remain" },
+    { "chapter": 1, "topic": "operation, modes, editing and previous entries", "status": "partial", "evidence": ["test/free85/ui.test.js", "test/free85/parity.test.js", "test/free85/v2-numeric-modes.test.js"], "reason": "display and base modes are complete; complex, vector-coordinate, graph-type and differentiation mode settings remain" },
     { "chapter": 2, "topic": "variables and stored data", "status": "partial", "evidence": ["test/free85/expression.test.js", "test/free85/parity.test.js"], "reason": "the 2.0 typed object store and reserved namespace remain" },
     { "chapter": 3, "topic": "mathematics, calculus and comparisons", "status": "partial", "evidence": ["test/free85/numeric.test.js", "test/free85/scientific.test.js", "test/free85/graph.test.js"], "reason": "generic calculus interpolation probability and utility commands remain" },
     { "chapter": 4, "topic": "Cartesian graphing, drawing, formats and persistence", "status": "partial", "evidence": ["test/free85/graph.test.js"], "reason": "drawing formats complete zooms and graph storage remain" },

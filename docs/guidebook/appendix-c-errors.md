@@ -1,7 +1,7 @@
 # Appendix C: System Variables and Error Messages
 
-The first half of this appendix collects the names the calculator keeps
-for you across chapters; the second half is the error reference promised
+The first half of this appendix collects in one place the names the
+calculator keeps for you; the second half is the error reference promised
 in chapter 1: every message the calculator can answer with, what causes
 it, and the way back. Every screen quoted below was produced on the
 machine by pressing the keys described.
@@ -22,6 +22,10 @@ machine by pressing the keys described.
 - **`M1` through `M5`** are the five numeric memories on [2nd] [F1]
   through [2nd] [F5]: with an expression on the entry line the key
   stores, with an empty line it recalls. Chapter 2 covers them.
+- **`Y1` through `Y3`** are the three graph function slots: [GRAPH]
+  saves the home entry line into the active slot, `Y1` is active on a
+  fresh boot, and the stored equations persist between plots. Chapter 4
+  covers the slots and switching between them.
 - **The editor registers `A`, `B`, and `R`** belong to the string,
   complex, list, matrix, and vector editors: each editor keeps its own
   pair of working registers and a result register, separate from the
@@ -44,8 +48,8 @@ appendix presents and dismisses exactly this way.
 
 A few screens carry their messages themselves rather than raising the
 dialog: the simultaneous solver's verdicts, the program run screen's
-stop reports, and the catalog's assignment confirmation. Their entries
-below describe their own mechanics.
+stop and error reports, and the catalog's assignment confirmation. Their
+entries below describe their own mechanics.
 
 ## Entry and editing notices
 
@@ -60,9 +64,11 @@ your entry is exactly as you left it.
   the entry.
 - **`END OF ENTRY`**: [▶] with the cursor at the end.
 - **`NO MORE HISTORY`**: [▲] and [▼] step through the previous entries
-  on the home screen, and stepping past either end answers this. On a
-  fresh machine, with no history yet, [▲] answers it immediately.
-  Chapter 1 covers previous-entry recall.
+  on the home screen, and the notice answers a step with nothing to
+  show: [▼] beyond the blank line at the newest end, or either key on a
+  fresh machine with no history yet. Chapter 1 covers both recall
+  routes, [2nd] [ENTER] and the arrow keys, along with this release's
+  caution about stepping [▲] past the oldest entry.
 - **`ALREADY AT HOME`**: [EXIT] pressed on the home screen, where there
   is nowhere further up to go.
 - **`ALREADY AWAKE`**: [ON] pressed while the calculator is already

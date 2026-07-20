@@ -58,6 +58,17 @@ The [ENTER] key's shifted function is `ENTRY`, the previous-entry recall.
 Evaluate `2+3`, press [CLEAR], then press [2nd] [ENTER]: the entry `2+3`
 reappears with the cursor at the end, ready to edit and re-evaluate.
 
+The [▲] and [▼] keys walk the same history one step at a time, and the
+calculator keeps your four most recent entries. Evaluate `2+3` and then
+`5*7`, press [CLEAR], and [▲] recalls `5*7`; [▲] again replaces it with
+`2+3`, and each recall arrives with the cursor at the end. [▼] steps back
+towards the newest entry, and one step beyond it empties the line; a
+further [▼] answers the full-screen notice `NO MORE HISTORY`, as does
+[▲] on a fresh machine with no history to show. One caution for this
+release: [▲] past the oldest kept entry does not answer the notice but
+restarts the calculator as if freshly switched on, and stored variables
+and programs are lost with it, so count your steps back.
+
 The [(-)] key's shifted function is `ANS`, the most recent numeric result.
 With `5` as the last answer, press [CLEAR], then [2nd] [(-)] [+] [1] [0]
 [ENTER]: the entry line reads `ANS+10` and the result is `= 15`. `ANS` can

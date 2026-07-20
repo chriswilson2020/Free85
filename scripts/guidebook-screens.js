@@ -9,7 +9,13 @@ const OUT_DIR = fileURLToPath(new URL("../docs/guidebook/images/", import.meta.u
 // Names must be kebab-case and are referenced from the Markdown chapters.
 export const SCREEN_CASES = [
   { name: "ch01-home-screen", keys: [] },
-  { name: "ch01-mode-screen", keys: ["2ND", "MORE"] }
+  { name: "ch01-mode-screen", keys: ["2ND", "MORE"] },
+  { name: "manual-boot", keys: [] },
+  { name: "manual-first-calc", keys: ["2", "+", "3", "ENTER"] },
+  // GRAPH alone plots the axes without labels, so the soft-menu example uses
+  // the home screen's first soft item (F1 = MATH), which shows a paged menu.
+  { name: "manual-soft-menu", keys: ["F1"] },
+  { name: "manual-catalog", keys: ["2ND", "CUSTOM"] }
 ];
 
 function capture({ keys }) {

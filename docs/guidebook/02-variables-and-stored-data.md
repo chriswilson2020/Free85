@@ -4,8 +4,9 @@ A calculator you cannot save numbers in is only half a calculator. This
 chapter covers everywhere Free85 keeps a value for you: the twenty-six named
 variables `A` through `Z`, the five quick numeric memories `M1` through `M5`,
 the reserved names the system maintains itself, and the typed object store
-that holds all of it behind the scenes. Chapter 18 continues the story with
-the memory browser, where stored objects are inspected and deleted.
+that holds all of it behind the scenes. Chapter 18: Memory Management
+continues the story with the memory browser, where stored objects are
+inspected and deleted.
 
 ## Storing a value
 
@@ -64,7 +65,7 @@ The readout beside the selected letter shows the variable's stored value, so
 with `5` in `A` the browser reads `A 5`. Pressing [CLEAR] performs the `CLR`
 action named on the bottom line: it zeroes the selected variable in place,
 and the readout updates to `0` immediately. Variables can also be deleted
-from the memory browser described in Chapter 18: Memory Management.
+from the memory browser described in chapter 18.
 
 ## The five numeric memories
 
@@ -102,34 +103,25 @@ A few names are special:
 - **`x` and `X`** are the same variable, the graph variable. The [x-VAR] key
   types `X` in one press, and [ALPHA] [x-VAR] types the lowercase `x`; both
   spellings read and store the same value, so `5->x` followed by `X` answers
-  `= 5`. The graphing chapters, beginning with
-  Chapter 4: Cartesian Graphing, Drawing, Formats, and Persistence, use this
-  variable as the plotting coordinate. Lowercase `x` is the only lowercase
-  letter accepted in a variable name.
+  `= 5`. The graphing chapters, beginning with chapter 4, use this variable
+  as the plotting coordinate. Lowercase `x` is the only lowercase letter
+  accepted in a variable name.
 - **`ANS`** ([2nd] [(-)]) always names the most recent numeric result. It is
   maintained by the calculator and is not a storage target: `5->ANS` answers
   `SYNTAX ERROR`.
 
 ## The typed object store
 
-Underneath all of this, Free85 2.0 keeps every stored item in one typed
-object store (its on-calculator layout is versioned as schema 13): a
-directory of up to sixty-four named entries backed by a 22,784-byte
-compacting heap. Each entry records a name of up to eight
-characters, a type (real numbers, complex numbers, lists, matrices, vectors,
-strings, equations, programs, constants, graph databases, and pictures all
-have type numbers), and an exact byte size. The accounting is deterministic:
-deleting or shrinking an object closes the gap in the heap immediately, so
-free space is always a single exact number, and a request that does not fit
-is refused without touching what is already stored. Your data is never
-silently overwritten.
-
-You will meet the store's bookkeeping face to face in the memory browser,
-which lists every object with its type and size; chapter 18 walks through it.
-In today's firmware the store's directory holds the twenty-six reserved
-reals, so the browser reports `OBJECTS 26`; the remaining types are part of
-the storage contract and are exercised by the firmware's own validation
-suite, ready for the 2.0 features that will create them.
+Underneath all of this, every stored item lives in one typed object store,
+the 2.0 store format that gives the memory browser its `MEMORY 2.0` title.
+It holds named objects of eleven kinds, from the real numbers of this
+chapter through lists, matrices, vectors, strings, equations, programs, and
+more, and its names can run to eight characters: the one-letter rule above
+belongs to real-number variables, and the longer names go with those other
+object types. In today's firmware only the twenty-six reserved reals exist
+and nothing yet creates the other kinds; chapter 18 tours the browser that
+lists every object with its type and exact size, along with the store's
+capacity and accounting rules.
 
 > ⚠ **Planned:** creating, naming, and managing the store's other typed
 > objects (lists, matrices, vectors, strings, and equations) directly from
@@ -140,4 +132,4 @@ suite, ready for the 2.0 features that will create them.
 There is no delete operation on the home screen; storing `0` over a variable
 is the quick way to neutralise it. Proper deletion, including per-object
 sizes and bulk clears, lives in the memory browser, which is the subject of
-Chapter 18: Memory Management.
+chapter 18.

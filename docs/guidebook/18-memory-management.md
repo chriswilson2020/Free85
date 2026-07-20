@@ -1,11 +1,11 @@
 # Chapter 18: Memory Management
 
-Chapter 2 introduced the places Free85 stores your data; this chapter is
-about looking after them. The memory browser shows every stored object with
-its type and exact size, deletes objects one at a time, performs the bulk
-clears and resets, and opens the link screen. Behind it sits the Free85 2.0
-typed object store, whose capacity rules and persistence guarantees close the
-chapter.
+Chapter 2: Variables and Stored Data introduced the places Free85 stores
+your data; this chapter is about looking after them. The memory browser
+shows every stored object with its type and exact size, deletes objects one
+at a time, performs the bulk clears and resets, and opens the link screen.
+Behind it sits the typed object store of the 2.0 store format, whose
+capacity rules and persistence guarantees close the chapter.
 
 ## Opening the memory browser
 
@@ -42,11 +42,12 @@ The type numbers cover every kind of object the store can hold:
 | `3` | list | `9` | constant |
 | `4` | matrix | `10` | graph database |
 | `5` | vector | `11` | picture |
+| `6` | string | | |
 
 In today's firmware the directory you can browse holds the twenty-six
-reserved reals; the other types are defined by the storage contract and are
-exercised by the firmware's validation suite. If the store were ever empty
-the browser would say `NO OBJECTS`.
+reserved reals; the other types exist in the store's design, but nothing
+creates them yet, and appendix D tracks when each arrives. If the store were
+ever empty the browser would say `NO OBJECTS`.
 
 ## Deleting one object
 
@@ -114,17 +115,19 @@ valid store comes through a warm restart byte for byte, so switching the
 calculator off with [2nd] [ON] and on again costs you nothing that was
 stored.
 
-Upgrading from a Free85 1.0 state is handled the same way. When the firmware
-finds the older state format, it keeps all existing data in place, rebuilds
-the typed directory around it, and marks the migration complete only as the
-final step. If a reset or power loss interrupts the process, the unfinished
-marker simply causes the migration to run again from the start; it cannot
-half-complete. Should the store's header itself ever be found corrupt, the
-directory is rebuilt and the values of `A` through `Z` are preserved.
+Upgrading from a Free85 1.0 state is handled the same way. The store format
+carries a version number (currently 13), so the firmware recognises an
+older state on sight. It then keeps all existing data in place, rebuilds the
+typed directory around it, and advances the version number only as the
+final step. If a reset or power loss interrupts the process, the unchanged
+version number simply causes the migration to run again from the start; it
+cannot half-complete. Should the store's header itself ever be found
+corrupt, the directory is rebuilt and the values of `A` through `Z` are
+preserved.
 
 Two honest caveats. A full reset from this screen ([F4] `ALL`) deliberately
 discards the earlier state and builds a fresh store; that is its job. And
 across firmware releases, Free85 does not promise internal-state
-compatibility: a schema upgrade may clear versioned calculator RAM, so treat
+compatibility: an upgrade may clear the calculator's stored data, so treat
 firmware upgrades like the reset they can be, and copy down anything
 irreplaceable first.

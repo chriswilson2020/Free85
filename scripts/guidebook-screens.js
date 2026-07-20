@@ -41,6 +41,18 @@ export const SCREEN_CASES = [
   // F1 on the graph screen finds a root of the active equation and
   // publishes it on the home screen with its residual line.
   { name: "ch04-root-result", keys: ["X-VAR", "X^2", "-", "4", "GRAPH", 600, "F1", 1500] },
+  { name: "ch08-constants-menu", keys: ["2ND", "4"] },
+  // CTOF( from the conversions menu's second page, applied to 100 degrees
+  // Celsius, shows a conversion evaluated on the home screen.
+  { name: "ch08-conversion-example", keys: ["2ND", "5", "MORE", "F4", "1", "0", "0", ")", "ENTER", 200] },
+  // The strings editor opens on empty registers, so the capture types HELLO
+  // into register A first (letters are ALPHA plus the letter's key).
+  {
+    name: "ch09-strings-editor",
+    keys: ["2ND", "6", "ALPHA", "(", "ALPHA", "^", "ALPHA", "7", "ALPHA", "7", "ALPHA", "*"]
+  },
+  // 42 evaluated on the home screen, then the number-base screen's HEX view.
+  { name: "ch10-number-base", keys: ["4", "2", "ENTER", "2ND", "1", "F2"] },
   { name: "ch18-memory-browser", keys: ["2ND", "+"] },
   { name: "manual-boot", keys: [] },
   { name: "manual-first-calc", keys: ["2", "+", "3", "ENTER"] },

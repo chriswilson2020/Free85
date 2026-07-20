@@ -191,9 +191,10 @@ Both expect whole numbers with `r` no larger than `n`; `NCR(2,3)` answers
 
 ## Numeric utilities
 
-A family of utility functions rounds out the scalar toolkit. None of them
-sit on the `MATH` menu, so type the names with [ALPHA], paste them from the
-catalog, or keep your favourites on the custom menu (chapter 1):
+A family of utility functions rounds out the scalar toolkit. Apart from
+`ABS(` on the `MATH` menu's first page, none of them sit on a menu, so type
+the names with [ALPHA], paste them from the catalog, or keep your favourites
+on the custom menu (chapter 1):
 
 - **`ABS(`** strips the sign: `ABS(-7)` answers `= 7`.
 - **`INT(`** keeps the whole-number part, truncating toward zero

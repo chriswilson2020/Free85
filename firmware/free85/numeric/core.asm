@@ -384,6 +384,20 @@ numeric_format_result:
     JR NZ, .nonzero
     LD A, '0'
     CALL numeric_output_char
+    LD A, (P11_DISPLAY_MODE)
+    CP 3
+    JP NZ, numeric_finish_output
+    LD A, (P14_FIX_DIGITS)
+    OR A
+    JP Z, numeric_finish_output
+    LD A, '.'
+    CALL numeric_output_char
+    LD A, (P14_FIX_DIGITS)
+    LD B, A
+.zero_fixed:
+    LD A, '0'
+    CALL numeric_output_char
+    DJNZ .zero_fixed
     JP numeric_finish_output
 .nonzero:
     LD HL, NUM_RESULT
@@ -395,6 +409,9 @@ numeric_format_result:
     LD A, '-'
     CALL numeric_output_char
 .find_last:
+    LD A, (P11_DISPLAY_MODE)
+    CP 3
+    JP Z, .fixed
     LD HL, NUM_WORK_R + NUM_PRECISION - 1
     LD B, NUM_PRECISION
 .trim:
@@ -409,7 +426,11 @@ numeric_format_result:
     LD (NP_STORED_DIGITS), A    ; last significant index
     LD A, (P11_DISPLAY_MODE)
     OR A
-    JP NZ, .scientific
+    JR Z, .normal
+    CP 2
+    JP Z, .engineering
+    JP .scientific
+.normal:
     LD A, (NUM_RESULT + NUM_EXPONENT)
     BIT 7, A
     JR NZ, .negative_exp
@@ -475,7 +496,7 @@ numeric_format_result:
     CALL numeric_output_char
     INC HL
     DJNZ .small_loop
-    JR numeric_finish_output
+    JP numeric_finish_output
 .scientific:
     LD HL, NUM_WORK_R
     LD A, (HL)
@@ -499,6 +520,7 @@ numeric_format_result:
     LD A, 'E'
     CALL numeric_output_char
     LD A, (NUM_RESULT + NUM_EXPONENT)
+.emit_exponent:
     BIT 7, A
     JR Z, .positive_exp
     PUSH AF
@@ -527,6 +549,242 @@ numeric_format_result:
     LD A, C
     ADD A, '0'
     CALL numeric_output_char
+    JP numeric_finish_output
+
+.engineering:
+    XOR A
+    LD (NP_EXPLICIT_EXP), A
+    LD B, 1
+    LD A, (NUM_RESULT + NUM_EXPONENT)
+    LD C, A
+.engineering_adjust:
+    LD A, C
+    OR A
+    JR Z, .engineering_ready
+    BIT 7, A
+    JR NZ, .engineering_negative
+    DEC C
+    INC B
+    LD A, B
+    CP 4
+    JR C, .engineering_adjust
+    LD B, 1
+    LD A, (NP_EXPLICIT_EXP)
+    ADD A, 3
+    LD (NP_EXPLICIT_EXP), A
+    JR .engineering_adjust
+.engineering_negative:
+    INC C
+    DEC B
+    JR NZ, .engineering_adjust
+    LD B, 3
+    LD A, (NP_EXPLICIT_EXP)
+    SUB 3
+    LD (NP_EXPLICIT_EXP), A
+    JR .engineering_adjust
+.engineering_ready:
+    LD HL, NUM_WORK_R
+    LD C, 0
+.engineering_integer:
+    LD A, (HL)
+    ADD A, '0'
+    CALL numeric_output_char
+    INC HL
+    INC C
+    DJNZ .engineering_integer
+    LD A, (NP_STORED_DIGITS)
+    INC A
+    CP C
+    JR C, .engineering_exp
+    JR Z, .engineering_exp
+    LD A, '.'
+    CALL numeric_output_char
+    LD A, (NP_STORED_DIGITS)
+    INC A
+    SUB C
+    LD B, A
+.engineering_fraction:
+    LD A, (HL)
+    ADD A, '0'
+    CALL numeric_output_char
+    INC HL
+    DJNZ .engineering_fraction
+.engineering_exp:
+    LD A, 'E'
+    CALL numeric_output_char
+    LD A, (NP_EXPLICIT_EXP)
+    JP .emit_exponent
+
+.fixed:
+    LD A, (NUM_RESULT + NUM_EXPONENT)
+    BIT 7, A
+    JR NZ, .fixed_size_ready
+    INC A
+    LD B, A
+    LD A, (P14_FIX_DIGITS)
+    OR A
+    JR Z, .fixed_size_fraction
+    INC A                       ; decimal point
+.fixed_size_fraction:
+    ADD A, B
+    LD B, A
+    LD A, (RESULT_LENGTH)       ; possible leading sign
+    ADD A, B
+    CP RESULT_CAPACITY
+    JP NC, .fixed_fallback
+.fixed_size_ready:
+    LD A, (NUM_RESULT + NUM_EXPONENT)
+    LD (NP_EXPLICIT_EXP), A
+    LD B, A
+    LD A, (P14_FIX_DIGITS)
+    ADD A, B
+    LD (NP_DECIMAL_POS), A
+    BIT 7, A
+    JR NZ, .fixed_before_digits
+    CP NUM_PRECISION - 1
+    JR NC, .fixed_output
+    INC A
+    LD E, A
+    LD D, 0
+    LD HL, NUM_WORK_R
+    ADD HL, DE
+    LD A, (HL)
+    LD C, A
+    XOR A
+    LD (HL), A
+    INC HL
+    LD A, NUM_PRECISION
+    SUB E
+    DEC A
+    LD B, A
+.fixed_clear_tail:
+    LD A, B
+    OR A
+    JR Z, .fixed_round
+    XOR A
+    LD (HL), A
+    INC HL
+    DJNZ .fixed_clear_tail
+.fixed_round:
+    LD A, C
+    CP 5
+    JR C, .fixed_output
+    LD A, (NP_DECIMAL_POS)
+    LD E, A
+    LD D, 0
+    LD HL, NUM_WORK_R
+    ADD HL, DE
+.fixed_carry:
+    INC (HL)
+    LD A, (HL)
+    CP 10
+    JR C, .fixed_output
+    XOR A
+    LD (HL), A
+    LD A, E
+    OR D
+    JR Z, .fixed_overflow
+    DEC HL
+    DEC DE
+    JR .fixed_carry
+.fixed_overflow:
+    LD (HL), 1
+    LD A, (NP_EXPLICIT_EXP)
+    INC A
+    LD (NP_EXPLICIT_EXP), A
+    JR .fixed_output
+.fixed_before_digits:
+    CP $FF
+    JR NZ, .fixed_zero
+    LD A, (NUM_WORK_R)
+    CP 5
+    JR C, .fixed_zero
+    LD HL, NUM_WORK_R
+    LD BC, NUM_PRECISION
+    CALL numeric_clear_bytes
+    LD HL, NUM_WORK_R
+    LD (HL), 1
+    LD A, (P14_FIX_DIGITS)
+    NEG
+    LD (NP_EXPLICIT_EXP), A
+    JR .fixed_output
+.fixed_zero:
+    LD HL, NUM_WORK_R
+    LD BC, NUM_PRECISION
+    CALL numeric_clear_bytes
+    XOR A
+    LD (NP_EXPLICIT_EXP), A
+.fixed_output:
+    LD A, (NP_EXPLICIT_EXP)
+    BIT 7, A
+    JR NZ, .fixed_integer_zero
+    INC A
+    LD B, A
+    XOR A
+    LD C, A
+.fixed_integer_loop:
+    LD A, C
+    CALL numeric_fixed_digit
+    ADD A, '0'
+    CALL numeric_output_char
+    INC C
+    DJNZ .fixed_integer_loop
+    JR .fixed_fraction_start
+.fixed_integer_zero:
+    LD A, '0'
+    CALL numeric_output_char
+.fixed_fraction_start:
+    LD A, (P14_FIX_DIGITS)
+    OR A
+    JP Z, numeric_finish_output
+    LD B, A
+    LD A, '.'
+    CALL numeric_output_char
+    LD C, 1
+.fixed_fraction_loop:
+    LD A, (NP_EXPLICIT_EXP)
+    ADD A, C
+    CALL numeric_fixed_digit
+    ADD A, '0'
+    CALL numeric_output_char
+    INC C
+    DJNZ .fixed_fraction_loop
+    JP numeric_finish_output
+
+.fixed_fallback:
+    LD HL, NUM_WORK_R + NUM_PRECISION - 1
+    LD B, NUM_PRECISION
+.fixed_fallback_trim:
+    LD A, (HL)
+    OR A
+    JR NZ, .fixed_fallback_ready
+    DEC HL
+    DJNZ .fixed_fallback_trim
+.fixed_fallback_ready:
+    LD A, B
+    DEC A
+    LD (NP_STORED_DIGITS), A
+    JP .scientific
+
+; A = signed significant-digit index; returns A = digit or zero outside 0..13.
+numeric_fixed_digit:
+    BIT 7, A
+    JR NZ, .zero
+    CP NUM_PRECISION
+    JR NC, .zero
+    PUSH HL
+    PUSH DE
+    LD E, A
+    LD D, 0
+    LD HL, NUM_WORK_R
+    ADD HL, DE
+    LD A, (HL)
+    POP DE
+    POP HL
+    RET
+.zero:
+    XOR A
+    RET
 numeric_finish_output:
     LD A, (RESULT_LENGTH)
     LD E, A

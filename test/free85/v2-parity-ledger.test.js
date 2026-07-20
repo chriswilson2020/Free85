@@ -33,12 +33,12 @@ test("[v2.ledger] chapter summary no longer overstates broad equivalence", async
   assert.equal(coverage.chapters.filter(({ status }) => status === "equivalent").length, 0);
 });
 
-test("[v2.progress] Phase 14.1 closes the storage foundation without hiding remaining work", async () => {
+test("[v2.progress] Phase 14.2 closes numeric modes without hiding remaining work", async () => {
   const report = await readJson("spec/free85/v2-parity-report.json");
-  assert.equal(report.phase, "14.1");
+  assert.equal(report.phase, "14.2");
   assert.equal(report.inventory.entries >= 250, true);
   assert.equal(report.gaps.total, 36);
-  assert.equal(report.gaps.byStatus.equivalent, 4);
-  assert.equal(report.gaps.equivalentPercent, 11.11);
+  assert.equal(report.gaps.byStatus.equivalent, 9);
+  assert.equal(report.gaps.equivalentPercent, 25);
   assert.equal(report.cleanRoom.proprietaryInputsRequiredForPublicValidation, false);
 });

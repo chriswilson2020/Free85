@@ -70,6 +70,15 @@ generic calculus callables, complete Normal/Sci/Eng/Fix formatting, and real
 binary/octal/decimal/hexadecimal entry modes. Implement AND, OR, XOR, NOT,
 shifts, and rotations with documented signed-width semantics.
 
+Implemented. The home parser now accepts signed 16-bit `0b`, `0o`, and `0x`
+literals; the base screen provides four full-width views; Boolean commands use
+documented two's-complement word semantics; and the catalog exposes the new
+scalar utilities. System format selection cycles AUTO/SCI/ENG/FIX with
+adjustable fixed precision. Active-Y1 evaluation, derivative, integral,
+extrema, interpolation, and arc-length callables reuse the graph engine while
+preserving the surrounding editor/parser context. See
+`docs/Free85-numeric-modes.md`.
+
 ### 14.3 - Shared graph engine
 
 Refactor Cartesian plotting into a mode-independent sampling/rendering engine.

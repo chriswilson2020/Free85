@@ -187,8 +187,10 @@ test("[parity.variables-memory] variable recall and scoped memory clearing work"
   assert.equal(fullReset.packedNumber(VARIABLES_ADDRESS), 0);
 });
 
-test("[parity.base] decimal, hexadecimal, and binary views use the previous answer", () => {
-  for (const [key, expected] of [["F1", "42"], ["F2", "0x2A"], ["F3", "0b00101010"]]) {
+test("[parity.base] decimal, hexadecimal, octal, and binary views use a signed word", () => {
+  for (const [key, expected] of [
+    ["F1", "42"], ["F2", "0x002A"], ["F3", "0o000052"], ["F4", "0b0000000000101010"]
+  ]) {
     const harness = Free85Harness.boot();
     harness.tap("4");
     harness.tap("2");
@@ -199,7 +201,7 @@ test("[parity.base] decimal, hexadecimal, and binary views use the previous answ
   }
 
   const outOfRange = Free85Harness.boot();
-  for (const key of ["2", "5", "6", "ENTER"]) outOfRange.tap(key);
+  for (const key of ["3", "2", "7", "6", "8", "ENTER"]) outOfRange.tap(key);
   shifted(outOfRange, "1");
   outOfRange.tap("F2");
   assert.equal(outOfRange.machine.read8(FREE85_UI_MODE_ADDRESS), 1);

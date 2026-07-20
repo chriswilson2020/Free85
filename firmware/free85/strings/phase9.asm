@@ -28,7 +28,7 @@ CAT_ACTION_POLY     EQU 10
 CAT_ACTION_CHAR     EQU 11
 CAT_ACTION_CUSTOM   EQU 12
 
-P9_CATALOG_COUNT EQU 56
+P9_CATALOG_COUNT EQU 84
 P9_CHAR_COUNT    EQU 26
 
 phase9_init:
@@ -1100,8 +1100,8 @@ p9_render_characters:
     JP text_draw_string
 
 ; ---------------------------------------------------------------------------
-; Catalog entries. The table is alphabetically ordered and every entry maps
-; either to a fixed-page callable identifier or to a real application command.
+; Catalog entries. The legacy alphabetical prefix retains stable CUSTOM-slot
+; indices; the 2.0 extension block exposes the new numeric callables.
 
 p9_catalog_table:
     DW p9_cat_abs:      DB CAT_ACTION_FUNCTION
@@ -1160,6 +1160,36 @@ p9_catalog_table:
     DW p9_cat_ten:      DB CAT_ACTION_FUNCTION
     DW p9_cat_vector:   DB CAT_ACTION_VECTOR
     DW p9_cat_whp:      DB CAT_ACTION_FUNCTION
+    ; Free85 2.0 numeric/base/calculus extension block. The original 56-entry
+    ; prefix remains stable so existing CUSTOM slot assignments retain meaning.
+    DW p9_cat_and:      DB CAT_ACTION_FUNCTION
+    DW p9_cat_arc:      DB CAT_ACTION_FUNCTION
+    DW p9_cat_eval:     DB CAT_ACTION_FUNCTION
+    DW p9_cat_fmax:     DB CAT_ACTION_FUNCTION
+    DW p9_cat_fmin:     DB CAT_ACTION_FUNCTION
+    DW p9_cat_fnint:    DB CAT_ACTION_FUNCTION
+    DW p9_cat_frac:     DB CAT_ACTION_FUNCTION
+    DW p9_cat_gcd:      DB CAT_ACTION_FUNCTION
+    DW p9_cat_int:      DB CAT_ACTION_FUNCTION
+    DW p9_cat_inter:    DB CAT_ACTION_FUNCTION
+    DW p9_cat_lcm:      DB CAT_ACTION_FUNCTION
+    DW p9_cat_max:      DB CAT_ACTION_FUNCTION
+    DW p9_cat_min:      DB CAT_ACTION_FUNCTION
+    DW p9_cat_mod:      DB CAT_ACTION_FUNCTION
+    DW p9_cat_nder:     DB CAT_ACTION_FUNCTION
+    DW p9_cat_not:      DB CAT_ACTION_FUNCTION
+    DW p9_cat_or:       DB CAT_ACTION_FUNCTION
+    DW p9_cat_pct:      DB CAT_ACTION_FUNCTION
+    DW p9_cat_rand:     DB CAT_ACTION_FUNCTION
+    DW p9_cat_randi:    DB CAT_ACTION_FUNCTION
+    DW p9_cat_rol:      DB CAT_ACTION_FUNCTION
+    DW p9_cat_root:     DB CAT_ACTION_FUNCTION
+    DW p9_cat_ror:      DB CAT_ACTION_FUNCTION
+    DW p9_cat_round:    DB CAT_ACTION_FUNCTION
+    DW p9_cat_shl:      DB CAT_ACTION_FUNCTION
+    DW p9_cat_shr:      DB CAT_ACTION_FUNCTION
+    DW p9_cat_sign:     DB CAT_ACTION_FUNCTION
+    DW p9_cat_xor:      DB CAT_ACTION_FUNCTION
 
 p9_cat_abs: DB "ABS",0
 p9_cat_acos: DB "ACOS",0
@@ -1217,6 +1247,34 @@ p9_cat_tanh: DB "TANH",0
 p9_cat_ten: DB "TEN",0
 p9_cat_vector: DB "VECTOR",0
 p9_cat_whp: DB "WHP",0
+p9_cat_and: DB "AND",0
+p9_cat_arc: DB "ARC",0
+p9_cat_eval: DB "EVAL",0
+p9_cat_fmax: DB "FMAX",0
+p9_cat_fmin: DB "FMIN",0
+p9_cat_fnint: DB "FNINT",0
+p9_cat_frac: DB "FRAC",0
+p9_cat_gcd: DB "GCD",0
+p9_cat_int: DB "INT",0
+p9_cat_inter: DB "INTER",0
+p9_cat_lcm: DB "LCM",0
+p9_cat_max: DB "MAX",0
+p9_cat_min: DB "MIN",0
+p9_cat_mod: DB "MOD",0
+p9_cat_nder: DB "NDER",0
+p9_cat_not: DB "NOT",0
+p9_cat_or: DB "OR",0
+p9_cat_pct: DB "PCT",0
+p9_cat_rand: DB "RAND",0
+p9_cat_randi: DB "RANDI",0
+p9_cat_rol: DB "ROL",0
+p9_cat_root: DB "ROOT",0
+p9_cat_ror: DB "ROR",0
+p9_cat_round: DB "ROUND",0
+p9_cat_shl: DB "SHL",0
+p9_cat_shr: DB "SHR",0
+p9_cat_sign: DB "SIGN",0
+p9_cat_xor: DB "XOR",0
 
 p9_character_table:
     DB ' ', '!', '"', '#', '$', '%', '&', 39, '(', ')', '*', '+', ',', '-', '.', '/'

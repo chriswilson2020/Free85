@@ -129,7 +129,58 @@ export const SCREEN_CASES = [
       "4", "ENTER", "5", "ENTER", "5", "ENTER", "7", "ENTER", "9", "ENTER",
       "MORE", "MORE", "F5", 600]
   },
+  // The program list as PRGM first shows it: four empty slots.
+  { name: "ch16-program-list", keys: ["PRGM"] },
+  // NEW opens the editor on P1; the capture holds the worked example's
+  // first line, 0->S (letters are ALPHA plus the letter's key).
+  { name: "ch16-program-editor", keys: ["PRGM", "F1", "0", "STO", "ALPHA", "6"] },
+  // The six-line summing program keyed in full (space is 2ND 0), then run
+  // with the editor's F2; the frames let the run reach DONE with output 15.
+  {
+    name: "ch16-program-run",
+    keys: ["PRGM", "F1", "0", "STO", "ALPHA", "6", "ENTER",
+      "ALPHA", "LN", "ALPHA", "*", "ALPHA", "5", "2ND", "0",
+      "ALPHA", "LOG", ",", "1", ",", "5", "ENTER",
+      "ALPHA", "6", "+", "ALPHA", "LOG", "STO", "ALPHA", "6", "ENTER",
+      "ALPHA", "^", "ALPHA", "9", "ALPHA", "TAN", "ENTER",
+      "ALPHA", "TAN", "ALPHA", ")", "ALPHA", "6", "ALPHA", ",", "2ND", "0",
+      "ALPHA", "6", "ENTER",
+      "ALPHA", "6", "ALPHA", "-", "ALPHA", "*", "ALPHA", ",",
+      "F2", 300]
+  },
+  // Chapter 17's graph example: X^2-4 plotted, then traced twelve columns
+  // right of centre so the readout closes in on the root at x=2.
+  {
+    name: "ch17-graph-example",
+    keys: ["X-VAR", "X^2", "-", "4", "GRAPH", 600,
+      "RIGHT", 30, "RIGHT", 30, "RIGHT", 30, "RIGHT", 30, "RIGHT", 30,
+      "RIGHT", 30, "RIGHT", 30, "RIGHT", 30, "RIGHT", 30, "RIGHT", 30,
+      "RIGHT", 30, "RIGHT", 30, 60]
+  },
+  // Chapter 17's regression example: four pairs fitted with F3 (LIN):
+  // SLOPE 1.4, INTER 0.5.
+  {
+    name: "ch17-regression-example",
+    keys: ["STAT", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER",
+      "ALPHA", "2", "ENTER", "3", "ENTER", "5", "ENTER", "6", "ENTER",
+      "F3", 800]
+  },
+  // Chapter 17's factorial program keyed in full and run: output 120.
+  {
+    name: "ch17-program-output",
+    keys: ["PRGM", "F1", "1", "STO", "ALPHA", "LN", "ENTER",
+      "ALPHA", "LN", "ALPHA", "*", "ALPHA", "5", "2ND", "0",
+      "ALPHA", "LOG", ",", "1", ",", "5", "ENTER",
+      "ALPHA", "LN", "*", "ALPHA", "LOG", "STO", "ALPHA", "LN", "ENTER",
+      "ALPHA", "^", "ALPHA", "9", "ALPHA", "TAN", "ENTER",
+      "ALPHA", "TAN", "ALPHA", ")", "ALPHA", "6", "ALPHA", ",", "2ND", "0",
+      "ALPHA", "LN", "ENTER",
+      "ALPHA", "6", "ALPHA", "-", "ALPHA", "*", "ALPHA", ",",
+      "F2", 400]
+  },
   { name: "ch18-memory-browser", keys: ["2ND", "+"] },
+  // The native link screen, opened with the LINK legend on 2nd x-VAR.
+  { name: "ch19-native-link", keys: ["2ND", "X-VAR"] },
   { name: "manual-boot", keys: [] },
   { name: "manual-first-calc", keys: ["2", "+", "3", "ENTER"] },
   // GRAPH alone plots the axes without labels, so the soft-menu example uses

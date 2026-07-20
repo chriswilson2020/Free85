@@ -8,7 +8,8 @@ system of up to four equations and answers the unknowns, or tells you
 why it cannot. The first lives on the home screen; the other two are
 editors built on the same entry rules as the collection editors of
 Chapter 13 (Matrices and Vectors), whose `SOLVE` soft key is a fourth
-route to small linear systems.
+route to small linear systems. Every figure in this chapter is quoted
+from the machine.
 
 ## The general solver
 
@@ -37,8 +38,8 @@ and so does pressing [2nd] [GRAPH] with an empty entry line.
 
 ## The polynomial editor
 
-Press [2nd] [PRGM] (the `POLY` legend, covering the command spelled
-`poly` elsewhere) to open the polynomial editor:
+Press [2nd] [PRGM] (the `POLY` legend, elsewhere `poly`) to open the
+polynomial editor:
 
 ![The polynomial editor holding x^2-5x+6](images/ch14-poly-editor.png)
 
@@ -96,7 +97,8 @@ polynomial would really be one of lower degree.
 In this release the degree-2 search misconverges on many inputs. Every
 quadratic we tried whose two real roots differ in sign came back with a
 wrong complex pair: x^2-4 claims a pair near ±11.1i instead of 2 and
--2 (and garbles it, the `IM` line reading `;.0974990147`), while
+-2 (and garbles it, the `IM` line reading `;.0974990147` where
+`11.0974990147` should be), while
 x^2-x-6 answers `RE 0.5` with `IM -2.004273590279` instead of 3 and
 -2. Some same-sign cases stop short too: x^2-6x+8 settles near 3.976
 and 2.024 rather than 4 and 2. A negative leading coefficient upsets
@@ -111,8 +113,8 @@ residue in the last digits.
 
 ## The simultaneous editor
 
-Press [2nd] [STAT] (the `SIMULT` legend, covering the command spelled
-`simult` elsewhere) to open the simultaneous-equation editor:
+Press [2nd] [STAT] (the `SIMULT` legend, elsewhere `simult`) to open
+the simultaneous-equation editor:
 
 ![The simultaneous editor holding a 2 by 2 system](images/ch14-simult-editor.png)
 

@@ -2,94 +2,31 @@
 
 # Appendix A: Command and Function Catalog
 
-Grouped by functional area. Status comes from the Free85 2.0 command ledger: `equivalent` items work today; other statuses are tracked gaps.
+Grouped by functional area. Status comes from the Free85 2.0 command ledger's status vocabulary: `equivalent` items work today; `partial` and `missing` are tracked implementation gaps; `hardware-dependent` items await separate hardware validation; `excluded-clean-room` items are intentionally out of scope by design, not gaps.
 
 ## math.core — command (equivalent)
 
-| Item |
-| --- |
-| `abs` |
-| `+` |
-| `-` |
-| `*` |
-| `/` |
-| `^` |
-| `x^2` |
-| `sqrt` |
-| `10^x` |
-| `e^x` |
+`abs`, `+`, `-`, `*`, `/`, `^`, `x^2`, `sqrt`, `10^x`, `e^x`
 
 ## math.scientific — command (equivalent)
 
-| Item |
-| --- |
-| `ln` |
-| `log` |
-| `sin` |
-| `asin` |
-| `cos` |
-| `acos` |
-| `tan` |
-| `atan` |
-| `sinh` |
-| `asinh` |
-| `cosh` |
-| `acosh` |
-| `tanh` |
-| `atanh` |
+`ln`, `log`, `sin`, `asin`, `cos`, `acos`, `tan`, `atan`, `sinh`, `asinh`, `cosh`, `acosh`, `tanh`, `atanh`
 
 ## math.combinatorics — command (equivalent)
 
-| Item |
-| --- |
-| `factorial` |
-| `nPr` |
-| `nCr` |
+`factorial`, `nPr`, `nCr`
 
 ## math.relational — command (equivalent)
 
-| Item |
-| --- |
-| `==` |
-| `!=` |
-| `<` |
-| `<=` |
-| `>` |
-| `>=` |
+`==`, `!=`, `<`, `<=`, `>`, `>=`
 
 ## math.utilities — command (equivalent)
 
-| Item |
-| --- |
-| `fPart` |
-| `iPart` |
-| `int` |
-| `mod` |
-| `gcd` |
-| `lcm` |
-| `max` |
-| `min` |
-| `percent` |
-| `root` |
-| `round` |
-| `sign` |
-| `rand` |
+`fPart`, `iPart`, `int`, `mod`, `gcd`, `lcm`, `max`, `min`, `percent`, `root`, `round`, `sign`, `rand`
 
 ## math.calculus — command (equivalent)
 
-| Item |
-| --- |
-| `arc` |
-| `der1` |
-| `der2` |
-| `eval` |
-| `evalF` |
-| `fMax` |
-| `fMin` |
-| `fnInt` |
-| `nDer` |
-| `inter` |
-| `peval` |
+`arc`, `der1`, `der2`, `eval`, `evalF`, `fMax`, `fMin`, `fnInt`, `nDer`, `inter`, `peval`
 
 ## math.angle-format — command (partial)
 
@@ -97,53 +34,19 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: complete DMS entry/display and fraction presentation while preserving existing degree/radian modes
 
-| Item |
-| --- |
-| `Degree` |
-| `Radian` |
-| `->DMS` |
-| `DMS-entry` |
-| `->Frac` |
+`Degree`, `Radian`, `->DMS`, `DMS-entry`, `->Frac`
 
 ## mode.display — mode (equivalent)
 
-| Item |
-| --- |
-| `Normal` |
-| `Sci` |
-| `Eng` |
-| `Float` |
-| `Fix` |
+`Normal`, `Sci`, `Eng`, `Float`, `Fix`
 
 ## base.entry-conversion — command (equivalent)
 
-| Item |
-| --- |
-| `Bin` |
-| `Oct` |
-| `Dec` |
-| `Hex` |
-| `binary-entry` |
-| `octal-entry` |
-| `decimal-entry` |
-| `hex-entry` |
-| `->Bin` |
-| `->Oct` |
-| `->Dec` |
-| `->Hex` |
+`Bin`, `Oct`, `Dec`, `Hex`, `binary-entry`, `octal-entry`, `decimal-entry`, `hex-entry`, `->Bin`, `->Oct`, `->Dec`, `->Hex`
 
 ## base.boolean — command (equivalent)
 
-| Item |
-| --- |
-| `and` |
-| `or` |
-| `xor` |
-| `not` |
-| `rotL` |
-| `rotR` |
-| `shftL` |
-| `shftR` |
+`and`, `or`, `xor`, `not`, `rotL`, `rotR`, `shftL`, `shftR`
 
 ## complex.scalar — command (partial)
 
@@ -151,17 +54,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: expose existing scalar operations consistently from home catalog and program contexts
 
-| Item |
-| --- |
-| `angle` |
-| `conj` |
-| `imag` |
-| `real` |
-| `polar-complex-entry` |
-| `->Pol` |
-| `->Rec` |
-| `PolarC` |
-| `RectC` |
+`angle`, `conj`, `imag`, `real`, `polar-complex-entry`, `->Pol`, `->Rec`, `PolarC`, `RectC`
 
 ## coordinates.vector — command (partial)
 
@@ -169,13 +62,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: add rectangular cylindrical and spherical vector display/conversion modes
 
-| Item |
-| --- |
-| `->Cyl` |
-| `CylV` |
-| `->Sph` |
-| `SphereV` |
-| `RectV` |
+`->Cyl`, `CylV`, `->Sph`, `SphereV`, `RectV`
 
 ## list.operations — command (partial)
 
@@ -183,18 +70,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: complete callable dimensions fill descending sort sequence and conversions
 
-| Item |
-| --- |
-| `dimL` |
-| `->dimL` |
-| `Fill-list` |
-| `prod` |
-| `seq` |
-| `sortA` |
-| `sortD` |
-| `sum` |
-| `li->vc` |
-| `vc->li` |
+`dimL`, `->dimL`, `Fill-list`, `prod`, `seq`, `sortA`, `sortD`, `sum`, `li->vc`, `vc->li`
 
 ## matrix.operations — command (partial)
 
@@ -202,30 +78,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: retain implemented determinant inverse RREF and transpose while adding full dimension row norm decomposition and eigensystem operations
 
-| Item |
-| --- |
-| `aug` |
-| `cnorm` |
-| `cond` |
-| `det` |
-| `dim-matrix` |
-| `->dimM` |
-| `eigVc` |
-| `eigVl` |
-| `Fill-matrix` |
-| `Ident` |
-| `inverse-matrix` |
-| `LU` |
-| `mRAdd` |
-| `multR` |
-| `norm-matrix` |
-| `rAdd` |
-| `randM` |
-| `ref` |
-| `rnorm` |
-| `rref` |
-| `rSwap` |
-| `transpose` |
+`aug`, `cnorm`, `cond`, `det`, `dim-matrix`, `->dimM`, `eigVc`, `eigVl`, `Fill-matrix`, `Ident`, `inverse-matrix`, `LU`, `mRAdd`, `multR`, `norm-matrix`, `rAdd`, `randM`, `ref`, `rnorm`, `rref`, `rSwap`, `transpose`
 
 ## vector.operations — command (partial)
 
@@ -233,15 +86,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: complete callable dimensions fill and norm semantics around existing dot cross and unit operations
 
-| Item |
-| --- |
-| `cross` |
-| `dim-vector` |
-| `->dimV` |
-| `dot` |
-| `Fill-vector` |
-| `norm-vector` |
-| `unitV` |
+`cross`, `dim-vector`, `->dimV`, `dot`, `Fill-vector`, `norm-vector`, `unitV`
 
 ## collections.elementwise — semantic (partial)
 
@@ -249,13 +94,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: apply every valid scalar function and relation element-by-element with type-preserving results
 
-| Item |
-| --- |
-| `elementwise-real` |
-| `elementwise-complex` |
-| `elementwise-list` |
-| `elementwise-matrix` |
-| `elementwise-vector` |
+`elementwise-real`, `elementwise-complex`, `elementwise-list`, `elementwise-matrix`, `elementwise-vector`
 
 ## graph.cartesian-core — command (partial)
 
@@ -263,16 +102,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: preserve existing Cartesian capabilities while matching named equation selection and command semantics
 
-| Item |
-| --- |
-| `Func` |
-| `FnOn` |
-| `FnOff` |
-| `Trace` |
-| `ZIn` |
-| `ZOut` |
-| `ZStd` |
-| `ZSqr` |
+`Func`, `FnOn`, `FnOff`, `Trace`, `ZIn`, `ZOut`, `ZStd`, `ZSqr`
 
 ## graph.format — command (partial)
 
@@ -280,20 +110,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: add complete persistent graph format flags and simultaneous/sequential modes
 
-| Item |
-| --- |
-| `AxesOff` |
-| `AxesOn` |
-| `CoordOff` |
-| `CoordOn` |
-| `DrawDot` |
-| `DrawLine` |
-| `GridOff` |
-| `GridOn` |
-| `LabelOff` |
-| `LabelOn` |
-| `SeqG` |
-| `SimulG` |
+`AxesOff`, `AxesOn`, `CoordOff`, `CoordOn`, `DrawDot`, `DrawLine`, `GridOff`, `GridOn`, `LabelOff`, `LabelOn`, `SeqG`, `SimulG`
 
 ## graph.zoom — command (partial)
 
@@ -301,17 +118,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: add all zoom presets factor controls box selection previous window and recall
 
-| Item |
-| --- |
-| `ZBox` |
-| `ZDecm` |
-| `ZFit` |
-| `ZInt` |
-| `ZPrev` |
-| `ZRcl` |
-| `ZTrig` |
-| `zoom-factors` |
-| `user-defined-zoom` |
+`ZBox`, `ZDecm`, `ZFit`, `ZInt`, `ZPrev`, `ZRcl`, `ZTrig`, `zoom-factors`, `user-defined-zoom`
 
 ## graph.draw — command (missing)
 
@@ -319,20 +126,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: implement cancellable drawing primitives and reviewed LCD goldens
 
-| Item |
-| --- |
-| `Circ` |
-| `ClDrw` |
-| `DrawF` |
-| `DrInv` |
-| `Line` |
-| `PtChg` |
-| `PtOff` |
-| `PtOn` |
-| `Shade` |
-| `TanLn` |
-| `Vert` |
-| `freehand-pen` |
+`Circ`, `ClDrw`, `DrawF`, `DrInv`, `Line`, `PtChg`, `PtOff`, `PtOn`, `Shade`, `TanLn`, `Vert`, `freehand-pen`
 
 ## graph.persistence — command (missing)
 
@@ -340,12 +134,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: store and recall original Free85 graph database and picture objects
 
-| Item |
-| --- |
-| `RcGDB` |
-| `RcPic` |
-| `StGDB` |
-| `StPic` |
+`RcGDB`, `RcPic`, `StGDB`, `StPic`
 
 ## graph.polar — workflow (missing)
 
@@ -353,15 +142,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: complete polar graph workflow on the shared graph engine
 
-| Item |
-| --- |
-| `Pol` |
-| `PolarGC` |
-| `polar-editor` |
-| `polar-plot` |
-| `polar-trace` |
-| `polar-table` |
-| `polar-analysis` |
+`Pol`, `PolarGC`, `polar-editor`, `polar-plot`, `polar-trace`, `polar-table`, `polar-analysis`
 
 ## graph.parametric — workflow (missing)
 
@@ -369,14 +150,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: complete parametric graph workflow on the shared graph engine
 
-| Item |
-| --- |
-| `Param` |
-| `parametric-editor` |
-| `parametric-plot` |
-| `parametric-trace` |
-| `parametric-table` |
-| `parametric-analysis` |
+`Param`, `parametric-editor`, `parametric-plot`, `parametric-trace`, `parametric-table`, `parametric-analysis`
 
 ## graph.diffeq — workflow (missing)
 
@@ -384,15 +158,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: complete first-order differential-equation graph workflow
 
-| Item |
-| --- |
-| `DifEq` |
-| `dxDer1` |
-| `dxNDer` |
-| `diffeq-editor` |
-| `diffeq-plot` |
-| `diffeq-explore` |
-| `diffeq-solve` |
+`DifEq`, `dxDer1`, `dxNDer`, `diffeq-editor`, `diffeq-plot`, `diffeq-explore`, `diffeq-solve`
 
 ## solver.general — command (partial)
 
@@ -400,21 +166,11 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: expand zero finding into stored equation and selectable-variable solving
 
-| Item |
-| --- |
-| `Solver` |
-| `solver-equation` |
-| `solver-variables` |
-| `solver-guesses` |
-| `solver-bounds` |
-| `solver-graph` |
+`Solver`, `solver-equation`, `solver-variables`, `solver-guesses`, `solver-bounds`, `solver-graph`
 
 ## solver.specialist — command (equivalent)
 
-| Item |
-| --- |
-| `poly` |
-| `simult` |
+`poly`, `simult`
 
 ## statistics.models — command (partial)
 
@@ -422,17 +178,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: retain linear regression and add logarithmic exponential power polynomial models and forecasts
 
-| Item |
-| --- |
-| `ExpR` |
-| `LinR` |
-| `LnR` |
-| `P2Reg` |
-| `P3Reg` |
-| `P4Reg` |
-| `PwrR` |
-| `fcstx` |
-| `fcsty` |
+`ExpR`, `LinR`, `LnR`, `P2Reg`, `P3Reg`, `P4Reg`, `PwrR`, `fcstx`, `fcsty`
 
 ## statistics.commands — command (partial)
 
@@ -440,13 +186,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: expose complete command-line analyses result variables and paired sorting
 
-| Item |
-| --- |
-| `OneVar` |
-| `TwoVar` |
-| `ShwSt` |
-| `Sortx` |
-| `Sorty` |
+`OneVar`, `TwoVar`, `ShwSt`, `Sortx`, `Sorty`
 
 ## statistics.plots — command (partial)
 
@@ -454,11 +194,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: retain histogram/scatter and add connected paired-data plotting
 
-| Item |
-| --- |
-| `Hist` |
-| `Scatter` |
-| `xyline` |
+`Hist`, `Scatter`, `xyline`
 
 ## strings.core — command (partial)
 
@@ -466,28 +202,11 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: expose native string operations from expressions/programs and add equation round trips
 
-| Item |
-| --- |
-| `Concatenate` |
-| `lngth` |
-| `sub` |
-| `Eq->St` |
-| `St->Eq` |
+`Concatenate`, `lngth`, `sub`, `Eq->St`, `St->Eq`
 
 ## program.supported — instruction (equivalent)
 
-| Item |
-| --- |
-| `Disp` |
-| `Else` |
-| `End` |
-| `For` |
-| `If` |
-| `Input-number` |
-| `Return` |
-| `Stop` |
-| `Then` |
-| `While` |
+`Disp`, `Else`, `End`, `For`, `If`, `Input-number`, `Return`, `Stop`, `Then`, `While`
 
 ## program.control — instruction (partial)
 
@@ -495,14 +214,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: add labels jumps repeat skip forms and bounded program menus
 
-| Item |
-| --- |
-| `DS<` |
-| `Goto` |
-| `IS>` |
-| `Lbl` |
-| `Menu` |
-| `Repeat` |
+`DS<`, `Goto`, `IS>`, `Lbl`, `Menu`, `Repeat`
 
 ## program.io — instruction (partial)
 
@@ -510,17 +222,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: add complete keypad string screen graph pause prompt and positioned-output workflows
 
-| Item |
-| --- |
-| `ClLCD` |
-| `DispG` |
-| `getKy` |
-| `InpSt` |
-| `Input-string` |
-| `Outpt` |
-| `Pause` |
-| `Prompt` |
-| `PrtScrn` |
+`ClLCD`, `DispG`, `getKy`, `InpSt`, `Input-string`, `Outpt`, `Pause`, `Prompt`, `PrtScrn`
 
 ## program.external — instruction (hardware-dependent)
 
@@ -528,10 +230,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: provide an open virtual-device interface and separately report physical hardware status
 
-| Item |
-| --- |
-| `Input-CBLGET` |
-| `Output-CBLSEND` |
+`Input-CBLGET`, `Output-CBLSEND`
 
 ## program.catalog — semantic (partial)
 
@@ -539,12 +238,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: make every applicable 2.0 callable available to programs
 
-| Item |
-| --- |
-| `all-math-from-programs` |
-| `all-graph-from-programs` |
-| `all-collection-from-programs` |
-| `all-statistics-from-programs` |
+`all-math-from-programs`, `all-graph-from-programs`, `all-collection-from-programs`, `all-statistics-from-programs`
 
 ## constants.user — workflow (missing)
 
@@ -552,12 +246,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: implement persistent typed user-defined constants
 
-| Item |
-| --- |
-| `create-user-constant` |
-| `edit-user-constant` |
-| `name-user-constant` |
-| `delete-user-constant` |
+`create-user-constant`, `edit-user-constant`, `name-user-constant`, `delete-user-constant`
 
 ## characters.extended — workflow (partial)
 
@@ -565,10 +254,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: extend the original Free85 glyph set and character palette
 
-| Item |
-| --- |
-| `Greek-characters` |
-| `international-characters` |
+`Greek-characters`, `international-characters`
 
 ## memory.management — workflow (partial)
 
@@ -576,13 +262,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: complete typed memory accounting browsing and per-object deletion
 
-| Item |
-| --- |
-| `memory-by-type` |
-| `object-size` |
-| `individual-delete` |
-| `reset` |
-| `leave-memory-screen` |
+`memory-by-type`, `object-size`, `individual-delete`, `reset`, `leave-memory-screen`
 
 ## link.transfer — workflow (hardware-dependent)
 
@@ -590,15 +270,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: implement emulator-tested Free85 item transfer with fault recovery
 
-| Item |
-| --- |
-| `select-items` |
-| `send-items` |
-| `receive-items` |
-| `duplicate-rename` |
-| `duplicate-overwrite` |
-| `duplicate-skip` |
-| `transfer-cancel` |
+`select-items`, `send-items`, `receive-items`, `duplicate-rename`, `duplicate-overwrite`, `duplicate-skip`, `transfer-cancel`
 
 ## link.backup — workflow (hardware-dependent)
 
@@ -606,21 +278,10 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger: `eq
 
 > Target: implement transactional Free85 backup/restore and separately validate physical hardware
 
-| Item |
-| --- |
-| `backup-send` |
-| `backup-confirm` |
-| `backup-restore` |
-| `backup-rollback` |
+`backup-send`, `backup-confirm`, `backup-restore`, `backup-rollback`
 
 ## clean-room.exclusions — compatibility (excluded-clean-room)
 
 > Reason: Free85 provides original user-facing equivalents without copying or promising TI binary compatibility
 
-| Item |
-| --- |
-| `TI-binary-programs` |
-| `TI-token-streams` |
-| `TI-file-formats` |
-| `TI-ROM-calls` |
-| `TI-internal-data-structures` |
+`TI-binary-programs`, `TI-token-streams`, `TI-file-formats`, `TI-ROM-calls`, `TI-internal-data-structures`

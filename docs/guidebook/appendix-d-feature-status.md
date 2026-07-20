@@ -29,7 +29,7 @@
 
 ## Open work packages
 
-Every non-`equivalent` entry in the Free85 2.0 parity ledger, grouped by work package owner. `equivalent` areas are already complete and are omitted here (see Appendix A for the full catalog).
+Every non-`equivalent` entry from the Free85 2.0 parity gap report (spec/free85/v2-parity-gaps.yaml), sorted by work package owner. `equivalent` areas are already complete and are omitted here (see Appendix A for the full catalog).
 
 - **graph.core** [partial, owner `14.3`, area graph]: mode-independent equations sampling trace tables and analysis
 - **graph.format** [partial, owner `14.3`, area graph]: axes coordinates labels grid line/dot and simultaneous/sequential settings

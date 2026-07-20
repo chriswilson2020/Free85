@@ -781,6 +781,8 @@ p6_show_table:
     CALL numeric_copy
     CALL numeric_format_result
     LD B, 0
+    LD A, (GRAPH_STATUS)
+    LD C, A
     CALL p6_draw_buffer5
     XOR A
     LD (GRAPH_NUMERIC_OP), A

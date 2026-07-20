@@ -72,7 +72,8 @@ One Markdown file per chapter, numbered for ordering, e.g.
 Appendices (generated — see Deliverable 4):
 
 - Appendix A: command and function catalog, from
-  `guidebook-command-ledger.yaml` and `features.yaml`.
+  `guidebook-command-ledger.yaml` (the command-level source of truth;
+  `features.yaml` is keyed by internal feature ids and is not used).
 - Appendix B: complete key map, from `keymap.yaml`.
 - Appendix C: error messages, from the firmware error model.
 - Appendix D: feature status and 2.0 gap table, from

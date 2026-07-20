@@ -17,6 +17,7 @@
     "release:free85": "npm run build:free85 && npm run coverage:free85 && npm run update:free85:performance && npm run update:free85:release && npm test && npm run test:free85:stress && npm run test:free85:soak && npm run build:pages",
     "test": "node --test test/free85/*.test.js",
     "test:free85": "node --test test/free85/*.test.js",
+    "test:guidebook": "node scripts/check-guidebook-traceability.js",
     "test:free85:soak": "node scripts/free85-soak.js",
     "test:free85:stress": "node scripts/free85-stress.js",
     "test:free85:oracle": "node scripts/free85-oracle.js --full",

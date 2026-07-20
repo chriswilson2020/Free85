@@ -10,6 +10,10 @@ const OUT_DIR = fileURLToPath(new URL("../docs/guidebook/images/", import.meta.u
 export const SCREEN_CASES = [
   { name: "ch01-home-screen", keys: [] },
   { name: "ch01-mode-screen", keys: ["2ND", "MORE"] },
+  // The palette opens on the space character, which renders as an empty
+  // middle, so the capture steps one character right to show a visible glyph.
+  { name: "ch01-char-palette", keys: ["2ND", "0", "RIGHT"] },
+  { name: "ch01-error-screen", keys: ["1", "/", "0", "ENTER"] },
   { name: "manual-boot", keys: [] },
   { name: "manual-first-calc", keys: ["2", "+", "3", "ENTER"] },
   // GRAPH alone plots the axes without labels, so the soft-menu example uses

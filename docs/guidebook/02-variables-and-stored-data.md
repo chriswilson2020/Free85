@@ -113,8 +113,9 @@ A few names are special:
 ## The typed object store
 
 Underneath all of this, Free85 2.0 keeps every stored item in one typed
-object store: a directory of up to sixty-four named entries backed by a
-22,784-byte compacting heap. Each entry records a name of up to eight
+object store (its on-calculator layout is versioned as schema 13): a
+directory of up to sixty-four named entries backed by a 22,784-byte
+compacting heap. Each entry records a name of up to eight
 characters, a type (real numbers, complex numbers, lists, matrices, vectors,
 strings, equations, programs, constants, graph databases, and pictures all
 have type numbers), and an exact byte size. The accounting is deterministic:

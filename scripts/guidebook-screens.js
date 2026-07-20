@@ -1,0 +1,26 @@
+import { mkdirSync, writeFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { Free85Harness } from "../test/helpers/free85-harness.js";
+import { renderLcdPng } from "../test/helpers/lcd-visual.js";
+
+const OUT_DIR = fileURLToPath(new URL("../docs/guidebook/images/", import.meta.url));
+
+// Each case boots a fresh machine and taps the listed keys.
+// Names must be kebab-case and are referenced from the Markdown chapters.
+export const SCREEN_CASES = [
+  { name: "ch01-home-screen", keys: [] },
+  { name: "ch01-mode-screen", keys: ["2ND", "MORE"] }
+];
+
+function capture({ keys }) {
+  const harness = Free85Harness.boot();
+  for (const key of keys) harness.tap(key);
+  return harness.machine.renderLcdBitmap();
+}
+
+mkdirSync(OUT_DIR, { recursive: true });
+for (const screenCase of SCREEN_CASES) {
+  if (!/^[a-z0-9-]+$/.test(screenCase.name)) throw new Error(`bad name ${screenCase.name}`);
+  writeFileSync(`${OUT_DIR}${screenCase.name}.png`, renderLcdPng(capture(screenCase)));
+  console.log(`wrote ${screenCase.name}.png`);
+}

@@ -7,6 +7,7 @@
   "scripts": {
     "build:pages": "node scripts/build-pages.js",
     "build:free85": "node scripts/build-free85.js",
+    "build:guidebook:screens": "node scripts/guidebook-screens.js",
     "benchmark:free85": "node scripts/free85-performance.js",
     "coverage:free85": "node scripts/free85-coverage.js",
     "coverage:free85:v2": "node scripts/free85-v2-parity.js --check",

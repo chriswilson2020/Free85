@@ -142,3 +142,7 @@ export function assertLcdGolden(name, bitmap) {
   assert.fail(`LCD golden ${name} changed by ${changedPixels} pixels; inspect ${expectedArtifact}, ${actualArtifact}, and ${diffArtifact}`);
 }
 
+export function renderLcdPng(bitmap, scale = 4) {
+  return renderPixels(bitmap, scale);
+}
+

@@ -174,8 +174,9 @@ Press [MORE] on the graph screen to open the table of values:
 
 ![The table of values for Y1=X^2-4](images/ch04-table.png)
 
-The table shows six rows and a column per function slot. It starts at
-`X` = 0 and steps by 1, so with `X^2-4` stored the `Y1` column reads `-4`,
+The table shows six rows, an `X` column on the left, and a column per
+function slot. It starts at `X` = 0 and steps by 1, so with `X^2-4` stored
+the `X` column reads `0` through `5` and the `Y1` column reads `-4`,
 `-3`, `0`, `5`, `12`, `21`. A disabled slot's column shows `-`, and a value
 that does not exist shows `UNDEF`: plot `1/X` and open the table, and the
 `X` = 0 row shows `UNDEF` with the reciprocals below it. Cells are five
@@ -190,14 +191,9 @@ The table keys are listed on its bottom line, `UP DN GRAPH EXIT`:
   2, 4, 8 apart, or 0.5, 0.25 going the other way.
 - [GRAPH] or [EXIT] leaves the table and replots the graph.
 
-One defect to know about: the leftmost column is meant to list each row's
-`X` value, but in today's firmware those values are all drawn on top of one
-another in the top-left corner, where the stacked digits form a solid
-block, and the `X` column itself stays blank. Work out each row's `X` from
-the start and step until this is corrected.
-
-> ⚠ **Planned:** a table whose `X` column prints each row's value in
-> place, with a settable start and step (Free85 2.0, work package 14.3).
+> ⚠ **Planned:** a settable table start and step (Free85 2.0, work
+> package 14.3). Today the table always starts at 0 after a replot and the
+> step is only reachable through the [+] and [-] keys above.
 
 ## Graph formats
 

@@ -303,6 +303,10 @@ p11_system_key:
     JR Z, .contrast_up
     CP KEY_F5
     JP Z, phase11_open_memory
+    CP KEY_UP
+    JR Z, .fixed_up
+    CP KEY_DOWN
+    JR Z, .fixed_down
     JP p11_render_system
 .angle:
     LD A, (ANGLE_MODE)
@@ -311,8 +315,23 @@ p11_system_key:
     JP p11_render_system
 .format:
     LD A, (P11_DISPLAY_MODE)
-    XOR 1
+    INC A
+    AND $03
     LD (P11_DISPLAY_MODE), A
+    JP p11_render_system
+.fixed_up:
+    LD A, (P14_FIX_DIGITS)
+    CP 11
+    JR NC, .fixed_apply
+    INC A
+    JR .fixed_apply
+.fixed_down:
+    LD A, (P14_FIX_DIGITS)
+    OR A
+    JR Z, .fixed_apply
+    DEC A
+.fixed_apply:
+    LD (P14_FIX_DIGITS), A
     JP p11_render_system
 .contrast_down:
     LD A, (P11_CONTRAST)
@@ -350,10 +369,24 @@ p11_render_system:
     OR A
     JR Z, .format
     LD HL, p11_text_format_sci
+    CP 1
+    JR Z, .format
+    LD HL, p11_text_format_eng
+    CP 2
+    JR Z, .format
+    LD HL, p11_text_format_fix
 .format:
     LD B, 0
     LD C, 3
     CALL text_draw_string
+    LD A, (P11_DISPLAY_MODE)
+    CP 3
+    JR NZ, .contrast
+    LD A, (P14_FIX_DIGITS)
+    LD B, 11
+    LD C, 3
+    CALL p11_draw_u8
+.contrast:
     LD HL, p11_text_contrast
     LD B, 0
     LD C, 4
@@ -661,7 +694,8 @@ p11_render_link:
     JP text_draw_string
 
 ; ---------------------------------------------------------------------------
-; Number-base display for non-negative integers 0..255.
+; Number-base display for signed 16-bit integers. Non-decimal modes show the
+; exact two's-complement word, matching the Boolean/shift utility domain.
 
 p11_base_key:
     CP KEY_EXIT
@@ -673,18 +707,24 @@ p11_base_key:
     LD C, 16
     JR Z, .convert
     CP KEY_F3
+    LD C, 8
+    JR Z, .convert
+    CP KEY_F4
     LD C, 2
     JR Z, .convert
     JP p11_render_base
 .convert:
     LD A, C
     LD (P11_BASE_MODE), A
-    CALL p11_previous_answer_u8
+    CALL p11_previous_answer_s16
     JP C, p11_notice_base_range
-    LD C, A
+    LD B, H
+    LD C, L
     LD A, (P11_BASE_MODE)
     CP 16
     JR Z, p11_format_hex
+    CP 8
+    JP Z, p11_format_octal
     CP 2
     JP Z, p11_format_binary
     LD HL, PREVIOUS_ANSWER
@@ -697,51 +737,29 @@ p11_base_key:
     LDIR
     JP p11_render_base
 
-p11_previous_answer_u8:
+p11_previous_answer_s16:
     LD HL, PREVIOUS_ANSWER
-    LD DE, NUM_RESULT
-    CALL numeric_copy
-    CALL numeric_format_result
-    LD A, (RESULT_LENGTH)
-    OR A
-    SCF
-    RET Z
-    LD B, A
-    LD HL, RESULT_BUFFER
-    LD C, 0
-.digit:
-    LD A, (HL)
-    CP '0'
-    JR C, .fail
-    CP '9' + 1
-    JR NC, .fail
-    SUB '0'
-    LD D, A
-    LD A, C
-    CP 26
-    JR NC, .fail
-    ADD A, A
-    LD E, A
-    ADD A, A
-    ADD A, A
-    ADD A, E
-    ADD A, D
-    JR C, .fail
-    LD C, A
-    INC HL
-    DJNZ .digit
-    LD A, C
-    OR A
-    RET
-.fail:
-    SCF
-    RET
+    JP utility_to_s16
 
 p11_format_hex:
     LD HL, P11_OUTPUT_BUFFER
     LD (HL), '0'
     INC HL
     LD (HL), 'x'
+    INC HL
+    LD A, B
+    RRCA
+    RRCA
+    RRCA
+    RRCA
+    AND $0F
+    CALL p11_hex_digit
+    LD (HL), A
+    INC HL
+    LD A, B
+    AND $0F
+    CALL p11_hex_digit
+    LD (HL), A
     INC HL
     LD A, C
     RRCA
@@ -775,19 +793,55 @@ p11_format_binary:
     INC HL
     LD (HL), 'b'
     INC HL
-    LD B, 8
-    LD A, C
+    LD D, B
+    LD E, C
+    LD B, 16
 .bit:
-    RLCA
-    PUSH AF
+    SLA E
+    RL D
     LD A, '0'
     JR NC, .write
     INC A
 .write:
     LD (HL), A
     INC HL
-    POP AF
     DJNZ .bit
+    LD (HL), 0
+    JP p11_render_base
+
+p11_format_octal:
+    LD HL, P11_OUTPUT_BUFFER
+    LD (HL), '0'
+    INC HL
+    LD (HL), 'o'
+    INC HL
+    LD D, B
+    LD E, C
+    LD A, '0'
+    BIT 7, D
+    JR Z, .octal_first
+    INC A
+.octal_first:
+    LD (HL), A
+    INC HL
+    SLA E
+    RL D
+    LD B, 5
+.octal_digit:
+    XOR A
+    PUSH BC
+    LD B, 3
+.octal_bits:
+    SLA E
+    RL D
+    RLA
+    DJNZ .octal_bits
+    POP BC
+    AND $07
+    ADD A, '0'
+    LD (HL), A
+    INC HL
+    DJNZ .octal_digit
     LD (HL), 0
     JP p11_render_base
 
@@ -966,6 +1020,8 @@ p11_text_angle_rad: DB "ANGLE RAD",0
 p11_text_angle_deg: DB "ANGLE DEG",0
 p11_text_format_auto: DB "FORMAT AUTO",0
 p11_text_format_sci: DB "FORMAT SCI",0
+p11_text_format_eng: DB "FORMAT ENG",0
+p11_text_format_fix: DB "FORMAT FIX",0
 p11_text_contrast: DB "CONTRAST",0
 p11_menu_system: DB "ANG FMT  -   +  MEM",0
 p11_text_variables: DB "VARIABLES",0
@@ -983,9 +1039,9 @@ p11_text_native: DB "FREE85 PROTOCOL",0
 p11_text_lines: DB "LINES",0
 p11_menu_link: DB "PULSE READ",0
 p11_text_base: DB "NUMBER BASE",0
-p11_menu_base: DB "DEC HEX BIN",0
+p11_menu_base: DB "DEC HEX OCT BIN",0
 p11_text_stored: DB "MEMORY STORED",0
 p11_text_memory_error: DB "MEMORY ERROR",0
-p11_text_base_range: DB "INTEGER 0-255",0
+p11_text_base_range: DB "SIGNED 16-BIT INT",0
 p11_text_vars_cleared: DB "VARIABLES CLEARED",0
 p11_text_programs_cleared: DB "PROGRAMS CLEARED",0

@@ -443,7 +443,12 @@ ui_power_off:
 ui_call_phase6_open_graph:
     LD A, 1
     CALL bank_select
-    JP PHASE6_OPEN_GRAPH
+    CALL PHASE6_OPEN_GRAPH
+    ; A program can enter the graph late in an emulated frame. Reassert the
+    ; destination screen after the complete banked setup returns.
+    LD A, SCREEN_GRAPH
+    LD (UI_SCREEN_MODE), A
+    RET
 
 ui_call_phase6_tolerance:
     LD A, 1

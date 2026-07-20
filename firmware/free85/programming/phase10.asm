@@ -970,6 +970,8 @@ p10_command_graph:
     ; The expression source is now in the shared editor; GRAPH stores it.
     XOR A
     LD (P10_RUNNING), A
+    ; Discard any program-menu key queued during the bank/screen transition.
+    CALL events_init
     JP ui_call_phase6_open_graph
 
 ; LSET index,expression and LGET index,variable use list A.

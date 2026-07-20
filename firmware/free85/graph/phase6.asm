@@ -112,6 +112,8 @@ p6_load_active_equation:
 p6_start_plot:
     LD A, SCREEN_GRAPH
     LD (UI_SCREEN_MODE), A
+    LD A, 1
+    LD (GRAPH_INPUT_GUARD), A
     XOR A
     LD (GRAPH_PLOT_X), A
     LD (GRAPH_PREV_VALID), A
@@ -213,6 +215,15 @@ p6_draw_grid_axes:
 
 ; Incremental plotter: one LCD column per UI tick, all enabled equations.
 phase6_tick:
+    LD A, (GRAPH_INPUT_GUARD)
+    OR A
+    JR Z, .guard_ready
+    LD A, (KEY_STABLE)
+    CP KEY_NONE
+    JR NZ, .guard_ready
+    XOR A
+    LD (GRAPH_INPUT_GUARD), A
+.guard_ready:
     ; A graph sample can span several emulated frames. Poll once more before
     ; starting it so normal short key taps remain responsive and cancellable.
     CALL events_poll
@@ -517,6 +528,11 @@ p6_set_pixel:
     RET
 
 phase6_handle_key:
+    LD B, A
+    LD A, (GRAPH_INPUT_GUARD)
+    OR A
+    LD A, B
+    RET NZ
     LD B, A
     LD A, (UI_SCREEN_MODE)
     CP SCREEN_TABLE
@@ -962,6 +978,229 @@ p6_const_64:    DB $00,$01,$64,$00,$00,$00,$00,$00,$00
 p6_const_h5:    DB $00,$FB,$10,$00,$00,$00,$00,$00,$00
 p6_const_2h5:   DB $00,$FB,$20,$00,$00,$00,$00,$00,$00
 
+; Phase 14.2 callable calculus uses the active graph function. Nested graph
+; evaluation has its own editor/token/parser context, so preserve the home
+; expression around every call.
+p14_calculus_begin:
+    XOR A
+    LD (GRAPH_TOKEN_VALID), A
+    LD HL, TOKEN_BUFFER
+    LD DE, P9_WORK_BUFFER
+    LD BC, (EVAL_STACK + EVAL_STACK_CAPACITY * NUM_SIZE) - TOKEN_BUFFER
+    LDIR
+    LD HL, PARSER_STATE
+    LD DE, P10_WORK_BUFFER + 16
+    LD BC, SYSTEM_STATE_END - PARSER_STATE
+    LDIR
+    LD A, (EDITOR_LENGTH)
+    LD (P10_WORK_BUFFER + 157), A
+    LD A, (EDITOR_CURSOR)
+    LD (P10_WORK_BUFFER + 158), A
+    LD A, (EDITOR_INSERT)
+    LD (P10_WORK_BUFFER + 159), A
+    LD HL, EDITOR_BUFFER
+    LD DE, P10_WORK_BUFFER + 160
+    LD BC, EDITOR_CAPACITY
+    LDIR
+    LD HL, VARIABLES + 23 * NUM_SIZE
+    LD DE, P10_WORK_BUFFER + 208
+    LD BC, NUM_SIZE
+    LDIR
+    RET
+
+p14_calculus_end:
+    LD HL, P9_WORK_BUFFER
+    LD DE, TOKEN_BUFFER
+    LD BC, (EVAL_STACK + EVAL_STACK_CAPACITY * NUM_SIZE) - TOKEN_BUFFER
+    LDIR
+    LD HL, P10_WORK_BUFFER + 16
+    LD DE, PARSER_STATE
+    LD BC, SYSTEM_STATE_END - PARSER_STATE
+    LDIR
+    LD A, (P10_WORK_BUFFER + 157)
+    LD (EDITOR_LENGTH), A
+    LD A, (P10_WORK_BUFFER + 158)
+    LD (EDITOR_CURSOR), A
+    LD A, (P10_WORK_BUFFER + 159)
+    LD (EDITOR_INSERT), A
+    LD HL, P10_WORK_BUFFER + 160
+    LD DE, EDITOR_BUFFER
+    LD BC, EDITOR_CAPACITY
+    LDIR
+    LD HL, P10_WORK_BUFFER + 208
+    LD DE, VARIABLES + 23 * NUM_SIZE
+    LD BC, NUM_SIZE
+    LDIR
+    XOR A
+    LD (GRAPH_TOKEN_VALID), A
+    RET
+
+p14_calculus_eval:
+    CALL p14_calculus_begin
+    XOR A
+    LD (GRAPH_NUMERIC_OP), A
+    LD HL, NUM_LEFT
+    LD DE, GRAPH_CURRENT_X
+    CALL numeric_copy
+    CALL p6_evaluate_target
+    JP p14_calculus_return
+
+p14_calculus_derivative:
+    CALL p14_calculus_begin
+    LD HL, NUM_LEFT
+    LD DE, GRAPH_RESULT_X
+    CALL numeric_copy
+    CALL p6_calculate_derivative
+    JP p14_calculus_return
+
+p14_calculus_integral:
+    CALL p14_calculus_begin
+    CALL p14_calculus_bounds
+    CALL p6_calculate_integral
+    JP p14_calculus_return
+
+p14_calculus_minimum:
+    CALL p14_calculus_begin
+    CALL p14_calculus_bounds
+    XOR A
+    CALL p6_calculate_extremum
+    JP p14_calculus_return
+
+p14_calculus_maximum:
+    CALL p14_calculus_begin
+    CALL p14_calculus_bounds
+    LD A, 1
+    CALL p6_calculate_extremum
+    JP p14_calculus_return
+
+p14_calculus_bounds:
+    LD HL, NUM_LEFT
+    LD DE, GRAPH_XMIN
+    CALL numeric_copy
+    LD HL, NUM_RIGHT
+    LD DE, GRAPH_XMAX
+    JP numeric_copy
+
+; Linear endpoint interpolation at the interval midpoint.
+p14_calculus_interpolate:
+    CALL p14_calculus_begin
+    CALL p14_calculus_bounds
+    XOR A
+    LD (GRAPH_NUMERIC_OP), A
+    LD HL, GRAPH_XMIN
+    LD DE, GRAPH_CURRENT_X
+    CALL numeric_copy
+    CALL p6_evaluate_target
+    JP C, p14_calculus_return
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_WORK_1
+    CALL numeric_copy
+    LD HL, GRAPH_XMAX
+    LD DE, GRAPH_CURRENT_X
+    CALL numeric_copy
+    CALL p6_evaluate_target
+    JP C, p14_calculus_return
+    LD HL, GRAPH_WORK_1
+    LD DE, NUM_RESULT
+    CALL sci_add_objects
+    JP C, p14_calculus_return
+    LD HL, NUM_RESULT
+    LD DE, const_two
+    CALL sci_divide_objects
+    JP p14_calculus_return
+
+; Arc length by a 64-segment polyline over the supplied interval.
+p14_calculus_arc:
+    CALL p14_calculus_begin
+    CALL p14_calculus_bounds
+    XOR A
+    LD (GRAPH_NUMERIC_OP), A
+    LD HL, GRAPH_XMAX
+    LD DE, GRAPH_XMIN
+    CALL sci_subtract_objects
+    JP C, p14_calculus_return
+    LD HL, NUM_RESULT
+    LD DE, p6_const_64
+    CALL sci_divide_objects
+    JP C, p14_calculus_return
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_WORK_0
+    CALL numeric_copy
+    LD HL, GRAPH_WORK_0
+    LD DE, GRAPH_WORK_0
+    CALL sci_multiply_objects
+    JP C, p14_calculus_return
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_RESULT_X
+    CALL numeric_copy
+    LD HL, GRAPH_XMIN
+    LD DE, GRAPH_CURRENT_X
+    CALL numeric_copy
+    CALL p6_evaluate_target
+    JP C, p14_calculus_return
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_WORK_1
+    CALL numeric_copy
+    LD HL, p6_const_zero
+    LD DE, GRAPH_WORK_2
+    CALL numeric_copy
+    LD A, 64
+    LD (GRAPH_STATUS), A
+.arc_loop:
+    LD HL, GRAPH_CURRENT_X
+    LD DE, GRAPH_WORK_0
+    CALL sci_add_objects
+    JR C, p14_calculus_return
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_CURRENT_X
+    CALL numeric_copy
+    CALL p6_evaluate_target
+    JR C, p14_calculus_return
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_WORK_3
+    CALL numeric_copy
+    LD HL, GRAPH_WORK_3
+    LD DE, GRAPH_WORK_1
+    CALL sci_subtract_objects
+    JR C, p14_calculus_return
+    LD HL, NUM_RESULT
+    LD DE, NUM_RESULT
+    CALL sci_multiply_objects
+    JR C, p14_calculus_return
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_RESULT_X
+    CALL sci_add_objects
+    JR C, p14_calculus_return
+    LD HL, NUM_RESULT
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    CALL numeric_square_root
+    JR C, p14_calculus_return
+    LD HL, GRAPH_WORK_2
+    LD DE, NUM_RESULT
+    CALL sci_add_objects
+    JR C, p14_calculus_return
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_WORK_2
+    CALL numeric_copy
+    LD HL, GRAPH_WORK_3
+    LD DE, GRAPH_WORK_1
+    CALL numeric_copy
+    LD A, (GRAPH_STATUS)
+    DEC A
+    LD (GRAPH_STATUS), A
+    JR NZ, .arc_loop
+    LD HL, GRAPH_WORK_2
+    LD DE, NUM_RESULT
+    CALL numeric_copy
+    OR A
+
+p14_calculus_return:
+    PUSH AF
+    CALL p14_calculus_end
+    POP AF
+    RET
+
 ; Evaluate the active equation, or Y1-Y2 for intersection mode.
 p6_evaluate_target:
     LD A, (GRAPH_NUMERIC_OP)
@@ -1202,10 +1441,17 @@ p6_secant_refine:
 ; Ternary refinement over the current window. GRAPH_STATUS selects min/max.
 p6_find_minimum:
     XOR A
-    JR p6_extremum
+    CALL p6_calculate_extremum
+    JP C, p6_numeric_failure
+    LD HL, GRAPH_RESULT_X
+    JP p6_publish_result
 p6_find_maximum:
     LD A, 1
-p6_extremum:
+    CALL p6_calculate_extremum
+    JP C, p6_numeric_failure
+    LD HL, GRAPH_RESULT_X
+    JP p6_publish_result
+p6_calculate_extremum:
     LD (GRAPH_STATUS), A
     XOR A
     LD (GRAPH_NUMERIC_OP), A
@@ -1316,10 +1562,21 @@ p6_extremum:
     LD DE, GRAPH_RESULT_Y
     CALL numeric_copy
     LD HL, GRAPH_RESULT_X
-    JP p6_publish_result
+    LD DE, NUM_RESULT
+    CALL numeric_copy
+    OR A
+    RET
 
 ; Central difference at the trace x (zero until trace is moved).
 p6_find_derivative:
+    CALL p6_calculate_derivative
+    JP C, p6_numeric_failure
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_RESULT_Y
+    CALL numeric_copy
+    LD HL, GRAPH_RESULT_Y
+    JP p6_publish_result
+p6_calculate_derivative:
     XOR A
     LD (GRAPH_NUMERIC_OP), A
     LD HL, GRAPH_RESULT_X
@@ -1351,15 +1608,18 @@ p6_find_derivative:
     LD HL, NUM_RESULT
     LD DE, p6_const_2h5
     CALL sci_divide_objects
+    RET
+
+; Composite Simpson rule with 64 fixed subintervals.
+p6_find_integral:
+    CALL p6_calculate_integral
     JP C, p6_numeric_failure
     LD HL, NUM_RESULT
     LD DE, GRAPH_RESULT_Y
     CALL numeric_copy
     LD HL, GRAPH_RESULT_Y
     JP p6_publish_result
-
-; Composite Simpson rule with 64 fixed subintervals.
-p6_find_integral:
+p6_calculate_integral:
     XOR A
     LD (GRAPH_NUMERIC_OP), A
     LD HL, GRAPH_XMAX
@@ -1430,12 +1690,7 @@ p6_find_integral:
     LD HL, NUM_RESULT
     LD DE, p6_const_3
     CALL sci_divide_objects
-    JP C, p6_numeric_failure
-    LD HL, NUM_RESULT
-    LD DE, GRAPH_RESULT_Y
-    CALL numeric_copy
-    LD HL, GRAPH_RESULT_Y
-    JP p6_publish_result
+    RET
 
 p6_publish_result:
     LD DE, NUM_RESULT

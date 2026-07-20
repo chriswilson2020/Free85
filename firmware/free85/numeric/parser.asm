@@ -197,14 +197,46 @@ lexer_tokenize:
 .number_loop:
     LD A, (LEX_REMAIN)
     OR A
-    JR Z, .number_done
+    JP Z, .number_done
     LD HL, (LEX_PTR)
     LD A, (HL)
     CP '0'
     JR C, .number_symbol
     CP '9' + 1
-    JR C, .number_digit
+    JP C, .number_digit
 .number_symbol:
+    LD D, A
+    LD A, (LEX_NUMBER_STATE)
+    CP 3
+    LD A, D
+    JR NC, .number_base_symbol
+    LD A, C
+    CP 1
+    LD A, D
+    JR NZ, .number_decimal_symbol
+    PUSH HL
+    LD HL, EDITOR_BUFFER
+    LD E, B
+    LD D, 0
+    ADD HL, DE
+    LD A, (HL)
+    POP HL
+    CP '0'
+    LD A, (HL)
+    JR NZ, .number_decimal_symbol
+    CP 'X'
+    JR Z, .number_prefix_hex
+    CP 'x'
+    JR Z, .number_prefix_hex
+    CP 'B'
+    JR Z, .number_prefix_binary
+    CP 'b'
+    JR Z, .number_prefix_binary
+    CP 'O'
+    JR Z, .number_prefix_octal
+    CP 'o'
+    JR Z, .number_prefix_octal
+.number_decimal_symbol:
     CP '.'
     JR Z, .number_accept
     CP 'E'
@@ -215,6 +247,32 @@ lexer_tokenize:
     JR Z, .number_exp_sign
     CP '-'
     JR Z, .number_exp_sign
+    JR .number_done
+.number_prefix_hex:
+    LD A, 3
+    JR .number_prefix
+.number_prefix_binary:
+    LD A, 4
+    JR .number_prefix
+.number_prefix_octal:
+    LD A, 5
+.number_prefix:
+    LD (LEX_NUMBER_STATE), A
+    JR .number_accept
+.number_base_symbol:
+    LD D, A
+    LD A, (LEX_NUMBER_STATE)
+    CP 3
+    LD A, D
+    JR NZ, .number_done
+    CP 'A'
+    JR C, .number_done
+    CP 'F' + 1
+    JR C, .number_accept
+    CP 'a'
+    JR C, .number_done
+    CP 'f' + 1
+    JR C, .number_accept
     JR .number_done
 .number_exp:
     LD A, (LEX_NUMBER_STATE)
@@ -232,17 +290,33 @@ lexer_tokenize:
     JR .number_accept
 .number_digit:
     LD A, (LEX_NUMBER_STATE)
+    CP 3
+    JR Z, .number_accept
+    CP 4
+    JR Z, .number_binary_digit
+    CP 5
+    JR Z, .number_octal_digit
     OR A
     JR Z, .number_accept
     LD A, 2
     LD (LEX_NUMBER_STATE), A
+    JR .number_accept
+.number_binary_digit:
+    LD A, (HL)
+    CP '2'
+    JR NC, .number_done
+    JR .number_accept
+.number_octal_digit:
+    LD A, (HL)
+    CP '8'
+    JR NC, .number_done
 .number_accept:
     INC C
     LD A, 1
     PUSH BC
     CALL lexer_consume
     POP BC
-    JR .number_loop
+    JP .number_loop
 .number_done:
     LD A, TOKEN_NUMBER
     CALL lexer_emit
@@ -694,8 +768,34 @@ parser_parse_primary:
     LD D, 0
     LD HL, EDITOR_BUFFER
     ADD HL, DE
+    LD A, B
+    CP 3
+    JR C, .decimal_number
+    LD A, (HL)
+    CP '0'
+    JR NZ, .decimal_number
+    INC HL
+    LD A, (HL)
+    DEC HL
+    CP 'X'
+    JR Z, .base_number
+    CP 'x'
+    JR Z, .base_number
+    CP 'B'
+    JR Z, .base_number
+    CP 'b'
+    JR Z, .base_number
+    CP 'O'
+    JR Z, .base_number
+    CP 'o'
+    JR Z, .base_number
+.decimal_number:
     LD DE, NUM_RESULT
     CALL numeric_parse
+    JR .number_parsed
+.base_number:
+    CALL utility_parse_base_literal
+.number_parsed:
     RET C
     CALL parser_advance
     JP parser_push_result
@@ -797,6 +897,9 @@ parser_parse_primary:
     CP TOKEN_LPAREN
     JR NZ, .function_syntax
     CALL parser_advance
+    CALL parser_current_type
+    CP TOKEN_RPAREN
+    JR Z, .zero_arguments
     CALL parser_parse_assignment
     JR C, .function_error
     LD B, 1
@@ -807,6 +910,9 @@ parser_parse_primary:
     CALL parser_parse_assignment
     JR C, .function_error
     LD B, 2
+    JR .function_arguments_ready
+.zero_arguments:
+    LD B, 0
 .function_arguments_ready:
     LD A, B
     LD (SCI_ARG_COUNT), A
@@ -815,6 +921,8 @@ parser_parse_primary:
     JR NZ, .function_syntax
     CALL parser_advance
     LD A, (SCI_ARG_COUNT)
+    OR A
+    JR Z, .dispatch_call
     CP 2
     JR NZ, .one_argument
     LD DE, NUM_RIGHT
@@ -824,6 +932,7 @@ parser_parse_primary:
     LD DE, NUM_LEFT
     CALL parser_pop
     JR C, .function_error
+.dispatch_call:
     POP AF
     LD (SCI_FUNCTION_ID), A
     CALL scientific_dispatch

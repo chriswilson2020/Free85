@@ -9,6 +9,13 @@ bank_start:
     JP phase6_tick
     JP phase6_solve_home
     JP phase6_tolerance_ui
+    JP p14_calculus_eval
+    JP p14_calculus_derivative
+    JP p14_calculus_integral
+    JP p14_calculus_minimum
+    JP p14_calculus_maximum
+    JP p14_calculus_arc
+    JP p14_calculus_interpolate
 
     INCLUDE "graph/phase6.asm"
 

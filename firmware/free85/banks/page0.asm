@@ -14,6 +14,7 @@
     INCLUDE "numeric/core.asm"
     INCLUDE "numeric/evaluator.asm"
     INCLUDE "numeric/scientific.asm"
+    INCLUDE "numeric/utilities.asm"
     INCLUDE "numeric/parser.asm"
     INCLUDE "ui/editor.asm"
     INCLUDE "ui/text.asm"

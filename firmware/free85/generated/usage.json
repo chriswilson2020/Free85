@@ -1,19 +1,19 @@
 {
-  "phase": "14.1",
+  "phase": "14.2",
   "rom_bytes": 131072,
   "page_size": 16384,
   "pages": [
     {
       "page": 0,
-      "used_bytes": 12480,
-      "free_bytes": 3904,
-      "percent_used": 76.17
+      "used_bytes": 14890,
+      "free_bytes": 1494,
+      "percent_used": 90.88
     },
     {
       "page": 1,
-      "used_bytes": 3243,
-      "free_bytes": 13141,
-      "percent_used": 19.79
+      "used_bytes": 3869,
+      "free_bytes": 12515,
+      "percent_used": 23.61
     },
     {
       "page": 2,
@@ -29,21 +29,21 @@
     },
     {
       "page": 4,
-      "used_bytes": 2645,
-      "free_bytes": 13739,
-      "percent_used": 16.14
+      "used_bytes": 2856,
+      "free_bytes": 13528,
+      "percent_used": 17.43
     },
     {
       "page": 5,
-      "used_bytes": 3120,
-      "free_bytes": 13264,
-      "percent_used": 19.04
+      "used_bytes": 3123,
+      "free_bytes": 13261,
+      "percent_used": 19.06
     },
     {
       "page": 6,
-      "used_bytes": 2378,
-      "free_bytes": 14006,
-      "percent_used": 14.51
+      "used_bytes": 2504,
+      "free_bytes": 13880,
+      "percent_used": 15.28
     },
     {
       "page": 7,

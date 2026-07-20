@@ -13,8 +13,11 @@ it is not a binary-compatible replacement for Texas Instruments firmware.
   transcendental functions can take substantially longer.
 - The native link screen exercises the physical link lines and Free85 protocol
   state. It does not import or export proprietary TI file formats.
-- Number-base display is deliberately limited to non-negative integers from
-  0 through 255.
+- Number-base and Boolean operations use signed 16-bit two's-complement words;
+  ordinary decimal arithmetic retains the wider packed-BCD range.
+- Home calculus callables operate on the active Y1 equation. They intentionally
+  use short `EVAL(x)`/`FNINT(a,b)` forms instead of accepting an expression and
+  variable as additional arguments.
 - Lists contain at most eight values, matrices are at most 3x3, vectors have at
   most three components, simultaneous systems are at most 4x4, and polynomial
   solving is limited to degree four.

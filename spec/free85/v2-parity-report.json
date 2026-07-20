@@ -1,21 +1,21 @@
 {
   "schemaVersion": 1,
   "release": "2.0.0",
-  "phase": "14.1",
+  "phase": "14.2",
   "inventory": {
     "groups": 41,
     "entries": 298,
     "groupsByStatus": {
-      "equivalent": 6,
-      "partial": 24,
-      "missing": 7,
+      "equivalent": 11,
+      "partial": 20,
+      "missing": 6,
       "hardware-dependent": 3,
       "excluded-clean-room": 1
     },
     "entriesByStatus": {
-      "equivalent": 45,
-      "partial": 187,
-      "missing": 48,
+      "equivalent": 94,
+      "partial": 146,
+      "missing": 40,
       "hardware-dependent": 13,
       "excluded-clean-room": 5
     }
@@ -23,12 +23,12 @@
   "gaps": {
     "total": 36,
     "byStatus": {
-      "equivalent": 4,
-      "partial": 20,
-      "missing": 10,
+      "equivalent": 9,
+      "partial": 16,
+      "missing": 9,
       "hardware-dependent": 2
     },
-    "equivalentPercent": 11.11
+    "equivalentPercent": 25
   },
   "workPackages": [
     {
@@ -65,23 +65,23 @@
       "gaps": [
         {
           "id": "numeric.utilities",
-          "status": "partial"
+          "status": "equivalent"
         },
         {
           "id": "numeric.calculus",
-          "status": "partial"
+          "status": "equivalent"
         },
         {
           "id": "mode.display",
-          "status": "partial"
+          "status": "equivalent"
         },
         {
           "id": "base.full",
-          "status": "partial"
+          "status": "equivalent"
         },
         {
           "id": "base.boolean",
-          "status": "missing"
+          "status": "equivalent"
         }
       ]
     },

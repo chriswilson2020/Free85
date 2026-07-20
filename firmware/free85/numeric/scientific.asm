@@ -51,6 +51,34 @@ SCI_ID_JCAL        EQU 40
 SCI_ID_CALJ        EQU 41
 SCI_ID_WHP         EQU 42
 SCI_ID_HPW         EQU 43
+SCI_ID_INT         EQU 44
+SCI_ID_FRAC        EQU 45
+SCI_ID_ROUND       EQU 46
+SCI_ID_SIGN        EQU 47
+SCI_ID_MOD         EQU 48
+SCI_ID_GCD         EQU 49
+SCI_ID_LCM         EQU 50
+SCI_ID_MIN         EQU 51
+SCI_ID_MAX         EQU 52
+SCI_ID_PCT         EQU 53
+SCI_ID_ROOT        EQU 54
+SCI_ID_RAND        EQU 55
+SCI_ID_RANDI       EQU 56
+SCI_ID_AND         EQU 57
+SCI_ID_OR          EQU 58
+SCI_ID_XOR         EQU 59
+SCI_ID_NOT         EQU 60
+SCI_ID_SHL         EQU 61
+SCI_ID_SHR         EQU 62
+SCI_ID_ROL         EQU 63
+SCI_ID_ROR         EQU 64
+SCI_ID_EVAL        EQU 65
+SCI_ID_NDER        EQU 66
+SCI_ID_FNINT       EQU 67
+SCI_ID_FMIN        EQU 68
+SCI_ID_FMAX        EQU 69
+SCI_ID_ARC         EQU 70
+SCI_ID_INTER       EQU 71
 
 SCI_N              EQU SCI_STATE + 6
 SCI_R              EQU SCI_STATE + 7
@@ -1337,6 +1365,50 @@ scientific_dispatch:
     JR Z, .require_two
     CP SCI_ID_NCR
     JR Z, .require_two
+    CP SCI_ID_RAND
+    JR Z, .require_zero
+    CP SCI_ID_ROUND
+    JR Z, .require_two
+    CP SCI_ID_MOD
+    JR Z, .require_two
+    CP SCI_ID_GCD
+    JR Z, .require_two
+    CP SCI_ID_LCM
+    JR Z, .require_two
+    CP SCI_ID_MIN
+    JR Z, .require_two
+    CP SCI_ID_MAX
+    JR Z, .require_two
+    CP SCI_ID_PCT
+    JR Z, .require_two
+    CP SCI_ID_ROOT
+    JR Z, .require_two
+    CP SCI_ID_RANDI
+    JR Z, .require_two
+    CP SCI_ID_AND
+    JR Z, .require_two
+    CP SCI_ID_OR
+    JR Z, .require_two
+    CP SCI_ID_XOR
+    JR Z, .require_two
+    CP SCI_ID_SHL
+    JR Z, .require_two
+    CP SCI_ID_SHR
+    JR Z, .require_two
+    CP SCI_ID_ROL
+    JR Z, .require_two
+    CP SCI_ID_ROR
+    JR Z, .require_two
+    CP SCI_ID_FNINT
+    JR Z, .require_two
+    CP SCI_ID_FMIN
+    JR Z, .require_two
+    CP SCI_ID_FMAX
+    JR Z, .require_two
+    CP SCI_ID_ARC
+    JR Z, .require_two
+    CP SCI_ID_INTER
+    JR Z, .require_two
     LD A, C
     CP 1
     JP NZ, numeric_syntax_error
@@ -1345,6 +1417,12 @@ scientific_dispatch:
 .require_two:
     LD A, C
     CP 2
+    JP NZ, numeric_syntax_error
+    LD A, B
+    JR .dispatch
+.require_zero:
+    LD A, C
+    OR A
     JP NZ, numeric_syntax_error
     LD A, B
 .dispatch:
@@ -1452,6 +1530,62 @@ scientific_dispatch:
     CP SCI_ID_HPW
     LD DE, conv_w_to_hp
     JP Z, scientific_divide_factor
+    CP SCI_ID_INT
+    JP Z, utility_integer
+    CP SCI_ID_FRAC
+    JP Z, utility_fraction
+    CP SCI_ID_ROUND
+    JP Z, utility_round
+    CP SCI_ID_SIGN
+    JP Z, utility_sign
+    CP SCI_ID_MOD
+    JP Z, utility_mod
+    CP SCI_ID_GCD
+    JP Z, utility_gcd
+    CP SCI_ID_LCM
+    JP Z, utility_lcm
+    CP SCI_ID_MIN
+    JP Z, utility_min
+    CP SCI_ID_MAX
+    JP Z, utility_max
+    CP SCI_ID_PCT
+    JP Z, utility_percent
+    CP SCI_ID_ROOT
+    JP Z, utility_root
+    CP SCI_ID_RAND
+    JP Z, utility_random
+    CP SCI_ID_RANDI
+    JP Z, utility_random_integer
+    CP SCI_ID_AND
+    JP Z, utility_and
+    CP SCI_ID_OR
+    JP Z, utility_or
+    CP SCI_ID_XOR
+    JP Z, utility_xor
+    CP SCI_ID_NOT
+    JP Z, utility_not
+    CP SCI_ID_SHL
+    JP Z, utility_shift_left
+    CP SCI_ID_SHR
+    JP Z, utility_shift_right
+    CP SCI_ID_ROL
+    JP Z, utility_rotate_left
+    CP SCI_ID_ROR
+    JP Z, utility_rotate_right
+    CP SCI_ID_EVAL
+    JP Z, utility_calculus_eval
+    CP SCI_ID_NDER
+    JP Z, utility_calculus_derivative
+    CP SCI_ID_FNINT
+    JP Z, utility_calculus_integral
+    CP SCI_ID_FMIN
+    JP Z, utility_calculus_minimum
+    CP SCI_ID_FMAX
+    JP Z, utility_calculus_maximum
+    CP SCI_ID_ARC
+    JP Z, utility_calculus_arc
+    CP SCI_ID_INTER
+    JP Z, utility_calculus_interpolate
     JP numeric_domain_error
 
 scientific_name_table:
@@ -1498,6 +1632,34 @@ scientific_name_table:
     DB 4,SCI_ID_CALJ,"CALJ"
     DB 3,SCI_ID_WHP,"WHP"
     DB 3,SCI_ID_HPW,"HPW"
+    DB 3,SCI_ID_INT,"INT"
+    DB 4,SCI_ID_FRAC,"FRAC"
+    DB 5,SCI_ID_ROUND,"ROUND"
+    DB 4,SCI_ID_SIGN,"SIGN"
+    DB 3,SCI_ID_MOD,"MOD"
+    DB 3,SCI_ID_GCD,"GCD"
+    DB 3,SCI_ID_LCM,"LCM"
+    DB 3,SCI_ID_MIN,"MIN"
+    DB 3,SCI_ID_MAX,"MAX"
+    DB 3,SCI_ID_PCT,"PCT"
+    DB 4,SCI_ID_ROOT,"ROOT"
+    DB 4,SCI_ID_RAND,"RAND"
+    DB 5,SCI_ID_RANDI,"RANDI"
+    DB 3,SCI_ID_AND,"AND"
+    DB 2,SCI_ID_OR,"OR"
+    DB 3,SCI_ID_XOR,"XOR"
+    DB 3,SCI_ID_NOT,"NOT"
+    DB 3,SCI_ID_SHL,"SHL"
+    DB 3,SCI_ID_SHR,"SHR"
+    DB 3,SCI_ID_ROL,"ROL"
+    DB 3,SCI_ID_ROR,"ROR"
+    DB 4,SCI_ID_EVAL,"EVAL"
+    DB 4,SCI_ID_NDER,"NDER"
+    DB 5,SCI_ID_FNINT,"FNINT"
+    DB 4,SCI_ID_FMIN,"FMIN"
+    DB 4,SCI_ID_FMAX,"FMAX"
+    DB 3,SCI_ID_ARC,"ARC"
+    DB 5,SCI_ID_INTER,"INTER"
     DB 0
 
 ; Returns HL = packed-BCD constant, or carry when the name is not a constant.

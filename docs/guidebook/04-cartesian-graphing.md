@@ -3,13 +3,13 @@
 This chapter is the full tour of the graph screen: storing equations in the
 three function slots, watching a plot draw, changing the window with the zoom
 keys, tracing along a curve, running the root and calculus analyses directly
-from the plot, and reading the table of values. It closes with an honest
+from the plot, and reading the table of values. It closes with a frank
 account of the graph areas that are not built yet, namely drawing commands,
 format flags beyond the grid, and graph storage. Every key sequence and every
 quoted number below was run in the emulator on a fresh machine.
 
 Free85 currently graphs in one mode: real functions of the graph variable
-`X`, the mode other calculators call `Func`. The polar, parametric, and
+`X` (elsewhere `Func`). The polar, parametric, and
 differential-equation modes have their own chapters (5, 6, and 7), which
 describe what is planned and what the calculator does today.
 
@@ -33,11 +33,10 @@ origin, and the faint dots are the grid, drawn at a fixed screen spacing
 rather than at unit intervals. There is no soft-menu row: the graph screen
 uses every key directly, and this chapter lists what each one does.
 
-A plot draws column by column from left to right, 128 samples in all, and
-takes a few seconds for one equation and longer when more slots are enabled
-or the expression is heavy. (The firmware re-tokenises an equation only when
-the slot being sampled changes, so a single equation plots noticeably faster
-than three.) You can leave at any time: [EXIT] or [CLEAR] cancels the
+A plot draws column by column from left to right, 128 samples in all. A
+single equation takes a few seconds and plots noticeably faster than
+three; a heavy expression slows every column. You can leave at any
+time: [EXIT] or [CLEAR] cancels the
 redraw and returns to the home screen with the equation loaded on the entry
 line. Remember the warning in Chapter 3: Mathematics, Calculus, and
 Comparisons, though: the home-screen calculus commands such as `EVAL(` need
@@ -46,7 +45,7 @@ one completed plot, and after an interrupted plot they answer
 
 The plotter is deliberately hard to crash. Discontinuities, domain errors,
 and values outside the window leave gaps instead of stopping the plot:
-`1/X` plots both branches with a one-column gap at `X` = 0, `SQRT(X)` plots
+`1/X` plots both branches with a one-column gap at `X=0`, `SQRT(X)` plots
 nothing left of the origin, and adjacent samples are joined into a connected
 curve only when they are fewer than seventeen pixels apart, so a vertical
 asymptote is not smeared into a false vertical line.
@@ -76,25 +75,25 @@ To plot two lines together: type [x-VAR] [GRAPH] to store `X` as `Y1`, press
 Both slots are now enabled and every replot draws both. A slot is enabled
 whenever it holds text: storing an empty entry line disables and clears the
 slot, so to switch `Y2` off, press [2nd] [2] on the graph screen, press
-[CLEAR], then press [GRAPH]. Where other calculators offer `FnOn` and
-`FnOff` commands for equation selection, Free85's mechanism today is the
-slot text itself: an empty slot is off, a filled slot is on.
+[CLEAR], then press [GRAPH]. Equation selection (elsewhere `FnOn` and
+`FnOff`) is the slot text itself: an empty slot is off, a filled slot is
+on.
 
 ## The window and the zoom keys
 
-The window is described by four values: the default window runs from -10 to
-10 on both axes, and each plotted column steps one 127th of the width. The
-window is changed with the zoom keys on the graph screen, each of which
-replots immediately:
+The window is described by four values, the minimum and maximum of each
+axis: the default window runs from -10 to 10 on both axes, and each
+plotted column steps one 127th of the width. The window is changed with
+the zoom keys on the graph screen, each of which replots immediately:
 
-- **[+]** zooms in: every window bound is halved, closing in on the origin
-  by a factor of two (the preset other calculators call `ZIn`). One press on
-  the default window gives -5 to 5 on both axes.
-- **[-]** zooms out: every bound is doubled (`ZOut` elsewhere), giving -20
+- **[+]** zooms in (elsewhere `ZIn`): every window bound is halved,
+  closing in on the origin by a factor of two. One press on the default
+  window gives -5 to 5 on both axes.
+- **[-]** zooms out (elsewhere `ZOut`): every bound is doubled, giving -20
   to 20 from the default window.
-- **[2nd] [+]** restores the standard window, -10 to 10 on both axes
-  (`ZStd` elsewhere), from wherever your zooming has taken you.
-- **[2nd] [-]** sets the square window (`ZSqr` elsewhere): -10 to 10
+- **[2nd] [+]** restores the standard window (elsewhere `ZStd`): -10 to 10
+  on both axes, from wherever your zooming has taken you.
+- **[2nd] [-]** sets the square window (elsewhere `ZSqr`): -10 to 10
   horizontally and -5 to 5 vertically. Because the LCD is 128 pixels wide
   and 64 tall, this window makes one unit the same length on both axes, so
   circles look like circles.
@@ -108,9 +107,9 @@ above are the only window controls in today's firmware.
 
 ## Trace
 
-The [◀] and [▶] keys trace along the active equation (the capability other
-calculators name `Trace`; in Free85 it is simply how the cursor keys behave
-on the graph screen). The trace position starts at the centre column of the
+The [◀] and [▶] keys trace along the active equation (elsewhere `Trace`;
+there is no separate trace mode to switch on). The trace position starts
+at the centre column of the
 plot, each press moves it one column, and the readout at the bottom of the
 screen shows the exact coordinates. With `X^2-4` plotted, press [▶] twice:
 
@@ -120,13 +119,13 @@ The readout gives `X=0.393700787402` and `Y=-3.8449996899991`: the trace
 X values are the exact sample positions, spaced one 127th of the window
 width apart, and Y is the active equation evaluated there in full
 fourteen-digit precision. The trace stops at the left and right edges of
-the window. Two honest notes: the readout is drawn over the bottom rows of
+the window. Two quirks: the readout is drawn over the bottom rows of
 the plot (press [GRAPH] to redraw cleanly), and there is no marker on the
 curve itself yet, so the readout is the trace.
 
 Tracing also sets the reference position used by the analyses in the next
 section: the derivative is taken, and the root search begins, at the last
-traced `X` (which is `X` = 0 until you move the trace).
+traced `X` (which is `X=0` until you move the trace).
 
 ## Analysis from the graph screen
 
@@ -140,6 +139,9 @@ result on the home screen. With `X^2-4` plotted:
   the leftmost root in the window. A second line reports the residual,
   here `R=0`: the value of the equation at the reported root, which the
   tolerance setting (chapter 3) requires to be small.
+
+  ![The root of X^2-4 published on the home screen with its residual line](images/ch04-root-result.png)
+
 - **[F2] finds a minimum and [F3] a maximum**, searching the whole window
   and answering the *location* of the extremum: [F2] with `X^2` plotted
   answers `= 0.00059911711827895`, the numerical minimum near zero, in the
@@ -175,33 +177,36 @@ Press [MORE] on the graph screen to open the table of values:
 ![The table of values for Y1=X^2-4](images/ch04-table.png)
 
 The table shows six rows, an `X` column on the left, and a column per
-function slot. It starts at `X` = 0 and steps by 1, so with `X^2-4` stored
+function slot. It starts at `X=0` and steps by 1, so with `X^2-4` stored
 the `X` column reads `0` through `5` and the `Y1` column reads `-4`,
 `-3`, `0`, `5`, `12`, `21`. A disabled slot's column shows `-`, and a value
 that does not exist shows `UNDEF`: plot `1/X` and open the table, and the
-`X` = 0 row shows `UNDEF` with the reciprocals below it. Cells are five
-characters wide, so
-long values are truncated to fit (`0.333` for a third).
+`X=0` row shows `UNDEF` with the reciprocals below it. Cells are five
+characters wide, so long values are truncated to fit (`0.333` for a
+third).
 
 The table keys are listed on its bottom line, `UP DN GRAPH EXIT`:
 
 - [▲] and [▼] scroll by five rows: one press of [▼] restarts the table at
-  `X` = 5.
+  `X=5`.
 - [+] doubles the step and [-] halves it, so from the default the rows step
   2, 4, 8 apart, or 0.5, 0.25 going the other way.
 - [GRAPH] or [EXIT] leaves the table and replots the graph.
 
+The start and step you reach this way survive leaving the table, so a
+scrolled table reopens where you left it, but neither value can be typed
+in directly: the four keys above are the only controls today.
+
 > ⚠ **Planned:** a settable table start and step (Free85 2.0, work
-> package 14.3). Today the table always starts at 0 after a replot and the
-> step is only reachable through the [+] and [-] keys above.
+> package 14.3).
 
 ## Graph formats
 
 One format flag exists today: the grid. Pressing [.] on the graph screen
-toggles the grid dots off or on and replots; the setting is remembered
-across plots. This is the switch other calculators spell `GridOn` and
-`GridOff`. The axes are always drawn, and coordinates and labels are not
-drawn at all, so the remaining format flags have nothing to switch yet.
+toggles the grid dots off or on and replots (elsewhere `GridOn` and
+`GridOff`); the setting is remembered across plots. The axes are always
+drawn, and coordinates and labels are not drawn at all, so the remaining
+format flags have nothing to switch yet.
 
 > ⚠ **Planned:** the remaining graph format flags `AxesOn`/`AxesOff`,
 > `CoordOn`/`CoordOff`, `LabelOn`/`LabelOff`, `DrawLine`/`DrawDot`, and the

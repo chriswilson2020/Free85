@@ -3,11 +3,12 @@
 Differential-equation graphing plots the solutions of first-order
 differential equations from an initial condition, letting you see how a
 system evolves without finding a closed-form answer first. When this mode
-arrives it will complete the graph engine of Chapter 4: Cartesian Graphing,
-Drawing, Formats, and Persistence: a `DifEq` graph mode with its own
-equation editor, numerical solution plotting, interactive exploration from
-chosen initial conditions, and the differentiation-mode selectors `dxDer1`
-and `dxNDer` that choose how derivatives are computed while it runs.
+arrives it will complete the graph engine of Chapter 4 (Cartesian
+Graphing, Drawing, Formats, and Persistence): a `DifEq` graph mode with
+its own equation editor, numerical solution plotting, interactive
+exploration from chosen initial conditions, and the differentiation-mode
+selectors `dxDer1` and `dxNDer` that choose how derivatives are computed
+while it runs.
 
 None of this exists in today's firmware.
 

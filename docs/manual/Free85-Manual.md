@@ -173,11 +173,13 @@ Here `F1-F5 INSERT MORE` means: press the soft key matching a listed item to
 insert it into your entry, or press [MORE] for the next page. [EXIT] takes you
 back to the home screen with your entry untouched.
 
-Editors work similarly. Press [GRAPH] and the calculator draws the graph
-screen: axes and grid dots. Press [MORE] on the graph screen and the function
-editor opens, with columns for `Y1`, `Y2`, and `Y3` and soft labels
+Other screens work similarly. Press [GRAPH] and the calculator draws the
+graph screen: axes and grid dots. Press [MORE] on the graph screen and the
+table of values opens, with columns for `Y1`, `Y2`, and `Y3` and soft labels
 `UP DN GRAPH EXIT`. Full-screen dialogs, such as error messages and the mode
-screen, tell you on-screen which keys they respond to.
+screen, tell you on-screen which keys they respond to. Equations themselves
+are typed on the home entry line; the Guidebook's graphing chapters explain
+the workflow.
 
 ## First calculations
 

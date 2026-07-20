@@ -20,18 +20,18 @@ real, working feature.
 Free85 is open source under the MIT License. See the `LICENSE` file for the
 license text and `NOTICE.md` for the project notices.
 
-### The hardware at a glance
-
-The machine Free85 targets is a Z80 processor at 6 MHz driving a 128 by 64
-pixel monochrome LCD, with eight 16 KiB ROM pages (131,072 bytes in all),
-32 KiB of RAM, and a keyboard of 49 matrix keys plus a separate [ON] key.
-
 This manual gets you from a blank screen to confident everyday use: running
 the calculator, understanding the keyboard and display, doing your first
 calculations, adjusting modes, and finding functions in the catalog. When you
 want depth (graphing, statistics, programming, and everything else), the
 companion Guidebook covers each subject in its own chapter. The final section
 of this manual maps out where to go.
+
+### The hardware at a glance
+
+The machine Free85 targets is a Z80 processor at 6 MHz driving a 128 by 64
+pixel monochrome LCD, with eight 16 KiB ROM pages (131,072 bytes in all),
+32 KiB of RAM, and a keyboard of 49 matrix keys plus a separate [ON] key.
 
 ## Running Free85
 

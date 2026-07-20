@@ -60,13 +60,11 @@ and the selected letter is pasted into your entry line back on the home
 screen, which is handy when you have forgotten which key holds which letter.
 [EXIT] leaves without pasting anything.
 
-Two items on this screen do less than they promise in the current firmware.
-The readout beside the selected letter always shows `0` rather than the
-variable's stored value, and the `CLR` action named on the bottom line does
-not clear the selected variable. Neither affects your stored data: to check a
-value, type its name on the home screen, and to zero a variable, store `0`
-into it or delete it from the memory browser described in
-Chapter 18: Memory Management.
+The readout beside the selected letter shows the variable's stored value, so
+with `5` in `A` the browser reads `A 5`. Pressing [CLEAR] performs the `CLR`
+action named on the bottom line: it zeroes the selected variable in place,
+and the readout updates to `0` immediately. Variables can also be deleted
+from the memory browser described in Chapter 18: Memory Management.
 
 ## The five numeric memories
 

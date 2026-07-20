@@ -5,7 +5,9 @@ import { renderLcdPng } from "../test/helpers/lcd-visual.js";
 
 const OUT_DIR = fileURLToPath(new URL("../docs/guidebook/images/", import.meta.url));
 
-// Each case boots a fresh machine and taps the listed keys.
+// Each case boots a fresh machine and taps the listed keys. A number in the
+// key list means "run that many frames" and is used to let slow work (such as
+// an incremental graph plot) finish before the next key or the capture.
 // Names must be kebab-case and are referenced from the Markdown chapters.
 export const SCREEN_CASES = [
   { name: "ch01-home-screen", keys: [] },
@@ -17,6 +19,15 @@ export const SCREEN_CASES = [
   { name: "ch02-store-recall", keys: ["5", "STO", "ALPHA", "LOG", "ENTER"] },
   { name: "ch02-variables-browser", keys: ["2ND", "STO"] },
   { name: "ch02-memory-stored", keys: ["4", "2", "2ND", "F1"] },
+  { name: "ch03-test-menu", keys: ["2ND", "2"] },
+  // Store X^2 as Y1 (entry line + GRAPH), let the plot finish, return to the
+  // home screen, and evaluate the active equation at 3 with EVAL(3).
+  {
+    name: "ch03-calculus-eval",
+    keys: ["X-VAR", "X^2", "GRAPH", 600, "EXIT", "CLEAR",
+      "ALPHA", "^", "ALPHA", "2", "ALPHA", "LOG", "ALPHA", "7",
+      "(", "3", ")", "ENTER", 120]
+  },
   { name: "ch18-memory-browser", keys: ["2ND", "+"] },
   { name: "manual-boot", keys: [] },
   { name: "manual-first-calc", keys: ["2", "+", "3", "ENTER"] },
@@ -28,7 +39,10 @@ export const SCREEN_CASES = [
 
 function capture({ keys }) {
   const harness = Free85Harness.boot();
-  for (const key of keys) harness.tap(key);
+  for (const key of keys) {
+    if (typeof key === "number") harness.runFrames(key);
+    else harness.tap(key);
+  }
   return harness.machine.renderLcdBitmap();
 }
 

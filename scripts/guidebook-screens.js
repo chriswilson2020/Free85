@@ -14,6 +14,12 @@ export const SCREEN_CASES = [
   // middle, so the capture steps one character right to show a visible glyph.
   { name: "ch01-char-palette", keys: ["2ND", "0", "RIGHT"] },
   { name: "ch01-error-screen", keys: ["1", "/", "0", "ENTER"] },
+  { name: "ch02-store-recall", keys: ["5", "STO", "ALPHA", "LOG", "ENTER"] },
+  // A fresh boot keeps every variable at zero, so the browser's readout is
+  // truthful without any preceding stores.
+  { name: "ch02-variables-browser", keys: ["2ND", "STO"] },
+  { name: "ch02-memory-stored", keys: ["4", "2", "2ND", "F1"] },
+  { name: "ch18-memory-browser", keys: ["2ND", "+"] },
   { name: "manual-boot", keys: [] },
   { name: "manual-first-calc", keys: ["2", "+", "3", "ENTER"] },
   // GRAPH alone plots the axes without labels, so the soft-menu example uses

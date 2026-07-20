@@ -48,9 +48,9 @@ newtons of a 70 kilogram mass.
 The "user" half of this chapter's title is not in today's firmware: there
 is no way yet to define, name, edit, or delete a constant of your own. In
 the meantime the variables of Chapter 2 (Variables and Stored Data) do the
-job for a working session: `1.602E-19` stored to `Q` with [STO▶] recalls
-just like a built-in name, though it lives with your other variables
-rather than on the `CONSTANTS` menu.
+job for a working session: `1.602E-19` stored to `Q` with [STO▶] can then
+be used just like a built-in name, though it lives with your other
+variables rather than on the `CONSTANTS` menu.
 
 > ⚠ **Planned:** user-defined constants, including creating, naming,
 > editing, and deleting them (Free85 2.0, work package 14.9).
@@ -85,8 +85,7 @@ point of water, press [2nd] [5] [MORE] [F4] to insert `CTOF(`, then type
 
 ![CTOF(100) evaluated on the home screen](images/ch08-conversion-example.png)
 
-`CTOF(100)` answers `= 212`. More examples, one from each category, all
-quoted from the machine:
+`CTOF(100)` answers `= 212`. More examples, one from each category:
 
 - `INCM(1)` answers `= 2.54`: one inch in centimetres.
 - `SQMFT(1)` answers `= 10.76391041671`: a square metre in square feet.
@@ -109,7 +108,7 @@ quoted from the machine:
 Because the arithmetic is the fourteen-digit decimal of chapter 3, a
 conversion and its inverse can miss an exact round trip by a whisker:
 `CMIN(2.54)` answers `= 0.99999999999999`, not `= 1`. The residue is the
-honest product of the stored conversion factors, and it is why a chain of
+true product of the stored conversion factors, and it is why a chain of
 conversions is best done in one expression rather than by retyping rounded
 intermediate results.
 

@@ -10,9 +10,8 @@ carry.
 One boundary up front: strings live in the editor, not in the expression
 language. A quoted literal on the home entry line, such as `"A"`, answers
 `SYNTAX ERROR`, and there is no string-typed named variable to store to
-yet; the object store's string type (Chapter 18: Memory Management) awaits
-the same planned work as the other typed objects of Chapter 2 (Variables
-and Stored Data).
+yet; the object store's string type (chapter 18) awaits the same planned
+work as the other typed objects of chapter 2.
 
 ## The strings editor
 
@@ -63,7 +62,9 @@ typed into `A` and `WORLD` into `B` (type the first, press [x-VAR], type
 the second), every result below is quoted from the machine:
 
 - **`CAT`** ([F1]) concatenates `A` then `B` into `R` (elsewhere
-  `Concatenate`): the view switches to `R` showing `"HELLOWORLD`. The
+  `Concatenate`): the view switches to `R` showing `"HELLOWORLD` (this
+  book quotes the opening mark only; the closing `"` stays at the right
+  edge of the screen). The
   combined length must also fit in 31 characters, or the answer is the
   `STRING TOO LONG` notice.
 - **`LEN`** ([F2]) measures `A` (elsewhere `lngth`): with `HELLO` in `A`

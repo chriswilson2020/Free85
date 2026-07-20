@@ -5,8 +5,9 @@ Everyday arithmetic in Free85 is the fourteen-digit decimal of Chapter 3
 chapter's tools treat a whole number as a 16-bit machine word instead:
 the number-base screen displays a result in decimal, hexadecimal, octal,
 or binary; prefixed literals let you type a number in any of those bases;
-and eight Boolean functions operate on the word's bits. Everything here
-was verified on the machine, and every result is quoted exactly.
+and eight Boolean functions operate on the word's bits. Every example
+below was run on a fresh machine, and every result is quoted exactly as
+the calculator displays it.
 
 ## The signed word model
 
@@ -32,7 +33,7 @@ answer in its base:
 - [F1] (`DEC`) shows `42`.
 - [F2] (`HEX`) shows `0x002A`:
 
-  ![The number-base screen showing 42 as hexadecimal](images/ch10-number-base.png)
+  ![The number-base screen's HEX view of 42](images/ch10-number-base.png)
 
 - [F3] (`OCT`) shows `0o000052`.
 - [F4] (`BIN`) shows `0b0000000000101010`.
@@ -60,11 +61,12 @@ with the usual `CLEAR OR EXIT` way back (chapter 1).
 
 A literal with a base prefix is accepted anywhere a number is accepted:
 `0x` for hexadecimal, `0o` for octal, and `0b` for binary. The letters
-are typed with [ALPHA], and case does not matter: typing the digits
-uppercase, as [ALPHA] produces them, `0X2A+1` answers `= 43`, and the
+are typed with [ALPHA], and case does not matter: typing the letters
+uppercase, as [ALPHA] produces them, `0X2A` answers `= 42`, and the
 lowercase `0x2a` answers `= 42` just the same (press [2nd] [ALPHA] to
-select lowercase entry, then [ALPHA] and a letter key as usual). This book writes the prefixes lowercase and the
-hexadecimal digits uppercase, matching the number-base screen.
+select lowercase entry, then [ALPHA] and a letter key as usual). This
+book writes the prefixes lowercase and the hexadecimal digits uppercase,
+matching the number-base screen.
 
 - `0b101010` answers `= 42`.
 - `0o52` answers `= 42`, and `0o777` answers `= 511`.
@@ -79,9 +81,9 @@ word model's signed value at sixteen bits:
 - `0xFFFF` answers `= -1`, so `0xFFFF+1` answers `= 0`.
 
 Beyond sixteen bits the literal does not fit: `0x10000` answers the
-`NUMERIC OVERFLOW` error screen. For traceability, appendix A tracks
-these four entry workflows under the labels `binary-entry`,
-`octal-entry`, `decimal-entry`, and `hex-entry`.
+`NUMERIC OVERFLOW` error screen. Appendix A catalogues the four entry
+forms as `binary-entry`, `octal-entry`, `decimal-entry`, and
+`hex-entry`.
 
 ## The Boolean word operations
 

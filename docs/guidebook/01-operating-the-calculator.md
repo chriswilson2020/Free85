@@ -61,13 +61,20 @@ reappears with the cursor at the end, ready to edit and re-evaluate.
 The [▲] and [▼] keys walk the same history one step at a time, and the
 calculator keeps your four most recent entries. Evaluate `2+3` and then
 `5*7`, press [CLEAR], and [▲] recalls `5*7`; [▲] again replaces it with
-`2+3`, and each recall arrives with the cursor at the end. [▼] steps back
-towards the newest entry, and one step beyond it empties the line; a
-further [▼] answers the full-screen notice `NO MORE HISTORY`, as does
-[▲] on a fresh machine with no history to show. One caution for this
-release: [▲] past the oldest kept entry does not answer the notice but
-restarts the calculator as if freshly switched on, and stored variables
-and programs are lost with it, so count your steps back.
+`2+3`, and each recall arrives with the cursor at the end. A repeated
+[2nd] [ENTER] steps back exactly as [▲] does. [▼] steps back towards
+the newest entry, and one step beyond it empties the line; a further
+[▼] answers the full-screen notice `NO MORE HISTORY`, as does [▲] on a
+fresh machine with no history to show.
+
+A caution for this release: stepping back past the oldest entry the
+calculator still holds, whether with [▲] or with repeated presses of
+[2nd] [ENTER], does not answer the notice but restarts the calculator
+as if freshly switched on, taking stored variables and programs with
+it. Until a firmware release repairs the boundary, count your steps
+back and stop within the four entries the calculator keeps. A first
+recall is always safe, answering the newest entry or the notice, and
+[▼] is safe at every step, so when in doubt step down rather than up.
 
 The [(-)] key's shifted function is `ANS`, the most recent numeric result.
 With `5` as the last answer, press [CLEAR], then [2nd] [(-)] [+] [1] [0]

@@ -28,6 +28,19 @@ export const SCREEN_CASES = [
       "ALPHA", "^", "ALPHA", "2", "ALPHA", "LOG", "ALPHA", "7",
       "(", "3", ")", "ENTER", 120]
   },
+  // Store X^2-4 as Y1 from the home entry line and let the plot finish.
+  { name: "ch04-parabola-plot", keys: ["X-VAR", "X^2", "-", "4", "GRAPH", 600] },
+  // Same plot, then trace two columns right of centre to show the X=/Y=
+  // coordinate readout at the bottom of the graph screen.
+  { name: "ch04-trace", keys: ["X-VAR", "X^2", "-", "4", "GRAPH", 600, "RIGHT", 30, "RIGHT", 30] },
+  // Y1=X, then 2nd 2 on the graph screen selects the empty Y2 slot and
+  // returns home; 2-X stored there plots both slots together.
+  { name: "ch04-two-equations", keys: ["X-VAR", "GRAPH", 100, "2ND", "2", 10, "2", "-", "X-VAR", "GRAPH", 1200] },
+  // MORE on the graph screen opens the table of values.
+  { name: "ch04-table", keys: ["X-VAR", "X^2", "-", "4", "GRAPH", 600, "MORE", 120] },
+  // F1 on the graph screen finds a root of the active equation and
+  // publishes it on the home screen with its residual line.
+  { name: "ch04-root-result", keys: ["X-VAR", "X^2", "-", "4", "GRAPH", 600, "F1", 1500] },
   { name: "ch18-memory-browser", keys: ["2ND", "+"] },
   { name: "manual-boot", keys: [] },
   { name: "manual-first-calc", keys: ["2", "+", "3", "ENTER"] },

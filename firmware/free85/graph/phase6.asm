@@ -5,6 +5,17 @@ PHASE6_OK          EQU 0
 PHASE6_NO_BRACKET  EQU 1
 PHASE6_NO_VALUE    EQU 2
 
+GRAPH_FMT_AXES     EQU $01
+GRAPH_FMT_COORD    EQU $02
+GRAPH_FMT_LABEL    EQU $04
+GRAPH_FMT_GRID     EQU $08
+GRAPH_FMT_LINE     EQU $10
+GRAPH_FMT_SIMUL    EQU $20
+
+GRAPH_PANEL_NONE   EQU 0
+GRAPH_PANEL_FORMAT EQU 1
+GRAPH_PANEL_ZOOM   EQU 2
+
 phase6_init:
     XOR A
     LD (GRAPH_ACTIVE_SLOT), A
@@ -33,7 +44,8 @@ phase6_init:
     CALL numeric_copy
     LD HL, p6_const_tol6
     LD DE, GRAPH_TOLERANCE
-    JP numeric_copy
+    CALL numeric_copy
+    JP p14_graph_init
 
 ; Save the home editor into the selected equation slot, then start plotting.
 phase6_open_graph:
@@ -170,8 +182,8 @@ p6_start_plot:
     RET
 
 p6_draw_grid_axes:
-    LD A, (GRAPH_GRID)
-    OR A
+    LD A, (GRAPH_FORMAT)
+    AND GRAPH_FMT_GRID
     JR Z, .axes
     LD C, 8
 .grid_row:
@@ -195,6 +207,9 @@ p6_draw_grid_axes:
     JR .grid_row
 .grid_columns:
 .axes:
+    LD A, (GRAPH_FORMAT)
+    AND GRAPH_FMT_AXES
+    RET Z
     LD HL, LCD_FRAMEBUFFER + 32 * LCD_ROW_BYTES
     LD B, LCD_ROW_BYTES
     LD A, $FF
@@ -211,7 +226,10 @@ p6_draw_grid_axes:
     LD DE, LCD_ROW_BYTES
     ADD HL, DE
     DJNZ .vertical
-    RET
+    LD A, (GRAPH_FORMAT)
+    AND GRAPH_FMT_LABEL
+    RET Z
+    JP p14_graph_draw_labels
 
 ; Incremental plotter: one LCD column per UI tick, all enabled equations.
 phase6_tick:
@@ -230,6 +248,9 @@ phase6_tick:
     LD A, (GRAPH_PLOT_ACTIVE)
     OR A
     RET Z
+    LD A, (GRAPH_FORMAT)
+    AND GRAPH_FMT_SIMUL
+    JP Z, p14_graph_tick_sequential
     LD A, (GRAPH_PLOT_X)
     LD (GRAPH_STATUS), A
     XOR A
@@ -250,7 +271,7 @@ phase6_tick:
     AND B
     JR Z, .next_slot
     LD A, (GRAPH_NUMERIC_OP)
-    CALL p6_evaluate_slot
+    CALL p14_graph_evaluate
     JR C, .break_slot
     CALL p6_map_result_y
     JR C, .break_slot
@@ -300,6 +321,9 @@ p6_plot_sample:
     CALL p6_current_slot_mask
     LD A, (GRAPH_PREV_VALID)
     AND B
+    JR Z, .point
+    LD A, (GRAPH_FORMAT)
+    AND GRAPH_FMT_LINE
     JR Z, .point
     LD A, D
     SUB E
@@ -534,6 +558,14 @@ phase6_handle_key:
     LD A, B
     RET NZ
     LD B, A
+    LD A, (GRAPH_PANEL)
+    OR A
+    LD A, B
+    JP NZ, p14_graph_panel_key
+    LD A, (GRAPH_CURSOR_MODE)
+    OR A
+    LD A, B
+    JP NZ, p14_graph_cursor_key
     LD A, (UI_SCREEN_MODE)
     CP SCREEN_TABLE
     LD A, B
@@ -557,6 +589,10 @@ phase6_handle_key:
     JP Z, p6_trace_left
     CP KEY_RIGHT
     JP Z, p6_trace_right
+    CP KEY_UP
+    JP Z, p14_graph_cursor_start_up
+    CP KEY_DOWN
+    JP Z, p14_graph_cursor_start_down
     CP KEY_PLUS
     JP Z, p6_zoom_in
     CP KEY_MINUS
@@ -593,6 +629,10 @@ phase6_handle_key:
     LD A, C
     CP KEY_F1
     JP Z, p6_find_intersection
+    CP KEY_MORE
+    JP Z, p14_graph_open_format
+    CP KEY_GRAPH
+    JP Z, p14_graph_open_zoom
     CP KEY_PLUS
     JP Z, p6_standard_window
     CP KEY_MINUS
@@ -604,9 +644,9 @@ phase6_handle_key:
     LD (UI_MODIFIERS), A
     RET
 .grid:
-    LD A, (GRAPH_GRID)
-    XOR 1
-    LD (GRAPH_GRID), A
+    LD A, (GRAPH_FORMAT)
+    XOR GRAPH_FMT_GRID
+    LD (GRAPH_FORMAT), A
     JP p6_start_plot
 .home:
     XOR A
@@ -655,7 +695,7 @@ p6_trace_at:
     LD DE, GRAPH_RESULT_X
     CALL numeric_copy
     LD A, (GRAPH_ACTIVE_SLOT)
-    CALL p6_evaluate_slot
+    CALL p14_graph_evaluate
     RET C
     LD HL, NUM_RESULT
     LD DE, GRAPH_RESULT_Y
@@ -663,6 +703,9 @@ p6_trace_at:
     JP p6_draw_trace_values
 
 p6_draw_trace_values:
+    LD A, (GRAPH_FORMAT)
+    AND GRAPH_FMT_COORD
+    RET Z
     LD HL, LCD_FRAMEBUFFER + 48 * LCD_ROW_BYTES
     LD DE, LCD_FRAMEBUFFER + 48 * LCD_ROW_BYTES + 1
     LD BC, 16 * 16 - 1
@@ -700,6 +743,9 @@ p6_zoom_in:
 p6_zoom_out:
     XOR A
 p6_scale_window:
+    PUSH AF
+    CALL p14_graph_save_previous
+    POP AF
     LD (GRAPH_NUMERIC_OP), A
     LD HL, GRAPH_XMIN
     CALL p6_scale_object
@@ -709,9 +755,10 @@ p6_scale_window:
     CALL p6_scale_object
     LD HL, GRAPH_YMAX
     CALL p6_scale_object
-    JP p6_start_plot
+    JP p14_graph_redraw
 
 p6_standard_window:
+    CALL p14_graph_save_previous
     LD HL, p6_const_neg10
     LD DE, GRAPH_XMIN
     CALL numeric_copy
@@ -724,9 +771,10 @@ p6_standard_window:
     LD HL, p6_const_10
     LD DE, GRAPH_YMAX
     CALL numeric_copy
-    JP p6_start_plot
+    JP p14_graph_redraw
 
 p6_square_window:
+    CALL p14_graph_save_previous
     LD HL, p6_const_neg10
     LD DE, GRAPH_XMIN
     CALL numeric_copy
@@ -739,13 +787,13 @@ p6_square_window:
     LD HL, p6_const_5
     LD DE, GRAPH_YMAX
     CALL numeric_copy
-    JP p6_start_plot
+    JP p14_graph_redraw
 
 p6_scale_object:
     PUSH HL
     LD DE, NUM_LEFT
     CALL numeric_copy
-    LD HL, const_two
+    LD HL, GRAPH_ZOOM_FACTOR
     LD DE, NUM_RIGHT
     CALL numeric_copy
     LD A, (GRAPH_NUMERIC_OP)
@@ -802,7 +850,7 @@ p6_show_table:
     AND B
     JR Z, .disabled
     LD A, (GRAPH_NUMERIC_OP)
-    CALL p6_evaluate_slot
+    CALL p14_graph_evaluate
     JR C, .undefined
     CALL numeric_format_result
     CALL p6_table_column
@@ -1216,13 +1264,13 @@ p6_evaluate_target:
     CP 3
     JR NZ, .error
     XOR A
-    CALL p6_evaluate_slot
+    CALL p14_graph_evaluate
     JR C, .error
     LD HL, NUM_RESULT
     LD DE, GRAPH_RESULT_Y
     CALL numeric_copy
     LD A, 1
-    CALL p6_evaluate_slot
+    CALL p14_graph_evaluate
     JR C, .error
     LD HL, GRAPH_RESULT_Y
     LD DE, NUM_LEFT

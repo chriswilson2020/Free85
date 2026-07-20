@@ -91,7 +91,7 @@ if (rom.length !== pageSize * pageCount) {
 await writeFile(romPath, rom);
 await writeFile(resolve(generatedRoot, "free85.map"), `${mapSections.join("\n")}\n`);
 await writeFile(resolve(generatedRoot, "usage.json"), `${JSON.stringify({
-  phase: "14.2",
+  phase: "14.3",
   rom_bytes: rom.length,
   page_size: pageSize,
   pages: usage,

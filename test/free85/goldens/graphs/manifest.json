@@ -6,21 +6,21 @@
     {
       "name": "sine-5x",
       "expression": "5*SIN(X)",
-      "frames": 2500,
+      "frames": 2300,
       "litPixelCount": 556,
       "checksum": "4BE3F2EA"
     },
     {
       "name": "parabola",
       "expression": "X^2-4",
-      "frames": 500,
+      "frames": 300,
       "litPixelCount": 360,
       "checksum": "769A8861"
     },
     {
       "name": "reciprocal",
       "expression": "1/X",
-      "frames": 400,
+      "frames": 300,
       "litPixelCount": 334,
       "checksum": "F62A7543"
     },
@@ -30,6 +30,25 @@
       "frames": 1100,
       "litPixelCount": 302,
       "checksum": "1F8749D6"
+    },
+    {
+      "name": "phase14-dot-format",
+      "expression": "X^2-4",
+      "keys": [
+        "2ND",
+        "MORE",
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5",
+        "MORE",
+        "F1",
+        "EXIT"
+      ],
+      "frames": 600,
+      "litPixelCount": 48,
+      "checksum": "A73D5C60"
     },
     {
       "name": "phase7-complex-editor",

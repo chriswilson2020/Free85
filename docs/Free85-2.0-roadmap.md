@@ -87,6 +87,15 @@ complete zoom presets, free cursor, trace, table adapters, cancellation, and
 mode-neutral numerical analysis hooks. Existing connected-curve and
 discontinuity guarantees remain mandatory.
 
+Implemented. Cartesian plot, trace, table, and analysis callers now share a
+mode-neutral evaluator. A persistent format panel controls axes, coordinates,
+labels, grid, line/dot rendering, equation enablement, and simultaneous or
+sequential sampling. The zoom panel supplies box, in/out, standard, square,
+decimal, fit, integer, previous, trig, store/recall, and factor controls. Free
+cursor coordinates and readable `XMIN`, `XMAX`, `YMIN`, and `YMAX` values use
+the same packed-decimal window. Exact legacy goldens remain unchanged and the
+new dot-format golden is reviewed. See `docs/Free85-graph-engine.md`.
+
 ### 14.4 - Graph drawing and persistence
 
 Implement shade, line, vertical line, circle, tangent, point on/off/change,

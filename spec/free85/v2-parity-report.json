@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "release": "2.0.0",
-  "phase": "14.2",
+  "phase": "14.3",
   "inventory": {
     "groups": 41,
     "entries": 298,
     "groupsByStatus": {
-      "equivalent": 11,
-      "partial": 20,
+      "equivalent": 14,
+      "partial": 17,
       "missing": 6,
       "hardware-dependent": 3,
       "excluded-clean-room": 1
     },
     "entriesByStatus": {
-      "equivalent": 94,
-      "partial": 146,
+      "equivalent": 123,
+      "partial": 117,
       "missing": 40,
       "hardware-dependent": 13,
       "excluded-clean-room": 5
@@ -23,12 +23,12 @@
   "gaps": {
     "total": 36,
     "byStatus": {
-      "equivalent": 9,
-      "partial": 16,
+      "equivalent": 12,
       "missing": 9,
+      "partial": 13,
       "hardware-dependent": 2
     },
-    "equivalentPercent": 25
+    "equivalentPercent": 33.33
   },
   "workPackages": [
     {
@@ -91,15 +91,15 @@
       "gaps": [
         {
           "id": "graph.core",
-          "status": "partial"
+          "status": "equivalent"
         },
         {
           "id": "graph.format",
-          "status": "partial"
+          "status": "equivalent"
         },
         {
           "id": "graph.zoom",
-          "status": "partial"
+          "status": "equivalent"
         }
       ]
     },

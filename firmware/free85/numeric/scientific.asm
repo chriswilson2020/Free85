@@ -1726,6 +1726,18 @@ scientific_constant_table:
     DB 4
     DW const_avog
     DB "AVOG"
+    DB 4
+    DW GRAPH_XMIN
+    DB "XMIN"
+    DB 4
+    DW GRAPH_XMAX
+    DB "XMAX"
+    DB 4
+    DW GRAPH_YMIN
+    DB "YMIN"
+    DB 4
+    DW GRAPH_YMAX
+    DB "YMAX"
     DB 0
 
 ; Physical constants and conversion factors are source data, never host floats.

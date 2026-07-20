@@ -33,12 +33,12 @@ test("[v2.ledger] chapter summary no longer overstates broad equivalence", async
   assert.equal(coverage.chapters.filter(({ status }) => status === "equivalent").length, 0);
 });
 
-test("[v2.progress] Phase 14.2 closes numeric modes without hiding remaining work", async () => {
+test("[v2.progress] Phase 14.3 closes shared graph gaps without hiding remaining work", async () => {
   const report = await readJson("spec/free85/v2-parity-report.json");
-  assert.equal(report.phase, "14.2");
+  assert.equal(report.phase, "14.3");
   assert.equal(report.inventory.entries >= 250, true);
   assert.equal(report.gaps.total, 36);
-  assert.equal(report.gaps.byStatus.equivalent, 9);
-  assert.equal(report.gaps.equivalentPercent, 25);
+  assert.equal(report.gaps.byStatus.equivalent, 12);
+  assert.equal(report.gaps.equivalentPercent, 33.33);
   assert.equal(report.cleanRoom.proprietaryInputsRequiredForPublicValidation, false);
 });

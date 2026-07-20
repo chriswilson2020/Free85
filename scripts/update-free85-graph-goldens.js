@@ -14,6 +14,13 @@ const cases = [
   { name: "reciprocal", expression: "1/X" },
   { name: "square-root", expression: "SQRT(X)" }
 ];
+const formattedGraphCases = [
+  {
+    name: "phase14-dot-format",
+    expression: "X^2-4",
+    keys: ["2ND", "MORE", "F1", "F2", "F3", "F4", "F5", "MORE", "F1", "EXIT"]
+  }
+];
 const screenCases = [
   { name: "phase7-complex-editor", keys: ["2ND", "9"] },
   { name: "phase7-list-editor", keys: ["2ND", "-"] },
@@ -74,6 +81,31 @@ function renderGraph(expression) {
 const manifest = { schemaVersion: 1, width: 128, height: 64, cases: [] };
 for (const graphCase of cases) {
   const { bitmap, frames } = renderGraph(graphCase.expression);
+  writeLcdGolden(graphCase.name, bitmap);
+  manifest.cases.push({
+    ...graphCase,
+    frames,
+    litPixelCount: bitmap.litPixelCount,
+    checksum: bitmap.checksum.toString(16).padStart(8, "0").toUpperCase()
+  });
+  console.log(`Approved ${graphCase.name}: ${graphCase.expression} (${bitmap.litPixelCount} pixels)`);
+}
+for (const graphCase of formattedGraphCases) {
+  const harness = Free85Harness.boot();
+  typeExpression(harness, graphCase.expression);
+  harness.tap("GRAPH");
+  let frames = 0;
+  while (harness.machine.read8(GRAPH_ACTIVE) !== 0 && frames < 5000) {
+    harness.runFrames(100);
+    frames += 100;
+  }
+  for (const key of graphCase.keys) harness.tap(key);
+  while (harness.machine.read8(GRAPH_ACTIVE) !== 0 && frames < 10000) {
+    harness.runFrames(100);
+    frames += 100;
+  }
+  if (harness.machine.read8(GRAPH_ACTIVE) !== 0) throw new Error(`${graphCase.name} exceeded 10000 frames`);
+  const bitmap = harness.machine.renderLcdBitmap();
   writeLcdGolden(graphCase.name, bitmap);
   manifest.cases.push({
     ...graphCase,

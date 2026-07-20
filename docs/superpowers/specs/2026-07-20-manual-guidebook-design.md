@@ -106,9 +106,8 @@ reference tables cannot drift from the contracts.
    with embedded print CSS (page size, headers, chapter breaks, monospace
    LCD-style styling for key sequences and screen captures).
 2. Headless Chrome (`--headless --print-to-pdf`) renders
-   `Free85-Manual.pdf` and `Free85-Guidebook.pdf` into `dist/` (or
-   `build/docs/`; final location chosen at implementation to match existing
-   build conventions).
+   `Free85-Manual.pdf` and `Free85-Guidebook.pdf` into `dist/guidebook/`
+   (git-ignored; PDFs are build artifacts, not committed).
 
 No LaTeX toolchain required.
 
@@ -117,8 +116,8 @@ No LaTeX toolchain required.
 Asserts every ledger item with status `equivalent` is mentioned in at least
 one guidebook chapter, and that every chapter in `guidebook-coverage.yaml`
 has a corresponding file. Extends the existing Phase 13 traceability story.
-Wired into an npm script (`test:guidebook`); whether it joins the default
-`npm test` is decided at implementation time with the user.
+Wired into a standalone npm script (`test:guidebook`); it does not join the
+default `npm test` in this work (the user can promote it later).
 
 ## Content production method
 

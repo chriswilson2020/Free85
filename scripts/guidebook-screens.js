@@ -53,6 +53,23 @@ export const SCREEN_CASES = [
   },
   // 42 evaluated on the home screen, then the number-base screen's HEX view.
   { name: "ch10-number-base", keys: ["4", "2", "ENTER", "2ND", "1", "F2"] },
+  // The collections editors open on zeroed registers, so each capture enters
+  // the values its chapter's examples use before photographing the screen.
+  { name: "ch11-complex-editor", keys: ["2ND", "9", "3", "ENTER", "4", "ENTER"] },
+  {
+    name: "ch12-list-editor",
+    keys: ["2ND", "-", "4", "ENTER", "1", "ENTER", "3", "ENTER", "2", "ENTER"]
+  },
+  {
+    name: "ch13-matrix-editor",
+    keys: ["2ND", "7", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER"]
+  },
+  // The same matrix, inverted with F3; the frames let the division finish.
+  {
+    name: "ch13-matrix-inverse",
+    keys: ["2ND", "7", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER", "F3", 600]
+  },
+  { name: "ch13-vector-editor", keys: ["2ND", "8", "3", "ENTER", "4", "ENTER", "0", "ENTER"] },
   { name: "ch18-memory-browser", keys: ["2ND", "+"] },
   { name: "manual-boot", keys: [] },
   { name: "manual-first-calc", keys: ["2", "+", "3", "ENTER"] },

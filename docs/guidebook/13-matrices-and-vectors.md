@@ -50,10 +50,17 @@ answering in `R`. With the screenshot's matrix in `A`:
 
   ![The inverse in the result register](images/ch13-matrix-inverse.png)
 
-- **`ID`** ([F4]) writes an identity matrix the size of `A` into `R`
-  (elsewhere `Ident`): `1`, `0`, `0`, `1`.
+- **`ID`** ([F4]) is meant to write an identity matrix the size of `A`
+  into `R` (elsewhere `Ident`), but in this release it fills every cell
+  with `1` instead: stepping through the result reads `1`, `1`, `1`,
+  `1`. Pressing it also unsettles the vector editor of this chapter,
+  whose `A` register shows `SIZE 0` and stray values afterwards; press
+  that editor's `3D` (or `2D`) soft key and retype the components to
+  put it right. When you need an identity today, type one into `B` by
+  hand, or take one from `RREF` below.
 - **`RREF`** ([F5]) answers the reduced row-echelon form (elsewhere
-  `rref`), which for our invertible matrix is the identity again.
+  `rref`), which for our invertible matrix is the identity: stepping
+  through `R` reads `1`, `0`, `0`, `1`.
 
 ## Matrix arithmetic and solving
 

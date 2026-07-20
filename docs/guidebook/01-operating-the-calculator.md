@@ -42,8 +42,8 @@ the character just before the cursor. Type [1] [2] [3], press [◀] once, and
 press [DEL]: the `2` disappears, leaving `13`.
 
 The editor starts in insert mode, shown as `INS` in the status line, where
-typing pushes the characters to the right of the cursor along. With `13` on
-the line, press [◀] and type [2]: the line becomes `123`.
+typing pushes the characters after the cursor to the right. With `13` on the
+line, press [◀] and type [2]: the line becomes `123`.
 
 [2nd] [DEL] toggles overwrite mode; the status indicator changes from `INS`
 to `OVR`. In overwrite mode typing replaces the character under the cursor,
@@ -98,9 +98,10 @@ Three settings are listed, and the soft keys `ANG FMT - + MEM` adjust them:
   trigonometric function.
 - **Display format.** [F2] (`FMT`) cycles `FORMAT` through `AUTO`, `SCI`,
   `ENG`, and `FIX`, then back to `AUTO`:
-  - `AUTO` (also called `Normal` or `Float` display): ordinary decimal
-    output, switching to an exponent for values outside the compact display
-    range;
+  - `AUTO`: ordinary decimal output, switching to an exponent for values
+    outside the compact display range (the command catalog lists this
+    setting under the names `Normal` and `Float`, which other calculators
+    use for the same behaviour);
   - `SCI`: one digit before the decimal point and an explicit exponent, so
     `12345` displays as `1.2345E4`;
   - `ENG`: one to three digits before the point and an exponent divisible by

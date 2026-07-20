@@ -269,7 +269,7 @@ say `42`, press [2nd] [1] to open the `NUMBER BASE` screen. Its soft keys
 `DEC HEX OCT BIN` display the previous answer in the chosen base; press [F2]
 (`HEX`) and the screen shows `0x002A`. Base entry, two's-complement
 behaviour, and the Boolean word operations are covered in Guidebook
-chapter 10, *Number bases and Boolean operations*.
+chapter 10, *Number Bases and Boolean Operations*.
 
 ## The catalog and custom menu
 
@@ -301,28 +301,36 @@ two keypresses away.
 This manual has walked you through the front door; the Free85 Guidebook is
 the full tour, one chapter per subject:
 
-1. **Operation and editing**: modes, the editor, and previous entries.
-2. **Variables**: storing, recalling, and managing named data.
-3. **Mathematics**: functions, numerical calculus, and comparisons.
-4. **Cartesian graphing**: plotting, drawing, and graph formats.
-5. **Polar graphing**: curves in polar coordinates.
-6. **Parametric graphing**: curves driven by a parameter.
-7. **Differential equations**: graphing solutions of differential equations.
-8. **Constants and conversions**: built-in values and unit conversions.
-9. **Strings**: text values and the character palette.
-10. **Number bases and Boolean operations**: binary, octal, and hexadecimal
+1. **Operating the Calculator**: modes, the editor, and previous entries.
+2. **Variables and Stored Data**: storing, recalling, and managing named
+   data.
+3. **Mathematics, Calculus, and Comparisons**: functions, numerical calculus,
+   and comparisons.
+4. **Cartesian Graphing, Drawing, Formats, and Persistence**: plotting,
+   drawing, and graph formats.
+5. **Polar Graphing**: curves in polar coordinates.
+6. **Parametric Graphing**: curves driven by a parameter.
+7. **Differential-Equation Graphing**: graphing solutions of differential
+   equations.
+8. **Physical and User Constants and Conversions**: built-in values and unit
+   conversions.
+9. **Strings and Characters**: text values and the character palette.
+10. **Number Bases and Boolean Operations**: binary, octal, and hexadecimal
     display, entry, and word logic.
-11. **Complex numbers**: arithmetic and functions beyond the reals.
+11. **Complex Numbers**: arithmetic and functions beyond the reals.
 12. **Lists**: ordered collections and list arithmetic.
-13. **Matrices and vectors**: linear-algebra objects and their operations.
-14. **Solvers**: the equation, polynomial, and simultaneous solvers.
-15. **Statistics**: analysis, regression, and statistical plots.
-16. **Programming**: the on-calculator programming environment.
-17. **Worked examples**: complete applications, step by step.
-18. **Memory management**: browsing, inspecting, and deleting stored objects.
-19. **Linking**: the link port and its diagnostics.
+13. **Matrices and Vectors**: linear-algebra objects and their operations.
+14. **Equation, Polynomial, and Simultaneous Solving**: the equation,
+    polynomial, and simultaneous solvers.
+15. **Statistics and Statistical Plots**: analysis, regression, and
+    statistical plots.
+16. **Calculator Programming**: the on-calculator programming environment.
+17. **Worked Application Examples**: complete applications, step by step.
+18. **Memory Management**: browsing, inspecting, and deleting stored objects.
+19. **Calculator Linking**: the link port and its diagnostics.
 
-Four appendices round it out: appendix A is the complete command catalog,
-appendix B the full map of all fifty keys, appendix C the system variables
-and error messages, and appendix D the current feature-status ledger. Pick
-the chapter that matches what you want to do next, and enjoy the calculator.
+Four appendices round it out: appendix A is the command and function catalog,
+appendix B the complete key map of all fifty keys, appendix C the system
+variables and error messages, and appendix D the feature status and 2.0 gaps
+ledger. Pick the chapter that matches what you want to do next, and enjoy the
+calculator.

@@ -47,8 +47,7 @@ still there.
 The first soft-key page, `RE IM MAG ARG CONJ`, takes register `A` apart.
 With 3+4i in `A` ([3] [ENTER] [4] [ENTER]), each answer appears in `R`:
 
-- **`RE`** ([F1]) extracts the real part: `RE= 3` (appendix A files the
-  operation as `real`, the name other calculators use).
+- **`RE`** ([F1]) extracts the real part: `RE= 3` (elsewhere `real`).
 - **`IM`** ([F2]) extracts the imaginary part, delivered as the real part
   of `R`: `RE= 4` (elsewhere `imag`).
 - **`MAG`** ([F3]) is the magnitude, the distance from the origin:
@@ -83,7 +82,8 @@ in `B` ([3] [ENTER] [4] [ENTER] [ALPHA] [1] [ENTER] [2] [ENTER]):
 
 ## Roots, squares, and polar form
 
-The third soft-key page is `RECT POLAR ROOT SQ CL`:
+The third soft-key page is `RECT POLAR ROOT SQ CL`, taken here in
+working order rather than key order:
 
 - **`ROOT`** ([F3]) takes the principal square root of `A`. For 3+4i it
   answers `RE= 2`, `IM= 1`, and it is the key that finishes what the home
@@ -101,9 +101,8 @@ The third soft-key page is `RECT POLAR ROOT SQ CL`:
   `RE= 0.99999999999978`, `IM= 1.732050807569`. The exact answers are 1
   and the square root of 3; fourteen-digit decimal arithmetic lands a
   whisker away and does not pretend otherwise. Other calculators also
-  accept a complex number typed directly in polar form, which appendix A
-  files as `polar-complex-entry`; in Free85 the route is this editor and
-  the `RECT` key.
+  accept a complex number typed directly in polar form; in Free85 the
+  route is this editor and the `RECT` key.
 - **`CL`** ([F5]) resets all three registers to zero and shows `A`.
 
 Both conversions and `ARG` follow the angle mode: radians in `ANGLE RAD`,

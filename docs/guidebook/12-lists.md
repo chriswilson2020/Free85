@@ -33,8 +33,9 @@ Entry works one position at a time. Type a value with the digits, [.],
 and [(-)], and the hint line changes to `EDIT` followed by your typing;
 [DEL] removes the last character and [CLEAR] abandons the entry. [ENTER]
 stores the value at the current `INDEX` and steps forward, wrapping past
-the end back to position 1, so a whole list is just values and [ENTER]s
-in order. [▶] and [▼] step forward without storing, [◀] and [▲] step
+the end back to position 1, so a whole list is just its values typed in
+order, each followed by [ENTER]. [▶] and [▼] step forward without
+storing, [◀] and [▲] step
 backward, and both wrap. To change one value, step to it, type, and press
 [ENTER].
 
@@ -52,16 +53,16 @@ list `A` and leaves its answer in `R`:
 - **`SUM`** ([F1]) totals the list (elsewhere `sum`): `R` becomes a
   single value, `SIZE 1` showing `10`.
 - **`MEAN`** ([F2]) averages it: `2.5`.
-- **`SORT`** ([F3]) delivers an ascending copy (appendix A files it as
-  `sortA`): `R` is a four-value list, and stepping through it with [▶]
-  reads `1`, `2`, `3`, `4`. There is no descending sort yet; see the
-  callout at the end of this chapter.
-- **`CUM`** ([F4]) delivers the running totals: stepping through `R`
+- **`SORT`** ([F3]) delivers an ascending copy (elsewhere `sortA`):
+  `R` is a four-value list, and stepping through it with [▶] reads `1`,
+  `2`, `3`, `4`. There is no descending sort yet; see the callout at
+  the end of this chapter.
+- **`CUM`** ([F4]) answers the running totals: stepping through `R`
   reads `4`, `5`, `8`, `10`.
 - **`SEQ`** ([F5]) ignores the values and fills `R` with the counting
-  sequence 1 through `SIZE` (appendix A files it as `seq`): our
-  four-value list answers `1`, `2`, `3`, `4`, and at `SIZE 5` the same
-  key answers `1` through `5`.
+  sequence 1 through `SIZE` (elsewhere `seq`): our four-value list
+  answers `1`, `2`, `3`, `4`, and at `SIZE 5` the same key answers `1`
+  through `5`.
 
 ## Products, extremes, and spread
 
@@ -75,10 +76,12 @@ reading `A` into `R`:
 - **`MED`** ([F4]) answers the median. Our list has an even size, so the
   two middle values of the sorted order are averaged; the screen lingers
   on the sorted working copy until your next keypress, so tap an arrow
-  key and `R` settles to a single value, `2.5`. For an odd size the
-  median is a value of the list itself, and `MED` leaves the whole
-  sorted copy in `R` with `INDEX` parked on it: the three-value list
-  5, 1, 9 answers a three-value `R` with `INDEX 2` showing `5`.
+  key and `R` settles to a single value, `2.5`.
+
+  For an odd size the median is a value of the list itself, and `MED`
+  leaves the whole sorted copy in `R` with `INDEX` parked on the median
+  value's position: the three-value list 5, 1, 9 answers a three-value
+  `R` with `INDEX 2` showing `5`.
 - **`STD`** ([F5]) answers the standard deviation: `1.1180339887499`.
   This is the population deviation, dividing by the count rather than by
   one less than the count.
@@ -90,9 +93,11 @@ The third soft-key page is `ADD SUB MUL DIV`, and these combine `A` and
 (type the first list, press [ALPHA], type the second):
 
 - **`ADD`** ([F1]) answers the list `6`, `8`, `10`, `12`.
+- **`SUB`** ([F2]) answers `-4`, `-4`, `-4`, `-4`: every value of `B`
+  is four more than its partner in `A`.
 - **`MUL`** ([F3]) answers `5`, `12`, `21`, `32`, each pair multiplied
-  in place, and **`SUB`** ([F2]) and **`DIV`** ([F4]) work the same way:
-  the last value of the `DIV` result is `0.5`.
+  in place, and **`DIV`** ([F4]) works the same way: the last value of
+  its result is `0.5`.
 
 The two lists must be the same size; if they disagree, the answer is the
 full-screen `DIMENSION ERROR` notice, with the usual `CLEAR OR EXIT` way

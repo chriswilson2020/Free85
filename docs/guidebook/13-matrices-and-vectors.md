@@ -16,9 +16,9 @@ chapter 1) leads to the same place.
 
 ![The matrix editor holding the 2 by 2 matrix 1 2 / 3 4](images/ch13-matrix-editor.png)
 
-Under the `MATRIX` banner, `SIZE 2X2` gives the dimensions, rows first.
-A fresh machine starts at `SIZE 2X2`, and [+] and [-] resize one row at a
-time; press [x-VAR] and the same keys resize columns instead, and
+Under the `MATRIX` banner, `SIZE 2X2` gives the dimensions, rows first;
+that is also where a fresh machine starts. [+] and [-] resize one row at
+a time; press [x-VAR] and the same keys resize columns instead, and
 [x-VAR] again hands them back to rows. Each dimension runs from 1 up to
 the release limit of 3, so pressing [+] beyond `SIZE 3X3` changes
 nothing.
@@ -26,9 +26,10 @@ nothing.
 The `CELL` line tracks the selected cell as you move: the first figure
 after `CELL` is the cell's row, and the value of the cell sits on the
 line below. The second figure on the `CELL` line always reads `3` in
-this release and does not follow the column, so let the value line tell
-you where you are. Cells run in reading order, left to right along row 1,
-then row 2, and so on. Typing and storing work exactly as in the list
+this release and does not follow the column, so keep count as you step,
+and let the value line confirm the cell. Cells run in reading order,
+left to right along row 1, then row 2, and so on. Typing and storing
+work exactly as in the list
 editor: digits, [.], and [(-)] build a value on the `EDIT` line, [ENTER]
 stores it and steps to the next cell, wrapping at the end, and the
 cursor keys step without storing. So the matrix in the screenshot is
@@ -43,10 +44,10 @@ answering in `R`. With the screenshot's matrix in `A`:
 
 - **`DET`** ([F1]) answers the determinant as a 1 by 1 result: `R`
   shows `SIZE 1X1` holding `-2` (elsewhere `det`).
-- **`TRN`** ([F2]) transposes (appendix A files it as `transpose`):
-  `R` is `SIZE 2X2` and stepping through it reads `1`, `3`, `2`, `4`.
-- **`INV`** ([F3]) inverts (filed as `inverse-matrix`): stepping
-  through `R` reads `-2`, `1`, `1.5`, `-0.5`.
+- **`TRN`** ([F2]) transposes (elsewhere `transpose`): `R` is
+  `SIZE 2X2` and stepping through it reads `1`, `3`, `2`, `4`.
+- **`INV`** ([F3]) inverts `A`: stepping through `R` reads `-2`, `1`,
+  `1.5`, `-0.5`.
 
   ![The inverse in the result register](images/ch13-matrix-inverse.png)
 
@@ -56,8 +57,8 @@ answering in `R`. With the screenshot's matrix in `A`:
   `1`. Pressing it also unsettles the vector editor of this chapter,
   whose `A` register shows `SIZE 0` and stray values afterwards; press
   that editor's `3D` (or `2D`) soft key and retype the components to
-  put it right. When you need an identity today, type one into `B` by
-  hand, or take one from `RREF` below.
+  put it right. Until a firmware release repairs the key, take
+  identities from `RREF` below or type them into `B` by hand.
 - **`RREF`** ([F5]) answers the reduced row-echelon form (elsewhere
   `rref`), which for our invertible matrix is the identity: stepping
   through `R` reads `1`, `0`, `0`, `1`.
@@ -103,7 +104,7 @@ A vector is a single column of components: `SIZE 3` on a fresh machine,
 `COMP` naming the component on show, and the same entry rules as the
 other editors. [+] and [-] switch the length between 2 and 3, the two
 sizes this release supports, and the second soft-key page offers the
-same choice as `2D` and `3D` keys. The vector above is [3] [ENTER]
+same choice via its `2D` and `3D` keys. The vector above is [3] [ENTER]
 [4] [ENTER] [0] [ENTER].
 
 ## Vector operations
@@ -123,10 +124,13 @@ and 1, 2, 3 in `B`:
   the angle mode of chapter 1: `0.9422435660893` in `ANGLE RAD`, and
   `53.986579610272` with the mode set to `ANGLE DEG`.
 
-The second page ([MORE]) is `ADD SUB SCL 2D 3D`: **`ADD`** answers
-`4`, `6`, `3`, **`SUB`** ends `-3`, and **`SCL`** multiplies `A` by the
-first component of `B`, just as the matrix `SCL` uses `B`'s top-left
-cell.
+The second page ([MORE]) is `ADD SUB SCL 2D 3D`:
+
+- **`ADD`** ([F1]) answers `4`, `6`, `3`.
+- **`SUB`** ([F2]) answers the differences, ending `-3`.
+- **`SCL`** ([F3]) multiplies `A` by the first component of `B`, just
+  as the matrix `SCL` uses `B`'s top-left cell.
+- **`2D`** ([F4]) and **`3D`** ([F5]) set the length, as above.
 
 Normalising a vector of zeros stops at the `ZERO VECTOR` notice, and
 `CRS` insists on three components: with two-component vectors it answers

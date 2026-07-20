@@ -36,6 +36,9 @@ That is the whole screen, and it is deliberately a diagnostic: it
 proves the port electronics respond, which is the foundation the
 transfer work below builds on.
 
+> 🔌 **Hardware:** the native link screen drives the emulated link
+> port; physical hardware validation is reported separately.
+
 ## What linking does not do yet
 
 No data moves over the cable in this release. Stored objects cannot be
@@ -43,15 +46,14 @@ selected for sending, nothing can be received, and there is no backup
 image to transmit; the memory browser of chapter 18 manages objects on
 one machine only.
 
-> 🔌 **Hardware:** item transfer over the link (selecting, sending,
-> and receiving stored objects, with duplicate handling and safe
-> interruption) is planned hardware-dependent work (Free85 2.0, work
-> package 14.9); physical hardware validation is reported separately.
+> ⚠ **Planned:** sending and receiving stored items over the cable,
+> with duplicate handling and safe interruption, validated in the
+> emulator first and on physical hardware separately (Free85 2.0, work
+> package 14.9).
 
-> 🔌 **Hardware:** transactional backup and restore of the whole
-> calculator over the link is planned hardware-dependent work
-> (Free85 2.0, work package 14.9); physical hardware validation is
-> reported separately.
+> ⚠ **Planned:** transactional backup and restore of the whole
+> calculator over the link, validated in the emulator first and on
+> physical hardware separately (Free85 2.0, work package 14.9).
 
 ## The clean-room boundary
 

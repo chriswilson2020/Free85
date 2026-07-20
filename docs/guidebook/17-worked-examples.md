@@ -9,7 +9,7 @@ showed.
 
 ## Example 1: finding and checking a root
 
-**The task:** study the parabola y = x² - 4, locate a root, and check
+**The task:** study the parabola y = x^2-4, locate a root, and check
 the answer numerically.
 
 **Plot the function.** The home entry line is the equation editor
@@ -77,7 +77,9 @@ stating the model. The fitted line is y = 0.5 + 1.4x.
 it a home-screen job: press [EXIT] to leave the result screen, press
 [CLEAR], and evaluate the model at x = 5 by typing `.5+1.4*5` and
 pressing [ENTER]. The answer line reads `= 7.5`, the fitted forecast
-for the fifth pair.
+for the fifth pair. Four pairs, one soft key, and one typed line: the
+editor held the data, `LIN` named the model, and the home screen
+turned it into a forecast.
 
 ## Example 3: a factorial program
 

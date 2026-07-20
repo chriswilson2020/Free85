@@ -24,9 +24,9 @@ at most four programs, and this list is all of them.
 The soft keys `NEW EDT RUN REN DEL` do the work:
 
 - **[F1] `NEW`** creates a program in the selected slot, named `P1`
-  through `P4` after the slot, and opens it in the editor. On a slot
-  that already holds a program, `NEW` simply opens it, the same as
-  `EDT`.
+  through `P4` after the slot, and opens it in the editor. The two
+  keys converge on a filled slot: there `NEW` simply opens the
+  program, the same as `EDT`.
 - **[F2] `EDT`** opens the selected program in the editor, creating it
   first if the slot is empty.
 - **[F3] `RUN`** runs the selected program. On an empty slot it answers
@@ -42,8 +42,8 @@ The soft keys `NEW EDT RUN REN DEL` do the work:
   confirmation, exactly like the bulk `PGM` clear in Chapter 18: Memory
   Management.
 
-Programs persist: they survive leaving the screen, and switching the
-calculator off and on again costs you nothing that was stored.
+Programs persist: they survive leaving the screen, and a power cycle
+brings all four slots back exactly as you left them.
 
 ## The program editor
 
@@ -82,7 +82,7 @@ Moving between lines always saves the line you are leaving:
 A program is one statement per line. A statement is either an
 instruction from the table below or a bare expression, and expressions
 run through the same engine as the home screen, so everything in
-Chapter 3: Mathematics, Calculus, and Comparisons works here:
+Chapter 3 (Mathematics, Calculus, and Comparisons) works here:
 `2+3->A` stores, `SIN(0)` evaluates, and the comparison operators
 supply the conditions for `IF` and `WHILE`. An instruction keyword is
 followed by one space, then its arguments.
@@ -103,10 +103,10 @@ followed by one space, then its arguments.
 
 If you are arriving from another calculator's manual, the spellings map
 directly: `DISP` covers `Disp`, `INPUT` covers the numeric form of
-`Input` (appendix A catalogues it under the label `Input-number`, kept
-distinct from the planned string form), and `WHILE`, `FOR`, `ELSE`,
-`END`, `RETURN`, and `STOP` cover `While`, `For`, `Else`, `End`,
-`Return`, and `Stop`. The one structural difference is the conditional:
+`Input` (appendix A catalogues it as `Input-number`), and `WHILE`,
+`FOR`, `ELSE`, `END`, `RETURN`, and `STOP` cover `While`, `For`,
+`Else`, `End`, `Return`, and `Stop`. The one structural difference is
+the conditional:
 an `IF` line opens its block directly, with no separate `Then` line, so
 a three-line `If`/`Then`/`End` block elsewhere is a two-line
 `IF`/`END` block here.
@@ -293,8 +293,8 @@ statements.
 > `Menu` (Free85 2.0, work package 14.8).
 
 > ⚠ **Planned:** the further program I/O `getKy`, `Outpt`, `Pause`,
-> `Prompt`, `InpSt`, `Input-string`, `ClLCD`, `DispG`, and `PrtScrn`
-> (Free85 2.0, work package 14.8).
+> `Prompt`, `InpSt`, `ClLCD`, `DispG`, and `PrtScrn` (Free85 2.0,
+> work package 14.8).
 
 > ⚠ **Planned:** making every catalog command callable from program
 > lines (Free85 2.0, work package 14.8).

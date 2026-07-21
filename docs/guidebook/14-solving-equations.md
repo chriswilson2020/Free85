@@ -69,25 +69,24 @@ back to `COEFF 2` when the constant is stored.
 with a root browser: `ROOT 1` names the root on show, `RE` and `IM`
 give its real and imaginary parts, and [◀] and [▶] step through the
 roots, as the `LEFT/RIGHT ROOT` hint says. For x^2-5x+6 the browser
-opens on `ROOT 1` with `RE 3` and `IM 2E-14`, and [▶] shows `ROOT 2`
-with `RE 2` and `IM 0`. The tiny imaginary part is numerical dust from
-the iterative search: treat it as zero, and the roots read 3 and 2, as
-they should. A value too long for the
-21-character line clips at the right edge, so a long piece of dust can
-lose the last digit of its exponent. [CLEAR] steps
-back to the editor with the coefficients kept, and [EXIT] leaves for
-the home screen.
+opens on `ROOT 1` with `RE 3` and `IM 0`, and [▶] shows `ROOT 2` with
+`RE 2` and `IM 0`: the roots 3 and 2, as they should be. Some inputs
+leave a little numerical dust from the iterative search in the last
+digit or two of a root; treat it as the nearest round value. A value
+too long for the 21-character line clips at the right edge. [CLEAR]
+steps back to the editor with the coefficients kept, and [EXIT] leaves
+for the home screen.
 
 Complex roots come out the same way. Solve x^2+2x+5 (coefficients 1, 2,
 5) and `ROOT 1` reads `RE -1.0000000000001` with `IM -2.0000000000001`,
 while `ROOT 2` reads `RE -1` with `IM 2`: the conjugate pair -1±2i,
-the first root carrying a little dust in its last digit.
+the first root carrying that dust in its last digit.
 
 ![The roots of x^2+2x+5](images/ch14-poly-roots.png)
 
 The higher degrees work the same. The cubic x^3-6x^2+11x-6
 (press `CUB`, then coefficients 1, -6, 11, -6) answers `RE 3`, `RE 1`,
-and `RE 2` across its three roots, each with an `IM` at or near zero.
+and `RE 2.0000000000016` across its three roots, each with `IM 0`.
 The quartic x^4-5x^2+4 (press `QRT`, then 1, 0, -5, 0, 4) answers
 `RE 2`, `RE -1`, `RE -2`, and `RE 1`. Solving with a zero leading
 coefficient stops at the `LEADING COEFF ZERO` notice, since the
@@ -99,19 +98,19 @@ Earlier firmware misconverged on any quadratic whose two real roots
 differ in sign, and this guide once taught a degree-3 workaround for
 them. This release repairs the degree-2 search, so such quadratics
 solve directly. x^2-x-6 (coefficients 1, -1, -6) answers `ROOT 1` with
-`RE 3` and `IM 1E-15`, then `ROOT 2` with `RE -2` and `IM 2.4E-14`:
-the roots 3 and -2, with the usual dust standing in for zero. x^2-4
-(1, 0, -4) answers `RE 2` and `RE -2`, and x^2-6x+8 (1, -6, 8), which
-once stalled short of its roots, answers `RE 4` and `RE 2`. A negative
-leading coefficient, which once upset the search at every degree, is
-also safe now: -x^2+4 (coefficients -1, 0, 4) answers the same `RE 2`
-and `RE -2` as x^2-4, so there is no need to multiply an equation
-through by -1 before solving. The old workaround still works if you
-meet it in earlier notes: `CUB` with coefficients 1, -1, -6, 0
-multiplies x^2-x-6 by x, and the browser answers `RE 3`, `RE -2E-15`,
-and `RE -1.9999999999999`, the true roots plus the 0 the extra factor
-added. The cubic and quartic searches answered every polynomial we put
-to them, at worst with a small residue in the last digits.
+`RE 3` and `IM 0`, then `ROOT 2` with `RE -2` and `IM 0`: the roots 3
+and -2 exactly. x^2-4 (1, 0, -4) answers `RE 2.0000000000001` and
+`RE -2.0000000000001`, the roots 2 and -2 under a grain of dust, and
+x^2-6x+8 (1, -6, 8), which once stalled short of its roots, answers
+`RE 4` and `RE 2`. A negative leading coefficient, which once upset
+the search at every degree, is also safe now: -x^2+4 (coefficients
+-1, 0, 4) answers the same values as x^2-4, so there is no need to
+multiply an equation through by -1 before solving. The old workaround
+still works if you meet it in earlier notes: `CUB` with coefficients
+1, -1, -6, 0 multiplies x^2-x-6 by x, and the browser answers `RE 3`,
+`RE -2`, and `RE 0`, the true roots plus the 0 the extra factor added.
+The cubic and quartic searches answered every polynomial we put to
+them, at worst with a small residue in the last digits.
 
 ## The simultaneous editor
 

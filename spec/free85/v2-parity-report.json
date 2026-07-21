@@ -1,21 +1,21 @@
 {
   "schemaVersion": 1,
   "release": "2.0.0",
-  "phase": "14.3",
+  "phase": "14.4",
   "inventory": {
     "groups": 41,
     "entries": 298,
     "groupsByStatus": {
-      "equivalent": 14,
+      "equivalent": 16,
       "partial": 17,
-      "missing": 6,
+      "missing": 4,
       "hardware-dependent": 3,
       "excluded-clean-room": 1
     },
     "entriesByStatus": {
-      "equivalent": 123,
+      "equivalent": 139,
       "partial": 117,
-      "missing": 40,
+      "missing": 24,
       "hardware-dependent": 13,
       "excluded-clean-room": 5
     }
@@ -23,12 +23,12 @@
   "gaps": {
     "total": 36,
     "byStatus": {
-      "equivalent": 12,
-      "missing": 9,
+      "equivalent": 14,
+      "missing": 7,
       "partial": 13,
       "hardware-dependent": 2
     },
-    "equivalentPercent": 33.33
+    "equivalentPercent": 38.89
   },
   "workPackages": [
     {
@@ -109,11 +109,11 @@
       "gaps": [
         {
           "id": "graph.draw",
-          "status": "missing"
+          "status": "equivalent"
         },
         {
           "id": "graph.persistence",
-          "status": "missing"
+          "status": "equivalent"
         }
       ]
     },

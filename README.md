@@ -42,17 +42,17 @@ ROM: 270 numeric comparisons, application-state probes, private LCD diagnostics,
 and chapter-level guidebook traceability. The public build and tests remain
 fully independent of proprietary files.
 
-Free85 2.0 work has reached Phase 14.3. Schema 13 adds a typed named-object
+Free85 2.0 work has reached Phase 14.4. Schema 13 adds a typed named-object
 directory, a 22,784-byte compacting heap, retryable migration from the 1.0
 state, exact capacity accounting, and an object-aware memory browser. Phase
 14.2 adds scalar numeric utilities, AUTO/SCI/ENG/FIX output, signed 16-bit
 binary/octal/decimal/hexadecimal entry and display, Boolean word operations,
 and callable active-function calculus. Phase 14.3 adds a shared Cartesian graph
 engine with persistent format controls, simultaneous/sequential drawing, free
-cursor, named window values, and the complete zoom panel. The 2.0 gap report
-now records 12 of 36 gaps as equivalent; drawing persistence, additional graph
-modes, collections, programming, link, and release packages remain explicitly
-open.
+cursor, named window values, and the complete zoom panel. Phase 14.4 adds every
+Cartesian drawing primitive, exact native picture/graph-database persistence,
+program access, and twelve reviewed LCD goldens. Additional graph modes,
+collections, programming, link, and release packages remain explicitly open.
 
 ## Run the calculator
 

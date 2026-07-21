@@ -9,7 +9,7 @@
 | 1 | operation, modes, editing and previous entries | partial — display and base modes are complete; complex, vector-coordinate, graph-type and differentiation mode settings remain |
 | 2 | variables and stored data | partial — the 2.0 typed object store and reserved namespace remain |
 | 3 | mathematics, calculus and comparisons | partial — generic calculus interpolation probability and utility commands remain |
-| 4 | Cartesian graphing, drawing, formats and persistence | partial — Cartesian core formats and zooms are complete; drawing and graph storage remain |
+| 4 | Cartesian graphing, drawing, formats and persistence | equivalent |
 | 5 | polar graphing | missing — scheduled for work package 14.5 |
 | 6 | parametric graphing | missing — scheduled for work package 14.5 |
 | 7 | differential-equation graphing | missing — scheduled for work package 14.5 |
@@ -31,8 +31,6 @@
 
 Every non-`equivalent` entry from the Free85 2.0 parity gap report (spec/free85/v2-parity-gaps.yaml), sorted by work package owner. `equivalent` areas are already complete and are omitted here (see Appendix A for the full catalog).
 
-- **graph.draw** [missing, owner `14.4`, area graph]: shade lines circles tangent points functions inverse pen and clear
-- **graph.persistence** [missing, owner `14.4`, area graph]: Free85 graph database and picture store/recall
 - **graph.polar** [missing, owner `14.5`, area graph]: polar edit plot explore trace table and analysis
 - **graph.parametric** [missing, owner `14.5`, area graph]: parametric edit plot explore trace table and analysis
 - **graph.diffeq** [missing, owner `14.5`, area graph]: differential-equation edit plot explore and solve

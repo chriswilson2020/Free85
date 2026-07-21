@@ -19,11 +19,11 @@ ui_handle_key:
     LD A, (UI_SCREEN_MODE)
     CP SCREEN_GRAPH
     LD A, C
-    JP Z, PHASE6_HANDLE_KEY
+    JP Z, ui_call_phase6_handle_key
     LD A, (UI_SCREEN_MODE)
     CP SCREEN_TABLE
     LD A, C
-    JP Z, PHASE6_HANDLE_KEY
+    JP Z, ui_call_phase6_handle_key
     LD A, (UI_SCREEN_MODE)
     CP SCREEN_SYSTEM
     LD A, C
@@ -450,6 +450,13 @@ ui_call_phase6_open_graph:
     LD (UI_SCREEN_MODE), A
     RET
 
+ui_call_phase6_handle_key:
+    LD C, A
+    LD A, 1
+    CALL bank_select
+    LD A, C
+    JP PHASE6_HANDLE_KEY
+
 ui_call_phase6_tolerance:
     LD A, 1
     CALL bank_select
@@ -617,7 +624,7 @@ ui_tick:
     CP SCREEN_PROGRAM_INPUT
     RET Z
     CP SCREEN_GRAPH
-    JP Z, PHASE6_TICK
+    JR Z, .graph
     CP SCREEN_TABLE
     RET Z
     CP SCREEN_HOME
@@ -631,6 +638,10 @@ ui_tick:
     LD A, B
     LD (UI_CURSOR_TICK), A
     JP editor_toggle_cursor
+.graph:
+    LD A, 1
+    CALL bank_select
+    JP PHASE6_TICK
 .program:
     LD A, 5
     CALL bank_select

@@ -314,6 +314,21 @@ Redraws remain incremental and cancellable, and the graph suite checks exact
 legacy framebuffers, discontinuity isolation, render-mode equivalence, window
 arithmetic, and a reviewed dot-mode golden.
 
+## Phase 14.4 graph drawing and persistence
+
+`CUSTOM` on the graph opens a four-page drawing panel with line, vertical,
+circle, tangent, point on/off/change, shade, function, inverse, freehand pen,
+and clear operations. Cursor tools use pixel coordinates; longer operations
+run incrementally and remain cancellable. Fixed-bank trampolines let bank 1
+create and find graph objects in bank 7 and let programs in bank 5 invoke the
+same drawing ABI.
+
+`StPic`/`RcPic` round-trip the complete 1,024-byte LCD as the typed `PIC1`
+object. `StGDB`/`RcGDB` round-trip a versioned 215-byte `GDB1` payload containing
+the graph configuration and equation slots. See
+`docs/Free85-graph-drawing-persistence.md` for menus, program codes, layout,
+and validation evidence.
+
 ## Clean-room rules
 
 - Do not copy or translate code, fonts, tables, layouts, or other data from a

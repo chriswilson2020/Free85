@@ -7,7 +7,7 @@ test("[release.bundle] the checked-in development ROM remains reproducible", asy
   const manifest = JSON.parse(await readFile("spec/free85/release.json", "utf8"));
   const rom = await readFile(manifest.rom.path);
   assert.equal(manifest.version, "1.0.0");
-  assert.equal(manifest.phase, "14.3");
+  assert.equal(manifest.phase, "14.4");
   assert.equal(manifest.target_release, "2.0.0");
   assert.equal(manifest.status, "development");
   assert.equal(manifest.license, "MIT");
@@ -26,7 +26,7 @@ test("[release.bundle] the checked-in development ROM remains reproducible", asy
 test("[release.coverage-performance] release reports retain all parity and timing gates", async () => {
   const coverage = JSON.parse(await readFile("spec/free85/coverage.json", "utf8"));
   const performance = JSON.parse(await readFile("spec/free85/performance.json", "utf8"));
-  assert.equal(coverage.phase, "14.3");
+  assert.equal(coverage.phase, "14.4");
   assert.equal(coverage.physical_keys.percent, 100);
   assert.equal(coverage.shifted_functions.percent, 100);
   assert.equal(coverage.alpha_mappings.percent, 100);

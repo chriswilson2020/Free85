@@ -108,19 +108,11 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger's st
 
 `ZBox`, `ZDecm`, `ZFit`, `ZInt`, `ZPrev`, `ZRcl`, `ZTrig`, `zoom-factors`, `user-defined-zoom`
 
-## graph.draw — command (missing)
-
-> Tracked under: `graph.draw`
-
-> Target: implement cancellable drawing primitives and reviewed LCD goldens
+## graph.draw — command (equivalent)
 
 `Circ`, `ClDrw`, `DrawF`, `DrInv`, `Line`, `PtChg`, `PtOff`, `PtOn`, `Shade`, `TanLn`, `Vert`, `freehand-pen`
 
-## graph.persistence — command (missing)
-
-> Tracked under: `graph.persistence`
-
-> Target: store and recall original Free85 graph database and picture objects
+## graph.persistence — command (equivalent)
 
 `RcGDB`, `RcPic`, `StGDB`, `StPic`
 

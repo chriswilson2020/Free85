@@ -98,10 +98,14 @@ new dot-format golden is reviewed. See `docs/Free85-graph-engine.md`.
 
 ### 14.4 - Graph drawing and persistence
 
-Implement shade, line, vertical line, circle, tangent, point on/off/change,
-function/inverse drawing, pen input, and clear-drawing operations. Add original
-Free85 graph-database and picture objects with store/recall, memory accounting,
-program access, and exact framebuffer goldens.
+Implemented. The graph drawing panel supplies shade, line, vertical line,
+circle, tangent, point on/off/change, function/inverse drawing, freehand pen,
+and clear operations. `PIC1` pictures preserve all 1,024 framebuffer bytes;
+`GDB1` graph databases preserve the exact 215-byte versioned graph payload.
+Both use the typed object heap, overwrite their prior named object without a
+leak, and are callable from programs through `DRAW 0` through `DRAW F`.
+Twelve reviewed LCD goldens and exact round-trip tests enforce the package
+gates. See `docs/Free85-graph-drawing-persistence.md`.
 
 ### 14.5 - Polar, parametric, and differential-equation graphing
 

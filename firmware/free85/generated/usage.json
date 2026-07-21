@@ -1,19 +1,19 @@
 {
-  "phase": "14.3",
+  "phase": "14.4",
   "rom_bytes": 131072,
   "page_size": 16384,
   "pages": [
     {
       "page": 0,
-      "used_bytes": 15083,
-      "free_bytes": 1301,
-      "percent_used": 92.06
+      "used_bytes": 15164,
+      "free_bytes": 1220,
+      "percent_used": 92.55
     },
     {
       "page": 1,
-      "used_bytes": 5841,
-      "free_bytes": 10543,
-      "percent_used": 35.65
+      "used_bytes": 8407,
+      "free_bytes": 7977,
+      "percent_used": 51.31
     },
     {
       "page": 2,
@@ -35,9 +35,9 @@
     },
     {
       "page": 5,
-      "used_bytes": 3123,
-      "free_bytes": 13261,
-      "percent_used": 19.06
+      "used_bytes": 3187,
+      "free_bytes": 13197,
+      "percent_used": 19.45
     },
     {
       "page": 6,

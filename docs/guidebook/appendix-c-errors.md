@@ -65,10 +65,10 @@ your entry is exactly as you left it.
 - **`END OF ENTRY`**: [▶] with the cursor at the end.
 - **`NO MORE HISTORY`**: [▲] and [▼] step through the previous entries
   on the home screen, and the notice answers a step with nothing to
-  show: [▼] beyond the blank line at the newest end, or either key on a
-  fresh machine with no history yet. Chapter 1 covers both recall
-  routes, [2nd] [ENTER] and the arrow keys, along with this release's
-  caution about stepping back past the oldest entry.
+  show: [▲] past the oldest entry, [▼] beyond the blank line at the
+  newest end, or either key on a fresh machine with no history yet.
+  Chapter 1 covers both recall routes, [2nd] [ENTER] and the arrow
+  keys.
 - **`ALREADY AT HOME`**: [EXIT] pressed on the home screen, where there
   is nowhere further up to go.
 - **`ALREADY AWAKE`**: [ON] pressed while the calculator is already

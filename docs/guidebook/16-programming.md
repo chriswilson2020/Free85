@@ -103,13 +103,12 @@ followed by one space, then its arguments.
 
 If you are arriving from another calculator's manual, the spellings map
 directly: `DISP` covers `Disp`, `INPUT` covers the numeric form of
-`Input` (appendix A catalogues it as `Input-number`), and `WHILE`,
-`FOR`, `ELSE`, `END`, `RETURN`, and `STOP` cover `While`, `For`,
-`Else`, `End`, `Return`, and `Stop`. The one structural difference is
-the conditional:
-an `IF` line opens its block directly, with no separate `Then` line, so
-a three-line `If`/`Then`/`End` block elsewhere is a two-line
-`IF`/`END` block here.
+`Input` (appendix A catalogues it as `Input-number`), and `WHILE`, `FOR`,
+`ELSE`, `END`, `RETURN`, and `STOP` cover `While`, `For`, `Else`, `End`,
+`Return`, and `Stop`. The one structural difference is the conditional:
+an `IF` line opens its block directly, with no separate `Then` line, so a
+three-line `If`/`Then`/`End` block elsewhere is a two-line `IF`/`END`
+block here.
 
 ## A first program
 

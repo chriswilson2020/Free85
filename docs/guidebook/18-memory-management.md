@@ -4,8 +4,8 @@ Chapter 2: Variables and Stored Data introduced the places Free85 stores
 your data; this chapter is about looking after them. The memory browser
 shows every stored object with its type and exact size, deletes objects one
 at a time, performs the bulk clears and resets, and opens the link screen.
-Behind it sits the typed object store of the 2.0 store format, whose
-capacity rules and persistence guarantees close the chapter.
+Behind it sits the typed object store, in its 2.0 format, whose capacity
+rules and persistence guarantees close the chapter.
 
 ## Opening the memory browser
 

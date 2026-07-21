@@ -141,8 +141,8 @@ The fourteen-digit arithmetic shows itself at the edges: in radians,
 `SIN(PI/2)` answers `= 0.9999999999939` rather than `1`, because `PI` itself
 is a fourteen-digit value; in degrees, `COS(60)` answers
 `= 0.49999999999989`. The tiny error is real, not a display artefact, and
-it is why results you know should be round sometimes miss by a whisker in
-the last digits.
+it is why results you know should be round sometimes come out a hair off
+in the last digits.
 
 Each trigonometric function takes exactly one argument; `SIN(1,2)` answers
 `SYNTAX ERROR`. Out-of-range inverse arguments, such as `ASIN(2)`, answer

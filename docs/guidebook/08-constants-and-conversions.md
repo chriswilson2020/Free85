@@ -106,7 +106,7 @@ point of water, press [2nd] [5] [MORE] [F4] to insert `CTOF(`, then type
   angle mode.
 
 Because the arithmetic is the fourteen-digit decimal of chapter 3, a
-conversion and its inverse can miss an exact round trip by a whisker:
+conversion and its inverse can fall just short of an exact round trip:
 `CMIN(2.54)` answers `= 0.99999999999999`, not `= 1`. The residue is the
 true product of the stored conversion factors, and it is why a chain of
 conversions is best done in one expression rather than by retyping rounded

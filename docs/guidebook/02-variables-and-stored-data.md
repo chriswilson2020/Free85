@@ -113,15 +113,15 @@ A few names are special:
 ## The typed object store
 
 Underneath all of this, every stored item lives in one typed object store,
-the 2.0 store format that gives the memory browser its `MEMORY 2.0` title.
-It holds named objects of eleven kinds, from the real numbers of this
-chapter through lists, matrices, vectors, strings, equations, programs, and
-more, and its names can run to eight characters: the one-letter rule above
-belongs to real-number variables, and the longer names go with those other
-object types. In today's firmware only the twenty-six reserved reals exist
-and nothing yet creates the other kinds; chapter 18 tours the browser that
-lists every object with its type and exact size, along with the store's
-capacity and accounting rules.
+kept in the 2.0 store format that gives the memory browser its
+`MEMORY 2.0` title. It holds named objects of eleven kinds, from the real
+numbers of this chapter through lists, matrices, vectors, strings,
+equations, programs, and more, and its names can run to eight characters:
+the one-letter rule above belongs to real-number variables, and the longer
+names go with those other object types. In today's firmware only the
+twenty-six reserved reals exist and nothing yet creates the other kinds;
+chapter 18 tours the browser that lists every object with its type and
+exact size, along with the store's capacity and accounting rules.
 
 > ⚠ **Planned:** creating, naming, and managing the store's other typed
 > objects (lists, matrices, vectors, strings, and equations) directly from

@@ -62,10 +62,10 @@ The [▲] and [▼] keys walk the same history one step at a time, and the
 calculator keeps your four most recent entries. Evaluate `2+3` and then
 `5*7`, press [CLEAR], and [▲] recalls `5*7`; [▲] again replaces it with
 `2+3`, and each recall arrives with the cursor at the end. A repeated
-[2nd] [ENTER] steps back exactly as [▲] does. [▼] steps back towards
-the newest entry, and one step beyond it empties the line; a further
-[▼] answers the full-screen notice `NO MORE HISTORY`, as does [▲] on a
-fresh machine with no history to show.
+[2nd] [ENTER] steps back exactly as [▲] does. [▼] returns towards the
+newest entry, and one step beyond it empties the line; a further [▼]
+answers the full-screen notice `NO MORE HISTORY`, as does [▲] on a fresh
+machine with no history to show.
 
 A caution for this release: stepping back past the oldest entry the
 calculator still holds, whether with [▲] or with repeated presses of
@@ -135,6 +135,10 @@ Three settings are listed, and the soft keys `ANG FMT - + MEM` adjust them:
 
 [F5] (`MEM`) opens the memory browser from here; chapter 18 covers it. Press
 [EXIT] to leave the mode screen and return home.
+
+> ⚠ **Planned:** mode settings for complex display, vector coordinates,
+> graph type, and differentiation (Free85 2.0, work packages 14.5 and
+> 14.6).
 
 ## The catalog and the custom menu
 

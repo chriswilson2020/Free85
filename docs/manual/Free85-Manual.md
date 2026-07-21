@@ -306,10 +306,11 @@ the full tour, one chapter per subject:
 1. **Operating the Calculator**: modes, the editor, and previous entries.
 2. **Variables and Stored Data**: storing, recalling, and managing named
    data.
-3. **Mathematics, Calculus, and Comparisons**: functions, numerical calculus,
-   and comparisons.
+3. **Mathematics, Calculus, and Comparisons**: the full function set and
+   the fourteen-digit arithmetic behind every result, with worked
+   examples throughout.
 4. **Cartesian Graphing, Drawing, Formats, and Persistence**: plotting,
-   drawing, and graph formats.
+   drawing, graph formats, and what the calculator remembers of a plot.
 5. **Polar Graphing**: curves in polar coordinates.
 6. **Parametric Graphing**: curves driven by a parameter.
 7. **Differential-Equation Graphing**: graphing solutions of differential
@@ -322,10 +323,11 @@ the full tour, one chapter per subject:
 11. **Complex Numbers**: arithmetic and functions beyond the reals.
 12. **Lists**: ordered collections and list arithmetic.
 13. **Matrices and Vectors**: linear-algebra objects and their operations.
-14. **Equation, Polynomial, and Simultaneous Solving**: the equation,
-    polynomial, and simultaneous solvers.
-15. **Statistics and Statistical Plots**: analysis, regression, and
-    statistical plots.
+14. **Equation, Polynomial, and Simultaneous Solving**: root finding for
+    any expression, polynomials up to degree four, and linear systems of
+    up to four unknowns.
+15. **Statistics and Statistical Plots**: column summaries, least-squares
+    regression, and the scatter, histogram, and box plots.
 16. **Calculator Programming**: the on-calculator programming environment.
 17. **Worked Application Examples**: complete applications, step by step.
 18. **Memory Management**: browsing, inspecting, and deleting stored objects.
@@ -333,6 +335,6 @@ the full tour, one chapter per subject:
 
 Four appendices round it out: appendix A is the command and function catalog,
 appendix B the complete key map of all fifty keys, appendix C the system
-variables and error messages, and appendix D the feature status and 2.0 gaps
-ledger. Pick the chapter that matches what you want to do next, and enjoy the
-calculator.
+variables and error messages, and appendix D tracks feature status and the
+remaining 2.0 gaps. Pick the chapter that matches what you want to do next,
+and enjoy the calculator.

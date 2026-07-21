@@ -80,13 +80,11 @@ correlation, so the fitted line is y = 2.2 + 0.6x.
 
 ![The linear regression of the five pairs](images/ch15-regression-result.png)
 
-There is no forecast key yet, but the fit makes forecasting a
-home-screen job: to predict y at x=6, type `2.2+0.6*6` and the answer
-line
-reads `= 5.8`. Watch degenerate data: a constant `X` column has no
-defined slope, and rather than an error the result screen answers
-`SLOPE 0`, `INTER 0`, and `R 0`, so treat an `R` of exactly zero with
-suspicion.
+There is no forecast key yet, but the fit makes forecasting a home-screen
+job: to predict y at x=6, type `2.2+0.6*6` and the answer line reads
+`= 5.8`. Watch degenerate data: a constant `X` column has no defined
+slope, and rather than an error the result screen answers `SLOPE 0`,
+`INTER 0`, and `R 0`, so treat an `R` of exactly zero with suspicion.
 
 > ⚠ **Planned:** the further regression families `LnR`, `ExpR`, `PwrR`,
 > `P2Reg`, `P3Reg`, and `P4Reg` and the forecast commands `fcstx` and
@@ -100,10 +98,9 @@ suspicion.
 
 Three soft keys turn the columns into pictures. Each plot draws under a
 `STAT PLOT` banner, scales itself so the data's smallest and largest
-values touch the edges of the plotting area (the graph window of
-chapter 4 plays no part), draws no axes, and leaves for the home
-screen with [EXIT], as
-its footer says.
+values touch the edges of the plotting area (the graph window of chapter 4
+plays no part), draws no axes, and leaves for the home screen with [EXIT],
+as its footer says.
 
 `SCAT` ([F4], elsewhere `Scatter`) draws one dot per pair, `X` across
 and `Y` up. With the five pairs entered, the dots climb from the lower

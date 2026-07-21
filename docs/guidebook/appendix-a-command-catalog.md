@@ -96,27 +96,15 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger's st
 
 `elementwise-real`, `elementwise-complex`, `elementwise-list`, `elementwise-matrix`, `elementwise-vector`
 
-## graph.cartesian-core — command (partial)
-
-> Tracked under: `graph.core`
-
-> Target: preserve existing Cartesian capabilities while matching named equation selection and command semantics
+## graph.cartesian-core — command (equivalent)
 
 `Func`, `FnOn`, `FnOff`, `Trace`, `ZIn`, `ZOut`, `ZStd`, `ZSqr`
 
-## graph.format — command (partial)
-
-> Tracked under: `graph.format`
-
-> Target: add complete persistent graph format flags and simultaneous/sequential modes
+## graph.format — command (equivalent)
 
 `AxesOff`, `AxesOn`, `CoordOff`, `CoordOn`, `DrawDot`, `DrawLine`, `GridOff`, `GridOn`, `LabelOff`, `LabelOn`, `SeqG`, `SimulG`
 
-## graph.zoom — command (partial)
-
-> Tracked under: `graph.zoom`
-
-> Target: add all zoom presets factor controls box selection previous window and recall
+## graph.zoom — command (equivalent)
 
 `ZBox`, `ZDecm`, `ZFit`, `ZInt`, `ZPrev`, `ZRcl`, `ZTrig`, `zoom-factors`, `user-defined-zoom`
 

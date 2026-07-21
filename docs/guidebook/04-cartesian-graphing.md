@@ -5,7 +5,7 @@ three function slots, watching a plot draw, changing the window with the zoom
 keys, tracing along a curve, running the root and calculus analyses directly
 from the plot, and reading the table of values. It closes with a frank
 account of the graph areas that are not built yet, namely drawing commands,
-format flags beyond the grid, and graph storage. Every key sequence and every
+and graph storage. Every key sequence and every
 quoted number below was run in the emulator on a fresh machine.
 
 Free85 currently graphs in one mode: real functions of the graph variable
@@ -30,8 +30,8 @@ into the active function slot and starts plotting. Type
 
 The plot area is the whole 128 by 64 pixel display. The axes cross at the
 origin, and the faint dots are the grid, drawn at a fixed screen spacing
-rather than at unit intervals. There is no soft-menu row: the graph screen
-uses every key directly, and this chapter lists what each one does.
+rather than at unit intervals. The ordinary graph screen uses every key
+directly; the format and zoom panels add labelled soft-menu rows when opened.
 
 A plot draws column by column from left to right, 128 samples in all. A
 single equation takes a few seconds and plots noticeably faster than
@@ -76,8 +76,10 @@ Both slots are now enabled and every replot draws both. A slot is enabled
 whenever it holds text: storing an empty entry line disables and clears the
 slot, so to switch `Y2` off, press [2nd] [2] on the graph screen, press
 [CLEAR], then press [GRAPH]. Equation selection (elsewhere `FnOn` and
-`FnOff`) is the slot text itself: an empty slot is off, a filled slot is
-on.
+`FnOff`) can also be changed without erasing text: open graph format with
+[2nd] [MORE], press [MORE] for its second page, then use [F2], [F3], or [F4]
+to toggle `Y1`, `Y2`, or `Y3`. An enabled stored equation is on; a disabled
+stored equation remains available for later use.
 
 ## The window and the zoom keys
 
@@ -98,12 +100,27 @@ the zoom keys on the graph screen, each of which replots immediately:
   and 64 tall, this window makes one unit the same length on both axes, so
   circles look like circles.
 
-There is no screen for typing window values directly; the four presets
-above are the only window controls in today's firmware.
+For the complete zoom panel, press [2nd] [GRAPH]. Its three pages are:
 
-> ⚠ **Planned:** the remaining zoom presets `ZBox`, `ZDecm`, `ZFit`,
-> `ZInt`, `ZPrev`, `ZRcl`, and `ZTrig`, together with adjustable zoom
-> factors and user-defined zooms (Free85 2.0, work package 14.3).
+- page 1: [F1] `ZBox`, [F2] `ZIn`, [F3] `ZOut`, [F4] `ZStd`, and [F5]
+  `ZSqr`;
+- page 2: [F1] `ZDecm`, [F2] `ZFit`, [F3] `ZInt`, [F4] `ZPrev`, and [F5]
+  `ZTrig`;
+- page 3: [F1] stores the current window, [F2] performs `ZRcl`, and [F3]
+  or [F4] selects factor 2 or factor 4 for later zoom-in and zoom-out.
+
+Press [MORE] to cycle pages and [EXIT] to return to the plot. `ZBox` starts
+a movable cursor: position one corner with the arrow keys and press [ENTER],
+then position the opposite corner and press [ENTER] again. This box is the
+free-form `user-defined-zoom`. The factor 2/factor 4 choices are the
+`zoom-factors`; they remain selected until changed. `ZFit` retains the
+horizontal range and derives a padded vertical range from the active curve.
+`ZPrev` exchanges the current and previous windows, while store and `ZRcl`
+provide a separate remembered window.
+
+The current bounds are readable on the home screen as `XMIN`, `XMAX`, `YMIN`,
+and `YMAX`. They are read-only system values; window changes go through the
+zoom controls above.
 
 ## Trace
 
@@ -122,6 +139,12 @@ fourteen-digit precision. The trace stops at the left and right edges of
 the window. Two quirks: the readout is drawn over the bottom rows of
 the plot (press [GRAPH] to redraw cleanly), and there is no marker on the
 curve itself yet, so the readout is the trace.
+
+Press [▲] or [▼] from an ordinary completed plot to start the free cursor at
+the centre of the screen. All four arrow keys move it independently of the
+curve, and its footer reports the corresponding window coordinate. [EXIT],
+[CLEAR], or [GRAPH] leaves free-cursor mode and redraws. Turning coordinate
+display off in graph format suppresses both trace and free-cursor footers.
 
 Tracing also sets the reference position used by the analyses in the next
 section: the derivative is taken, and the root search begins, at the last
@@ -197,21 +220,21 @@ The start and step you reach this way survive leaving the table, so a
 scrolled table reopens where you left it, but neither value can be typed
 in directly: the four keys above are the only controls today.
 
-> ⚠ **Planned:** a settable table start and step (Free85 2.0, work
-> package 14.3).
-
 ## Graph formats
 
-One format flag exists today: the grid. Pressing [.] on the graph screen
-toggles the grid dots off or on and replots (elsewhere `GridOn` and
-`GridOff`); the setting is remembered across plots. The axes are always
-drawn, and coordinates and labels are not drawn at all, so the remaining
-format flags have nothing to switch yet.
+Press [2nd] [MORE] on the graph screen to open the persistent format panel.
+On its first page, [F1] toggles `AxesOn`/`AxesOff`, [F2] toggles
+`CoordOn`/`CoordOff`, [F3] toggles `LabelOn`/`LabelOff`, [F4] toggles
+`GridOn`/`GridOff`, and [F5] selects `DrawLine` or `DrawDot`. Line mode joins
+adjacent valid samples; dot mode plots only the samples. [.] remains a quick
+grid toggle from the ordinary graph screen.
 
-> ⚠ **Planned:** the remaining graph format flags `AxesOn`/`AxesOff`,
-> `CoordOn`/`CoordOff`, `LabelOn`/`LabelOff`, `DrawLine`/`DrawDot`, and the
-> sequential/simultaneous plotting order `SeqG`/`SimulG` (Free85 2.0, work
-> package 14.3).
+Press [MORE] for the second format page. [F1] selects `SimulG` or `SeqG`:
+simultaneous mode samples every enabled equation at each X column, whereas
+sequential mode completes one equation before starting the next. Both produce
+the same final framebuffer. [F2], [F3], and [F4] toggle `Y1`, `Y2`, and `Y3`;
+[F5] moves directly to the zoom panel. [EXIT] applies the persistent settings
+and redraws.
 
 ## Drawing on a graph
 

@@ -2566,9 +2566,13 @@ p8_poly_evaluate_current:
     JR NC, .horner
     RET
 
-; Product over j != i of (root_i-root_j). Result W4(real), W5(imag).
+; Leading coefficient times product over j != i of (root_i-root_j), the
+; Weierstrass denominator P'(root_i) would reduce to at convergence. Seeding
+; with a_0 rather than one keeps the correction step exact for non-monic
+; polynomials, including negative leading coefficients.
+; Result W4(real), W5(imag).
 p8_poly_denominator_current:
-    LD HL, const_one
+    LD HL, P8_POLY_COEFF
     LD DE, P8_WORK_4
     CALL numeric_copy
     LD HL, P8_WORK_5
@@ -2744,14 +2748,18 @@ p8_poly_complex_pointer:
     DJNZ .loop
     RET
 
-; Unit-complex seeds. The degree-2 seeds include imaginary parts so a
-; negative discriminant does not trap the iteration on the real axis.
+; Unit-complex seeds. The degree-2 seeds must not be a conjugate pair: the
+; iteration preserves conjugate symmetry for real coefficients, so seeding
+; x and conj(x) pins both approximations to a shared real part and real
+; roots with distinct values become unreachable. They are instead
+; 0.9+0.4i and -0.4+0.9i (a quarter turn apart), off both axes so neither
+; a negative discriminant nor distinct real roots trap the iteration.
 p8_seed_two_0:
-    DB $00,$FF,$40,$00,$00,$00,$00,$00,$00
     DB $00,$FF,$90,$00,$00,$00,$00,$00,$00
-p8_seed_two_1:
     DB $00,$FF,$40,$00,$00,$00,$00,$00,$00
-    DB $80,$FF,$90,$00,$00,$00,$00,$00,$00
+p8_seed_two_1:
+    DB $80,$FF,$40,$00,$00,$00,$00,$00,$00
+    DB $00,$FF,$90,$00,$00,$00,$00,$00,$00
 p8_seed_three_0:
     DB $00,$00,$10,$00,$00,$00,$00,$00,$00
     DB $00,$00,$00,$00,$00,$00,$00,$00,$00

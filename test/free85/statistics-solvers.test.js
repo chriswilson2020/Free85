@@ -173,3 +173,46 @@ test("[solver.polynomial] degree 2-4 solvers retain real and complex roots", () 
     assertClose(4 * real * imaginary * ((real * real) - (imaginary * imaginary)), 0, 1e-8);
   });
 });
+
+test("[solver.polynomial] quadratics with opposite-sign real roots converge", () => {
+  const solve = (coefficients) => {
+    const harness = Free85Harness.boot();
+    tapAll(harness, ["2ND", "PRGM"]);
+    enterValues(harness, coefficients);
+    harness.tap("F1");
+    harness.runFrames(30_000);
+    return rootValues(harness, 2);
+  };
+
+  const assertRealRoots = (roots, expected) => {
+    const reals = roots.map(([real]) => real).sort((left, right) => left - right);
+    expected.forEach((value, index) => assertClose(reals[index], value, 1e-8));
+    roots.forEach(([, imaginary]) => assertClose(imaginary, 0, 1e-8));
+  };
+
+  assertRealRoots(solve([1, -1, -6]), [-2, 3]);
+  assertRealRoots(solve([1, 0, -4]), [-2, 2]);
+  assertRealRoots(solve([1, -6, 8]), [2, 4]);
+});
+
+test("[solver.polynomial] non-monic leading coefficients are normalised", () => {
+  const solve = (degree, coefficients) => {
+    const harness = Free85Harness.boot();
+    tapAll(harness, ["2ND", "PRGM"]);
+    if (degree === 3) harness.tap("F3");
+    enterValues(harness, coefficients);
+    harness.tap("F1");
+    harness.runFrames(30_000);
+    return rootValues(harness, degree);
+  };
+
+  const negativeQuadratic = solve(2, [-1, 0, 4]);
+  const reals = negativeQuadratic.map(([real]) => real).sort((left, right) => left - right);
+  [-2, 2].forEach((value, index) => assertClose(reals[index], value, 1e-8));
+  negativeQuadratic.forEach(([, imaginary]) => assertClose(imaginary, 0, 1e-8));
+
+  const scaledCubic = solve(3, [2, -12, 22, -12]);
+  const cubicReals = scaledCubic.map(([real]) => real).sort((left, right) => left - right);
+  [1, 2, 3].forEach((value, index) => assertClose(cubicReals[index], value, 1e-8));
+  scaledCubic.forEach(([, imaginary]) => assertClose(imaginary, 0, 1e-8));
+});

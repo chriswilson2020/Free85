@@ -299,6 +299,21 @@ retryable. The memory browser shows name, type, and size, selects with arrows,
 and deletes with `DEL`. The complete layout and API are documented in
 `docs/Free85-object-store.md`.
 
+## Phase 14.3 shared graph engine
+
+Phase 14.3 routes Cartesian plot, trace, table, and numerical analysis through
+a mode-neutral evaluator for later polar and parametric adapters. Persistent
+format bits control axes, coordinates, labels, grid, line/dot drawing,
+simultaneous/sequential sampling, and the three named equation slots.
+
+`2ND+MORE` opens graph format and `2ND+GRAPH` opens zoom. Zoom includes box,
+factor in/out, standard, square, decimal, fit, integer, previous, trig, and
+stored-window recall operations. `UP` or `DOWN` on a completed graph starts a
+free cursor. `XMIN`, `XMAX`, `YMIN`, and `YMAX` are readable named values.
+Redraws remain incremental and cancellable, and the graph suite checks exact
+legacy framebuffers, discontinuity isolation, render-mode equivalence, window
+arithmetic, and a reviewed dot-mode golden.
+
 ## Clean-room rules
 
 - Do not copy or translate code, fonts, tables, layouts, or other data from a

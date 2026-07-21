@@ -18,6 +18,7 @@ bank_start:
     JP p14_calculus_interpolate
 
     INCLUDE "graph/phase6.asm"
+    INCLUDE "graph/phase14.asm"
 
 bank_end:
     ASSERT bank_end <= $8000

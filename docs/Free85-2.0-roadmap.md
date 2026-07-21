@@ -109,11 +109,15 @@ gates. See `docs/Free85-graph-drawing-persistence.md`.
 
 ### 14.5 - Polar, parametric, and differential-equation graphing
 
-Add polar `r(theta)`, parametric `x(t),y(t)`, and first-order differential
-equation modes on the shared engine. Each mode receives its own editor,
-variables, window/step configuration, trace, table, analysis, cancel path, and
-goldens. Coordinate conversions and vector display modes share the same angle
-and coordinate primitives.
+Implemented. The graph Format panel selects function, polar `r(theta)`,
+parametric `x(t),y(t)`, and first-order `dy/dx=f(x,y)` modes. Each mode keeps
+its equations, window, table variables, and graph-coordinate preference in the
+native typed object store. The shared engine supplies connected plots, trace,
+table, analysis, and cancellation; differential equations use deterministic
+Euler integration and trace reintegration. Vector tools convert rectangular,
+cylindrical, and spherical triples using the global angle setting. Focused
+numeric tests and reviewed LCD goldens enforce the package gates. See
+`docs/Free85-graph-modes.md`.
 
 ### 14.6 - Collection and linear-algebra completion
 

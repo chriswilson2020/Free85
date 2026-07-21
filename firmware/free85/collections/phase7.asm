@@ -21,6 +21,7 @@ phase7_init:
     LD (P7_INPUT_ACTIVE), A
     LD (P7_ERROR), A
     LD (P7_DIM_AXIS), A
+    LD (P7_COORD_MODE), A
     LD HL, P7_COMPLEX_A
     LD DE, P7_COMPLEX_A + 1
     LD BC, P7_STATE_END - P7_COMPLEX_A - 1
@@ -147,6 +148,11 @@ p7_next_menu:
     INC A
     LD B, A
     LD A, (P7_ACTIVE_APP)
+    CP P7_APP_VECTOR
+    JR NZ, .not_vector
+    LD A, B
+    JR .three_pages
+.not_vector:
     CP P7_APP_MATRIX
     LD A, B
     JR NC, .two_pages
@@ -156,6 +162,10 @@ p7_next_menu:
     JR .store
 .two_pages:
     CP 2
+    JR C, .store
+    XOR A
+.three_pages:
+    CP 3
     JR C, .store
     XOR A
 .store:
@@ -662,6 +672,19 @@ p7_render_vector:
     CALL p7_active_vector_base
     LD A, (HL)
     CALL p7_draw_size
+    LD A, (P7_COORD_MODE)
+    ADD A, A
+    LD E, A
+    LD D, 0
+    LD HL, p7_vector_mode_table
+    ADD HL, DE
+    LD E, (HL)
+    INC HL
+    LD D, (HL)
+    EX DE, HL
+    LD B, 10
+    LD C, 1
+    CALL text_draw_string
     LD HL, p7_text_component
     LD B, 0
     LD C, 2
@@ -673,11 +696,15 @@ p7_render_vector:
     LD B, 0
     LD C, 3
     CALL p7_draw_number
-    LD HL, p7_menu_vector_0
     LD A, (P7_MENU_PAGE)
     OR A
+    LD HL, p7_menu_vector_0
     JR Z, p7_render_footer
+    CP 1
     LD HL, p7_menu_vector_1
+    JR Z, p7_render_footer
+    LD HL, p7_menu_vector_2
+    JR p7_render_footer
 
 p7_render_footer:
     PUSH HL
@@ -2684,7 +2711,20 @@ p7_vector_soft:
     LD C, A
     LD A, (P7_MENU_PAGE)
     OR A
-    JR NZ, .page1
+    JR Z, .page0
+    CP 1
+    JR Z, .page1
+    LD A, C
+    CP KEY_F1
+    JP Z, p7_vector_rect_to_cyl
+    CP KEY_F2
+    JP Z, p7_vector_cyl_to_rect
+    CP KEY_F3
+    JP Z, p7_vector_rect_to_sph
+    CP KEY_F4
+    JP Z, p7_vector_sph_to_rect
+    JP p7_vector_cycle_display
+.page0:
     LD A, C
     CP KEY_F1
     JP Z, p7_vector_magnitude
@@ -2996,6 +3036,223 @@ p7_vector_angle:
     JP p7_set_result_mode
 
 ; ---------------------------------------------------------------------------
+; Rectangular/cylindrical/spherical vector conversions. Angles follow the
+; calculator's global RAD/DEG setting and spherical phi is measured from +Z.
+
+p7_vector_require_3d:
+    LD A, (P7_VECTOR_A + P7_VECTOR_LENGTH)
+    CP 3
+    RET Z
+    JP p7_fail_dimension
+
+; atan2(A.y,A.x) -> P7_WORK_3.
+p7_vector_argument:
+    LD HL, P7_VECTOR_A + P7_VECTOR_DATA
+    CALL numeric_is_zero
+    JR NZ, .divide
+    LD HL, P7_VECTOR_A + P7_VECTOR_DATA + NUM_SIZE
+    CALL numeric_is_zero
+    JP Z, p7_fail_zero
+    LD A, (P7_VECTOR_A + P7_VECTOR_DATA + NUM_SIZE + NUM_FLAGS)
+    AND NUM_SIGN
+    LD HL, const_half_pi
+    LD DE, P7_WORK_3
+    CALL numeric_copy
+    RET Z
+    LD A, (P7_WORK_3 + NUM_FLAGS)
+    XOR NUM_SIGN
+    LD (P7_WORK_3 + NUM_FLAGS), A
+    RET
+.divide:
+    LD HL, P7_VECTOR_A + P7_VECTOR_DATA + NUM_SIZE
+    LD DE, P7_VECTOR_A + P7_VECTOR_DATA
+    LD IX, P7_WORK_0
+    CALL p7_divide
+    RET C
+    LD HL, P7_WORK_0
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    CALL scientific_atan
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_3
+    CALL numeric_copy
+    LD A, (P7_VECTOR_A + P7_VECTOR_DATA + NUM_FLAGS)
+    AND NUM_SIGN
+    RET Z
+    LD A, (P7_VECTOR_A + P7_VECTOR_DATA + NUM_SIZE + NUM_FLAGS)
+    AND NUM_SIGN
+    LD HL, P7_WORK_3
+    LD DE, const_pi
+    LD IX, P7_WORK_3
+    JP Z, p7_add
+    JP p7_subtract
+
+; sqrt(x*x+y*y) -> P7_WORK_2.
+p7_vector_rho:
+    LD HL, P7_VECTOR_A + P7_VECTOR_DATA
+    LD D, H
+    LD E, L
+    LD IX, P7_WORK_0
+    CALL p7_multiply
+    LD HL, P7_VECTOR_A + P7_VECTOR_DATA + NUM_SIZE
+    LD D, H
+    LD E, L
+    LD IX, P7_WORK_1
+    CALL p7_multiply
+    LD HL, P7_WORK_0
+    LD DE, P7_WORK_1
+    LD IX, P7_WORK_0
+    CALL p7_add
+    LD HL, P7_WORK_0
+    LD IX, P7_WORK_2
+    JP p7_sqrt
+
+p7_vector_rect_to_cyl:
+    CALL p7_vector_require_3d
+    CALL p7_vector_rho
+    CALL p7_vector_argument
+    LD HL, P7_WORK_2
+    LD DE, P7_VECTOR_RESULT + P7_VECTOR_DATA
+    CALL numeric_copy
+    LD HL, P7_WORK_3
+    LD DE, P7_VECTOR_RESULT + P7_VECTOR_DATA + NUM_SIZE
+    CALL numeric_copy
+    LD HL, P7_VECTOR_A + P7_VECTOR_DATA + NUM_SIZE * 2
+    LD DE, P7_VECTOR_RESULT + P7_VECTOR_DATA + NUM_SIZE * 2
+    CALL numeric_copy
+    LD A, 3
+    LD (P7_VECTOR_RESULT + P7_VECTOR_LENGTH), A
+    LD A, 1
+    LD (P7_COORD_MODE), A
+    JP p7_set_result_mode
+
+p7_vector_cyl_to_rect:
+    CALL p7_vector_require_3d
+    LD HL, P7_VECTOR_A + P7_VECTOR_DATA + NUM_SIZE
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    CALL scientific_cos
+    LD HL, P7_VECTOR_A + P7_VECTOR_DATA
+    LD DE, NUM_RESULT
+    CALL sci_multiply_objects
+    LD HL, NUM_RESULT
+    LD DE, P7_VECTOR_RESULT + P7_VECTOR_DATA
+    CALL numeric_copy
+    LD HL, P7_VECTOR_A + P7_VECTOR_DATA + NUM_SIZE
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    CALL scientific_sin
+    LD HL, P7_VECTOR_A + P7_VECTOR_DATA
+    LD DE, NUM_RESULT
+    CALL sci_multiply_objects
+    LD HL, NUM_RESULT
+    LD DE, P7_VECTOR_RESULT + P7_VECTOR_DATA + NUM_SIZE
+    CALL numeric_copy
+    LD HL, P7_VECTOR_A + P7_VECTOR_DATA + NUM_SIZE * 2
+    LD DE, P7_VECTOR_RESULT + P7_VECTOR_DATA + NUM_SIZE * 2
+    CALL numeric_copy
+    LD A, 3
+    LD (P7_VECTOR_RESULT + P7_VECTOR_LENGTH), A
+    XOR A
+    LD (P7_COORD_MODE), A
+    JP p7_set_result_mode
+
+p7_vector_rect_to_sph:
+    CALL p7_vector_require_3d
+    CALL p7_vector_magnitude_value
+    LD HL, P7_WORK_2
+    CALL numeric_is_zero
+    JP Z, p7_fail_zero
+    LD HL, P7_WORK_2
+    LD DE, P7_WORK_4
+    CALL numeric_copy
+    CALL p7_vector_argument
+    LD HL, P7_WORK_3
+    LD DE, P7_VECTOR_RESULT + P7_VECTOR_DATA + NUM_SIZE
+    CALL numeric_copy
+    LD HL, P7_VECTOR_A + P7_VECTOR_DATA + NUM_SIZE * 2
+    LD DE, P7_WORK_4
+    CALL sci_divide_objects
+    LD HL, NUM_RESULT
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    CALL scientific_acos
+    LD HL, NUM_RESULT
+    LD DE, P7_VECTOR_RESULT + P7_VECTOR_DATA + NUM_SIZE * 2
+    CALL numeric_copy
+    LD HL, P7_WORK_4
+    LD DE, P7_VECTOR_RESULT + P7_VECTOR_DATA
+    CALL numeric_copy
+    LD A, 3
+    LD (P7_VECTOR_RESULT + P7_VECTOR_LENGTH), A
+    LD A, 2
+    LD (P7_COORD_MODE), A
+    JP p7_set_result_mode
+
+p7_vector_sph_to_rect:
+    CALL p7_vector_require_3d
+    ; rho = r*sin(phi)
+    LD HL, P7_VECTOR_A + P7_VECTOR_DATA + NUM_SIZE * 2
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    CALL scientific_sin
+    LD HL, P7_VECTOR_A + P7_VECTOR_DATA
+    LD DE, NUM_RESULT
+    CALL sci_multiply_objects
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_4
+    CALL numeric_copy
+    ; x=rho*cos(theta)
+    LD HL, P7_VECTOR_A + P7_VECTOR_DATA + NUM_SIZE
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    CALL scientific_cos
+    LD HL, P7_WORK_4
+    LD DE, NUM_RESULT
+    CALL sci_multiply_objects
+    LD HL, NUM_RESULT
+    LD DE, P7_VECTOR_RESULT + P7_VECTOR_DATA
+    CALL numeric_copy
+    ; y=rho*sin(theta)
+    LD HL, P7_VECTOR_A + P7_VECTOR_DATA + NUM_SIZE
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    CALL scientific_sin
+    LD HL, P7_WORK_4
+    LD DE, NUM_RESULT
+    CALL sci_multiply_objects
+    LD HL, NUM_RESULT
+    LD DE, P7_VECTOR_RESULT + P7_VECTOR_DATA + NUM_SIZE
+    CALL numeric_copy
+    ; z=r*cos(phi)
+    LD HL, P7_VECTOR_A + P7_VECTOR_DATA + NUM_SIZE * 2
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    CALL scientific_cos
+    LD HL, P7_VECTOR_A + P7_VECTOR_DATA
+    LD DE, NUM_RESULT
+    CALL sci_multiply_objects
+    LD HL, NUM_RESULT
+    LD DE, P7_VECTOR_RESULT + P7_VECTOR_DATA + NUM_SIZE * 2
+    CALL numeric_copy
+    LD A, 3
+    LD (P7_VECTOR_RESULT + P7_VECTOR_LENGTH), A
+    XOR A
+    LD (P7_COORD_MODE), A
+    JP p7_set_result_mode
+
+p7_vector_cycle_display:
+    LD A, (P7_COORD_MODE)
+    INC A
+    CP 3
+    JR C, .store
+    XOR A
+.store:
+    LD (P7_COORD_MODE), A
+    JP p7_render
+
+; ---------------------------------------------------------------------------
 ; UI strings (21 characters maximum per row).
 
 p7_text_complex: DB "COMPLEX",0
@@ -3028,3 +3285,8 @@ p7_menu_matrix_0: DB "DET TRN INV ID RREF",0
 p7_menu_matrix_1: DB "ADD SUB MUL SCL SOLVE",0
 p7_menu_vector_0: DB "MAG NRM DOT CRS ANG",0
 p7_menu_vector_1: DB "ADD SUB SCL 2D 3D",0
+p7_menu_vector_2: DB "R>CY CY>R R>SP SP>R",0
+p7_vector_mode_table: DW p7_text_rectv, p7_text_cylv, p7_text_sphv
+p7_text_rectv: DB "RECTV",0
+p7_text_cylv:  DB "CYLV",0
+p7_text_sphv:  DB "SPHEREV",0

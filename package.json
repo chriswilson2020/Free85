@@ -27,6 +27,7 @@
     "update:free85:release": "node scripts/free85-release.js --write",
     "update:free85:goldens": "node scripts/update-free85-graph-goldens.js",
     "update:free85:phase15-goldens": "node scripts/update-free85-phase15-goldens.js",
+    "update:free85:phase16-goldens": "node scripts/update-free85-phase16-goldens.js",
     "validate:free85": "npm test && npm run benchmark:free85 && npm run test:free85:stress && npm run test:free85:soak",
     "validate:free85:complete": "npm run validate:free85 && npm run test:free85:oracle"
   }

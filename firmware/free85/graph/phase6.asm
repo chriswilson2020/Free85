@@ -178,6 +178,7 @@ p6_start_plot:
     LD HL, NUM_RESULT
     LD DE, GRAPH_YSCALE
     CALL numeric_copy
+    CALL p16_graph_prepare_plot
     LD A, 1
     LD (GRAPH_PLOT_ACTIVE), A
     RET
@@ -252,6 +253,9 @@ phase6_tick:
     LD A, (GRAPH_PLOT_ACTIVE)
     OR A
     RET Z
+    LD A, (GRAPH_MODE)
+    OR A
+    JP NZ, p16_graph_tick
     LD A, (GRAPH_FORMAT)
     AND GRAPH_FMT_SIMUL
     JP Z, p14_graph_tick_sequential
@@ -686,6 +690,11 @@ p6_trace_right:
     RET Z
     INC A
 p6_trace_at:
+    LD B, A
+    LD A, (GRAPH_MODE)
+    OR A
+    LD A, B
+    JP NZ, p16_trace_at
     LD (GRAPH_TRACE_X), A
     PUSH AF
     LD DE, GRAPH_WORK_0

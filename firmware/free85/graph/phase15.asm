@@ -957,34 +957,36 @@ p15_map_result_x:
     LD HL, GRAPH_WORK_0
     LD DE, GRAPH_XMIN
     CALL sci_subtract_objects
-    RET C
+    JR C, .outside
     LD HL, NUM_RESULT
-    LD DE, NUM_LEFT
+    LD DE, GRAPH_WORK_1
     CALL numeric_copy
     LD HL, GRAPH_XMAX
     LD DE, GRAPH_XMIN
     CALL sci_subtract_objects
-    RET C
+    JR C, .outside
     LD HL, NUM_RESULT
-    LD DE, NUM_RIGHT
+    LD DE, GRAPH_WORK_2
     CALL numeric_copy
-    LD HL, NUM_LEFT
-    LD DE, NUM_RIGHT
+    LD HL, GRAPH_WORK_1
+    LD DE, GRAPH_WORK_2
     CALL sci_divide_objects
-    RET C
+    JR C, .outside
     LD HL, NUM_RESULT
-    LD DE, NUM_LEFT
-    CALL numeric_copy
-    LD HL, p6_const_127
-    LD DE, NUM_RIGHT
+    LD DE, p6_const_127
     CALL sci_multiply_objects
-    RET C
+    JR C, .outside
     LD HL, NUM_RESULT
     LD DE, NUM_LEFT
     CALL numeric_copy
     CALL p6_to_u8_truncated
-    RET C
+    JR C, .outside
     CP 128
+    JR NC, .outside
+    OR A
+    RET
+.outside:
+    SCF
     RET
 
 p15_draw_tangent:

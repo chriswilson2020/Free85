@@ -6,7 +6,7 @@
 
 | Chapter | Topic | Status |
 | --- | --- | --- |
-| 1 | operation, modes, editing and previous entries | partial — engineering and fixed-place display modes remain |
+| 1 | operation, modes, editing and previous entries | partial — display and base modes are complete; complex, vector-coordinate, graph-type and differentiation mode settings remain |
 | 2 | variables and stored data | partial — the 2.0 typed object store and reserved namespace remain |
 | 3 | mathematics, calculus and comparisons | partial — generic calculus interpolation probability and utility commands remain |
 | 4 | Cartesian graphing, drawing, formats and persistence | partial — drawing formats complete zooms and graph storage remain |

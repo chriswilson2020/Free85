@@ -9,6 +9,7 @@
     "build:free85": "node scripts/build-free85.js",
     "build:guidebook:screens": "node scripts/guidebook-screens.js",
     "build:guidebook:appendices": "node scripts/build-guidebook-appendices.js",
+    "build:guidebook": "npm run build:guidebook:screens && npm run build:guidebook:appendices && node scripts/build-guidebook-pdf.js",
     "benchmark:free85": "node scripts/free85-performance.js",
     "coverage:free85": "node scripts/free85-coverage.js",
     "coverage:free85:v2": "node scripts/free85-v2-parity.js --check",

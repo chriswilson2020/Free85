@@ -11,6 +11,10 @@ p14_graph_init:
     LD (GRAPH_CURSOR_MODE), A
     LD (GRAPH_BOX_STATE), A
     LD (GRAPH_MODE), A
+    LD (GRAPH_COORD_MODE), A
+    LD HL, p6_const_zero
+    LD DE, P16_INITIAL_Y
+    CALL numeric_copy
     LD HL, const_two
     LD DE, GRAPH_ZOOM_FACTOR
     CALL numeric_copy
@@ -26,7 +30,7 @@ p14_graph_evaluate:
     OR A
     JR Z, .cartesian
     POP AF
-    JP numeric_domain_error
+    JP p16_graph_evaluate
 .cartesian:
     POP AF
     JP p6_evaluate_slot
@@ -121,7 +125,11 @@ p14_graph_render_format:
     CALL text_draw_string
     LD A, (GRAPH_PANEL_PAGE)
     OR A
-    JR NZ, .page_two
+    JR Z, .page_one
+    CP 1
+    JR Z, .page_two
+    JP p16_graph_render_modes
+.page_one:
     LD HL, p14_text_axes
     LD A, GRAPH_FMT_AXES
     LD C, 1
@@ -271,6 +279,11 @@ p14_graph_panel_key:
     LD (GRAPH_FORMAT), A
     JP p14_graph_render_format
 .format_page_two:
+    LD B, A
+    LD A, (GRAPH_PANEL_PAGE)
+    CP 2
+    LD A, B
+    JP Z, p16_graph_mode_key
     CP KEY_F1
     JR Z, .toggle_sequence
     CP KEY_F2
@@ -305,7 +318,11 @@ p14_graph_panel_key:
     JP p14_graph_render_format
 .format_more:
     LD A, (GRAPH_PANEL_PAGE)
-    XOR 1
+    INC A
+    CP 3
+    JR C, .store_page
+    XOR A
+.store_page:
     LD (GRAPH_PANEL_PAGE), A
     JP p14_graph_render_format
 

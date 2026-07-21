@@ -228,3 +228,36 @@ test("[vector.operations] 2D/3D vectors support arithmetic, norm, dot, cross, an
   const components = values(normal, VECTOR_RESULT, 3, 1);
   assertClose(Math.hypot(...components), 1, 1e-10);
 });
+
+test("[coordinates.modes] vectors convert between rectangular, cylindrical, and spherical forms", () => {
+  const convert = (valuesIn, key, frames = 500) => {
+    const harness = Free85Harness.boot();
+    tapAll(harness, ["2ND", "8"]);
+    enterValues(harness, valuesIn);
+    tapAll(harness, ["MORE", "MORE", key]);
+    harness.runFrames(frames);
+    return harness;
+  };
+  const cylindrical = convert([3, 4, 5], "F1");
+  assert.deepEqual(values(cylindrical, VECTOR_RESULT, 3, 1).map((value) => Math.round(value * 1e9) / 1e9),
+    [5, Math.round(Math.atan2(4, 3) * 1e9) / 1e9, 5]);
+  assert.equal(cylindrical.machine.read8(0x8707), 1);
+
+  const rectangular = convert([2, Math.PI / 2, 7], "F2");
+  const rect = values(rectangular, VECTOR_RESULT, 3, 1);
+  assertClose(rect[0], 0, 1e-9);
+  assertClose(rect[1], 2, 1e-9);
+  assertClose(rect[2], 7);
+
+  const spherical = convert([3, 4, 12], "F3", 700);
+  const sph = values(spherical, VECTOR_RESULT, 3, 1);
+  assertClose(sph[0], 13);
+  assertClose(sph[1], Math.atan2(4, 3), 1e-9);
+  assertClose(sph[2], Math.acos(12 / 13), 1e-9);
+
+  const sphRect = convert([2, 0, Math.PI / 2], "F4", 700);
+  const back = values(sphRect, VECTOR_RESULT, 3, 1);
+  assertClose(back[0], 2, 1e-9);
+  assertClose(back[1], 0, 1e-9);
+  assertClose(back[2], 0, 1e-9);
+});

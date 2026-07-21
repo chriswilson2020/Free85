@@ -329,6 +329,19 @@ the graph configuration and equation slots. See
 `docs/Free85-graph-drawing-persistence.md` for menus, program codes, layout,
 and validation evidence.
 
+## Phase 14.5 graph modes and coordinates
+
+The third graph-format page selects function, polar, parametric, or first-order
+differential-equation mode and rectangular/polar graph-coordinate display.
+Mode-specific equations, windows, table variables, and coordinate preferences
+round-trip through typed graph objects. Polar and parametric modes use the
+shared connected renderer; differential equations use deterministic Euler
+integration and reintegrate for trace results.
+
+The vector application's third menu page converts rectangular, cylindrical,
+and spherical triples using the active RAD/DEG setting. Exact LCD goldens and
+numeric round-trip tests are described in `docs/Free85-graph-modes.md`.
+
 ## Clean-room rules
 
 - Do not copy or translate code, fonts, tables, layouts, or other data from a

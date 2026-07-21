@@ -1,21 +1,21 @@
 {
   "schemaVersion": 1,
   "release": "2.0.0",
-  "phase": "14.4",
+  "phase": "14.5",
   "inventory": {
     "groups": 41,
     "entries": 298,
     "groupsByStatus": {
-      "equivalent": 16,
-      "partial": 17,
-      "missing": 4,
+      "equivalent": 20,
+      "partial": 16,
+      "missing": 1,
       "hardware-dependent": 3,
       "excluded-clean-room": 1
     },
     "entriesByStatus": {
-      "equivalent": 139,
-      "partial": 117,
-      "missing": 24,
+      "equivalent": 164,
+      "partial": 112,
+      "missing": 4,
       "hardware-dependent": 13,
       "excluded-clean-room": 5
     }
@@ -23,12 +23,12 @@
   "gaps": {
     "total": 36,
     "byStatus": {
-      "equivalent": 14,
-      "missing": 7,
-      "partial": 13,
+      "equivalent": 18,
+      "partial": 12,
+      "missing": 4,
       "hardware-dependent": 2
     },
-    "equivalentPercent": 38.89
+    "equivalentPercent": 50
   },
   "workPackages": [
     {
@@ -123,19 +123,19 @@
       "gaps": [
         {
           "id": "graph.polar",
-          "status": "missing"
+          "status": "equivalent"
         },
         {
           "id": "graph.parametric",
-          "status": "missing"
+          "status": "equivalent"
         },
         {
           "id": "graph.diffeq",
-          "status": "missing"
+          "status": "equivalent"
         },
         {
           "id": "coordinates.modes",
-          "status": "partial"
+          "status": "equivalent"
         }
       ]
     },

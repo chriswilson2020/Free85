@@ -122,6 +122,24 @@ To reproduce and validate the complete 1.0 release in one command:
 SJASMPLUS=/absolute/path/to/sjasmplus npm run release:free85
 ```
 
+## Documentation
+
+- [Getting Started Manual](docs/manual/Free85-Manual.md): running Free85,
+  the keyboard and screen, first calculations, modes, and the catalog.
+- [The Free85 Guidebook](docs/guidebook/00-front-matter.md): nineteen
+  reference chapters plus appendices covering every command, key, error,
+  and feature status. Every documented key sequence and result is captured
+  from the emulator, and `npm run test:guidebook` checks that the book
+  covers every completed command in the ledger.
+- Typeset PDFs of both books build into `dist/guidebook/` with:
+
+```sh
+npm run build:guidebook
+```
+
+(Requires `pandoc` and Google Chrome; regenerates the LCD screenshots and
+the generated appendices first.)
+
 ## Specification
 
 - [Full implementation specification](docs/Free85-specification.md)

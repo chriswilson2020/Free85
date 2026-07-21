@@ -53,6 +53,7 @@ test("complete Free85 features reference stable test identifiers", async () => {
     readFile("test/free85/expression.test.js", "utf8"),
     readFile("test/free85/scientific.test.js", "utf8"),
     readFile("test/free85/graph.test.js", "utf8"),
+    readFile("test/free85/graph-phase15.test.js", "utf8"),
     readFile("test/free85/collections.test.js", "utf8"),
     readFile("test/free85/statistics-solvers.test.js", "utf8"),
     readFile("test/free85/strings-catalog-custom.test.js", "utf8"),

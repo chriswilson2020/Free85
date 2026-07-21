@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "phase": "14.4",
+  "width": 128,
+  "height": 64,
+  "cases": [
+    {
+      "name": "phase15-line",
+      "litPixelCount": 429,
+      "checksum": "6C7AE757"
+    },
+    {
+      "name": "phase15-vertical",
+      "litPixelCount": 480,
+      "checksum": "11B79D3E"
+    },
+    {
+      "name": "phase15-circle",
+      "litPixelCount": 466,
+      "checksum": "E9E866B0"
+    },
+    {
+      "name": "phase15-tangent",
+      "litPixelCount": 479,
+      "checksum": "65896C7B"
+    },
+    {
+      "name": "phase15-shade",
+      "litPixelCount": 2298,
+      "checksum": "29477140"
+    },
+    {
+      "name": "phase15-point-on",
+      "litPixelCount": 419,
+      "checksum": "AB9CCB3C"
+    },
+    {
+      "name": "phase15-point-off",
+      "litPixelCount": 417,
+      "checksum": "D4858FC0"
+    },
+    {
+      "name": "phase15-point-change",
+      "litPixelCount": 417,
+      "checksum": "6E4904FE"
+    },
+    {
+      "name": "phase15-draw-function",
+      "litPixelCount": 419,
+      "checksum": "0069477F"
+    },
+    {
+      "name": "phase15-inverse",
+      "litPixelCount": 418,
+      "checksum": "5397A57E"
+    },
+    {
+      "name": "phase15-pen",
+      "litPixelCount": 426,
+      "checksum": "CA2F808F"
+    },
+    {
+      "name": "phase15-clear",
+      "litPixelCount": 418,
+      "checksum": "5397A57E"
+    },
+    {
+      "name": "phase15-menu-1",
+      "litPixelCount": 635,
+      "checksum": "E5CF4942"
+    },
+    {
+      "name": "phase15-menu-2",
+      "litPixelCount": 637,
+      "checksum": "3FD8B929"
+    },
+    {
+      "name": "phase15-menu-3",
+      "litPixelCount": 608,
+      "checksum": "A216FB29"
+    },
+    {
+      "name": "phase15-menu-4",
+      "litPixelCount": 434,
+      "checksum": "A0261C03"
+    }
+  ]
+}

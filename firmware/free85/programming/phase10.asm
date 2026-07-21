@@ -603,6 +603,10 @@ p10_execute_current:
     CALL p10_match_keyword
     JP NC, p10_command_graph
     CALL p10_pc_source
+    LD DE, p10_kw_draw
+    CALL p10_match_keyword
+    JP NC, p10_command_draw
+    CALL p10_pc_source
     LD DE, p10_kw_lset
     CALL p10_match_keyword
     JP NC, p10_command_lset
@@ -973,6 +977,36 @@ p10_command_graph:
     ; Discard any program-menu key queued during the bank/screen transition.
     CALL events_init
     JP ui_call_phase6_open_graph
+
+; DRAW accepts one hexadecimal operation code. Codes 0-B are drawing
+; primitives and C-F are picture/GDB store and recall. Coordinate-bearing
+; operations read the numeric variables A-D through the page-1 ABI.
+p10_command_draw:
+    LD A, B
+    CP 1
+    JP NZ, p10_runtime_syntax
+    LD A, (HL)
+    CP '0'
+    JR C, .syntax
+    CP '9' + 1
+    JR C, .decimal
+    CP 'A'
+    JR C, .syntax
+    CP 'F' + 1
+    JR NC, .syntax
+    SUB 'A' - 10
+    JR .invoke
+.decimal:
+    SUB '0'
+.invoke:
+    CALL bank_call_phase15_program_draw
+    JP C, p10_runtime_syntax
+    XOR A
+    LD (P10_RUNNING), A
+    CALL events_init
+    RET
+.syntax:
+    JP p10_runtime_syntax
 
 ; LSET index,expression and LGET index,variable use list A.
 p10_command_lset:
@@ -1615,6 +1649,7 @@ p10_kw_call:   DB "CALL ",0
 p10_kw_return: DB "RETURN",0
 p10_kw_stop:   DB "STOP",0
 p10_kw_graph:  DB "GRAPH ",0
+p10_kw_draw:   DB "DRAW ",0
 p10_kw_lset:   DB "LSET ",0
 p10_kw_lget:   DB "LGET ",0
 p10_kw_mset:   DB "MSET ",0

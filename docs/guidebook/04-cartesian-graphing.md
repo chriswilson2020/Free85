@@ -238,19 +238,26 @@ and redraws.
 
 ## Drawing on a graph
 
-Free85 does not yet have drawing commands: nothing today draws lines,
-circles, points, shading, tangents, or freehand marks over a plot, and no
-menu reaches such tools.
+Press [CUSTOM] on a completed graph to open DRAW. The first page maps [F1]
+through [F5] to `Line`, `Vert`, `Circ`, `TanLn`, and `Shade`. Press [MORE] for
+`PtOn`, `PtOff`, `PtChg`, `DrawF`, and `DrInv`; press it again for the
+`freehand-pen` and `ClDrw` plus the picture controls.
 
-> ⚠ **Planned:** the drawing commands `Line`, `Circ`, `Vert`, `PtOn`,
-> `PtOff`, `PtChg`, `Shade`, `TanLn`, `DrawF`, `DrInv`, `ClDrw`, and a
-> freehand pen (Free85 2.0, work package 14.4).
+Cursor tools begin in the centre. Move with the arrow keys. `Line` and `Circ`
+use [ENTER] once to fix their first point and again to draw; vertical, tangent,
+and point tools use one [ENTER]. The pen draws as you move. [EXIT] or [CLEAR]
+leaves a cursor tool. Shade and function drawing proceed incrementally and can
+be cancelled. `ClDrw` discards marks by redrawing the equations and axes.
 
 ## Storing and recalling graphs
 
-A finished plot cannot yet be saved: there are no picture or graph-database
-objects in the object store (chapter 2), so a graph you want again must be
-replotted from its equations, which the slots do remember across screens.
+On DRAW page 3, [F3] `StPic` stores the exact LCD image as `PIC1`, [F4]
+`RcPic` recalls it, and [F5] `StGDB` stores the equations, window, table,
+format, and mode settings as `GDB1`. Press [MORE] once more and [F1] `RcGDB`
+to restore that database and redraw. Re-storing replaces the same named object,
+so repeated saves do not consume another directory entry.
 
-> ⚠ **Planned:** graph and picture persistence, `StPic`, `RcPic`, `StGDB`,
-> and `RcGDB` (Free85 2.0, work package 14.4).
+Pictures and graph databases are native Free85 objects shown by the memory
+browser. They are not TI file-format or binary-compatible objects. Programs
+can call the same operations with hexadecimal `DRAW` codes; the complete code
+table is in `docs/Free85-graph-drawing-persistence.md`.

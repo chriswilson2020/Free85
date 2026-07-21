@@ -9,7 +9,7 @@
     { "chapter": 1, "topic": "operation, modes, editing and previous entries", "status": "partial", "evidence": ["test/free85/ui.test.js", "test/free85/parity.test.js", "test/free85/v2-numeric-modes.test.js"], "reason": "display and base modes are complete; complex, vector-coordinate, graph-type and differentiation mode settings remain" },
     { "chapter": 2, "topic": "variables and stored data", "status": "partial", "evidence": ["test/free85/expression.test.js", "test/free85/parity.test.js"], "reason": "the 2.0 typed object store and reserved namespace remain" },
     { "chapter": 3, "topic": "mathematics, calculus and comparisons", "status": "partial", "evidence": ["test/free85/numeric.test.js", "test/free85/scientific.test.js", "test/free85/graph.test.js"], "reason": "generic calculus interpolation probability and utility commands remain" },
-    { "chapter": 4, "topic": "Cartesian graphing, drawing, formats and persistence", "status": "partial", "evidence": ["test/free85/graph.test.js", "test/free85/graph-phase14.test.js"], "reason": "Cartesian core formats and zooms are complete; drawing and graph storage remain" },
+    { "chapter": 4, "topic": "Cartesian graphing, drawing, formats and persistence", "status": "equivalent", "evidence": ["test/free85/graph.test.js", "test/free85/graph-phase14.test.js", "test/free85/graph-phase15.test.js", "docs/Free85-graph-drawing-persistence.md"] },
     { "chapter": 5, "topic": "polar graphing", "status": "missing", "reason": "scheduled for work package 14.5" },
     { "chapter": 6, "topic": "parametric graphing", "status": "missing", "reason": "scheduled for work package 14.5" },
     { "chapter": 7, "topic": "differential-equation graphing", "status": "missing", "reason": "scheduled for work package 14.5" },

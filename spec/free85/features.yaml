@@ -428,13 +428,17 @@
       "id": "app.graph",
       "category": "app",
       "status": "complete",
-      "implementation": "firmware/free85/graph/phase6.asm",
+      "implementation": "firmware/free85/graph/phase6.asm; firmware/free85/graph/phase15.asm",
       "documentation": "firmware/free85/README.md#phase-6-graphing-and-numerical-tools",
       "tests": [
         "graph.plot",
         "graph.cancel",
         "graph.trace-zoom-table",
-        "graph.equations-intersection"
+        "graph.equations-intersection",
+        "graph.phase15-draw",
+        "graph.phase15-picture",
+        "graph.phase15-gdb",
+        "graph.phase15-program"
       ],
       "surfaces": [
         {

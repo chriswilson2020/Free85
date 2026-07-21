@@ -16,9 +16,15 @@ bank_start:
     JP p14_calculus_maximum
     JP p14_calculus_arc
     JP p14_calculus_interpolate
+    JP p15_program_draw
+    JP p15_store_picture
+    JP p15_recall_picture
+    JP p15_store_gdb
+    JP p15_recall_gdb
 
     INCLUDE "graph/phase6.asm"
     INCLUDE "graph/phase14.asm"
+    INCLUDE "graph/phase15.asm"
 
 bank_end:
     ASSERT bank_end <= $8000

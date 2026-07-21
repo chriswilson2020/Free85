@@ -15,7 +15,8 @@ p14_graph_init:
     LD DE, GRAPH_ZOOM_FACTOR
     CALL numeric_copy
     CALL p14_graph_store_recall
-    JP p14_graph_save_previous
+    CALL p14_graph_save_previous
+    JP p15_init
 
 ; A = equation slot. Phase 14.5 can extend this dispatcher without changing
 ; plot, table, trace, or numerical-analysis callers.
@@ -234,6 +235,10 @@ p14_graph_panel_key:
     CP GRAPH_PANEL_ZOOM
     LD A, B
     JP Z, p14_graph_zoom_key
+    LD A, (GRAPH_PANEL)
+    CP GRAPH_PANEL_DRAW
+    LD A, B
+    JP Z, p15_draw_panel_key
     CP KEY_EXIT
     JP Z, p14_graph_redraw
     CP KEY_MORE
@@ -321,6 +326,11 @@ p14_graph_cursor_start:
     JP p14_graph_cursor_refresh
 
 p14_graph_cursor_key:
+    LD B, A
+    LD A, (GRAPH_CURSOR_MODE)
+    CP 3
+    LD A, B
+    JP NC, p15_draw_cursor_key
     LD B, A
     CP KEY_EXIT
     JP Z, p14_graph_cursor_exit

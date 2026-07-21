@@ -15,6 +15,7 @@ GRAPH_FMT_SIMUL    EQU $20
 GRAPH_PANEL_NONE   EQU 0
 GRAPH_PANEL_FORMAT EQU 1
 GRAPH_PANEL_ZOOM   EQU 2
+GRAPH_PANEL_DRAW   EQU 3
 
 phase6_init:
     XOR A
@@ -245,6 +246,9 @@ phase6_tick:
     ; A graph sample can span several emulated frames. Poll once more before
     ; starting it so normal short key taps remain responsive and cancellable.
     CALL events_poll
+    LD A, (P15_ACTIVE)
+    OR A
+    JP NZ, p15_draw_tick
     LD A, (GRAPH_PLOT_ACTIVE)
     OR A
     RET Z
@@ -558,6 +562,11 @@ phase6_handle_key:
     LD A, B
     RET NZ
     LD B, A
+    LD A, (P15_ACTIVE)
+    OR A
+    LD A, B
+    JP NZ, p15_active_key
+    LD B, A
     LD A, (GRAPH_PANEL)
     OR A
     LD A, B
@@ -583,6 +592,8 @@ phase6_handle_key:
     JP Z, p6_start_plot
     CP KEY_MORE
     JP Z, p6_show_table
+    CP KEY_CUSTOM
+    JP Z, p15_open_draw
     CP KEY_2ND
     JR Z, .second
     CP KEY_LEFT

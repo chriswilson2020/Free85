@@ -69,7 +69,8 @@ One Markdown file per chapter, numbered for ordering, e.g.
 18. Memory management
 19. Linking (hardware-dependent status noted)
 
-Appendices (generated — see Deliverable 4):
+Appendices (A, B, and D generated — see Deliverable 4; C hand-written from
+firmware inspection per Task 13 of the implementation plan):
 
 - Appendix A: command and function catalog, from
   `guidebook-command-ledger.yaml` (the command-level source of truth;

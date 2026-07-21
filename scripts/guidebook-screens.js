@@ -76,7 +76,7 @@ export const SCREEN_CASES = [
     keys: ["2ND", "PRGM", "1", "ENTER", "(-)", "5", "ENTER", "6", "ENTER"]
   },
   // x^2+2x+5 solved with F1; the frames let the root search finish before
-  // the browser opens on ROOT 1 (RE -1, IM 2).
+  // the browser opens on ROOT 1 (RE -1.0000000000001, IM -2.0000000000001).
   {
     name: "ch14-poly-roots",
     keys: ["2ND", "PRGM", "1", "ENTER", "2", "ENTER", "5", "ENTER", "F1", 40000]

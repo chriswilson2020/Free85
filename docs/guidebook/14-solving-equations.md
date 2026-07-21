@@ -69,18 +69,19 @@ back to `COEFF 2` when the constant is stored.
 with a root browser: `ROOT 1` names the root on show, `RE` and `IM`
 give its real and imaginary parts, and [◀] and [▶] step through the
 roots, as the `LEFT/RIGHT ROOT` hint says. For x^2-5x+6 the browser
-opens on `ROOT 1` with `RE 3` and `IM 1.9E-13`, and [▶] shows `ROOT 2`
-with `RE 2` and `IM -0.00000000000001`. The tiny imaginary parts are
-numerical dust from the iterative search: treat them as zero, and the
-roots read 3 and 2, as they should. A value too long for the
+opens on `ROOT 1` with `RE 3` and `IM 2E-14`, and [▶] shows `ROOT 2`
+with `RE 2` and `IM 0`. The tiny imaginary part is numerical dust from
+the iterative search: treat it as zero, and the roots read 3 and 2, as
+they should. A value too long for the
 21-character line clips at the right edge, so a long piece of dust can
 lose the last digit of its exponent. [CLEAR] steps
 back to the editor with the coefficients kept, and [EXIT] leaves for
 the home screen.
 
 Complex roots come out the same way. Solve x^2+2x+5 (coefficients 1, 2,
-5) and `ROOT 1` reads `RE -1` with `IM 2`, while `ROOT 2` reads `RE -1`
-with `IM -2.0000000000001`: the conjugate pair -1±2i.
+5) and `ROOT 1` reads `RE -1.0000000000001` with `IM -2.0000000000001`,
+while `ROOT 2` reads `RE -1` with `IM 2`: the conjugate pair -1±2i,
+the first root carrying a little dust in its last digit.
 
 ![The roots of x^2+2x+5](images/ch14-poly-roots.png)
 
@@ -92,24 +93,25 @@ The quartic x^4-5x^2+4 (press `QRT`, then 1, 0, -5, 0, 4) answers
 coefficient stops at the `LEADING COEFF ZERO` notice, since the
 polynomial would really be one of lower degree.
 
-### A caution on quadratics
+### Quadratics with mixed-sign roots
 
-In this release the degree-2 search misconverges on many inputs. Every
-quadratic we tried whose two real roots differ in sign came back with a
-wrong complex pair: x^2-4 claims a pair near ±11.1i instead of 2 and
--2 (and garbles it, the `IM` line reading `;.0974990147` where
-`11.0974990147` should be), while
-x^2-x-6 answers `RE 0.5` with `IM -2.004273590279` instead of 3 and
--2. Some same-sign cases stop short too: x^2-6x+8 settles near 3.976
-and 2.024 rather than 4 and 2. A negative leading coefficient upsets
-the search at every degree we tried, so multiply the equation through
-by -1 first. Until a firmware release repairs the quadratic path, solve
-quadratics at degree 3 with a trailing zero: `CUB` with coefficients
-1, -1, -6, 0 multiplies x^2-x-6 by x, and the browser answers `RE 3`,
-`RE -2E-15`, and `RE -1.9999999999999`, which are the true roots 3 and
--2 plus the 0 the extra factor added. The cubic and quartic searches
-answered every polynomial we put to them, at worst with a small
-residue in the last digits.
+Earlier firmware misconverged on any quadratic whose two real roots
+differ in sign, and this guide once taught a degree-3 workaround for
+them. This release repairs the degree-2 search, so such quadratics
+solve directly. x^2-x-6 (coefficients 1, -1, -6) answers `ROOT 1` with
+`RE 3` and `IM 1E-15`, then `ROOT 2` with `RE -2` and `IM 2.4E-14`:
+the roots 3 and -2, with the usual dust standing in for zero. x^2-4
+(1, 0, -4) answers `RE 2` and `RE -2`, and x^2-6x+8 (1, -6, 8), which
+once stalled short of its roots, answers `RE 4` and `RE 2`. A negative
+leading coefficient, which once upset the search at every degree, is
+also safe now: -x^2+4 (coefficients -1, 0, 4) answers the same `RE 2`
+and `RE -2` as x^2-4, so there is no need to multiply an equation
+through by -1 before solving. The old workaround still works if you
+meet it in earlier notes: `CUB` with coefficients 1, -1, -6, 0
+multiplies x^2-x-6 by x, and the browser answers `RE 3`, `RE -2E-15`,
+and `RE -1.9999999999999`, the true roots plus the 0 the extra factor
+added. The cubic and quartic searches answered every polynomial we put
+to them, at worst with a small residue in the last digits.
 
 ## The simultaneous editor
 

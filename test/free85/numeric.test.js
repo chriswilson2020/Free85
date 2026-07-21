@@ -70,6 +70,79 @@ test("square root converges through the decimal arithmetic abstraction", () => {
   }
 });
 
+const FREE85_NUM_RESULT_ADDRESS = 0x8092;
+
+function resultMantissaNibbles(harness) {
+  const digits = [];
+  for (let index = 0; index < 7; index += 1) {
+    const byte = harness.machine.read8(FREE85_NUM_RESULT_ADDRESS + 2 + index);
+    digits.push(byte >>> 4, byte & 0x0f);
+  }
+  return digits;
+}
+
+function assertResultPackedClean(harness, expression) {
+  const digits = resultMantissaNibbles(harness);
+  assert.ok(digits.every((digit) => digit <= 9), `${expression}: non-BCD nibble in ${digits}`);
+  if (digits.some((digit) => digit !== 0)) {
+    assert.notEqual(digits[0], 0, `${expression}: denormalised mantissa ${digits}`);
+  }
+}
+
+test("[numeric.normalised] zero operands neither absorb nor denormalise the other operand", () => {
+  const vectors = [
+    ["0+1E-20", "1E-20"],
+    ["1E-20+0", "1E-20"],
+    ["0+0.8", "0.8"],
+    ["0-5", "-5"],
+    ["9/(0+0.2)", "45"],
+    ["9/(0+0.8)", "11.25"]
+  ];
+  for (const [expression, expected] of vectors) {
+    const harness = evaluate(expression);
+    assert.equal(harness.resultText(), expected, expression);
+    assert.equal(harness.machine.read8(FREE85_NUMERIC_ERROR_ADDRESS), 0, expression);
+    assertResultPackedClean(harness, expression);
+  }
+});
+
+test("[numeric.exponent-range] three-digit exponents render as digits, not punctuation", () => {
+  const vectors = [
+    ["9E99*9E27", "8.1E127"],
+    ["1E-99/2E28", "5E-128"]
+  ];
+  for (const [expression, expected] of vectors) {
+    const harness = evaluate(expression);
+    assert.equal(harness.resultText(), expected, expression);
+    assert.equal(harness.machine.read8(FREE85_NUMERIC_ERROR_ADDRESS), 0, expression);
+    assertResultPackedClean(harness, expression);
+  }
+});
+
+test("[numeric.exponent-range] results past 9.99E127 raise the overflow dialog", () => {
+  const vectors = [
+    "9E99*9E27+9E99*9E27", // add carry-out at exponent 127
+    "9E99*9E28"            // multiply leading-digit adjust past 127
+  ];
+  for (const expression of vectors) {
+    const harness = evaluate(expression);
+    assert.equal(harness.machine.read8(FREE85_NUMERIC_ERROR_ADDRESS), 3, expression);
+    assert.equal(harness.machine.read8(FREE85_UI_MODE_ADDRESS), 1, expression);
+  }
+});
+
+test("[numeric.exponent-range] results below 1E-128 underflow to a silent zero", () => {
+  const vectors = [
+    "1E-99*1E-99", // multiply exponent sum wraps positive
+    "1E-99/2E29"   // divide normalisation steps below -128
+  ];
+  for (const expression of vectors) {
+    const harness = evaluate(expression);
+    assert.equal(harness.resultText(), "0", expression);
+    assert.equal(harness.machine.read8(FREE85_NUMERIC_ERROR_ADDRESS), 0, expression);
+  }
+});
+
 test("numeric failures are recoverable dialogs", () => {
   const divideByZero = evaluate("1/0");
   assert.equal(divideByZero.machine.read8(FREE85_NUMERIC_ERROR_ADDRESS), 2);

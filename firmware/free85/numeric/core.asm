@@ -441,8 +441,7 @@ numeric_format_result:
     LD B, 0
 .integer_digits:
     LD A, (HL)
-    ADD A, '0'
-    CALL numeric_output_char
+    CALL numeric_output_digit
     INC HL
     LD A, B
     CP C
@@ -459,8 +458,7 @@ numeric_format_result:
     INC B
 .fraction_digits:
     LD A, (HL)
-    ADD A, '0'
-    CALL numeric_output_char
+    CALL numeric_output_digit
     INC HL
     LD A, (NP_STORED_DIGITS)
     CP B
@@ -492,16 +490,14 @@ numeric_format_result:
     LD B, A
 .small_loop:
     LD A, (HL)
-    ADD A, '0'
-    CALL numeric_output_char
+    CALL numeric_output_digit
     INC HL
     DJNZ .small_loop
     JP numeric_finish_output
 .scientific:
     LD HL, NUM_WORK_R
     LD A, (HL)
-    ADD A, '0'
-    CALL numeric_output_char
+    CALL numeric_output_digit
     LD A, (NP_STORED_DIGITS)
     OR A
     JR Z, .scientific_exp
@@ -512,8 +508,7 @@ numeric_format_result:
     INC HL
 .scientific_digits:
     LD A, (HL)
-    ADD A, '0'
-    CALL numeric_output_char
+    CALL numeric_output_digit
     INC HL
     DJNZ .scientific_digits
 .scientific_exp:
@@ -529,20 +524,33 @@ numeric_format_result:
     POP AF
     NEG
 .positive_exp:
+    ; Magnitudes are unsigned here and reach 128 (for 1E-128), so the
+    ; exponent may need a hundreds digit; D forces the tens digit after one.
     LD C, A
-    LD B, 0
+    LD D, 0
+    LD A, C
+    CP 100
+    JR C, .tens
+    SUB 100
+    LD C, A
+    LD A, '1'                   ; |exponent| never exceeds 128
+    CALL numeric_output_char
+    LD D, 1
 .tens:
+    LD B, 0
+.tens_loop:
     LD A, C
     CP 10
     JR C, .emit_exp
     SUB 10
     LD C, A
     INC B
-    JR .tens
+    JR .tens_loop
 .emit_exp:
     LD A, B
-    OR A
+    OR D
     JR Z, .ones
+    LD A, B
     ADD A, '0'
     CALL numeric_output_char
 .ones:
@@ -587,8 +595,7 @@ numeric_format_result:
     LD C, 0
 .engineering_integer:
     LD A, (HL)
-    ADD A, '0'
-    CALL numeric_output_char
+    CALL numeric_output_digit
     INC HL
     INC C
     DJNZ .engineering_integer
@@ -605,8 +612,7 @@ numeric_format_result:
     LD B, A
 .engineering_fraction:
     LD A, (HL)
-    ADD A, '0'
-    CALL numeric_output_char
+    CALL numeric_output_digit
     INC HL
     DJNZ .engineering_fraction
 .engineering_exp:
@@ -725,8 +731,7 @@ numeric_format_result:
 .fixed_integer_loop:
     LD A, C
     CALL numeric_fixed_digit
-    ADD A, '0'
-    CALL numeric_output_char
+    CALL numeric_output_digit
     INC C
     DJNZ .fixed_integer_loop
     JR .fixed_fraction_start
@@ -745,8 +750,7 @@ numeric_format_result:
     LD A, (NP_EXPLICIT_EXP)
     ADD A, C
     CALL numeric_fixed_digit
-    ADD A, '0'
-    CALL numeric_output_char
+    CALL numeric_output_digit
     INC C
     DJNZ .fixed_fraction_loop
     JP numeric_finish_output
@@ -785,6 +789,16 @@ numeric_fixed_digit:
 .zero:
     XOR A
     RET
+; Emit the mantissa digit in A, clamping anything outside 0-9 to 9 so a
+; corrupt packed value can never render as punctuation.
+numeric_output_digit:
+    CP 10
+    JR C, .digit
+    LD A, 9
+.digit:
+    ADD A, '0'
+    JP numeric_output_char
+
 numeric_finish_output:
     LD A, (RESULT_LENGTH)
     LD E, A

@@ -12,6 +12,7 @@ const SCREEN_VECTOR = 7;
 const COMPLEX_RESULT = 0x8744;
 const LIST_RESULT = 0x8880;
 const MATRIX_RESULT = 0x8a00;
+const VECTOR_A = 0x8b00;
 const VECTOR_RESULT = 0x8b80;
 const P7_ERROR = 0x8705;
 
@@ -176,6 +177,20 @@ test("[matrix.operations] matrices support determinant, transpose, multiplicatio
   assertClose(solve.packedNumber(MATRIX_RESULT + 2), 2);
   assertClose(solve.packedNumber(MATRIX_RESULT + 11), 1);
   assert.equal(solve.packedNumber(0x8982), 5, "solving must preserve matrix B");
+});
+
+test("[matrix.identity] ID fills R with a 2x2 identity and leaves the vector registers untouched", () => {
+  const harness = Free85Harness.boot();
+  tapAll(harness, ["2ND", "8"]);
+  enterValues(harness, [7, 8, 9]);
+  harness.tap("EXIT");
+  tapAll(harness, ["2ND", "7", "F4"]);
+  harness.runFrames(300);
+  assert.equal(harness.machine.read8(MATRIX_RESULT), 2);
+  assert.equal(harness.machine.read8(MATRIX_RESULT + 1), 2);
+  assert.deepEqual(values(harness, MATRIX_RESULT, 4, 2), [1, 0, 0, 1]);
+  assert.equal(harness.machine.read8(VECTOR_A), 3, "ID must not clobber vector A's length");
+  assert.equal(harness.packedNumber(VECTOR_A + 1), 7, "ID must not clobber vector A's components");
 });
 
 test("[matrix.errors] singular and dimension errors are recoverable", () => {

@@ -109,6 +109,49 @@ test("[expression.history] history navigation restores editable expressions and 
   assert.equal(harness.resultText(), "7");
 });
 
+test("[expression.history] stepping past the oldest entry shows NO MORE HISTORY without losing state", () => {
+  const HISTORY_COUNT_ADDRESS = 0x830c;
+  const DIALOG_TITLE_PTR_ADDRESS = 0x8017;
+  const VARIABLES_ADDRESS = 0x8218;
+  const dialogTitle = (harness) => {
+    let address = harness.machine.read8(DIALOG_TITLE_PTR_ADDRESS) |
+      (harness.machine.read8(DIALOG_TITLE_PTR_ADDRESS + 1) << 8);
+    let text = "";
+    for (let byte = harness.machine.read8(address); byte !== 0; byte = harness.machine.read8(++address)) {
+      text += String.fromCharCode(byte);
+    }
+    return text;
+  };
+
+  const harness = Free85Harness.boot();
+  for (const expression of ["5→A", "2+3", "5*7"]) {
+    enterExpression(harness, expression);
+    harness.tap("ENTER");
+    harness.tap("CLEAR");
+  }
+  assert.equal(harness.machine.read8(HISTORY_COUNT_ADDRESS), 3);
+  assert.equal(harness.packedNumber(VARIABLES_ADDRESS), 5);
+
+  harness.tap("UP");
+  assert.equal(harness.editorText(), "5*7");
+  harness.tap("UP");
+  assert.equal(harness.editorText(), "2+3");
+  harness.tap("UP");
+  const oldest = harness.editorText();
+
+  harness.tap("UP");
+  assert.equal(harness.machine.read8(FREE85_UI_MODE_ADDRESS), 1);
+  assert.equal(dialogTitle(harness), "NO MORE HISTORY");
+  assert.equal(harness.machine.read8(HISTORY_COUNT_ADDRESS), 3);
+
+  harness.tap("EXIT");
+  assert.equal(harness.machine.read8(FREE85_UI_MODE_ADDRESS), 0);
+  assert.equal(harness.editorText(), oldest);
+  assert.equal(harness.packedNumber(VARIABLES_ADDRESS), 5);
+  harness.tap("DOWN");
+  assert.equal(harness.editorText(), "2+3");
+});
+
 test("malformed token streams return syntax dialogs without corrupting the editor", () => {
   for (const expression of ["2+*3", "(2+3", "2^^3", "SQRT()"] ) {
     const harness = evaluate(expression);

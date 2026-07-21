@@ -7,6 +7,9 @@
   "scripts": {
     "build:pages": "node scripts/build-pages.js",
     "build:free85": "node scripts/build-free85.js",
+    "build:guidebook:screens": "node scripts/guidebook-screens.js",
+    "build:guidebook:appendices": "node scripts/build-guidebook-appendices.js",
+    "build:guidebook": "npm run build:guidebook:screens && npm run build:guidebook:appendices && node scripts/build-guidebook-pdf.js",
     "benchmark:free85": "node scripts/free85-performance.js",
     "coverage:free85": "node scripts/free85-coverage.js",
     "coverage:free85:v2": "node scripts/free85-v2-parity.js --check",
@@ -15,6 +18,7 @@
     "release:free85": "npm run build:free85 && npm run coverage:free85 && npm run update:free85:performance && npm run update:free85:release && npm test && npm run test:free85:stress && npm run test:free85:soak && npm run build:pages",
     "test": "node --test test/free85/*.test.js",
     "test:free85": "node --test test/free85/*.test.js",
+    "test:guidebook": "node scripts/check-guidebook-traceability.js",
     "test:free85:soak": "node scripts/free85-soak.js",
     "test:free85:stress": "node scripts/free85-stress.js",
     "test:free85:oracle": "node scripts/free85-oracle.js --full",

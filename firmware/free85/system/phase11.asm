@@ -451,6 +451,7 @@ p11_variables_key:
 
 p11_selected_variable_pointer:
     LD A, (P11_VAR_CURSOR)
+    ADD A, 'A'
     JP parser_variable_address
 
 p11_render_variables:

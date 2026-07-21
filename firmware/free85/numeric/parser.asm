@@ -1078,9 +1078,9 @@ history_previous:
     RET Z
     LD B, A
     LD A, (HISTORY_NAV)
-    CP B
-    SCF
-    RET NC
+    CP B                       ; NAV >= COUNT leaves carry clear
+    CCF                        ; invert: carry set means no older entry
+    RET C
     INC A
     LD (HISTORY_NAV), A
     LD C, A

@@ -1,0 +1,206 @@
+import { mkdirSync, writeFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { Free85Harness } from "../test/helpers/free85-harness.js";
+import { renderLcdPng } from "../test/helpers/lcd-visual.js";
+
+const OUT_DIR = fileURLToPath(new URL("../docs/guidebook/images/", import.meta.url));
+
+// Each case boots a fresh machine and taps the listed keys. A number in the
+// key list means "run that many frames" and is used to let slow work (such as
+// an incremental graph plot) finish before the next key or the capture.
+// Names must be kebab-case and are referenced from the Markdown chapters.
+export const SCREEN_CASES = [
+  { name: "ch01-home-screen", keys: [] },
+  { name: "ch01-mode-screen", keys: ["2ND", "MORE"] },
+  // The palette opens on the space character, which renders as an empty
+  // middle, so the capture steps one character right to show a visible glyph.
+  { name: "ch01-char-palette", keys: ["2ND", "0", "RIGHT"] },
+  { name: "ch01-error-screen", keys: ["1", "/", "0", "ENTER"] },
+  { name: "ch02-store-recall", keys: ["5", "STO", "ALPHA", "LOG", "ENTER"] },
+  { name: "ch02-variables-browser", keys: ["2ND", "STO"] },
+  { name: "ch02-memory-stored", keys: ["4", "2", "2ND", "F1"] },
+  { name: "ch03-test-menu", keys: ["2ND", "2"] },
+  // Store X^2 as Y1 (entry line + GRAPH), let the plot finish, return to the
+  // home screen, and evaluate the active equation at 3 with EVAL(3).
+  {
+    name: "ch03-calculus-eval",
+    keys: ["X-VAR", "X^2", "GRAPH", 600, "EXIT", "CLEAR",
+      "ALPHA", "^", "ALPHA", "2", "ALPHA", "LOG", "ALPHA", "7",
+      "(", "3", ")", "ENTER", 120]
+  },
+  // Store X^2-4 as Y1 from the home entry line and let the plot finish.
+  { name: "ch04-parabola-plot", keys: ["X-VAR", "X^2", "-", "4", "GRAPH", 600] },
+  // Same plot, then trace two columns right of centre to show the X=/Y=
+  // coordinate readout at the bottom of the graph screen.
+  { name: "ch04-trace", keys: ["X-VAR", "X^2", "-", "4", "GRAPH", 600, "RIGHT", 30, "RIGHT", 30] },
+  // Y1=X, then 2nd 2 on the graph screen selects the empty Y2 slot and
+  // returns home; 2-X stored there plots both slots together.
+  { name: "ch04-two-equations", keys: ["X-VAR", "GRAPH", 100, "2ND", "2", 10, "2", "-", "X-VAR", "GRAPH", 1200] },
+  // MORE on the graph screen opens the table of values.
+  { name: "ch04-table", keys: ["X-VAR", "X^2", "-", "4", "GRAPH", 600, "MORE", 120] },
+  // F1 on the graph screen finds a root of the active equation and
+  // publishes it on the home screen with its residual line.
+  { name: "ch04-root-result", keys: ["X-VAR", "X^2", "-", "4", "GRAPH", 600, "F1", 1500] },
+  { name: "ch08-constants-menu", keys: ["2ND", "4"] },
+  // CTOF( from the conversions menu's second page, applied to 100 degrees
+  // Celsius, shows a conversion evaluated on the home screen.
+  { name: "ch08-conversion-example", keys: ["2ND", "5", "MORE", "F4", "1", "0", "0", ")", "ENTER", 200] },
+  // The strings editor opens on empty registers, so the capture types HELLO
+  // into register A first (letters are ALPHA plus the letter's key).
+  {
+    name: "ch09-strings-editor",
+    keys: ["2ND", "6", "ALPHA", "(", "ALPHA", "^", "ALPHA", "7", "ALPHA", "7", "ALPHA", "*"]
+  },
+  // 42 evaluated on the home screen, then the number-base screen's HEX view.
+  { name: "ch10-number-base", keys: ["4", "2", "ENTER", "2ND", "1", "F2"] },
+  // The collections editors open on zeroed registers, so each capture enters
+  // the values its chapter's examples use before photographing the screen.
+  { name: "ch11-complex-editor", keys: ["2ND", "9", "3", "ENTER", "4", "ENTER"] },
+  {
+    name: "ch12-list-editor",
+    keys: ["2ND", "-", "4", "ENTER", "1", "ENTER", "3", "ENTER", "2", "ENTER"]
+  },
+  {
+    name: "ch13-matrix-editor",
+    keys: ["2ND", "7", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER"]
+  },
+  // The same matrix, inverted with F3; the frames let the division finish.
+  {
+    name: "ch13-matrix-inverse",
+    keys: ["2ND", "7", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER", "F3", 600]
+  },
+  { name: "ch13-vector-editor", keys: ["2ND", "8", "3", "ENTER", "4", "ENTER", "0", "ENTER"] },
+  // The polynomial editor holding x^2-5x+6; entry wraps back to COEFF 2.
+  {
+    name: "ch14-poly-editor",
+    keys: ["2ND", "PRGM", "1", "ENTER", "(-)", "5", "ENTER", "6", "ENTER"]
+  },
+  // x^2+2x+5 solved with F1; the frames let the root search finish before
+  // the browser opens on ROOT 1 (RE -1, IM 2).
+  {
+    name: "ch14-poly-roots",
+    keys: ["2ND", "PRGM", "1", "ENTER", "2", "ENTER", "5", "ENTER", "F1", 40000]
+  },
+  // The simultaneous editor holding the system 2x+y=5, x-y=1.
+  {
+    name: "ch14-simult-editor",
+    keys: ["2ND", "STAT", "2", "ENTER", "1", "ENTER", "5", "ENTER",
+      "1", "ENTER", "(-)", "1", "ENTER", "1", "ENTER"]
+  },
+  // The same system solved with F1: UNIQUE SOLUTION, X 2, Y 1.
+  {
+    name: "ch14-simult-result",
+    keys: ["2ND", "STAT", "2", "ENTER", "1", "ENTER", "5", "ENTER",
+      "1", "ENTER", "(-)", "1", "ENTER", "1", "ENTER", "F1", 1500]
+  },
+  // Five pairs (1,2)..(5,5): + grows the shared length to 5, ALPHA switches
+  // to the Y column. The capture wraps back to the Y column's first entry.
+  {
+    name: "ch15-stat-editor",
+    keys: ["STAT", "+", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER",
+      "5", "ENTER", "ALPHA", "2", "ENTER", "4", "ENTER", "5", "ENTER",
+      "4", "ENTER", "5", "ENTER"]
+  },
+  // The same pairs fitted with F3 (LIN): SLOPE 0.6, INTER 2.2.
+  {
+    name: "ch15-regression-result",
+    keys: ["STAT", "+", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER",
+      "5", "ENTER", "ALPHA", "2", "ENTER", "4", "ENTER", "5", "ENTER",
+      "4", "ENTER", "5", "ENTER", "F3", 800]
+  },
+  // The same pairs plotted with F4 (SCAT).
+  {
+    name: "ch15-scatter",
+    keys: ["STAT", "+", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER",
+      "5", "ENTER", "ALPHA", "2", "ENTER", "4", "ENTER", "5", "ENTER",
+      "4", "ENTER", "5", "ENTER", "F4", 600]
+  },
+  // The chapter's eight-value one-variable column, drawn with F5 (HIST) and
+  // with the third soft-key page's F5 (BOX).
+  {
+    name: "ch15-histogram",
+    keys: ["STAT", "+", "+", "+", "+", "2", "ENTER", "4", "ENTER", "4", "ENTER",
+      "4", "ENTER", "5", "ENTER", "5", "ENTER", "7", "ENTER", "9", "ENTER",
+      "F5", 600]
+  },
+  {
+    name: "ch15-box-plot",
+    keys: ["STAT", "+", "+", "+", "+", "2", "ENTER", "4", "ENTER", "4", "ENTER",
+      "4", "ENTER", "5", "ENTER", "5", "ENTER", "7", "ENTER", "9", "ENTER",
+      "MORE", "MORE", "F5", 600]
+  },
+  // The program list as PRGM first shows it: four empty slots.
+  { name: "ch16-program-list", keys: ["PRGM"] },
+  // NEW opens the editor on P1; the capture holds the worked example's
+  // first line, 0->S (letters are ALPHA plus the letter's key).
+  { name: "ch16-program-editor", keys: ["PRGM", "F1", "0", "STO", "ALPHA", "6"] },
+  // The six-line summing program keyed in full (space is 2ND 0), then run
+  // with the editor's F2; the frames let the run reach DONE with output 15.
+  {
+    name: "ch16-program-run",
+    keys: ["PRGM", "F1", "0", "STO", "ALPHA", "6", "ENTER",
+      "ALPHA", "LN", "ALPHA", "*", "ALPHA", "5", "2ND", "0",
+      "ALPHA", "LOG", ",", "1", ",", "5", "ENTER",
+      "ALPHA", "6", "+", "ALPHA", "LOG", "STO", "ALPHA", "6", "ENTER",
+      "ALPHA", "^", "ALPHA", "9", "ALPHA", "TAN", "ENTER",
+      "ALPHA", "TAN", "ALPHA", ")", "ALPHA", "6", "ALPHA", ",", "2ND", "0",
+      "ALPHA", "6", "ENTER",
+      "ALPHA", "6", "ALPHA", "-", "ALPHA", "*", "ALPHA", ",",
+      "F2", 300]
+  },
+  // Chapter 17's graph example: X^2-4 plotted, then traced twelve columns
+  // right of centre so the readout closes in on the root at x=2.
+  {
+    name: "ch17-graph-example",
+    keys: ["X-VAR", "X^2", "-", "4", "GRAPH", 600,
+      "RIGHT", 30, "RIGHT", 30, "RIGHT", 30, "RIGHT", 30, "RIGHT", 30,
+      "RIGHT", 30, "RIGHT", 30, "RIGHT", 30, "RIGHT", 30, "RIGHT", 30,
+      "RIGHT", 30, "RIGHT", 30, 60]
+  },
+  // Chapter 17's regression example: four pairs fitted with F3 (LIN):
+  // SLOPE 1.4, INTER 0.5.
+  {
+    name: "ch17-regression-example",
+    keys: ["STAT", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER",
+      "ALPHA", "2", "ENTER", "3", "ENTER", "5", "ENTER", "6", "ENTER",
+      "F3", 800]
+  },
+  // Chapter 17's factorial program keyed in full and run: output 120.
+  {
+    name: "ch17-program-output",
+    keys: ["PRGM", "F1", "1", "STO", "ALPHA", "LN", "ENTER",
+      "ALPHA", "LN", "ALPHA", "*", "ALPHA", "5", "2ND", "0",
+      "ALPHA", "LOG", ",", "1", ",", "5", "ENTER",
+      "ALPHA", "LN", "*", "ALPHA", "LOG", "STO", "ALPHA", "LN", "ENTER",
+      "ALPHA", "^", "ALPHA", "9", "ALPHA", "TAN", "ENTER",
+      "ALPHA", "TAN", "ALPHA", ")", "ALPHA", "6", "ALPHA", ",", "2ND", "0",
+      "ALPHA", "LN", "ENTER",
+      "ALPHA", "6", "ALPHA", "-", "ALPHA", "*", "ALPHA", ",",
+      "F2", 400]
+  },
+  { name: "ch18-memory-browser", keys: ["2ND", "+"] },
+  // The native link screen, opened with the LINK legend on 2nd x-VAR.
+  { name: "ch19-native-link", keys: ["2ND", "X-VAR"] },
+  { name: "manual-boot", keys: [] },
+  { name: "manual-first-calc", keys: ["2", "+", "3", "ENTER"] },
+  // GRAPH alone plots the axes without labels, so the soft-menu example uses
+  // the home screen's first soft item (F1 = MATH), which shows a paged menu.
+  { name: "manual-soft-menu", keys: ["F1"] },
+  { name: "manual-catalog", keys: ["2ND", "CUSTOM"] }
+];
+
+function capture({ keys }) {
+  const harness = Free85Harness.boot();
+  for (const key of keys) {
+    if (typeof key === "number") harness.runFrames(key);
+    else harness.tap(key);
+  }
+  return harness.machine.renderLcdBitmap();
+}
+
+mkdirSync(OUT_DIR, { recursive: true });
+for (const screenCase of SCREEN_CASES) {
+  if (!/^[a-z0-9-]+$/.test(screenCase.name)) throw new Error(`bad name ${screenCase.name}`);
+  writeFileSync(`${OUT_DIR}${screenCase.name}.png`, renderLcdPng(capture(screenCase)));
+  console.log(`wrote ${screenCase.name}.png`);
+}

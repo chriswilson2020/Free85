@@ -2018,6 +2018,8 @@ p7_matrix_identity:
     LD HL, P7_MATRIX_RESULT + P7_MATRIX_DATA
     LD BC, NUM_SIZE * 9
     CALL numeric_clear_bytes
+    LD A, (P7_MATRIX_RESULT + P7_MATRIX_ROWS)
+    LD B, A                    ; clear consumed BC; reload dimension counter
     XOR A
     LD C, A
 .diag:

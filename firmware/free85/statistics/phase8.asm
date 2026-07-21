@@ -912,10 +912,18 @@ p8_divide:
     CALL numeric_copy
     CALL numeric_divide
 p8_store_result:
-    RET C
+    JR C, .error
     LD HL, NUM_RESULT
     LD DE, (P8_POINTER)
     JP numeric_copy
+.error:
+    ; A numeric failure must not leave stale digits in the destination:
+    ; park a canonical zero there and keep the carry for the caller.
+    LD HL, (P8_POINTER)
+    LD BC, NUM_SIZE
+    CALL numeric_clear_bytes
+    SCF
+    RET
 
 p8_sqrt:
     LD (P8_POINTER), IX
@@ -2760,15 +2768,20 @@ p8_seed_two_0:
 p8_seed_two_1:
     DB $80,$FF,$40,$00,$00,$00,$00,$00,$00
     DB $00,$FF,$90,$00,$00,$00,$00,$00,$00
+; The cubic seeds must not be closed under conjugation: the cube roots of
+; unity previously used here kept the iteration conjugate-symmetric for
+; real coefficients, so the complex pair could only split into two distinct
+; real roots through rounding noise. These sit near 24, 148, and 264
+; degrees, evenly spread but asymmetric about the real axis.
 p8_seed_three_0:
-    DB $00,$00,$10,$00,$00,$00,$00,$00,$00
-    DB $00,$00,$00,$00,$00,$00,$00,$00,$00
+    DB $00,$FF,$90,$00,$00,$00,$00,$00,$00
+    DB $00,$FF,$40,$00,$00,$00,$00,$00,$00
 p8_seed_three_1:
-    DB $80,$FF,$50,$00,$00,$00,$00,$00,$00
-    DB $00,$FF,$86,$60,$25,$40,$37,$84,$44
+    DB $80,$FF,$80,$00,$00,$00,$00,$00,$00
+    DB $00,$FF,$50,$00,$00,$00,$00,$00,$00
 p8_seed_three_2:
-    DB $80,$FF,$50,$00,$00,$00,$00,$00,$00
-    DB $80,$FF,$86,$60,$25,$40,$37,$84,$44
+    DB $80,$FF,$10,$00,$00,$00,$00,$00,$00
+    DB $80,$FF,$90,$00,$00,$00,$00,$00,$00
 p8_seed_four_0:
     DB $00,$FF,$90,$00,$00,$00,$00,$00,$00
     DB $00,$FF,$40,$00,$00,$00,$00,$00,$00

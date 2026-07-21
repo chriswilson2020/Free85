@@ -216,3 +216,36 @@ test("[solver.polynomial] non-monic leading coefficients are normalised", () => 
   [1, 2, 3].forEach((value, index) => assertClose(cubicReals[index], value, 1e-8));
   scaledCubic.forEach(([, imaginary]) => assertClose(imaginary, 0, 1e-8));
 });
+
+test("[solver.polynomial] solver output stays clean packed decimal", () => {
+  // Before the seed and normalisation fixes, -x^2 + 1 sent the iteration
+  // through huge magnitudes and a denormalised root once rendered as
+  // ";.0974990147". The input converges now, but whatever the solver
+  // stores must remain valid normalised BCD and render as digits, never
+  // as punctuation.
+  const harness = Free85Harness.boot();
+  tapAll(harness, ["2ND", "PRGM"]);
+  enterValues(harness, [-1, 0, 1]);
+  harness.tap("F1");
+  harness.runFrames(30_000);
+
+  for (let component = 0; component < 4; component += 1) {
+    const base = POLY_ROOTS + component * 9;
+    const digits = [];
+    for (let index = 0; index < 7; index += 1) {
+      const byte = harness.machine.read8(base + 2 + index);
+      digits.push(byte >>> 4, byte & 0x0f);
+    }
+    assert.ok(digits.every((digit) => digit <= 9), `component ${component}: non-BCD ${digits}`);
+    if (digits.some((digit) => digit !== 0)) {
+      assert.notEqual(digits[0], 0, `component ${component}: denormalised ${digits}`);
+    }
+  }
+
+  const length = harness.machine.read8(0x8059);
+  const text = String.fromCharCode(...Array.from(
+    { length },
+    (_, index) => harness.machine.read8(0x8060 + index)
+  ));
+  assert.match(text, /^-?[0-9.E-]*$/, `rendered root contains punctuation: ${JSON.stringify(text)}`);
+});

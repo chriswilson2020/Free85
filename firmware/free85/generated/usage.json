@@ -5,9 +5,9 @@
   "pages": [
     {
       "page": 0,
-      "used_bytes": 14890,
-      "free_bytes": 1494,
-      "percent_used": 90.88
+      "used_bytes": 15055,
+      "free_bytes": 1329,
+      "percent_used": 91.89
     },
     {
       "page": 1,
@@ -23,9 +23,9 @@
     },
     {
       "page": 3,
-      "used_bytes": 5932,
-      "free_bytes": 10452,
-      "percent_used": 36.21
+      "used_bytes": 5944,
+      "free_bytes": 10440,
+      "percent_used": 36.28
     },
     {
       "page": 4,

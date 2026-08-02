@@ -28,7 +28,7 @@ license text and `NOTICE.md` for the project notices.
   [ALPHA], [F1] through [F5], [MORE], [x²], and the cursor keys
   [▲] [▼] [◀] [▶]. A sequence such as [2nd] [ENTER] means press and release
   [2nd], then press [ENTER]. A bracketed letter such as [H] means the key
-  carrying that letter legend, pressed after [ALPHA].
+  carrying that letter legend.
 - **On-screen text and typed expressions** appear in code spans: the status
   line shows `RAD AUTO`, and typing [2] [+] [3] puts `2+3` on the entry line.
   Code spans are also used for command and mode names, including other

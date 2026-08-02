@@ -11,7 +11,7 @@ One boundary up front: strings live in the editor, not in the expression
 language. A quoted literal on the home entry line, such as `"A"`, answers
 `SYNTAX ERROR`, and no string ever becomes a named variable: the typed
 object store of Chapter 2 (Variables and Stored Data) keeps a string
-type reserved, but by the same design that keeps the other editors'
+type reserved. By the same design that keeps the other editors'
 working values out of the memory browser of Chapter 18 (Memory
 Management), your text lives in the three registers described below.
 

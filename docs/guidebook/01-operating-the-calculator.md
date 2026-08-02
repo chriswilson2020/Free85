@@ -194,8 +194,8 @@ and c cedilla. The Greek and international characters insert exactly as the
 punctuation does: twenty-six steps right of the space character is the
 capital Alpha, and [ENTER] there appends it to your entry. Appendix A
 catalogues the additions as `Greek-characters` and
-`international-characters`. Chapter 9 covers the character set and string
-values in full.
+`international-characters`. Chapter 9 covers the strings editor and its
+operations in full.
 
 ## When something goes wrong
 

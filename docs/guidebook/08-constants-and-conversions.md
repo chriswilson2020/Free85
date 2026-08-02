@@ -55,9 +55,9 @@ of your constants at the top right and the soft keys
 middle of the screen says `NO USER CONSTANTS`.
 
 To create a constant, press [F1] (`NEW`). The `CONSTANT NAME` prompt
-opens with the hint `ENTER SAVE EXIT`, and [ALPHA] works differently
-here than on the home screen: one press keeps letter entry on until the
-next press releases it, so `RATE` is [ALPHA] [R] [A] [T] [E]. Press
+opens with the hint `ENTER SAVE EXIT`, and here, [ALPHA] latches: one
+press keeps letter entry on until the next press releases it, so `RATE`
+is [ALPHA] [R] [A] [T] [E]. Press
 [ENTER] and the `CONSTANT VALUE` prompt follows; type `12.5` (pressing
 [ALPHA] first to release the letter lock) and [ENTER] saves the
 constant and returns to the screen:
@@ -89,7 +89,7 @@ the constant on show:
 - **`DEL`** ([F5]) removes the constant on show.
 
 A request the screen cannot honour answers the full-screen notice
-`CONSTANT ERROR`: accepting an empty name with [ENTER], saving a value
+`CONSTANT ERROR`: confirming an empty name with [ENTER], saving a value
 under a name that is not one to seven letters, or renaming onto a name
 already taken. [CLEAR] or [EXIT] dismisses the notice to the home
 screen.

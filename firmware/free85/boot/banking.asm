@@ -82,3 +82,15 @@ bank_call_phase15_program_draw:
     CALL bank_select
     POP AF
     RET
+
+; Bank-2 collections may use the bank-3 polynomial root engine without
+; exposing a UI transition.  $4017 is page 3's stable sixth jump entry.
+bank_call_phase8_poly_solve_core:
+    LD A, 3
+    CALL bank_select
+    CALL $4017
+    PUSH AF
+    LD A, 2
+    CALL bank_select
+    POP AF
+    RET

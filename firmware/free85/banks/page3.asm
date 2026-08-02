@@ -8,6 +8,7 @@ bank_start:
     JP phase8_open_simult
     JP phase8_open_polynomial
     JP phase8_handle_key
+    JP p8_poly_solve_core
 
     INCLUDE "statistics/phase8.asm"
 

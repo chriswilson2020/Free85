@@ -27,6 +27,11 @@ phase7_init:
     LD BC, P7_STATE_END - P7_COMPLEX_A - 1
     LD (HL), A
     LDIR
+    LD HL, P18_SHADOW_BASE
+    LD DE, P18_SHADOW_BASE + 1
+    LD BC, P18_SHADOW_END - P18_SHADOW_BASE - 1
+    LD (HL), A
+    LDIR
     LD A, 4
     LD (P7_LIST_A + P7_LIST_LENGTH), A
     LD (P7_LIST_B + P7_LIST_LENGTH), A
@@ -156,12 +161,12 @@ p7_next_menu:
     XOR A
     JR .store
 .collection:
-    LD C, 4
+    LD C, 5
     LD A, (P7_ACTIVE_APP)
     CP P7_APP_MATRIX
     LD A, B
     JR NZ, .limit
-    LD C, 5
+    LD C, 6
 .limit:
     CP C
     JR C, .store
@@ -232,6 +237,7 @@ p7_commit_input:
     LD B, A
     CALL numeric_parse
     JR C, p7_numeric_error
+    CALL p18_zero_selected_imag_if_collection
     XOR A
     LD (P7_INPUT_ACTIVE), A
     CALL editor_init
@@ -621,6 +627,9 @@ p7_render_list:
     LD B, 0
     LD C, 3
     CALL p7_draw_number
+    LD A, (P7_MENU_PAGE)
+    CP 4
+    CALL Z, p18_draw_selected_imag
     LD HL, p7_menu_list_0
     LD A, (P7_MENU_PAGE)
     OR A
@@ -632,6 +641,9 @@ p7_render_list:
     CP 2
     JP Z, p7_render_footer
     LD HL, p17_menu_list_3
+    CP 3
+    JP Z, p7_render_footer
+    LD HL, p18_menu_complex_collection
     JP p7_render_footer
 
 p7_render_matrix:
@@ -660,21 +672,27 @@ p7_render_matrix:
     LD B, 0
     LD C, 3
     CALL p7_draw_number
+    LD A, (P7_MENU_PAGE)
+    CP 5
+    CALL Z, p18_draw_selected_imag
     LD HL, p7_menu_matrix_0
     LD A, (P7_MENU_PAGE)
     OR A
-    JR Z, p7_render_footer
+    JP Z, p7_render_footer
     LD HL, p7_menu_matrix_1
     CP 1
-    JR Z, p7_render_footer
+    JP Z, p7_render_footer
     LD HL, p17_menu_matrix_2
     CP 2
-    JR Z, p7_render_footer
+    JP Z, p7_render_footer
     LD HL, p17_menu_matrix_3
     CP 3
-    JR Z, p7_render_footer
+    JP Z, p7_render_footer
     LD HL, p17_menu_matrix_4
-    JR p7_render_footer
+    CP 4
+    JP Z, p7_render_footer
+    LD HL, p18_menu_complex_collection
+    JP p7_render_footer
 
 p7_render_vector:
     LD HL, p7_text_vector
@@ -707,6 +725,9 @@ p7_render_vector:
     LD C, 3
     CALL p7_draw_number
     LD A, (P7_MENU_PAGE)
+    CP 4
+    CALL Z, p18_draw_selected_imag
+    LD A, (P7_MENU_PAGE)
     OR A
     LD HL, p7_menu_vector_0
     JR Z, p7_render_footer
@@ -717,6 +738,9 @@ p7_render_vector:
     CP 2
     JR Z, p7_render_footer
     LD HL, p17_menu_vector_3
+    CP 3
+    JR Z, p7_render_footer
+    LD HL, p18_menu_complex_collection
     JR p7_render_footer
 
 p7_render_footer:
@@ -1148,6 +1172,10 @@ p7_complex_sub:
     JP p7_set_result_mode
 
 p7_complex_mul:
+    CALL p7_complex_mul_value
+    JP C, p7_numeric_error
+    JP p7_set_result_mode
+p7_complex_mul_value:
     ; real = ac-bd, imag = ad+bc
     LD HL, P7_COMPLEX_A
     LD DE, P7_COMPLEX_B
@@ -1173,10 +1201,13 @@ p7_complex_mul:
     LD DE, P7_WORK_1
     LD IX, P7_COMPLEX_RESULT + NUM_SIZE
     CALL p7_add
-    JP C, p7_numeric_error
-    JP p7_set_result_mode
+    RET
 
 p7_complex_div:
+    CALL p7_complex_div_value
+    JP C, p7_numeric_error
+    JP p7_set_result_mode
+p7_complex_div_value:
     ; denominator = c^2+d^2
     LD HL, P7_COMPLEX_B
     LD DE, P7_COMPLEX_B
@@ -1192,7 +1223,7 @@ p7_complex_div:
     CALL p7_add
     LD HL, P7_WORK_2
     CALL numeric_is_zero
-    JP Z, p7_complex_div_zero
+    JR Z, .zero
     ; real numerator ac+bd
     LD HL, P7_COMPLEX_A
     LD DE, P7_COMPLEX_B
@@ -1227,8 +1258,10 @@ p7_complex_div:
     LD DE, P7_WORK_2
     LD IX, P7_COMPLEX_RESULT + NUM_SIZE
     CALL p7_divide
-    JP C, p7_numeric_error
-    JP p7_set_result_mode
+    RET
+.zero:
+    SCF
+    RET
 
 p7_complex_div_zero:
     LD HL, notice_div_zero
@@ -1400,6 +1433,7 @@ p7_list_soft:
 
 p7_list_binary:
     LD (P7_OP), A
+    CALL p18_list_imag_cursors
     LD A, (P7_LIST_A + P7_LIST_LENGTH)
     LD B, A
     LD A, (P7_LIST_B + P7_LIST_LENGTH)
@@ -1415,23 +1449,7 @@ p7_list_binary:
     PUSH HL
     PUSH DE
     PUSH IX
-    LD A, (P7_OP)
-    OR A
-    JR Z, .add
-    CP 1
-    JR Z, .subtract
-    CP 2
-    JR Z, .multiply
-    CALL p7_divide
-    JR .next
-.add:
-    CALL p7_add
-    JR .next
-.subtract:
-    CALL p7_subtract
-    JR .next
-.multiply:
-    CALL p7_multiply
+    CALL p18_complex_binary
 .next:
     JR C, .error
     POP IX
@@ -1443,6 +1461,7 @@ p7_list_binary:
     ADD HL, BC
     EX DE, HL
     ADD IX, BC
+    CALL p18_advance_imag_cursors
     POP BC
     DJNZ .loop
     JP p7_set_result_mode
@@ -1836,6 +1855,7 @@ p7_matrix_same_dimensions:
 p7_matrix_binary:
     ; A=0 add, 1 subtract.
     LD (P7_OP), A
+    CALL p18_matrix_imag_cursors
     CALL p7_matrix_same_dimensions
     JP NZ, p7_fail_dimension
     LD A, (P7_MATRIX_A + P7_MATRIX_ROWS)
@@ -1857,13 +1877,7 @@ p7_matrix_binary:
     PUSH HL
     PUSH DE
     PUSH IX
-    LD A, (P7_OP)
-    OR A
-    JR NZ, .subtract
-    CALL p7_add
-    JR .next
-.subtract:
-    CALL p7_subtract
+    CALL p18_complex_binary
 .next:
     POP IX
     POP DE
@@ -1874,6 +1888,7 @@ p7_matrix_binary:
     ADD HL, BC
     EX DE, HL
     ADD IX, BC
+    CALL p18_advance_imag_cursors
     POP BC
     DJNZ .loop
     JP p7_set_result_mode
@@ -2805,6 +2820,7 @@ p7_vector_same_length:
 
 p7_vector_binary:
     LD (P7_OP), A
+    CALL p18_vector_imag_cursors
     CALL p7_vector_same_length
     JP NZ, p7_fail_dimension
     LD A, (P7_VECTOR_A + P7_VECTOR_LENGTH)
@@ -2818,13 +2834,7 @@ p7_vector_binary:
     PUSH HL
     PUSH DE
     PUSH IX
-    LD A, (P7_OP)
-    OR A
-    JR NZ, .subtract
-    CALL p7_add
-    JR .next
-.subtract:
-    CALL p7_subtract
+    CALL p18_complex_binary
 .next:
     POP IX
     POP DE
@@ -2835,6 +2845,7 @@ p7_vector_binary:
     ADD HL, BC
     EX DE, HL
     ADD IX, BC
+    CALL p18_advance_imag_cursors
     POP BC
     DJNZ .loop
     JP p7_set_result_mode

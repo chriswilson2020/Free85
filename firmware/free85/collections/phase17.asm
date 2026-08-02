@@ -4,6 +4,11 @@
 ; Extended list and vector operations
 
 p17_list_extended_soft:
+    LD C, A
+    LD A, (P7_MENU_PAGE)
+    CP 4
+    LD A, C
+    JP Z, p18_collection_complex_soft
     CP KEY_F1
     JP Z, p17_list_dimension
     CP KEY_F2
@@ -125,6 +130,11 @@ p17_vector_to_list:
     JP p7_set_result_mode
 
 p17_vector_extended_soft:
+    LD C, A
+    LD A, (P7_MENU_PAGE)
+    CP 4
+    LD A, C
+    JP Z, p18_collection_complex_soft
     CP KEY_F1
     JP Z, p17_vector_dimension
     CP KEY_F2
@@ -171,6 +181,9 @@ p17_matrix_extended_soft:
     JR Z, .rows
     CP 3
     JR Z, .norms
+    CP 5
+    LD A, C
+    JP Z, p18_collection_complex_soft
     LD A, C
     CP KEY_F1
     JP Z, p17_matrix_lu
@@ -672,6 +685,7 @@ p17_matrix_lu_core:
     JP NZ, p7_fail_dimension
     LD (P7_ROWS), A
     CALL p17_matrix_copy_a_result
+    CALL p18_lu_init_permutation
     XOR A
     LD (P7_PIVOT), A
 .pivot:
@@ -680,7 +694,10 @@ p17_matrix_lu_core:
     LD HL, P7_MATRIX_RESULT
     CALL p7_matrix_pointer
     CALL numeric_is_zero
-    JP Z, p7_fail_singular
+    JR NZ, .pivot_ready
+    CALL p18_lu_pivot_if_needed
+    JP C, p7_fail_singular
+.pivot_ready:
     LD A, (P7_PIVOT)
     LD C, A
     LD HL, P7_MATRIX_RESULT
@@ -777,29 +794,7 @@ p17_matrix_eigenvalues_core:
     JR Z, .one
     CP 2
     JR Z, .two
-    CALL p17_matrix_require_diagonal
-    LD B, 3
-    XOR A
-    LD (P7_I), A
-.diagonal_copy:
-    LD C, A
-    PUSH BC
-    LD DE, P7_WORK_0
-    CALL p17_copy_a_element
-    LD A, (P7_I)
-    LD C, A
-    XOR A
-    LD HL, P7_MATRIX_RESULT
-    CALL p7_matrix_pointer
-    EX DE, HL
-    LD HL, P7_WORK_0
-    CALL numeric_copy
-    POP BC
-    LD A, (P7_I)
-    INC A
-    LD (P7_I), A
-    DJNZ .diagonal_copy
-    JP p7_set_result_mode
+    JP p18_matrix_eigenvalues_3x3
 .one:
     LD HL, P7_MATRIX_A + P7_MATRIX_DATA
     LD DE, P7_MATRIX_RESULT + P7_MATRIX_DATA
@@ -1048,6 +1043,7 @@ p17_off_diagonal_coordinates:
     DB 0,1, 0,2, 1,0, 1,2, 2,0, 2,1
 
 p17_menu_list_3:   DB "DIM FILL D-S L>V V>L",0
+p18_menu_complex_collection: DB "CSET CGET REAL IMAG CLR",0
 p17_menu_matrix_2: DB "REF SWAP RADD RMUL AUG",0
 p17_menu_matrix_3: DB "NORM RNORM CNORM COND RND",0
 p17_menu_matrix_4: DB "LU EVAL EVEC DIM FILL",0

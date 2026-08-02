@@ -4,10 +4,10 @@ Differential-equation graphing plots the solution of a first-order
 differential equation from an initial condition, letting you watch a
 system evolve without finding a closed-form answer first. The mode
 (elsewhere `DifEq`) completes the shared graph engine of Chapter 4
-(Cartesian Graphing, Drawing, Formats, and Persistence). It has two
-facts every user must know, the frozen initial condition and the broken
-trace readout, and both are documented plainly below; as throughout
-this book, every quoted figure was read off the machine.
+(Cartesian Graphing, Drawing, Formats, and Persistence). It has one
+fact every user must know, the frozen initial condition, documented
+plainly below; as throughout this book, every quoted figure was read
+off the machine.
 
 > 🔌 **Hardware:** differential-equation graphing and its LCD captures
 > are validated in the emulator; physical hardware validation is
@@ -68,17 +68,28 @@ Plotting draws left to right and cancels like every other mode: [EXIT]
 or [CLEAR] mid-plot returns to the home screen with the equation on the
 entry line.
 
-## Trace and table are broken in this release
+## Tracing and the table
 
-Tracing and the table do not work in differential-equation mode. The
-trace readout shows `X=-10` and `Y=0` (`XMIN` and the initial
-condition) no matter how many times [◀] or [▶] is pressed, and the
-table is corrupt: its `X` column reads `0` and then `-9` for every
-following row, every `Y1` cell repeats the initial condition, and
-scrolled rows answer `UNDEF`. Rely on the plotted curve, which is
-computed correctly, and on the window bounds to read positions from
-it. Until a firmware release repairs the readouts, treat any trace or
-table number in this mode as meaningless.
+Tracing works as in chapter 4, and the readout is the integrated
+solution: [◀] and [▶] step the cursor along the plotted curve, and
+the footer reports the solution's value at that column. Each step
+reintegrates the solution from the left window edge, so the readout
+follows the cursor after a brief pause, longest near the right edge.
+With the worked example's dy/dx = 1 plotted, two presses of [▶] from
+the centre read `X=0.393700787398` and `Y=10.393700787398`, the line
+y = x + 10 at that column, and the readout keeps tracking however far
+right you step: at `X=6.377952755878` it reports `Y=16.377952755878`.
+
+[MORE] opens the chapter 4 table, and its `Y1` column holds the
+integrated solution against the ordinary `X` column: with dy/dx = 1
+stored, the fresh table's `X` column reads `0` through `5` and `Y1`
+reads `10`, `11`, `12`, `13`, `14`, `15`, the same line row by row.
+One boundary remains in this release: the table's query reaches only
+the first hundred of the plot's 128 samples, so rows too far right,
+past `X=5.7` or so in the standard window, answer `UNDEF`; one press
+of [▼] shows `5` and `15` above five `UNDEF` rows. The trace has no
+such limit, so read the rightmost stretch of the window from the
+trace instead.
 
 ## Analysis reads the slope, not the solution
 
@@ -89,9 +100,9 @@ solution. With `1` stored, [F4] answers `= 0` and [F5] answers `= 20`,
 the derivative and window integral of the constant slope, and [F1]
 answers the `NO NUMERIC RESULT` notice because the slope never crosses
 zero. With `X` stored, `EVAL(2)` after a completed plot answers `= 2`,
-the slope at x equal to 2, not the solution's value there. There is no
-key that reads a solution value; the curve itself is the mode's whole
-answer.
+the slope at x equal to 2, not the solution's value there. To read a
+solution value, use the trace or the table above; the calculus keys
+see only the slope.
 
 ## What the mode remembers
 

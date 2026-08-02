@@ -124,7 +124,7 @@ arguments.
 | `CALL n` | run program `n` (1 through 4), then come back |
 | `RETURN` | leave the current program at once |
 | `STOP` | end the run |
-| `GRAPH e` | store `e` as the active equation |
+| `GRAPH e` | store `e` as the active equation and end the run on its plot |
 | `DISPG` | end the run on the graph screen |
 | `STTOEQ S,n` / `EQTOST n,S` | copy a string to equation slot `n`, and back |
 | `LSET i,e` / `LGET i,V` | write and read entry `i` of list `A` |
@@ -359,9 +359,9 @@ bare [.], say) stops the run at the `ERROR LINE  1` notice, naming the
 the same way as stopping it.
 
 `PROMPT V` (elsewhere `Prompt`) asks the same way on the same screen;
-the difference is the banner, which prints the keyword and the
-variable's letter run together, `PROMPTA` for variable `A`. Swap the
-first line above for `PROMPT A` and the same [6] [ENTER] answers `12`.
+the difference is the banner, which names the keyword instead of the
+word `INPUT`: `PROMPT A` for variable `A`. Swap the first line above
+for `PROMPT A` and the same [6] [ENTER] answers `12`.
 
 ## Asking for text
 
@@ -369,9 +369,8 @@ first line above for `PROMPT A` and the same [6] [ENTER] answers `12`.
 and stores what you type into string register `A` or `B` of Chapter 9
 (Strings and Characters); any other register name stops the run at the
 `ERROR LINE` notice. The screen's footer reads `ENTER TEXT`, and its
-banner is best described plainly: it prints `INPUT STRING` and then
-the register's letter over the first letter of `STRING`, so that one
-character shows two glyphs at once. Letters are typed with [ALPHA],
+banner names the register after the keyword: `INPUT STRING A` for
+register `A`. Letters are typed with [ALPHA],
 digits and operators directly, [x-VAR] inserts `X`, and [ENTER]
 stores; the register's 31-character ceiling from chapter 9 applies.
 The stored text lands in the strings editor exactly as typed, and the
@@ -541,16 +540,16 @@ The screen-based tools are reached by commands that end the run, the
 same one-way door in every case: the program cannot take the results
 back, but the screen you land on holds them.
 
-- **`GRAPH e`** stores `e` as equation slot 1 and enables it. In this
-  release the run then falls back through the start-up banner to the
-  home screen rather than staying on the plot; the stored equation
-  survives, so pressing [GRAPH] draws it. Until a firmware release
-  repairs the fall-through, `DISPG` below is the dependable way to
-  end a run on the plot.
-- **`DISPG`** (elsewhere `DispG`) ends the run on the graph screen,
-  drawing whatever equations are stored and enabled. It does not
-  return: lines after `DISPG` never run, so it is a closing statement,
-  not a display step.
+- **`GRAPH e`** stores `e` as equation slot 1, enables it, and ends
+  the run on the graph screen with the plot drawn: `GRAPH X` leaves
+  the machine on the plotted line, slot 1 holding `X`. Like `DISPG`
+  it does not return, so lines after it never run.
+- **`DISPG`** (elsewhere `DispG`) also ends the run on the graph
+  screen, drawing whatever equations are already stored and enabled;
+  the difference is only that `GRAPH` stores its expression first
+  while `DISPG` plots the current set. Neither returns: lines after
+  either never run, so both are closing statements, not display
+  steps.
 - **`COLL n`** runs collection operation `n` (0 through 17) and ends
   the run on that editor's result: codes 0 through 4 are the list
   keys (dimension, fill, descending sort, and the two vector

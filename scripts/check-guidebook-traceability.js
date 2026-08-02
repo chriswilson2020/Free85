@@ -27,8 +27,11 @@ const chapterText = chapterFiles.map((f) => readFileSync(`${dir}${f}`, "utf8")).
 // Restrict matching to backtick code spans: the book's writing convention is
 // that commands and on-screen text always appear in code spans, so this
 // excludes ordinary prose (where e.g. "tan" appears inside "important") and
-// callout markup (where e.g. ">" appears as blockquote syntax).
-const codeSpans = [...chapterText.matchAll(/`([^`]+)`/g)].map((m) => m[1]).join("\n");
+// callout markup (where e.g. ">" appears as blockquote syntax). Fenced code
+// blocks are removed first: their triple-backtick delimiters would otherwise
+// desynchronise the inline-span pairing for every chapter after the fence.
+const fencelessText = chapterText.replace(/^```[^\n]*\n[\s\S]*?^```\s*$/gm, "");
+const codeSpans = [...fencelessText.matchAll(/`([^`]+)`/g)].map((m) => m[1]).join("\n");
 const book = codeSpans.toLowerCase();
 
 const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");

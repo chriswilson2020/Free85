@@ -264,8 +264,10 @@ export const SCREEN_CASES = [
       "F2", 400]
   },
   { name: "ch18-memory-browser", keys: ["2ND", "+"] },
-  // The native link screen, opened with the LINK legend on 2nd x-VAR.
+  // The link screen, opened with the LINK legend on 2nd x-VAR.
   { name: "ch19-native-link", keys: ["2ND", "X-VAR"] },
+  // The link screen with the first object marked for transfer.
+  { name: "ch19-link-selected", keys: ["2ND", "X-VAR", "ENTER"] },
   { name: "manual-boot", keys: [] },
   { name: "manual-first-calc", keys: ["2", "+", "3", "ENTER"] },
   // GRAPH alone plots the axes without labels, so the soft-menu example uses

@@ -37,6 +37,13 @@ for (const group of ledger.groups) {
 
 for (const gap of gapLedger.gaps) {
   if (!packageById.has(gap.owner)) failures.push(`${gap.id}: unknown work package ${gap.owner}`);
+  if (gap.status === "equivalent" && !gap.evidence?.length) failures.push(`${gap.id}: equivalent gap lacks evidence`);
+}
+
+for (const group of ledger.groups) {
+  if (["partial", "missing"].includes(group.status)) {
+    failures.push(`${group.id}: applicable command inventory remains ${group.status}`);
+  }
 }
 
 if (failures.length) throw new Error(`Free85 2.0 parity ledger invalid:\n- ${failures.join("\n- ")}`);
@@ -54,7 +61,7 @@ const gapStatuses = [...new Set(gapLedger.gaps.map(({ status }) => status))];
 const report = {
   schemaVersion: 1,
   release: roadmap.release,
-  phase: "14.9",
+  phase: "14.10",
   inventory: {
     groups: ledger.groups.length,
     entries: itemOwners.size,

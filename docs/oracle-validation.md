@@ -68,10 +68,13 @@ The package combines several complementary layers:
 - chapter-level TI-85 Guidebook traceability.
 
 No finite suite proves every calculator state. “Exhaustive” therefore means
-complete coverage of the documented Free85 v1 contract plus broad, repeatable
-differential and long-run testing. Polar, parametric, differential-equation,
-and other TI-only facilities are listed honestly as out of scope rather than
-counted as Free85 failures. See `spec/free85/guidebook-coverage.yaml`.
+complete coverage of the documented Free85 2.10.0 contract plus broad,
+repeatable differential and long-run testing. The public suite covers the
+Phase 14 polar, parametric, differential-equation, linear-algebra, statistics,
+programming, constants, memory, and Free85 link workflows. The private oracle
+supplements those gates with 270 cross-ROM numerical observations and five
+application-state probes; physical-cable behavior and clean-room exclusions
+remain separately classified. See `spec/free85/v2-parity-gaps.yaml`.
 
 ## Copyright and release safety
 

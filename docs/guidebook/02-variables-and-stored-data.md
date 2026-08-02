@@ -114,7 +114,7 @@ A few names are special:
 
 Underneath all of this, every stored item lives in one typed object store,
 kept in the 2.0 store format that gives the memory browser its
-`MEMORY 2.0` title. It holds named objects of eleven kinds, from the real
+`MEMORY 2.10` title. It holds named objects of eleven kinds, from the real
 numbers of this chapter through lists, matrices, vectors, strings,
 equations, programs, and more, and its names can run to eight characters:
 the one-letter rule above belongs to real-number variables, and the longer

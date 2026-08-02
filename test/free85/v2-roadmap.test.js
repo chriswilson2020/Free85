@@ -12,7 +12,7 @@ test("[v2.roadmap] every parity gap has exactly one work-package owner", async (
   const packages = new Map(roadmap.workPackages.map((entry) => [entry.id, entry]));
   const declared = new Set(roadmap.workPackages.flatMap(({ owns }) => owns));
   const registered = new Set(ledger.gaps.map(({ id }) => id));
-  assert.equal(roadmap.release, "2.0.0");
+  assert.equal(roadmap.release, "2.10.0");
   assert.equal(roadmap.umbrellaPhase, 14);
   assert.equal(new Set(ledger.gaps.map(({ id }) => id)).size, ledger.gaps.length);
   assert.deepEqual([...declared].sort(), [...registered].sort());

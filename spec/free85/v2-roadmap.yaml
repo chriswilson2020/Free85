@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "release": "2.0.0",
+  "release": "2.10.0",
   "umbrellaPhase": 14,
   "requires": ["phase-13-oracle-validation"],
   "completionRule": "All applicable v2 parity gaps are equivalent and every work-package gate passes",

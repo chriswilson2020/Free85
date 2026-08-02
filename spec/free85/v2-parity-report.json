@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
-  "release": "2.0.0",
-  "phase": "14.9",
+  "release": "2.10.0",
+  "phase": "14.10",
   "inventory": {
     "groups": 41,
     "entries": 298,
     "groupsByStatus": {
-      "equivalent": 29,
-      "partial": 8,
+      "equivalent": 37,
+      "partial": 0,
       "missing": 0,
       "hardware-dependent": 3,
       "excluded-clean-room": 1
     },
     "entriesByStatus": {
-      "equivalent": 216,
-      "partial": 64,
+      "equivalent": 280,
+      "partial": 0,
       "missing": 0,
       "hardware-dependent": 13,
       "excluded-clean-room": 5
@@ -23,11 +23,10 @@
   "gaps": {
     "total": 36,
     "byStatus": {
-      "equivalent": 33,
-      "hardware-dependent": 2,
-      "missing": 1
+      "equivalent": 34,
+      "hardware-dependent": 2
     },
-    "equivalentPercent": 91.67
+    "equivalentPercent": 94.44
   },
   "workPackages": [
     {
@@ -236,7 +235,7 @@
       "gaps": [
         {
           "id": "release.2.0",
-          "status": "missing"
+          "status": "equivalent"
         }
       ]
     }

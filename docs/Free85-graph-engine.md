@@ -2,9 +2,9 @@
 
 Phase 14.3 completes the Cartesian graph-core, format, and zoom parity gaps on
 one packed-decimal engine. Plotting, trace, table evaluation, roots, extrema,
-derivatives, integrals, and later graph modes enter through the same evaluator
-boundary. Cartesian mode is selected today; Phase 14.5 can add adapters without
-forking the renderer or numerical tools.
+derivatives, integrals, and all graph modes enter through the same evaluator
+boundary. Phase 14.5 added polar, parametric, and differential-equation
+adapters without forking the renderer or numerical tools.
 
 ## Controls
 

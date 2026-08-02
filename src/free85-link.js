@@ -1,4 +1,4 @@
-// Free85 2.9 typed-object link protocol.
+// Free85 2.0 typed-object link protocol.
 //
 // This is the emulator cable for the clean-room Free85 packet format. The ROM
 // exposes commands, selection, duplicate policy and progress through its link

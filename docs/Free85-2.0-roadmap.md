@@ -1,8 +1,9 @@
-# Free85 2.0 execution roadmap
+# Free85 2.0 execution roadmap (complete)
 
-Free85 2.0 is the full user-facing TI-85 feature-parity release. Phase 14 is
-the umbrella programme for that release; it is divided into independently
-reviewable work packages rather than one large firmware change.
+Free85 2.0 is the full user-facing TI-85 feature-parity programme, delivered as
+the stable Free85 2.10.0 release. Phase 14 is its umbrella programme and is
+divided into independently reviewable work packages rather than one large
+firmware change.
 
 This target does not include TI binary compatibility. TI programs, token
 streams, files, ROM calls, internal data structures, fonts, artwork, and ROM
@@ -162,23 +163,25 @@ separate, explicitly unverified lane.
 
 ### 14.10 - 2.0 hardening and release
 
-Close every applicable ledger entry, remove temporary feature flags, freeze the
-RAM schema, rebuild the exact 128 KiB ROM, update Pages and all documentation,
-and run the complete validation matrix. Produce 2.0.0 release manifests,
-reproducible hashes, migration notes, limitations, and clean-room provenance.
+Implemented. Every applicable ledger entry is closed, persistent RAM schema 13
+and object-store schema 1 are frozen, and the exact 128 KiB ROM plus GitHub
+Pages tree reproduce in independent temporary builds. The complete validation
+matrix is release-gated, and the 2.10.0 manifest records reproducible hashes,
+migration rules, limitations, and clean-room provenance. Physical link hardware
+remains honestly hardware-dependent.
 
 ## Release train
 
-- **2.0.0-alpha.1:** packages 14.0-14.3 merged; new object model, math, bases,
+- **2.3.0:** packages 14.0-14.3 merged; new object model, math, bases,
   modes, and graph core are stable.
-- **2.0.0-alpha.2:** packages 14.4-14.6 merged; all graph modes and collection
+- **2.6.0:** packages 14.4-14.6 merged; all graph modes and collection
   operations are feature-complete.
-- **2.0.0-beta.1:** packages 14.7-14.9 merged; every planned user-facing surface
+- **2.9.0:** packages 14.7-14.9 merged; every planned user-facing surface
   exists and the gap ledger contains no `missing` entries.
-- **2.0.0-rc.1:** full oracle, visual, randomized, stress, soak, migration,
+- **2.10.0-rc.1:** full oracle, visual, randomized, stress, soak, migration,
   memory-pressure, and performance validation passes with no unexplained
   divergence.
-- **2.0.0:** reproducible release artifacts and Pages deployment are approved.
+- **2.10.0:** reproducible release artifacts and Pages deployment are approved.
 
 ## Validation matrix
 

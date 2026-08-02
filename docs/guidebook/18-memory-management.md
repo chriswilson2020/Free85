@@ -18,7 +18,7 @@ The same screen opens from the home screen's `MEM` soft key ([F4]) and from
 the `MEM` soft key on the system mode screen ([2nd] [MORE] [F5]), so it is
 never more than two presses away. [EXIT] returns you to the home screen.
 
-Reading from the top: the title `MEMORY 2.0` names the store format, and
+Reading from the top: the title `MEMORY 2.10` names the store format, and
 `OBJECTS 26` counts every object it currently holds. On a fresh machine
 those twenty-six objects are the reserved variables `A` through `Z`. The
 middle line describes the selected object, here `A  TYPE 1  SIZE 9`: its

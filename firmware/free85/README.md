@@ -4,6 +4,16 @@ Free85 is an original open-source firmware for the repository's
 TI-85-compatible machine layer. It is not TI firmware and does not promise
 compatibility with TI programs, files, ROM calls, or internal data structures.
 
+## Current release
+
+Free85 2.10.0 is the stable Phase 14.10 release. The eight-bank ROM is exactly
+131,072 bytes and has SHA-256
+`5a02318d468bcb51d76b8610a4b77cadb0a34e47960de8cfdb00a558e505a088`.
+It freezes persistent RAM schema 13 and object-store schema 1. Run
+`npm run validate:free85` for the complete public validation package and use
+`SJASMPLUS=/path/to/sjasmplus npm run verify:free85:reproducible` to reproduce
+the ROM and Pages artifacts with pinned `sjasmplus` 1.21.1.
+
 The Phase 1 diagnostic firmware boots, initializes interrupts and the LCD,
 shows an original Free85 splash, and then reports every physical key press.
 The product and keypad/feature contracts live under `spec/free85/`.
@@ -23,13 +33,14 @@ Free85 numbers use an original nine-byte representation: a sign byte, signed
 decimal exponent, and fourteen packed BCD significant digits. Results are
 rounded half-up to fourteen digits. The normal exponent range is -128 through
 127; a result outside that range reports a recoverable numeric-range error
-rather than wrapping or exposing internal rounding digits. Underflow is
-reported as a range error rather than silently flushed to zero. Domain and
-divide-by-zero errors are also recoverable.
+rather than wrapping or exposing internal rounding digits. Magnitudes below
+1E-128 underflow deterministically to zero. Domain and divide-by-zero errors
+are recoverable.
 
 The numeric layer is independent of expression syntax and is shared by the
-Phase 4 evaluator. Integer powers currently accept exponents from -9 through
-9; general real powers belong with the Phase 5 logarithm and exponential work.
+Phase 4 evaluator. Integer powers use the direct packed-decimal path; general
+real powers use the Phase 5 logarithm/exponential implementation with explicit
+domain handling.
 
 ## Phase 4 expression engine
 
@@ -107,8 +118,9 @@ cycles tolerance through 1e-6, 1e-8, and 1e-10. Numerical failure is a
 recoverable dialog.
 
 Phase 6 code occupies bank 1 and calls the fixed packed-BCD/parser kernel in
-bank 0. This keeps graph-domain failures local to individual samples and leaves
-later ROM banks available for subsequent application phases.
+bank 0. This keeps graph-domain failures local to individual samples while the
+remaining banks host the collection, statistics, string, programming, system,
+and object-store applications.
 
 ## Phase 7 collection and complex applications
 
@@ -191,12 +203,13 @@ concatenation, length, substring, character extraction, lexical comparison,
 number-to-string, string-to-number, copy, swap, and clear operations. Numeric
 conversions use the same packed-decimal objects as the home evaluator.
 
-`2ND+CUSTOM` opens an alphabetically ordered catalog of 56 callable functions,
+`2ND+CUSTOM` opens an alphabetically ordered catalog of 84 callable functions,
 constants, and application commands. `ENTER` invokes the selected entry; F1-F5
 assign it to the corresponding custom slot. `CUSTOM` opens those five slots,
 and `MORE` returns to the catalog. Assignments live in versioned RAM and survive
-ordinary machine resets. `2ND+0` also opens a 26-character punctuation palette
-from home and inserts the selected character into the calling editor.
+ordinary machine resets. `2ND+0` opens the character palette from home and
+inserts punctuation, Greek, or international characters into the calling
+editor.
 
 Phase 9 occupies ROM bank 4. Its full RAM reservation, including framebuffer
 and stack, is 6,656 bytes, leaving 26,112 bytes free. Exact framebuffer goldens
@@ -311,8 +324,9 @@ faster. Ordinary key input remains
 visible within one 50 Hz display frame. Exact results and current limits live
 in `spec/free85/performance.json`.
 
-Release RAM, including stack and framebuffer, is 8,816 bytes, leaving 23,952
-bytes free. Versioned state is now schema 12. `FREE85.ROM`, source, build
+The historical 1.0 release used 8,816 bytes of RAM including stack and
+framebuffer, leaving 23,952 bytes free, and introduced state schema 12.
+`FREE85.ROM`, source, build
 instructions, licences/notices, complete feature coverage, performance report,
 known limitations, and browser-default integration are recorded by
 `spec/free85/release.json`. Release validation includes the full public suite,
@@ -338,7 +352,8 @@ and deletes with `DEL`. The complete layout and API are documented in
 ## Phase 14.3 shared graph engine
 
 Phase 14.3 routes Cartesian plot, trace, table, and numerical analysis through
-a mode-neutral evaluator for later polar and parametric adapters. Persistent
+a mode-neutral evaluator. The Phase 14.5 polar, parametric, and differential-
+equation adapters reuse that boundary. Persistent
 format bits control axes, coordinates, labels, grid, line/dot drawing,
 simultaneous/sequential sampling, and the three named equation slots.
 
@@ -378,6 +393,14 @@ The vector application's third menu page converts rectangular, cylindrical,
 and spherical triples using the active RAD/DEG setting. Exact LCD goldens and
 numeric round-trip tests are described in `docs/Free85-graph-modes.md`.
 
+## Phase 14.10 release contract
+
+Free85 2.10.0 freezes persistent RAM schema 13 and object-store schema 1. The
+fixed-ROM reset path accepts schema 13, migrates schema 12 transactionally, and
+initializes unsupported or corrupt state. The release command independently
+rebuilds the eight-bank ROM and Pages tree twice and binds their SHA-256 values
+to `spec/free85/reproducibility.json` and `spec/free85/release.json`.
+
 ## Clean-room rules
 
 - Do not copy or translate code, fonts, tables, layouts, or other data from a
@@ -401,7 +424,7 @@ Install `sjasmplus` v1.21.1 or newer, then run:
 
 ```sh
 npm run build:free85
-npm run test:free85
+npm run validate:free85
 ```
 
 If the assembler is not on `PATH`, provide its absolute location without
@@ -414,4 +437,5 @@ SJASMPLUS=/path/to/sjasmplus npm run build:free85
 The checked-in `ROM/FREE85.ROM` lets the normal Free85 tests run without an
 assembler. Use `npm run run:free85 -- GRAPH` for a headless framebuffer preview
 or `npm run test:free85:soak` for the three-minute emulated stability check.
-`npm run release:free85` rebuilds and validates the complete release bundle.
+`npm run release:free85` rebuilds and validates the complete release bundle;
+`npm run verify:free85:reproducible` runs the independent double-build gate.

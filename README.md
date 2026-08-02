@@ -16,15 +16,17 @@ The repository includes:
 
 ## Current status
 
-Free85 1.0 completes Phases 0-13: boot/diagnostics, UI and editor, packed-BCD numeric
-core, expression parsing, scientific functions, graphing, tables, numerical
-tools, complex numbers, lists, matrices, vectors, statistics, regression,
-statistical plots, simultaneous equations, polynomial roots, native strings,
-an alphabetical callable catalog, a character palette, and a persistent custom
-menu, a persistent on-calculator programming environment, system settings,
-five numeric memories, variables and memory management, number-base display,
-native link diagnostics, power control, lowercase alpha, and complete key/menu
-parity.
+Free85 2.10.0 is the stable Phase 14.10 release. It is a deterministic 128 KiB
+ROM with complete coverage of the applicable Free85 2.0 parity ledger,
+persistent RAM schema 13, object-store schema 1, and independently reproducible
+ROM and GitHub Pages artifacts. The home screen identifies the running release
+as `VERSION 2.10`.
+
+The original 1.0 baseline completed Phases 0-13: boot/diagnostics, UI and
+editor, packed-BCD numeric core, expression parsing, scientific functions,
+graphing, tables, numerical tools, complex numbers, collections, statistics,
+solvers, strings, catalog/custom menus, programming, system settings, memory,
+native link diagnostics, power control, and complete key/menu parity.
 
 The Phase 12 release adds deterministic performance gates, redundant-bank-call
 elision, packed release RAM, cached graph tokenisation, precomputed graph
@@ -42,7 +44,7 @@ ROM: 270 numeric comparisons, application-state probes, private LCD diagnostics,
 and chapter-level guidebook traceability. The public build and tests remain
 fully independent of proprietary files.
 
-Free85 2.0 work has reached Phase 14.9. Schema 13 adds a typed named-object
+Free85 2.10.0 completes Phase 14.10. Schema 13 adds a typed named-object
 directory, a 22,784-byte compacting heap, retryable migration from the 1.0
 state, exact capacity accounting, and an object-aware memory browser. Phase
 14.2 adds scalar numeric utilities, AUTO/SCI/ENG/FIX output, signed 16-bit
@@ -56,8 +58,9 @@ parametric, and differential-equation graphing; complex collections and linear
 algebra; solver/statistics parity; and the bounded programming language with
 native catalog dispatch. Phase 14.9 completes user constants, extended
 characters, typed memory accounting, and fault-tested Free85 link transfer and
-backup workflows. Physical-cable validation and final release hardening remain
-explicitly open.
+backup workflows. Phase 14.10 freezes schema 13, closes the applicable parity
+ledger, and publishes independently rebuilt ROM and Pages hashes. Physical-cable
+validation remains explicitly separate from the emulator-tested 2.0 release.
 
 ## Run the calculator
 
@@ -87,11 +90,13 @@ npm run run:free85 -- GRAPH
 ## Test
 
 ```sh
-npm test
-npm run benchmark:free85
-npm run test:free85:stress
-npm run test:free85:soak
+npm run validate:free85
+SJASMPLUS=/absolute/path/to/sjasmplus npm run verify:free85:reproducible
 ```
+
+The validation command runs the public functional, framebuffer, performance,
+10,000-event stress, 180-second soak, and Pages-build gates. Reproducibility
+requires the pinned `sjasmplus` 1.21.1 toolchain used by the release manifest.
 
 To add the optional private behavioural comparison:
 
@@ -124,11 +129,14 @@ SJASMPLUS=/absolute/path/to/sjasmplus npm run build:free85
 The build emits exactly eight 16 KiB pages at `ROM/FREE85.ROM` and reports
 per-bank usage under `firmware/free85/generated/`.
 
-To reproduce and validate the complete 1.0 release in one command:
+To reproduce and validate the complete 2.0 release in one command:
 
 ```sh
 SJASMPLUS=/absolute/path/to/sjasmplus npm run release:free85
 ```
+
+The release command builds the ROM and Pages artifact twice in isolated
+temporary directories and rejects any byte or tree-hash difference.
 
 ## Documentation
 
@@ -162,6 +170,8 @@ the generated appendices first.)
 - [Free85 2.0 parity progress](spec/free85/v2-parity-report.json)
 - [Firmware documentation](firmware/free85/README.md)
 - [Release manifest](spec/free85/release.json)
+- [Free85 2.0 release and migration notes](docs/Free85-2.0-release.md)
+- [Reproducibility report](spec/free85/reproducibility.json)
 - [Performance report](spec/free85/performance.json)
 - [Feature coverage](spec/free85/coverage.json)
 - [Known limitations](docs/known-limitations.md)

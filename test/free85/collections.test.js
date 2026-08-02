@@ -193,6 +193,30 @@ test("[matrix.identity] ID fills R with a 2x2 identity and leaves the vector reg
   assert.equal(harness.packedNumber(VECTOR_A + 1), 7, "ID must not clobber vector A's components");
 });
 
+test("[matrix.cell] the editor readout tracks the selected row and column", () => {
+  const glyphs = {
+    "..#....##.....#.....#.....#.....#....###........": 1,
+    ".###..#...#.....#....#....#....#....#####.......": 2
+  };
+  const cellDigit = (harness, column) => {
+    const frame = harness.machine.renderLcdBitmap();
+    let glyph = "";
+    for (let y = 16; y < 24; y += 1) {
+      for (let x = column * 6; x < column * 6 + 6; x += 1) {
+        glyph += frame.pixels[(y * frame.width) + x] ? "#" : ".";
+      }
+    }
+    return glyphs[glyph];
+  };
+  const harness = Free85Harness.boot();
+  tapAll(harness, ["2ND", "7"]);
+  for (const expected of [[1, 1], [1, 2], [2, 1], [2, 2]]) {
+    assert.deepEqual([cellDigit(harness, 5), cellDigit(harness, 7)], expected);
+    harness.tap("5");
+    harness.tap("ENTER");
+  }
+});
+
 test("[matrix.errors] singular and dimension errors are recoverable", () => {
   const singular = Free85Harness.boot();
   tapAll(singular, ["2ND", "7"]);

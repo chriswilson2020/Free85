@@ -287,11 +287,7 @@ p17_matrix_random:
     CALL utility_random
     POP DE
     LD HL, NUM_RESULT
-    CALL numeric_copy
-    EX DE, HL
-    LD DE, NUM_SIZE
-    ADD HL, DE
-    EX DE, HL
+    CALL numeric_copy               ; LDIR leaves DE on the next cell
     POP BC
     DJNZ .loop
     JP p7_set_result_mode
@@ -669,6 +665,7 @@ p17_matrix_condition_core:
     LD DE, P7_WORK_3
     CALL numeric_copy
     CALL p7_matrix_inverse_core
+    JP C, p7_fail_singular
     CALL p17_matrix_result_norm_value
     LD HL, P7_WORK_3
     LD DE, P7_WORK_2

@@ -183,8 +183,9 @@ p19_solver_field_pointer:
     RET Z
     LD HL, P19_SOLVER_LOWER
     CP P19_SOLVER_EDIT_UPPER
-    RET C
+    JR C, .numeric
     LD HL, P19_SOLVER_UPPER
+.numeric:
     OR A
     RET
 .invalid:

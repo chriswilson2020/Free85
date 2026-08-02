@@ -48,7 +48,9 @@ and values outside the window leave gaps instead of stopping the plot:
 `1/X` plots both branches with a one-column gap at `X=0`, `SQRT(X)` plots
 nothing left of the origin, and adjacent samples are joined into a connected
 curve only when they are fewer than seventeen pixels apart, so a vertical
-asymptote is not smeared into a false vertical line.
+asymptote is not smeared into a false vertical line. A graph-calculus
+command stored as the equation itself (`EVAL(2)` as `Y1`, say) is refused
+at every sample the same way: the plot completes with axes and no curve.
 
 Pressing [GRAPH] again on the graph screen replots. Pressing the `GRF` soft
 key ([F2] on the home screen's first menu page) opens the same graph screen.

@@ -148,6 +148,17 @@ test("[program.graph] GRAPH evaluates through the shared expression engine and o
   const harness = runProgram(["GRAPH 5*SIN(X)"], 5);
   assert.equal(harness.machine.read8(FREE85_UI_MODE_ADDRESS), SCREEN_GRAPH);
   assert.equal(harness.machine.read8(0x8510), 8);
+  // The run must end on the graph screen with the plot completing, not fall
+  // through the boot splash to home (bank-restore regression).
+  assert.equal(harness.machine.read8(P10_RUNNING), 0);
+  let frames = 0;
+  while (harness.machine.read8(0x8502) && frames < 10000) {
+    harness.runFrames(100);
+    frames += 100;
+  }
+  assert.equal(harness.machine.read8(0x8502), 0, "plot completes");
+  assert.equal(harness.machine.read8(FREE85_UI_MODE_ADDRESS), SCREEN_GRAPH);
+  assert.equal(harness.machine.read8(0x8501) & 1, 1, "equation stays enabled");
 });
 
 test("[program.stop] ON stops a runaway program without resetting persistent source", () => {

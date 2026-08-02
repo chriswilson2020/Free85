@@ -1105,7 +1105,7 @@ p10_command_graph:
     LD (P10_RUNNING), A
     ; Discard any program-menu key queued during the bank/screen transition.
     CALL events_init
-    JP ui_call_phase6_open_graph
+    JP bank_call_phase6_open_from_program
 
 ; DRAW accepts one hexadecimal operation code. Codes 0-B are drawing
 ; primitives and C-F are picture/GDB store and recall. Coordinate-bearing
@@ -1760,21 +1760,28 @@ p10_render_run:
 
 p10_render_input:
     CALL lcd_clear
+    ; The renderer ORs glyphs into the framebuffer, so draw the register
+    ; letter one clear cell after each keyword instead of at a fixed column.
     LD A, (P20_WAIT_MODE)
     CP P20_WAIT_STRING
     LD HL, p20_text_inpst
+    LD D, 13
     JR Z, .title_ready
     LD A, (P20_WAIT_ARG)
     OR A
     LD HL, p10_text_input
+    LD D, 6
     JR Z, .title_ready
     LD HL, p20_text_prompt
+    LD D, 7
 .title_ready:
+    PUSH DE
     LD B, 0
     LD C, 0
     CALL text_draw_string
+    POP DE
     LD A, (P10_INPUT_VARIABLE)
-    LD B, 6
+    LD B, D
     LD C, 0
     CALL text_draw_char
     CALL editor_render

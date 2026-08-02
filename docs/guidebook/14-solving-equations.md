@@ -38,10 +38,9 @@ to `A` and on around the alphabet, so three presses turn `VAR X` into
 `-10` and `10`. On a numeric page, digits, [.], and [(-)] build a
 value on an `EDIT` line, [ENTER] stores it and pages onward, and
 [CLEAR] abandons the half-typed line, following the entry rules of the
-editors below. One caveat in this release: the `LOWER` page ignores
-[ENTER], so the lower bound keeps whatever it already held (`-10` on a
-fresh machine). Until a firmware release repairs the field, steer the
-search with the guess and the upper bound instead.
+editors below. So [(-)] [5] [ENTER] on the `LOWER` page stores `-5`
+and pages on to `UPPER`, and paging back shows `LOWER` still holding
+`-5`.
 
 `SOLV` ([F1]) hunts for a root between the bounds and publishes a
 `ROOT` line and a `RES` residual line in the field area. The guess is
@@ -57,6 +56,14 @@ tolerance set with [2nd] [CLEAR], the `TOLER` legend of Chapter 3
 guess answers a `ROOT` of `-1.9999998807909` with `RES`
 `-4.768364E-7`, the -2 crossing under a little numerical dust, its
 residual inside the fresh `1E-6` tolerance.
+
+The bounds pick between roots just as the guess does, by fencing the
+scan in. Page to the bounds and store `1` and `5`, and `SOLV` answers
+a `ROOT` of `2` with `RES` `0`, the positive crossing alone inside
+the interval; store `-5` and `0` with a guess of `-3` instead and it
+answers the other root, a `ROOT` of `-1.9999998807909` with `RES`
+`-4.768364E-7`. A guess outside the bounds does no harm: it is still
+tried first, and the scan then keeps to the bounded interval.
 
 Four notices guard the search, each with the usual `CLEAR OR EXIT` way
 back. `SOLV` with no stored equation stops at `ENTER EQUATION HOME`.
@@ -168,8 +175,8 @@ Under the `SIMULTANEOUS` banner, `SIZE 2` gives the number of
 equations. `2X2` ([F2]), `3X3` ([F3]), and `4X4` ([F4]) set the size,
 [+] and [-] step it, and 4 is the release ceiling. The `CELL` line's
 first figure is the row you are in; its second figure always reads `3`
-in this release, just like the matrix editor's `CELL` line in
-chapter 13, so keep count as you step. Cells run row by row: each row
+in this release and does not follow your position along the row, so
+keep count as you step. Cells run row by row: each row
 takes its coefficients left to right and then its right-hand side, and
 [ENTER] steps through them with the same entry rules as the polynomial
 editor. `CLR` ([F5]) zeroes every cell, and [EXIT] keeps the contents.

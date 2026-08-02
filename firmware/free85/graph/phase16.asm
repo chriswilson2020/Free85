@@ -211,7 +211,47 @@ p16_graph_evaluate:
     RET C
     CP 128
     JP NC, numeric_domain_error
+    ; The solve walks GRAPH_CURRENT_X from XMIN, so keep the caller's query
+    ; point: tables and analysis continue stepping from it afterwards.
+    PUSH AF
+    LD HL, GRAPH_CURRENT_X
+    LD DE, P16_QUERY_X
+    CALL numeric_copy
+    POP AF
     CALL p16_diffeq_solve
+    RET C
+    ; Finish with one partial Euler step from the last whole sample so
+    ; off-grid queries report the integrated value at the query point.
+    LD HL, GRAPH_RESULT_Y
+    LD DE, VARIABLES + 24 * NUM_SIZE
+    CALL numeric_copy
+    XOR A
+    CALL p6_evaluate_slot
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, VARIABLES + 24 * NUM_SIZE
+    CALL numeric_copy
+    LD HL, P16_QUERY_X
+    LD DE, GRAPH_CURRENT_X
+    CALL sci_subtract_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, VARIABLES + 24 * NUM_SIZE
+    CALL sci_multiply_objects
+    RET C
+    LD HL, GRAPH_RESULT_Y
+    LD DE, NUM_RESULT
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_RESULT_Y
+    CALL numeric_copy
+    LD HL, P16_QUERY_X
+    LD DE, GRAPH_CURRENT_X
+    CALL numeric_copy
+    LD HL, P16_QUERY_X
+    LD DE, GRAPH_RESULT_X
+    CALL numeric_copy
     LD HL, GRAPH_RESULT_Y
     LD DE, NUM_RESULT
     CALL numeric_copy
@@ -411,18 +451,27 @@ p16_trace_at:
     JP p6_draw_trace_values
 
 p16_trace_diffeq:
+    LD A, B
     CALL p16_diffeq_solve
     JP p6_draw_trace_values
 
 ; A=sample index. Reintegrate from the mode's independent initial Y value.
+; The independent variable accumulates as an offset from XMIN in GRAPH_RESULT_X
+; (dead until .done) so Y and the offset round identically step for step and
+; the query remainder in p16_graph_evaluate cancels against the step sums.
 p16_diffeq_solve:
     LD B, A
+    PUSH BC
+    LD HL, p6_const_zero
+    LD DE, GRAPH_RESULT_X
+    CALL numeric_copy
     LD HL, GRAPH_XMIN
     LD DE, GRAPH_CURRENT_X
     CALL numeric_copy
     LD HL, P16_INITIAL_Y
     LD DE, GRAPH_RESULT_Y
     CALL numeric_copy
+    POP BC
 .loop:
     LD A, B
     OR A
@@ -445,8 +494,14 @@ p16_diffeq_solve:
     LD HL, NUM_RESULT
     LD DE, GRAPH_RESULT_Y
     CALL numeric_copy
-    LD HL, GRAPH_CURRENT_X
+    LD HL, GRAPH_RESULT_X
     LD DE, GRAPH_XSTEP
+    CALL sci_add_objects
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_RESULT_X
+    CALL numeric_copy
+    LD HL, GRAPH_XMIN
+    LD DE, GRAPH_RESULT_X
     CALL sci_add_objects
     LD HL, NUM_RESULT
     LD DE, GRAPH_CURRENT_X

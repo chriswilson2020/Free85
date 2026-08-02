@@ -136,6 +136,22 @@ bank_call_phase6_open_from_solver:
     POP AF
     RET
 
+; Program bank 5 stores the shared-editor expression as the active graph
+; equation and ends the run on the graph screen. Restore bank 5 before
+; returning so the interpreter's continuation remains mapped; without the
+; restore the RET lands in unrelated bank-1 bytes and falls through reset.
+bank_call_phase6_open_from_program:
+    LD A, 1
+    CALL bank_select
+    CALL PHASE6_OPEN_GRAPH
+    ; A program can enter the graph late in an emulated frame. Reassert the
+    ; destination screen after the complete banked setup returns.
+    LD A, SCREEN_GRAPH
+    LD (UI_SCREEN_MODE), A
+    LD A, 5
+    CALL bank_select
+    RET
+
 ; Program bank 5 can display the already-stored active graph equation without
 ; replacing it with the current program source line.
 bank_call_phase6_display_from_program:

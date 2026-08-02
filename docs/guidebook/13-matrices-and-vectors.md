@@ -24,13 +24,12 @@ a time; press [x-VAR] and the same keys resize columns instead, and
 the release limit of 3, so pressing [+] beyond `SIZE 3X3` changes
 nothing.
 
-The `CELL` line tracks the selected cell as you move: the first figure
-after `CELL` is the cell's row, and the value of the cell sits on the
-line below. The second figure on the `CELL` line always reads `3` in
-this release and does not follow the column, so keep count as you step,
-and let the value line confirm the cell. Cells run in reading order,
-left to right along row 1, then row 2, and so on. Typing and storing
-work exactly as in the list
+The `CELL` line tracks the selected cell as you move: the two figures
+after `CELL` are the cell's row and column, and the value of the cell
+sits on the line below, so stepping through the screenshot's matrix
+reads `CELL 1 1` to `CELL 2 2` with 1, 2, 3, 4 beneath. Cells run in
+reading order, left to right along row 1, then row 2, and so on.
+Typing and storing work exactly as in the list
 editor: digits, [.], and [(-)] build a value on the `EDIT` line, [ENTER]
 stores it and steps to the next cell, wrapping at the end, and the
 cursor keys step without storing. So the matrix in the screenshot is
@@ -132,17 +131,13 @@ answers. With 1, 2, 3, 4 in `A`, each answer is a `SIZE 1X1` result:
   `6`, from the column 2, 4.
 - **`COND`** ([F4]) is the condition number (elsewhere `cond`), the
   Frobenius norm of `A` times the Frobenius norm of its inverse: `15`.
-  A singular `A` has no inverse and no condition number; in this
-  release the key then leaves a half-finished figure in `R` and the
-  next keypress trips a stray `END OF ENTRY` notice. Until a firmware
-  release repairs the guard, ask `COND` about invertible matrices
-  only.
-- **`RND`** ([F5]) fills at `A`'s size with values from the same
-  deterministic sequence as chapter 3's `RAND` (elsewhere `randM`). In
-  this release the fill lands on every other cell in reading order and
-  leaves zeros between: from a fresh boot a 2 by 2 answers `0.7968`,
-  `0`, `0.8984`, `0`. Until a firmware release repairs the fill, count
-  on the odd-numbered cells only.
+  A singular `A` has no inverse and no condition number, so the key
+  stops at the same `SINGULAR MATRIX` notice as `INV` (try 1, 2, 2,
+  4).
+- **`RND`** ([F5]) fills every cell at `A`'s size with values from
+  the same deterministic sequence as chapter 3's `RAND` (elsewhere
+  `randM`): from a fresh boot a 2 by 2 answers `0.7968`, `0.8984`,
+  `0.4492`, `0.7246` in reading order.
 
 ## Decompositions and eigensystems
 

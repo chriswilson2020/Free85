@@ -664,7 +664,9 @@ p7_render_matrix:
     CALL p7_matrix_selected_rc
     LD A, B
     INC A
+    PUSH BC
     CALL p7_draw_digit_at_5_2
+    POP BC
     LD A, C
     INC A
     CALL p7_draw_digit_at_7_2
@@ -836,6 +838,7 @@ p7_draw_digit:
     LD HL, P7_WORK_INDEX
     JP text_draw_string
 
+; Returns B = selected row, C = selected column, both zero-based.
 p7_matrix_selected_rc:
     CALL p7_active_matrix_base
     INC HL
@@ -844,10 +847,13 @@ p7_matrix_selected_rc:
     LD B, 0                    ; row
 .loop:
     CP C
-    RET C
+    JR C, .column
     SUB C
     INC B
     JR .loop
+.column:
+    LD C, A
+    RET
 
 ; ---------------------------------------------------------------------------
 ; Packed-decimal helpers
@@ -2205,7 +2211,7 @@ p7_matrix_inverse_impl:
     LD B, A
     LD A, (P7_ROWS)
     CP B
-    JP Z, p7_fail_singular
+    JP Z, .singular
     LD A, (P7_PIVOT)
     LD C, A
     LD A, (P7_K)
@@ -2414,6 +2420,14 @@ p7_matrix_inverse_impl:
     OR A
     RET NZ
     JP p7_set_result_mode
+.singular:
+    ; When CALLed as a core, return carry so the caller can abort before the
+    ; notice screen gets repainted over.
+    LD A, (P7_OP)
+    OR A
+    JP Z, p7_fail_singular
+    SCF
+    RET
 
 p7_matrix_rref:
     LD A, (P7_MATRIX_A + P7_MATRIX_ROWS)

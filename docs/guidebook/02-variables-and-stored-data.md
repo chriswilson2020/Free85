@@ -113,25 +113,27 @@ A few names are special:
 ## The typed object store
 
 Underneath all of this, every stored item lives in one typed object store,
-kept in the 2.0 store format that gives the memory browser its
-`MEMORY 2.10` title. The store has room for named objects of eleven kinds
-(real numbers, complex numbers, lists, matrices, vectors, strings,
-equations, programs, user constants, graph databases, and pictures), its
-names can run to eight characters, and the browser names every entry's
-kind with a word: `A` is listed with `TYPE REAL`, and a stored picture
-with `TYPE PICTURE`. The one-letter rule above belongs to real-number
-variables; the longer names go with the other object types.
+kept in the store format introduced with Free85 2.0; the memory browser's
+banner names the running release, `MEMORY 2.10`. The store has room for
+named objects of eleven kinds (real numbers, complex numbers, lists,
+matrices, vectors, strings, equations, programs, user constants, graph
+databases, and pictures), its names can run to eight characters, and the
+browser names every entry's kind with a word: `A` is listed with
+`TYPE REAL`, and a stored picture with `TYPE PICTURE`. The one-letter
+rule above belongs to real-number variables; the longer names go with the
+other object types.
 
 Beyond the reserved reals, the store fills through the calculator's own
 workflows rather than through the store arrow. A fresh machine carries
 the twenty-six reserved reals and nothing else, and the chapters ahead
-add to them: chapter 8 (Physical and User Constants and Conversions)
-creates user constants, chapter 16 (Calculator Programming) creates
+add to them: Chapter 8 (Physical and User Constants and Conversions)
+creates user constants, Chapter 16 (Calculator Programming) creates
 programs, and the graphing chapters, beginning with chapter 4, store
 graph databases and pictures. Lists, matrices, vectors, strings, and
-complex working values never become named objects at all. This is a
-deliberate design: each lives in its own editor's working registers, such
-as the two working lists and result list of chapter 12 (Lists), which
+complex working values never become named objects at all, though the
+store format keeps a type reserved for each. This is a deliberate design:
+each lives in its own editor's working registers, such as the two working
+lists and result list of Chapter 12 (Lists), which
 keep their contents when you leave the editor but never appear in the
 memory browser. The stored graph equations likewise stay in their three
 slots `Y1`, `Y2`, and `Y3` outside the store. Chapter 18 tours the

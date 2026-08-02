@@ -138,7 +138,11 @@ the `GRAPH MODE` page appears; its soft keys `FN POL PAR DEQ GC` choose
 between function, polar, parametric, and differential-equation graphing and
 toggle the coordinate readout. Chapter 4 (Cartesian Graphing, Drawing,
 Formats, and Persistence) covers the format pages, and the graphing chapters
-that follow it cover each graph type.
+that follow it cover each graph type. The complex and vector display
+choices live in their editors the same way: the complex editor of
+Chapter 11 (Complex Numbers) converts between forms with its `RECT` and
+`POLAR` soft keys, and the vector editor of Chapter 13 (Matrices and
+Vectors) shows its coordinate form as a tag, `RECTV` on a fresh machine.
 
 ## The catalog and the custom menu
 
@@ -174,7 +178,7 @@ middle of the screen looks empty until you move:
 
 All four cursor keys step through the character set: [▶] and [▼] go forward,
 [◀] and [▲] go backward, and the ends wrap around (stepping back from the
-space character lands on `ç`, the last character in the set). The hint
+space character lands on the c cedilla at the far end). The hint
 `ARROWS ENTER` and the label `INSERT` say the rest: press [ENTER] to insert
 the shown character into your entry line, or [EXIT] to leave with the entry
 untouched. One step right of the space character is `!`, so [2nd] [0] [▶]
@@ -185,12 +189,13 @@ twenty-five punctuation marks that follow it, from `!` to `_`, come first;
 after them the palette continues into twenty-four Greek letters (the
 capitals Alpha, Beta, Gamma, Delta, Theta, Lambda, Xi, Pi, Sigma, Phi, Psi,
 and Omega, then the same alphabet in lowercase with mu in place of Xi) and
-finishes with the four international characters `é`, `ñ`, `ü`, and `ç`. The
-Greek and international characters insert exactly as the punctuation does:
-twenty-six steps right of the space character is the capital Alpha, and
-[ENTER] there appends it to your entry. Appendix A files the additions under
-the labels `Greek-characters` and `international-characters`. Chapter 9
-covers the character set and string values in full.
+finishes with four international characters: e acute, n tilde, u umlaut,
+and c cedilla. The Greek and international characters insert exactly as the
+punctuation does: twenty-six steps right of the space character is the
+capital Alpha, and [ENTER] there appends it to your entry. Appendix A
+catalogues the additions as `Greek-characters` and
+`international-characters`. Chapter 9 covers the character set and string
+values in full.
 
 ## When something goes wrong
 

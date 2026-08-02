@@ -85,8 +85,10 @@ elsewhere `TwoVar`) computes the paired summary: `MEANX` reads `3`,
 `LIN` ([F3], elsewhere `LinR`) fits the least-squares line through the
 pairs and answers a result screen: `MOD LIN` names the model, `A`, the
 intercept, reads `2.2`, and `B`, the slope, reads `0.6`, so the fitted
-line is y = 2.2 + 0.6x. The footer's `EXIT BACK` returns to the
-editor. The screen stops at the coefficients: the correlation lives on
+line is y = 2.2 + 0.6x. The footer reads `EXIT BACK`, and the two
+ways off the screen differ: [EXIT] leaves for the home screen, and
+[CLEAR] returns to the editor. The screen stops at the coefficients:
+the correlation lives on
 the `2V` screen alone, so read `R` there before or after the fit.
 
 ![The linear regression of the five pairs](images/ch15-regression-result.png)
@@ -131,11 +133,13 @@ through `D 0` and `E 1`.
 Two guards protect the transformed fits. The logarithm asks for
 positive data, so `LNR` with a zero or negative `X` entry, `EXPR` with
 one in `Y`, or `PWR` with either answers the `POSITIVE DATA NEEDED`
-notice (its final letter falls off the 21-column screen), and the
-usual `CLEAR OR EXIT` returns to the editor. A polynomial needs at
-least one pair per coefficient, three for `P2` up to five for `P4`;
-fewer answers the `NEED TWO SAMPLES` notice, whose wording stays the
-same however many samples the model really wanted.
+notice (its final letter falls off the 21-column screen). A
+polynomial needs at least one pair per coefficient, three for `P2` up
+to five for `P4`; fewer answers the `NEED TWO SAMPLES` notice, whose
+wording stays the same however many samples the model really wanted.
+Both notices show the usual `CLEAR OR EXIT` footer, but here either
+key dismisses to the home screen rather than back to the data, so
+press [STAT] to return to the editor.
 
 ## Forecasting
 
@@ -159,11 +163,13 @@ solved directly; for `P2` through `P4` the machine searches the span
 between the data's smallest and largest `X` and answers the first
 crossing it finds in ascending order. When no x in that span produces
 the target y, the search gives up at the `FCSTX NEEDS 2-COEFF`
-notice, so an inverse forecast outside the data's range needs the
+notice, which dismisses to the home screen like the fitting guards
+above; an inverse forecast outside the data's range needs the
 two-coefficient families.
 
-The forecast keeps: leaving for the editor or the home screen does not
-clear it, and `SHW` below repaints it on demand.
+The `FORECAST` screen leaves like the result screens, [EXIT] for the
+home screen and [CLEAR] for the editor, and the forecast keeps either
+way: `SHW` below repaints it on demand.
 
 ## Sorting and recalling
 

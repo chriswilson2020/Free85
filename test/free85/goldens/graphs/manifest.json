@@ -51,6 +51,12 @@
       "checksum": "A73D5C60"
     },
     {
+      "name": "phase19-home-version",
+      "keys": [],
+      "litPixelCount": 725,
+      "checksum": "4AA92086"
+    },
+    {
       "name": "phase7-complex-editor",
       "keys": [
         "2ND",

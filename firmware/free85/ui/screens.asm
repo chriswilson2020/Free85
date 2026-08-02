@@ -23,6 +23,17 @@ screen_show_home:
     LD B, 5
     LD C, 1
     CALL text_draw_string
+    LD A, (EDITOR_LENGTH)
+    OR A
+    JR NZ, .editor
+    LD A, (RESULT_VISIBLE)
+    OR A
+    JR NZ, .editor
+    LD HL, text_version
+    LD B, 5
+    LD C, 2
+    CALL text_draw_string
+.editor:
     CALL editor_render
     LD A, (RESULT_VISIBLE)
     OR A
@@ -175,6 +186,7 @@ text_free85:      DB "FREE85", 0
 text_open_z80:    DB "OPEN Z80", 0
 text_calculator:  DB "CALCULATOR", 0
 text_home:        DB "FREE85 HOME", 0
+text_version:     DB "VERSION 2.7", 0
 text_status_rad:  DB "RAD AUTO", 0
 text_status_deg:  DB "DEG AUTO", 0
 text_status_rad_sci: DB "RAD SCI", 0

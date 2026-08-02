@@ -6,9 +6,9 @@ import test from "node:test";
 test("[release.bundle] the checked-in development ROM remains reproducible", async () => {
   const manifest = JSON.parse(await readFile("spec/free85/release.json", "utf8"));
   const rom = await readFile(manifest.rom.path);
-  assert.equal(manifest.version, "1.0.0");
+  assert.equal(manifest.version, "2.7.0");
   assert.equal(manifest.phase, "14.7");
-  assert.equal(manifest.target_release, "2.0.0");
+  assert.equal(manifest.target_release, "2.7.0");
   assert.equal(manifest.status, "development");
   assert.equal(manifest.license, "MIT");
   assert.equal(rom.length, 131072);

@@ -22,6 +22,7 @@ const formattedGraphCases = [
   }
 ];
 const screenCases = [
+  { name: "phase19-home-version", keys: [] },
   { name: "phase7-complex-editor", keys: ["2ND", "9"] },
   { name: "phase7-list-editor", keys: ["2ND", "-"] },
   { name: "phase7-matrix-editor", keys: ["2ND", "7"] },

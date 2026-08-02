@@ -8,10 +8,10 @@ account of the graph areas that are not built yet, namely drawing commands,
 and graph storage. Every key sequence and every
 quoted number below was run in the emulator on a fresh machine.
 
-Free85 currently graphs in one mode: real functions of the graph variable
-`X` (elsewhere `Func`). The polar, parametric, and
-differential-equation modes have their own chapters (5, 6, and 7), which
-describe what is planned and what the calculator does today.
+Free85 graphs in four modes; this chapter describes the default: real
+functions of the graph variable `X` (elsewhere `Func`). The polar,
+parametric, and differential-equation modes have their own chapters (5,
+6, and 7) and share everything described here.
 
 > 🔌 **Hardware:** all graphing in this chapter, including plot speed and
 > the LCD captures, is validated in the emulator; physical hardware
@@ -233,8 +233,9 @@ Press [MORE] for the second format page. [F1] selects `SimulG` or `SeqG`:
 simultaneous mode samples every enabled equation at each X column, whereas
 sequential mode completes one equation before starting the next. Both produce
 the same final framebuffer. [F2], [F3], and [F4] toggle `Y1`, `Y2`, and `Y3`;
-[F5] moves directly to the zoom panel. [EXIT] applies the persistent settings
-and redraws.
+[F5] moves directly to the zoom panel. A further press of [MORE] reaches the
+graph mode page of chapters 5 to 7, and the pages then cycle. [EXIT] applies
+the persistent settings and redraws.
 
 ## Drawing on a graph
 

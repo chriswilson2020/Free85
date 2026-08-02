@@ -41,6 +41,31 @@ export const SCREEN_CASES = [
   // F1 on the graph screen finds a root of the active equation and
   // publishes it on the home screen with its residual line.
   { name: "ch04-root-result", keys: ["X-VAR", "X^2", "-", "4", "GRAPH", 600, "F1", 1500] },
+  // The graph mode page: the third page of the graph format panel, opened
+  // from a completed axes-only plot.
+  { name: "ch05-polar-mode-page", keys: ["GRAPH", 100, "2ND", "MORE", "MORE", "MORE"] },
+  // Polar mode via F2 (which replots immediately), then r=5 stored from the
+  // home entry line; the polar sweep takes far longer than a function plot.
+  {
+    name: "ch05-polar-circle",
+    keys: ["GRAPH", 100, "2ND", "MORE", "MORE", "MORE", "F2", 100, "EXIT", 30,
+      "5", "GRAPH", 6000]
+  },
+  // Parametric mode via F3, x(t)=5*COS(X) in slot 1, y(t)=5*SIN(X) in
+  // slot 2; both slots must hold text before the pair draws.
+  {
+    name: "ch06-parametric-circle",
+    keys: ["GRAPH", 100, "2ND", "MORE", "MORE", "MORE", "F3", 100, "EXIT", 30,
+      "5", "*", "COS", "X-VAR", ")", "GRAPH", 3000,
+      "2ND", "2", 30, "5", "*", "SIN", "X-VAR", ")", "GRAPH", 6000]
+  },
+  // Differential-equation mode via F4 on a fresh machine (initial condition
+  // seeds from Y holding 0), then dy/dx=1 plots the line through (-10,0).
+  {
+    name: "ch07-diffeq-line",
+    keys: ["GRAPH", 100, "2ND", "MORE", "MORE", "MORE", "F4", 600, "EXIT", 30,
+      "1", "GRAPH", 900]
+  },
   { name: "ch08-constants-menu", keys: ["2ND", "4"] },
   // CTOF( from the conversions menu's second page, applied to 100 degrees
   // Celsius, shows a conversion evaluated on the home screen.

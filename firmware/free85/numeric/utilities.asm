@@ -793,6 +793,14 @@ utility_calculus_interpolate:
     LD HL, PHASE14_CALC_INTERP
 utility_calculus_call:
     LD (UTIL_SOURCE), HL
+    ; The calculus context save is single-level, so a graph-calculus name
+    ; inside a graph equation would recurse until the stack destroys system
+    ; state. Answer SYNTAX ERROR instead of re-entering.
+    LD A, (GRAPH_CALC_ACTIVE)
+    OR A
+    JP NZ, numeric_syntax_error
+    LD A, 1
+    LD (GRAPH_CALC_ACTIVE), A
     CALL bank_get
     PUSH AF
     LD A, 1
@@ -803,6 +811,8 @@ utility_calculus_call:
     POP BC
     POP AF
     CALL bank_select
+    XOR A
+    LD (GRAPH_CALC_ACTIVE), A
     PUSH BC
     POP AF
     RET

@@ -131,6 +131,7 @@ p6_start_plot:
     LD (GRAPH_PLOT_X), A
     LD (GRAPH_PREV_VALID), A
     LD (GRAPH_TOKEN_VALID), A
+    LD (GRAPH_CALC_ACTIVE), A
     LD A, 64
     LD (GRAPH_TRACE_X), A
     LD HL, p6_const_zero

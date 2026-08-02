@@ -112,6 +112,7 @@ test("[program.phase20.io] GetKey is nonblocking while Pause and Prompt resume d
 
   const prompt = runProgram(["PROMPT A", "DISP A*2", "STOP"], 1);
   assert.equal(prompt.machine.read8(P20_WAIT_MODE), 1);
+  assertLcdGolden("phase20-prompt-banner", prompt.machine.renderLcdBitmap());
   prompt.tap("6");
   prompt.tap("ENTER");
   prompt.runFrames(20);

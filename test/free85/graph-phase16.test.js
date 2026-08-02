@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { Free85Harness } from "../helpers/free85-harness.js";
 import { assertLcdGolden } from "../helpers/lcd-visual.js";
+import { readNumericLines } from "../../scripts/free85-lcd-ocr.js";
 
 const GRAPH_EQ1 = 0x8510;
 const GRAPH_EQ2 = 0x8541;
@@ -91,10 +92,23 @@ test("[graph.diffeq] Euler solve, trace reintegration, table, and cancellation a
   const harness = enterModeEquation("F4", "1");
   assert.equal(harness.machine.read8(GRAPH_MODE), 3);
   assertLcdGolden("phase16-diffeq", harness.machine.renderLcdBitmap());
-  harness.tap("LEFT");
-  assert.ok(Number.isFinite(harness.packedNumber(GRAPH_RESULT_Y)));
+  // dy/dx=1 seeded with Y=0 solves to y=x+10 on the standard window. Each
+  // trace step reintegrates from (Xmin, initial Y), which spans many frames.
+  harness.tap("RIGHT");
+  harness.runFrames(200);
+  harness.tap("RIGHT");
+  harness.runFrames(200);
+  const traceX = -10 + 66 * (20 / 127);
+  assert.ok(Math.abs(harness.packedNumber(GRAPH_RESULT_X) - traceX) < 1e-9, "trace advances along the solution");
+  assert.ok(Math.abs(harness.packedNumber(GRAPH_RESULT_Y) - (traceX + 10)) < 1e-9, "trace reports the integrated value");
   harness.tap("MORE");
+  harness.runFrames(2500);
   assert.equal(harness.machine.read8(0x800b), 3);
+  // The table X column steps 0..5 and Y1 reports the integrated y=x+10.
+  const rows = readNumericLines(harness.machine.renderLcdBitmap(), { originX: 0, originY: 0 })
+    .filter(({ row }) => row >= 1 && row <= 6)
+    .map(({ text }) => text.replace(/\s+/g, " "));
+  assert.deepEqual(rows, ["0 10 - -", "1 11 - -", "2 12 - -", "3 13 - -", "4 14 - -", "5 15 - -"]);
   harness.tap("GRAPH");
   harness.runFrames(8);
   if (harness.machine.read8(0x800b) === 3) harness.tap("GRAPH");
@@ -105,4 +119,34 @@ test("[graph.diffeq] Euler solve, trace reintegration, table, and cancellation a
   harness.tap("EXIT");
   harness.runFrames(8);
   assert.equal(harness.machine.read8(GRAPH_ACTIVE), 0);
+});
+
+test("[graph.eval-guard] a graph-calculus name stored in a graph slot errors instead of crashing", () => {
+  const storeSlot = (harness, source) => {
+    harness.machine.write8(GRAPH_EQ1, source.length);
+    for (let index = 0; index < source.length; index += 1) {
+      harness.machine.write8(GRAPH_EQ1 + 1 + index, source.charCodeAt(index));
+    }
+    harness.machine.write8(GRAPH_ENABLED, 1);
+  };
+
+  // Function mode: EVAL(2) as Y1 re-enters the single-level calculus context.
+  const cartesian = Free85Harness.boot();
+  cartesian.tap("GRAPH");
+  finishPlot(cartesian);
+  storeSlot(cartesian, "EVAL(2)");
+  cartesian.tap("GRAPH");
+  finishPlot(cartesian);
+  assert.equal(cartesian.machine.read8(0x800b), 2, "plot stays on the graph screen");
+
+  // Polar mode: the originally reported crash stored EVAL(2) as r(theta).
+  const polar = Free85Harness.boot();
+  polar.tap("GRAPH");
+  finishPlot(polar);
+  selectMode(polar, "F2");
+  storeSlot(polar, "EVAL(2)");
+  polar.tap("GRAPH");
+  finishPlot(polar);
+  assert.equal(polar.machine.read8(GRAPH_MODE), 1);
+  assert.equal(polar.machine.read8(0x800b), 2, "polar plot stays on the graph screen");
 });

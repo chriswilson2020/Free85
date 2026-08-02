@@ -5,15 +5,15 @@
   "pages": [
     {
       "page": 0,
-      "used_bytes": 15640,
-      "free_bytes": 744,
-      "percent_used": 95.46
+      "used_bytes": 15675,
+      "free_bytes": 709,
+      "percent_used": 95.67
     },
     {
       "page": 1,
-      "used_bytes": 9774,
-      "free_bytes": 6610,
-      "percent_used": 59.66
+      "used_bytes": 9899,
+      "free_bytes": 6485,
+      "percent_used": 60.42
     },
     {
       "page": 2,
@@ -35,9 +35,9 @@
     },
     {
       "page": 5,
-      "used_bytes": 5444,
-      "free_bytes": 10940,
-      "percent_used": 33.23
+      "used_bytes": 5451,
+      "free_bytes": 10933,
+      "percent_used": 33.27
     },
     {
       "page": 6,

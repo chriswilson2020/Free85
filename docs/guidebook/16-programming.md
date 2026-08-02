@@ -126,12 +126,12 @@ arguments.
 | `STOP` | end the run |
 | `GRAPH e` | store `e` as the active equation |
 | `DISPG` | end the run on the graph screen |
-| `STTOEQ S,n` / `EQTOST n,S` | copy string `S` into equation slot `n` and back |
+| `STTOEQ S,n` / `EQTOST n,S` | copy a string to equation slot `n`, and back |
 | `LSET i,e` / `LGET i,V` | write and read entry `i` of list `A` |
 | `MSET r,c,e` / `MGET r,c,V` | write and read cell `r,c` of matrix `A` |
 | `VSET i,e` / `VGET i,V` | write and read entry `i` of vector `A` |
-| `VOUT text` / `VIN V` | write to and read from the open device |
-| `PRTSCRN` | print the display to the open device |
+| `VOUT text` / `VIN V` | write to and read from the virtual device |
+| `PRTSCRN` | print the display to the virtual device |
 | `CAT command` | run a catalog function (`CAT ` is optional) |
 | `COLL n` / `STATC n` | end the run on a collection or statistics result |
 | `SOLVER e` / `GMODE n` | end the run on the solver or the graph mode `n` |
@@ -223,7 +223,7 @@ STOP
 answers `0`, the value of `A` when the test finally failed.
 
 `REPEAT` (elsewhere `Repeat`) is its mirror: the block repeats until
-the expression is nonzero. One honest difference from its namesake:
+the expression is nonzero. One real difference from its namesake:
 elsewhere `Repeat` tests after the body, so the body always runs at
 least once, while here the test sits at the `REPEAT` line and runs
 before every pass, the first included. This program:
@@ -291,7 +291,10 @@ STOP
 ```
 
 answers `1`: the increment took `A` to 1, 1 exceeds 0, and the
-`DISP 0` was skipped. The mirror program:
+`DISP 0` was skipped; the `IS>` line itself is typeable through the
+[STO▶] trick from the editor section. The runner carries the mirror
+`DS<` too, though nothing you can type on this release reaches it,
+because no trick produces the `<`; for the record, its behaviour:
 
 ```text
 2->A
@@ -301,12 +304,9 @@ DISP A
 STOP
 ```
 
-also answers `1` from `DISP A`, the decrement landing below 2. Mind
-the keyboard gap from the editor section: `IS>` can be typed with the
-[STO▶] trick, but `DS<` cannot currently be keyed in at all, so
-although the runner carries it, nothing you can type on this release
-reaches it; until a firmware release opens a way to type `<`, count
-downward with `WHILE` and a stored variable instead.
+answers `1` from `DISP A`, the decrement landing below 2. Until a
+firmware release opens a way to type `<`, count downward with `WHILE`
+and a stored variable instead.
 
 ## Program menus
 
@@ -489,8 +489,9 @@ and the 31-character register ceiling bounds the equation text.
 
 ## The virtual device
 
-Three instructions talk to an open device standing in for a physical
-port. `VOUT text` writes its literal text, up to 25 bytes, into the
+Three instructions talk to the built-in virtual device, a 25-byte
+buffer that stands in for a physical device port and is always ready
+to use. `VOUT text` writes its literal text, up to 25 bytes, into the
 device buffer; `VIN V` reads the buffer back, parses it as a number,
 and stores it in `V`; `PRTSCRN` (elsewhere `PrtScrn`) prints the
 display to the device, which in this release records the eight
@@ -510,10 +511,10 @@ through the device, and leaves `LCD:1024` in the buffer. `VOUT 3.5`
 followed by `VIN A` stores `3.5`, and text longer than 25 bytes stops
 the run at the `ERROR LINE` notice.
 
-> 🔌 **Hardware:** `VOUT`, `VIN`, and `PRTSCRN` drive an open virtual
-> device standing in for the physical port that CBL-style external
-> forms of `Input` and `Outpt` expect; physical hardware validation is
-> reported separately.
+> 🔌 **Hardware:** `VOUT`, `VIN`, and `PRTSCRN` drive the built-in
+> virtual device standing in for the physical port that CBL-style
+> external forms of `Input` and `Outpt` expect; physical hardware
+> validation is reported separately.
 
 ## Reaching the rest of the calculator
 
@@ -543,8 +544,9 @@ back, but the screen you land on holds them.
 - **`GRAPH e`** stores `e` as equation slot 1 and enables it. In this
   release the run then falls back through the start-up banner to the
   home screen rather than staying on the plot; the stored equation
-  survives, so pressing [GRAPH] draws it, and `DISPG` below is the
-  dependable way to end a run on the plot.
+  survives, so pressing [GRAPH] draws it. Until a firmware release
+  repairs the fall-through, `DISPG` below is the dependable way to
+  end a run on the plot.
 - **`DISPG`** (elsewhere `DispG`) ends the run on the graph screen,
   drawing whatever equations are stored and enabled. It does not
   return: lines after `DISPG` never run, so it is a closing statement,
@@ -555,10 +557,12 @@ back, but the screen you land on holds them.
   conversions), 5 through 7 the vector keys (dimension, fill,
   magnitude), and 8 through 17 the matrix keys (echelon reduction,
   the three norms, condition number, LU factors, eigenvalues,
-  eigenvectors, dimension, fill). `LSET 2,42` then `COLL 0` lands on
-  the list screen with the result `R` holding `4`: a fresh machine's
-  list already holds four entries, so 4 is its dimension. The complex
-  editor of chapter 11 is not among the codes.
+  eigenvectors, dimension, fill). `LSET 2,42` then `COLL 2` lands on
+  the list screen with the sorted result `R` showing `42` at
+  `INDEX 1`, the descending sort having carried the written value
+  ahead of the zeros; the result's `SIZE 4` is a reminder that a
+  fresh machine's list already holds four entries. The complex editor
+  of chapter 11 is not among the codes.
 - **`STATC n`** runs statistics operation `n` (0 through 10) over the
   columns of Chapter 15 (Statistics and Statistical Plots), which are
   lists `A` and `B`: 0 and 1 are `1V` and `2V`, 2 through 8 the

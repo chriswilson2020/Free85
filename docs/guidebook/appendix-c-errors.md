@@ -119,6 +119,9 @@ your entry is exactly as you left it.
   situation with the two messages below.
 - **`ZERO VECTOR`**: normalising a vector of zeros, which has no
   direction to keep. Chapter 13 covers the vector tools.
+- **`NEED TWO SAMPLES`**: a polynomial regression fit with fewer pairs
+  than it needs, one per coefficient; both [CLEAR] and [EXIT] dismiss
+  it to the home screen. Chapter 15 covers the regression families.
 
 ## Solver messages
 
@@ -178,11 +181,11 @@ Good news arrives in the same dialog as bad:
 ## Messages you are unlikely to meet
 
 The calculator defines a few messages that no ordinary key sequence
-produces. `NEED TWO SAMPLES` and `ZERO VARIANCE` belong to the
-statistics tools, but the editor keeps its two columns the same length
-and the degenerate cases answer result screens of zeros instead
-(chapter 15 shows a constant column answering `R 0`), so neither
-message reaches the screen. `NO OBJECTS` is the memory browser's answer
+produces. `ZERO VARIANCE` belongs to the statistics tools, but the
+editor keeps its two columns the same length and the degenerate cases
+answer result screens of zeros instead (chapter 15 shows a constant
+column answering `A 0` and `B 0`), so the message never reaches the
+screen. `NO OBJECTS` is the memory browser's answer
 to an empty store, and the store is never empty (chapter 18).
 `EVALUATOR NEXT`, `NO ALPHA MAP`, and `FEATURE PLANNED` round out the
 set; we found no key sequence that shows any of them. If one of these

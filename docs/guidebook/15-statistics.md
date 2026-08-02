@@ -88,8 +88,8 @@ intercept, reads `2.2`, and `B`, the slope, reads `0.6`, so the fitted
 line is y = 2.2 + 0.6x. The footer reads `EXIT BACK`, and the two
 ways off the screen differ: [EXIT] leaves for the home screen, and
 [CLEAR] returns to the editor. The screen stops at the coefficients:
-the correlation lives on
-the `2V` screen alone, so read `R` there before or after the fit.
+the correlation lives on the `2V` screen alone, so read `R` there
+before or after the fit.
 
 ![The linear regression of the five pairs](images/ch15-regression-result.png)
 

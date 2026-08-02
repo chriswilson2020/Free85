@@ -40,8 +40,8 @@ value on an `EDIT` line, [ENTER] stores it and pages onward, and
 [CLEAR] abandons the half-typed line, following the entry rules of the
 editors below. One caveat in this release: the `LOWER` page ignores
 [ENTER], so the lower bound keeps whatever it already held (`-10` on a
-fresh machine); steer the search with the guess and the upper bound
-instead.
+fresh machine). Until a firmware release repairs the field, steer the
+search with the guess and the upper bound instead.
 
 `SOLV` ([F1]) hunts for a root between the bounds and publishes a
 `ROOT` line and a `RES` residual line in the field area. The guess is
@@ -50,13 +50,13 @@ exact: store `A^2-9`, turn `VAR X` into `VAR A`, page to the guess and
 store `-3`, and `SOLV` answers a `ROOT` of `-3` with `RES` `0`. A
 guess of `2` on `X^2-4` answers a `ROOT` of `2` the same way, which is
 how you pick between roots. Any other guess sends the solver scanning
-32 subintervals of the bounds for a sign change, then bisecting it, up
-to forty halvings, until the residual passes the numeric tolerance
-set with [2nd] [CLEAR], the `TOLER` legend of Chapter 3 (Mathematics,
-Calculus, and Comparisons): `X^2-4` from the default guess answers a
-`ROOT` of `-1.9999998807909` with `RES` `-4.768364E-7`, the -2
-crossing under a little numerical dust, its residual inside the fresh
-`1E-6` tolerance.
+32 subintervals of the bounds for a sign change, then bisecting that
+subinterval, up to 40 halvings, until the residual passes the numeric
+tolerance set with [2nd] [CLEAR], the `TOLER` legend of Chapter 3
+(Mathematics, Calculus, and Comparisons): `X^2-4` from the default
+guess answers a `ROOT` of `-1.9999998807909` with `RES`
+`-4.768364E-7`, the -2 crossing under a little numerical dust, its
+residual inside the fresh `1E-6` tolerance.
 
 Four notices guard the search, each with the usual `CLEAR OR EXIT` way
 back. `SOLV` with no stored equation stops at `ENTER EQUATION HOME`.
@@ -151,9 +151,11 @@ the search at every degree, is also safe now: -x^2+4 (coefficients
 multiply an equation through by -1 before solving. The old workaround
 still works if you meet it in earlier notes: `CUB` with coefficients
 1, -1, -6, 0 multiplies x^2-x-6 by x, and the browser answers `RE 3`,
-`RE -2`, and `RE 0`, the true roots plus the 0 the extra factor added.
-The cubic and quartic searches answered every polynomial we put to
-them, at worst with a small residue in the last digits.
+`RE -2`, and `RE 0`, the true roots plus the 0 the extra factor added;
+or aim the general solver at each root with a guess, as the workspace
+section above shows. The cubic and quartic searches answered every
+polynomial we put to them, at worst with a small residue in the last
+digits.
 
 ## The simultaneous editor
 

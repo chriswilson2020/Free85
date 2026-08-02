@@ -9,9 +9,11 @@ carry.
 
 One boundary up front: strings live in the editor, not in the expression
 language. A quoted literal on the home entry line, such as `"A"`, answers
-`SYNTAX ERROR`, and there is no string-typed named variable to store to
-yet; the object store's string type (chapter 18) awaits the same planned
-work as the other typed objects of chapter 2.
+`SYNTAX ERROR`, and no string ever becomes a named variable: the typed
+object store of Chapter 2 (Variables and Stored Data) keeps a string
+type reserved, but by the same design that keeps the other editors'
+working values out of the memory browser of Chapter 18 (Memory
+Management), your text lives in the three registers described below.
 
 ## The strings editor
 
@@ -109,33 +111,30 @@ Only `S2N` feeds a value back to the home screen; the numeric results of
 ## The character palette
 
 The palette, opened with [2nd] [0] and introduced in chapter 1, is the
-route to the punctuation the keyboard does not type. It holds 26
-characters in a fixed loop: the space, then
-
-`! " # $ % & ' ( ) * + , - . / : ; < = > ? @ [ ] _`
-
-The cursor keys step through them, wrapping at both ends, and [ENTER]
-inserts the character on show. The palette remembers where you came from:
-opened from the home screen it inserts into the entry line, and opened
-from the strings editor it appends to the active string and returns to
-the editor. So from the strings editor, [2nd] [0] [▶] [ENTER] appends `!`
-to the string, and a five-character `HELLO` becomes `HELLO!` with `LEN`
-showing `6`.
-
-The palette is punctuation and symbols only; the letters and digits stay
-on the keyboard, and there are no Greek or accented characters yet.
-
-> ⚠ **Planned:** Greek and international characters in the palette
-> (Free85 2.0, work package 14.9).
+route to everything the keyboard does not type: the space, the
+twenty-five punctuation marks from `!` to `_`, and after them the Greek
+and international characters, fifty-four in all. Chapter 1 walks the
+full set; what matters here is that the palette remembers where you
+came from. Opened from the home screen it inserts into the entry line,
+and opened from the strings editor it appends to the active string and
+returns to the editor. So from the strings editor, [2nd] [0] [▶]
+[ENTER] appends `!` to the string, and a five-character `HELLO` becomes
+`HELLO!` with `LEN` showing `6`. The extended characters append exactly
+the same way: twenty-six steps right of the space character is the
+capital Alpha, and [ENTER] there leaves it in the register, a
+one-character string by `LEN`'s count.
 
 ## Strings and equations
 
 Some calculators convert between equations and strings, so that a stored
 function can be edited as text and text can become a function; their
-manuals call the two directions `Eq->St` and `St->Eq`. Free85 has no
-equation round trip yet: the graph equations of Chapter 4 (Cartesian
-Graphing, Drawing, Formats, and Persistence) and the editor's string
-registers are separate worlds.
-
-> ⚠ **Planned:** equation-to-string and string-to-equation round trips
-> (Free85 2.0, work package 14.8).
+manuals call the two directions `Eq->St` and `St->Eq`. Free85 carries
+the round trip as a pair of program instructions: `STTOEQ A,1` writes
+string register `A` into graph equation slot 1 of Chapter 4 (Cartesian
+Graphing, Drawing, Formats, and Persistence) and enables it for
+plotting, and `EQTOST 1,B` reads a slot back into register `B`. The
+pair lives in the program language only, with no home-screen or
+soft-key route, so Chapter 16 (Calculator Programming) is its home;
+this chapter only records that the trip is exact. A program that runs
+`STTOEQ A,1` and then `EQTOST 1,B` with `2X+1` in register `A` ends
+with register `B` showing `"2X+1` in the strings editor.

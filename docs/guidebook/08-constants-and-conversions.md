@@ -2,14 +2,15 @@
 
 Two shifted keys turn the calculator into a small reference book. [2nd] [4]
 (the `CONS` legend) opens the constants menu, holding the mathematical and
-physical constants, and [2nd] [5] (the `CONV` legend) opens the conversions
-menu, holding a pair of unit-conversion functions for each of eleven
-categories. Both menus work exactly like the `MATH` menu of Chapter 3
-(Mathematics, Calculus, and Comparisons): press the soft key under an item
-to insert it into your entry line and return to the home screen, or [MORE]
-for the next page. As everywhere else, whatever a menu inserts can also be
-typed letter by letter with [ALPHA], or pasted from the catalog (Chapter 1:
-Operating the Calculator).
+physical constants along with the constants you define yourself, and
+[2nd] [5] (the `CONV` legend) opens the conversions menu, holding a pair
+of unit-conversion functions for each of eleven categories. Both menus
+work like the `MATH` menu of Chapter 3 (Mathematics, Calculus, and
+Comparisons): press the soft key under an item to insert it into your
+entry line and return to the home screen, or [MORE] for the next page.
+As everywhere else, whatever a menu inserts can also be typed letter by
+letter with [ALPHA], or pasted from the catalog (Chapter 1: Operating the
+Calculator).
 
 ## The constants menu
 
@@ -18,7 +19,9 @@ Press [2nd] [4] and the `CONSTANTS` menu lists its first page:
 ![The constants menu opened with 2nd 4](images/ch08-constants-menu.png)
 
 Page one carries `PI`, `E`, `LIGHT`, `GRAV`, and `PLANCK` on [F1] through
-[F5]; press [MORE] for `BOLTZ` and `AVOG`. Each item is a plain name: the
+[F5]; press [MORE] for `BOLTZ` and `AVOG`. A second [MORE] turns past
+them to the `USER CONSTANTS` screen of the next section, and a third
+brings the first page back around. Each menu item is a plain name: the
 menu inserts it, and the name on its own evaluates to the stored value.
 Every value below is quoted from the machine:
 
@@ -45,15 +48,58 @@ newtons of a 70 kilogram mass.
 
 ## User constants
 
-The "user" half of this chapter's title is not in today's firmware: there
-is no way yet to define, name, edit, or delete a constant of your own. In
-the meantime the variables of Chapter 2 (Variables and Stored Data) do the
-job for a working session: `1.602E-19` stored to `Q` with [STO▶] can then
-be used just like a built-in name, though it lives with your other
-variables rather than on the `CONSTANTS` menu.
+The menu's last page is not a menu but a manager. Press [MORE] twice
+from the first page and the `USER CONSTANTS` screen opens, with a count
+of your constants at the top right and the soft keys
+`NEW EDIT NAME USE DEL`. On a fresh machine the count is `0` and the
+middle of the screen says `NO USER CONSTANTS`.
 
-> ⚠ **Planned:** user-defined constants, including creating, naming,
-> editing, and deleting them (Free85 2.0, work package 14.9).
+To create a constant, press [F1] (`NEW`). The `CONSTANT NAME` prompt
+opens with the hint `ENTER SAVE EXIT`, and [ALPHA] works differently
+here than on the home screen: one press keeps letter entry on until the
+next press releases it, so `RATE` is [ALPHA] [R] [A] [T] [E]. Press
+[ENTER] and the `CONSTANT VALUE` prompt follows; type `12.5` (pressing
+[ALPHA] first to release the letter lock) and [ENTER] saves the
+constant and returns to the screen:
+
+![The USER CONSTANTS screen holding RATE](images/ch08-user-constants.png)
+
+The count now reads `1` above the name `RATE` and the value `12.5`. A
+name is one to seven letters, and the value line takes a whole
+expression, evaluated when you save: a constant named `TAU` with its
+value typed as `2*PI` is stored as `6.2831853071796`.
+
+The new name then works everywhere the built-in names do. Type `RATE`
+with [ALPHA] on the home screen and it answers `= 12.5`, exactly as
+`GRAV` answers its value.
+
+The screen shows one constant at a time; when you hold several, [▲] and
+[▼] (or [◀] and [▶]) step through them, [MORE] carries on around to the
+menu's first page, and [EXIT] returns home. The other soft keys work on
+the constant on show:
+
+- **`EDIT`** ([F2]) reopens the `CONSTANT VALUE` prompt with an empty
+  line: type the new value and [ENTER] saves it, so `8` [ENTER] leaves
+  `RATE` reading `8`.
+- **`NAME`** ([F3]) opens the `RENAME CONSTANT` prompt for a new name;
+  the value stays.
+- **`USE`** ([F4]) drops the constant's name into the home entry line
+  and returns home, saving the letter-by-letter typing: with `RATE`
+  holding `12.5`, `USE` and then [×] [2] [ENTER] answers `= 25`.
+- **`DEL`** ([F5]) removes the constant on show.
+
+A request the screen cannot honour answers the full-screen notice
+`CONSTANT ERROR`: accepting an empty name with [ENTER], saving a value
+under a name that is not one to seven letters, or renaming onto a name
+already taken. [CLEAR] or [EXIT] dismisses the notice to the home
+screen.
+
+Each user constant is an object in the typed store of Chapter 2
+(Variables and Stored Data): the memory browser of Chapter 18 (Memory
+Management) lists `RATE` with `TYPE CONSTANT`, and the store's
+persistence carries your constants through a restart. Appendix A
+catalogues this workflow as `create-user-constant`,
+`edit-user-constant`, `name-user-constant`, and `delete-user-constant`.
 
 ## The conversions menu
 

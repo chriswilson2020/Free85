@@ -70,6 +70,14 @@ export const SCREEN_CASES = [
   // CTOF( from the conversions menu's second page, applied to 100 degrees
   // Celsius, shows a conversion evaluated on the home screen.
   { name: "ch08-conversion-example", keys: ["2ND", "5", "MORE", "F4", "1", "0", "0", ")", "ENTER", 200] },
+  // The user-constants screen after creating RATE = 12.5 through its NEW
+  // prompts. ALPHA latches in the prompts, so one press spells the name
+  // (R A T E on 5 LOG - ^) and the next press releases it for the digits.
+  {
+    name: "ch08-user-constants",
+    keys: ["2ND", "4", "MORE", "MORE", "F1", "ALPHA", "5", "LOG", "-", "^",
+      "ENTER", "ALPHA", "1", "2", ".", "5", "ENTER"]
+  },
   // The strings editor opens on empty registers, so the capture types HELLO
   // into register A first (letters are ALPHA plus the letter's key).
   {

@@ -132,8 +132,9 @@ through `D 0` and `E 1`.
 
 Two guards protect the transformed fits. The logarithm asks for
 positive data, so `LNR` with a zero or negative `X` entry, `EXPR` with
-one in `Y`, or `PWR` with either answers the `POSITIVE DATA NEEDED`
-notice (its final letter falls off the 21-column screen). A
+one in `Y`, or `PWR` with either answers the `POSITIVE DATA NEEDE`
+notice, its final letter fallen off the screen, short for positive
+data needed. A
 polynomial needs at least one pair per coefficient, three for `P2` up
 to five for `P4`; fewer answers the `NEED TWO SAMPLES` notice, whose
 wording stays the same however many samples the model really wanted.

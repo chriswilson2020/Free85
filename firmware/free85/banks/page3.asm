@@ -9,8 +9,10 @@ bank_start:
     JP phase8_open_polynomial
     JP phase8_handle_key
     JP p8_poly_solve_core
+    JP phase19_open_solver
 
     INCLUDE "statistics/phase8.asm"
+    INCLUDE "statistics/phase19.asm"
 
 bank_end:
     ASSERT bank_end <= $8000

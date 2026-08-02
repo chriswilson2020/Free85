@@ -94,3 +94,16 @@ bank_call_phase8_poly_solve_core:
     CALL bank_select
     POP AF
     RET
+
+; Bank-3 general solver hands a prepared expression to the graph application.
+; Restore bank 3 before returning so the caller's continuation remains mapped;
+; the normal UI dispatcher selects bank 1 on the next graph key event.
+bank_call_phase6_open_from_solver:
+    LD A, 1
+    CALL bank_select
+    CALL PHASE6_OPEN_GRAPH
+    PUSH AF
+    LD A, 3
+    CALL bank_select
+    POP AF
+    RET

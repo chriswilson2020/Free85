@@ -125,18 +125,20 @@ Implemented for bounded real collections. Lists now provide dimension, fill,
 descending sort, sequence, and list/vector conversion; vectors provide
 dimension, fill, norm, list conversion, and the Phase 14.5 coordinate modes.
 Matrices provide row operations, augmentation, norms, condition number,
-random/fill, LU, and independently validated real eigensystems. General 3x3
-and complex-valued eigensystems plus complex collection payloads remain
-conservatively classified as partial. See
+random/fill, pivot-reporting LU, and independently validated real/complex
+eigensystems. Complex collection aggregates, scales, matrix products, and
+vector products preserve both components. See
 `docs/Free85-collections-linear-algebra.md`.
 
 ### 14.7 - Solver and statistics completion
 
-Expand the solver to equations, selectable variables, guesses, bounds, stored
-results, and graphical exploration. Add logarithmic, exponential, power, and
-degree 2-4 regression, forecasts, command-line one/two-variable analysis,
-sorted paired data, and connected XY plots. Validate coefficients, predictions,
-roots, and residuals against independent implementations.
+Implemented. The solver now retains equations, selectable variables, guesses,
+bounds, roots, residuals, and graph handoff. Statistics adds logarithmic,
+exponential, power, and degree 2-4 regression, forward/inverse forecasts,
+one/two-variable command recall, paired sorting, and connected XY plots.
+Independent coefficient, prediction, root, residual, and LCD validation lives
+in `test/free85/statistics-phase19.test.js`; see
+`docs/Free85-solver-statistics.md`.
 
 ### 14.8 - Programming-language completion
 

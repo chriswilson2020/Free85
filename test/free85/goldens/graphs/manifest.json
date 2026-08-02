@@ -113,6 +113,15 @@
       "checksum": "39105F72"
     },
     {
+      "name": "phase19-solver-workspace",
+      "keys": [
+        "2ND",
+        "GRAPH"
+      ],
+      "litPixelCount": 725,
+      "checksum": "7BFF2FA1"
+    },
+    {
       "name": "phase9-strings-editor",
       "keys": [
         "2ND",
@@ -206,6 +215,19 @@
       ],
       "litPixelCount": 661,
       "checksum": "96D5D989"
+    },
+    {
+      "name": "phase19-xyline-plot",
+      "keys": [
+        "MORE",
+        "MORE",
+        "MORE",
+        "MORE",
+        "MORE",
+        "F2"
+      ],
+      "litPixelCount": 281,
+      "checksum": "A38C6092"
     }
   ]
 }

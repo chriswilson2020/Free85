@@ -29,6 +29,7 @@ const screenCases = [
   { name: "phase8-statistics-editor", keys: ["STAT"] },
   { name: "phase8-simultaneous-editor", keys: ["2ND", "STAT"] },
   { name: "phase8-polynomial-editor", keys: ["2ND", "PRGM"] },
+  { name: "phase19-solver-workspace", keys: ["2ND", "GRAPH"] },
   { name: "phase9-strings-editor", keys: ["2ND", "6"] },
   { name: "phase9-catalog", keys: ["2ND", "CUSTOM"] },
   { name: "phase9-custom", keys: ["CUSTOM"] },
@@ -148,7 +149,8 @@ for (const programCase of [
 for (const plotCase of [
   { name: "phase8-scatter-plot", keys: ["F4"] },
   { name: "phase8-histogram-plot", keys: ["F5"] },
-  { name: "phase8-box-plot", keys: ["MORE", "MORE", "F5"] }
+  { name: "phase8-box-plot", keys: ["MORE", "MORE", "F5"] },
+  { name: "phase19-xyline-plot", keys: ["MORE", "MORE", "MORE", "MORE", "MORE", "F2"] }
 ]) {
   const harness = Free85Harness.boot();
   harness.tap("STAT");

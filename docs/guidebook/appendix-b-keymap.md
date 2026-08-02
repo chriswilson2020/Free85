@@ -15,7 +15,7 @@
 | `UP` | ▲ — Move selection or cursor up | — | — |
 | `DOWN` | ▼ — Move selection or cursor down | — | — |
 | `ALPHA` | ALPHA — Arm or lock alphabetic entry | alpha — Select lowercase alphabetic entry | — |
-| `X-VAR` | x-VAR — Insert the active graph variable | LINK — Open local link diagnostics | x — Insert x |
+| `X-VAR` | x-VAR — Insert the active graph variable | LINK — Select items, transfer, back up, restore, and cancel over the Free85 link protocol | x — Insert x |
 | `DEL` | DEL — Delete at the editor cursor | INS — Toggle insert and overwrite mode | — |
 | `LEFT` | ◀ — Move selection or cursor left | — | — |
 | `RIGHT` | ▶ — Move selection or cursor right | — | — |

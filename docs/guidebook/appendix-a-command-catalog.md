@@ -2,7 +2,7 @@
 
 # Appendix A: Command and Function Catalog
 
-Grouped by functional area. Status comes from the Free85 2.0 command ledger's status vocabulary: `equivalent` items work today; `partial` and `missing` are tracked implementation gaps; `hardware-dependent` items await separate hardware validation; `excluded-clean-room` items are intentionally out of scope by design, not gaps.
+Grouped by functional area. Status comes from the Free85 2.0 command ledger's status vocabulary: `equivalent` items work today; `partial` and `missing` mark tracked implementation gaps; `hardware-dependent` items await separate hardware validation; `excluded-clean-room` items are intentionally out of scope by design, not gaps. The ledger is closed: no `partial` or `missing` entries remain.
 
 ## math.core — command (equivalent)
 
@@ -28,11 +28,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger's st
 
 `arc`, `der1`, `der2`, `eval`, `evalF`, `fMax`, `fMin`, `fnInt`, `nDer`, `inter`, `peval`
 
-## math.angle-format — command (partial)
-
-> Tracked under: `numeric.utilities`
-
-> Target: complete DMS entry/display and fraction presentation while preserving existing degree/radian modes
+## math.angle-format — command (equivalent)
 
 `Degree`, `Radian`, `->DMS`, `DMS-entry`, `->Frac`
 
@@ -48,51 +44,27 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger's st
 
 `and`, `or`, `xor`, `not`, `rotL`, `rotR`, `shftL`, `shftR`
 
-## complex.scalar — command (partial)
-
-> Tracked under: `complex.collections`
-
-> Target: expose existing scalar operations consistently from home catalog and program contexts
+## complex.scalar — command (equivalent)
 
 `angle`, `conj`, `imag`, `real`, `polar-complex-entry`, `->Pol`, `->Rec`, `PolarC`, `RectC`
 
-## coordinates.vector — command (partial)
-
-> Tracked under: `coordinates.modes`
-
-> Target: add rectangular cylindrical and spherical vector display/conversion modes
+## coordinates.vector — command (equivalent)
 
 `->Cyl`, `CylV`, `->Sph`, `SphereV`, `RectV`
 
-## list.operations — command (partial)
-
-> Tracked under: `list.complete`
-
-> Target: complete callable dimensions fill descending sort sequence and conversions
+## list.operations — command (equivalent)
 
 `dimL`, `->dimL`, `Fill-list`, `prod`, `seq`, `sortA`, `sortD`, `sum`, `li->vc`, `vc->li`
 
-## matrix.operations — command (partial)
-
-> Tracked under: `matrix.complete`
-
-> Target: retain implemented determinant inverse RREF and transpose while adding full dimension row norm decomposition and eigensystem operations
+## matrix.operations — command (equivalent)
 
 `aug`, `cnorm`, `cond`, `det`, `dim-matrix`, `->dimM`, `eigVc`, `eigVl`, `Fill-matrix`, `Ident`, `inverse-matrix`, `LU`, `mRAdd`, `multR`, `norm-matrix`, `rAdd`, `randM`, `ref`, `rnorm`, `rref`, `rSwap`, `transpose`
 
-## vector.operations — command (partial)
-
-> Tracked under: `vector.complete`
-
-> Target: complete callable dimensions fill and norm semantics around existing dot cross and unit operations
+## vector.operations — command (equivalent)
 
 `cross`, `dim-vector`, `->dimV`, `dot`, `Fill-vector`, `norm-vector`, `unitV`
 
-## collections.elementwise — semantic (partial)
-
-> Tracked under: `complex.collections`
-
-> Target: apply every valid scalar function and relation element-by-element with type-preserving results
+## collections.elementwise — semantic (equivalent)
 
 `elementwise-real`, `elementwise-complex`, `elementwise-list`, `elementwise-matrix`, `elementwise-vector`
 
@@ -116,35 +88,19 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger's st
 
 `RcGDB`, `RcPic`, `StGDB`, `StPic`
 
-## graph.polar — workflow (missing)
-
-> Tracked under: `graph.polar`
-
-> Target: complete polar graph workflow on the shared graph engine
+## graph.polar — workflow (equivalent)
 
 `Pol`, `PolarGC`, `polar-editor`, `polar-plot`, `polar-trace`, `polar-table`, `polar-analysis`
 
-## graph.parametric — workflow (missing)
-
-> Tracked under: `graph.parametric`
-
-> Target: complete parametric graph workflow on the shared graph engine
+## graph.parametric — workflow (equivalent)
 
 `Param`, `parametric-editor`, `parametric-plot`, `parametric-trace`, `parametric-table`, `parametric-analysis`
 
-## graph.diffeq — workflow (missing)
-
-> Tracked under: `graph.diffeq`
-
-> Target: complete first-order differential-equation graph workflow
+## graph.diffeq — workflow (equivalent)
 
 `DifEq`, `dxDer1`, `dxNDer`, `diffeq-editor`, `diffeq-plot`, `diffeq-explore`, `diffeq-solve`
 
-## solver.general — command (partial)
-
-> Tracked under: `solver.complete`
-
-> Target: expand zero finding into stored equation and selectable-variable solving
+## solver.general — command (equivalent)
 
 `Solver`, `solver-equation`, `solver-variables`, `solver-guesses`, `solver-bounds`, `solver-graph`
 
@@ -152,35 +108,19 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger's st
 
 `poly`, `simult`
 
-## statistics.models — command (partial)
-
-> Tracked under: `statistics.models`
-
-> Target: retain linear regression and add logarithmic exponential power polynomial models and forecasts
+## statistics.models — command (equivalent)
 
 `ExpR`, `LinR`, `LnR`, `P2Reg`, `P3Reg`, `P4Reg`, `PwrR`, `fcstx`, `fcsty`
 
-## statistics.commands — command (partial)
-
-> Tracked under: `statistics.commands`
-
-> Target: expose complete command-line analyses result variables and paired sorting
+## statistics.commands — command (equivalent)
 
 `OneVar`, `TwoVar`, `ShwSt`, `Sortx`, `Sorty`
 
-## statistics.plots — command (partial)
-
-> Tracked under: `statistics.xyline`
-
-> Target: retain histogram/scatter and add connected paired-data plotting
+## statistics.plots — command (equivalent)
 
 `Hist`, `Scatter`, `xyline`
 
-## strings.core — command (partial)
-
-> Tracked under: `equation.string`
-
-> Target: expose native string operations from expressions/programs and add equation round trips
+## strings.core — command (equivalent)
 
 `Concatenate`, `lngth`, `sub`, `Eq->St`, `St->Eq`
 
@@ -188,19 +128,11 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger's st
 
 `Disp`, `Else`, `End`, `For`, `If`, `Input-number`, `Return`, `Stop`, `Then`, `While`
 
-## program.control — instruction (partial)
-
-> Tracked under: `program.control`
-
-> Target: add labels jumps repeat skip forms and bounded program menus
+## program.control — instruction (equivalent)
 
 `DS<`, `Goto`, `IS>`, `Lbl`, `Menu`, `Repeat`
 
-## program.io — instruction (partial)
-
-> Tracked under: `program.io`
-
-> Target: add complete keypad string screen graph pause prompt and positioned-output workflows
+## program.io — instruction (equivalent)
 
 `ClLCD`, `DispG`, `getKy`, `InpSt`, `Input-string`, `Outpt`, `Pause`, `Prompt`, `PrtScrn`
 
@@ -212,35 +144,19 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger's st
 
 `Input-CBLGET`, `Output-CBLSEND`
 
-## program.catalog — semantic (partial)
-
-> Tracked under: `program.catalog`
-
-> Target: make every applicable 2.0 callable available to programs
+## program.catalog — semantic (equivalent)
 
 `all-math-from-programs`, `all-graph-from-programs`, `all-collection-from-programs`, `all-statistics-from-programs`
 
-## constants.user — workflow (missing)
-
-> Tracked under: `constants.user`
-
-> Target: implement persistent typed user-defined constants
+## constants.user — workflow (equivalent)
 
 `create-user-constant`, `edit-user-constant`, `name-user-constant`, `delete-user-constant`
 
-## characters.extended — workflow (partial)
-
-> Tracked under: `characters.extended`
-
-> Target: extend the original Free85 glyph set and character palette
+## characters.extended — workflow (equivalent)
 
 `Greek-characters`, `international-characters`
 
-## memory.management — workflow (partial)
-
-> Tracked under: `memory.complete`
-
-> Target: complete typed memory accounting browsing and per-object deletion
+## memory.management — workflow (equivalent)
 
 `memory-by-type`, `object-size`, `individual-delete`, `reset`, `leave-memory-screen`
 
@@ -248,7 +164,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger's st
 
 > Tracked under: `link.transfer`
 
-> Target: implement emulator-tested Free85 item transfer with fault recovery
+> Target: separately validate the completed emulator-tested Free85 protocol on a physical cable
 
 `select-items`, `send-items`, `receive-items`, `duplicate-rename`, `duplicate-overwrite`, `duplicate-skip`, `transfer-cancel`
 
@@ -256,7 +172,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger's st
 
 > Tracked under: `link.backup`
 
-> Target: implement transactional Free85 backup/restore and separately validate physical hardware
+> Target: separately validate transactional backup and restore on physical hardware
 
 `backup-send`, `backup-confirm`, `backup-restore`, `backup-rollback`
 

@@ -79,4 +79,4 @@ license text and `NOTICE.md` for the project notices.
 - [Appendix A: Command and Function Catalog](appendix-a-command-catalog.md)
 - [Appendix B: Complete Key Map](appendix-b-keymap.md)
 - [Appendix C: System Variables and Error Messages](appendix-c-errors.md)
-- [Appendix D: Feature Status and 2.0 Gaps](appendix-d-feature-status.md)
+- [Appendix D: Feature Status](appendix-d-feature-status.md)

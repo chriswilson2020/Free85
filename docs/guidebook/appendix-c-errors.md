@@ -43,13 +43,20 @@ screen. When the error came from evaluating the home entry line, the
 entry is preserved with the cursor at the end, so you can fix the
 mistake instead of retyping it; when it came from inside an editor, the
 editor keeps its contents, and reopening it puts you back where you
-were. Unless an entry below says otherwise, every message in this
-appendix presents and dismisses exactly this way.
+were. The statistics screens of chapter 15 deserve one extra sentence
+here: their result screens leave with [EXIT] for the home screen and
+[CLEAR] for the editor, but their guard dialogs dismiss to the home
+screen with either key, so press [STAT] to return to the data. Unless
+an entry below says otherwise, every message in this appendix presents
+and dismisses exactly this way.
 
 A few screens carry their messages themselves rather than raising the
 dialog: the simultaneous solver's verdicts, the program run screen's
 stop and error reports, and the catalog's assignment confirmation. Their
-entries below describe their own mechanics.
+entries below describe their own mechanics. The link screen belongs to
+this family too: `STATUS ERROR` and `STATUS CANCELLED` are readings of
+its `STATUS` line, not dialogs, and chapter 19 walks that line's whole
+vocabulary, so they get no entries of their own here.
 
 ## Entry and editing notices
 
@@ -119,16 +126,33 @@ your entry is exactly as you left it.
   situation with the two messages below.
 - **`ZERO VECTOR`**: normalising a vector of zeros, which has no
   direction to keep. Chapter 13 covers the vector tools.
-- **`NEED TWO SAMPLES`**: a polynomial regression fit with fewer pairs
-  than it needs, one per coefficient; both [CLEAR] and [EXIT] dismiss
-  it to the home screen. Chapter 15 covers the regression families.
+- **`CONSTANT ERROR`**: the user-constants screen's refusal (chapter
+  8): confirming an empty name with [ENTER], saving a value under a
+  name that is not one to seven letters, or renaming onto a name
+  already taken. Dismissal leaves for the home screen.
 
 ## Solver messages
 
-- **`NO NUMERIC RESULT`**: a numeric search found nothing to report:
-  the general solver on an expression with no real root (`X^2+1`) or
-  with an empty entry line (chapter 14), and the graph screen's
-  root-finding soft keys when the search fails (chapter 4).
+- **`NO NUMERIC RESULT`**: a graph-screen numeric search found nothing
+  to report: the root finder and its companion soft keys when the
+  search fails (chapter 4), including on a polar radius or a
+  differential-equation slope that never crosses zero (chapters 5
+  and 7). Earlier firmware also answered it from the general solver;
+  the 2.10 solver workspace reports through its own four notices
+  below instead.
+- **`ENTER EQUATION HOME`**, **`LOWER MUST BE < UPP`**,
+  **`EQUATION DOMAIN ERR`**, and **`NO BOUNDED ROOT`**: the four
+  notices guarding `SOLV` in chapter 14's general solver. The first
+  answers `SOLV` with no stored equation; type one on the home entry
+  line and press [2nd] [GRAPH] to store it. The second answers bounds
+  out of order, its last letters clipped by the screen; read it as
+  lower must be less than upper. The third answers a stored equation
+  that cannot be evaluated across the bounds, such as `LN(X)-1` over
+  the default `-10` to `10`, clipped the same way from equation domain
+  error. The fourth answers an equation with no sign change between
+  the bounds, such as `X^2+1`. Each shows the usual dialog and
+  dismisses to the home screen with the workspace kept, so
+  [2nd] [GRAPH] reopens it where you left off.
 - **`LEADING COEFF ZERO`**: the polynomial solver run with a zero
   leading coefficient, which would really be a polynomial of lower
   degree. Chapter 14 covers the editor.
@@ -139,6 +163,31 @@ your entry is exactly as you left it.
   with every cell kept. `UNIQUE SOLUTION` heads the list of unknowns,
   contradictory equations answer `NO SOLUTION`, and dependent
   equations answer `UNDERDETERMINED`. Chapter 14 covers all three.
+
+## Statistics messages
+
+These guard chapter 15's fitting and forecasting keys. Each shows the
+usual dialog, and either key dismisses to the home screen with the
+data kept, so press [STAT] to return to the editor.
+
+- **`NEED TWO SAMPLES`**: a polynomial regression fit with fewer pairs
+  than it needs, one per coefficient; the wording stays the same
+  however many samples the model really wanted. Chapter 15 covers the
+  regression families.
+- **`POSITIVE DATA NEEDE`**: a logarithmic, exponential, or power fit
+  over data its transform cannot take the logarithm of: `LNR` with a
+  zero or negative `X` entry, `EXPR` with one in `Y`, or `PWR` with
+  either. The final letter of positive data needed falls off the
+  21-column screen.
+- **`ZERO VARIANCE`**: a polynomial fit (`P2` through `P4`) over a
+  constant `X` column, which gives the least-squares system nothing
+  to work with. The other families answer a coefficient screen rather
+  than the notice: chapter 15 shows a constant column answering `A 0`
+  and `B 0` under `LIN`.
+- **`FCSTX NEEDS 2-COEFF`**: an inverse forecast (`FCX`) on a
+  polynomial model when no x between the data's smallest and largest
+  `X` produces the target y; an inverse forecast outside the data's
+  range needs the two-coefficient families.
 
 ## Programming messages
 
@@ -156,6 +205,16 @@ your entry is exactly as you left it.
   program, with the line it was on, as in `STOPPED LINE1`; [ON],
   [EXIT], and [CLEAR] all stop a run this way. Chapter 16 covers
   stopping.
+
+Two program screens look like interruptions but are suspensions, not
+errors: a run waiting on you, not a run gone wrong. A `MENU` line
+suspends the run on a chooser whose banner reads `PROGRAM MENU` and
+whose footer reads `F1-F5 SELECT`, and a `PAUSE` line suspends it on a
+screen reading `PAUSED` over `PRESS A KEY`. A soft key picks a menu
+entry and any key resumes a pause, except [ON], [EXIT], and [CLEAR],
+which stop the run from either screen. Chapter 16 covers both, along
+with the `INPUT`, `PROMPT`, and `INPST` entry screens that suspend a
+run the same way.
 
 ## Confirmations
 
@@ -181,12 +240,11 @@ Good news arrives in the same dialog as bad:
 ## Messages you are unlikely to meet
 
 The calculator defines a few messages that no ordinary key sequence
-produces. `ZERO VARIANCE` belongs to the statistics tools, but the
-editor keeps its two columns the same length and the degenerate cases
-answer result screens of zeros instead (chapter 15 shows a constant
-column answering `A 0` and `B 0`), so the message never reaches the
-screen. `NO OBJECTS` is the memory browser's answer
-to an empty store, and the store is never empty (chapter 18).
-`EVALUATOR NEXT`, `NO ALPHA MAP`, and `FEATURE PLANNED` round out the
-set; we found no key sequence that shows any of them. If one of these
-ever greets you, treat it as this book's cue for an update.
+produces. `NO OBJECTS` is the memory browser's answer to an empty
+store, and the store is never empty (chapter 18). `EVALUATOR NEXT`,
+`NO ALPHA MAP`, and `FEATURE PLANNED` round out the set; we found no
+key sequence that shows any of them. Earlier editions listed
+`ZERO VARIANCE` here too; the 2.10 polynomial fits made it reachable,
+and it now has its entry among the statistics messages above. If one
+of the remaining four ever greets you, treat it as this book's cue for
+an update.

@@ -12,6 +12,7 @@ bank_start:
 
     INCLUDE "collections/phase7.asm"
     INCLUDE "collections/phase17.asm"
+    INCLUDE "collections/phase18.asm"
 
 bank_end:
     ASSERT bank_end <= $8000

@@ -9,7 +9,7 @@ const HEAP_END = HEADER + 6;
 const DIRECTORY = 0x9e00;
 const ENTRY_SIZE = 16;
 const HEAP_START = 0xa200;
-const HEAP_LIMIT = 0xfb00;
+const HEAP_LIMIT = 0xf800;
 const VARIABLES = 0x8218;
 const NAME_BUFFER = 0x80c0;
 

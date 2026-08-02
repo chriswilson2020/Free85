@@ -2364,6 +2364,13 @@ p8_poly_soft:
     JP p8_render
 
 p8_poly_solve:
+    XOR A
+    LD (P8_CORE_MODE), A
+    JR p8_poly_solve_common
+p8_poly_solve_core:
+    LD A, 1
+    LD (P8_CORE_MODE), A
+p8_poly_solve_common:
     LD HL, P8_POLY_COEFF
     CALL numeric_is_zero
     JP Z, p8_fail_leading_zero
@@ -2444,6 +2451,9 @@ p8_poly_solve:
     LD (P8_RESULT_KIND), A
     XOR A
     LD (P8_RESULT_INDEX), A
+    LD A, (P8_CORE_MODE)
+    OR A
+    RET NZ
     JP p8_render
 
 p8_fail_leading_zero:

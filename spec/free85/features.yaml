@@ -451,10 +451,13 @@
       "id": "app.solver",
       "category": "app",
       "status": "complete",
-      "implementation": "firmware/free85/graph/phase6.asm",
-      "documentation": "firmware/free85/README.md#phase-6-graphing-and-numerical-tools",
+      "implementation": "firmware/free85/statistics/phase19.asm",
+      "documentation": "docs/Free85-solver-statistics.md",
       "tests": [
-        "graph.numerical"
+        "graph.numerical",
+        "solver.phase19.workspace",
+        "solver.phase19.bounds",
+        "solver.phase19.graph"
       ],
       "surfaces": [
         {
@@ -467,13 +470,19 @@
       "id": "app.statistics",
       "category": "app",
       "status": "complete",
-      "implementation": "firmware/free85/statistics/phase8.asm",
-      "documentation": "firmware/free85/README.md#phase-8-statistics-and-specialist-solvers",
+      "implementation": "firmware/free85/statistics/phase8.asm; firmware/free85/statistics/phase19.asm",
+      "documentation": "docs/Free85-solver-statistics.md",
       "tests": [
         "statistics.editors",
         "statistics.one-variable",
         "statistics.two-variable",
-        "statistics.plots"
+        "statistics.plots",
+        "statistics.phase19.models",
+        "statistics.phase19.polynomial",
+        "statistics.phase19.forecast",
+        "statistics.phase19.commands",
+        "statistics.phase19.xyline",
+        "statistics.phase19.errors"
       ],
       "surfaces": [
         {

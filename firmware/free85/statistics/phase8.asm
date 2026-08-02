@@ -5,6 +5,7 @@
 P8_APP_STATS  EQU 0
 P8_APP_SIMULT EQU 1
 P8_APP_POLY   EQU 2
+P8_APP_SOLVER EQU 3
 
 P8_ERR_NONE          EQU 0
 P8_ERR_DIMENSION     EQU 1
@@ -18,6 +19,7 @@ P8_RES_TWOVAR     EQU 2
 P8_RES_REGRESSION EQU 3
 P8_RES_SCALAR     EQU 4
 P8_RES_POLY       EQU 5
+P8_RES_FORECAST   EQU 6
 
 STAT_MEAN_X   EQU 0
 STAT_MEDIAN_X EQU 1
@@ -57,7 +59,7 @@ phase8_init:
     LD HL, const_one
     LD DE, P8_POLY_COEFF
     CALL numeric_copy
-    RET
+    JP phase19_init
 
 phase8_open_statistics:
     LD A, P8_APP_STATS
@@ -90,6 +92,11 @@ p8_open_common:
     JP p8_render
 
 phase8_handle_key:
+    LD B, A
+    LD A, (P8_ACTIVE_APP)
+    CP P8_APP_SOLVER
+    LD A, B
+    JP Z, p19_solver_handle_key
     LD B, A
     CP KEY_EXIT
     JP Z, screen_show_home
@@ -159,7 +166,7 @@ p8_next_menu:
     JP NZ, p8_render
     LD A, (P8_MENU_PAGE)
     INC A
-    CP 3
+    CP 6
     JR C, .store
     XOR A
 .store:
@@ -476,6 +483,8 @@ p8_key_character:
 p8_render:
     CALL lcd_clear
     LD A, (P8_ACTIVE_APP)
+    CP P8_APP_SOLVER
+    JP Z, p19_render_solver
     OR A
     JP Z, p8_render_statistics
     CP P8_APP_SIMULT
@@ -516,11 +525,15 @@ p8_render_statistics:
     LD HL, p8_menu_stats_1
     CP 1
     JP Z, p8_render_footer
+    CP 2
     LD HL, p8_menu_stats_2
-    JP p8_render_footer
+    JP Z, p8_render_footer
+    JP p19_render_stats_footer
 
 p8_render_stats_result:
     LD A, (P8_RESULT_KIND)
+    CP P8_RES_FORECAST
+    JP Z, p19_render_forecast
     CP P8_RES_REGRESSION
     JR Z, .regression
     CP P8_RES_TWOVAR
@@ -554,21 +567,7 @@ p8_render_stats_result:
     LD HL, p8_text_exit_back
     JP p8_draw_footer_only
 .regression:
-    LD HL, p8_text_slope
-    LD DE, P8_STATS_RESULT + STAT_SLOPE * NUM_SIZE
-    CALL p8_draw_labeled_result_row2
-    LD HL, p8_text_intercept
-    LD DE, P8_STATS_RESULT + STAT_INTERCEPT * NUM_SIZE
-    CALL p8_draw_labeled_result_row3
-    LD HL, p8_text_correlation
-    LD DE, P8_STATS_RESULT + STAT_CORRELATION * NUM_SIZE
-    CALL p8_draw_labeled_result_row4
-    LD HL, p8_text_model
-    LD B, 0
-    LD C, 6
-    CALL text_draw_string
-    LD HL, p8_text_exit_back
-    JP p8_draw_footer_only
+    JP p19_render_regression
 .scalar:
     LD A, (P8_RESULT_INDEX)
     CALL p8_stats_result_pointer
@@ -1077,7 +1076,7 @@ p8_stats_soft:
     JP p8_plot_histogram
 .other_page:
     CP 1
-    JR NZ, .page2
+    JR NZ, .not_page1
     LD A, C
     CP KEY_F1
     LD A, STAT_MEAN_X
@@ -1096,6 +1095,9 @@ p8_stats_soft:
     JR Z, p8_stats_scalar
     LD A, STAT_SD_P
     JR p8_stats_scalar
+.not_page1:
+    CP 2
+    JP NZ, p19_stats_soft
 .page2:
     LD A, C
     CP KEY_F1
@@ -1129,6 +1131,7 @@ p8_stats_onevar:
     CALL p8_compute_onevar
     LD A, P8_RES_ONEVAR
     LD (P8_RESULT_KIND), A
+    LD (P19_LAST_RESULT), A
     JP p8_render
 
 p8_stats_twovar:
@@ -1136,14 +1139,11 @@ p8_stats_twovar:
     RET C
     LD A, P8_RES_TWOVAR
     LD (P8_RESULT_KIND), A
+    LD (P19_LAST_RESULT), A
     JP p8_render
 
 p8_stats_regression:
-    CALL p8_compute_twovar
-    RET C
-    LD A, P8_RES_REGRESSION
-    LD (P8_RESULT_KIND), A
-    JP p8_render
+    JP p19_stats_linear
 
 p8_compute_onevar:
     CALL p8_sort_x
@@ -1553,11 +1553,15 @@ p8_render_plot:
     LD A, (P8_PLOT_KIND)
     CP 1
     JR Z, p8_draw_scatter
+    CP 4
+    JR Z, p8_draw_scatter
     CP 2
     JP Z, p8_draw_histogram
     JP p8_draw_box
 
 p8_draw_scatter:
+    XOR A
+    LD (P8_CONTROL + 30), A
     ; Determine Y minimum and maximum without disturbing the X summary.
     LD HL, P7_LIST_B + P7_LIST_DATA
     LD DE, P8_STATS_SORT + NUM_SIZE * 2
@@ -1621,7 +1625,16 @@ p8_draw_scatter:
     SUB C
     LD C, A
     LD A, (P8_CONTROL + 20)
+    LD B, A
+    LD A, (P8_PLOT_KIND)
+    CP 4
+    LD A, B
+    JR NZ, .single_point
+    CALL p19_xyline_point
+    JR .point_done
+.single_point:
     CALL p8_set_pixel
+.point_done:
     POP DE
     POP HL
     LD BC, NUM_SIZE
@@ -2041,7 +2054,17 @@ p8_simult_soft:
 
 p8_simult_solve:
     XOR A
+    LD (P8_CORE_MODE), A
+    JR p8_simult_solve_common
+p8_simult_solve_core:
+    LD A, 1
+    LD (P8_CORE_MODE), A
+p8_simult_solve_common:
+    XOR A
     LD (P8_SIM_STATUS), A
+    LD A, (P8_CORE_MODE)
+    CP 2
+    JR Z, p8_simult_work_ready
     ; Copy the active augmented system into a contiguous working matrix.
     CALL p8_element_count
     LD B, A
@@ -2053,6 +2076,7 @@ p8_simult_solve:
     LDIR
     POP BC
     DJNZ .copy
+p8_simult_work_ready:
     XOR A
     LD (P8_I), A               ; pivot row
     LD (P8_J), A               ; pivot column
@@ -2222,7 +2246,7 @@ p8_simult_solve:
     JR Z, .row_ok
     LD A, 2
     LD (P8_SIM_STATUS), A
-    JP p8_render
+    JP p8_simult_finish
 .row_ok:
     LD A, (P8_K)
     INC A
@@ -2238,7 +2262,7 @@ p8_simult_solve:
     JR Z, .unique
     LD A, 3
     LD (P8_SIM_STATUS), A
-    JP p8_render
+    JP p8_simult_finish
 .unique:
     XOR A
     LD (P8_K), A
@@ -2262,6 +2286,12 @@ p8_simult_solve:
     JR NZ, .save
     LD A, 1
     LD (P8_SIM_STATUS), A
+    JP p8_simult_finish
+
+p8_simult_finish:
+    LD A, (P8_CORE_MODE)
+    OR A
+    RET NZ
     JP p8_render
 
 ; Swap working rows P8_I and P8_K.

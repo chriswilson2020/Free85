@@ -24,7 +24,7 @@ const manifest = {
   name: "Free85",
   version: packageJson.version,
   phase: coverage.phase,
-  target_release: "2.0.0",
+  target_release: packageJson.version,
   status: coverage.phase === 12 ? "stable" : "development",
   license: "MIT",
   rom: {

@@ -202,8 +202,10 @@ test("[graph.numerical] roots, extrema, derivatives, integrals, and solver use s
   typeExpression(solver, "X^2-4");
   solver.tap("2ND");
   solver.tap("GRAPH");
+  assert.equal(solver.machine.read8(0x800b), 10);
+  solver.tap("F1");
   solver.runFrames(1100);
-  assert.ok(Math.abs(Math.abs(numericResult(solver)) - 2) < 1e-5, solver.resultText());
+  assert.ok(Math.abs(Math.abs(solver.packedNumber(0x91fb)) - 2) < 1e-5, solver.resultText());
 });
 
 test("[graph.tolerance] shifted TOLER cycles numerical convergence settings", () => {

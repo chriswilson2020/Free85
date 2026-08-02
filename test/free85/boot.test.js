@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { Ti85Machine } from "../../src/ti85.js";
 import { FREE85_BOOT_FRAMES, FREE85_ROM_PATH, Free85Harness } from "../helpers/free85-harness.js";
+import { assertLcdGolden } from "../helpers/lcd-visual.js";
 
 test("Free85 ROM has eight exact 16 KiB banks and fixed vectors", async () => {
   const rom = await readFile(FREE85_ROM_PATH);
@@ -51,12 +52,17 @@ test("Free85 transitions from its splash to the home screen", () => {
 
   for (let index = 5; index < FREE85_BOOT_FRAMES; index += 1) machine.runFrame();
   assert.deepEqual(Free85Harness.prototype.signature.call({ machine }), {
-    litPixelCount: 590,
-    checksum: "51406E3D",
+    litPixelCount: 725,
+    checksum: "4AA92086",
     lastKey: 0xff
   });
   assert.equal(machine.read8(0x800b), 0);
   assert.equal(machine.read8(0x8010), 0);
+});
+
+test("Free85 boot home screen displays the current version", () => {
+  const harness = Free85Harness.boot();
+  assertLcdGolden("phase19-home-version", harness.machine.renderLcdBitmap());
 });
 
 test("Free85 repeatedly resets to the same stable home state", () => {

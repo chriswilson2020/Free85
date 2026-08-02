@@ -147,7 +147,7 @@ ui_handle_second:
     CP KEY_ENTER
     JP Z, ui_previous_entry
     CP KEY_GRAPH
-    JP Z, ui_call_phase6_solve
+    JP Z, ui_open_solver
     CP KEY_CLEAR
     JP Z, ui_call_phase6_tolerance
     CP KEY_STAT
@@ -515,6 +515,11 @@ ui_open_polynomial:
     LD A, 3
     CALL bank_select
     JP PHASE8_OPEN_POLY
+
+ui_open_solver:
+    LD A, 3
+    CALL bank_select
+    JP PHASE8_OPEN_SOLVER
 
 ui_call_phase9_handle_key:
     LD C, A

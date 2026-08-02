@@ -154,6 +154,15 @@ population variance and standard deviation (denominator `n`). Two-variable
 statistics provide both means, least-squares linear regression
 `y = intercept + slope*x`, and Pearson correlation. Scatter, four-bin
 histogram, and box plots are rendered directly into the exact LCD framebuffer.
+Phase 14.7 adds logarithmic, exponential, power, and degree 2-4 polynomial
+regression; forward and inverse forecasts; paired X/Y sorting; last-result
+recall; and connected XY-line plots.
+
+`2ND+GRAPH` opens a persistent general-solver workspace. It retains the home
+equation, a selectable A-Z variable, initial estimate, lower/upper bounds,
+result, and residual. A bounded scan plus bisection enforces the configured
+graph tolerance, while `GRPH` hands the selected-variable equation and bounds
+to the shared graph engine.
 
 `2ND+STAT` opens an augmented-matrix editor for simultaneous linear equations.
 It solves 2x2, 3x3, and 4x4 systems with pivoted Gauss-Jordan elimination and
@@ -162,6 +171,9 @@ reports unique, inconsistent, and underdetermined systems separately.
 simultaneous complex Durand-Kerner iteration returns real/imaginary root pairs,
 including non-real quadratic and quartic roots. Zero leading coefficients and
 invalid statistical samples produce recoverable notices.
+
+The exact Phase 14.7 model domains, coefficient layout, and validation scope
+are documented in `docs/Free85-solver-statistics.md`.
 
 Phase 8 occupies ROM bank 3. Its full RAM reservation, including framebuffer
 and stack, is 6,144 bytes, leaving 26,624 bytes free. Statistical columns remain

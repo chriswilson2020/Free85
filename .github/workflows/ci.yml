@@ -27,6 +27,21 @@ jobs:
       - name: Run Free85 tests
         run: npm run validate:free85
 
+      - name: Build pinned sjasmplus
+        run: |
+          curl --fail --location --silent --show-error \
+            https://github.com/z00m128/sjasmplus/releases/download/v1.21.1/sjasmplus-1.21.1-src.tar.xz \
+            --output "$RUNNER_TEMP/sjasmplus.tar.xz"
+          echo "7c3e0bb473715777bec41f1b68caf9d4921da3f0cd9db66d922d3b804e0655c6  $RUNNER_TEMP/sjasmplus.tar.xz" | sha256sum --check
+          mkdir "$RUNNER_TEMP/sjasmplus"
+          tar --extract --xz --file "$RUNNER_TEMP/sjasmplus.tar.xz" --directory "$RUNNER_TEMP/sjasmplus" --strip-components=1
+          make --directory "$RUNNER_TEMP/sjasmplus" --jobs=2
+
+      - name: Reproduce ROM and Pages artifacts
+        env:
+          SJASMPLUS: ${{ runner.temp }}/sjasmplus/sjasmplus
+        run: npm run verify:free85:reproducible
+
       - name: Upload visual regression diffs
         if: failure()
         uses: actions/upload-artifact@v7

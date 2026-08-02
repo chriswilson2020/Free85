@@ -20,7 +20,7 @@ phase14_init:
     LD (P14_MAGIC_1), A
     LD A, '5'
     LD (P14_MAGIC_2), A
-    LD A, 1
+    LD A, OBJECT_STORE_SCHEMA_VERSION
     LD (P14_VERSION), A
     LD HL, P14_HEAP_START
     LD (P14_HEAP_END), HL
@@ -72,7 +72,7 @@ phase14_validate:
     CP '5'
     JR NZ, .invalid
     LD A, (P14_VERSION)
-    CP 1
+    CP OBJECT_STORE_SCHEMA_VERSION
     JR NZ, .invalid
     LD A, (P14_OBJECT_COUNT)
     CP P14_ENTRY_COUNT + 1

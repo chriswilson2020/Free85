@@ -45,9 +45,9 @@ state_init:
     CP '5'
     JR NZ, .fresh
     LD A, (STATE_VERSION)
-    CP 13
+    CP STATE_SCHEMA_VERSION
     JR Z, .validate_objects
-    CP 12
+    CP STATE_MIGRATION_VERSION
     JR Z, .migrate_objects
 .fresh:
     LD HL, SYSTEM_STATE_BASE
@@ -62,7 +62,7 @@ state_init:
     LD (STATE_MAGIC_1), A
     LD A, '5'
     LD (STATE_MAGIC_2), A
-    LD A, 13
+    LD A, STATE_SCHEMA_VERSION
     LD (STATE_VERSION), A
     CALL PHASE6_INIT
     LD A, 2
@@ -90,7 +90,7 @@ state_init:
     LD A, 7
     CALL bank_select
     CALL PHASE14_INIT
-    LD A, 13
+    LD A, STATE_SCHEMA_VERSION
     LD (STATE_VERSION), A
     LD A, 1
     CALL bank_select

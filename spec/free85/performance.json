@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "release": "2.9.0",
-  "phase": 12,
+  "release": "2.10.0",
+  "phase": "14.10",
   "clock_hz": 6000000,
   "key_response": {
     "frames": 1,
@@ -16,7 +16,7 @@
     },
     "sin": {
       "frames": 13,
-      "tstates": 1560053,
+      "tstates": 1560049,
       "result": "0.84147098480797",
       "error": 0
     },
@@ -36,11 +36,11 @@
   "graph": {
     "linear": {
       "frames": 123,
-      "tstates": 15240553
+      "tstates": 15240557
     },
     "quadratic": {
       "frames": 292,
-      "tstates": 35521323
+      "tstates": 35521211
     },
     "sine": {
       "frames": 2262,

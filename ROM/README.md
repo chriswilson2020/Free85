@@ -10,9 +10,10 @@ Rebuild it with:
 npm run build:free85
 ```
 
-The 1.0 release's exact size and SHA-256 digest are recorded in
-`spec/free85/release.json`; `npm run release:free85` rebuilds the ROM and checks
-the complete release bundle.
+Free85 2.10.0's exact size and SHA-256 digest are recorded in
+`spec/free85/release.json`. `npm run release:free85` rebuilds and validates the
+complete release bundle, while `npm run verify:free85:reproducible` performs
+two independent ROM and GitHub Pages builds and checks their recorded hashes.
 
 The ROM contains no Texas Instruments ROM code, disassembly, fonts, artwork,
 binary tables, or proprietary fixtures. Free85 does not redistribute and never

@@ -5,6 +5,10 @@ firmware for the TI-85-compatible machine layer in this repository. It runs on
 the emulated Z80 and calculator hardware and does not require services from the
 original TI firmware.
 
+The current stable release is Free85 2.10.0 (Phase 14.10): an exact 128 KiB
+ROM with persistent RAM schema 13, object-store schema 1, a closed applicable
+2.0 parity ledger, and independently reproducible ROM and Pages artifacts.
+
 ## Parity target
 
 Every physical key, printed shifted function, alpha entry, and reachable
@@ -48,6 +52,11 @@ memory, link, power, and every remaining key/menu surface; the website then
 ships Free85 as its default ROM. Phase 12 measures and optimises hot paths,
 publishes the reproducible 1.0 release bundle, and locks release completeness,
 performance, stress, soak, and browser-default behavior into validation.
+
+Phase 14 extends that baseline to Free85 2.0 command-level parity. Phase 14.10
+freezes persistent RAM schema 13 and object-store schema 1, closes every
+applicable parity gap, and requires independent ROM and Pages rebuilds to
+produce identical hashes before a stable release can be published.
 
 ## Definition of a complete feature
 

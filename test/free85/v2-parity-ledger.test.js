@@ -25,30 +25,27 @@ test("[v2.ledger] every inventoried item is unique and conservatively classified
   }
 });
 
-test("[v2.ledger] chapter summary no longer overstates broad equivalence", async () => {
+test("[v2.ledger] chapter summary closes every applicable 2.0 chapter", async () => {
   const coverage = await readJson("spec/free85/guidebook-coverage.yaml");
   assert.equal(coverage.chapters.filter(({ chapter }) => Number.isInteger(chapter)).length, 19);
-  assert.equal(coverage.chapters.some(({ status }) => status === "missing"), true);
-  assert.equal(coverage.chapters.some(({ status }) => status === "partial"), true);
-  assert.equal(coverage.chapters.filter(({ status }) => status === "equivalent").length, 1);
+  assert.equal(coverage.chapters.some(({ status }) => ["missing", "partial"].includes(status)), false);
+  assert.equal(coverage.chapters.filter(({ chapter, status }) => Number.isInteger(chapter) && status === "equivalent").length, 18);
+  assert.equal(coverage.chapters.find(({ chapter }) => chapter === 19).status, "hardware-dependent");
 });
 
-test("[v2.progress] Phase 14.9 closes constants, characters, and memory gaps", async () => {
+test("[v2.progress] Phase 14.10 closes every applicable 2.0 gap", async () => {
   const report = await readJson("spec/free85/v2-parity-report.json");
-  assert.equal(report.phase, "14.9");
+  assert.equal(report.phase, "14.10");
   assert.equal(report.inventory.entries >= 250, true);
   assert.equal(report.gaps.total, 36);
-  assert.equal(report.gaps.byStatus.equivalent, 33);
+  assert.equal(report.gaps.byStatus.equivalent, 34);
   assert.equal(report.gaps.byStatus.hardwareDependent ?? report.gaps.byStatus["hardware-dependent"], 2);
-  assert.equal(report.gaps.byStatus.missing, 1);
-  assert.equal(report.gaps.equivalentPercent, 91.67);
-  const phase = report.workPackages.find(({ id }) => id === "14.9");
-  assert.deepEqual(phase.gaps.map(({ id, status }) => [id, status]), [
-    ["constants.user", "equivalent"],
-    ["characters.extended", "equivalent"],
-    ["memory.complete", "equivalent"],
-    ["link.transfer", "hardware-dependent"],
-    ["link.backup", "hardware-dependent"]
-  ]);
+  assert.equal(report.gaps.byStatus.missing ?? 0, 0);
+  assert.equal(report.gaps.byStatus.partial ?? 0, 0);
+  assert.equal(report.gaps.equivalentPercent, 94.44);
+  const phase = report.workPackages.find(({ id }) => id === "14.10");
+  assert.deepEqual(phase.gaps.map(({ id, status }) => [id, status]), [["release.2.0", "equivalent"]]);
+  assert.equal(report.inventory.groupsByStatus.partial, 0);
+  assert.equal(report.inventory.groupsByStatus.missing, 0);
   assert.equal(report.cleanRoom.proprietaryInputsRequiredForPublicValidation, false);
 });

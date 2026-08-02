@@ -93,7 +93,7 @@ font_ascii_32:
     DB $00,$00,$11,$0A,$04,$0A,$11 ; x
     DB $00,$00,$11,$11,$0F,$01,$0E ; y
     DB $00,$00,$1F,$02,$04,$08,$1F ; z
-    ; Free85 2.9 original extended set. Codes 123-146 are Greek and
+    ; Free85 2.0 original extended set. Codes 123-146 are Greek and
     ; 147-150 provide a compact international palette. These are original
     ; 5x7 forms and do not contain glyph data extracted from a TI ROM.
     DB $0E,$11,$11,$1F,$11,$11,$11 ; Alpha

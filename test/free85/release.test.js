@@ -3,21 +3,36 @@ import { createHash } from "node:crypto";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
-test("[release.bundle] the checked-in development ROM remains reproducible", async () => {
+test("[release.bundle] the stable 2.0 ROM is bound to frozen schemas and reproducibility evidence", async () => {
   const manifest = JSON.parse(await readFile("spec/free85/release.json", "utf8"));
   const rom = await readFile(manifest.rom.path);
-  assert.equal(manifest.version, "2.9.0");
-  assert.equal(manifest.phase, "14.9");
-  assert.equal(manifest.target_release, "2.9.0");
-  assert.equal(manifest.status, "development");
+  const reproducibility = JSON.parse(await readFile(manifest.reproducibility_report, "utf8"));
+  assert.equal(manifest.schema_version, 2);
+  assert.equal(manifest.version, "2.10.0");
+  assert.equal(manifest.phase, "14.10");
+  assert.equal(manifest.target_release, "2.10.0");
+  assert.equal(manifest.status, "stable");
   assert.equal(manifest.license, "MIT");
+  assert.deepEqual(manifest.persistent_ram, {
+    schema: 13,
+    status: "frozen",
+    migrates_from: [12],
+    object_store_schema: 1
+  });
   assert.equal(rom.length, 131072);
   assert.equal(createHash("sha256").update(rom).digest("hex"), manifest.rom.sha256);
+  assert.equal(reproducibility.rom.sha256, manifest.rom.sha256);
+  assert.equal(reproducibility.independent_builds, 2);
+  assert.equal(reproducibility.pages.files > 0, true);
+  assert.match(reproducibility.pages.sha256, /^[0-9a-f]{64}$/);
 
   for (const path of [
     manifest.source,
     manifest.coverage_report,
     manifest.performance_report,
+    manifest.parity_report,
+    manifest.reproducibility_report,
+    manifest.release_notes,
     manifest.known_limitations,
     ...manifest.notices
   ]) await access(path);
@@ -26,12 +41,12 @@ test("[release.bundle] the checked-in development ROM remains reproducible", asy
 test("[release.coverage-performance] release reports retain all parity and timing gates", async () => {
   const coverage = JSON.parse(await readFile("spec/free85/coverage.json", "utf8"));
   const performance = JSON.parse(await readFile("spec/free85/performance.json", "utf8"));
-  assert.equal(coverage.phase, "14.9");
+  assert.equal(coverage.phase, "14.10");
   assert.equal(coverage.physical_keys.percent, 100);
   assert.equal(coverage.shifted_functions.percent, 100);
   assert.equal(coverage.alpha_mappings.percent, 100);
   assert.equal(coverage.features.complete_test_percent, 100);
-  assert.equal(performance.phase, 12);
+  assert.equal(performance.phase, "14.10");
   assert.ok(performance.key_response.frames <= performance.limits.key_response_frames);
   for (const [name, limit] of Object.entries(performance.limits.evaluation_frames)) {
     assert.ok(performance.evaluation[name].frames <= limit, name);

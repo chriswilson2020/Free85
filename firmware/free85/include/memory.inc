@@ -1,5 +1,10 @@
 ; Phase 5 RAM contract. The stack grows down from the LCD framebuffer.
 SYSTEM_STATE_BASE   EQU $8000
+; Free85 2.0 freezes the persistent RAM contract at schema 13. Schema 12 is
+; the only supported in-place migration source; all other versions reset.
+STATE_SCHEMA_VERSION EQU 13
+STATE_MIGRATION_VERSION EQU 12
+OBJECT_STORE_SCHEMA_VERSION EQU 1
 STATE_MAGIC_0       EQU SYSTEM_STATE_BASE + 0
 STATE_MAGIC_1       EQU SYSTEM_STATE_BASE + 1
 STATE_MAGIC_2       EQU SYSTEM_STATE_BASE + 2

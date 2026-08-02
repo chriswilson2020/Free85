@@ -105,3 +105,54 @@ heap exhaustion, grow and shrink relocation, deletion compaction, payload and
 address preservation, warm-reset persistence, retryable schema-12 migration,
 and legacy-value preservation. The memory browser has a reviewed raw 1,024-byte
 LCD fixture and PNG, and its delete path is driven through physical keys.
+
+Phase 14.2 validates scalar numeric utilities, interpolation, random-number
+boundaries, active-function calculus, AUTO/SCI/ENG/FIX formatting, signed
+16-bit binary/octal/decimal/hexadecimal entry, and all Boolean word operations.
+Tests cover normal values, rounding boundaries, domain failures, and keypad or
+catalog reachability.
+
+Phase 14.3 validates the shared graph evaluator, persistent format flags,
+simultaneous and sequential equivalence, line and dot rendering, free cursor,
+table and trace values, all zoom operations, named windows, cancellation, and
+exact 1,024-byte LCD output. Discontinuity tests require broken segments rather
+than artificial vertical bridges.
+
+Phase 14.4 validates every drawing primitive, incremental cancellation,
+program-to-drawing dispatch, exact picture framebuffer round trips, and
+versioned graph-database round trips. Reviewed LCD and lossless PNG goldens
+cover drawing and persistence workflows.
+
+Phase 14.5 validates function, polar, parametric, and first-order differential-
+equation graph modes, mode-specific windows and tables, graph-coordinate
+display, graph-database persistence, and rectangular/cylindrical/spherical
+vector conversions in both angle modes.
+
+Phase 14.6 validates complex collection operations, matrix row operations,
+augmentation, echelon forms, norms, condition number, deterministic fill,
+combined LU storage, and bounded real eigensystems. It includes dimension,
+singularity, capacity, and non-convergence failures.
+
+Phase 14.7 validates general-solver state and graph handoff, logarithmic,
+exponential, power, and degree 2-4 polynomial regression, forward and inverse
+forecasting, paired sorting, last-result recall, and connected XY-line plots.
+Independent expectations and invalid-domain samples accompany each model.
+
+Phase 14.8 validates every added program control form, nonblocking input and
+pause state, positioned display and virtual I/O, equation/string conversion,
+native catalog and application dispatch, exact error-line reporting, bounded
+nesting/calls, and ON/EXIT/CLEAR interruption of waiting or runaway programs.
+
+Phase 14.9 validates user-constant lifecycle and persistence, extended
+character insertion, typed memory accounting, individual deletion, and the
+open Free85 link protocol. Two-machine tests cover selection, duplicate policy,
+capacity exhaustion, corruption, interruption, and transactional rollback for
+item transfer and full backup/restore.
+
+Phase 14.10 is the stable 2.10.0 release gate. It requires zero applicable
+`partial` or `missing` ledger entries, frozen persistent RAM schema 13 and
+object-store schema 1, two independent clean builds using pinned `sjasmplus`
+1.21.1, identical 131,072-byte ROMs, identical Pages trees, and matching
+machine-readable manifests. The recorded release passes 181 public tests,
+deterministic performance budgets, 10,000 key events, a 9,000-frame/180-second
+emulated soak, and the optional 270-vector/five-probe private oracle package.

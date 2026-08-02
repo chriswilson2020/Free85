@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "release": "2.0.0",
+  "release": "2.10.0",
   "source": "TI-85 Guidebook public user-facing behaviour",
   "statuses": ["equivalent", "partial", "missing", "hardware-dependent"],
   "gaps": [
-    { "id": "parity.ledger", "area": "audit", "status": "equivalent", "owner": "14.0", "target": "command-level guidebook traceability" },
+    { "id": "parity.ledger", "area": "audit", "status": "equivalent", "owner": "14.0", "target": "command-level guidebook traceability", "evidence": ["spec/free85/guidebook-command-ledger.yaml", "scripts/free85-v2-parity.js", "test/free85/v2-parity-ledger.test.js"] },
     { "id": "storage.objects", "area": "data", "status": "equivalent", "owner": "14.1", "target": "typed named objects and reserved variables", "evidence": ["firmware/free85/system/object_store.asm", "test/free85/object-store.test.js", "docs/Free85-object-store.md"] },
     { "id": "storage.capacity", "area": "data", "status": "equivalent", "owner": "14.1", "target": "dynamic capacity with deterministic memory accounting", "evidence": ["firmware/free85/system/object_store.asm", "test/free85/object-store.test.js"] },
     { "id": "memory.browser", "area": "memory", "status": "equivalent", "owner": "14.1", "target": "per-object sizes selection deletion and recovery", "evidence": ["firmware/free85/system/phase11.asm", "test/free85/goldens/graphs/phase14-memory-browser.lcd"] },
@@ -39,6 +39,6 @@
     { "id": "memory.complete", "area": "memory", "status": "equivalent", "owner": "14.9", "target": "complete typed memory workflows", "evidence": ["firmware/free85/system/phase11.asm", "test/free85/object-store.test.js", "test/free85/goldens/graphs/phase14-memory-browser.lcd"] },
     { "id": "link.transfer", "area": "link", "status": "hardware-dependent", "owner": "14.9", "target": "physical-cable validation remains separate from complete emulator-tested Free85 transfer workflows", "evidence": ["firmware/free85/system/phase11.asm", "src/free85-link.js", "test/free85/system-phase21.test.js", "test/free85/goldens/graphs/phase21-link-waiting.lcd"] },
     { "id": "link.backup", "area": "link", "status": "hardware-dependent", "owner": "14.9", "target": "physical-cable validation remains separate from transactional emulator backup and restore", "evidence": ["src/free85-link.js", "test/free85/system-phase21.test.js"] },
-    { "id": "release.2.0", "area": "release", "status": "missing", "owner": "14.10", "target": "reproducible zero-gap Free85 2.0 release" }
+    { "id": "release.2.0", "area": "release", "status": "equivalent", "owner": "14.10", "target": "reproducible zero-gap Free85 2.0 release", "evidence": ["scripts/free85-reproducibility.js", "test/free85/release.test.js", "spec/free85/reproducibility.json", "docs/Free85-2.0-release.md"] }
   ]
 }

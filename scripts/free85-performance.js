@@ -103,8 +103,8 @@ const graph = {
 
 const report = {
   schema_version: 1,
-  release: "2.9.0",
-  phase: 12,
+  release: "2.10.0",
+  phase: "14.10",
   clock_hz: 6000000,
   key_response: measureKeyResponse(),
   evaluation,

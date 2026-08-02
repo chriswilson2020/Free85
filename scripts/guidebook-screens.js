@@ -118,6 +118,11 @@ export const SCREEN_CASES = [
     keys: ["2ND", "STAT", "2", "ENTER", "1", "ENTER", "5", "ENTER",
       "1", "ENTER", "(-)", "1", "ENTER", "1", "ENTER", "F1", 1500]
   },
+  // The solver workspace holding X^2-4 stored from the home entry line.
+  {
+    name: "ch14-solver-workspace",
+    keys: ["X-VAR", "X^2", "-", "4", "2ND", "GRAPH", 30]
+  },
   // Five pairs (1,2)..(5,5): + grows the shared length to 5, ALPHA switches
   // to the Y column. The capture wraps back to the Y column's first entry.
   {

@@ -325,12 +325,19 @@ this setting.
 ## Angle and fraction display
 
 Angles in Free85 are plain decimal numbers, read as radians or degrees
-according to the `RAD`/`DEG` mode set on the mode screen (chapter 1). The
-`RAD(` and `DEG(` functions convert a value between the two units
-explicitly (chapter 8). There is no degrees-minutes-seconds notation yet:
-angles like 30 degrees 15 minutes are entered as their decimal equivalent
-(`30.25`), and results are displayed the same way. Fractions likewise
-always display as decimals.
-
-> ⚠ **Planned:** degrees-minutes-seconds entry and display and fraction
-> presentation of results (Free85 2.0, work package 14.2).
+according to the `RAD`/`DEG` mode set on the mode screen (chapter 1;
+the two modes are the commands `Radian` and `Degree` elsewhere). There
+is no sexagesimal degrees-minutes-seconds entry or display (elsewhere
+`DMS-entry` and `->DMS`). This is a deliberate design: an angle is
+always one plain number, so 30 degrees 15 minutes is typed as its
+decimal equivalent and results read the same way. The designed
+equivalents are ordinary functions on the conversions menu of
+chapter 8. `RAD(` and `DEG(`, shown in the trigonometry section above,
+convert a whole angle between the units, and the minutes-seconds pair
+`MINS(` and `SMIN(` steps a figure across the same sixty-to-one ratio
+that links arcminutes to degrees: `MINS(2)` answers `= 120`, `SMIN(90)`
+answers `= 1.5`, and `30+SMIN(15)` answers `= 30.25`, the decimal form
+of 30 degrees 15 minutes. Fraction display sits on the same boundary:
+results never present as fractions (elsewhere `->Frac`), and `FRAC(` is
+the fractional-part utility of this chapter rather than a fraction
+display (`FRAC(12.75)` answers `= 0.75`).

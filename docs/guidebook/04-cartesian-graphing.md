@@ -187,11 +187,11 @@ number; [CLEAR] or [EXIT] dismisses it.
 These are the graph-side counterparts of the home-screen calculus commands
 (`EVAL(`, `NDER(`, `FNINT(`, `FMIN(`, `FMAX(`) described in chapter 3: same
 algorithms, with the window standing in for the interval arguments. The
-[GRAPH] key's shifted function `SOLVER` chains two of the steps: with an
-expression on the home entry line, [2nd] [GRAPH] stores it, finds a root,
-and answers on the home screen in one go ([2nd] [GRAPH] with `X^2-4` on the
-line answers `= -2`). Chapter 14: Equation, Polynomial, and Simultaneous
-Solving covers the solving tools in full.
+[GRAPH] key's shifted function `SOLVER` runs the same hunt from its own
+workspace: with an expression on the home entry line, [2nd] [GRAPH]
+stores it there, and the workspace's `SOLV` key searches between bounds
+you set. Chapter 14: Equation, Polynomial, and Simultaneous Solving
+covers the solving tools in full.
 
 ## The table
 

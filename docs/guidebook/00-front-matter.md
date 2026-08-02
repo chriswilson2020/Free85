@@ -38,11 +38,12 @@ license text and `NOTICE.md` for the project notices.
   the listed keys, and photographing the result, so what you see is what the
   calculator actually shows.
 - **Planned-work callouts** flag features that are reachable in a chapter's
-  subject area but not implemented yet. Free85 2.10 completes the feature
-  work the first edition flagged this way, so few if any of these callouts
-  remain; where one appears, the work-package number it cites is recorded in
-  appendix D, which reports feature status across the release. They always
-  look like this:
+  subject area but not implemented yet. Free85 2.10 completes almost all of
+  the feature work the first edition flagged this way and settles the rest
+  as deliberate design choices described in their chapters, so few if any
+  of these callouts remain; where one appears, the work-package number it
+  cites is recorded in appendix D, which reports feature status across the
+  release. They always look like this:
 
   > ⚠ **Planned:** what is missing (Free85 2.0, work package id).
 

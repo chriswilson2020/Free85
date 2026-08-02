@@ -9,10 +9,12 @@ bank_start:
     JP phase7_open_matrix
     JP phase7_open_vector
     JP phase7_handle_key
+    JP p20_collection_program
 
     INCLUDE "collections/phase7.asm"
     INCLUDE "collections/phase17.asm"
     INCLUDE "collections/phase18.asm"
+    INCLUDE "programming/phase20-collections.asm"
 
 bank_end:
     ASSERT bank_end <= $8000

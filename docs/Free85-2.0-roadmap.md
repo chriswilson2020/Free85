@@ -142,11 +142,13 @@ in `test/free85/statistics-phase19.test.js`; see
 
 ### 14.8 - Programming-language completion
 
-Add labels/Goto, Repeat, increment/decrement-and-skip, program menus, GetKey,
-Pause, Prompt, positioned Output, string input, graph display, and
-equation/string conversion. Expose every new 2.0 math, collection, graph,
-solver, and statistics operation to programs. External-device instructions use
-an open virtual-device interface and remain interruptible.
+Implemented. The bounded interpreter now supports labels/Goto, Repeat,
+increment/decrement-and-skip, soft-key menus, GetKey, Pause, Prompt,
+positioned Output, string input, graph display, and equation/string round
+trips. Math expressions and native collection, graph-mode, solver, and
+statistics dispatchers are program-callable. External-device instructions use
+the bounded open virtual-device buffer and remain interruptible. Exact error
+lines and LCD goldens are validated in `test/free85/programming-phase20.test.js`.
 
 ### 14.9 - Constants, characters, memory, and link workflows
 

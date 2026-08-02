@@ -59,6 +59,7 @@ test("complete Free85 features reference stable test identifiers", async () => {
     readFile("test/free85/statistics-phase19.test.js", "utf8"),
     readFile("test/free85/strings-catalog-custom.test.js", "utf8"),
     readFile("test/free85/programming.test.js", "utf8"),
+    readFile("test/free85/programming-phase20.test.js", "utf8"),
     readFile("test/free85/parity.test.js", "utf8")
   ]);
   const combined = testSources.join("\n");

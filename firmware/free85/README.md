@@ -252,6 +252,15 @@ and reset persistence, expressions, all control forms, input, calls,
 list/matrix access, graph launch, runaway interruption, exact error lines, and
 reviewed LCD framebuffers.
 
+Phase 14.8 extends the same bounded runtime with `LBL`/`GOTO`, `REPEAT`,
+`IS>`/`DS<`, soft-key `MENU`, nonblocking `GETKEY`, `PAUSE`, `PROMPT`, `INPST`, positioned
+`OUTPT`, `CLLCD`, `DISPG`, `PRTSCRN`, `EQTOST`, `STTOEQ`, and bounded virtual
+`VIN`/`VOUT`. `CAT` evaluates the shared math catalog; `VSET`/`VGET`, `COLL`,
+`STATC`, `SOLVER`, and `GMODE` invoke the native collection, statistics,
+solver, and graph engines. Waiting instructions retain their state in the
+program workspace, so ON/EXIT/CLEAR interruption and exact source-line errors
+remain active.
+
 ## Phase 11 complete parity
 
 Phase 11 completes every registered physical, shifted, alpha, menu, and

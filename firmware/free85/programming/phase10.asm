@@ -6,6 +6,7 @@ P10_MODE_RENAME EQU 1
 P10_FRAME_IF    EQU 1
 P10_FRAME_WHILE EQU 2
 P10_FRAME_FOR   EQU 3
+P10_FRAME_REPEAT EQU 4
 
 P10_ERR_NONE    EQU 0
 P10_ERR_SYNTAX  EQU 1
@@ -25,6 +26,11 @@ phase10_init:
     LD (P10_OUTPUT_VISIBLE), A
     LD (P10_CONTROL_DEPTH), A
     LD (P10_CALL_DEPTH), A
+    LD (P20_WAIT_MODE), A
+    LD (P20_DISPLAY_MODE), A
+    LD (P20_DEVICE_LENGTH), A
+    LD A, KEY_NONE
+    LD (P20_LAST_KEY), A
     RET
 
 phase10_open_list:
@@ -506,6 +512,10 @@ p10_start_run:
     LD (P10_CALL_DEPTH), A
     LD (P10_STEP_COUNT_LO), A
     LD (P10_STEP_COUNT_HI), A
+    LD (P20_WAIT_MODE), A
+    LD (P20_DISPLAY_MODE), A
+    LD A, KEY_NONE
+    LD (P20_LAST_KEY), A
     LD A, 1
     LD (P10_RUNNING), A
     LD A, SCREEN_PROGRAM_RUN
@@ -521,6 +531,7 @@ p10_run_key:
     JR Z, p10_stop_run
     CP KEY_PRGM
     JP Z, phase10_open_list
+    LD (P20_LAST_KEY), A
     JP p10_render_run
 
 p10_stop_run:
@@ -537,6 +548,9 @@ phase10_tick:
     LD A, (P10_RUNNING)
     OR A
     RET Z
+    LD A, (P20_WAIT_MODE)
+    OR A
+    RET NZ
     LD HL, P10_STEP_COUNT_LO
     INC (HL)
     JR NZ, .execute
@@ -566,6 +580,98 @@ p10_execute_current:
     LD DE, p10_kw_input
     CALL p10_match_keyword
     JP NC, p10_command_input
+    CALL p10_pc_source
+    LD DE, p20_kw_lbl
+    CALL p10_match_keyword
+    JP NC, p20_command_lbl
+    CALL p10_pc_source
+    LD DE, p20_kw_goto
+    CALL p10_match_keyword
+    JP NC, p20_command_goto
+    CALL p10_pc_source
+    LD DE, p20_kw_repeat
+    CALL p10_match_keyword
+    JP NC, p20_command_repeat
+    CALL p10_pc_source
+    LD DE, p20_kw_is
+    CALL p10_match_keyword
+    JP NC, p20_command_is
+    CALL p10_pc_source
+    LD DE, p20_kw_ds
+    CALL p10_match_keyword
+    JP NC, p20_command_ds
+    CALL p10_pc_source
+    LD DE, p20_kw_menu
+    CALL p10_match_keyword
+    JP NC, p20_command_menu
+    CALL p10_pc_source
+    LD DE, p20_kw_getkey
+    CALL p10_match_keyword
+    JP NC, p20_command_getkey
+    CALL p10_pc_source
+    LD DE, p20_kw_pause
+    CALL p10_match_exact
+    JP NC, p20_command_pause
+    CALL p10_pc_source
+    LD DE, p20_kw_prompt
+    CALL p10_match_keyword
+    JP NC, p20_command_prompt
+    CALL p10_pc_source
+    LD DE, p20_kw_outpt
+    CALL p10_match_keyword
+    JP NC, p20_command_outpt
+    CALL p10_pc_source
+    LD DE, p20_kw_inpst
+    CALL p10_match_keyword
+    JP NC, p20_command_inpst
+    CALL p10_pc_source
+    LD DE, p20_kw_cllcd
+    CALL p10_match_exact
+    JP NC, p20_command_cllcd
+    CALL p10_pc_source
+    LD DE, p20_kw_dispg
+    CALL p10_match_exact
+    JP NC, p20_command_dispg
+    CALL p10_pc_source
+    LD DE, p20_kw_prtscrn
+    CALL p10_match_exact
+    JP NC, p20_command_prtscrn
+    CALL p10_pc_source
+    LD DE, p20_kw_eqtost
+    CALL p10_match_keyword
+    JP NC, p20_command_eqtost
+    CALL p10_pc_source
+    LD DE, p20_kw_sttoeq
+    CALL p10_match_keyword
+    JP NC, p20_command_sttoeq
+    CALL p10_pc_source
+    LD DE, p20_kw_vout
+    CALL p10_match_keyword
+    JP NC, p20_command_vout
+    CALL p10_pc_source
+    LD DE, p20_kw_vin
+    CALL p10_match_keyword
+    JP NC, p20_command_vin
+    CALL p10_pc_source
+    LD DE, p20_kw_cat
+    CALL p10_match_keyword
+    JP NC, p20_command_cat
+    CALL p10_pc_source
+    LD DE, p20_kw_coll
+    CALL p10_match_keyword
+    JP NC, p20_command_coll
+    CALL p10_pc_source
+    LD DE, p20_kw_statc
+    CALL p10_match_keyword
+    JP NC, p20_command_statc
+    CALL p10_pc_source
+    LD DE, p20_kw_solver
+    CALL p10_match_keyword
+    JP NC, p20_command_solver
+    CALL p10_pc_source
+    LD DE, p20_kw_gmode
+    CALL p10_match_keyword
+    JP NC, p20_command_gmode
     CALL p10_pc_source
     LD DE, p10_kw_if
     CALL p10_match_keyword
@@ -622,6 +728,14 @@ p10_execute_current:
     LD DE, p10_kw_mget
     CALL p10_match_keyword
     JP NC, p10_command_mget
+    CALL p10_pc_source
+    LD DE, p20_kw_vset
+    CALL p10_match_keyword
+    JP NC, p20_command_vset
+    CALL p10_pc_source
+    LD DE, p20_kw_vget
+    CALL p10_match_keyword
+    JP NC, p20_command_vget
     CALL p10_pc_source
     CALL p10_eval_span
     JP C, p10_runtime_syntax
@@ -681,6 +795,8 @@ p10_eval_span:
     JP numeric_evaluate_expression
 
 p10_command_disp:
+    XOR A
+    LD (P20_DISPLAY_MODE), A
     CALL p10_eval_span
     JP C, p10_runtime_syntax
     CALL numeric_format_result
@@ -709,6 +825,10 @@ p10_command_input:
     CP 'Z' + 1
     JP NC, p10_runtime_syntax
     LD (P10_INPUT_VARIABLE), A
+    XOR A
+    LD (P20_WAIT_ARG), A
+    LD A, P20_WAIT_NUMERIC
+    LD (P20_WAIT_MODE), A
     CALL editor_clear
     LD A, (P10_PC)
     INC A
@@ -719,6 +839,10 @@ p10_command_input:
 
 p10_input_key:
     LD B, A
+    LD A, (P20_WAIT_MODE)
+    CP P20_WAIT_NUMERIC
+    LD A, B
+    JP NZ, p20_wait_key
     CP KEY_EXIT
     JP Z, p10_stop_run
     CP KEY_ON
@@ -742,6 +866,8 @@ p10_input_key:
     CALL numeric_copy
     LD A, SCREEN_PROGRAM_RUN
     LD (UI_SCREEN_MODE), A
+    XOR A
+    LD (P20_WAIT_MODE), A
     JP p10_render_run
 .error:
     LD A, P10_ERR_INPUT
@@ -750,6 +876,7 @@ p10_input_key:
     LD (P10_ERROR_LINE), A
     XOR A
     LD (P10_RUNNING), A
+    LD (P20_WAIT_MODE), A
     LD A, SCREEN_PROGRAM_RUN
     LD (UI_SCREEN_MODE), A
     JP p10_render_run
@@ -861,6 +988,8 @@ p10_command_end:
     JR Z, .while_end
     CP P10_FRAME_FOR
     JP Z, p10_for_end
+    CP P10_FRAME_REPEAT
+    JP Z, p20_repeat_end
     JP p10_runtime_syntax
 .if_end:
     CALL p10_pop_control
@@ -1427,6 +1556,10 @@ p10_scan_line_kind:
     CALL p10_match_keyword
     JR NC, .open
     CALL p10_pc_source
+    LD DE, p20_kw_repeat
+    CALL p10_match_keyword
+    JR NC, .open
+    CALL p10_pc_source
     LD DE, p10_kw_end
     CALL p10_match_exact
     JR NC, .end
@@ -1551,6 +1684,19 @@ p10_render_name:
     JP text_draw_string
 
 p10_render_run:
+    LD A, (P20_DISPLAY_MODE)
+    CP 1
+    JP Z, lcd_clear
+    CP 2
+    JR NZ, .standard
+    CALL lcd_clear
+    LD HL, P10_OUTPUT_BUFFER
+    LD A, (P20_OUTPUT_COL)
+    LD B, A
+    LD A, (P20_OUTPUT_ROW)
+    LD C, A
+    JP text_draw_string
+.standard:
     CALL lcd_clear
     LD HL, p10_text_run
     LD B, 0
@@ -1614,7 +1760,16 @@ p10_render_run:
 
 p10_render_input:
     CALL lcd_clear
+    LD A, (P20_WAIT_MODE)
+    CP P20_WAIT_STRING
+    LD HL, p20_text_inpst
+    JR Z, .title_ready
+    LD A, (P20_WAIT_ARG)
+    OR A
     LD HL, p10_text_input
+    JR Z, .title_ready
+    LD HL, p20_text_prompt
+.title_ready:
     LD B, 0
     LD C, 0
     CALL text_draw_string
@@ -1623,7 +1778,12 @@ p10_render_input:
     LD C, 0
     CALL text_draw_char
     CALL editor_render
+    LD A, (P20_WAIT_MODE)
+    CP P20_WAIT_STRING
     LD HL, p10_text_input_help
+    JR NZ, .help_ready
+    LD HL, p20_text_enter_text
+.help_ready:
     LD B, 0
     LD C, 7
     JP text_draw_string

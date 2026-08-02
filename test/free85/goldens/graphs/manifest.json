@@ -53,8 +53,8 @@
     {
       "name": "phase19-home-version",
       "keys": [],
-      "litPixelCount": 725,
-      "checksum": "4AA92086"
+      "litPixelCount": 731,
+      "checksum": "ABDFF4E6"
     },
     {
       "name": "phase7-complex-editor",
@@ -195,6 +195,38 @@
       ],
       "litPixelCount": 425,
       "checksum": "14F1846A"
+    },
+    {
+      "name": "phase20-program-menu",
+      "lines": [
+        "MENU ONE,TWO",
+        "LBL ONE",
+        "STOP",
+        "LBL TWO",
+        "STOP"
+      ],
+      "frames": 1,
+      "litPixelCount": 431,
+      "checksum": "7F5968FB"
+    },
+    {
+      "name": "phase20-string-input",
+      "lines": [
+        "INPST A",
+        "STOP"
+      ],
+      "frames": 1,
+      "litPixelCount": 301,
+      "checksum": "53C0642D"
+    },
+    {
+      "name": "phase20-positioned-output",
+      "lines": [
+        "OUTPT 3,12,HELLO",
+        "STOP"
+      ],
+      "litPixelCount": 73,
+      "checksum": "CECEFE10"
     },
     {
       "name": "phase8-scatter-plot",

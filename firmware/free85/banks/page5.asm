@@ -9,6 +9,7 @@ bank_start:
     JP phase10_tick
 
     INCLUDE "programming/phase10.asm"
+    INCLUDE "programming/phase20.asm"
 
 bank_end:
     ASSERT bank_end <= $8000

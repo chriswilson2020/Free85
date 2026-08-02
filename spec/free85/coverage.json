@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "14.7",
+  "phase": "14.8",
   "source": "spec/free85/features.yaml",
   "physical_keys": {
     "total": 50,
@@ -31,35 +31,35 @@
     "complete_with_tests": 122,
     "complete_test_percent": 100
   },
-  "tests_referenced": 65,
+  "tests_referenced": 74,
   "rom_usage": {
     "total_bytes": 131072,
-    "used_bytes": 57149,
-    "free_bytes": 73923,
+    "used_bytes": 59753,
+    "free_bytes": 71319,
     "banks": [
       {
         "page": 0,
-        "used_bytes": 15238,
-        "free_bytes": 1146,
-        "percent_used": 93.01
+        "used_bytes": 15332,
+        "free_bytes": 1052,
+        "percent_used": 93.58
       },
       {
         "page": 1,
-        "used_bytes": 9771,
-        "free_bytes": 6613,
-        "percent_used": 59.64
+        "used_bytes": 9774,
+        "free_bytes": 6610,
+        "percent_used": 59.66
       },
       {
         "page": 2,
-        "used_bytes": 12800,
-        "free_bytes": 3584,
-        "percent_used": 78.13
+        "used_bytes": 12942,
+        "free_bytes": 3442,
+        "percent_used": 78.99
       },
       {
         "page": 3,
-        "used_bytes": 9775,
-        "free_bytes": 6609,
-        "percent_used": 59.66
+        "used_bytes": 9883,
+        "free_bytes": 6501,
+        "percent_used": 60.32
       },
       {
         "page": 4,
@@ -69,9 +69,9 @@
       },
       {
         "page": 5,
-        "used_bytes": 3187,
-        "free_bytes": 13197,
-        "percent_used": 19.45
+        "used_bytes": 5444,
+        "free_bytes": 10940,
+        "percent_used": 33.23
       },
       {
         "page": 6,

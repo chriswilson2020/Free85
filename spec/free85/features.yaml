@@ -512,8 +512,8 @@
       "id": "app.programs",
       "category": "app",
       "status": "complete",
-      "implementation": "firmware/free85/programming/phase10.asm",
-      "documentation": "firmware/free85/README.md#phase-10-programming-environment",
+      "implementation": "firmware/free85/programming/phase10.asm; firmware/free85/programming/phase20.asm; firmware/free85/programming/phase20-collections.asm; firmware/free85/programming/phase20-statistics.asm",
+      "documentation": "docs/Free85-programming-language.md",
       "tests": [
         "program.lifecycle",
         "program.expressions",
@@ -522,7 +522,16 @@
         "program.data-and-calls",
         "program.graph",
         "program.stop",
-        "program.errors"
+        "program.errors",
+        "program.phase20.control",
+        "program.phase20.menu",
+        "program.phase20.io",
+        "program.phase20.strings",
+        "program.phase20.display-device",
+        "program.phase20.catalog-graph",
+        "program.phase20.catalog",
+        "program.phase20.errors",
+        "program.phase20.interrupt"
       ],
       "surfaces": [
         {

@@ -107,3 +107,61 @@ bank_call_phase6_open_from_solver:
     CALL bank_select
     POP AF
     RET
+
+; Program bank 5 can display the already-stored active graph equation without
+; replacing it with the current program source line.
+bank_call_phase6_display_from_program:
+    LD A, 1
+    CALL bank_select
+    CALL PHASE6_START_PLOT
+    PUSH AF
+    LD A, 5
+    CALL bank_select
+    POP AF
+    RET
+
+bank_call_phase20_collection:
+    LD (P15_PROGRAM_OP), A
+    LD A, 2
+    CALL bank_select
+    LD A, (P15_PROGRAM_OP)
+    CALL PHASE20_COLLECTION_CALL
+    PUSH AF
+    LD A, 5
+    CALL bank_select
+    POP AF
+    RET
+
+bank_call_phase20_statistics:
+    LD (P15_PROGRAM_OP), A
+    LD A, 3
+    CALL bank_select
+    LD A, (P15_PROGRAM_OP)
+    CALL PHASE20_STATISTICS_CALL
+    PUSH AF
+    LD A, 5
+    CALL bank_select
+    POP AF
+    RET
+
+bank_call_phase20_solver:
+    LD A, 3
+    CALL bank_select
+    CALL PHASE8_OPEN_SOLVER
+    PUSH AF
+    LD A, 5
+    CALL bank_select
+    POP AF
+    RET
+
+bank_call_phase20_graph_mode:
+    LD C, A
+    LD A, 1
+    CALL bank_select
+    LD A, C
+    CALL PHASE16_SELECT_MODE
+    PUSH AF
+    LD A, 5
+    CALL bank_select
+    POP AF
+    RET

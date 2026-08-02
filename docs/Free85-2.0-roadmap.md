@@ -152,11 +152,13 @@ lines and LCD goldens are validated in `test/free85/programming-phase20.test.js`
 
 ### 14.9 - Constants, characters, memory, and link workflows
 
-Add editable user constants and original Greek/international glyphs; finish the
-typed memory browser; and implement item selection, send, receive,
-duplicate-name resolution, interruption, and backup/restore over the Free85
-link protocol. Emulator loopback tests are mandatory; physical-hardware results
-are reported separately and may not be silently inferred.
+Implemented. Persistent typed user constants can be created, edited, renamed,
+used, and deleted; the original font now includes Greek and international
+palettes; and the memory browser reports named types and exact capacity. The
+Free85 link mailbox and emulator cable implement selection, send/receive,
+duplicate policies, cancellation, and transactional backup/restore with
+fault-injected two-machine loopback tests. Physical-hardware results remain a
+separate, explicitly unverified lane.
 
 ### 14.10 - 2.0 hardening and release
 

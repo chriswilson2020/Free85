@@ -15,6 +15,11 @@ phase11_init:
     LD (P11_POWER_STATE), A
     LD (P11_BASE_MODE), A
     LD (P11_VAR_CURSOR), A
+    LD HL, P21_LINK_COMMAND
+    LD DE, P21_LINK_COMMAND + 1
+    LD BC, P21_LINK_END - P21_LINK_COMMAND - 1
+    LD (HL), A
+    LDIR
     LD A, LCD_CONTRAST_DEFAULT
     LD (P11_CONTRAST), A
     RET
@@ -35,6 +40,9 @@ phase11_open_math:
 phase11_open_constants:
     LD A, P11_MENU_CONSTANTS
     LD (P11_ACTIVE_MENU), A
+    XOR A
+    LD (P21_CONST_MODE), A
+    LD (P21_CONST_CURSOR), A
     LD A, SCREEN_CONSTANTS
     JR p11_open_generic
 
@@ -84,6 +92,10 @@ phase11_open_link:
     LD (UI_MODIFIERS), A
     IN A, (PORT_LINK)
     LD (P11_LINK_STATE), A
+    XOR A
+    LD (P21_LINK_COMMAND), A
+    LD (P21_LINK_STATUS), A
+    LD (P21_LINK_ERROR), A
     JP p11_render_link
 
 phase11_handle_key:
@@ -153,6 +165,17 @@ p11_memory_slot_pointer:
 ; Generic insertion menus
 
 p11_generic_key:
+    LD C, A
+    LD A, (P11_ACTIVE_MENU)
+    CP P11_MENU_CONSTANTS
+    LD A, C
+    JR NZ, .regular
+    LD C, A
+    LD A, (P11_MENU_PAGE)
+    CP 2
+    LD A, C
+    JP Z, p21_constant_key
+.regular:
     CP KEY_EXIT
     JP Z, screen_show_home
     CP KEY_MORE
@@ -182,6 +205,18 @@ p11_generic_key:
     JP screen_show_home
 
 p11_generic_more:
+    LD A, (P11_ACTIVE_MENU)
+    CP P11_MENU_CONSTANTS
+    JR NZ, .table_pages
+    LD A, (P11_MENU_PAGE)
+    INC A
+    CP 3
+    JR C, .constant_store
+    XOR A
+.constant_store:
+    LD (P11_MENU_PAGE), A
+    JP p11_render_generic
+.table_pages:
     CALL p11_generic_table
     LD A, B
     DEC A
@@ -223,6 +258,13 @@ p11_generic_table:
     RET
 
 p11_render_generic:
+    LD A, (P11_ACTIVE_MENU)
+    CP P11_MENU_CONSTANTS
+    JR NZ, .standard
+    LD A, (P11_MENU_PAGE)
+    CP 2
+    JP Z, p21_render_constants
+.standard:
     CALL lcd_clear
     LD A, (P11_ACTIVE_MENU)
     OR A
@@ -566,6 +608,17 @@ p11_render_memory:
     LD B, 8
     LD C, 1
     CALL p11_draw_u8
+    LD HL, p11_text_free
+    LD B, 12
+    LD C, 1
+    CALL text_draw_string
+    LD HL, P14_HEAP_LIMIT
+    LD DE, (P14_HEAP_END)
+    OR A
+    SBC HL, DE
+    LD B, 17
+    LD C, 1
+    CALL p11_draw_u16
     CALL p11_selected_object
     JR C, .empty
     PUSH IX
@@ -574,21 +627,22 @@ p11_render_memory:
     LD DE, P14_ENTRY_NAME
     ADD HL, DE
     LD B, 0
-    LD C, 3
+    LD C, 2
     CALL text_draw_string
     LD HL, p11_text_type
-    LD B, 3
+    LD B, 0
     LD C, 3
     CALL text_draw_string
     LD HL, (P14_WORK_ENTRY)
     PUSH HL
     POP IX
     LD A, (IX + P14_ENTRY_TYPE)
-    LD B, 8
+    CALL p11_object_type_name
+    LD B, 5
     LD C, 3
-    CALL p11_draw_u8
+    CALL text_draw_string
     LD HL, p11_text_size
-    LD B, 11
+    LD B, 13
     LD C, 3
     CALL text_draw_string
     LD HL, (P14_WORK_ENTRY)
@@ -596,8 +650,19 @@ p11_render_memory:
     POP IX
     LD L, (IX + P14_ENTRY_SIZE_LO)
     LD H, (IX + P14_ENTRY_SIZE_LO + 1)
-    LD B, 16
+    LD B, 18
     LD C, 3
+    CALL p11_draw_u16
+    LD HL, p11_text_used
+    LD B, 0
+    LD C, 4
+    CALL text_draw_string
+    LD HL, (P14_HEAP_END)
+    LD DE, P14_HEAP_START
+    OR A
+    SBC HL, DE
+    LD B, 5
+    LD C, 4
     CALL p11_draw_u16
     JR .help
 .empty:
@@ -614,6 +679,24 @@ p11_render_memory:
     LD B, 0
     LD C, 7
     JP text_draw_string
+
+p11_object_type_name:
+    DEC A
+    CP 11
+    JR C, .valid
+    LD HL, p11_type_unknown
+    RET
+.valid:
+    ADD A, A
+    LD E, A
+    LD D, 0
+    LD HL, p11_type_table
+    ADD HL, DE
+    LD E, (HL)
+    INC HL
+    LD D, (HL)
+    EX DE, HL
+    RET
 
 ; Output: IX = selected used directory entry, carry when no object exists.
 p11_selected_object:
@@ -650,24 +733,101 @@ p11_selected_object:
     RET
 
 ; ---------------------------------------------------------------------------
-; Native link status/line exercise
+; Free85 link workflow mailbox
 
 p11_link_key:
     CP KEY_EXIT
-    JP Z, screen_show_home
+    JR Z, .exit
+    CP KEY_UP
+    JP Z, p11_memory_previous_for_link
+    CP KEY_DOWN
+    JP Z, p11_memory_next_for_link
+    CP KEY_ENTER
+    JR Z, .select
+    CP KEY_MORE
+    JR Z, .duplicate
     CP KEY_F1
-    JR Z, .toggle
+    LD B, P21_LINK_SEND
+    JR Z, .command
     CP KEY_F2
-    JR Z, .read
+    LD B, P21_LINK_RECEIVE
+    JR Z, .command
+    CP KEY_F3
+    LD B, P21_LINK_BACKUP
+    JR Z, .command
+    CP KEY_F4
+    LD B, P21_LINK_RESTORE
+    JR Z, .command
+    CP KEY_F5
+    JR Z, .cancel
     JP p11_render_link
-.toggle:
-    LD A, (P11_LINK_STATE)
-    XOR $03
-    LD (P11_LINK_STATE), A
-    OUT (PORT_LINK), A
-.read:
-    IN A, (PORT_LINK)
-    LD (P11_LINK_STATE), A
+.exit:
+    LD A, (P21_LINK_STATUS)
+    CP P21_STATUS_ACTIVE
+    JR Z, .cancel_home
+    JP screen_show_home
+.cancel_home:
+    LD A, P21_LINK_CANCEL
+    LD (P21_LINK_COMMAND), A
+    LD A, P21_STATUS_CANCELLED
+    LD (P21_LINK_STATUS), A
+    JP screen_show_home
+.select:
+    CALL p11_selected_object
+    JP C, p11_render_link
+    LD A, (IX + P14_ENTRY_FLAGS)
+    XOR P14_FLAG_SELECTED
+    LD (IX + P14_ENTRY_FLAGS), A
+    JP p11_render_link
+.duplicate:
+    LD A, (P21_LINK_DUPLICATE)
+    INC A
+    CP P21_DUP_RENAME + 1
+    JR C, .duplicate_store
+    XOR A
+.duplicate_store:
+    LD (P21_LINK_DUPLICATE), A
+    JP p11_render_link
+.command:
+    LD A, B
+    LD (P21_LINK_COMMAND), A
+    LD A, P21_STATUS_WAITING
+    LD (P21_LINK_STATUS), A
+    XOR A
+    LD (P21_LINK_ERROR), A
+    LD (P21_LINK_PROGRESS), A
+    LD (P21_LINK_PROGRESS + 1), A
+    LD A, (P21_LINK_SEQUENCE)
+    INC A
+    LD (P21_LINK_SEQUENCE), A
+    JP p11_render_link
+.cancel:
+    LD A, P21_LINK_CANCEL
+    LD (P21_LINK_COMMAND), A
+    LD A, P21_STATUS_CANCELLED
+    LD (P21_LINK_STATUS), A
+    JP p11_render_link
+
+p11_memory_previous_for_link:
+    LD A, (P14_SELECTED)
+    OR A
+    JR Z, .render
+    DEC A
+    LD (P14_SELECTED), A
+.render:
+    JP p11_render_link
+
+p11_memory_next_for_link:
+    LD A, (P14_OBJECT_COUNT)
+    OR A
+    JR Z, .render
+    LD B, A
+    LD A, (P14_SELECTED)
+    INC A
+    CP B
+    JR NC, .render
+    LD (P14_SELECTED), A
+.render:
     JP p11_render_link
 
 p11_render_link:
@@ -676,23 +836,86 @@ p11_render_link:
     LD B, 0
     LD C, 0
     CALL text_draw_string
-    LD HL, p11_text_native
+    CALL p11_selected_object
+    JR C, .no_object
+    PUSH IX
+    POP HL
+    LD DE, P14_ENTRY_NAME
+    ADD HL, DE
+    LD A, (IX + P14_ENTRY_FLAGS)
+    LD (P11_SELECTION), A
+    LD B, 0
+    LD C, 1
+    CALL text_draw_string
+    LD A, (P11_SELECTION)
+    AND P14_FLAG_SELECTED
+    JR Z, .object_done
+    LD A, '*'
+    LD B, 10
+    LD C, 1
+    CALL text_draw_char
+    JR .object_done
+.no_object:
+    LD HL, p11_text_no_objects
+    LD B, 0
+    LD C, 1
+    CALL text_draw_string
+.object_done:
+    LD HL, p11_text_duplicate
     LD B, 0
     LD C, 2
     CALL text_draw_string
-    LD HL, p11_text_lines
+    LD A, (P21_LINK_DUPLICATE)
+    CALL p11_link_duplicate_name
+    LD B, 4
+    LD C, 2
+    CALL text_draw_string
+    LD HL, p11_text_status
     LD B, 0
     LD C, 4
     CALL text_draw_string
-    LD A, (P11_LINK_STATE)
-    AND $03
+    LD A, (P21_LINK_STATUS)
+    CALL p11_link_status_name
     LD B, 7
     LD C, 4
-    CALL p11_draw_u8
+    CALL text_draw_string
+    LD HL, p11_text_link_help
+    LD B, 0
+    LD C, 5
+    CALL text_draw_string
     LD HL, p11_menu_link
     LD B, 0
     LD C, 7
     JP text_draw_string
+
+p11_link_duplicate_name:
+    OR A
+    LD HL, p11_text_skip
+    RET Z
+    CP P21_DUP_OVERWRITE
+    LD HL, p11_text_overwrite
+    RET Z
+    LD HL, p11_text_rename
+    RET
+
+p11_link_status_name:
+    CP P21_STATUS_WAITING
+    LD HL, p11_text_waiting
+    RET Z
+    CP P21_STATUS_ACTIVE
+    LD HL, p11_text_active
+    RET Z
+    CP P21_STATUS_COMPLETE
+    LD HL, p11_text_complete
+    RET Z
+    CP P21_STATUS_CANCELLED
+    LD HL, p11_text_cancelled
+    RET Z
+    CP P21_STATUS_ERROR
+    LD HL, p11_text_error
+    RET Z
+    LD HL, p11_text_idle
+    RET
 
 ; ---------------------------------------------------------------------------
 ; Number-base display for signed 16-bit integers. Non-decimal modes show the
@@ -1028,17 +1251,31 @@ p11_menu_system: DB "ANG FMT  -   +  MEM",0
 p11_text_variables: DB "VARIABLES",0
 p11_text_var_help: DB "ARROWS SELECT",0
 p11_menu_variables: DB "ENTER RECALL CLR",0
-p11_text_memory: DB "MEMORY 2.0",0
+p11_text_memory: DB "MEMORY 2.9",0
 p11_text_objects: DB "OBJECTS",0
+p11_text_free: DB "FREE",0
+p11_text_used: DB "USED",0
 p11_text_type: DB "TYPE",0
 p11_text_size: DB "SIZE",0
 p11_text_no_objects: DB "NO OBJECTS",0
 p11_text_object_help: DB "UP/DN SELECT DEL",0
 p11_menu_memory: DB "VAR PGM SET ALL LNK",0
-p11_text_link: DB "NATIVE LINK",0
+p11_text_link: DB "FREE85 LINK",0
 p11_text_native: DB "FREE85 PROTOCOL",0
 p11_text_lines: DB "LINES",0
-p11_menu_link: DB "PULSE READ",0
+p11_text_duplicate: DB "DUP",0
+p11_text_skip: DB "SKIP",0
+p11_text_overwrite: DB "OVERWRITE",0
+p11_text_rename: DB "RENAME",0
+p11_text_status: DB "STATUS",0
+p11_text_idle: DB "IDLE",0
+p11_text_waiting: DB "WAITING",0
+p11_text_active: DB "ACTIVE",0
+p11_text_complete: DB "COMPLETE",0
+p11_text_cancelled: DB "CANCELLED",0
+p11_text_error: DB "ERROR",0
+p11_text_link_help: DB "UP/DN ENTER MORE",0
+p11_menu_link: DB "SEND RECV BAK RST CAN",0
 p11_text_base: DB "NUMBER BASE",0
 p11_menu_base: DB "DEC HEX OCT BIN",0
 p11_text_stored: DB "MEMORY STORED",0
@@ -1046,3 +1283,20 @@ p11_text_memory_error: DB "MEMORY ERROR",0
 p11_text_base_range: DB "SIGNED 16-BIT INT",0
 p11_text_vars_cleared: DB "VARIABLES CLEARED",0
 p11_text_programs_cleared: DB "PROGRAMS CLEARED",0
+
+p11_type_table:
+    DW p11_type_real,p11_type_complex,p11_type_list,p11_type_matrix
+    DW p11_type_vector,p11_type_string,p11_type_equation,p11_type_program
+    DW p11_type_constant,p11_type_graph,p11_type_picture
+p11_type_real: DB "REAL",0
+p11_type_complex: DB "COMPLEX",0
+p11_type_list: DB "LIST",0
+p11_type_matrix: DB "MATRIX",0
+p11_type_vector: DB "VECTOR",0
+p11_type_string: DB "STRING",0
+p11_type_equation: DB "EQUATION",0
+p11_type_program: DB "PROGRAM",0
+p11_type_constant: DB "CONSTANT",0
+p11_type_graph: DB "GRAPH DB",0
+p11_type_picture: DB "PICTURE",0
+p11_type_unknown: DB "UNKNOWN",0

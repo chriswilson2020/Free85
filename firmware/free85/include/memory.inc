@@ -388,6 +388,37 @@ P11_OUTPUT_BUFFER   EQU P11_VAR_CURSOR + 1
 P11_WORK_BUFFER     EQU P11_OUTPUT_BUFFER + RESULT_CAPACITY
 P11_STATE_END       EQU $9D70
 
+; Phase 14.9 link mailbox.  The ROM owns commands and selection while an
+; emulator cable (or a physical-link driver) owns completion and error status.
+; Keeping the transport boundary explicit makes every transfer interruptible
+; and lets the receiver commit only validated packets.
+P21_LINK_COMMAND    EQU $9D70
+P21_LINK_STATUS     EQU $9D71
+P21_LINK_DUPLICATE  EQU $9D72
+P21_LINK_SELECTED   EQU $9D73
+P21_LINK_SEQUENCE   EQU $9D74
+P21_LINK_ERROR      EQU $9D75
+P21_LINK_PROGRESS   EQU $9D76
+P21_LINK_TOTAL      EQU $9D78
+P21_LINK_FLAGS      EQU $9D7A
+P21_LINK_END        EQU P14_HEADER_BASE
+
+P21_LINK_IDLE       EQU 0
+P21_LINK_SEND       EQU 1
+P21_LINK_RECEIVE    EQU 2
+P21_LINK_BACKUP     EQU 3
+P21_LINK_RESTORE    EQU 4
+P21_LINK_CANCEL     EQU 5
+P21_STATUS_IDLE     EQU 0
+P21_STATUS_WAITING  EQU 1
+P21_STATUS_ACTIVE   EQU 2
+P21_STATUS_COMPLETE EQU 3
+P21_STATUS_CANCELLED EQU 4
+P21_STATUS_ERROR    EQU 5
+P21_DUP_SKIP        EQU 0
+P21_DUP_OVERWRITE   EQU 1
+P21_DUP_RENAME      EQU 2
+
 ; Phase 14.1 persistent typed object store. The directory is deliberately
 ; separate from the compacting heap so entries remain stable while payloads
 ; move. Legacy fixed-address values are represented by external entries.
@@ -486,6 +517,7 @@ P18_SHADOW_END      EQU STACK_BOTTOM
 
 P14_FLAG_USED       EQU $01
 P14_FLAG_EXTERNAL   EQU $02
+P14_FLAG_SELECTED   EQU $04
 P14_TYPE_REAL       EQU 1
 P14_TYPE_COMPLEX    EQU 2
 P14_TYPE_LIST       EQU 3

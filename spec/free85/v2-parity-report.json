@@ -1,21 +1,21 @@
 {
   "schemaVersion": 1,
   "release": "2.0.0",
-  "phase": "14.8",
+  "phase": "14.9",
   "inventory": {
     "groups": 41,
     "entries": 298,
     "groupsByStatus": {
-      "equivalent": 26,
-      "partial": 10,
-      "missing": 1,
+      "equivalent": 29,
+      "partial": 8,
+      "missing": 0,
       "hardware-dependent": 3,
       "excluded-clean-room": 1
     },
     "entriesByStatus": {
-      "equivalent": 205,
-      "partial": 71,
-      "missing": 4,
+      "equivalent": 216,
+      "partial": 64,
+      "missing": 0,
       "hardware-dependent": 13,
       "excluded-clean-room": 5
     }
@@ -23,12 +23,11 @@
   "gaps": {
     "total": 36,
     "byStatus": {
-      "equivalent": 30,
-      "missing": 2,
-      "partial": 2,
-      "hardware-dependent": 2
+      "equivalent": 33,
+      "hardware-dependent": 2,
+      "missing": 1
     },
-    "equivalentPercent": 83.33
+    "equivalentPercent": 91.67
   },
   "workPackages": [
     {
@@ -211,15 +210,15 @@
       "gaps": [
         {
           "id": "constants.user",
-          "status": "missing"
+          "status": "equivalent"
         },
         {
           "id": "characters.extended",
-          "status": "partial"
+          "status": "equivalent"
         },
         {
           "id": "memory.complete",
-          "status": "partial"
+          "status": "equivalent"
         },
         {
           "id": "link.transfer",

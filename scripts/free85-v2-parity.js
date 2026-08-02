@@ -54,7 +54,7 @@ const gapStatuses = [...new Set(gapLedger.gaps.map(({ status }) => status))];
 const report = {
   schemaVersion: 1,
   release: roadmap.release,
-  phase: "14.8",
+  phase: "14.9",
   inventory: {
     groups: ledger.groups.length,
     entries: itemOwners.size,

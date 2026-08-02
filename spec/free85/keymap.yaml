@@ -264,7 +264,7 @@
       "second": {
         "label": "LINK",
         "id": "system.link",
-        "behaviour": "Open local link diagnostics"
+        "behaviour": "Select items, transfer, back up, restore, and cancel over the Free85 link protocol"
       },
       "alpha": {
         "label": "x",

@@ -11,8 +11,9 @@ it is not a binary-compatible replacement for Texas Instruments firmware.
 - Graphs are rendered incrementally so ON and EXIT remain responsive. Simple
   graphs finish in roughly 2.5-6 emulated seconds; expressions containing
   transcendental functions can take substantially longer.
-- The native link screen exercises the physical link lines and Free85 protocol
-  state. It does not import or export proprietary TI file formats.
+- The native link screen and emulator cable implement the open Free85 transfer
+  and backup protocol. Physical-cable validation has not yet been reported, and
+  proprietary TI link/file formats are intentionally unsupported.
 - Number-base and Boolean operations use signed 16-bit two's-complement words;
   ordinary decimal arithmetic retains the wider packed-BCD range.
 - Home calculus callables operate on the active Y1 equation. They intentionally

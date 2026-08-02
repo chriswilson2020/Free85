@@ -261,6 +261,13 @@ solver, and graph engines. Waiting instructions retain their state in the
 program workspace, so ON/EXIT/CLEAR interruption and exact source-line errors
 remain active.
 
+Phase 14.9 adds persistent typed user constants with calculator-native create,
+edit, rename, recall, and delete workflows; original Greek/international 5x7
+glyphs; named-type memory accounting; and an interruptible Free85 link mailbox.
+The open emulator cable validates selected-item transfer, duplicate policies,
+and transactional backup/restore under corruption, interruption, and capacity
+faults. Physical-cable validation remains separately reported.
+
 ## Phase 11 complete parity
 
 Phase 11 completes every registered physical, shifted, alpha, menu, and

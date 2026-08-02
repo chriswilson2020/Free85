@@ -93,3 +93,34 @@ font_ascii_32:
     DB $00,$00,$11,$0A,$04,$0A,$11 ; x
     DB $00,$00,$11,$11,$0F,$01,$0E ; y
     DB $00,$00,$1F,$02,$04,$08,$1F ; z
+    ; Free85 2.9 original extended set. Codes 123-146 are Greek and
+    ; 147-150 provide a compact international palette. These are original
+    ; 5x7 forms and do not contain glyph data extracted from a TI ROM.
+    DB $0E,$11,$11,$1F,$11,$11,$11 ; Alpha
+    DB $1E,$11,$11,$1E,$11,$11,$1E ; Beta
+    DB $1F,$10,$10,$10,$10,$10,$10 ; Gamma
+    DB $04,$0A,$0A,$11,$11,$11,$1F ; Delta
+    DB $0E,$11,$11,$1F,$11,$11,$0E ; Theta
+    DB $04,$0A,$11,$11,$11,$11,$11 ; Lambda
+    DB $1F,$08,$04,$02,$04,$08,$1F ; Xi
+    DB $1F,$0A,$0A,$0A,$0A,$0A,$0A ; Pi
+    DB $1F,$10,$08,$04,$08,$10,$1F ; Sigma
+    DB $04,$0E,$15,$15,$15,$0E,$04 ; Phi
+    DB $15,$15,$15,$0E,$04,$04,$04 ; Psi
+    DB $11,$11,$11,$15,$15,$15,$0A ; Omega
+    DB $00,$00,$0E,$01,$0F,$11,$0F ; alpha
+    DB $06,$09,$09,$0E,$09,$09,$16 ; beta
+    DB $00,$00,$11,$0A,$04,$04,$04 ; gamma
+    DB $04,$0A,$04,$0A,$11,$11,$0E ; delta
+    DB $00,$0E,$11,$1F,$11,$11,$0E ; theta
+    DB $08,$08,$08,$0C,$0A,$09,$09 ; lambda
+    DB $00,$00,$11,$11,$11,$1B,$15 ; mu
+    DB $00,$00,$1F,$0A,$0A,$0A,$12 ; pi
+    DB $00,$00,$0F,$14,$12,$11,$0E ; sigma
+    DB $00,$04,$0E,$15,$15,$0E,$04 ; phi
+    DB $00,$15,$15,$0E,$04,$04,$08 ; psi
+    DB $00,$00,$11,$11,$15,$15,$0A ; omega
+    DB $04,$0E,$11,$1F,$10,$0E,$00 ; e acute
+    DB $0A,$00,$16,$19,$11,$11,$11 ; n tilde
+    DB $0A,$00,$11,$11,$11,$13,$0D ; u umlaut
+    DB $00,$0E,$10,$10,$11,$0E,$04 ; c cedilla

@@ -15,8 +15,12 @@ bank_start:
     JP phase11_open_link
     JP phase11_memory_slot
     JP phase11_handle_key
+    JP phase21_store_constant
+    JP phase21_delete_constant
+    JP phase21_rename_constant
 
     INCLUDE "system/phase11.asm"
+    INCLUDE "system/phase21.asm"
 
 bank_end:
     ASSERT bank_end <= $8000

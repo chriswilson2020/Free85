@@ -1,6 +1,6 @@
 {
   "name": "free85",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "private": true,
   "license": "MIT",
   "type": "module",
@@ -29,6 +29,7 @@
     "update:free85:phase15-goldens": "node scripts/update-free85-phase15-goldens.js",
     "update:free85:phase16-goldens": "node scripts/update-free85-phase16-goldens.js",
     "update:free85:phase17-goldens": "node scripts/update-free85-phase17-goldens.js",
+    "update:free85:phase21-goldens": "node scripts/update-free85-phase21-goldens.js",
     "validate:free85": "npm test && npm run benchmark:free85 && npm run test:free85:stress && npm run test:free85:soak",
     "validate:free85:complete": "npm run validate:free85 && npm run test:free85:oracle"
   }

@@ -60,7 +60,9 @@ test("complete Free85 features reference stable test identifiers", async () => {
     readFile("test/free85/strings-catalog-custom.test.js", "utf8"),
     readFile("test/free85/programming.test.js", "utf8"),
     readFile("test/free85/programming-phase20.test.js", "utf8"),
-    readFile("test/free85/parity.test.js", "utf8")
+    readFile("test/free85/parity.test.js", "utf8"),
+    readFile("test/free85/object-store.test.js", "utf8"),
+    readFile("test/free85/system-phase21.test.js", "utf8")
   ]);
   const combined = testSources.join("\n");
   const referenced = new Set(features.features.flatMap(({ tests }) => tests));

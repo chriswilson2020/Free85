@@ -24,7 +24,7 @@ mode.
 
 The three slots take on fixed roles: slot 1 is the horizontal
 coordinate x(t), slot 2 is the vertical coordinate y(t), and slot 3 is
-never plotted. The two equations form one implicit pair; there is no
+never plotted. The two equations form a single pair; there is no
 second pair. As everywhere else, the home entry line is the editor,
 [GRAPH] stores it into the active slot, and [2nd] [1] and [2nd] [2] on
 the graph screen switch slots.
@@ -50,11 +50,12 @@ a circle: store `5*COS(X)` as slot 1, switch with [2nd] [2], store
 
 ![The parametric circle of radius 5](images/ch06-parametric-circle.png)
 
-Because the standard sweep of -10 to 10 covers about three 2 pi
+Because the standard sweep of -10 to 10 covers just over three full
 periods, the circle is retraced as the samples come round again; that
-costs nothing but plot time. Plotting is the cancellable column-by-column redraw of chapter 4,
-one t sample per step, and takes roughly twice as long as a single
-function plot because every sample evaluates both slots.
+costs nothing but plot time. Plotting is the cancellable
+column-by-column redraw of chapter 4, one t sample per step, and takes
+roughly twice as long as a single function plot because every sample
+evaluates both slots.
 
 ## Tracing by parameter
 
@@ -66,8 +67,7 @@ to know t. With the parabola pair above, one press of [◀] shows
 left of the sweep centre. The coordinate toggle on the mode page has no
 effect in this mode, and the free cursor still reports plain window
 coordinates. Trace steps take the same noticeable moment as in polar
-mode, and keypresses made while one computes are dropped, so step at
-the calculator's pace.
+mode, so step at the calculator's pace.
 
 ## The parametric table
 

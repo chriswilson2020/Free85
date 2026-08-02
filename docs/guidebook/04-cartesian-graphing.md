@@ -3,10 +3,10 @@
 This chapter is the full tour of the graph screen: storing equations in the
 three function slots, watching a plot draw, changing the window with the zoom
 keys, tracing along a curve, running the root and calculus analyses directly
-from the plot, and reading the table of values. It closes with a frank
-account of the graph areas that are not built yet, namely drawing commands,
-and graph storage. Every key sequence and every
-quoted number below was run in the emulator on a fresh machine.
+from the plot, and reading the table of values. It closes with drawing on
+a completed plot and with storing pictures and graph databases. Every key
+sequence and every quoted number below was run in the emulator on a fresh
+machine.
 
 Free85 graphs in four modes; this chapter describes the default: real
 functions of the graph variable `X` (elsewhere `Func`). The polar,

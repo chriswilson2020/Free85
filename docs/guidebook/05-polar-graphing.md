@@ -41,19 +41,22 @@ stores the line into the active slot, and [2nd] [1], [2nd] [2], and
 [2nd] [3] on the graph screen switch slots. The difference is the
 meaning of slot 1: it holds the radius as a function of the angle.
 
-The angle is typed with [x-VAR]. There is no theta character in the
-firmware: [x-VAR] inserts the character `X`, the equation is stored
+The angle is typed with [x-VAR]. The equation language has no theta
+variable: [x-VAR] inserts the character `X`, the equation is stored
 exactly as typed, and in polar mode the plotter reads that `X` as the
-sweep angle. A rose curve is therefore stored as `5*SIN(3X)`.
+sweep angle. The character palette of Chapter 1 (Operating the
+Calculator) does carry both theta glyphs, but a palette theta is only a
+character; it does not name the angle. A rose curve is therefore stored
+as `5*SIN(3X)`.
 
 ## The sweep and the window
 
 Polar mode has no angle-range settings. The plotter always sweeps the
 angle through one full revolution in 128 samples: 0 to 2 pi in `RAD`
 mode, and 0 to 360 in `DEG` mode, so the angle mode on the system mode
-screen (Chapter 1: Operating the Calculator) changes where the samples
-fall. The window and zoom keys of chapter 4 control the viewport only;
-zooming never stretches or trims the sweep.
+screen (chapter 1) changes where the samples fall. The window and zoom
+keys of chapter 4 control the viewport only; zooming never stretches or
+trims the sweep.
 
 To draw the worked example, select polar on the mode page, press [EXIT],
 type [5], and press [GRAPH]:
@@ -117,7 +120,7 @@ interval `XMIN` to `XMAX`, not over one revolution. With the circle
 None of these is an arc length or a swept area; read them as chapter 3
 calculus applied to the radius function. The intersection search
 [2nd] [F1] needs slot 2 enabled, and since slot 2 never plots in polar
-mode the search has no honest use here.
+mode the search has no real use here.
 
 ## What the mode remembers
 

@@ -98,8 +98,8 @@ answer.
 Like the other modes, differential-equation mode saves its equations,
 slots, window, table position, and frozen initial condition to the
 store object `GDEQ` when you leave it, and restores them exactly when
-you return. The memory browser lists the object as `TYPE GRAPH DB`
-with `SIZE 213`, and deleting it is the reset lever described above,
-the only one the mode has. Appendix A catalogues this chapter's
+you return. Its memory-browser entry looks exactly as chapter 5
+describes, and deleting it is the reset lever described above, the only
+one the mode has. Appendix A catalogues this chapter's
 workflow as `diffeq-editor`, `diffeq-plot`, `diffeq-explore`, and
 `diffeq-solve`.

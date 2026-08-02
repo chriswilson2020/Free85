@@ -60,11 +60,13 @@ crossing under a little numerical dust, its residual inside the fresh
 
 Four notices guard the search, each with the usual `CLEAR OR EXIT` way
 back. `SOLV` with no stored equation stops at `ENTER EQUATION HOME`.
-Bounds out of order stop at `LOWER MUST BE < UPPER` (store `-20` as
-the upper bound and try). An equation that cannot be evaluated across
-the bounds, such as `LN(X)-1` over the default `-10` to `10`, stops at
-`EQUATION DOMAIN ERROR`. And an equation with no sign change between
-the bounds, such as `X^2+1`, stops at `NO BOUNDED ROOT`.
+Bounds out of order stop at `LOWER MUST BE < UPP` (store `-20` as the
+upper bound and try); the screen clips the last letters, short for
+lower must be less than upper. An equation that cannot be evaluated
+across the bounds, such as `LN(X)-1` over the default `-10` to `10`,
+stops at `EQUATION DOMAIN ERR`, clipped the same way from equation
+domain error. And an equation with no sign change between the bounds,
+such as `X^2+1`, stops at `NO BOUNDED ROOT`.
 
 `GRPH` ([F2]) hands the problem to the graph screen of Chapter 4
 (Cartesian Graphing, Drawing, Formats, and Persistence). The stored

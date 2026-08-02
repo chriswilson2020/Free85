@@ -23,8 +23,8 @@ Matrices remain bounded to 3x3 packed-decimal values. The new command pages
 provide row-echelon form, row swap, scaled row addition, row multiplication,
 augmentation, Frobenius/row/column norms, Frobenius condition number,
 deterministic random fill, dimension reporting, scalar fill, combined
-pivoted Doolittle LU storage, real/complex eigenvalues, and normalized real
-eigenvectors for the established 1x1/2x2/diagonal paths.
+pivoted Doolittle LU storage, real/complex eigenvalues, and normalized
+real/complex eigenvectors.
 
 Row operations use the selected row as the target. Swap and scaled addition
 use the following row, wrapping at the bottom; matrix B's first value is the
@@ -33,15 +33,20 @@ an implicit unit diagonal for L. Vector R reports the 1-based row permutation,
 allowing callers to reconstruct `P*A=L*U`. The condition number is
 `||A||F * ||inverse(A)||F`.
 
-The eigenvalue path is exact for 1x1 matrices, analytic for supported 2x2 real
-roots, and general for real 3x3 matrices. The 3x3 path forms the characteristic
-cubic and calls the shared complex polynomial engine, retaining conjugate-pair
-roots in matrix R's imaginary plane. General complex 3x3 eigenvectors remain
-tracked parity work; unsupported vector inputs retain the recoverable dialog.
+The eigenvalue path is exact for 1x1 matrices, analytic for 2x2 matrices with
+real roots, and general for the remaining 2x2 and real 3x3 cases. Complex-root
+2x2 matrices and all 3x3 matrices use the shared complex polynomial engine,
+retaining conjugate-pair roots in matrix R's imaginary plane. The 2x2
+eigenvector path constructs a complex null-space vector. The 3x3 path crosses
+every pair of rows in `A-lambda*I`, selects the strongest non-zero candidate,
+and normalizes it. A deterministic basis-vector fallback covers fully repeated
+zero-rank eigenspaces.
 
 The final collection menu page provides `CSET`, `CGET`, `REAL`, `IMAG`, and
-`CLR` for lists, matrices, and vectors. Element-wise list arithmetic and
-matrix/vector addition and subtraction preserve both packed components.
+`CLR` for lists, matrices, and vectors. Element-wise list arithmetic, list
+sum/product, matrix/vector addition and subtraction, complex scaling, matrix
+multiplication, dot products, and cross products preserve both packed
+components.
 
 ## Validation
 
@@ -50,5 +55,7 @@ conversion, row operations, augmentation, every norm, condition number,
 random bounds, LU reconstruction, eigenvalue residuals, and eigenvector
 normalization. Four raw 128x64 LCD fixtures and rendered PNGs lock the added
 menu layouts. `test/free85/collections-phase18.test.js` adds complex payload
-round-trips, complex arithmetic, pivoted-LU reconstruction, general 3x3 complex
-eigenvalue roots, and three exact complex-menu LCD fixtures.
+round-trips, complex arithmetic/aggregates/scales/products, pivoted-LU
+reconstruction, general 3x3 complex eigenvalue and eigenvector residuals, and
+normalized 2x2 complex eigenpair residuals, plus three exact complex-menu LCD
+fixtures.

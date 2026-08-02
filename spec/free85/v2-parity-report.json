@@ -23,12 +23,12 @@
   "gaps": {
     "total": 36,
     "byStatus": {
-      "equivalent": 20,
-      "partial": 10,
+      "equivalent": 22,
+      "partial": 8,
       "missing": 4,
       "hardware-dependent": 2
     },
-    "equivalentPercent": 55.56
+    "equivalentPercent": 61.11
   },
   "workPackages": [
     {
@@ -149,7 +149,7 @@
         },
         {
           "id": "matrix.complete",
-          "status": "partial"
+          "status": "equivalent"
         },
         {
           "id": "vector.complete",
@@ -157,7 +157,7 @@
         },
         {
           "id": "complex.collections",
-          "status": "partial"
+          "status": "equivalent"
         }
       ]
     },

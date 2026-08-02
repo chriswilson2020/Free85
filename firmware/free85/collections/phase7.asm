@@ -1509,38 +1509,10 @@ p7_list_sum_value:
     RET
 
 p7_list_sum:
-    CALL p7_list_sum_value
-    LD HL, P7_WORK_0
-    LD DE, P7_LIST_RESULT + P7_LIST_DATA
-    CALL numeric_copy
-    LD A, 1
-    LD (P7_LIST_RESULT + P7_LIST_LENGTH), A
-    JP p7_set_result_mode
+    JP p18_list_sum_complex
 
 p7_list_product:
-    LD HL, const_one
-    LD DE, P7_WORK_0
-    CALL numeric_copy
-    LD A, (P7_LIST_A + P7_LIST_LENGTH)
-    LD B, A
-    LD HL, P7_LIST_A + P7_LIST_DATA
-.loop:
-    PUSH BC
-    PUSH HL
-    LD DE, P7_WORK_0
-    LD IX, P7_WORK_0
-    CALL p7_multiply
-    POP HL
-    LD DE, NUM_SIZE
-    ADD HL, DE
-    POP BC
-    DJNZ .loop
-    LD HL, P7_WORK_0
-    LD DE, P7_LIST_RESULT + P7_LIST_DATA
-    CALL numeric_copy
-    LD A, 1
-    LD (P7_LIST_RESULT + P7_LIST_LENGTH), A
-    JP p7_set_result_mode
+    JP p18_list_product_complex
 
 p7_u8_number:
     ; A=1..9, HL destination.
@@ -1900,33 +1872,7 @@ p7_matrix_subtract:
     JP p7_matrix_binary
 
 p7_matrix_scale:
-    LD A, (P7_MATRIX_A + P7_MATRIX_ROWS)
-    LD (P7_MATRIX_RESULT + P7_MATRIX_ROWS), A
-    LD B, A
-    LD A, (P7_MATRIX_A + P7_MATRIX_COLS)
-    LD (P7_MATRIX_RESULT + P7_MATRIX_COLS), A
-    LD C, A
-    XOR A
-.count:
-    ADD A, C
-    DJNZ .count
-    LD B, A
-    LD HL, P7_MATRIX_A + P7_MATRIX_DATA
-    LD IX, P7_MATRIX_RESULT + P7_MATRIX_DATA
-.loop:
-    PUSH BC
-    PUSH HL
-    PUSH IX
-    LD DE, P7_MATRIX_B + P7_MATRIX_DATA
-    CALL p7_multiply
-    POP IX
-    POP HL
-    LD DE, NUM_SIZE
-    ADD HL, DE
-    ADD IX, DE
-    POP BC
-    DJNZ .loop
-    JP p7_set_result_mode
+    JP p18_matrix_scale_complex
 
 ; Input A=row, C=col, HL=matrix base. Output HL=element pointer.
 p7_matrix_pointer:
@@ -1958,6 +1904,8 @@ p7_matrix_pointer:
     RET
 
 p7_matrix_multiply:
+    JP p18_matrix_multiply_complex
+p7_matrix_multiply_real_legacy:
     LD A, (P7_MATRIX_A + P7_MATRIX_COLS)
     LD B, A
     LD A, (P7_MATRIX_B + P7_MATRIX_ROWS)
@@ -2857,25 +2805,7 @@ p7_vector_subtract:
     JP p7_vector_binary
 
 p7_vector_scale:
-    LD A, (P7_VECTOR_A + P7_VECTOR_LENGTH)
-    LD (P7_VECTOR_RESULT + P7_VECTOR_LENGTH), A
-    LD B, A
-    LD HL, P7_VECTOR_A + P7_VECTOR_DATA
-    LD IX, P7_VECTOR_RESULT + P7_VECTOR_DATA
-.loop:
-    PUSH BC
-    PUSH HL
-    PUSH IX
-    LD DE, P7_VECTOR_B + P7_VECTOR_DATA
-    CALL p7_multiply
-    POP IX
-    POP HL
-    LD DE, NUM_SIZE
-    ADD HL, DE
-    ADD IX, DE
-    POP BC
-    DJNZ .loop
-    JP p7_set_result_mode
+    JP p18_vector_scale_complex
 
 p7_vector_dot_value:
     CALL p7_vector_same_length
@@ -2908,13 +2838,7 @@ p7_vector_dot_value:
     RET
 
 p7_vector_dot:
-    CALL p7_vector_dot_value
-    LD HL, P7_WORK_0
-    LD DE, P7_VECTOR_RESULT + P7_VECTOR_DATA
-    CALL numeric_copy
-    LD A, 1
-    LD (P7_VECTOR_RESULT + P7_VECTOR_LENGTH), A
-    JP p7_set_result_mode
+    JP p18_vector_dot_complex
 
 p7_vector_magnitude_value:
     LD HL, P7_WORK_0
@@ -2977,6 +2901,8 @@ p7_vector_normalise:
     JP p7_set_result_mode
 
 p7_vector_cross:
+    JP p18_vector_cross_complex
+p7_vector_cross_real_legacy:
     LD A, (P7_VECTOR_A + P7_VECTOR_LENGTH)
     CP 3
     JP NZ, p7_fail_dimension

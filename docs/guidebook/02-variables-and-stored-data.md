@@ -115,17 +115,18 @@ A few names are special:
 Underneath all of this, every stored item lives in one typed object store,
 kept in the 2.0 store format that gives the memory browser its
 `MEMORY 2.10` title. It holds named objects of eleven kinds, from the real
-numbers of this chapter through lists, matrices, vectors, strings,
-equations, programs, and more, and its names can run to eight characters:
-the one-letter rule above belongs to real-number variables, and the longer
-names go with those other object types. In today's firmware only the
-twenty-six reserved reals exist and nothing yet creates the other kinds;
-chapter 18 tours the browser that lists every object with its type and
-exact size, along with the store's capacity and accounting rules.
-
-> ⚠ **Planned:** creating, naming, and managing the store's other typed
-> objects (lists, matrices, vectors, strings, and equations) directly from
-> the keyboard (Free85 2.0, work package 14.9).
+numbers of this chapter through complex numbers, lists, matrices, vectors,
+strings, equations, and programs to user constants, graph databases, and
+pictures, and its names can run to eight characters: the one-letter rule above
+belongs to real-number variables, and the longer names go with those other
+object types. The memory browser names each object's kind as a word beside
+its entry, so `A` is listed with `TYPE REAL`, and the other kinds read
+`LIST`, `CONSTANT`, `GRAPH DB`, `PICTURE`, and so on. The chapters ahead
+create those objects: user constants belong to chapter 8 (Physical and
+User Constants and Conversions), and graph databases and pictures to the
+graphing chapters, beginning with chapter 4. Chapter 18 tours the browser
+that lists every object with its type and exact size, along with the
+store's capacity and accounting rules.
 
 ## Deleting stored data
 

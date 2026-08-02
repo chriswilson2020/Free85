@@ -155,6 +155,8 @@ Reading from the top:
   `ENG`, or `FIX`) on the left, and the editor state on the right (`INS` for
   insert mode, `OVR` for overwrite, and `LOCK` when alpha lock is on).
 - **Title banner.** `FREE85 HOME` tells you which screen you are on.
+- **Version banner.** `VERSION 2.10` names the firmware release. It sits on
+  the entry line and disappears as soon as you type.
 - **Entry line.** The underscore is the cursor. Whatever you type appears
   here.
 - **Result area.** The middle of the screen. After you press [ENTER] the
@@ -326,15 +328,18 @@ the full tour, one chapter per subject:
 14. **Equation, Polynomial, and Simultaneous Solving**: root finding for
     any expression, polynomials up to degree four, and linear systems of
     up to four unknowns.
-15. **Statistics and Statistical Plots**: column summaries, least-squares
-    regression, and the scatter, histogram, and box plots.
+15. **Statistics and Statistical Plots**: column summaries, the
+    least-squares regression families from linear through logarithmic,
+    exponential, power, and polynomial fits, and the scatter, connected
+    xy-line, histogram, and box plots.
 16. **Calculator Programming**: the on-calculator programming environment.
 17. **Worked Application Examples**: complete applications, step by step.
 18. **Memory Management**: browsing, inspecting, and deleting stored objects.
-19. **Calculator Linking**: the link port and its diagnostics.
+19. **Calculator Linking**: transferring stored objects between calculators
+    and backing up a whole machine over the link port.
 
 Four appendices round it out: appendix A is the command and function catalog,
 appendix B the complete key map of all fifty keys, appendix C the system
-variables and error messages, and appendix D tracks feature status and the
-remaining 2.0 gaps. Pick the chapter that matches what you want to do next,
-and enjoy the calculator.
+variables and error messages, and appendix D records feature status across
+the release. Pick the chapter that matches what you want to do next, and
+enjoy the calculator.

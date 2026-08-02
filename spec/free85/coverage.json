@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "14.5",
+  "phase": "14.6",
   "source": "spec/free85/features.yaml",
   "physical_keys": {
     "total": 50,
@@ -34,8 +34,8 @@
   "tests_referenced": 56,
   "rom_usage": {
     "total_bytes": 131072,
-    "used_bytes": 47638,
-    "free_bytes": 83434,
+    "used_bytes": 50046,
+    "free_bytes": 81026,
     "banks": [
       {
         "page": 0,
@@ -51,9 +51,9 @@
       },
       {
         "page": 2,
-        "used_bytes": 7194,
-        "free_bytes": 9190,
-        "percent_used": 43.91
+        "used_bytes": 9602,
+        "free_bytes": 6782,
+        "percent_used": 58.61
       },
       {
         "page": 3,

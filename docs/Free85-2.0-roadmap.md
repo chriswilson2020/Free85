@@ -121,11 +121,14 @@ numeric tests and reviewed LCD goldens enforce the package gates. See
 
 ### 14.6 - Collection and linear-algebra completion
 
-Complete list dimension/fill/sort/sequence/conversion operations; matrix row
-operations, augmentation, norms, condition number, LU, eigenvalues, and
-eigenvectors; and vector rectangular/cylindrical/spherical conversions. Apply
-valid scalar operations element-by-element and preserve complex values through
-all supported collection paths.
+Implemented for bounded real collections. Lists now provide dimension, fill,
+descending sort, sequence, and list/vector conversion; vectors provide
+dimension, fill, norm, list conversion, and the Phase 14.5 coordinate modes.
+Matrices provide row operations, augmentation, norms, condition number,
+random/fill, LU, and independently validated real eigensystems. General 3x3
+and complex-valued eigensystems plus complex collection payloads remain
+conservatively classified as partial. See
+`docs/Free85-collections-linear-algebra.md`.
 
 ### 14.7 - Solver and statistics completion
 

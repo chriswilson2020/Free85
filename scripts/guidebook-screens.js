@@ -89,9 +89,22 @@ export const SCREEN_CASES = [
   // The collections editors open on zeroed registers, so each capture enters
   // the values its chapter's examples use before photographing the screen.
   { name: "ch11-complex-editor", keys: ["2ND", "9", "3", "ENTER", "4", "ENTER"] },
+  // 3-4i entered in the complex editor, then CSET on the list editor's
+  // complex-payload page copies it into element 1, showing the IM line.
+  {
+    name: "ch11-complex-cset",
+    keys: ["2ND", "9", "3", "ENTER", "(-)", "4", "ENTER", "EXIT",
+      "2ND", "-", "MORE", "MORE", "MORE", "MORE", "F1"]
+  },
   {
     name: "ch12-list-editor",
     keys: ["2ND", "-", "4", "ENTER", "1", "ENTER", "3", "ENTER", "2", "ENTER"]
+  },
+  // The chapter's list under its fourth soft-key page, DIM FILL D-S L>V V>L.
+  {
+    name: "ch12-list-dim-page",
+    keys: ["2ND", "-", "4", "ENTER", "1", "ENTER", "3", "ENTER", "2", "ENTER",
+      "MORE", "MORE", "MORE"]
   },
   {
     name: "ch13-matrix-editor",
@@ -101,6 +114,13 @@ export const SCREEN_CASES = [
   {
     name: "ch13-matrix-inverse",
     keys: ["2ND", "7", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER", "F3", 600]
+  },
+  // The combined LU factors of 4 3 / 6 3 from the decomposition page; the
+  // frames let the factorisation finish before the capture.
+  {
+    name: "ch13-matrix-lu",
+    keys: ["2ND", "7", "4", "ENTER", "3", "ENTER", "6", "ENTER", "3", "ENTER",
+      "MORE", "MORE", "MORE", "MORE", "F1", 1200]
   },
   { name: "ch13-vector-editor", keys: ["2ND", "8", "3", "ENTER", "4", "ENTER", "0", "ENTER"] },
   // The polynomial editor holding x^2-5x+6; entry wraps back to COEFF 2.

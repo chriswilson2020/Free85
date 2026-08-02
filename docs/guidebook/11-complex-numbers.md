@@ -102,22 +102,33 @@ working order rather than key order:
   and the square root of 3; fourteen-digit decimal arithmetic lands a
   whisker away and does not pretend otherwise. Other calculators also
   accept a complex number typed directly in polar form; in Free85 the
-  route is this editor and the `RECT` key.
+  route is this editor and the `RECT` key, and Appendix A catalogues
+  that route as `polar-complex-entry`.
 - **`CL`** ([F5]) resets all three registers to zero and shows `A`.
 
 Both conversions and `ARG` follow the angle mode: radians in `ANGLE RAD`,
-degrees in `ANGLE DEG`.
+degrees in `ANGLE DEG`. Other calculators also offer standing display
+modes that show every complex result in polar or rectangular form
+(elsewhere `PolarC` and `RectC`); Free85 always displays the two
+labelled slots, and the `POLAR` and `RECT` keys do the converting on
+demand.
 
 ## Complex numbers elsewhere in the calculator
 
-The editor is the whole story in this release. The expression language has
-no complex literal, the catalog of chapter 1 lists no complex functions,
-and a negative argument to `SQRT(` still answers `DOMAIN ERROR` rather
-than hopping into the complex plane on its own.
+The expression language still has no complex literal, and a negative
+argument to `SQRT(` still answers `DOMAIN ERROR` rather than hopping
+into the complex plane on its own. The catalog of chapter 1 now lists
+`COMPLEX`, another door to this editor, alongside its other screens.
 
-> ⚠ **Planned:** the scalar complex operations as catalog and program
-> commands (`real`, `imag`, `angle`, `conj`, `->Pol`, `->Rec`) with the
-> `PolarC` and `RectC` display modes (Free85 2.0, work package 14.6).
+The bigger change in this release is that complex numbers travel: every
+collection editor of chapters 12 and 13 keeps an imaginary part for
+each element, set and read through a final soft-key page whose `CSET`
+key copies this editor's register `A` into the selected element:
 
-> ⚠ **Planned:** element-wise complex results propagated across lists,
-> matrices, and vectors (Free85 2.0, work package 14.6).
+![A list element holding 3-4i, with its IM line](images/ch11-complex-cset.png)
+
+The `IM -4` line under the element's value is that page's addition, and
+the collection arithmetic carries both parts through sums, products,
+and the linear algebra. Chapters 12 and 13 cover the page and the
+workflows; this editor remains the place where a single complex number
+is typed and taken apart.

@@ -70,6 +70,34 @@ bank_call_phase14_create_from_graph:
     POP AF
     RET
 
+; Bank-6 system workflows use the same typed-store ABI while returning to the
+; system bank. These trampolines keep all object mutations inside bank 7.
+bank_call_phase14_create_from_system:
+    LD (P15_PROGRAM_OP), A
+    LD A, 7
+    CALL bank_select
+    LD A, (P15_PROGRAM_OP)
+    CALL PHASE14_CREATE
+    PUSH AF
+    PUSH HL
+    PUSH DE
+    LD A, 6
+    CALL bank_select
+    POP DE
+    POP HL
+    POP AF
+    RET
+
+bank_call_phase14_delete_from_system:
+    LD A, 7
+    CALL bank_select
+    CALL PHASE14_DELETE
+    PUSH AF
+    LD A, 6
+    CALL bank_select
+    POP AF
+    RET
+
 ; Program bank 5 can invoke the Phase 14.4 drawing ABI and resume safely.
 bank_call_phase15_program_draw:
     LD C, A

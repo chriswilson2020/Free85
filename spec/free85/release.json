@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
   "name": "Free85",
-  "version": "2.8.0",
-  "phase": "14.8",
-  "target_release": "2.8.0",
+  "version": "2.9.0",
+  "phase": "14.9",
+  "target_release": "2.9.0",
   "status": "development",
   "license": "MIT",
   "rom": {
     "path": "ROM/FREE85.ROM",
     "bytes": 131072,
-    "sha256": "7a52124f09a9cf1d1543066049db5f846cd4f09480fbda25b0e47befc4ccd3c4",
+    "sha256": "d35ff7b5d7f68b044169baa757457ab10641ceddebf38cd0b7f5811550258951",
     "banks": 8,
     "bank_bytes": 16384
   },

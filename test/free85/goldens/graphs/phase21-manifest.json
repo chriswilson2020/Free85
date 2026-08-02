@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "width": 128,
+  "height": 64,
+  "cases": [
+    {
+      "name": "phase19-home-version",
+      "litPixelCount": 730,
+      "checksum": "BA4BD3A8"
+    },
+    {
+      "name": "phase14-memory-browser",
+      "litPixelCount": 1116,
+      "checksum": "91E779D1"
+    },
+    {
+      "name": "phase21-user-constants",
+      "litPixelCount": 567,
+      "checksum": "8FEFD38B"
+    },
+    {
+      "name": "phase21-extended-character",
+      "litPixelCount": 452,
+      "checksum": "E2BDB9F8"
+    },
+    {
+      "name": "phase21-link-waiting",
+      "litPixelCount": 1064,
+      "checksum": "69F7BC58"
+    }
+  ]
+}

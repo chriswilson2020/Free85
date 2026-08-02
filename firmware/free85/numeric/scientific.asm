@@ -1707,6 +1707,52 @@ scientific_lookup_constant:
     DJNZ .skip_name
     JR .entry
 .not_found:
+    JP scientific_lookup_user_constant
+
+; User constants are ordinary type-9 objects in the persistent store.  The
+; parser can read their directory and payload without changing ROM banks.
+; Input is the original source in SCI_STATE+8 and length in SCI_ARG_COUNT.
+scientific_lookup_user_constant:
+    LD IX, P14_DIRECTORY
+    LD B, P14_ENTRY_COUNT
+.user_entry:
+    LD A, (IX + P14_ENTRY_FLAGS)
+    AND P14_FLAG_USED
+    JR Z, .user_next
+    LD A, (IX + P14_ENTRY_TYPE)
+    CP P14_TYPE_CONSTANT
+    JR NZ, .user_next
+    LD A, (SCI_ARG_COUNT)
+    CP (IX + P14_ENTRY_NAME_LEN)
+    JR NZ, .user_next
+    PUSH BC
+    LD C, A
+    LD HL, (SCI_STATE + 8)
+    PUSH IX
+    POP DE
+    INC DE
+    INC DE
+    INC DE
+.user_compare:
+    LD A, (DE)
+    CP (HL)
+    JR NZ, .user_different
+    INC DE
+    INC HL
+    DEC C
+    JR NZ, .user_compare
+    LD E, (IX + P14_ENTRY_ADDRESS)
+    LD D, (IX + P14_ENTRY_ADDRESS + 1)
+    EX DE, HL
+    POP BC
+    OR A
+    RET
+.user_different:
+    POP BC
+.user_next:
+    LD DE, P14_ENTRY_SIZE
+    ADD IX, DE
+    DJNZ .user_entry
     SCF
     RET
 

@@ -25,7 +25,7 @@ text_draw_string:
     RET
 
 ; text_draw_char
-; Input: A = ASCII 32-122, B = column, C = row.
+; Input: A = Free85 glyph code 32-150, B = column, C = row.
 ; Each 5x7 glyph occupies a six-pixel cell, leaving one blank pixel between
 ; characters. The display therefore holds 21 columns instead of 16.
 ; Clobbers: AF, BC, DE, HL, IX, IY.
@@ -44,7 +44,7 @@ text_draw_char:
     JR NC, .lower_ok
     LD A, '?'
 .lower_ok:
-    CP 123
+    CP 151
     JR C, .range_ok
     LD A, '?'
 .range_ok:

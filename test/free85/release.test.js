@@ -6,9 +6,9 @@ import test from "node:test";
 test("[release.bundle] the checked-in development ROM remains reproducible", async () => {
   const manifest = JSON.parse(await readFile("spec/free85/release.json", "utf8"));
   const rom = await readFile(manifest.rom.path);
-  assert.equal(manifest.version, "2.8.0");
-  assert.equal(manifest.phase, "14.8");
-  assert.equal(manifest.target_release, "2.8.0");
+  assert.equal(manifest.version, "2.9.0");
+  assert.equal(manifest.phase, "14.9");
+  assert.equal(manifest.target_release, "2.9.0");
   assert.equal(manifest.status, "development");
   assert.equal(manifest.license, "MIT");
   assert.equal(rom.length, 131072);
@@ -26,7 +26,7 @@ test("[release.bundle] the checked-in development ROM remains reproducible", asy
 test("[release.coverage-performance] release reports retain all parity and timing gates", async () => {
   const coverage = JSON.parse(await readFile("spec/free85/coverage.json", "utf8"));
   const performance = JSON.parse(await readFile("spec/free85/performance.json", "utf8"));
-  assert.equal(coverage.phase, "14.8");
+  assert.equal(coverage.phase, "14.9");
   assert.equal(coverage.physical_keys.percent, 100);
   assert.equal(coverage.shifted_functions.percent, 100);
   assert.equal(coverage.alpha_mappings.percent, 100);

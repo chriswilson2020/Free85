@@ -33,21 +33,22 @@ test("[v2.ledger] chapter summary no longer overstates broad equivalence", async
   assert.equal(coverage.chapters.filter(({ status }) => status === "equivalent").length, 1);
 });
 
-test("[v2.progress] Phase 14.8 closes programming and equation-string gaps", async () => {
+test("[v2.progress] Phase 14.9 closes constants, characters, and memory gaps", async () => {
   const report = await readJson("spec/free85/v2-parity-report.json");
-  assert.equal(report.phase, "14.8");
+  assert.equal(report.phase, "14.9");
   assert.equal(report.inventory.entries >= 250, true);
   assert.equal(report.gaps.total, 36);
-  assert.equal(report.gaps.byStatus.equivalent, 30);
-  assert.equal(report.gaps.byStatus.partial, 2);
-  assert.equal(report.gaps.byStatus.missing, 2);
-  assert.equal(report.gaps.equivalentPercent, 83.33);
-  const phase = report.workPackages.find(({ id }) => id === "14.8");
+  assert.equal(report.gaps.byStatus.equivalent, 33);
+  assert.equal(report.gaps.byStatus.hardwareDependent ?? report.gaps.byStatus["hardware-dependent"], 2);
+  assert.equal(report.gaps.byStatus.missing, 1);
+  assert.equal(report.gaps.equivalentPercent, 91.67);
+  const phase = report.workPackages.find(({ id }) => id === "14.9");
   assert.deepEqual(phase.gaps.map(({ id, status }) => [id, status]), [
-    ["program.control", "equivalent"],
-    ["program.io", "equivalent"],
-    ["program.catalog", "equivalent"],
-    ["equation.string", "equivalent"]
+    ["constants.user", "equivalent"],
+    ["characters.extended", "equivalent"],
+    ["memory.complete", "equivalent"],
+    ["link.transfer", "hardware-dependent"],
+    ["link.backup", "hardware-dependent"]
   ]);
   assert.equal(report.cleanRoom.proprietaryInputsRequiredForPublicValidation, false);
 });

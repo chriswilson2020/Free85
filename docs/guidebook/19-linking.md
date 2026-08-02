@@ -23,11 +23,6 @@ chapter 18's directory at a time, `A` on a fresh machine, then the
 duplicate policy line `DUP SKIP`, the status line `STATUS IDLE`, the
 hint `UP/DN ENTER MORE`, and the soft labels `SEND RECV BAK RST CAN`.
 The screen always opens idle, and [EXIT] returns to the home screen.
-Appendix A catalogues this chapter's workflow as `select-items`,
-`send-items`, `receive-items`, `duplicate-skip`, `duplicate-overwrite`,
-`duplicate-rename`, and `transfer-cancel`, and the backup work as
-`backup-send`, `backup-confirm`, `backup-restore`, and
-`backup-rollback`.
 
 ## Marking what to send
 
@@ -54,7 +49,8 @@ the receiving side:
 - **`OVERWRITE`** replaces the receiver's object with the incoming
   one.
 - **`RENAME`** keeps both: the incoming copy is stored under its name
-  with a letter added, so a second `RATE` arrives as `RATEA`.
+  with the first unused letter added, so a second `RATE` arrives as
+  `RATEA` and a third as `RATEB`.
 
 ## Sending and receiving
 
@@ -69,9 +65,10 @@ vocabulary is `IDLE`, `WAITING`, `ACTIVE` while a transfer is running,
 `COMPLETE`, `CANCELLED`, and `ERROR`.
 
 The transfer is checked as it arrives, and it is all or nothing: a
-damaged or interrupted transfer is refused whole, and one that will
-not fit is refused by chapter 18's capacity rules, so the receiving
-calculator keeps exactly what it had rather than a half-applied copy.
+damaged transfer, or one that will not fit under chapter 18's capacity
+rules, is refused whole at `STATUS ERROR`, and an interrupted one
+stops at `STATUS CANCELLED`; either way the receiving calculator keeps
+exactly what it had rather than a half-applied copy.
 
 [F5] (`CAN`) cancels: the posted command is withdrawn and the status
 answers `STATUS CANCELLED`. Leaving the screen with [EXIT] in the
@@ -101,3 +98,9 @@ Because Free85 is written from scratch, its link protocol is its own:
 it does not read or write TI file formats, token streams, backup
 images, or ROM-level link calls, and a link partner is expected to be
 another Free85 machine.
+
+Appendix A catalogues this chapter's workflow as `select-items`,
+`send-items`, `receive-items`, `duplicate-skip`, `duplicate-overwrite`,
+`duplicate-rename`, and `transfer-cancel`, and the backup work as
+`backup-send`, `backup-confirm`, `backup-restore`, and
+`backup-rollback`.

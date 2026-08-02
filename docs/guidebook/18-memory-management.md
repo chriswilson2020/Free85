@@ -50,9 +50,10 @@ accounting, byte for byte, and a real number is nine bytes.
 The browser names every kind of object the store can hold with a word:
 `REAL`, `COMPLEX`, `LIST`, `MATRIX`, `VECTOR`, `STRING`, `EQUATION`,
 `PROGRAM`, `CONSTANT`, `GRAPH DB`, and `PICTURE` cover the eleven kinds
-of chapter 2, and an entry the firmware cannot place is listed as
-`UNKNOWN`. If the store were ever empty the browser would say
-`NO OBJECTS`.
+of chapter 2, several of which, `PROGRAM` among them, stay reserved for
+data that today lives elsewhere. An entry the firmware cannot place is
+listed as `UNKNOWN`, and if the store were ever empty the browser would
+say `NO OBJECTS`.
 
 Beyond the reserved reals, the directory fills through the calculator's
 own workflows: Chapter 8 (Physical and User Constants and Conversions)
@@ -89,8 +90,9 @@ confirmation, so read this list before experimenting:
   `M5` are not touched.
 - **[F2] `PGM`** empties all four program slots and confirms with
   `PROGRAMS CLEARED`. Chapter 16: Calculator Programming covers what lives
-  there; its programs keep to their own four slots and are managed here
-  only by this clear.
+  there; its programs keep to their four slots rather than the directory,
+  never appearing as `TYPE PROGRAM` entries, and this clear is the
+  browser's whole hold on them.
 - **[F3] `SET`** resets the system settings: the angle mode returns to
   `RAD`, the display format to `AUTO`, and the contrast to its default. The
   screen stays on the browser, and stored data, variables, and memories all

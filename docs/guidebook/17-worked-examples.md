@@ -79,13 +79,14 @@ to the editor.
 press [CLEAR] to return to the editor and [F2] (`2V`): the paired
 summary answers `R` reading `0.9899494936611`, a strong fit.
 
-**Forecast.** There is no forecast key for a line, so the coefficients
-the result screen named make it a home-screen job: press [EXIT] to
-leave for the home screen, press [CLEAR], and evaluate the model at
-x = 5 by typing `.5+1.4*5` and pressing [ENTER]. The answer line reads
-`= 7.5`, the fitted forecast for the fifth pair. Four pairs, two soft
-keys, and one typed line: the editor held the data, `LIN` named the
-model, and the home screen turned it into a forecast.
+**Forecast.** Chapter 15's `FCY` key forecasts from an entry in the
+data columns, as example 4 shows; for a one-off x the two coefficients
+are quicker typed by hand: press [EXIT] to leave for the home screen,
+press [CLEAR], and evaluate the model at x = 5 by typing `.5+1.4*5`
+and pressing [ENTER]. The answer line reads `= 7.5`, the fitted
+forecast for the fifth pair. Four pairs, two soft keys, and one typed
+line: the editor held the data, `LIN` named the model, and the home
+screen turned it into a forecast.
 
 ## Example 3: a factorial program
 
@@ -156,5 +157,5 @@ press [F3] (`FCY`) and the `FORECAST` screen answers the direction
 line `X->Y` with the forecast `25` above the `5` it used. The model
 puts the ball at 25 m as the fifth second ends, twenty below its peak
 and falling; [EXIT] leaves for the home screen. One editor, one
-polynomial key, and one forecast key: what took a typed formula in
-example 2, the quadratic family answers on its own screens.
+polynomial key, and one forecast key: the forecast example 2 typed by
+hand, this example reads straight off a screen.

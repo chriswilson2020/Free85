@@ -127,15 +127,15 @@ Beyond the reserved reals, the store fills through the calculator's own
 workflows rather than through the store arrow. A fresh machine carries
 the twenty-six reserved reals and nothing else, and the chapters ahead
 add to them: Chapter 8 (Physical and User Constants and Conversions)
-creates user constants, Chapter 16 (Calculator Programming) creates
-programs, and the graphing chapters, beginning with chapter 4, store
-graph databases and pictures. Lists, matrices, vectors, strings, and
-complex working values never become named objects at all, though the
-store format keeps a type reserved for each. This is a deliberate design:
-each lives in its own editor's working registers, such as the two working
-lists and result list of Chapter 12 (Lists), which
-keep their contents when you leave the editor but never appear in the
-memory browser. The stored graph equations likewise stay in their three
+creates user constants, and the graphing chapters, beginning with
+chapter 4, store graph databases and pictures. Lists, matrices,
+vectors, strings, complex working values, and programs never become
+named objects at all, though the store format keeps a type reserved
+for each. This is a deliberate design: each lives in its own home,
+such as the two working lists and result list of Chapter 12 (Lists) or
+the four program slots of Chapter 16 (Calculator Programming), which
+keep their contents when you leave but never appear in the memory
+browser. The stored graph equations likewise stay in their three
 slots `Y1`, `Y2`, and `Y3` outside the store. Chapter 18 tours the
 browser that lists every object with its type and exact size, along with
 the store's capacity and accounting rules.

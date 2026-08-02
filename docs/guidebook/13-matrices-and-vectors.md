@@ -247,8 +247,11 @@ dimensions. Appendix A catalogues the position-by-position `ADD` and
 The third soft-key page, `R>CY CY>R R>SP SP>R`, converts a
 three-component `A` between rectangular, cylindrical, and spherical
 coordinates, and each conversion sets the tag beside `SIZE`. The angle
-components are always in radians, whatever the mode screen says. With
-3, 4, 0 in `A`:
+components follow the angle mode of chapter 1's mode screen, just as
+`ARG` does in the complex editor of Chapter 11 (Complex Numbers): in
+`ANGLE DEG` mode the first example below answers its angle as
+`53.130102354156` instead. The worked figures in this section all
+assume the fresh machine's `ANGLE RAD`. With 3, 4, 0 in `A`:
 
 - **`R>CY`** ([F1]) converts rectangular to cylindrical (elsewhere
   `->Cyl`): `R` carries the `CYLV` tag (elsewhere the `CylV` display
@@ -258,8 +261,7 @@ components are always in radians, whatever the mode screen says. With
   back to rectangular, restoring the `RECTV` tag (elsewhere `RectV`).
   Enter 2, 1.5707963, 7 and it answers `5.34594384493E-8`,
   `1.9999999999882`, `7`: a right angle in fourteen digits lands a
-  whisker off the axis, as the polar conversions of Chapter 11
-  (Complex Numbers) do.
+  whisker off the axis, as chapter 11's polar conversions do.
 - **`R>SP`** ([F3]) converts rectangular to spherical (elsewhere
   `->Sph`): the tag becomes `SPHEREV` (elsewhere `SphereV`) and our
   3, 4, 0 answers `5`, `0.9272952180016`, `1.5707963267949`: the

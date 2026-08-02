@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "release": "2.0.0",
-  "phase": "14.7",
+  "phase": "14.8",
   "inventory": {
     "groups": 41,
     "entries": 298,
     "groupsByStatus": {
-      "equivalent": 22,
-      "partial": 14,
+      "equivalent": 26,
+      "partial": 10,
       "missing": 1,
       "hardware-dependent": 3,
       "excluded-clean-room": 1
     },
     "entriesByStatus": {
-      "equivalent": 181,
-      "partial": 95,
+      "equivalent": 205,
+      "partial": 71,
       "missing": 4,
       "hardware-dependent": 13,
       "excluded-clean-room": 5
@@ -23,12 +23,12 @@
   "gaps": {
     "total": 36,
     "byStatus": {
-      "equivalent": 26,
-      "partial": 5,
-      "missing": 3,
+      "equivalent": 30,
+      "missing": 2,
+      "partial": 2,
       "hardware-dependent": 2
     },
-    "equivalentPercent": 72.22
+    "equivalentPercent": 83.33
   },
   "workPackages": [
     {
@@ -189,19 +189,19 @@
       "gaps": [
         {
           "id": "program.control",
-          "status": "partial"
+          "status": "equivalent"
         },
         {
           "id": "program.io",
-          "status": "partial"
+          "status": "equivalent"
         },
         {
           "id": "program.catalog",
-          "status": "partial"
+          "status": "equivalent"
         },
         {
           "id": "equation.string",
-          "status": "missing"
+          "status": "equivalent"
         }
       ]
     },

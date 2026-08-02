@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "release": "2.7.0",
+  "release": "2.8.0",
   "phase": 12,
   "clock_hz": 6000000,
   "key_response": {
     "frames": 1,
-    "tstates": 120007
+    "tstates": 120000
   },
   "evaluation": {
     "arithmetic": {
@@ -16,7 +16,7 @@
     },
     "sin": {
       "frames": 13,
-      "tstates": 1560051,
+      "tstates": 1560075,
       "result": "0.84147098480797",
       "error": 0
     },
@@ -28,7 +28,7 @@
     },
     "ln": {
       "frames": 63,
-      "tstates": 7560314,
+      "tstates": 7560306,
       "result": "0.69314718056122",
       "error": 0
     }
@@ -36,15 +36,15 @@
   "graph": {
     "linear": {
       "frames": 123,
-      "tstates": 15240537
+      "tstates": 15240593
     },
     "quadratic": {
       "frames": 292,
-      "tstates": 35521299
+      "tstates": 35521055
     },
     "sine": {
       "frames": 2255,
-      "tstates": 271089186
+      "tstates": 271089178
     }
   },
   "improvement_percent": {
@@ -52,7 +52,7 @@
       "arithmetic": -0.01,
       "sin": 0,
       "exp": 43.48,
-      "ln": 34.37
+      "ln": 34.38
     },
     "graph": {
       "linear": 47.52,

@@ -22,6 +22,7 @@ bank_start:
     JP p15_store_gdb
     JP p15_recall_gdb
     JP p16_select_mode
+    JP p6_start_plot
 
     INCLUDE "graph/phase6.asm"
     INCLUDE "graph/phase14.asm"

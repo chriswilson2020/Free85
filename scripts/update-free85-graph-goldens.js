@@ -131,13 +131,16 @@ for (const screenCase of screenCases) {
 }
 for (const programCase of [
   { name: "phase10-program-input", lines: ["INPUT A"] },
-  { name: "phase10-program-error", lines: ["1->A", "BROKEN"] }
+  { name: "phase10-program-error", lines: ["1->A", "BROKEN"] },
+  { name: "phase20-program-menu", lines: ["MENU ONE,TWO", "LBL ONE", "STOP", "LBL TWO", "STOP"], frames: 1 },
+  { name: "phase20-string-input", lines: ["INPST A", "STOP"], frames: 1 },
+  { name: "phase20-positioned-output", lines: ["OUTPT 3,12,HELLO", "STOP"] }
 ]) {
   const harness = Free85Harness.boot();
   installProgram(harness, programCase.lines);
   harness.tap("PRGM");
   harness.tap("F3");
-  harness.runFrames(20);
+  harness.runFrames(programCase.frames ?? 20);
   const bitmap = harness.machine.renderLcdBitmap();
   writeLcdGolden(programCase.name, bitmap);
   manifest.cases.push({

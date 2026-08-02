@@ -148,24 +148,22 @@ p7_next_menu:
     INC A
     LD B, A
     LD A, (P7_ACTIVE_APP)
-    CP P7_APP_VECTOR
-    JR NZ, .not_vector
+    OR A
     LD A, B
-    JR .three_pages
-.not_vector:
-    CP P7_APP_MATRIX
-    LD A, B
-    JR NC, .two_pages
+    JR NZ, .collection
     CP 3
     JR C, .store
     XOR A
     JR .store
-.two_pages:
-    CP 2
-    JR C, .store
-    XOR A
-.three_pages:
-    CP 3
+.collection:
+    LD C, 4
+    LD A, (P7_ACTIVE_APP)
+    CP P7_APP_MATRIX
+    LD A, B
+    JR NZ, .limit
+    LD C, 5
+.limit:
+    CP C
     JR C, .store
     XOR A
 .store:
@@ -631,6 +629,9 @@ p7_render_list:
     CP 1
     JP Z, p7_render_footer
     LD HL, p7_menu_list_2
+    CP 2
+    JP Z, p7_render_footer
+    LD HL, p17_menu_list_3
     JP p7_render_footer
 
 p7_render_matrix:
@@ -664,6 +665,15 @@ p7_render_matrix:
     OR A
     JR Z, p7_render_footer
     LD HL, p7_menu_matrix_1
+    CP 1
+    JR Z, p7_render_footer
+    LD HL, p17_menu_matrix_2
+    CP 2
+    JR Z, p7_render_footer
+    LD HL, p17_menu_matrix_3
+    CP 3
+    JR Z, p7_render_footer
+    LD HL, p17_menu_matrix_4
     JR p7_render_footer
 
 p7_render_vector:
@@ -704,6 +714,9 @@ p7_render_vector:
     LD HL, p7_menu_vector_1
     JR Z, p7_render_footer
     LD HL, p7_menu_vector_2
+    CP 2
+    JR Z, p7_render_footer
+    LD HL, p17_menu_vector_3
     JR p7_render_footer
 
 p7_render_footer:
@@ -870,6 +883,7 @@ p7_sqrt:
     JR p7_store_result
 
 p7_abs:
+    LD (P7_WORK_INDEX), IX
     LD DE, NUM_RESULT
     CALL numeric_copy
     XOR A
@@ -1344,18 +1358,9 @@ p7_list_soft:
     OR A
     JR Z, .page0
     CP 1
-    JR NZ, .page2
-.page1:
-    LD A, C
-    CP KEY_F1
-    JP Z, p7_list_product
-    CP KEY_F2
-    JP Z, p7_list_min
-    CP KEY_F3
-    JP Z, p7_list_max
-    CP KEY_F4
-    JP Z, p7_list_median
-    JP p7_list_stddev
+    JR Z, .page1
+    CP 2
+    JR NZ, .page3
 .page2:
     LD A, C
     CP KEY_F1
@@ -1367,6 +1372,20 @@ p7_list_soft:
     CP KEY_F4
     JP Z, p7_list_divide
     JP p7_render
+.page3:
+    LD A, C
+    JP p17_list_extended_soft
+.page1:
+    LD A, C
+    CP KEY_F1
+    JP Z, p7_list_product
+    CP KEY_F2
+    JP Z, p7_list_min
+    CP KEY_F3
+    JP Z, p7_list_max
+    CP KEY_F4
+    JP Z, p7_list_median
+    JP p7_list_stddev
 .page0:
     LD A, C
     CP KEY_F1
@@ -1773,17 +1792,9 @@ p7_matrix_soft:
     LD C, A
     LD A, (P7_MENU_PAGE)
     OR A
-    JR NZ, .page1
-    LD A, C
-    CP KEY_F1
-    JP Z, p7_matrix_determinant
-    CP KEY_F2
-    JP Z, p7_matrix_transpose
-    CP KEY_F3
-    JP Z, p7_matrix_inverse
-    CP KEY_F4
-    JP Z, p7_matrix_identity
-    JP p7_matrix_rref
+    JR Z, .page0
+    CP 1
+    JR NZ, .extended
 .page1:
     LD A, C
     CP KEY_F1
@@ -1795,6 +1806,20 @@ p7_matrix_soft:
     CP KEY_F4
     JP Z, p7_matrix_scale
     JP p7_matrix_solve
+.extended:
+    LD A, C
+    JP p17_matrix_extended_soft
+.page0:
+    LD A, C
+    CP KEY_F1
+    JP Z, p7_matrix_determinant
+    CP KEY_F2
+    JP Z, p7_matrix_transpose
+    CP KEY_F3
+    JP Z, p7_matrix_inverse
+    CP KEY_F4
+    JP Z, p7_matrix_identity
+    JP p7_matrix_rref
 
 p7_matrix_same_dimensions:
     LD A, (P7_MATRIX_A + P7_MATRIX_ROWS)
@@ -2161,6 +2186,14 @@ p7_matrix_determinant:
 ; Inverse and RREF use bounded Gauss-Jordan elimination on [A|I]. The left
 ; workspace is P7_MATRIX_RESULT; a separate companion preserves operand B.
 p7_matrix_inverse:
+    XOR A
+    LD (P7_OP), A
+    JR p7_matrix_inverse_impl
+
+p7_matrix_inverse_core:
+    LD A, 1
+    LD (P7_OP), A
+p7_matrix_inverse_impl:
     LD A, (P7_MATRIX_A + P7_MATRIX_ROWS)
     LD B, A
     LD A, (P7_MATRIX_A + P7_MATRIX_COLS)
@@ -2414,6 +2447,9 @@ p7_matrix_inverse:
     LD DE, P7_MATRIX_RESULT + P7_MATRIX_DATA
     LD BC, NUM_SIZE * 9
     LDIR
+    LD A, (P7_OP)
+    OR A
+    RET NZ
     JP p7_set_result_mode
 
 p7_matrix_rref:
@@ -2714,6 +2750,8 @@ p7_vector_soft:
     JR Z, .page0
     CP 1
     JR Z, .page1
+    CP 2
+    JR NZ, .page3
     LD A, C
     CP KEY_F1
     JP Z, p7_vector_rect_to_cyl
@@ -2724,6 +2762,9 @@ p7_vector_soft:
     CP KEY_F4
     JP Z, p7_vector_sph_to_rect
     JP p7_vector_cycle_display
+.page3:
+    LD A, C
+    JP p17_vector_extended_soft
 .page0:
     LD A, C
     CP KEY_F1

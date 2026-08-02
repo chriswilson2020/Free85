@@ -123,18 +123,26 @@ conversion, component access, magnitude, argument, conjugate, arithmetic,
 squaring, and principal square roots, including negative-real roots. Lists hold
 at most eight packed-decimal elements and provide element-wise editing, sum,
 product, minimum, maximum, mean, median, population standard deviation, sort,
-cumulative sum, and sequence generation.
+cumulative sum, sequence generation, dimension reporting, scalar fill,
+descending sort, and vector conversion.
 
 Matrices are limited to 3x3 and support rectangular dimensions, indexing,
 addition, subtraction, scalar and matrix multiplication, transpose,
 determinant, identity, inverse with row pivoting, reduced row-echelon form, and
 linear-system solving using the first column of matrix B as the right-hand
-side. Vectors contain two or three components and provide addition,
+side. Phase 14.6 adds elementary row operations, augmentation, row-echelon
+form, three matrix norms, condition number, random and scalar fill, combined
+LU storage, and bounded real eigensystems. Vectors contain two or three
+components and provide addition,
 subtraction, scalar multiplication, magnitude, normalisation, dot product,
-3D cross product, and angle. Dimension, singular-matrix, and zero-vector
+3D cross product, angle, dimension/fill operations, and list conversion.
+Dimension, singular-matrix, and zero-vector
 failures are recoverable dialogs. Phase 7 occupies ROM bank 2; its total RAM
 reservation, including the framebuffer and stack, is 4,608 bytes, leaving
 28,160 bytes free.
+
+The additional algorithms and their exact supported domains are documented in
+`docs/Free85-collections-linear-algebra.md`.
 
 ## Phase 8 statistics and specialist solvers
 

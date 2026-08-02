@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "release": "2.0.0",
-  "phase": "14.5",
+  "phase": "14.6",
   "inventory": {
     "groups": 41,
     "entries": 298,
     "groupsByStatus": {
-      "equivalent": 20,
-      "partial": 16,
+      "equivalent": 22,
+      "partial": 14,
       "missing": 1,
       "hardware-dependent": 3,
       "excluded-clean-room": 1
     },
     "entriesByStatus": {
-      "equivalent": 164,
-      "partial": 112,
+      "equivalent": 181,
+      "partial": 95,
       "missing": 4,
       "hardware-dependent": 13,
       "excluded-clean-room": 5
@@ -23,12 +23,12 @@
   "gaps": {
     "total": 36,
     "byStatus": {
-      "equivalent": 18,
-      "partial": 12,
+      "equivalent": 20,
+      "partial": 10,
       "missing": 4,
       "hardware-dependent": 2
     },
-    "equivalentPercent": 50
+    "equivalentPercent": 55.56
   },
   "workPackages": [
     {
@@ -145,7 +145,7 @@
       "gaps": [
         {
           "id": "list.complete",
-          "status": "partial"
+          "status": "equivalent"
         },
         {
           "id": "matrix.complete",
@@ -153,7 +153,7 @@
         },
         {
           "id": "vector.complete",
-          "status": "partial"
+          "status": "equivalent"
         },
         {
           "id": "complex.collections",

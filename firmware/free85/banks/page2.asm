@@ -11,6 +11,7 @@ bank_start:
     JP phase7_handle_key
 
     INCLUDE "collections/phase7.asm"
+    INCLUDE "collections/phase17.asm"
 
 bank_end:
     ASSERT bank_end <= $8000

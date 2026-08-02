@@ -113,19 +113,32 @@ A few names are special:
 ## The typed object store
 
 Underneath all of this, every stored item lives in one typed object store,
-kept in the 2.0 store format that gives the memory browser its
-`MEMORY 2.10` title. It holds named objects of eleven kinds, from the real
-numbers of this chapter through lists, matrices, vectors, strings,
-equations, programs, and more, and its names can run to eight characters:
-the one-letter rule above belongs to real-number variables, and the longer
-names go with those other object types. In today's firmware only the
-twenty-six reserved reals exist and nothing yet creates the other kinds;
-chapter 18 tours the browser that lists every object with its type and
-exact size, along with the store's capacity and accounting rules.
+kept in the store format introduced with Free85 2.0; the memory browser's
+banner names the running release, `MEMORY 2.10`. The store has room for
+named objects of eleven kinds (real numbers, complex numbers, lists,
+matrices, vectors, strings, equations, programs, user constants, graph
+databases, and pictures), its names can run to eight characters, and the
+browser names every entry's kind with a word: `A` is listed with
+`TYPE REAL`, and a stored picture with `TYPE PICTURE`. The one-letter
+rule above belongs to real-number variables; the longer names go with the
+other object types.
 
-> ⚠ **Planned:** creating, naming, and managing the store's other typed
-> objects (lists, matrices, vectors, strings, and equations) directly from
-> the keyboard (Free85 2.0, work package 14.9).
+Beyond the reserved reals, the store fills through the calculator's own
+workflows rather than through the store arrow. A fresh machine carries
+the twenty-six reserved reals and nothing else, and the chapters ahead
+add to them: Chapter 8 (Physical and User Constants and Conversions)
+creates user constants, and the graphing chapters, beginning with
+chapter 4, store graph databases and pictures. Lists, matrices,
+vectors, strings, complex working values, and programs never become
+named objects at all, though the store format keeps a type reserved
+for each. This is a deliberate design: each lives in its own home,
+such as the two working lists and result list of Chapter 12 (Lists) or
+the four program slots of Chapter 16 (Calculator Programming), which
+keep their contents when you leave but never appear in the memory
+browser. The stored graph equations likewise stay in their three
+slots `Y1`, `Y2`, and `Y3` outside the store. Chapter 18 tours the
+browser that lists every object with its type and exact size, along with
+the store's capacity and accounting rules.
 
 ## Deleting stored data
 

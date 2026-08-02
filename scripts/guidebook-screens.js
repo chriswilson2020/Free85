@@ -41,10 +41,43 @@ export const SCREEN_CASES = [
   // F1 on the graph screen finds a root of the active equation and
   // publishes it on the home screen with its residual line.
   { name: "ch04-root-result", keys: ["X-VAR", "X^2", "-", "4", "GRAPH", 600, "F1", 1500] },
+  // The graph mode page: the third page of the graph format panel, opened
+  // from a completed axes-only plot.
+  { name: "ch05-polar-mode-page", keys: ["GRAPH", 100, "2ND", "MORE", "MORE", "MORE"] },
+  // Polar mode via F2 (which replots immediately), then r=5 stored from the
+  // home entry line; the polar sweep takes far longer than a function plot.
+  {
+    name: "ch05-polar-circle",
+    keys: ["GRAPH", 100, "2ND", "MORE", "MORE", "MORE", "F2", 100, "EXIT", 30,
+      "5", "GRAPH", 6000]
+  },
+  // Parametric mode via F3, x(t)=5*COS(X) in slot 1, y(t)=5*SIN(X) in
+  // slot 2; both slots must hold text before the pair draws.
+  {
+    name: "ch06-parametric-circle",
+    keys: ["GRAPH", 100, "2ND", "MORE", "MORE", "MORE", "F3", 100, "EXIT", 30,
+      "5", "*", "COS", "X-VAR", ")", "GRAPH", 3000,
+      "2ND", "2", 30, "5", "*", "SIN", "X-VAR", ")", "GRAPH", 6000]
+  },
+  // Differential-equation mode via F4 on a fresh machine (initial condition
+  // seeds from Y holding 0), then dy/dx=1 plots the line through (-10,0).
+  {
+    name: "ch07-diffeq-line",
+    keys: ["GRAPH", 100, "2ND", "MORE", "MORE", "MORE", "F4", 600, "EXIT", 30,
+      "1", "GRAPH", 900]
+  },
   { name: "ch08-constants-menu", keys: ["2ND", "4"] },
   // CTOF( from the conversions menu's second page, applied to 100 degrees
   // Celsius, shows a conversion evaluated on the home screen.
   { name: "ch08-conversion-example", keys: ["2ND", "5", "MORE", "F4", "1", "0", "0", ")", "ENTER", 200] },
+  // The user-constants screen after creating RATE = 12.5 through its NEW
+  // prompts. ALPHA latches in the prompts, so one press spells the name
+  // (R A T E on 5 LOG - ^) and the next press releases it for the digits.
+  {
+    name: "ch08-user-constants",
+    keys: ["2ND", "4", "MORE", "MORE", "F1", "ALPHA", "5", "LOG", "-", "^",
+      "ENTER", "ALPHA", "1", "2", ".", "5", "ENTER"]
+  },
   // The strings editor opens on empty registers, so the capture types HELLO
   // into register A first (letters are ALPHA plus the letter's key).
   {
@@ -56,9 +89,22 @@ export const SCREEN_CASES = [
   // The collections editors open on zeroed registers, so each capture enters
   // the values its chapter's examples use before photographing the screen.
   { name: "ch11-complex-editor", keys: ["2ND", "9", "3", "ENTER", "4", "ENTER"] },
+  // 3-4i entered in the complex editor, then CSET on the list editor's
+  // complex-payload page copies it into element 1, showing the IM line.
+  {
+    name: "ch11-complex-cset",
+    keys: ["2ND", "9", "3", "ENTER", "(-)", "4", "ENTER", "EXIT",
+      "2ND", "-", "MORE", "MORE", "MORE", "MORE", "F1"]
+  },
   {
     name: "ch12-list-editor",
     keys: ["2ND", "-", "4", "ENTER", "1", "ENTER", "3", "ENTER", "2", "ENTER"]
+  },
+  // The chapter's list under its fourth soft-key page, DIM FILL D-S L>V V>L.
+  {
+    name: "ch12-list-dim-page",
+    keys: ["2ND", "-", "4", "ENTER", "1", "ENTER", "3", "ENTER", "2", "ENTER",
+      "MORE", "MORE", "MORE"]
   },
   {
     name: "ch13-matrix-editor",
@@ -68,6 +114,13 @@ export const SCREEN_CASES = [
   {
     name: "ch13-matrix-inverse",
     keys: ["2ND", "7", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER", "F3", 600]
+  },
+  // The combined LU factors of 4 3 / 6 3 from the decomposition page; the
+  // frames let the factorisation finish before the capture.
+  {
+    name: "ch13-matrix-lu",
+    keys: ["2ND", "7", "4", "ENTER", "3", "ENTER", "6", "ENTER", "3", "ENTER",
+      "MORE", "MORE", "MORE", "MORE", "F1", 1200]
   },
   { name: "ch13-vector-editor", keys: ["2ND", "8", "3", "ENTER", "4", "ENTER", "0", "ENTER"] },
   // The polynomial editor holding x^2-5x+6; entry wraps back to COEFF 2.
@@ -93,6 +146,11 @@ export const SCREEN_CASES = [
     keys: ["2ND", "STAT", "2", "ENTER", "1", "ENTER", "5", "ENTER",
       "1", "ENTER", "(-)", "1", "ENTER", "1", "ENTER", "F1", 1500]
   },
+  // The solver workspace holding X^2-4 stored from the home entry line.
+  {
+    name: "ch14-solver-workspace",
+    keys: ["X-VAR", "X^2", "-", "4", "2ND", "GRAPH", 30]
+  },
   // Five pairs (1,2)..(5,5): + grows the shared length to 5, ALPHA switches
   // to the Y column. The capture wraps back to the Y column's first entry.
   {
@@ -101,7 +159,7 @@ export const SCREEN_CASES = [
       "5", "ENTER", "ALPHA", "2", "ENTER", "4", "ENTER", "5", "ENTER",
       "4", "ENTER", "5", "ENTER"]
   },
-  // The same pairs fitted with F3 (LIN): SLOPE 0.6, INTER 2.2.
+  // The same pairs fitted with F3 (LIN): MOD LIN, A 2.2, B 0.6.
   {
     name: "ch15-regression-result",
     keys: ["STAT", "+", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER",
@@ -114,6 +172,13 @@ export const SCREEN_CASES = [
     keys: ["STAT", "+", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER",
       "5", "ENTER", "ALPHA", "2", "ENTER", "4", "ENTER", "5", "ENTER",
       "4", "ENTER", "5", "ENTER", "F4", 600]
+  },
+  // Four pairs joined in entry order by the sixth soft-key page's F2 (XYLN).
+  {
+    name: "ch15-xyline",
+    keys: ["STAT", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER",
+      "ALPHA", "2", "ENTER", "4", "ENTER", "3", "ENTER", "8", "ENTER",
+      "MORE", "MORE", "MORE", "MORE", "MORE", "F2", 600]
   },
   // The chapter's eight-value one-variable column, drawn with F5 (HIST) and
   // with the third soft-key page's F5 (BOX).
@@ -148,6 +213,26 @@ export const SCREEN_CASES = [
       "ALPHA", "6", "ALPHA", "-", "ALPHA", "*", "ALPHA", ",",
       "F2", 300]
   },
+  // The PROGRAM MENU chooser: MENU ONE,TWO typed into P1 (letters are ALPHA
+  // plus the letter's key, space is 2ND 0) and run with the editor's F2.
+  {
+    name: "ch16-program-menu",
+    keys: ["PRGM", "F1",
+      "ALPHA", "8", "ALPHA", "^", "ALPHA", "9", "ALPHA", "1", "2ND", "0",
+      "ALPHA", "*", "ALPHA", "9", "ALPHA", "^", ",",
+      "ALPHA", "-", "ALPHA", "3", "ALPHA", "*",
+      "F2", 5]
+  },
+  // Positioned output: OUTPT 3,12,HELLO typed into P1 and run; the run ends
+  // with HELLO alone on the cleared screen at row 3, column 12.
+  {
+    name: "ch16-outpt",
+    keys: ["PRGM", "F1",
+      "ALPHA", "*", "ALPHA", "1", "ALPHA", "-", "ALPHA", ",", "ALPHA", "-",
+      "2ND", "0", "3", ",", "1", "2", ",",
+      "ALPHA", "(", "ALPHA", "^", "ALPHA", "7", "ALPHA", "7", "ALPHA", "*",
+      "F2", 50]
+  },
   // Chapter 17's graph example: X^2-4 plotted, then traced twelve columns
   // right of centre so the readout closes in on the root at x=2.
   {
@@ -179,8 +264,10 @@ export const SCREEN_CASES = [
       "F2", 400]
   },
   { name: "ch18-memory-browser", keys: ["2ND", "+"] },
-  // The native link screen, opened with the LINK legend on 2nd x-VAR.
+  // The link screen, opened with the LINK legend on 2nd x-VAR.
   { name: "ch19-native-link", keys: ["2ND", "X-VAR"] },
+  // The link screen with the first object marked for transfer.
+  { name: "ch19-link-selected", keys: ["2ND", "X-VAR", "ENTER"] },
   { name: "manual-boot", keys: [] },
   { name: "manual-first-calc", keys: ["2", "+", "3", "ENTER"] },
   // GRAPH alone plots the axes without labels, so the soft-menu example uses

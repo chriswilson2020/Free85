@@ -1,9 +1,9 @@
 # Chapter 17: Worked Application Examples
 
 The reference chapters cover one feature at a time; this chapter puts
-them together. Three complete examples follow, one from graphing, one
+them together. Four complete examples follow, one from graphing, two
 from statistics, and one from programming, each solved end to end with
-every keystroke listed. All three were run start to finish in the
+every keystroke listed. All four were run start to finish in the
 emulator on a fresh machine, and every quoted figure is what the screen
 showed.
 
@@ -69,17 +69,24 @@ answers:
 
 ![The linear regression of the four pairs](images/ch17-regression-example.png)
 
-`SLOPE` reads `1.4`, `INTER` reads `0.5`, and `R` reads
-`0.9899494936611`, a strong fit, with the last line `Y=INTER+SLOPE*X`
-stating the model. The fitted line is y = 0.5 + 1.4x.
+Under the `STATISTICS` banner, `MOD LIN` names the model, `A`, the
+intercept, reads `0.5`, and `B`, the slope, reads `1.4`: the fitted
+line is y = 0.5 + 1.4x. The footer `EXIT BACK` names chapter 15's two
+ways off a result screen, [EXIT] to the home screen and [CLEAR] back
+to the editor.
 
-**Forecast.** There is no forecast key, so chapter 15's method makes
-it a home-screen job: press [EXIT] to leave the result screen, press
-[CLEAR], and evaluate the model at x = 5 by typing `.5+1.4*5` and
-pressing [ENTER]. The answer line reads `= 7.5`, the fitted forecast
-for the fifth pair. Four pairs, one soft key, and one typed line: the
-editor held the data, `LIN` named the model, and the home screen
-turned it into a forecast.
+**Judge the fit.** The result screen stops at the coefficients, so
+press [CLEAR] to return to the editor and [F2] (`2V`): the paired
+summary answers `R` reading `0.9899494936611`, a strong fit.
+
+**Forecast.** Chapter 15's `FCY` key forecasts from an entry in the
+data columns, as example 4 shows; for a one-off x the two coefficients
+are quicker typed by hand: press [EXIT] to leave for the home screen,
+press [CLEAR], and evaluate the model at x = 5 by typing `.5+1.4*5`
+and pressing [ENTER]. The answer line reads `= 7.5`, the fitted
+forecast for the fifth pair. Four pairs, two soft keys, and one typed
+line: the editor held the data, `LIN` named the model, and the home
+screen turned it into a forecast.
 
 ## Example 3: a factorial program
 
@@ -110,9 +117,45 @@ through 5, and `DISP` publishes the result.
 The run screen answers `120` on its output line with the status
 `DONE`: 5! computed by four working lines.
 
-**Check it.** Press [PRGM] to return to the list and [EXIT] to go
-home. The factorial function of chapter 3 sits on the `MATH` menu, so
-press [F1] [F3] to insert `FACT(`, type [5] [)], and press [ENTER]:
-the answer is `= 120`, matching the program exactly. The program and
-the function agree because they share one arithmetic: the same
-fourteen-digit engine evaluates program lines and home entries alike.
+**Check it.** Press [PRGM] to return to the list, [EXIT] to go home,
+and [CLEAR] to empty the entry line the run left behind. The factorial
+function of chapter 3 sits on the `MATH` menu, so press [F1] [F3] to
+insert `FACT(`, type [5] [)], and press [ENTER]: the answer is `= 120`,
+matching the program exactly. The program and the function agree
+because they share one arithmetic: the same fourteen-digit engine
+evaluates program lines and home entries alike.
+
+## Example 4: a curve through a projectile's flight
+
+**The task:** a ball thrown straight up was measured once a second: at
+1 s it stood at 25 m, at 2 s at 40 m, at 3 s at 45 m, and at 4 s at
+40 m. Fit a quadratic to height against time and forecast the height
+at 5 s.
+
+**Enter the data.** Press [STAT] and fill the editor's four entries as
+in example 2: type [1] [ENTER] [2] [ENTER] [3] [ENTER] [4] [ENTER]
+into the `X` column for the seconds, press [ALPHA] to switch to the
+`Y` column, and type [2] [5] [ENTER] [4] [0] [ENTER] [4] [5] [ENTER]
+[4] [0] [ENTER] for the heights.
+
+**Fit the parabola.** The polynomial fits sit on the editor's fourth
+soft-key page (chapter 15), so press [MORE] three times and press
+[F4] (`P2`). The result screen answers `MOD P2` with `A 0`, `B 30`,
+and `C -5`, coefficients in ascending powers: the fitted curve is
+h = 30t - 5t^2, a launch speed of 30 m/s against a pull of 10 m/s^2,
+peaking at 45 m at t = 3 exactly as the data suggests.
+
+**Forecast the fifth second.** Chapter 15's `FCY` key forecasts y from
+the x of the entry the editor is standing on, so give it an entry
+holding 5. Press [CLEAR] to return to the editor, [ALPHA] to switch
+back to the `X` column, and [+] to grow the columns to five entries;
+press [▼] four times to reach `INDEX 5` and type [5] [ENTER] to store
+the time. [ENTER] wraps the selection back to `INDEX 1`, so press [▼]
+four times to stand on the new entry again. The soft keys kept their
+page while you edited, so a single [MORE] reaches the fifth page:
+press [F3] (`FCY`) and the `FORECAST` screen answers the direction
+line `X->Y` with the forecast `25` above the `5` it used. The model
+puts the ball at 25 m as the fifth second ends, twenty below its peak
+and falling; [EXIT] leaves for the home screen. One editor, one
+polynomial key, and one forecast key: the forecast example 2 typed by
+hand, this example reads straight off a screen.

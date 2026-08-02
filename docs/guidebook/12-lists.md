@@ -3,9 +3,11 @@
 A list is an ordered collection of up to eight numbers, and Free85 keeps
 its list tools together on one screen, the list editor. There you build a
 list value by value and apply the operations from the soft keys: sums and
-means, sorting, running totals, sequences, and element-by-element
-arithmetic between two lists. This chapter covers the editor and all
-fourteen of its operations, with every result quoted from the machine.
+means, sorting, running totals, sequences, element-by-element arithmetic
+between two lists, dimensions, fills, vector conversions, and, new in
+this release, imaginary parts for every element. This chapter covers the
+editor and all five of its soft-key pages, with every result quoted from
+the machine.
 
 ## The list editor
 
@@ -55,8 +57,8 @@ list `A` and leaves its answer in `R`:
 - **`MEAN`** ([F2]) averages it: `2.5`.
 - **`SORT`** ([F3]) delivers an ascending copy (elsewhere `sortA`):
   `R` is a four-value list, and stepping through it with [▶] reads `1`,
-  `2`, `3`, `4`. There is no descending sort yet; see the callout at
-  the end of this chapter.
+  `2`, `3`, `4`. The descending twin, `D-S`, lives on the fourth page
+  below.
 - **`CUM`** ([F4]) answers the running totals: stepping through `R`
   reads `4`, `5`, `8`, `10`.
 - **`SEQ`** ([F5]) ignores the values and fills `R` with the counting
@@ -104,14 +106,82 @@ full-screen `DIMENSION ERROR` notice, with the usual `CLEAR OR EXIT` way
 back (chapter 1). Dividing where `B` holds a zero stops at the
 `INVALID NUMBER` notice.
 
+## Dimensions, fills, and conversions
+
+The fourth soft-key page is `DIM FILL D-S L>V V>L`:
+
+![The fourth soft-key page over the list 4, 1, 3, 2](images/ch12-list-dim-page.png)
+
+With the chapter's 4, 1, 3, 2 in `A`:
+
+- **`DIM`** ([F1]) reports the length (elsewhere `dimL`): `R` becomes
+  `SIZE 1` holding `4`. The [+] and [-] resizing keys are the other
+  half of the story.
+- **`FILL`** ([F2]) fills at `A`'s length with one value, taken from
+  the first element of `B`, just as the matrix and vector editors take
+  scalars from `B` (chapter 13). Press [ALPHA] in the list editor to
+  select `B`, type [9] [ENTER], press [ALPHA] again if you want to
+  watch `A`, and `FILL` answers a four-value `R` reading `9`, `9`,
+  `9`, `9` (elsewhere `Fill`).
+- **`D-S`** ([F3]) is the descending sort (elsewhere `sortD`): `R`
+  reads `4`, `3`, `2`, `1`.
+- **`L>V`** ([F4]) converts the list to a vector (elsewhere `li->vc`).
+  A vector has at most three components (chapter 13), so our four-value
+  list stops at the `DIMENSION ERROR` notice; shorten to the
+  three-value 4, 1, 3 with [-] and the same key lands you in the
+  vector editor with its result register holding `4`, `1`, `3`.
+- **`V>L`** ([F5]) converts the other way (elsewhere `vc->li`),
+  reading the vector editor's `A`: with a vector 7, 8, 9 stored there,
+  `V>L` here answers the three-value list `7`, `8`, `9` in `R`. The
+  same pair of keys appears in the vector editor (chapter 13).
+
+## Lists with imaginary parts
+
+The fifth soft-key page, `CSET CGET REAL IMAG CLR`, gives every element
+an imaginary part, shown on an `IM` line under the element's value; the
+legend runs off the right edge of the screen, so `CLR` shows only its
+first letter, but [F5] answers all the same. The page works element by
+element together with the complex editor of chapter 11:
+
+- **`CSET`** ([F1]) copies the complex editor's register `A` into the
+  selected element, both parts. Put 3-4i there ([2nd] [9] [3] [ENTER]
+  [(-)] [4] [ENTER]), come back ([EXIT] [2nd] [-]), page to this page,
+  and `CSET` makes element 1 read `3` with `IM -4` beneath it.
+- **`CGET`** ([F2]) is the reverse trip: it copies the selected
+  element into the complex editor's result register and opens that
+  editor on it, ready for chapter 11's operations.
+- **`REAL`** ([F3]) keeps the element's real part and clears its `IM`
+  to zero; **`IMAG`** ([F4]) moves the imaginary part into the value
+  slot, so our 3-4i element becomes `-4` with `IM 0`; **`CLR`** ([F5])
+  zeroes the selected element entirely.
+
+Typing over an element the ordinary way also clears its `IM` to zero,
+so set values first and imaginary parts second. The editor pages and
+registers reset to the first page and `A` each time you re-enter, so
+each `CSET` trip is: enter the number in the complex editor, return,
+press [MORE] four times, step to the element, [F1].
+
+The arithmetic carries both parts. Build `A` with 2+3i and -1+2i in
+elements 1 and 2 (two `CSET` trips, elements 3 and 4 staying zero),
+and `B` with 1-2i and 3+4i (two more, pressing [ALPHA] after entering
+the editor), and the third page's `ADD` answers an `R` whose elements
+read `3` with `IM 1` and `2` with `IM 6`: the sums 3+1i and 2+6i,
+visible by paging back to the fifth page. `SUM` and `PROD` keep both
+parts too: summing a list holding 1+2i and 3-1i answers `4` with
+`IM 1`.
+
 ## Lists and the rest of the calculator
 
 Lists live in this editor, not in the expression language: the home
 screen's entry line has no list literal, and the `LIST` soft item opens
-the editor rather than inserting anything. The statistics tools of
-Chapter 15 (Statistics and Statistical Plots) keep their own data. The
-missing pieces of the list toolkit are scheduled work:
-
-> ⚠ **Planned:** the list commands `dimL`, `->dimL`, and `Fill`, the
-> descending sort `sortD`, and the list and vector conversions `li->vc`
-> and `vc->li` (Free85 2.0, work package 14.6).
+the editor rather than inserting anything. The statistics editor of
+Chapter 15 (Statistics and Statistical Plots) works on these same
+registers under different names: its `X` column is list `A` and its
+`Y` column is list `B`, so a sort or a fill here reorders the
+statistics too.
+Appendix A catalogues the resizing keys as `->dimL`, the fill as
+`Fill-list`, and the position-by-position arithmetic as
+`elementwise-list`, with its plain-number and complex cases filed as
+`elementwise-real` and `elementwise-complex`. Eight values is not
+many, but between the sorts, the sums, the conversions, and the
+imaginary parts, this one screen makes them work hard.

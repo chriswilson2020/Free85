@@ -1,40 +1,83 @@
 # Chapter 14: Equation, Polynomial, and Simultaneous Solving
 
-Free85 has three solving tools. The general solver takes any expression
-in `X` and hunts for a value that makes it zero. The polynomial editor
-takes the coefficients of a polynomial of degree 2 to 4 and answers
-every root, real or complex. The simultaneous editor takes a linear
-system of up to four equations and answers the unknowns, or tells you
-why it cannot. The first lives on the home screen; the other two are
-editors built on the same entry rules as the collection editors of
-Chapter 13 (Matrices and Vectors), whose `SOLVE` soft key is a fourth
-route to small linear systems. Every figure in this chapter is quoted
-from the machine.
+Free85 has three solving tools. The general solver keeps an equation
+in any single letter and hunts for a value that makes it zero. The
+polynomial editor takes the coefficients of a polynomial of degree 2
+to 4 and answers every root, real or complex. The simultaneous editor
+takes a linear system of up to four equations and answers the
+unknowns, or tells you why it cannot. The first is a workspace behind
+[2nd] [GRAPH]; the other two are editors built on the same entry rules
+as the collection editors of Chapter 13 (Matrices and Vectors), whose
+`SOLVE` soft key is a fourth route to small linear systems. Every
+figure in this chapter is quoted from the machine.
 
 ## The general solver
 
-The [GRAPH] key's shifted function is `SOLVER` (elsewhere `Solver`).
-Chapter 4 (Cartesian Graphing, Drawing, Formats, and Persistence)
-introduced it as a shortcut: with an expression in `X` on the home entry
-line, [2nd] [GRAPH] stores the expression as the active graph equation,
-searches for a root, and publishes it on the home screen.
+The [GRAPH] key's shifted function is `SOLVER` (elsewhere `Solver`), a
+persistent workspace rather than a one-shot command. Press
+[2nd] [GRAPH] and the screen changes to the `SOLVER` banner, an `F=`
+line naming the stored equation, a `VAR X` line naming the unknown, a
+field area, and the soft keys `SOLV GRPH VAR < >`. On a fresh machine
+nothing is stored yet, so the `F=` line shows the `<HOME EXPRESSION>`
+placeholder.
 
-To solve x^2-x-6 = 0, type [x-VAR] [x²] [-] [x-VAR] [-] [6] so the
-entry line reads `X^2-X-6`, then press [2nd] [GRAPH]. The answer line
-reads `= -2`. The search answers a single root, and which one you get
-depends on where it starts; for the other root of this polynomial
-(3), use the polynomial editor below, or press [GRAPH] to plot the
-stored equation and aim the graph screen's own root finder (chapter 4)
-at the crossing you want. Roots need not be whole numbers: `X^2-2`
-answers `= -1.414213562373`.
+![The solver workspace holding X^2-4](images/ch14-solver-workspace.png)
 
-An expression with no real root has nothing to answer: `X^2+1` stops at
-the `NO NUMERIC RESULT` notice with the usual `CLEAR OR EXIT` way back,
-and so does pressing [2nd] [GRAPH] with an empty entry line.
+The equation arrives from the home screen. Whatever is on the home
+entry line when you press [2nd] [GRAPH] becomes the stored equation,
+so [x-VAR] [x²] [-] [4] [2nd] [GRAPH] opens the workspace with
+`F= X^2-4`, as the screenshot shows. Entering with an empty entry line
+keeps what is already stored, and the equation, unknown, guess, and
+bounds all survive [EXIT] and a later reopen intact.
 
-> ⚠ **Planned:** the full `Solver` workflow with a stored equation,
-> selectable variables, editable guesses, and solution bounds
-> (Free85 2.0, work package 14.7).
+`VAR` ([F3]) steps the unknown through the letters, `X` to `Y` to `Z`
+to `A` and on around the alphabet, so three presses turn `VAR X` into
+`VAR A` for an equation written in `A`. The `<` and `>` keys ([F4] and
+[F5]) page the field area through `EQUATION`, `VARIABLE`, `GUESS`,
+`LOWER`, and `UPPER`; a fresh machine holds guess `0` with bounds
+`-10` and `10`. On a numeric page, digits, [.], and [(-)] build a
+value on an `EDIT` line, [ENTER] stores it and pages onward, and
+[CLEAR] abandons the half-typed line, following the entry rules of the
+editors below. One caveat in this release: the `LOWER` page ignores
+[ENTER], so the lower bound keeps whatever it already held (`-10` on a
+fresh machine). Until a firmware release repairs the field, steer the
+search with the guess and the upper bound instead.
+
+`SOLV` ([F1]) hunts for a root between the bounds and publishes a
+`ROOT` line and a `RES` residual line in the field area. The guess is
+tried first, so a guess that already solves the equation comes back
+exact: store `A^2-9`, turn `VAR X` into `VAR A`, page to the guess and
+store `-3`, and `SOLV` answers a `ROOT` of `-3` with `RES` `0`. A
+guess of `2` on `X^2-4` answers a `ROOT` of `2` the same way, which is
+how you pick between roots. Any other guess sends the solver scanning
+32 subintervals of the bounds for a sign change, then bisecting that
+subinterval, up to 40 halvings, until the residual passes the numeric
+tolerance set with [2nd] [CLEAR], the `TOLER` legend of Chapter 3
+(Mathematics, Calculus, and Comparisons): `X^2-4` from the default
+guess answers a `ROOT` of `-1.9999998807909` with `RES`
+`-4.768364E-7`, the -2 crossing under a little numerical dust, its
+residual inside the fresh `1E-6` tolerance.
+
+Four notices guard the search, each with the usual `CLEAR OR EXIT` way
+back. `SOLV` with no stored equation stops at `ENTER EQUATION HOME`.
+Bounds out of order stop at `LOWER MUST BE < UPP` (store `-20` as the
+upper bound and try); the screen clips the last letters, short for
+lower must be less than upper. An equation that cannot be evaluated
+across the bounds, such as `LN(X)-1` over the default `-10` to `10`,
+stops at `EQUATION DOMAIN ERR`, clipped the same way from equation
+domain error. And an equation with no sign change between the bounds,
+such as `X^2+1`, stops at `NO BOUNDED ROOT`.
+
+`GRPH` ([F2]) hands the problem to the graph screen of Chapter 4
+(Cartesian Graphing, Drawing, Formats, and Persistence). The stored
+equation becomes the active graph equation with the solver's unknown
+renamed to the graph variable, so `TAN(A)-1` hands off as `TAN(X)-1`;
+the solver bounds become the window's horizontal range; and the plot
+opens, where the graph screen's own [F1] root finder and its
+companions (chapter 4) take aim at whichever crossing you can see.
+Appendix A catalogues this workspace as `solver-equation`,
+`solver-variables`, `solver-guesses`, `solver-bounds`, and
+`solver-graph`.
 
 ## The polynomial editor
 
@@ -108,9 +151,11 @@ the search at every degree, is also safe now: -x^2+4 (coefficients
 multiply an equation through by -1 before solving. The old workaround
 still works if you meet it in earlier notes: `CUB` with coefficients
 1, -1, -6, 0 multiplies x^2-x-6 by x, and the browser answers `RE 3`,
-`RE -2`, and `RE 0`, the true roots plus the 0 the extra factor added.
-The cubic and quartic searches answered every polynomial we put to
-them, at worst with a small residue in the last digits.
+`RE -2`, and `RE 0`, the true roots plus the 0 the extra factor added;
+or aim the general solver at each root with a guess, as the workspace
+section above shows. The cubic and quartic searches answered every
+polynomial we put to them, at worst with a small residue in the last
+digits.
 
 ## The simultaneous editor
 

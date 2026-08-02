@@ -3,15 +3,15 @@
 This chapter is the full tour of the graph screen: storing equations in the
 three function slots, watching a plot draw, changing the window with the zoom
 keys, tracing along a curve, running the root and calculus analyses directly
-from the plot, and reading the table of values. It closes with a frank
-account of the graph areas that are not built yet, namely drawing commands,
-and graph storage. Every key sequence and every
-quoted number below was run in the emulator on a fresh machine.
+from the plot, and reading the table of values. It closes with drawing on
+a completed plot and with storing pictures and graph databases. Every key
+sequence and every quoted number below was run in the emulator on a fresh
+machine.
 
-Free85 currently graphs in one mode: real functions of the graph variable
-`X` (elsewhere `Func`). The polar, parametric, and
-differential-equation modes have their own chapters (5, 6, and 7), which
-describe what is planned and what the calculator does today.
+Free85 graphs in four modes; this chapter describes the default: real
+functions of the graph variable `X` (elsewhere `Func`). The polar,
+parametric, and differential-equation modes have their own chapters (5,
+6, and 7) and share everything described here.
 
 > 🔌 **Hardware:** all graphing in this chapter, including plot speed and
 > the LCD captures, is validated in the emulator; physical hardware
@@ -187,11 +187,11 @@ number; [CLEAR] or [EXIT] dismisses it.
 These are the graph-side counterparts of the home-screen calculus commands
 (`EVAL(`, `NDER(`, `FNINT(`, `FMIN(`, `FMAX(`) described in chapter 3: same
 algorithms, with the window standing in for the interval arguments. The
-[GRAPH] key's shifted function `SOLVER` chains two of the steps: with an
-expression on the home entry line, [2nd] [GRAPH] stores it, finds a root,
-and answers on the home screen in one go ([2nd] [GRAPH] with `X^2-4` on the
-line answers `= -2`). Chapter 14: Equation, Polynomial, and Simultaneous
-Solving covers the solving tools in full.
+[GRAPH] key's shifted function `SOLVER` runs the same hunt from its own
+workspace: with an expression on the home entry line, [2nd] [GRAPH]
+stores it there, and the workspace's `SOLV` key searches between bounds
+you set. Chapter 14: Equation, Polynomial, and Simultaneous Solving
+covers the solving tools in full.
 
 ## The table
 
@@ -233,8 +233,9 @@ Press [MORE] for the second format page. [F1] selects `SimulG` or `SeqG`:
 simultaneous mode samples every enabled equation at each X column, whereas
 sequential mode completes one equation before starting the next. Both produce
 the same final framebuffer. [F2], [F3], and [F4] toggle `Y1`, `Y2`, and `Y3`;
-[F5] moves directly to the zoom panel. [EXIT] applies the persistent settings
-and redraws.
+[F5] moves directly to the zoom panel. A further press of [MORE] reaches the
+graph mode page of chapters 5 to 7, and the pages then cycle. [EXIT] applies
+the persistent settings and redraws.
 
 ## Drawing on a graph
 

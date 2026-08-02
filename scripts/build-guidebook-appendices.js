@@ -15,12 +15,19 @@ const coverage = read("spec/free85/guidebook-coverage.yaml");
 const gaps = read("spec/free85/v2-parity-gaps.yaml");
 
 // Appendix A: command catalog grouped by ledger group.
+const ledgerHasOpenWork = ledger.groups.some(
+  (group) => group.status === "partial" || group.status === "missing"
+);
 let a = `${HEADER}# Appendix A: Command and Function Catalog\n\n` +
   "Grouped by functional area. Status comes from the Free85 2.0 command " +
   "ledger's status vocabulary: `equivalent` items work today; `partial` and " +
-  "`missing` are tracked implementation gaps; `hardware-dependent` items " +
+  "`missing` mark tracked implementation gaps; `hardware-dependent` items " +
   "await separate hardware validation; `excluded-clean-room` items are " +
-  "intentionally out of scope by design, not gaps.\n";
+  "intentionally out of scope by design, not gaps." +
+  (ledgerHasOpenWork
+    ? ""
+    : " The ledger is closed: no `partial` or `missing` entries remain.") +
+  "\n";
 for (const group of ledger.groups) {
   a += `\n## ${esc(group.id)} — ${esc(group.kind)} (${group.status})\n\n`;
   if (group.owner) a += `> Tracked under: \`${escCode(group.owner)}\`\n\n`;
@@ -39,16 +46,16 @@ for (const key of keymap.keys) {
 }
 writeFileSync(`${root}docs/guidebook/appendix-b-keymap.md`, b);
 
-// Appendix D: chapter coverage + open 2.0 gaps.
-let d = `${HEADER}# Appendix D: Feature Status and 2.0 Gaps\n\n## Chapter status\n\n` +
+// Appendix D: chapter coverage + remaining non-equivalent areas.
+let d = `${HEADER}# Appendix D: Feature Status\n\n## Chapter status\n\n` +
   "| Chapter | Topic | Status |\n| --- | --- | --- |\n";
 for (const ch of coverage.chapters) {
   d += `| ${ch.chapter} | ${esc(ch.topic)} | ${ch.status}${ch.reason ? ` — ${esc(ch.reason)}` : ""} |\n`;
 }
-d += "\n## Open work packages\n\n" +
+d += "\n## Remaining non-equivalent areas\n\n" +
   "Every non-`equivalent` entry from the Free85 2.0 parity gap report " +
   "(spec/free85/v2-parity-gaps.yaml), sorted by work package owner. " +
-  "`equivalent` areas are already complete and are omitted here (see " +
+  "`equivalent` areas are complete and are omitted here (see " +
   "Appendix A for the full catalog).\n\n";
 const openGaps = gaps.gaps
   .filter((gap) => gap.status !== "equivalent")

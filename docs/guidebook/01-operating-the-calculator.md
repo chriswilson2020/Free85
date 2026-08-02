@@ -14,9 +14,11 @@ Press [ON] and the calculator boots straight to the home screen:
 
 Reading from the top: the status line shows the angle mode and display format
 on the left (`RAD AUTO` after a fresh boot) and the editor state on the right
-(`INS` for insert mode); the banner `FREE85 HOME` names the screen; the
-underscore below it is the entry-line cursor; and the bottom row carries the
-soft-menu labels `MATH GRF VAR MEM SYS` for [F1] through [F5].
+(`INS` for insert mode); the banner `FREE85 HOME` names the screen; the line
+`VERSION 2.10` beneath it names the firmware release and disappears as soon
+as you type; the underscore at the left of that line is the entry-line
+cursor; and the bottom row carries the soft-menu labels
+`MATH GRF VAR MEM SYS` for [F1] through [F5].
 
 [2nd] [ON] turns the calculator off; the display goes completely blank. Press
 [ON] to switch it back on. Pressing [ON] while the calculator is already
@@ -129,9 +131,18 @@ Three settings are listed, and the soft keys `ANG FMT - + MEM` adjust them:
 [F5] (`MEM`) opens the memory browser from here; chapter 18 covers it. Press
 [EXIT] to leave the mode screen and return home.
 
-> ⚠ **Planned:** mode settings for complex display, vector coordinates,
-> graph type, and differentiation (Free85 2.0, work packages 14.5 and
-> 14.6).
+Two settings that other calculators keep on a mode screen live on the graph
+screen instead: the graph type and the graph coordinate readout. Press
+[2nd] [MORE] on the graph screen to open its format pages, then [MORE] until
+the `GRAPH MODE` page appears; its soft keys `FN POL PAR DEQ GC` choose
+between function, polar, parametric, and differential-equation graphing and
+toggle the coordinate readout. Chapter 4 (Cartesian Graphing, Drawing,
+Formats, and Persistence) covers the format pages, and the graphing chapters
+that follow it cover each graph type. The complex and vector display
+choices live in their editors the same way: the complex editor of
+Chapter 11 (Complex Numbers) converts between forms with its `RECT` and
+`POLAR` soft keys, and the vector editor of Chapter 13 (Matrices and
+Vectors) shows its coordinate form as a tag, `RECTV` on a fresh machine.
 
 ## The catalog and the custom menu
 
@@ -167,14 +178,24 @@ middle of the screen looks empty until you move:
 
 All four cursor keys step through the character set: [▶] and [▼] go forward,
 [◀] and [▲] go backward, and the ends wrap around (stepping back from the
-space character lands on `_`). The hint `ARROWS ENTER` and the label `INSERT`
-say the rest: press [ENTER] to insert the shown character into your entry
-line, or [EXIT] to leave with the entry untouched. One step right of the
-space character is `!`, so [2nd] [0] [▶] [ENTER] types `!`. Chapter 9 covers
-the character set and string values in full.
+space character lands on the c cedilla at the far end). The hint
+`ARROWS ENTER` and the label `INSERT` say the rest: press [ENTER] to insert
+the shown character into your entry line, or [EXIT] to leave with the entry
+untouched. One step right of the space character is `!`, so [2nd] [0] [▶]
+[ENTER] types `!`.
 
-> ⚠ **Planned:** Greek and international characters in the palette
-> (Free85 2.0, work package 14.9).
+The palette holds fifty-four characters. The space character and the
+twenty-five punctuation marks that follow it, from `!` to `_`, come first;
+after them the palette continues into twenty-four Greek letters (the
+capitals Alpha, Beta, Gamma, Delta, Theta, Lambda, Xi, Pi, Sigma, Phi, Psi,
+and Omega, then the same alphabet in lowercase with mu in place of Xi) and
+finishes with four international characters: e acute, n tilde, u umlaut,
+and c cedilla. The Greek and international characters insert exactly as the
+punctuation does: twenty-six steps right of the space character is the
+capital Alpha, and [ENTER] there appends it to your entry. Appendix A
+catalogues the additions as `Greek-characters` and
+`international-characters`. Chapter 9 covers the strings editor and its
+operations in full.
 
 ## When something goes wrong
 

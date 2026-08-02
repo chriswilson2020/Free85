@@ -802,6 +802,7 @@ p17_matrix_eigenvalues_core:
     JP p7_set_result_mode
 .two:
     CALL p17_matrix_eigenvalues_core_value
+    JP C, p18_matrix_eigenvalues_2x2_complex
     LD HL, P7_WORK_4
     LD DE, P7_MATRIX_RESULT + P7_MATRIX_DATA
     CALL numeric_copy
@@ -863,7 +864,10 @@ p17_matrix_eigenvalues_core_value:
     CALL p7_subtract
     LD A, (P7_WORK_0 + NUM_FLAGS)
     AND NUM_SIGN
-    JP NZ, p7_fail_dimension
+    JR Z, .discriminant_ok
+    SCF
+    RET
+.discriminant_ok:
     LD HL, P7_WORK_0
     LD IX, P7_WORK_5
     CALL p7_sqrt
@@ -916,7 +920,7 @@ p17_matrix_eigenvectors_core:
     JR Z, .identity
     CP 2
     JR Z, .two
-    CALL p17_matrix_require_diagonal
+    JP p18_matrix_eigenvectors_3x3
 .identity:
     LD HL, P7_MATRIX_RESULT + P7_MATRIX_DATA
     LD BC, NUM_SIZE * 9
@@ -941,6 +945,7 @@ p17_matrix_eigenvectors_core:
     JP p7_set_result_mode
 .two:
     CALL p17_matrix_eigenvalues_core_value
+    JP C, p18_matrix_eigenvectors_2x2_complex
     LD HL, P7_WORK_4
     LD DE, P7_MATRIX_WORK + P7_MATRIX_DATA
     CALL numeric_copy

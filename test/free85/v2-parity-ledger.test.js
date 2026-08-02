@@ -33,12 +33,19 @@ test("[v2.ledger] chapter summary no longer overstates broad equivalence", async
   assert.equal(coverage.chapters.filter(({ status }) => status === "equivalent").length, 1);
 });
 
-test("[v2.progress] Phase 14.6 closes real list/vector gaps without hiding complex matrix work", async () => {
+test("[v2.progress] Phase 14.6 closes list, matrix, vector, and complex collection gaps", async () => {
   const report = await readJson("spec/free85/v2-parity-report.json");
   assert.equal(report.phase, "14.6");
   assert.equal(report.inventory.entries >= 250, true);
   assert.equal(report.gaps.total, 36);
-  assert.equal(report.gaps.byStatus.equivalent, 20);
-  assert.equal(report.gaps.equivalentPercent, 55.56);
+  assert.equal(report.gaps.byStatus.equivalent, 22);
+  assert.equal(report.gaps.equivalentPercent, 61.11);
+  const phase = report.workPackages.find(({ id }) => id === "14.6");
+  assert.deepEqual(phase.gaps.map(({ id, status }) => [id, status]), [
+    ["list.complete", "equivalent"],
+    ["matrix.complete", "equivalent"],
+    ["vector.complete", "equivalent"],
+    ["complex.collections", "equivalent"]
+  ]);
   assert.equal(report.cleanRoom.proprietaryInputsRequiredForPublicValidation, false);
 });

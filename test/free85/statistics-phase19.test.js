@@ -12,6 +12,8 @@ const LIST_Y = 0x8800;
 const STATS_RESULT_KIND = 0x8d05;
 const SOLVER_VARIABLE = 0x91d2;
 const SOLVER_STATUS = 0x91d4;
+const SOLVER_LOWER = 0x91e9;
+const SOLVER_UPPER = 0x91f2;
 const SOLVER_RESULT = 0x91fb;
 const SOLVER_RESIDUAL = 0x9204;
 const REGRESSION_COEFFICIENTS = 0x9220;
@@ -90,11 +92,28 @@ test("[solver.phase19.bounds] editable estimate and bounds select a bounded root
   const harness = Free85Harness.boot();
   setHomeExpression(harness, "X^2-4");
   tapAll(harness, ["2ND", "GRAPH", "F5", "F5"]); // GUESS
-  tapAll(harness, ["(-)", "3", "ENTER", "(-)", "5", "ENTER", "0", "ENTER", "F1"]);
+  tapAll(harness, ["(-)", "3", "ENTER", "(-)", "5", "ENTER", "0", "ENTER"]);
+  assertClose(harness.packedNumber(SOLVER_LOWER), -5);
+  assertClose(harness.packedNumber(SOLVER_UPPER), 0);
+  harness.tap("F1");
   harness.runFrames(6000);
   assert.equal(harness.machine.read8(SOLVER_STATUS), 1);
   assertClose(harness.packedNumber(SOLVER_RESULT), -2, 1e-6);
   assertClose(harness.packedNumber(SOLVER_RESIDUAL), 0, 1e-6);
+
+  // Bounds that exclude the root the default -10..10 window would find
+  // first: only a committed LOWER makes the solver land on +2.
+  const bounded = Free85Harness.boot();
+  setHomeExpression(bounded, "X^2-4");
+  tapAll(bounded, ["2ND", "GRAPH", "F5", "F5", "F5"]); // LOWER
+  tapAll(bounded, ["1", "ENTER", "5", "ENTER"]);
+  assertClose(bounded.packedNumber(SOLVER_LOWER), 1);
+  assertClose(bounded.packedNumber(SOLVER_UPPER), 5);
+  bounded.tap("F1");
+  bounded.runFrames(6000);
+  assert.equal(bounded.machine.read8(SOLVER_STATUS), 1);
+  assertClose(bounded.packedNumber(SOLVER_RESULT), 2, 1e-6);
+  assertClose(bounded.packedNumber(SOLVER_RESIDUAL), 0, 1e-6);
 });
 
 test("[solver.phase19.graph] selected solver variables hand off as graph X", () => {

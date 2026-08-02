@@ -3,11 +3,14 @@ import test from "node:test";
 import { FREE85_UI_MODE_ADDRESS, Free85Harness } from "../helpers/free85-harness.js";
 import { assertLcdGolden } from "../helpers/lcd-visual.js";
 
+const SCREEN_HOME = 0;
+const SCREEN_DIALOG = 1;
 const SCREEN_LIST = 5;
 const SCREEN_VECTOR = 7;
 const LIST_RESULT = 0x8880;
 const MATRIX_RESULT = 0x8a00;
 const VECTOR_RESULT = 0x8b80;
+const P7_ERROR = 0x8705;
 
 function tapAll(harness, keys) {
   for (const key of keys) harness.tap(key);
@@ -157,7 +160,19 @@ test("[collections.phase17.matrix.norms] Frobenius, row, column, and condition n
 
   const random = matrixHarness([1, 2, 3, 4], 3);
   random.tap("F5");
-  for (const value of values(random, MATRIX_RESULT, 4, 2)) assert.ok(value >= 0 && value < 1);
+  const cells = values(random, MATRIX_RESULT, 4, 2);
+  for (const value of cells) assert.ok(value > 0 && value < 1, `cell ${value} outside (0,1)`);
+  assert.equal(new Set(cells).size, 4, `cells not distinct: ${cells}`);
+});
+
+test("[collections.phase17.matrix.cond-singular] COND on a singular matrix raises the singular notice", () => {
+  const harness = matrixHarness([1, 2, 2, 4], 3);
+  harness.tap("F4");
+  harness.runFrames(1800);
+  assert.equal(harness.machine.read8(FREE85_UI_MODE_ADDRESS), SCREEN_DIALOG);
+  assert.equal(harness.machine.read8(P7_ERROR), 2); // SINGULAR MATRIX
+  harness.tap("EXIT");
+  assert.equal(harness.machine.read8(FREE85_UI_MODE_ADDRESS), SCREEN_HOME);
 });
 
 test("[collections.phase17.matrix.decomposition] LU reconstructs A and eigensystems satisfy residuals", () => {

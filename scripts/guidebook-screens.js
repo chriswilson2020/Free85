@@ -159,7 +159,7 @@ export const SCREEN_CASES = [
       "5", "ENTER", "ALPHA", "2", "ENTER", "4", "ENTER", "5", "ENTER",
       "4", "ENTER", "5", "ENTER"]
   },
-  // The same pairs fitted with F3 (LIN): SLOPE 0.6, INTER 2.2.
+  // The same pairs fitted with F3 (LIN): MOD LIN, A 2.2, B 0.6.
   {
     name: "ch15-regression-result",
     keys: ["STAT", "+", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER",
@@ -172,6 +172,13 @@ export const SCREEN_CASES = [
     keys: ["STAT", "+", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER",
       "5", "ENTER", "ALPHA", "2", "ENTER", "4", "ENTER", "5", "ENTER",
       "4", "ENTER", "5", "ENTER", "F4", 600]
+  },
+  // Four pairs joined in entry order by the sixth soft-key page's F2 (XYLN).
+  {
+    name: "ch15-xyline",
+    keys: ["STAT", "1", "ENTER", "2", "ENTER", "3", "ENTER", "4", "ENTER",
+      "ALPHA", "2", "ENTER", "4", "ENTER", "3", "ENTER", "8", "ENTER",
+      "MORE", "MORE", "MORE", "MORE", "MORE", "F2", 600]
   },
   // The chapter's eight-value one-variable column, drawn with F5 (HIST) and
   // with the third soft-key page's F5 (BOX).
@@ -205,6 +212,26 @@ export const SCREEN_CASES = [
       "ALPHA", "6", "ENTER",
       "ALPHA", "6", "ALPHA", "-", "ALPHA", "*", "ALPHA", ",",
       "F2", 300]
+  },
+  // The PROGRAM MENU chooser: MENU ONE,TWO typed into P1 (letters are ALPHA
+  // plus the letter's key, space is 2ND 0) and run with the editor's F2.
+  {
+    name: "ch16-program-menu",
+    keys: ["PRGM", "F1",
+      "ALPHA", "8", "ALPHA", "^", "ALPHA", "9", "ALPHA", "1", "2ND", "0",
+      "ALPHA", "*", "ALPHA", "9", "ALPHA", "^", ",",
+      "ALPHA", "-", "ALPHA", "3", "ALPHA", "*",
+      "F2", 5]
+  },
+  // Positioned output: OUTPT 3,12,HELLO typed into P1 and run; the run ends
+  // with HELLO alone on the cleared screen at row 3, column 12.
+  {
+    name: "ch16-outpt",
+    keys: ["PRGM", "F1",
+      "ALPHA", "*", "ALPHA", "1", "ALPHA", "-", "ALPHA", ",", "ALPHA", "-",
+      "2ND", "0", "3", ",", "1", "2", ",",
+      "ALPHA", "(", "ALPHA", "^", "ALPHA", "7", "ALPHA", "7", "ALPHA", "*",
+      "F2", 50]
   },
   // Chapter 17's graph example: X^2-4 plotted, then traced twelve columns
   // right of centre so the readout closes in on the root at x=2.

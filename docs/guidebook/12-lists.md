@@ -174,8 +174,11 @@ parts too: summing a list holding 1+2i and 3-1i answers `4` with
 
 Lists live in this editor, not in the expression language: the home
 screen's entry line has no list literal, and the `LIST` soft item opens
-the editor rather than inserting anything. The statistics tools of
-Chapter 15 (Statistics and Statistical Plots) keep their own data.
+the editor rather than inserting anything. The statistics editor of
+Chapter 15 (Statistics and Statistical Plots) works on these same
+registers under different names: its `X` column is list `A` and its
+`Y` column is list `B`, so a sort or a fill here reorders the
+statistics too.
 Appendix A catalogues the resizing keys as `->dimL`, the fill as
 `Fill-list`, and the position-by-position arithmetic as
 `elementwise-list`, with its plain-number and complex cases filed as

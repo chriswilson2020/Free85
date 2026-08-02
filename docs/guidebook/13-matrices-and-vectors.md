@@ -47,9 +47,8 @@ answering in `R`. With the screenshot's matrix in `A`:
   shows `SIZE 1X1` holding `-2` (elsewhere `det`).
 - **`TRN`** ([F2]) transposes (elsewhere `transpose`): `R` is
   `SIZE 2X2` and stepping through it reads `1`, `3`, `2`, `4`.
-- **`INV`** ([F3]) inverts `A` (Appendix A catalogues it as
-  `inverse-matrix`): stepping through `R` reads `-2`, `1`, `1.5`,
-  `-0.5`.
+- **`INV`** ([F3]) inverts `A`: stepping through `R` reads `-2`, `1`,
+  `1.5`, `-0.5`.
 
   ![The inverse in the result register](images/ch13-matrix-inverse.png)
 
@@ -84,18 +83,16 @@ The second soft-key page ([MORE]) is `ADD SUB MUL SCL SOLVE`, combining
 Two error screens guard the algebra, both with the usual `CLEAR OR EXIT`
 way back. Inverting a matrix with determinant zero (try 1, 2, 2, 4)
 stops at `SINGULAR MATRIX`, and combining shapes that do not fit, such
-as adding a 3 by 2 to a 2 by 2, stops at `DIMENSION ERROR`. Appendix A
-catalogues the position-by-position `ADD` and `SUB` as
-`elementwise-matrix`.
+as adding a 3 by 2 to a 2 by 2, stops at `DIMENSION ERROR`.
 
 ## Row operations and augmentation
 
-The third soft-key page is `REF SWAP RADD RMUL AUG`; the legend is a
-whisker wider than the screen, so `AUG` loses its last letter at the
-right edge, but [F5] answers all the same. The row operations work on
-the selected row, the row the cell cursor is sitting in, and a fresh
-entry wraps the cursor back to cell 1, so the examples below all start
-with row 1 selected. Where a second row is needed it is the following
+The third soft-key page is `REF SWAP RADD RMUL AUG`; the legend
+overruns the screen's right edge, so `AUG` loses its last letter, but
+[F5] answers all the same. The row operations work on the selected
+row, the row the cell cursor is sitting in, and a fresh entry wraps
+the cursor back to cell 1, so the examples below all start with row 1
+selected. Where a second row is needed it is the following
 row, wrapping from the bottom back to the top, and where a scale is
 needed it comes from the top-left cell of `B`, just as `SCL` takes it.
 With the screenshot's 1, 2, 3, 4 in `A`:
@@ -127,9 +124,8 @@ the fifth, `RND`, sits beyond the right edge entirely, but [F5] still
 answers. With 1, 2, 3, 4 in `A`, each answer is a `SIZE 1X1` result:
 
 - **`NORM`** ([F1]) is the Frobenius norm, the square root of the sum
-  of the squared cells (Appendix A catalogues it as `norm-matrix`):
-  `5.4772255750515`, fourteen-digit arithmetic's take on the square
-  root of 30.
+  of the squared cells: `5.4772255750515`, fourteen-digit arithmetic's
+  take on the square root of 30.
 - **`RNORM`** ([F2]) is the largest row sum of absolute values
   (elsewhere `rnorm`): `7`, from the row 3, 4.
 - **`CNORM`** ([F3]) is the largest column sum (elsewhere `cnorm`):
@@ -138,8 +134,9 @@ answers. With 1, 2, 3, 4 in `A`, each answer is a `SIZE 1X1` result:
   Frobenius norm of `A` times the Frobenius norm of its inverse: `15`.
   A singular `A` has no inverse and no condition number; in this
   release the key then leaves a half-finished figure in `R` and the
-  next keypress trips a stray `END OF ENTRY` notice, so ask `COND`
-  about invertible matrices only.
+  next keypress trips a stray `END OF ENTRY` notice. Until a firmware
+  release repairs the guard, ask `COND` about invertible matrices
+  only.
 - **`RND`** ([F5]) fills at `A`'s size with values from the same
   deterministic sequence as chapter 3's `RAND` (elsewhere `randM`). In
   this release the fill lands on every other cell in reading order and
@@ -155,14 +152,15 @@ The fifth soft-key page is `LU EVAL EVEC DIM FILL`:
   triangle `U` on and above the diagonal, and the multipliers of a
   unit-diagonal `L` below it. For 4, 3, 6, 3 the result is
 
-  ![The combined LU factors of the matrix 4 3 / 6 3](images/ch13-matrix-lu.png)
+  ![The combined LU factors of 4 3 / 6 3](images/ch13-matrix-lu.png)
 
   and stepping through `R` reads `4`, `3`, `1.5`, `-1.5`: `U` is the
   rows 4, 3 and 0, -1.5, and 1.5 is the multiplier that rebuilds row 2
   as 1.5 times row 1 plus 0, -1.5. The factorisation pivots when it
   must: a zero leading cell (try 0, 1, 2, 3) swaps the rows first and
   answers `2`, `3`, `0`, `1`, recording the row order, 2 then 1, in
-  the vector editor's result register as it goes.
+  the vector editor's result register as it goes, overwriting whatever
+  that register held.
 - **`EVAL`** ([F2]) answers the eigenvalues (elsewhere `eigVl`) as a
   `SIZE 1X2` (or `1X3`) row. The symmetric 2, 1, 1, 2 answers `3`
   then `1`. Complex pairs use the imaginary plane of the final page:
@@ -176,12 +174,9 @@ The fifth soft-key page is `LU EVAL EVEC DIM FILL`:
   `0.70710678118655`, `-0.70710678118655`: the first column is the
   eigenvector for 3, the second for 1, each a scaled 1, 1 or 1, -1.
 - **`DIM`** ([F4]) reports the dimensions: a `SIZE 1X2` result
-  reading `2` then `2` for our square `A`. Appendix A catalogues it as
-  `dim-matrix`, and the [+], [-], and [x-VAR] resizing keys as
-  `->dimM`.
+  reading `2` then `2` for our square `A`.
 - **`FILL`** ([F5]) fills at `A`'s size with the value in `B`'s
-  top-left cell (Appendix A catalogues it as `Fill-matrix`): with 9
-  stored there, `R` reads `9`, `9`, `9`, `9`.
+  top-left cell: with 9 stored there, `R` reads `9`, `9`, `9`, `9`.
 
 ## Matrices with imaginary parts
 
@@ -239,8 +234,7 @@ The second page ([MORE]) is `ADD SUB SCL 2D 3D`:
 Normalising a vector of zeros stops at the `ZERO VECTOR` notice, and
 `CRS` insists on three components: with two-component vectors it answers
 `DIMENSION ERROR`, since the cross product only lives in three
-dimensions. Appendix A catalogues the position-by-position `ADD` and
-`SUB` as `elementwise-vector`.
+dimensions.
 
 ## Coordinate conversions
 
@@ -260,8 +254,8 @@ assume the fresh machine's `ANGLE RAD`. With 3, 4, 0 in `A`:
 - **`CY>R`** ([F2]) reads `A` as a cylindrical triple and converts it
   back to rectangular, restoring the `RECTV` tag (elsewhere `RectV`).
   Enter 2, 1.5707963, 7 and it answers `5.34594384493E-8`,
-  `1.9999999999882`, `7`: a right angle in fourteen digits lands a
-  whisker off the axis, as chapter 11's polar conversions do.
+  `1.9999999999882`, `7`: a right angle in fourteen digits lands just
+  off the axis, as chapter 11's polar conversions do.
 - **`R>SP`** ([F3]) converts rectangular to spherical (elsewhere
   `->Sph`): the tag becomes `SPHEREV` (elsewhere `SphereV`) and our
   3, 4, 0 answers `5`, `0.9272952180016`, `1.5707963267949`: the
@@ -288,14 +282,11 @@ editor's own copy of the list editor's fourth page (chapter 12). With
 3, 4, 0 in `A`:
 
 - **`DIM`** ([F1]) reports the length: `R` becomes `SIZE 1` holding
-  `3`. Appendix A catalogues it as `dim-vector`, and the [+] and [-]
-  resizing keys as `->dimV`.
-- **`FILL`** ([F2]) fills at `A`'s length from `B`'s first component
-  (Appendix A catalogues it as `Fill-vector`): with 6 stored there,
-  `R` reads `6`, `6`, `6`.
+  `3`.
+- **`FILL`** ([F2]) fills at `A`'s length from `B`'s first component:
+  with 6 stored there, `R` reads `6`, `6`, `6`.
 - **`NORM`** ([F3]) answers the Euclidean length, `5` for our vector,
-  the same figure as the first page's `MAG` (Appendix A catalogues
-  this one as `norm-vector`).
+  the same figure as the first page's `MAG`.
 - **`V>L`** ([F4]) hands the vector to the list editor (elsewhere
   `vc->li`): its result register receives `3`, `4`, `0`. **`L>V`**
   ([F5]) is the return trip for lists of at most three values
@@ -304,3 +295,10 @@ editor's own copy of the list editor's fourth page (chapter 12). With
 The fifth soft-key page is the imaginary-parts page `CSET CGET REAL
 IMAG CLR`, element by element as in the other editors (chapter 12);
 `DOT` and `CRS` carry both parts through their products.
+
+Appendix A catalogues the matrix inversion, Frobenius norm, dimension
+report, resizing, and fill as `inverse-matrix`, `norm-matrix`,
+`dim-matrix`, `->dimM`, and `Fill-matrix`; their vector counterparts
+as `dim-vector`, `->dimV`, `Fill-vector`, and `norm-vector`; and the
+position-by-position arithmetic of both editors as
+`elementwise-matrix` and `elementwise-vector`.

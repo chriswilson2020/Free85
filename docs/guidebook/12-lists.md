@@ -104,10 +104,7 @@ The third soft-key page is `ADD SUB MUL DIV`, and these combine `A` and
 The two lists must be the same size; if they disagree, the answer is the
 full-screen `DIMENSION ERROR` notice, with the usual `CLEAR OR EXIT` way
 back (chapter 1). Dividing where `B` holds a zero stops at the
-`INVALID NUMBER` notice. Appendix A catalogues this position-by-position
-behaviour as `elementwise-list`; its plain-number case is
-`elementwise-real`, and the section on imaginary parts below extends it
-to `elementwise-complex`.
+`INVALID NUMBER` notice.
 
 ## Dimensions, fills, and conversions
 
@@ -119,13 +116,13 @@ With the chapter's 4, 1, 3, 2 in `A`:
 
 - **`DIM`** ([F1]) reports the length (elsewhere `dimL`): `R` becomes
   `SIZE 1` holding `4`. The [+] and [-] resizing keys are the other
-  half of the story, and Appendix A catalogues that half as `->dimL`.
+  half of the story.
 - **`FILL`** ([F2]) fills at `A`'s length with one value, taken from
   the first element of `B`, just as the matrix and vector editors take
-  scalars from `B` (chapter 13). Press [ALPHA], type 9 [ENTER], press
-  [ALPHA] again if you want to watch `A`, and `FILL` answers a
-  four-value `R` reading `9`, `9`, `9`, `9` (elsewhere `Fill`;
-  Appendix A catalogues it as `Fill-list`).
+  scalars from `B` (chapter 13). Press [ALPHA] in the list editor to
+  select `B`, type [9] [ENTER], press [ALPHA] again if you want to
+  watch `A`, and `FILL` answers a four-value `R` reading `9`, `9`,
+  `9`, `9` (elsewhere `Fill`).
 - **`D-S`** ([F3]) is the descending sort (elsewhere `sortD`): `R`
   reads `4`, `3`, `2`, `1`.
 - **`L>V`** ([F4]) converts the list to a vector (elsewhere `li->vc`).
@@ -142,7 +139,7 @@ With the chapter's 4, 1, 3, 2 in `A`:
 
 The fifth soft-key page, `CSET CGET REAL IMAG CLR`, gives every element
 an imaginary part, shown on an `IM` line under the element's value; the
-legend is a whisker wider than the screen, so `CLR` shows only its
+legend runs off the right edge of the screen, so `CLR` shows only its
 first letter, but [F5] answers all the same. The page works element by
 element together with the complex editor of chapter 11:
 
@@ -179,3 +176,9 @@ Lists live in this editor, not in the expression language: the home
 screen's entry line has no list literal, and the `LIST` soft item opens
 the editor rather than inserting anything. The statistics tools of
 Chapter 15 (Statistics and Statistical Plots) keep their own data.
+Appendix A catalogues the resizing keys as `->dimL`, the fill as
+`Fill-list`, and the position-by-position arithmetic as
+`elementwise-list`, with its plain-number and complex cases filed as
+`elementwise-real` and `elementwise-complex`. Eight values is not
+many, but between the sorts, the sums, the conversions, and the
+imaginary parts, this one screen makes them work hard.

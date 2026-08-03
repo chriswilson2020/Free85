@@ -1,0 +1,731 @@
+/* Free85 typeset edition — design system for the Paged.js DTP pipeline.
+ *
+ * Used only by scripts/build-guidebook-typeset.js (the plain pipeline keeps
+ * print.css). The look is a clean homage to late-80s/90s pocket-calculator
+ * guidebooks: dense but ordered, black text with a single deep-navy accent,
+ * sans headings over a serif text face, everything print-safe (no gradients,
+ * degrades to greyscale).
+ *
+ * Format: A5, mirrored margins, running heads, outer folios. Front matter is
+ * folioed in lowercase roman numerals; the body restarts at arabic 1.
+ */
+
+:root {
+  --accent: #1a3a6b;          /* deep navy — the one accent colour */
+  --accent-tint: #eef1f6;     /* ~4% navy panel ground */
+  --accent-mid: #6d7fa0;      /* keycap border tint */
+  --rule-grey: #b3b3b3;       /* hairline table rules */
+  --ink: #111111;
+  --ink-soft: #444444;
+  --lcd-ground: #b1cfb5;      /* sampled from the screenshot PNG background */
+  --lcd-pixel: #2d3e37;       /* sampled from the screenshot pixel colour */
+  --bezel: #23262b;
+  --serif: Charter, Georgia, "Times New Roman", serif;
+  --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: Menlo, Consolas, "Courier New", monospace;
+}
+
+/* ---------------------------------------------------------------- pages -- */
+
+@page {
+  size: 148mm 210mm;
+}
+
+/* Body pages: mirrored margins (inner 16mm / outer 12mm), book title on the
+ * verso head, chapter (or manual section) title on the recto head, folio in
+ * the outer corner of the footer. */
+@page body:right {
+  margin: 14mm 12mm 16mm 16mm;
+  @top-right {
+    content: string(rhead);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 6.75pt;
+    letter-spacing: 0.06em;
+    color: #444444;
+    text-transform: uppercase;
+    vertical-align: bottom;
+    padding-bottom: 1.6mm;
+  }
+  @bottom-right {
+    content: counter(page);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    font-size: 8pt;
+    color: #111111;
+    vertical-align: top;
+    padding-top: 3mm;
+  }
+}
+@page body:left {
+  margin: 14mm 16mm 16mm 12mm;
+  @top-left {
+    content: string(booktitle);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 6.75pt;
+    letter-spacing: 0.06em;
+    color: #444444;
+    text-transform: uppercase;
+    vertical-align: bottom;
+    padding-bottom: 1.6mm;
+  }
+  @bottom-left {
+    content: counter(page);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    font-size: 8pt;
+    color: #111111;
+    vertical-align: top;
+    padding-top: 3mm;
+  }
+}
+/* Blank pages forced by recto chapter starts carry nothing. */
+@page body:blank {
+  @top-left { content: none; }
+  @top-right { content: none; }
+  @bottom-left { content: none; }
+  @bottom-right { content: none; }
+}
+
+/* Front matter: roman folios centred in the footer, no running heads. */
+@page frontmatter:right {
+  margin: 14mm 12mm 16mm 16mm;
+  @bottom-center {
+    content: counter(page, lower-roman);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 7.5pt;
+    color: #444444;
+    vertical-align: top;
+    padding-top: 3mm;
+  }
+}
+@page frontmatter:left {
+  margin: 14mm 16mm 16mm 12mm;
+  @bottom-center {
+    content: counter(page, lower-roman);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 7.5pt;
+    color: #444444;
+    vertical-align: top;
+    padding-top: 3mm;
+  }
+}
+@page frontmatter:blank {
+  @bottom-center { content: none; }
+}
+
+/* Cover pages bleed to the trim: no margins, no marginal content. */
+@page cover {
+  margin: 0;
+  background: #1a3a6b;
+}
+
+/* Colophon / back page: quiet, no folio. */
+@page colophon {
+  margin: 14mm 12mm 16mm 16mm;
+}
+
+/* ------------------------------------------------------------- base text -- */
+
+html {
+  font-family: var(--serif);
+  font-size: 9.5pt;
+  line-height: 1.45;
+  color: var(--ink);
+  /* Words shorter than 6 letters never hyphenate, and at least 3 letters
+   * stay on each side. Verified in Chrome 150: the unprefixed property
+   * parses (CSS.supports true, computed "6 3 3"); the -webkit- pair below
+   * does NOT (Safari/WebKit only) and is future-proofing for other
+   * renderers. Note the degenerate page-turn stubs ("stat-us", "bott-om")
+   * were never CSS hyphenation at all — they were Paged.js fragmenting a
+   * word at the page break and appending its own U+2011 hyphen; see the
+   * LOCAL PATCH (Free85) in scripts/vendor/paged.polyfill.js textBreak(). */
+  hyphenate-limit-chars: 6 3 3;
+  -webkit-hyphenate-limit-before: 3;
+  -webkit-hyphenate-limit-after: 3;
+}
+body { margin: 0; }
+
+p {
+  margin: 0 0 5.5pt;
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  orphans: 2;
+  widows: 2;
+}
+
+ul, ol { margin: 2pt 0 6pt; padding-left: 5.5mm; }
+li { margin: 0 0 2.5pt; orphans: 2; widows: 2; }
+li > p { margin-bottom: 2.5pt; }
+
+a { color: inherit; text-decoration: none; }
+strong { font-weight: 700; }
+
+/* Sectioning containers get page names and folio behaviour. */
+section.front-matter { page: frontmatter; counter-reset: page 1; break-before: right; page-break-before: right; }
+section.book-body { page: body; counter-reset: page 1; break-before: right; page-break-before: right; }
+section.cover-page { page: cover; }
+section.colophon { page: colophon; break-before: page; }
+section.back-cover { page: cover; break-before: left; page-break-before: left; }
+
+/* Pages that carry a chapter opener (or the book title block) are tagged
+ * .free85-opener-page by the Free85Folios handler; they run quiet — no
+ * running head, no folio. (Paged.js's own pagedjs_body_first_page class is
+ * unusable for this: it lands on the page where the chapter's section NODE
+ * opens, which is the previous chapter's last page.) */
+.free85-opener-page .pagedjs_margin .pagedjs_margin-content { display: none; }
+
+/* Genre detail: a thin full-width rule under the running head on ordinary
+ * body pages (not opener or blank pages). */
+.pagedjs_body_page:not(.pagedjs_blank_page):not(.free85-opener-page) .pagedjs_margin-top {
+  border-bottom: 0.4pt solid #999999;
+}
+
+/* ------------------------------------------------------------- headings -- */
+
+h1, h2, h3, h4 {
+  font-family: var(--sans);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+h2 {
+  font-size: 12pt;
+  line-height: 1.2;
+  margin: 14pt 0 5pt;
+}
+
+/* Guidebook section-number ladder: "4-3" hung in the outer margin at each
+ * section heading (numbers assigned by the build script). */
+h2[data-secno] { position: relative; }
+h2[data-secno]::before {
+  content: attr(data-secno);
+  position: absolute;
+  top: 0.3em;
+  width: 8mm;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 7pt;
+  letter-spacing: 0.03em;
+  color: var(--accent);
+}
+.pagedjs_right_page h2[data-secno]::before { right: -9.5mm; text-align: left; }
+.pagedjs_left_page h2[data-secno]::before { left: -9.5mm; text-align: right; }
+h3 {
+  font-size: 10pt;
+  line-height: 1.25;
+  margin: 10pt 0 3.5pt;
+}
+h4 {
+  font-size: 9.5pt;
+  margin: 8pt 0 3pt;
+}
+
+/* -------------------------------------------------------- chapter opener -- */
+
+/* Guidebook chapters: oversized accent number, title, double rule, then the
+ * chapter's first paragraph pulled up as a standfirst. Body text continues
+ * on the same page — dense, in the calculator-manual manner. */
+header.chapter-opener {
+  break-before: right;
+  page-break-before: right;
+  margin: 4mm 0 8mm;
+}
+/* The body group itself already starts on a fresh recto; without this the
+ * first chapter's own forced right-break would insert two blank pages. */
+section.book-body > section.chapter:first-child > header.chapter-opener {
+  break-before: auto;
+  page-break-before: auto;
+}
+.chapter-opener .chapter-kicker {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 8pt;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 1mm;
+}
+.chapter-opener .chapter-number {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 44pt;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  margin: 0 0 2.5mm;
+}
+.chapter-opener h1 {
+  font-size: 17pt;
+  line-height: 1.15;
+  margin: 0 0 4mm;
+  letter-spacing: -0.015em;
+}
+.chapter-opener .opener-rule {
+  border-top: 1.4pt solid var(--accent);
+  border-bottom: 0.45pt solid var(--accent);
+  height: 1.6pt;
+  margin: 0 0 4.5mm;
+}
+.appendix-opener .opener-rule {
+  border-top: 0.45pt solid var(--accent);
+  border-bottom: none;
+  height: 0;
+}
+.chapter-opener .standfirst {
+  font-style: italic;
+  font-size: 9.5pt;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  text-align: left;              /* ragged — it is display text */
+  hyphens: manual;
+  -webkit-hyphens: manual;
+  margin: 0;
+}
+/* Inside the italic standfirst a boxed keycap looks heavy: text-only
+ * semibold sans variant instead. */
+.standfirst kbd {
+  border: none;
+  background: none;
+  padding: 0;
+  text-shadow: none;
+  font-size: 8.5pt;
+  letter-spacing: 0.02em;
+}
+
+/* Appendices: the simpler variant (small caps kicker + big letter). */
+.appendix-opener .chapter-number { font-size: 34pt; }
+.appendix-opener h1 { font-size: 15pt; }
+
+/* Front-matter / manual title treatment (no opener page, just a designed
+ * heading block). */
+header.fm-title {
+  margin: 6mm 0 8mm;
+}
+.fm-title .fm-kicker {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 8pt;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 2mm;
+}
+.fm-title h1 {
+  font-size: 19pt;
+  line-height: 1.15;
+  margin: 0 0 4mm;
+}
+.fm-title .opener-rule {
+  border-top: 1.4pt solid var(--accent);
+  border-bottom: 0.45pt solid var(--accent);
+  height: 1.6pt;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------- keycaps -- */
+
+kbd {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 7.5pt;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  background: #f6f7f9;
+  border: 1px solid var(--accent-mid);
+  border-bottom-width: 2px;
+  border-radius: 2px;
+  padding: 0 2.5px;
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: 0.05em;
+  text-shadow: 0 0.5px 0 #ffffff;   /* faint letterpress, print-safe */
+}
+
+/* --------------------------------------------------------------- callouts -- */
+
+aside.callout {
+  border-left: 2.25pt solid var(--accent);
+  background: var(--accent-tint);
+  padding: 4.5pt 7pt 4.5pt 8pt;
+  margin: 7pt 0 8pt;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+aside.callout p {
+  font-size: 8.75pt;
+  line-height: 1.42;
+  text-align: left;              /* ragged in the narrow panel */
+  hyphens: manual;
+  -webkit-hyphens: manual;
+  margin: 0;
+}
+aside.callout p + p { margin-top: 3pt; }
+.callout-label {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 6.75pt;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 1.5pt !important;
+}
+
+/* ------------------------------------------------------------ LCD frames -- */
+
+figure.lcd {
+  margin: 8pt 0 9pt;
+  text-align: center;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+figure.lcd .lcd-frame {
+  display: inline-block;
+  background: var(--bezel);
+  padding: 1.9mm;
+  border-radius: 1.4mm;
+}
+figure.lcd .lcd-glass {
+  display: inline-block;
+  background: var(--lcd-ground);
+  border: 0.3mm solid #86987f;   /* inner hairline between bezel and glass */
+  padding: 2.6mm 3.2mm;
+}
+figure.lcd img {
+  display: block;
+  width: 62mm;
+  image-rendering: pixelated;
+}
+figure.lcd figcaption {
+  font-family: var(--sans);
+  font-style: italic;
+  font-size: 7.5pt;
+  line-height: 1.35;
+  color: var(--ink-soft);
+  text-align: center;
+  margin-top: 3pt;
+}
+
+/* ------------------------------------------------------------------ code -- */
+
+code, kbd {
+  hyphens: none;            /* never hyphenate command names or key labels */
+  -webkit-hyphens: none;
+  /* A code or kbd token is one unit: no soft break inside the span, not at
+   * an internal hyphen (`individual-delete`) and not after the `-` of
+   * `->Bin`. Lines still wrap between tokens — appendix A's long
+   * comma-separated lists break at the ", " separators, which sit outside
+   * the spans. Checked invariant: the longest inline code token sets ~68mm
+   * against the 120mm measure, so nowrap cannot overflow a line; add a
+   * targeted overflow-wrap fallback if a longer token ever appears. */
+  white-space: nowrap;
+}
+code {
+  font-family: var(--mono);
+  font-size: 8pt;
+}
+pre code { white-space: inherit; }   /* code blocks keep pre-wrap */
+pre {
+  font-family: var(--mono);
+  font-size: 8pt;
+  line-height: 1.4;
+  background: var(--accent-tint);
+  border-left: 1.5pt solid var(--accent-mid);
+  padding: 4.5pt 7pt;
+  margin: 6pt 0 7pt;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+pre code { font-size: inherit; }
+
+/* ---------------------------------------------------------------- tables -- */
+
+table {
+  border-collapse: collapse;
+  font-size: 8.5pt;
+  line-height: 1.35;
+  margin: 6pt 0 8pt;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+th {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 7.5pt;
+  letter-spacing: 0.03em;
+  text-align: left;
+  border-bottom: 1.1pt solid var(--accent);
+  padding: 2.5pt 6pt 2.5pt 0;
+}
+td {
+  border-bottom: 0.4pt solid var(--rule-grey);
+  padding: 2.5pt 6pt 2.5pt 0;
+  vertical-align: top;
+}
+th:last-child, td:last-child { padding-right: 0; }
+
+/* Appendix B key map: four columns of long text on an A5 page. Fixed layout
+ * at a small size, breaking across pages but never inside one key's row
+ * (same approach as the plain pipeline, tuned for the new margins). */
+table.keymap {
+  font-size: 6.4pt;
+  line-height: 1.3;
+  width: 100%;
+  table-layout: fixed;
+  break-inside: auto;
+  page-break-inside: auto;
+}
+table.keymap tr { break-inside: avoid; page-break-inside: avoid; }
+table.keymap th, table.keymap td {
+  padding: 1.5pt 3pt 1.5pt 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+table.keymap th:nth-child(1) { width: 11mm; }
+table.keymap th:nth-child(4) { width: 20mm; }
+table.keymap code { font-size: 6.2pt; }
+
+/* Appendix A is a dense catalog: its many area headings stay compact. */
+section.appendix-a h2 {
+  font-size: 9pt;
+  margin: 9pt 0 2.5pt;
+}
+
+/* Long tables (tagged by the build script at >12 rows: the ch16 instruction
+ * table, appendix D's status table, ...) run close to a full page: kept
+ * unbreakable they cascade into orphaned headings and stranded near-empty
+ * pages, so let them flow and protect only the rows. A handler re-inserts
+ * the header row on the continuation pages. */
+table.table-long {
+  break-inside: auto;
+  page-break-inside: auto;
+}
+table.table-long tr { break-inside: avoid; page-break-inside: avoid; }
+
+/* Paragraphs and list items carrying long unbreakable code tokens (tagged by
+ * the build script) go ragged-right instead of stretching word spaces. */
+.num-heavy { text-align: left; }
+
+/* A one-line lead-in to a framed screenshot stays with its figure. */
+p:has(+ figure.lcd) { break-after: avoid; page-break-after: avoid; }
+
+/* ------------------------------------------------------------ blockquote -- */
+
+/* Ordinary blockquotes (none expected outside callouts, but keep them sane). */
+blockquote {
+  border-left: 1.5pt solid var(--rule-grey);
+  margin: 6pt 0 7pt;
+  padding-left: 8pt;
+  color: var(--ink-soft);
+}
+
+/* ------------------------------------------------------------------- TOC -- */
+
+/* The TOC starts its own page when it follows front-matter text (guidebook);
+ * when it is the first thing in the group (manual) forcing a break here
+ * would fight the section's own forced break and stall pagination. */
+* + nav.toc { break-before: page; page-break-before: always; }
+nav.toc .toc-heading {
+  font-size: 15pt;
+  margin: 4mm 0 3mm;
+}
+nav.toc .toc-rule {
+  border-top: 1.4pt solid var(--accent);
+  border-bottom: 0.45pt solid var(--accent);
+  height: 1.6pt;
+  margin: 0 0 5mm;
+}
+nav.toc .toc-group {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 7.5pt;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 5mm 0 2mm;
+}
+a.toc-entry {
+  display: flex;
+  align-items: baseline;
+  font-size: 9.5pt;
+  line-height: 1.35;
+  margin: 0 0 2.75pt;
+  text-align: left;
+}
+a.toc-entry .toc-no {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 8.5pt;
+  color: var(--accent);
+  flex: 0 0 7mm;
+}
+a.toc-entry.toc-plain .toc-no { flex-basis: 0; }
+a.toc-entry .toc-title { flex-shrink: 1; }
+a.toc-entry .toc-dots {
+  flex: 1 0 6mm;
+  border-bottom: 1px dotted #999999;
+  margin: 0 4pt 2.5pt;
+  min-width: 6mm;
+}
+a.toc-entry::after {
+  content: target-counter(attr(href url), page);
+  font-family: var(--sans);
+  font-size: 8.5pt;
+  flex: none;
+}
+
+/* ---------------------------------------------------------------- covers -- */
+
+section.cover-page {
+  height: 209mm;
+  background: var(--accent);
+  color: #ffffff;
+  box-sizing: border-box;
+  padding: 12mm;
+}
+.cover-inner {
+  height: 100%;
+  box-sizing: border-box;
+  border: 0.6pt solid rgba(255, 255, 255, 0.65);
+  padding: 10mm 9mm;
+  display: flex;
+  flex-direction: column;
+}
+/* Original abstract calculator motif: an LCD window over a 5x2 key grid. */
+.cover-motif { margin: 4mm 0 0; }
+.cover-lcd {
+  background: var(--lcd-ground);
+  color: var(--lcd-pixel);
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 17pt;
+  letter-spacing: 0.42em;
+  text-indent: 0.42em;           /* recentre despite trailing tracking */
+  text-align: center;
+  padding: 5.5mm 0 5mm;
+  border: 1.6mm solid #10233f;
+  border-radius: 1mm;
+}
+.cover-keys {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2.6mm;
+  margin-top: 4.5mm;
+}
+.cover-keys span {
+  display: block;
+  height: 6.2mm;
+  border: 0.5pt solid rgba(255, 255, 255, 0.75);
+  border-bottom-width: 1.6pt;
+  border-radius: 1mm;
+  background: rgba(255, 255, 255, 0.07);
+}
+.cover-titleblock { margin-top: auto; }
+.cover-kicker {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 9pt;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 3mm;
+}
+.cover-title {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 24pt;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  margin: 0 0 4mm;
+}
+.cover-rule {
+  border-top: 0.8pt solid rgba(255, 255, 255, 0.85);
+  margin: 0 0 3.5mm;
+}
+.cover-edition {
+  font-family: var(--sans);
+  font-size: 9.5pt;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.92);
+  margin: 0 0 8mm;
+}
+.cover-url {
+  font-family: var(--mono);
+  font-size: 7.5pt;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+}
+
+/* Back cover: quiet navy field, wordmark and URL only. */
+section.back-cover {
+  height: 209mm;
+  box-sizing: border-box;
+  background: var(--accent);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bc-inner { text-align: center; }
+.bc-mark {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 13pt;
+  letter-spacing: 0.42em;
+  text-indent: 0.42em;
+  color: #ffffff;
+  margin: 0 0 3.5mm;
+}
+.bc-rule {
+  width: 22mm;
+  border-top: 0.6pt solid rgba(255, 255, 255, 0.7);
+  margin: 0 auto 3.5mm;
+}
+.bc-url {
+  font-family: var(--mono);
+  font-size: 7.5pt;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+}
+
+/* -------------------------------------------------------------- colophon -- */
+
+section.colophon {
+  font-size: 8.25pt;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  display: flex;
+  flex-direction: column;
+  height: 178mm;                  /* keep the block anchored to the foot */
+}
+.colophon-push { margin-top: auto; }
+.colophon-mark {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 10pt;
+  letter-spacing: 0.3em;
+  color: var(--accent);
+  margin: 0 0 2mm;
+}
+.colophon-rule {
+  border-top: 1.1pt solid var(--accent);
+  margin: 0 0 4mm;
+  width: 26mm;
+}
+section.colophon p { text-align: left; margin: 0 0 4pt; hyphens: manual; -webkit-hyphens: manual; }
+
+/* ------------------------------------------------------- running strings -- */
+
+/* NOTE: Paged.js tracks exactly ONE selector per named string (the last
+ * string-set rule for a name wins), so each name below must be declared in
+ * a single rule; per-book variants live together in one selector list. */
+.cover-title { string-set: booktitle content(text); }
+.chapter-opener h1,
+body.manual section.book-body h2 { string-set: rhead content(text); }

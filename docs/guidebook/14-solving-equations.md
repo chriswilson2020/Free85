@@ -134,10 +134,10 @@ the first root carrying that dust in its last digit.
 
 ![The roots of x^2+2x+5](images/ch14-poly-roots.png)
 
-The higher degrees work the same. The cubic x^3-6x^2+11x-6
+The higher degrees work the same. The cubic x\^3-6x\^2+11x-6
 (press `CUB`, then coefficients 1, -6, 11, -6) answers `RE 3`, `RE 1`,
 and `RE 2.0000000000016` across its three roots, each with `IM 0`.
-The quartic x^4-5x^2+4 (press `QRT`, then 1, 0, -5, 0, 4) answers
+The quartic x\^4-5x\^2+4 (press `QRT`, then 1, 0, -5, 0, 4) answers
 `RE 2`, `RE -1`, `RE -2`, and `RE 1`. Solving with a zero leading
 coefficient stops at the `LEADING COEFF ZERO` notice, since the
 polynomial would really be one of lower degree.

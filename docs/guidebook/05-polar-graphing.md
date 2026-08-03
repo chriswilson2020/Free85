@@ -4,7 +4,7 @@ Polar graphing plots curves given as a radius in terms of an angle, the
 natural form for circles about the origin, spirals, and rose curves. The
 mode (elsewhere `Pol`) sits on the same graph engine as Chapter 4
 (Cartesian Graphing, Drawing, Formats, and Persistence): the same window
-and zoom keys, the same format toggles, the same [.] grid shortcut, the
+and zoom keys, the same format toggles, the [.] grid toggle, the
 same DRAW tools on [CUSTOM], and the same [MORE] table. This chapter
 covers what the mode adds and changes, and every figure in it is quoted
 from the machine.

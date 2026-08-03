@@ -46,8 +46,8 @@ second) soak. The optional private clean-room oracle passes all 270 numerical
 comparisons and five application-state probes.
 
 The checked-in ROM SHA-256 is
-`5a02318d468bcb51d76b8610a4b77cadb0a34e47960de8cfdb00a558e505a088`.
+`dc91f6d59ac3ab930216f7642a68284fdb8d6255170934c9c5733b360df160f0`.
 The independently rebuilt GitHub Pages tree SHA-256 is
-`0f9084960cd304e9239bcb4ddd4d695e89da50c79c4c588ef0751feaa1b0e5ca`.
+`ee4f55361f94f46cf293ece24905a70b283586d60c953605092d65991b29c080`.
 The machine-readable evidence is in `spec/free85/release.json`,
 `spec/free85/reproducibility.json`, and `spec/free85/performance.json`.

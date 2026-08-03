@@ -96,7 +96,8 @@ SJASMPLUS=/absolute/path/to/sjasmplus npm run verify:free85:reproducible
 
 The validation command runs the public functional, framebuffer, performance,
 10,000-event stress, 180-second soak, and Pages-build gates. Reproducibility
-requires the pinned `sjasmplus` 1.21.1 toolchain used by the release manifest.
+requires `sjasmplus` 1.21.1 or newer; the current release evidence records
+`sjasmplus` 1.21.1.
 
 To add the optional private behavioural comparison:
 
@@ -148,7 +149,11 @@ temporary directories and rejects any byte or tree-hash difference.
   from the emulator, and `npm run test:guidebook` checks that the book
   covers every completed command in the ledger.
 - Typeset editions, ready to read or print (A5, covers, full table of
-  contents): download the
+  contents): read the
+  [Manual online](https://chriswilson2020.github.io/Free85/public/guidebook/Free85-Manual-typeset.html)
+  or the
+  [Guidebook online](https://chriswilson2020.github.io/Free85/public/guidebook/Free85-Guidebook-typeset.html),
+  or download the
   [Manual PDF](https://github.com/chriswilson2020/Free85/releases/latest/download/Free85-Manual-typeset.pdf)
   and the
   [Guidebook PDF](https://github.com/chriswilson2020/Free85/releases/latest/download/Free85-Guidebook-typeset.pdf)
@@ -157,6 +162,7 @@ temporary directories and rejects any byte or tree-hash difference.
 
 ```sh
 npm run build:guidebook:typeset
+npm run build:guidebook:web
 ```
 
 (`npm run build:guidebook` produces the plain untypeset PDFs. Both need

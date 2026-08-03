@@ -747,6 +747,12 @@ body.manual section.book-body h2 { string-set: rhead content(text); }
     background: #f7f5ef;
     box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
   }
+  body.embedded-reader {
+    width: 100%;
+    margin: 0;
+    box-shadow: none;
+  }
+  body.embedded-reader .web-reader-nav { display: none; }
   .web-reader-nav {
     position: sticky;
     top: 0;
@@ -990,5 +996,10 @@ While <code>FIX</code> is selected, <kbd>▲</kbd> and <kbd>▼</kbd> change the
 <section class="colophon"><div class="colophon-push"></div><p class="colophon-mark">FREE85</p><div class="colophon-rule"></div><p><strong>Free85 Getting Started Manual</strong> · For firmware 2.10 · Second Edition</p><p>Free85 is clean-room software: the firmware, the font, the screen artwork, the tests, and this book were written from scratch for the project. It contains no Texas Instruments ROM code, disassembly, fonts, artwork, or binary tables. The TI-85 is referenced only to describe the hardware profile the firmware runs on; the project is not affiliated with or endorsed by Texas Instruments.</p><p>Free85 is open source under the MIT License. See the LICENSE file for the licence text and NOTICE.md for the project notices.</p><p>Free85 2.10 · Typeset from the Markdown sources with pandoc and Paged.js, and rendered to PDF by headless Chromium. Set in Charter, Helvetica Neue, and Menlo.</p><p>https://chriswilson2020.github.io/Free85/</p></section>
 <section class="back-cover"><div class="bc-inner"><p class="bc-mark">FREE85</p><div class="bc-rule"></div><p class="bc-url">chriswilson2020.github.io/Free85</p></div></section>
 
+<script>
+if (new URLSearchParams(window.location.search).has("embed")) {
+  document.body.classList.add("embedded-reader");
+}
+</script>
 </body>
 </html>

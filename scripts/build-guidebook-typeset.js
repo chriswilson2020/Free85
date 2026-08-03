@@ -347,6 +347,12 @@ function assemble({ bodyClass, title, cover, frontMatter, bookBody, colophon }) 
     background: #f7f5ef;
     box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
   }
+  body.embedded-reader {
+    width: 100%;
+    margin: 0;
+    box-shadow: none;
+  }
+  body.embedded-reader .web-reader-nav { display: none; }
   .web-reader-nav {
     position: sticky;
     top: 0;
@@ -403,6 +409,11 @@ ${pagedPolyfill}
 <script>
 ${folioHandlerScript}
 </script>`;
+  const embedScript = webEdition ? `<script>
+if (new URLSearchParams(window.location.search).has("embed")) {
+  document.body.classList.add("embedded-reader");
+}
+</script>` : "";
   return `<!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -427,6 +438,7 @@ ${bookBody}
 ${colophon}
 ${backCoverHtml()}
 ${paginationScripts}
+${embedScript}
 </body>
 </html>
 `;

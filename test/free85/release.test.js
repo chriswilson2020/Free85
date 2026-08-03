@@ -65,3 +65,22 @@ test("[release.browser-default] GitHub Pages boots only the bundled Free85 ROM b
   assert.doesNotMatch(app, /TI85\.ROM/);
   assert.match(builder, /ROM\/FREE85\.ROM/);
 });
+
+test("[release.browser-docs] Pages links self-contained online manual and guidebook editions", async () => {
+  const manualPath = "public/guidebook/Free85-Manual-typeset.html";
+  const guidebookPath = "public/guidebook/Free85-Guidebook-typeset.html";
+  const [index, manual, guidebook] = await Promise.all([
+    readFile("index.html", "utf8"),
+    readFile(manualPath, "utf8"),
+    readFile(guidebookPath, "utf8")
+  ]);
+  assert.match(index, new RegExp(manualPath.replace("public/", "public\\/")));
+  assert.match(index, new RegExp(guidebookPath.replace("public/", "public\\/")));
+  assert.match(manual, /<title>Free85 Getting Started Manual \(typeset\)<\/title>/);
+  assert.match(guidebook, /<title>The Free85 Guidebook \(typeset\)<\/title>/);
+  for (const html of [manual, guidebook]) {
+    assert.match(html, /aria-label="Book navigation"/);
+    assert.match(html, /href="\.\.\/\.\.\/index\.html"/);
+    assert.doesNotMatch(html, /Paged\.registerHandlers/);
+  }
+});

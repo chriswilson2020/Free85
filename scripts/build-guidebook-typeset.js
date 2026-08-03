@@ -18,7 +18,8 @@ import { fileURLToPath } from "node:url";
 import { TI85_PHYSICAL_KEYS } from "../src/ti85-keys.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
-const outDir = `${root}dist/guidebook/`;
+const webEdition = process.argv.includes("--web");
+const outDir = webEdition ? `${root}public/guidebook/` : `${root}dist/guidebook/`;
 mkdirSync(outDir, { recursive: true });
 const chrome = process.env.CHROME_BIN
   ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
@@ -337,16 +338,85 @@ function backCoverHtml() {
 // back to algorithmic breaks that produce corrupt splits (catal-og); the
 // en-US dictionary hyphenates correctly.
 function assemble({ bodyClass, title, cover, frontMatter, bookBody, colophon }) {
+  const webReaderStyle = webEdition ? `
+@media screen {
+  html { background: #0c100f; font-size: 16px; }
+  body {
+    width: min(920px, calc(100% - 24px));
+    margin: 24px auto 72px;
+    background: #f7f5ef;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+  }
+  .web-reader-nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    border-bottom: 1px solid #c9c5ba;
+    background: rgba(247, 245, 239, 0.96);
+    padding: 12px clamp(18px, 5vw, 56px);
+    font: 700 14px/1.2 var(--sans);
+    backdrop-filter: blur(10px);
+  }
+  .web-reader-nav a {
+    border: 1px solid #9aa5b5;
+    border-radius: 5px;
+    color: var(--accent);
+    padding: 8px 10px;
+  }
+  .web-reader-nav a:first-child { margin-right: auto; }
+  body > section:not(.cover-page):not(.back-cover) {
+    padding: clamp(28px, 6vw, 68px);
+  }
+  section.cover-page, section.back-cover {
+    width: 100%;
+    height: min(209mm, calc(100vh - 48px));
+    min-height: 620px;
+  }
+  section.colophon { min-height: 70vh; height: auto; }
+  section.chapter { padding-block: 18px 42px; }
+  p, li { font-size: 1rem; }
+  table { display: block; overflow-x: auto; font-size: 0.9rem; }
+  .toc-entry::after { content: none; }
+  h2[data-secno]::before { display: none; }
+}
+@media screen and (max-width: 560px) {
+  html { font-size: 14px; }
+  body { width: 100%; margin: 0; }
+  .web-reader-nav { padding: 9px 10px; }
+  .web-reader-nav a { padding: 7px 8px; }
+  section.cover-page, section.back-cover { min-height: 560px; }
+}
+` : "";
+  const webReaderNav = webEdition
+    ? `<nav class="web-reader-nav" aria-label="Book navigation">`
+      + `<a href="../../index.html">← Free85 calculator</a>`
+      + `<a href="./Free85-Manual-typeset.html">Manual</a>`
+      + `<a href="./Free85-Guidebook-typeset.html">Guidebook</a></nav>`
+    : "";
+  const paginationScripts = webEdition ? "" : `<script>
+${pagedPolyfill}
+</script>
+<script>
+${folioHandlerScript}
+</script>`;
   return `<!DOCTYPE html>
 <html lang="en-US">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${title}</title>
+<link rel="icon" href="data:,">
 <style>
 ${stylesheet}
+${webReaderStyle}
 </style>
 </head>
 <body class="${bodyClass}">
+${webReaderNav}
 ${cover}
 <section class="front-matter">
 ${frontMatter}
@@ -356,12 +426,7 @@ ${bookBody}
 </section>
 ${colophon}
 ${backCoverHtml()}
-<script>
-${pagedPolyfill}
-</script>
-<script>
-${folioHandlerScript}
-</script>
+${paginationScripts}
 </body>
 </html>
 `;
@@ -382,6 +447,11 @@ function render(name, html, { minPages, maxPages }) {
   const htmlPath = `${outDir}${name}.html`;
   const pdfPath = `${outDir}${name}.pdf`;
   writeFileSync(htmlPath, html);
+
+  if (webEdition) {
+    console.log(`wrote public/guidebook/${name}.html`);
+    return;
+  }
 
   // Paged.js runs under Chrome's virtual clock, so a large budget costs
   // nothing once pagination finishes early — it only bounds the worst case.

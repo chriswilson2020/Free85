@@ -1851,8 +1851,8 @@ dd {
 
   .ti85-doc-handle:not([hidden]) {
     position: fixed;
-    right: 0;
-    bottom: max(16px, calc(env(safe-area-inset-bottom) + 12px));
+    top: max(116px, calc(env(safe-area-inset-top) + 92px));
+    right: -1px;
     z-index: 99;
     width: 26px;
     min-height: 88px;

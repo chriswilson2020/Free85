@@ -39,8 +39,8 @@ linear system, and Free85 keeps a dedicated editor for exactly that.
    costing 12, 9, and 6 per kilogram into a 10 kilogram batch worth
    84, with twice as much of the cheapest leaf as the dearest. The first
    two conditions are equations already; the proportion becomes one by
-   writing z = 2x as -2x + 0y + z = 0. Press [EXIT] (the result screen
-   answers only to it), then [2nd] [STAT] to reopen the editor, and
+   writing z = 2x as -2x + 0y + z = 0. Press [EXIT] to leave the
+   result screen, then [2nd] [STAT] to reopen the editor, and
    press [F3] for `3X3`. Enter the three rows: 1, 1, 1, 10, then 12, 9,
    6, 84, then -2, 0, 1, 0, using [(-)] for the minus sign. `SOLVE`
    answers `X 2`, `Y 4`, and `Z 4`: two kilograms of the dear leaf and
@@ -103,14 +103,16 @@ find every corner.
    last, and answers `= 8` with `R=0`. The corner is (8, 0), eight
    bookcases and no benches.
 
-3. Two more corners hide in the table. Press [EXIT], then [GRAPH] to
-   redraw the plot, then [MORE] for the table. The `X=0` row reads `8`
+3. Two more corners hide in the table. Press [GRAPH] to redraw the
+   plot, then [MORE] for the table. The `X=0` row reads `8`
    and `12` under `Y1` and `Y2`: the two intercepts, of which only the
    lower is feasible, the corner (0, 8). And the `X=4` row reads `6`
    and `6`, the two lines agreeing, which is the remaining corner caught
    red-handed. [EXIT] returns to the plot.
 
-4. Ask for that crossing properly. Press [▶] twenty-five times, taking
+4. Ask for that crossing properly. The plot redraws itself after the
+   table; let it finish before touching the arrows, because presses
+   during the redraw are lost. Then press [▶] twenty-five times, taking
    the trace to `X=4.015748031496` with `Y=5.976377952756` on the
    labour line, and press [2nd] [F1], the intersection search of the
    Guidebook, chapter 4. It answers `= 3.9999999999999` with `R=5E-13`,
@@ -130,8 +132,9 @@ find every corner.
 
    ![The 360 profit line resting on the corner](images/co02-lp-profit.png)
 
-6. The corners settle it numerically. Press [EXIT] for the home screen
-   and evaluate the profit at each corner with stored letters: [4]
+6. The corners settle it numerically. Press [EXIT] for the home
+   screen and [CLEAR] to empty the entry line, then evaluate the
+   profit at each corner with stored letters: [4]
    [STO▶] [ALPHA] [A] [ENTER], [CLEAR], [6] [STO▶] [ALPHA] [B]
    [ENTER], [CLEAR], then `30*A+40*B` and [ENTER], which answers
    `= 360`. Store 0 and 8 the same way and replay the profit entry with
@@ -259,10 +262,11 @@ as the unknown.
 
 2. Now the general equation. The solver hunts for a zero, so write the
    savings story as a difference: growth minus balance. Store the
-   knowns first, [8] [STO▶] [ALPHA] [Y] [ENTER] for the years, then
-   [CLEAR] and `900->Z` for a target balance. Type
-   `500*EXP(Y*LN(1+X))-Z` and press [2nd] [GRAPH]: the `SOLVER`
-   workspace of the Guidebook, chapter 14 opens with the equation
+   knowns first: press [CLEAR], then [8] [STO▶] [ALPHA] [Y] [ENTER]
+   for the years, then [CLEAR] and `900->Z` for a target balance.
+   Press [CLEAR] once more, type `500*EXP(Y*LN(1+X))-Z`, and press
+   [2nd] [GRAPH]: the `SOLVER` workspace of the Guidebook, chapter 14
+   opens with the equation
    stored (the `F=` line clips at the screen's right edge; the tail is
    kept), and `VAR X` names the unknown: the rate.
 
@@ -275,14 +279,16 @@ as the unknown.
    there.
 
 4. How long to double money at six percent? Press [EXIT], [CLEAR],
-   store `.06->X` and `1000->Z`, and press [2nd] [GRAPH] with the
-   entry line empty: the workspace reopens with everything kept. Press
+   store `.06->X` and `1000->Z` with a [CLEAR] between and after the
+   stores, and press [2nd] [GRAPH]: an empty entry line keeps the
+   stored equation, so the workspace reopens with everything kept. Press
    [F3], `VAR`, once, turning `VAR X` into `VAR Y`, page to the
    bounds, and store `0` and `50`. `SOLV` answers a `ROOT` of
    `11.895661056043`: money at six percent doubles in just under
    twelve years, whatever the starting sum.
 
-5. And the balance itself? Store `8->Y` again, reopen the workspace,
+5. And the balance itself? Press [EXIT], [CLEAR], store `8->Y`
+   again, press [CLEAR], and reopen the workspace with [2nd] [GRAPH];
    press `VAR` once more for `VAR Z`, set the bounds to `0` and
    `1000`, and `SOLV` answers a `ROOT` of `796.9240378587` with
    `RES -5.9145E-7`. Compare step 1: the workspace bisects until the
@@ -292,9 +298,10 @@ as the unknown.
 
 6. Loans are the same equation read in reverse: the debt grows while
    payments shrink it. For 10000 borrowed at one percent a month with
-   payment A over B months, store `24->B`, type
-   `10000*EXP(B*LN(1.01))-A*(EXP(B*LN(1.01))-1)/.01`, and press
-   [2nd] [GRAPH]. Press `VAR` once for `VAR A`, and try the bounds a
+   payment A over B months, press [EXIT], [CLEAR], store `24->B`,
+   press [CLEAR], type
+   `10000*EXP(B*LN(1.01))-A*(EXP(B*LN(1.01))-1)/.01`, and press [2nd]
+   [GRAPH]. Press `VAR` once for `VAR A`, and try the bounds a
    hopeful borrower would: `0` and `300`. `SOLV` stops at the
    `NO BOUNDED ROOT` notice: no payment up to 300 clears this loan in
    24 months. That screen is an answer, not a failure.
@@ -309,13 +316,15 @@ as the unknown.
    ![The loan payment found by the solver](images/co02-solver-payment.png)
 
 8. If 300 a month is all there is, ask for the term instead. Press
-   [EXIT], [CLEAR], store `300->A`, reopen, press `VAR` once for
-   `VAR B`, page to `UPPER`, store `100`, and `SOLV` answers a `ROOT`
-   of `40.748907154197`: nearly 41 months, the price of the smaller
-   payment. Then store `100->A`, exactly the monthly interest on
-   10000, reopen, and `SOLV`: `NO BOUNDED ROOT` again, because a
-   payment that only covers the interest never ends the loan, and no
-   term between the bounds can make the equation balance.
+   [EXIT], [CLEAR], store `300->A`, press [CLEAR], and reopen with
+   [2nd] [GRAPH]; press `VAR` once for `VAR B`, page to `UPPER`,
+   store `100`, and `SOLV` answers a `ROOT` of `40.748907154197`:
+   nearly 41 months, the price of the smaller payment. Then press
+   [EXIT], [CLEAR], store `100->A`, exactly the monthly interest on
+   10000, press [CLEAR], reopen, and `SOLV`: `NO BOUNDED ROOT`
+   again, because a payment that only covers the interest never ends
+   the loan, and no term between the bounds can make the equation
+   balance.
 
 One design habit makes the workspace pleasant: `VAR` steps forward
 through the alphabet, one letter per press, wrapping from `Z` to `A`.
@@ -396,9 +405,10 @@ raise them and find where the switching settles.
 
 Every result landing in `R` is the register design of the Guidebook,
 chapter 13, and the copying forward in steps 4 and 5 is the honest
-cost of iterating inside one editor; a fourth power arrives in three
-multiplications and four retypings. The reward is that nothing is
-hidden: every forecast you quote is one you watched being made.
+cost of iterating inside one editor: the fourth power arrives in
+three multiplications and three retypings, and the steady-state
+matrix is a fourth retype. The reward is that nothing is hidden:
+every forecast you quote is one you watched being made.
 
 **Try it.**
 

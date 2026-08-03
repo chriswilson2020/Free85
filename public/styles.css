@@ -1385,6 +1385,8 @@ dd {
   position: sticky;
   top: 18px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   border: 1px solid rgba(174, 205, 176, 0.26);
   border-radius: 8px;
   background: #f7f5ef;
@@ -1453,10 +1455,20 @@ dd {
 
 .ti85-doc-reader iframe {
   width: 100%;
-  height: calc(100% - 62px);
+  height: auto;
+  min-height: 0;
+  flex: 1;
   display: block;
   border: 0;
   background: #f7f5ef;
+}
+
+.ti85-doc-handle {
+  display: none;
+}
+
+.ti85-workspace.docs-parked .ti85-doc-reader {
+  display: none;
 }
 
 .ti85-frame header {
@@ -1819,11 +1831,58 @@ dd {
 
   .ti85-doc-reader {
     position: fixed;
-    inset: 8px;
+    inset: 0 0 0 auto;
     z-index: 100;
-    width: auto;
-    height: auto;
+    width: min(94vw, 720px);
+    height: 100dvh;
     min-height: 0;
+    border-width: 0 0 0 1px;
+    border-radius: 0;
+    transform: translateX(0);
+    transition: transform 220ms ease-out;
+    will-change: transform;
+  }
+
+  .ti85-workspace.docs-parked .ti85-doc-reader {
+    display: flex;
+    pointer-events: none;
+    transform: translateX(calc(100% + 2px));
+  }
+
+  .ti85-doc-handle:not([hidden]) {
+    position: fixed;
+    right: 0;
+    bottom: max(16px, calc(env(safe-area-inset-bottom) + 12px));
+    z-index: 99;
+    width: 40px;
+    min-height: 112px;
+    display: grid;
+    place-items: center;
+    gap: 4px;
+    border: 1px solid rgba(174, 205, 176, 0.52);
+    border-right: 0;
+    border-radius: 10px 0 0 10px;
+    background: #142d55;
+    color: #fff;
+    padding: 10px 7px;
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.42);
+    cursor: pointer;
+  }
+
+  .ti85-doc-handle span {
+    font: 800 24px/1 system-ui, sans-serif;
+  }
+
+  .ti85-doc-handle strong {
+    font: 750 12px/1 "Inter", "Avenir Next", system-ui, sans-serif;
+    letter-spacing: 0.04em;
+    writing-mode: vertical-rl;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ti85-doc-reader {
+    transition: none;
   }
 }
 
@@ -2052,5 +2111,25 @@ dd {
 
   .ti85-debug-drawer {
     width: min(1180px, calc(100vw - 12px));
+  }
+}
+
+@media (max-width: 360px) {
+  .ti85-doc-reader-bar {
+    grid-template-columns: 1fr;
+  }
+
+  .ti85-doc-reader-bar nav,
+  .ti85-doc-reader-actions {
+    width: 100%;
+    display: grid;
+  }
+
+  .ti85-doc-reader-bar nav {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ti85-doc-reader-actions {
+    grid-template-columns: 1fr auto;
   }
 }

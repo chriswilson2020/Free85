@@ -14,7 +14,7 @@
   },
   "pages": {
     "files": 12,
-    "sha256": "a8f191fba852d96a7a631b25e485a4c6c518b5969c752e6ffa13304862d8919f"
+    "sha256": "6c9e2bdfe73e0dba7b3c858dde698ba5c161f14a67260c1a30e94a73a97420a0"
   },
   "inputs": [
     "package.json",

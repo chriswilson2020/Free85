@@ -132,8 +132,16 @@ html {
   line-height: 1.45;
   color: var(--ink);
   /* Words shorter than 6 letters never hyphenate, and at least 3 letters
-   * stay on each side — kills degenerate breaks like "catal-og". */
+   * stay on each side. Verified in Chrome 150: the unprefixed property
+   * parses (CSS.supports true, computed "6 3 3"); the -webkit- pair below
+   * does NOT (Safari/WebKit only) and is future-proofing for other
+   * renderers. Note the degenerate page-turn stubs ("stat-us", "bott-om")
+   * were never CSS hyphenation at all — they were Paged.js fragmenting a
+   * word at the page break and appending its own U+2011 hyphen; see the
+   * LOCAL PATCH (Free85) in scripts/vendor/paged.polyfill.js textBreak(). */
   hyphenate-limit-chars: 6 3 3;
+  -webkit-hyphenate-limit-before: 3;
+  -webkit-hyphenate-limit-after: 3;
 }
 body { margin: 0; }
 
@@ -407,11 +415,20 @@ figure.lcd figcaption {
 code, kbd {
   hyphens: none;            /* never hyphenate command names or key labels */
   -webkit-hyphens: none;
+  /* A code or kbd token is one unit: no soft break inside the span, not at
+   * an internal hyphen (`individual-delete`) and not after the `-` of
+   * `->Bin`. Lines still wrap between tokens — appendix A's long
+   * comma-separated lists break at the ", " separators, which sit outside
+   * the spans. Checked invariant: the longest inline code token sets ~68mm
+   * against the 120mm measure, so nowrap cannot overflow a line; add a
+   * targeted overflow-wrap fallback if a longer token ever appears. */
+  white-space: nowrap;
 }
 code {
   font-family: var(--mono);
   font-size: 8pt;
 }
+pre code { white-space: inherit; }   /* code blocks keep pre-wrap */
 pre {
   font-family: var(--mono);
   font-size: 8pt;

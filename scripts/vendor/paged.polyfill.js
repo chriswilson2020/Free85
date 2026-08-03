@@ -2140,7 +2140,19 @@
 						top = Math.floor(pos.top);
 
 						if (left >= end || top >= vEnd) {
-							offset = letter.startOffset;
+							// LOCAL PATCH (Free85): upstream breaks at this letter's
+							// offset, splitting the word mid-word at the page turn and
+							// appending the U+2011 fragment hyphen in hyphenateAtBreak.
+							// The offset is a layout boundary, not a hyphenation point,
+							// which is where the degenerate page-turn stubs came from
+							// ("stat-us", "digi-ts", "bott-om", "convers-ion",
+							// "elsew-here" — all U+2011 in the printed PDFs, unlike
+							// Chrome's own U+2010 dictionary hyphens). Break before the
+							// whole word instead: it moves intact to the next page, the
+							// previous line re-justifies, and hyphenateAtBreak then sees
+							// a space and adds no hyphen. CSS hyphenate-limit-* cannot
+							// fix this — the split never came from CSS hyphenation.
+							offset = word.startOffset;
 							done = true;
 
 							break;

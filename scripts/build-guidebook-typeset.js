@@ -118,17 +118,34 @@ function markKeymapTable(html) {
   });
 }
 
-// Paragraphs and list items that carry a long unbreakable code token (a full
-// precision number, a repo path) set justified lines impossibly loose; tag
-// them so the stylesheet can fall back to ragged right.
+// Paragraphs and list items that carry a long unbreakable token — a full
+// precision number or repo path in a code span, or a bare slash-bearing
+// path in plain prose (appendix D's generator emits its parenthesised spec
+// path without a code span, which is how the first version of this tagger
+// missed it) — set justified lines impossibly loose; tag them so the
+// stylesheet can fall back to ragged right.
 function markNumHeavyBlocks(html) {
-  const positions = new Set();
+  const candidates = [];
   for (const m of html.matchAll(/<code>([^<]+)<\/code>/g)) {
     const token = m[1];
     const numeric = token.length >= 13 && /^[-+0-9.,()eEi^\/ ]*[0-9][-+0-9.,()eEi^\/ ]*$/.test(token);
     const longPath = token.length >= 20 && !token.includes(" ");
-    if (!numeric && !longPath) continue;
-    const before = html.slice(0, m.index);
+    if (numeric || longPath) candidates.push(m.index);
+  }
+  // Long path-like tokens in text nodes, outside any tag or code span
+  // (entities excluded so `&gt;` runs cannot inflate a token).
+  let offset = 0;
+  for (const part of html.split(/(<[^>]+>)/)) {
+    if (!part.startsWith("<")) {
+      for (const m of part.matchAll(/[^\s<>()&;]{20,}/g)) {
+        if (m[0].includes("/")) candidates.push(offset + m.index);
+      }
+    }
+    offset += part.length;
+  }
+  const positions = new Set();
+  for (const index of candidates) {
+    const before = html.slice(0, index);
     const open = Math.max(before.lastIndexOf("<p>"), before.lastIndexOf("<li>"));
     if (open < 0) continue;
     const tag = html.startsWith("<p>", open) ? "p" : "li";

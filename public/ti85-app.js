@@ -11,6 +11,7 @@ const stepFrameButton = document.querySelector("#ti85StepFrame");
 const stepInstructionButton = document.querySelector("#ti85StepInstruction");
 const resetButton = document.querySelector("#ti85Reset");
 const keypadElement = document.querySelector("#ti85Keypad");
+const calculatorFrame = document.querySelector(".ti85-frame");
 const registerGrid = document.querySelector("#ti85RegisterGrid");
 const flagGrid = document.querySelector("#ti85FlagGrid");
 const disassemblyList = document.querySelector("#ti85Disassembly");
@@ -24,6 +25,7 @@ const docReaderTitle = document.querySelector("#ti85DocReaderTitle");
 const docFrame = document.querySelector("#ti85DocFrame");
 const docNewTab = document.querySelector("#ti85DocNewTab");
 const docCloseButton = document.querySelector("#ti85DocClose");
+const docHandleButton = document.querySelector("#ti85DocHandle");
 
 const DOCUMENTATION = {
   manual: {
@@ -35,24 +37,43 @@ const DOCUMENTATION = {
     url: "./public/guidebook/Free85-Guidebook-typeset.html"
   }
 };
+const compactDocReaderQuery = window.matchMedia("(max-width: 1100px)");
 
 let machine;
 let running = false;
 let animationFrame = 0;
+let activeDocumentation = "manual";
 const DEFAULT_ROM_URL = new URL("../ROM/FREE85.ROM", import.meta.url);
 const MISSING_ROM_MESSAGE = "Free85 ROM could not be loaded";
+
+function updateDocumentationCloseControl() {
+  const compactReader = compactDocReaderQuery.matches;
+  docCloseButton.textContent = compactReader ? "Hide" : "Close";
+  docCloseButton.setAttribute("aria-label", compactReader ? "Slide documentation aside" : "Close documentation");
+}
 
 function openDocumentation(book) {
   const entry = DOCUMENTATION[book];
   if (!entry) return;
+  activeDocumentation = book;
   docReader.hidden = false;
+  docReader.inert = false;
+  docReader.removeAttribute("aria-hidden");
   workspace.classList.add("docs-open");
+  workspace.classList.remove("docs-parked");
   document.body.classList.add("doc-reader-open");
+  docHandleButton.hidden = true;
+  docHandleButton.setAttribute("aria-expanded", "true");
+  updateDocumentationCloseControl();
+  if (!compactDocReaderQuery.matches) workspace.scrollIntoView({ block: "start" });
   docReaderTitle.textContent = entry.title;
   docFrame.title = entry.title;
   docNewTab.href = entry.url;
   const embeddedUrl = `${entry.url}?embed=1`;
-  if (!docFrame.src.endsWith(embeddedUrl)) docFrame.src = embeddedUrl;
+  if (docFrame.dataset.docBook !== book) {
+    docFrame.src = embeddedUrl;
+    docFrame.dataset.docBook = book;
+  }
   document.querySelectorAll("[data-doc-book]").forEach((button) => {
     const selected = button.dataset.docBook === book;
     button.setAttribute("aria-pressed", String(selected));
@@ -61,16 +82,33 @@ function openDocumentation(book) {
 }
 
 function closeDocumentation() {
-  docReader.hidden = true;
   workspace.classList.remove("docs-open");
   document.body.classList.remove("doc-reader-open");
+  const compactReader = compactDocReaderQuery.matches;
+  if (compactReader) {
+    workspace.classList.add("docs-parked");
+    docReader.inert = true;
+    docReader.setAttribute("aria-hidden", "true");
+    docHandleButton.hidden = false;
+    docHandleButton.setAttribute("aria-expanded", "false");
+  } else {
+    docReader.hidden = true;
+    workspace.classList.remove("docs-parked");
+    docHandleButton.hidden = true;
+    docHandleButton.setAttribute("aria-expanded", "false");
+  }
   document.querySelectorAll("[data-doc-book]").forEach((button) => {
     button.setAttribute("aria-expanded", "false");
   });
   document.querySelectorAll(".ti85-doc-actions [data-doc-book]").forEach((button) => {
     button.setAttribute("aria-pressed", "false");
   });
-  canvas.focus();
+  if (compactReader) {
+    calculatorFrame.scrollIntoView({ block: "start" });
+    docHandleButton.focus({ preventScroll: true });
+  } else {
+    canvas.focus();
+  }
 }
 
 const FLAG_BITS = [
@@ -396,6 +434,13 @@ document.querySelectorAll("[data-doc-book]").forEach((button) => {
   button.addEventListener("click", () => openDocumentation(button.dataset.docBook));
 });
 docCloseButton.addEventListener("click", closeDocumentation);
+docHandleButton.addEventListener("click", () => openDocumentation(activeDocumentation));
+compactDocReaderQuery.addEventListener("change", () => {
+  if (workspace.classList.contains("docs-open")) updateDocumentationCloseControl();
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && workspace.classList.contains("docs-open")) closeDocumentation();
+});
 
 renderTi85Keypad();
 loadDefaultRom();

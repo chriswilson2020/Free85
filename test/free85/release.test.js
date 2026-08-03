@@ -77,10 +77,16 @@ test("[release.browser-docs] Pages embeds self-contained books without replacing
   ]);
   assert.match(index, /id="ti85DocReader"/);
   assert.match(index, /id="ti85DocFrame"/);
+  assert.match(index, /id="ti85DocHandle"/);
   assert.match(index, /data-doc-book="manual"/);
   assert.match(index, /data-doc-book="guidebook"/);
   assert.match(app, /function openDocumentation\(book\)/);
+  assert.match(app, /classList\.add\("docs-parked"\)/);
+  assert.match(app, /openDocumentation\(activeDocumentation\)/);
   assert.match(app, /docFrame\.src = embeddedUrl/);
+  assert.match(app, /docFrame\.dataset\.docBook !== book/);
+  assert.match(app, /docFrame\.dataset\.docBook = book/);
+  assert.doesNotMatch(app, /docFrame\.src\s*=\s*["']{2}/);
   assert.doesNotMatch(app, /window\.location\s*=/);
   assert.match(manual, /<title>Free85 Getting Started Manual \(typeset\)<\/title>/);
   assert.match(guidebook, /<title>The Free85 Guidebook \(typeset\)<\/title>/);

@@ -48,6 +48,6 @@ comparisons and five application-state probes.
 The checked-in ROM SHA-256 is
 `dc91f6d59ac3ab930216f7642a68284fdb8d6255170934c9c5733b360df160f0`.
 The independently rebuilt GitHub Pages tree SHA-256 is
-`a8f191fba852d96a7a631b25e485a4c6c518b5969c752e6ffa13304862d8919f`.
+`6c9e2bdfe73e0dba7b3c858dde698ba5c161f14a67260c1a30e94a73a97420a0`.
 The machine-readable evidence is in `spec/free85/release.json`,
 `spec/free85/reproducibility.json`, and `spec/free85/performance.json`.

@@ -1854,28 +1854,28 @@ dd {
     right: 0;
     bottom: max(16px, calc(env(safe-area-inset-bottom) + 12px));
     z-index: 99;
-    width: 40px;
-    min-height: 112px;
+    width: 26px;
+    min-height: 88px;
     display: grid;
     place-items: center;
-    gap: 4px;
+    gap: 2px;
     border: 1px solid rgba(174, 205, 176, 0.52);
     border-right: 0;
-    border-radius: 10px 0 0 10px;
+    border-radius: 7px 0 0 7px;
     background: #142d55;
     color: #fff;
-    padding: 10px 7px;
-    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.42);
+    padding: 6px 2px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.36);
     cursor: pointer;
   }
 
   .ti85-doc-handle span {
-    font: 800 24px/1 system-ui, sans-serif;
+    font: 800 18px/1 system-ui, sans-serif;
   }
 
   .ti85-doc-handle strong {
-    font: 750 12px/1 "Inter", "Avenir Next", system-ui, sans-serif;
-    letter-spacing: 0.04em;
+    font: 750 9px/1 "Inter", "Avenir Next", system-ui, sans-serif;
+    letter-spacing: 0.02em;
     writing-mode: vertical-rl;
   }
 }

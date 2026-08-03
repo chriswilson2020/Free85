@@ -44,7 +44,7 @@
     color: #444444;
     text-transform: uppercase;
     vertical-align: bottom;
-    padding-bottom: 3.5mm;
+    padding-bottom: 1.6mm;
   }
   @bottom-right {
     content: counter(page);
@@ -66,7 +66,7 @@
     color: #444444;
     text-transform: uppercase;
     vertical-align: bottom;
-    padding-bottom: 3.5mm;
+    padding-bottom: 1.6mm;
   }
   @bottom-left {
     content: counter(page);
@@ -131,6 +131,9 @@ html {
   font-size: 9.5pt;
   line-height: 1.45;
   color: var(--ink);
+  /* Words shorter than 6 letters never hyphenate, and at least 3 letters
+   * stay on each side — kills degenerate breaks like "catal-og". */
+  hyphenate-limit-chars: 6 3 3;
 }
 body { margin: 0; }
 
@@ -155,6 +158,20 @@ section.front-matter { page: frontmatter; counter-reset: page 1; break-before: r
 section.book-body { page: body; counter-reset: page 1; break-before: right; page-break-before: right; }
 section.cover-page { page: cover; }
 section.colophon { page: colophon; break-before: page; }
+section.back-cover { page: cover; break-before: left; page-break-before: left; }
+
+/* Pages that carry a chapter opener (or the book title block) are tagged
+ * .free85-opener-page by the Free85Folios handler; they run quiet — no
+ * running head, no folio. (Paged.js's own pagedjs_body_first_page class is
+ * unusable for this: it lands on the page where the chapter's section NODE
+ * opens, which is the previous chapter's last page.) */
+.free85-opener-page .pagedjs_margin .pagedjs_margin-content { display: none; }
+
+/* Genre detail: a thin full-width rule under the running head on ordinary
+ * body pages (not opener or blank pages). */
+.pagedjs_body_page:not(.pagedjs_blank_page):not(.free85-opener-page) .pagedjs_margin-top {
+  border-bottom: 0.4pt solid #999999;
+}
 
 /* ------------------------------------------------------------- headings -- */
 
@@ -172,6 +189,23 @@ h2 {
   line-height: 1.2;
   margin: 14pt 0 5pt;
 }
+
+/* Guidebook section-number ladder: "4-3" hung in the outer margin at each
+ * section heading (numbers assigned by the build script). */
+h2[data-secno] { position: relative; }
+h2[data-secno]::before {
+  content: attr(data-secno);
+  position: absolute;
+  top: 0.3em;
+  width: 8mm;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 7pt;
+  letter-spacing: 0.03em;
+  color: var(--accent);
+}
+.pagedjs_right_page h2[data-secno]::before { right: -9.5mm; text-align: left; }
+.pagedjs_left_page h2[data-secno]::before { left: -9.5mm; text-align: right; }
 h3 {
   font-size: 10pt;
   line-height: 1.25;
@@ -243,6 +277,17 @@ section.book-body > section.chapter:first-child > header.chapter-opener {
   -webkit-hyphens: manual;
   margin: 0;
 }
+/* Inside the italic standfirst a boxed keycap looks heavy: text-only
+ * semibold sans variant instead. */
+.standfirst kbd {
+  border: none;
+  background: none;
+  padding: 0;
+  text-shadow: none;
+  font-size: 8.5pt;
+  letter-spacing: 0.02em;
+}
+
 /* Appendices: the simpler variant (small caps kicker + big letter). */
 .appendix-opener .chapter-number { font-size: 34pt; }
 .appendix-opener h1 { font-size: 15pt; }
@@ -359,6 +404,10 @@ figure.lcd figcaption {
 
 /* ------------------------------------------------------------------ code -- */
 
+code, kbd {
+  hyphens: none;            /* never hyphenate command names or key labels */
+  -webkit-hyphens: none;
+}
 code {
   font-family: var(--mono);
   font-size: 8pt;
@@ -431,14 +480,23 @@ section.appendix-a h2 {
   margin: 9pt 0 2.5pt;
 }
 
-/* Appendix D's status tables run close to a full page: kept unbreakable they
- * cascade into orphaned headings on near-empty pages, so let them flow and
- * protect only the rows. */
-section.appendix-d table {
+/* Long tables (tagged by the build script at >12 rows: the ch16 instruction
+ * table, appendix D's status table, ...) run close to a full page: kept
+ * unbreakable they cascade into orphaned headings and stranded near-empty
+ * pages, so let them flow and protect only the rows. A handler re-inserts
+ * the header row on the continuation pages. */
+table.table-long {
   break-inside: auto;
   page-break-inside: auto;
 }
-section.appendix-d tr { break-inside: avoid; page-break-inside: avoid; }
+table.table-long tr { break-inside: avoid; page-break-inside: avoid; }
+
+/* Paragraphs and list items carrying long unbreakable code tokens (tagged by
+ * the build script) go ragged-right instead of stretching word spaces. */
+.num-heavy { text-align: left; }
+
+/* A one-line lead-in to a framed screenshot stays with its figure. */
+p:has(+ figure.lcd) { break-after: avoid; page-break-after: avoid; }
 
 /* ------------------------------------------------------------ blockquote -- */
 
@@ -582,6 +640,38 @@ section.cover-page {
   margin: 0 0 8mm;
 }
 .cover-url {
+  font-family: var(--mono);
+  font-size: 7.5pt;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+}
+
+/* Back cover: quiet navy field, wordmark and URL only. */
+section.back-cover {
+  height: 209mm;
+  box-sizing: border-box;
+  background: var(--accent);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bc-inner { text-align: center; }
+.bc-mark {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 13pt;
+  letter-spacing: 0.42em;
+  text-indent: 0.42em;
+  color: #ffffff;
+  margin: 0 0 3.5mm;
+}
+.bc-rule {
+  width: 22mm;
+  border-top: 0.6pt solid rgba(255, 255, 255, 0.7);
+  margin: 0 auto 3.5mm;
+}
+.bc-url {
   font-family: var(--mono);
   font-size: 7.5pt;
   color: rgba(255, 255, 255, 0.75);

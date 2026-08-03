@@ -102,15 +102,47 @@ function frameScreenshots(html, stats) {
 }
 
 // Appendix B's four-column key map is the only table that cannot fit A5 at
-// the standard size; tag it so the stylesheet can shrink it.
+// the standard size; tag it so the stylesheet can shrink it. Any other table
+// longer than 12 rows is tagged table-long so it may break across pages
+// (unbreakable near-full-page tables strand headings on empty pages).
 function markKeymapTable(html) {
   return html.replace(/<table>([\s\S]*?)<\/table>/g, (m, inner) => {
     const headerRow = inner.slice(0, inner.indexOf("</tr>"));
     if (headerRow.includes("<th>Key</th>") && headerRow.includes("<th>ALPHA</th>")) {
       return `<table class="keymap">${inner}</table>`;
     }
+    if ((inner.match(/<tr/g) ?? []).length > 12) {
+      return `<table class="table-long">${inner}</table>`;
+    }
     return m;
   });
+}
+
+// Paragraphs and list items that carry a long unbreakable code token (a full
+// precision number, a repo path) set justified lines impossibly loose; tag
+// them so the stylesheet can fall back to ragged right.
+function markNumHeavyBlocks(html) {
+  const positions = new Set();
+  for (const m of html.matchAll(/<code>([^<]+)<\/code>/g)) {
+    const token = m[1];
+    const numeric = token.length >= 13 && /^[-+0-9.,()eEi^\/ ]*[0-9][-+0-9.,()eEi^\/ ]*$/.test(token);
+    const longPath = token.length >= 20 && !token.includes(" ");
+    if (!numeric && !longPath) continue;
+    const before = html.slice(0, m.index);
+    const open = Math.max(before.lastIndexOf("<p>"), before.lastIndexOf("<li>"));
+    if (open < 0) continue;
+    const tag = html.startsWith("<p>", open) ? "p" : "li";
+    // Only tag if that element is still open where the token sits.
+    if (before.indexOf(`</${tag}>`, open) !== -1) continue;
+    positions.add(`${open}:${tag}`);
+  }
+  const edits = [...positions]
+    .map((k) => ({ index: Number(k.split(":")[0]), tag: k.split(":")[1] }))
+    .sort((a, b) => b.index - a.index);
+  for (const { index, tag } of edits) {
+    html = `${html.slice(0, index)}<${tag} class="num-heavy">${html.slice(index + tag.length + 2)}`;
+  }
+  return html;
 }
 
 // Guidebook chapter H1s become opener blocks on a fresh recto: oversized
@@ -237,6 +269,9 @@ class Free85Folios extends Paged.Handler {
     this.count = 0;
   }
   afterPageLayout(pageElement) {
+    if (pageElement.querySelector("header.chapter-opener, header.fm-title")) {
+      pageElement.classList.add("free85-opener-page");
+    }
     const cl = pageElement.classList;
     if (cl.contains("pagedjs_cover_page")) { this.mode = "pre"; return; }
     if (cl.contains("pagedjs_colophon_page")) { this.mode = "post"; return; }
@@ -255,11 +290,38 @@ class Free85Folios extends Paged.Handler {
   }
 }
 Paged.registerHandlers(Free85Folios);
+
+// Re-insert the header row when a table is split across pages (Paged.js only
+// completes the broken row, it never repeats the thead).
+class Free85TableHeaders extends Paged.Handler {
+  constructor(chunker, polisher, caller) {
+    super(chunker, polisher, caller);
+  }
+  afterPageLayout(pageElement, page, breakToken, chunker) {
+    for (const table of pageElement.querySelectorAll("table[data-split-from]")) {
+      if (table.querySelector("thead")) continue;
+      const source = chunker.source.querySelector('[data-ref="' + table.dataset.ref + '"]');
+      const header = source && source.querySelector("thead");
+      if (header) table.insertBefore(header.cloneNode(true), table.firstChild);
+    }
+  }
+}
+Paged.registerHandlers(Free85TableHeaders);
 `;
 
+function backCoverHtml() {
+  return `<section class="back-cover"><div class="bc-inner">`
+    + `<p class="bc-mark">FREE85</p><div class="bc-rule"></div>`
+    + `<p class="bc-url">${PROJECT_URL}</p>`
+    + `</div></section>`;
+}
+
+// lang is en-US (not en-GB) deliberately: Chromium's en-GB hyphenation falls
+// back to algorithmic breaks that produce corrupt splits (catal-og); the
+// en-US dictionary hyphenates correctly.
 function assemble({ bodyClass, title, cover, frontMatter, bookBody, colophon }) {
   return `<!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en-US">
 <head>
 <meta charset="utf-8">
 <title>${title}</title>
@@ -276,6 +338,7 @@ ${frontMatter}
 ${bookBody}
 </section>
 ${colophon}
+${backCoverHtml()}
 <script>
 ${pagedPolyfill}
 </script>
@@ -357,6 +420,7 @@ function buildGuidebook() {
   html = markKeycaps(html, stats);
   html = frameScreenshots(html, stats);
   html = markKeymapTable(html);
+  html = markNumHeavyBlocks(html);
   html = buildOpeners(html, stats);
   html = buildTitleBlock(html, "Free85 · Complete reference");
 
@@ -375,6 +439,13 @@ function buildGuidebook() {
   const chunks = bookBody.split(/(?=<header class="chapter-opener)/);
   bookBody = chunks.map((chunk) => {
     const appendix = chunk.match(/^<header class="chapter-opener appendix-opener" data-appendix="([A-D])"/);
+    const chapter = chunk.match(/^<header class="chapter-opener" data-chapter="(\d+)"/);
+    // Hung section numbers ("4-3" ladder) on every section heading.
+    const label = appendix ? appendix[1] : chapter ? chapter[1] : null;
+    if (label) {
+      let sec = 0;
+      chunk = chunk.replace(/<h2 /g, () => `<h2 data-secno="${label}-${++sec}" `);
+    }
     const cls = appendix ? `chapter appendix appendix-${appendix[1].toLowerCase()}` : "chapter";
     return `<section class="${cls}">${chunk}</section>`;
   }).join("");
@@ -418,6 +489,7 @@ function buildManual() {
   html = markCallouts(html, stats);
   html = markKeycaps(html, stats);
   html = frameScreenshots(html, stats);
+  html = markNumHeavyBlocks(html);
   html = buildTitleBlock(html, "Free85 · Getting started");
 
   // The manual's sections are H2-level: no chapter openers, but they drive

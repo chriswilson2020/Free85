@@ -147,14 +147,21 @@ temporary directories and rejects any byte or tree-hash difference.
   and feature status. Every documented key sequence and result is captured
   from the emulator, and `npm run test:guidebook` checks that the book
   covers every completed command in the ledger.
-- Typeset PDFs of both books build into `dist/guidebook/` with:
+- Typeset editions, ready to read or print (A5, covers, full table of
+  contents): download the
+  [Manual PDF](https://github.com/chriswilson2020/Free85/releases/latest/download/Free85-Manual-typeset.pdf)
+  and the
+  [Guidebook PDF](https://github.com/chriswilson2020/Free85/releases/latest/download/Free85-Guidebook-typeset.pdf)
+  from the latest release.
+- Both books rebuild into `dist/guidebook/` from the Markdown sources:
 
 ```sh
-npm run build:guidebook
+npm run build:guidebook:typeset
 ```
 
-(Requires `pandoc` and Google Chrome; regenerates the LCD screenshots and
-the generated appendices first.)
+(`npm run build:guidebook` produces the plain untypeset PDFs. Both need
+`pandoc` and Google Chrome, and regenerate the LCD screenshots and the
+generated appendices first.)
 
 ## Specification
 

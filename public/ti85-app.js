@@ -18,12 +18,60 @@ const machineState = document.querySelector("#ti85MachineState");
 const keyboardState = document.querySelector("#ti85KeyboardState");
 const displayState = document.querySelector("#ti85DisplayState");
 const memoryInspector = document.querySelector("#ti85MemoryInspector");
+const workspace = document.querySelector("#ti85Workspace");
+const docReader = document.querySelector("#ti85DocReader");
+const docReaderTitle = document.querySelector("#ti85DocReaderTitle");
+const docFrame = document.querySelector("#ti85DocFrame");
+const docNewTab = document.querySelector("#ti85DocNewTab");
+const docCloseButton = document.querySelector("#ti85DocClose");
+
+const DOCUMENTATION = {
+  manual: {
+    title: "Getting Started Manual",
+    url: "./public/guidebook/Free85-Manual-typeset.html"
+  },
+  guidebook: {
+    title: "The Free85 Guidebook",
+    url: "./public/guidebook/Free85-Guidebook-typeset.html"
+  }
+};
 
 let machine;
 let running = false;
 let animationFrame = 0;
 const DEFAULT_ROM_URL = new URL("../ROM/FREE85.ROM", import.meta.url);
 const MISSING_ROM_MESSAGE = "Free85 ROM could not be loaded";
+
+function openDocumentation(book) {
+  const entry = DOCUMENTATION[book];
+  if (!entry) return;
+  docReader.hidden = false;
+  workspace.classList.add("docs-open");
+  document.body.classList.add("doc-reader-open");
+  docReaderTitle.textContent = entry.title;
+  docFrame.title = entry.title;
+  docNewTab.href = entry.url;
+  const embeddedUrl = `${entry.url}?embed=1`;
+  if (!docFrame.src.endsWith(embeddedUrl)) docFrame.src = embeddedUrl;
+  document.querySelectorAll("[data-doc-book]").forEach((button) => {
+    const selected = button.dataset.docBook === book;
+    button.setAttribute("aria-pressed", String(selected));
+    button.setAttribute("aria-expanded", String(selected));
+  });
+}
+
+function closeDocumentation() {
+  docReader.hidden = true;
+  workspace.classList.remove("docs-open");
+  document.body.classList.remove("doc-reader-open");
+  document.querySelectorAll("[data-doc-book]").forEach((button) => {
+    button.setAttribute("aria-expanded", "false");
+  });
+  document.querySelectorAll(".ti85-doc-actions [data-doc-book]").forEach((button) => {
+    button.setAttribute("aria-pressed", "false");
+  });
+  canvas.focus();
+}
 
 const FLAG_BITS = [
   ["S", 0x80],
@@ -343,6 +391,11 @@ romFileInput.addEventListener("change", async () => {
   if (!file) return;
   mountRom(new Uint8Array(await file.arrayBuffer()), `Loaded ${file.name}`);
 });
+
+document.querySelectorAll("[data-doc-book]").forEach((button) => {
+  button.addEventListener("click", () => openDocumentation(button.dataset.docBook));
+});
+docCloseButton.addEventListener("click", closeDocumentation);
 
 renderTi85Keypad();
 loadDefaultRom();

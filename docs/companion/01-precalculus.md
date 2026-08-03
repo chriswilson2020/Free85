@@ -39,10 +39,12 @@ worth framing deliberately.
    the second line is the function evaluated there in full precision.
 
 3. Ask the window itself where it is. Press [+] once (the quick zoom-in)
-   and the plot redraws with every bound halved; back on the home screen,
-   typing `XMIN` (each letter is [ALPHA] plus the key carrying it) and
-   pressing [ENTER] answers `= -5`. From the standard window, one press of [-]
-   instead answers `= -20`. The window bounds `XMIN`, `XMAX`, `YMIN`, and
+   and the plot redraws with every bound halved. Press [EXIT] to return
+   to the home screen, where the graph hands `X^3-4*X` back to the entry
+   line, and press [CLEAR] to empty it; typing `XMIN` (each letter is
+   [ALPHA] plus the key carrying it) and pressing [ENTER] then answers
+   `= -5`. From the standard window, one press of [-] instead answers
+   `= -20`. The window bounds `XMIN`, `XMAX`, `YMIN`, and
    `YMAX` are read-only system values: Free85 changes the window through
    the zoom keys and panels, not by typing bounds, so a deliberate window
    is built from zooms. [2nd] [+] restores the standard window whenever an
@@ -103,7 +105,9 @@ the differences.
    sextuples every value. [EXIT] returns to the plot.
 
 3. Re-store the slots with a parabola family: `X^2/4` in `Y1`, `X^2` in
-   `Y2`, and `4*X^2` in `Y3` (the [x²] key types `^2`). The plot shows
+   `Y2`, and `4*X^2` in `Y3` (the [x²] key types `^2`; each slot key
+   hands its old text back to the entry line, so press [CLEAR] before
+   typing the new member). The plot shows
    one bowl nested inside the next, and the table says why: the `X=2`
    row reads `1`, `4`, `16`, and the `X=5` row reads `6.25`, `25`, `100`.
    The coefficient scales every height, which narrows or widens the bowl
@@ -202,7 +206,8 @@ functions; here they earn their keep as graphs.
 
 3. Compound growth at six percent per year is the function 1.06 to the
    power x, and here Free85 shapes the mathematics: the `^` operator
-   takes whole exponents from -9 to 9 only. `1.06^2` answers `= 1.1236`,
+   takes whole exponents from -9 to 9 only. On a cleared home entry
+   line, `1.06^2` answers `= 1.1236`,
    but `1.06^2.5` answers `DOMAIN ERROR`, and a slot holding `1.06^X`
    plots axes with no curve at all, because almost every sample column
    asks for a fractional power. The identity b to the x equals e to the
@@ -240,7 +245,8 @@ in the status line, until the walkthrough says otherwise.
 
 2. Open the zoom panel with [2nd] [GRAPH], press [MORE] for its second
    page, and press [F5], the trigonometric window. The replot shows two
-   full waves. Reading the bounds from the home screen: `XMIN` answers
+   full waves. Reading the bounds from the home screen ([EXIT], then
+   [CLEAR] to empty the handed-back equation): `XMIN` answers
    `= -6.2831853071796` and `XMAX` answers `= 6.2831853071796`, two pi
    either side of the origin, with `YMIN` at `= -4` and `YMAX` at `= 4`.
 

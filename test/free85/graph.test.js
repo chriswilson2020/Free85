@@ -9,6 +9,8 @@ const GRAPH_PLOT_X = 0x8503;
 const GRAPH_TRACE_X = 0x8504;
 const GRAPH_ENABLED = 0x8501;
 const GRAPH_TOLERANCE_EXPONENT = 0x8649;
+const GRAPH_RESULT_X = 0x8675;
+const GRAPH_RESULT_Y = 0x867e;
 const SCREEN_HOME = 0;
 const SCREEN_GRAPH = 2;
 const SCREEN_TABLE = 3;
@@ -171,6 +173,49 @@ test("[graph.equations-intersection] three selectable slots share the graph engi
   harness.runFrames(3500);
   assert.equal(harness.machine.read8(0x800b), SCREEN_HOME);
   assert.ok(Math.abs(numericResult(harness) - 1) < 1e-5, harness.resultText());
+});
+
+test("[graph.trace-analysis] root and intersection keys still publish after the trace has moved", () => {
+  // Trace to a non-root column: the residual there (|f| ~= 0.246) must be
+  // rejected by the fast path, and the scan must then publish a genuine root.
+  const harness = openGraph("X^3-4*X");
+  finishPlot(harness);
+  for (let press = 0; press < 13; press += 1) {
+    harness.tap("LEFT");
+    harness.runFrames(10);
+  }
+  assert.equal(harness.machine.read8(GRAPH_TRACE_X), 51);
+  const tracedX = harness.packedNumber(GRAPH_RESULT_X);
+  assert.ok(Math.abs(tracedX - -1.968503937008) < 1e-9, `traced X=${tracedX}`);
+  harness.tap("F1");
+  harness.runFrames(1000);
+  assert.equal(harness.machine.read8(0x800b), SCREEN_HOME, "root key must publish on the home screen");
+  assert.ok(Math.abs(numericResult(harness) - -2) < 1e-5, harness.resultText());
+  assert.ok(Math.abs(harness.packedNumber(GRAPH_RESULT_Y)) <= 1e-6,
+    `published root residual ${harness.packedNumber(GRAPH_RESULT_Y)} exceeds tolerance`);
+
+  // Intersection likewise: Y2=X crosses the cubic at -sqrt(5), 0, sqrt(5).
+  harness.tap("GRAPH");
+  finishPlot(harness);
+  harness.tap("2ND");
+  harness.tap("2");
+  harness.runFrames(10);
+  typeExpression(harness, "X");
+  harness.tap("GRAPH");
+  assert.equal(harness.machine.read8(GRAPH_ENABLED) & 3, 3);
+  finishPlot(harness);
+  for (let press = 0; press < 14; press += 1) {
+    harness.tap("LEFT");
+    harness.runFrames(10);
+  }
+  assert.equal(harness.machine.read8(GRAPH_TRACE_X), 50);
+  harness.tap("2ND");
+  harness.tap("F1");
+  harness.runFrames(1000);
+  assert.equal(harness.machine.read8(0x800b), SCREEN_HOME, "intersection key must publish on the home screen");
+  assert.ok(Math.abs(numericResult(harness) - -Math.sqrt(5)) < 1e-5, harness.resultText());
+  assert.ok(Math.abs(harness.packedNumber(GRAPH_RESULT_Y)) <= 1e-6,
+    `published intersection residual ${harness.packedNumber(GRAPH_RESULT_Y)} exceeds tolerance`);
 });
 
 test("[graph.numerical] roots, extrema, derivatives, integrals, and solver use stored equations", () => {

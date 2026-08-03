@@ -54,6 +54,98 @@ export const SCREEN_CASES = [
       "GRAPH", 8000,
       "2ND", "1", 60, "CLEAR", "X-VAR", "^", "3", "/", "1", "0", "GRAPH", 8000,
       "2ND", "2", 60, "CLEAR", "X-VAR", "GRAPH", 8000]
+  },
+  // Chapter 2 section 2.1: the tea-blend 3x3 system's unique solution.
+  {
+    name: "co02-simult-blend",
+    keys: ["2ND", "STAT", 30, "F3", 30,
+      "1", "ENTER", "1", "ENTER", "1", "ENTER", "1", "0", "ENTER",
+      "1", "2", "ENTER", "9", "ENTER", "6", "ENTER", "8", "4", "ENTER",
+      "(-)", "2", "ENTER", "0", "ENTER", "1", "ENTER", "0", "ENTER",
+      "F1", 300]
+  },
+  // Chapter 2 section 2.2: timber and labour constraint lines with the 360
+  // profit line resting on the corner (4, 6).
+  {
+    name: "co02-lp-profit",
+    keys: ["(", "1", "6", "-", "X-VAR", ")", "/", "2", "GRAPH", 900,
+      "2ND", "2", 30, "(", "2", "4", "-", "3", "*", "X-VAR", ")", "/", "2",
+      "GRAPH", 1800,
+      "2ND", "3", 30, "(", "3", "6", "0", "-", "3", "0", "*", "X-VAR", ")",
+      "/", "4", "0", "GRAPH", 2700]
+  },
+  // Chapter 2 section 2.3: the framer's tableau after SWAP, RADD, RMUL, and
+  // the final RADD, stepped to CELL 1 3 where the print price 40 sits. The
+  // key list mirrors the walkthrough: each result in R is read (five steps),
+  // wrapped home, carried back into A, and the scale for the next operation
+  // stored in B's top-left cell.
+  {
+    name: "co02-tableau-solved",
+    keys: ["2ND", "7", 30, "X-VAR", "+", "X-VAR",
+      "2", "ENTER", "1", "ENTER", "1", "1", "0", "ENTER",
+      "1", "ENTER", "3", "ENTER", "1", "3", "0", "ENTER",
+      "MORE", "MORE", 30, "F2", 60,
+      "RIGHT", "RIGHT", "RIGHT", "RIGHT", "RIGHT", "RIGHT", 30,
+      "ALPHA", "ALPHA", 30,
+      "1", "ENTER", "3", "ENTER", "1", "3", "0", "ENTER",
+      "2", "ENTER", "1", "ENTER", "1", "1", "0", "ENTER",
+      "ALPHA", 30, "(-)", "2", "ENTER", "ALPHA", 30,
+      "DOWN", "DOWN", "DOWN", 30, "F3", 60,
+      "RIGHT", "RIGHT", "RIGHT", "RIGHT", "RIGHT", "RIGHT", 30,
+      "ALPHA", "ALPHA", 30,
+      "1", "ENTER", "3", "ENTER", "1", "3", "0", "ENTER",
+      "0", "ENTER", "(-)", "5", "ENTER", "(-)", "1", "5", "0", "ENTER",
+      "ALPHA", 30, "(-)", ".", "2", "ENTER", "ALPHA", 30,
+      "DOWN", "DOWN", "DOWN", 30, "F4", 60,
+      "RIGHT", "RIGHT", "RIGHT", "RIGHT", "RIGHT", "RIGHT", 30,
+      "ALPHA", "ALPHA", 30,
+      "1", "ENTER", "3", "ENTER", "1", "3", "0", "ENTER",
+      "0", "ENTER", "1", "ENTER", "3", "0", "ENTER",
+      "ALPHA", 30, "(-)", "3", "ENTER", "ALPHA", 30,
+      "F3", 60,
+      "RIGHT", "RIGHT", 30]
+  },
+  // Chapter 2 section 2.4: the loan payment in the solver workspace. Same
+  // workspace state as the walkthrough (equation, VAR A, bounds 0 to 1000)
+  // reached directly from a fresh machine.
+  {
+    name: "co02-solver-payment",
+    keys: ["2", "4", "STO", "ALPHA", "SIN", "ENTER", 30, "CLEAR",
+      "1", "0", "0", "0", "0", "*", "2ND", "LN", "ALPHA", "SIN", "*", "LN",
+      "1", ".", "0", "1", ")", ")", "-", "ALPHA", "LOG", "*", "(",
+      "2ND", "LN", "ALPHA", "SIN", "*", "LN", "1", ".", "0", "1", ")", ")",
+      "-", "1", ")", "/", ".", "0", "1",
+      "2ND", "GRAPH", 60,
+      "F3", 30, "F3", 30, "F3", 30,
+      "F5", 30, "F5", 30, "F5", 30,
+      "0", "ENTER", 30, "1", "0", "0", "0", "ENTER", 60,
+      "F1", 9000]
+  },
+  // Chapter 2 section 2.4: the NO BOUNDED ROOT notice when the upper bound
+  // caps the payment at 300.
+  {
+    name: "co02-solver-no-root",
+    keys: ["2", "4", "STO", "ALPHA", "SIN", "ENTER", 30, "CLEAR",
+      "1", "0", "0", "0", "0", "*", "2ND", "LN", "ALPHA", "SIN", "*", "LN",
+      "1", ".", "0", "1", ")", ")", "-", "ALPHA", "LOG", "*", "(",
+      "2ND", "LN", "ALPHA", "SIN", "*", "LN", "1", ".", "0", "1", ")", ")",
+      "-", "1", ")", "/", ".", "0", "1",
+      "2ND", "GRAPH", 60,
+      "F3", 30, "F3", 30, "F3", 30,
+      "F5", 30, "F5", 30, "F5", 30,
+      "0", "ENTER", 30, "3", "0", "0", "ENTER", 60,
+      "F1", 9000]
+  },
+  // Chapter 2 section 2.5: RREF of the coffee-shop steady-state matrix,
+  // stepped to CELL 1 3 where the -2.5 proportion sits.
+  {
+    name: "co02-markov-steady",
+    keys: ["2ND", "7", 30, "+", "X-VAR", "+", "X-VAR",
+      "(-)", ".", "2", "ENTER", ".", "2", "ENTER", ".", "2", "ENTER",
+      ".", "1", "ENTER", "(-)", ".", "3", "ENTER", ".", "2", "ENTER",
+      ".", "1", "ENTER", ".", "1", "ENTER", "(-)", ".", "4", "ENTER",
+      "F5", 900,
+      "RIGHT", "RIGHT", 30]
   }
 ];
 

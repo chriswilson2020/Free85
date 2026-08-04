@@ -367,7 +367,7 @@ lets the machine find the full set, in two sizes and one complex surprise.
 3. Ask `EVAL` about 0, -3, 3, 0, a quarter-turn with stretch. What do the
    cells read, and what does the final page add?
 
-## 6.6 `LU` as elimination's ledger
+## 6.6 LU as elimination's ledger
 
 Elimination does work worth keeping: the multipliers used on the way down
 and the triangle left at the bottom record the entire sweep, and with both

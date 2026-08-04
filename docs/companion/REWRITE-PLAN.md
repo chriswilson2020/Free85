@@ -229,6 +229,10 @@ there, that is a binding decision for you, not a reason to write less.
   then **looked at**, because a half-drawn screen throws nothing.
 - Every quoted number run on the emulator. Change an example, re-run it.
 - Feasibility probed before a topic is promised, as in section 3.
+- The sample below introduces H3 sub-headings inside a numbered section,
+  which the book has not used before. Sections are getting long enough to
+  need signposts. `typeset.css` will need a rule for them and the page
+  breaks want checking, so this gets settled in the pilot chapter.
 - `SJASMPLUS=<path> npm run update:free85:reproducibility` at the end,
   because the web build writes under `public/`; sjasmplus built from source
   first. `npm test` green at 194 throughout.
@@ -241,259 +245,333 @@ and every screen in this book is run rather than asserted, and that is
 slow. It is a reason to sequence the work and show you a finished chapter
 early. It is not a reason to make the book smaller.
 
-## 8. The voice, for judgement
+## 8. The voice, second attempt
 
-Unchanged from the first version of this plan, and still the thing to
-accept or reject before anything else is written. Section 4.1 rewritten in
-full. Every number and screen was run on the emulator; the figure captions
-name captures that do not exist yet.
+The first attempt was rejected, and rightly. It was plain, which is not the
+same as being taught by anyone. It narrated the keyboard, handed down
+verdicts, and quietly kept up the first edition's habit of finishing every
+paragraph with something quotable. Nobody was in the room.
 
-Against the first edition's 4.1 it is about two and a half times as long,
-has four figures instead of one, tells you what to do when the screen is
-wrong, works the limit three further ways after the first answer, and does
-not once congratulate itself.
+Reading the two books you sent, three things stand out that both do and
+neither of my drafts did.
+
+**They name the frightening thing and then puncture it.** Thompson lists
+the "dreadful symbols", says `d` merely means a little bit of, and finishes
+the chapter with "That's all." Two words, and the terror is gone. He is
+not simplifying the mathematics, he is refusing to let the notation act as
+a doorman.
+
+**They tell you the truth about the difficulty.** Schaefman says outright
+that reading mathematics is not like reading a newspaper and that you will
+reread a line several times before it clicks. Thompson says he is a
+remarkably stupid fellow who had to unteach himself the difficulties.
+Neither is fishing for sympathy. Both are giving the reader permission to
+find it hard, which is what stops people quietly concluding they are the
+problem.
+
+**They are generous with what an expert would hold back.** Thompson works
+the ladder in actual inches, 19 and 180 and 179.89, when he could have left
+it in symbols and looked cleverer. Schaefman hands over the two-player
+precision game as a device you can use yourself. That generosity is the
+thing your Dave Plummer comparison is really about: he tells you what
+actually happened, including what went wrong, because he has nothing to
+prove. The teacher everyone shut up for was never the one performing
+expertise. It was the one who had obviously done the thing and was telling
+you the truth about it.
+
+So: first person where it earns its place and nowhere else, warnings before
+the mistake rather than explanations after it, the reader's own question
+voiced out loud, and not one sentence written to be quoted. Here is 4.1
+again.
+
+Every number and screen is the same verified emulator output as before.
 
 ---
 
 ## 4.1 Limits by table and zoom
 
-A limit asks what value a function is heading for. What value it has
-there is a different question. The two come apart most clearly where a
-function has no value at all.
+What is sin x divided by x, when x is nought?
 
-The specimen is the one every calculus course meets: sine of x, divided
-by x. At every x but one it is an ordinary, well-behaved function. At
-x = 0 the top and the bottom are both zero and the division has nothing
-to say. That single missing point is the whole subject.
+Nothing. There is no answer. Nought over nought is not a number, and in a
+few minutes the machine will tell you so in as many words.
 
-It is worth the trouble for a second reason. The fact that the derivative
-of sine comes out as cosine rests entirely on this limit, so the answer
-this section arrives at is one the rest of the chapter spends.
+That is not the interesting question though. The interesting one is what
+the thing is *nearly*, when x is *nearly* nought. That does have an answer,
+a perfectly definite one, and going and getting it is what a limit is.
 
-Four instruments get pointed at the same hole: the plot, the table, the
-calculus commands, and paper. They do not agree, and where they disagree
-is the lesson.
+I have not chosen this example to be clever. It is the one every calculus
+course does, and for a good reason: it is the fact that makes the
+derivative of sine come out as cosine. Get this one and you have paid for
+most of the chapter in advance.
 
-### Storing the function
+We will go at it four ways. Draw it, tabulate it, probe it, and then do
+some paper. Three of those will point at the answer. Only the last one will
+actually deliver it, and the difference between pointing and delivering is
+most of what this section is about.
 
-1. Press [CLEAR] to empty the entry line.
+### Getting it into the machine
 
-2. Press [SIN]. The line reads `SIN(`: the key brings its own opening
-   bracket. Press [x-VAR], then [)], then [÷], then [x-VAR].
+1. Press [CLEAR]. There is probably something left on the entry line from
+   whatever you did last, and the machine will cheerfully add your new
+   typing onto the end of it.
 
-   The entry line should now read `SIN(X)/X`. If it reads `SIN((X)/X` you
-   pressed [(] as well; press [CLEAR] and type the line again.
+2. Press [SIN]. You get `SIN(`, bracket included. Then [x-VAR], [)], [÷],
+   [x-VAR].
 
-3. Press [GRAPH]. The line is stored into slot `Y1` and plotted in the
-   standard window, -10 to 10 on both axes. Trigonometry is slow work for
-   this machine, so let the curve reach the right-hand edge of the screen
-   before you press anything else. Presses that arrive during a draw are
-   thrown away.
+   Read the line before you go on. It should say `SIN(X)/X`. If it says
+   `SIN((X)/X` you have pressed [(] out of habit after [SIN], which
+   everybody does once. Press [CLEAR] and type it again.
 
-   ![A low bump over the origin, flattened by the standard window](images/co04-sinx-standard.png)
+3. Press [GRAPH]. That stores the line into `Y1` and draws it in the
+   standard window, -10 to 10 both ways.
 
-### What the plot is worth
+   Sine is slow work for this machine. Let the curve reach the right-hand
+   edge before you touch anything, because presses that land mid-draw go
+   nowhere and you will decide the key is broken.
 
-The curve is a bump over the origin with small ripples either side, and
-the whole of it is squashed into a band a few pixels tall. Section 1.1's
-warning is at work: the window allows for heights from -10 to 10, and
-this function never leaves -0.3 to 1.
+   ![The bump of SIN(X)/X, flattened almost to nothing by the standard window](images/co04-sinx-standard.png)
 
-Nothing on the screen suggests a missing point, and nothing could. The
-plot samples 128 columns across the window and 0 is not one of them.
+### The graph, which is no help at all
 
-4. Press [+] three times, letting each replot finish. Each press halves
-   every bound, so the window is now -1.25 to 1.25 on both axes and the
-   bump fills the screen.
+Look at what you have got. A small bump over the origin, ripples either
+side, the whole thing squashed into a band a few pixels high.
 
-5. Press [▶] twice. The readout gives `X=0.0492125984252` and
-   `Y=0.99959640223576`: a sample column a twentieth of a unit right of
-   centre, where the function is within half a thousandth of 1.
+That is the window's doing. You have made room for heights from -10 to 10,
+and this function never leaves the range -0.3 to 1, so nine tenths of the
+screen is empty sky. It is section 1.1's complaint in its natural habitat.
 
-   ![The zoomed bump, traced two columns right of centre](images/co04-sinx-zoom-trace.png)
+Fix it and get closer.
 
-Zoom as far as you like and the arc stays smooth. No zoom ever lands a
-sample column exactly on 0, so a hole one point wide stays invisible to
-an instrument that looks in 128 places at a time. The plot is not lying.
-It is answering a question about columns, and the hole is not in a
-column.
+4. Press [+] three times, waiting for each replot. Each press halves every
+   bound, so you are now looking at -1.25 to 1.25 and the bump fills the
+   screen.
 
-### What the table catches
+5. Press [▶] twice. The readout says `X=0.0492125984252` and
+   `Y=0.99959640223576`.
 
-6. Press [2nd] [+] for the standard window, let the replot finish, and
-   press [MORE] for the table.
+   ![The zoomed bump with the trace two columns right of centre](images/co04-sinx-zoom-trace.png)
 
-   ![The table reading UNDEF at X=0](images/co04-sinx-table.png)
+   So a twentieth of a unit right of the middle, the function is 0.9996.
+   Encouraging.
 
-   The `X=0` row reads `UNDEF`. Below it the rows read `0.841`, `0.454`,
-   `0.047`, `-0.18`, `-0.19`. The table asked at 0 itself, which the plot
-   never did, and got nothing back.
+Now find the hole.
 
-   Those five values are the ripples, not the limit. At `X=1` the
-   function is already 0.841 and falling. Whatever is happening at 0
-   happens closer in than the table can currently see.
+You cannot. Zoom as long as you have patience for and the curve stays a
+smooth unbroken arc, straight through the point that is not there.
 
-7. Press [-] four times to halve the table step four times, from 1 down
-   to 0.0625. Let each redraw settle before the next press.
+Here is why, and it is worth having straight because it will come back at
+you later in this book. The machine draws by choosing 128 columns across
+the window and working out the height at each. Nought is not one of those
+columns and no amount of zooming will make it one. A missing point one
+point wide is invisible to something that only ever looks in 128 places.
 
-   ![The same table at step 0.0625, the rows climbing towards 1](images/co04-sinx-table-fine.png)
+It is not lying to you. You asked about 128 columns and it answered about
+128 columns. The question you wanted to ask was about somewhere it never
+looks.
 
-   The rows below the hole now read `0.999`, `0.997`, `0.994`, `0.989`,
-   `0.983` reading down, so upward towards the hole they climb 0.983,
-   0.989, 0.994, 0.997, 0.999. The `X=0` row still reads `UNDEF`.
+### The table, which is
 
-8. Press [▲] to page up to the other side. The rows from `X=-0.31` read
-   `0.983`, `0.989`, `0.994`, `0.997`, `0.999`, and then `UNDEF`. The two
-   sides are the same five numbers in the same order.
+The table asks at values you choose, nought included. So it can catch what
+the plot cannot.
 
-   They have to be. Sine is odd, so sin(-x) over -x is sin(x) over x, and
-   the function is even: a mirror in the y axis with one point missing
-   from the middle. Both sides climb to the same place.
+6. Press [2nd] [+] for the standard window, let it redraw, then [MORE] for
+   the table.
 
-The table has done what the plot could not, twice. It reported the hole,
-and it showed the values either side of it converging. Neither fact was
-visible in a picture.
+   ![The table, with UNDEF sitting on the X=0 row](images/co04-sinx-table.png)
 
-### What the commands say
+   The `X=0` row says `UNDEF`. There it is. The machine has gone away, tried
+   to divide nought by nought, failed, and come back and told you.
 
-The calculus commands read the stored equation, so `SIN(X)/X` is still
-what they are talking about.
+   Underneath: `0.841`, `0.454`, `0.047`, `-0.18`, `-0.19`. Those are the
+   ripples, not the answer. By `X=1` we are down to 0.841 and falling.
+   Whatever is going on near nought is going on much closer in than a step
+   of 1 can see.
+
+7. Press [-] four times. Each press halves the table step, so you go 1,
+   0.5, 0.25, 0.125, 0.0625. Let each redraw settle before the next press.
+
+   ![The same table at step 0.0625, the values climbing towards 1](images/co04-sinx-table-fine.png)
+
+   Read the rows below the hole *upwards*, towards it: 0.983, 0.989, 0.994,
+   0.997, 0.999. And the `X=0` row still says `UNDEF`.
+
+   That is the whole shape of it. Walk in towards nought and the values
+   climb towards 1 without ever arriving, and at nought itself there is
+   simply nothing at all.
+
+8. Press [▲] to see the other side. From `X=-0.31` the rows read `0.983`,
+   `0.989`, `0.994`, `0.997`, `0.999`, then `UNDEF`.
+
+   The same five numbers in the same order, and that is not luck. Sine is
+   odd, so sin(-x) over -x is the same thing as sin x over x. The function
+   is a mirror image about the y axis with one point missing out of the
+   middle, so both sides always had to climb to the same place.
+
+### Squeezing better numbers out of it
+
+The table gives you three decimal places, because that is all a
+five-character cell will hold. The calculus commands will do better.
 
 9. Press [EXIT] to leave the table, [EXIT] again for the home screen, and
-   [CLEAR] to empty the entry line the graph handed back.
+   [CLEAR] to get rid of the equation the graph has just handed back to
+   you.
 
-10. Spell `EVAL(.1)`, letter by letter with [ALPHA] and the key carrying
-    each letter, and press [ENTER]: `= 0.99833416646834`.
+10. Spell out `EVAL(.1)` (letters are [ALPHA] and then the key with that
+    letter on it) and press [ENTER]. You get `0.99833416646834`.
 
-11. Pressing [CLEAR] before each, ask four more:
+11. Now smaller. Press [CLEAR] before each one:
 
-    | Probe | Answer |
+    | Ask this | Get this |
     | --- | --- |
     | `EVAL(.01)` | `0.99998333341673` |
     | `EVAL(.001)` | `0.9999998333334` |
     | `EVAL(-.001)` | `0.9999998333334` |
     | `EVAL(.0001)` | `0.9999999983334` |
 
-    Each tenfold shrink in x buys two more nines. That is a rate worth
-    noticing, and step 15 explains it.
+    Watch the nines. Two more of them every time x shrinks by a factor of
+    ten. That is a rate, rates are worth noticing, and in a few minutes we
+    will work out exactly where this one comes from.
 
-    The two probes at .001 agree to the last digit, which is the evenness
-    of step 8 stated to fourteen places.
+    Notice too that `.001` and `-.001` agree in every last digit. That is
+    step 8's mirror again, now stated to fourteen places.
 
-12. Push harder. Press [CLEAR] and ask `EVAL(1E-6)`, the `E` typed with
-    [EE]: `= 0.9999999999999`. Press [CLEAR] and ask `EVAL(1E-9)`:
-    `= 1`, exactly.
+12. Push it harder. `EVAL(1E-6)`, with the `E` typed as [EE], gives
+    `0.9999999999999`. `EVAL(1E-9)` gives `1`, flat.
 
-    Read that last answer carefully. It does not mean the function equals
-    1 at a billionth. It means sine of a billionth and a billionth agree
-    in every one of the fourteen digits the machine keeps, so the
-    quotient rounds to 1. The machine has run out of room to show the
-    difference, which is not the same as there being none.
+    Be careful with that last one. It does not mean the function equals 1 at
+    a billionth. The machine keeps fourteen digits, and at a billionth, sine
+    of x and x agree in every single one of them, so the division comes out
+    as exactly 1. It has run out of room to show you the difference. That is
+    a fact about the machine and not about the mathematics, and mixing up
+    those two is one of the classic ways to fool yourself with a calculator.
 
-13. Ask for the point itself. Press [CLEAR] and spell `EVAL(0)`:
+13. Now ask it the original question. Press [CLEAR], spell `EVAL(0)`, and
+    press [ENTER]:
 
-    ![EVAL at the hole stopping at SYNTAX ERROR](images/co04-sinx-eval-error.png)
+    ![EVAL at the hole, stopped on SYNTAX ERROR](images/co04-sinx-eval-error.png)
 
-    The screen reads `SYNTAX ERROR` over `CLEAR OR EXIT`. That is how the
-    calculus commands report an evaluation that fails at the point asked
-    for. Press [CLEAR] to dismiss it. The entry line keeps `EVAL(0)`, so
-    press [CLEAR] a second time to empty it.
+    `SYNTAX ERROR`, with `CLEAR OR EXIT` underneath. Which is the machine
+    being rather brusque about there being nothing there.
 
-    Two presses of [CLEAR] after any error screen is the habit to build:
-    the first dismisses the notice, the second clears the line.
+    Press [CLEAR] to clear the notice. The entry line still holds `EVAL(0)`,
+    so press [CLEAR] again to empty that too. Two presses of [CLEAR] after
+    any error screen: the first kills the message, the second empties the
+    line. Get into the habit early and you will save yourself a lot of
+    puzzled retyping.
 
-### Why it is 1, which no probe proved
+### Why it is 1, which none of that proved
 
-Every probe pointed at 1 and not one of them proved it. The machine tests
-finitely many points; a limit is a claim about all of them. Two routes
-close the gap, and both are checkable here.
+Stop and take stock for a moment. Everything so far points at 1. Nothing so
+far has proved 1.
 
-The first is the squeeze. For a small positive x, draw the unit circle
-and compare three areas: the triangle inside the sector, the sector
-itself, and the triangle outside it.
+That is not a quibble. A machine can try a hundred values, or a million; a
+limit is a claim about all of them at once, and no amount of trying will
+ever get you there. Pointing you at what to go and prove is what the
+machine is genuinely good for. It cannot do the other job and it is
+important not to let it pretend otherwise.
 
-![The unit circle sector between its inner and outer triangles, the areas that squeeze sine over x](images/fig-04-squeeze.svg)
+So here is the proof, and it is a nice one.
 
-The three areas are sin x over 2, then x over 2, then tan x over 2. Divide
-through and turn the inequality over, and cos x is below sin x over x,
-which is below 1. Cosine heads for 1 as x heads for 0, so the quotient is
-trapped and has nowhere else to go.
+Draw a unit circle and take a small angle x at the centre. There are three
+regions, each sitting inside the next: the triangle inside the sector, the
+sector itself, and the larger triangle outside it.
 
-14. Test the sandwich on the machine. Press [CLEAR] and ask `COS(.1)`:
-    `= 0.99500416527802`. Step 10 gave `0.99833416646834` for the
-    quotient at the same x. The quotient sits between cosine and 1, as
-    the squeeze says, and the gap it has to live in is five thousandths
-    wide.
+![A unit circle sector with the triangle inside it and the triangle outside it, the three areas that squeeze sine over x](images/fig-04-squeeze.svg)
 
-    Press [CLEAR] and ask `COS(.01)`: `= 0.99995000041666`, against the
-    quotient's `0.99998333341673`. The gap has narrowed to five
-    hundred-thousandths. Squeeze the walls together and the thing between
-    them has no choice.
+Their areas are sin x over 2, then x over 2, then tan x over 2. Divide the
+lot through by sin x over 2, turn the inequality upside down, and what is
+left is that cos x sits below sin x over x, which sits below 1.
 
-The second route is the series. Sine of x is x minus x cubed over 6 plus
-smaller terms, so sine of x over x is 1 minus x squared over 6 plus
-smaller terms still. That predicts the rate of step 11 exactly: shrink x
-tenfold and the error falls a hundredfold, which is two more nines.
+Now let x head for nought. Cosine heads for 1. The quotient is trapped
+between a thing heading for 1 and 1 itself, so it has nowhere to go but 1.
 
-15. Check the prediction. Press [CLEAR] and type `1-.1^2/6`:
-    `= 0.9983333333334`, against the quotient's `0.99833416646834`. They
-    agree to six decimals. Press [CLEAR] and type `1-.01^2/6`:
-    `= 0.9999833333334`, against `0.99998333341673`. They agree to nine.
+That is the squeeze, and you can watch it close.
 
-    The rule of thumb earns one extra correct decimal for every three the
-    argument sheds, which is why it is worth carrying.
+14. Press [CLEAR] and ask `COS(.1)`: `0.99500416527802`. Step 10 gave
+    `0.99833416646834` at the same x. Sure enough, the quotient is sitting
+    between them, in a gap five thousandths wide.
 
-### The limit that changes with the mode
+    Press [CLEAR] and ask `COS(.01)`: `0.99995000041666`, against the
+    quotient's `0.99998333341673`. The gap is down to five
+    hundred-thousandths. Push the walls together and whatever is between
+    them has no say in the matter.
 
-The answer 1 is not a fact about sine. It is a fact about sine measured
-in radians, and the machine will show you that in about ten key presses.
+There is a second route, and it explains those nines from step 11.
+
+Sine of x is x, take away x cubed over 6, plus smaller stuff. Divide by x
+and sin x over x is 1, take away x squared over 6, plus smaller stuff
+still. So the error ought to go like x squared over 6: shrink x by a factor
+of ten and the error should shrink by a hundred, which is two more nines.
+Which is exactly what you saw.
+
+15. Test it. Press [CLEAR] and type `1-.1^2/6`: `0.9983333333334`, against
+    the quotient's `0.99833416646834`. Agreement to six decimals. Press
+    [CLEAR] and type `1-.01^2/6`: `0.9999833333334`, against
+    `0.99998333341673`. Nine decimals.
+
+    That one is worth carrying around in your head. For small x, sin x over
+    x is 1 take away x squared over 6, and you can do it without a machine
+    at all.
+
+### The bit nobody tells you
+
+The answer 1 is not really a fact about sine. It is a fact about sine
+*measured in radians*, and I can show you that in about ten key presses.
 
 16. Press [2nd] [MORE] for the mode screen, press [F1] once so the second
     line reads `ANGLE DEG`, and press [EXIT].
 
-17. Press [CLEAR], retype `SIN(X)/X` as in steps 1 and 2, and press
-    [GRAPH] to store it again. Let the plot finish. It is a flat line on
-    the axis now, which is the first clue.
+17. Press [CLEAR], type `SIN(X)/X` again, and press [GRAPH]. Let it draw.
+    It comes out as a flat line lying on the axis, which is your first clue
+    that something has changed underneath you.
 
-18. Press [EXIT], press [CLEAR], and ask `EVAL(.1)`:
-    `= 0.017453283658983`. Press [CLEAR] and ask `EVAL(.001)`:
-    `= 0.017453292519057`.
+18. Press [EXIT], press [CLEAR], and ask `EVAL(.1)`: `0.017453283658983`.
+    Press [CLEAR] and ask `EVAL(.001)`: `0.017453292519057`.
 
-    The probes still converge, and they converge on something else. Press
-    [CLEAR] and type `PI/180`, the `π` legend on [2nd] [^]:
-    `= 0.017453292519943`. That is the number the probes are walking
-    towards, to nine decimal places at x = .001.
+    Still converging. Converging on something else entirely. Press [CLEAR]
+    and type `PI/180`, with the `π` legend on [2nd] [^]:
+    `0.017453292519943`. That is where the probes are heading, and by
+    x = .001 they have got nine decimal places of the way there.
 
-The reason is the chain rule wearing a disguise. One degree is pi over
-180 radians, so measuring in degrees multiplies the angle by that factor
-before the sine ever sees it, and the whole limit is scaled by the same
-amount. Radians are the unit in which the constant is 1, and that is the
-entire reason calculus insists on them.
+    It is the chain rule wearing a false moustache. A degree is π/180 of a
+    radian, so working in degrees quietly multiplies every angle by π/180
+    before the sine ever gets a look at it, and the limit gets multiplied by
+    the same thing. Radians are simply the unit that makes the constant come
+    out as 1. That is the real reason calculus insists on them, and it is a
+    much better reason than "because the book says so".
 
-19. Press [2nd] [MORE], press [F1] once to return to `ANGLE RAD`, and
-    press [EXIT]. Leaving the machine in `DEG` will quietly spoil every
-    trigonometric result in the rest of the chapter.
+19. Press [2nd] [MORE], press [F1] once to get back to `ANGLE RAD`, and
+    press [EXIT].
+
+    Do not skip that. I have left a machine sitting in `DEG` and then spent
+    a quarter of an hour deciding the firmware was broken, when every
+    trigonometric answer in the next section was simply being quietly
+    scaled by π/180. It is a very cheap way to waste an afternoon.
 
 **Try it.**
 
-1. Store `(1-COS(X))/X` and probe it at .1, .01, and .001 with `EVAL(`.
-   Where is it heading? Now do the same for `(1-COS(X))/X^2`, and say
-   what dividing by the extra x changed.
-2. The table at step 7 climbed to 0.999 next to the hole. Halve the step
-   four more times and read the same row. How many nines does the cell
-   show, and what stops it showing more?
-3. `EVAL(1E-9)` answered exactly 1 in step 12. Find the largest power of
-   ten at which the answer is still short of 1, and say what that number
-   measures about the machine rather than about the mathematics.
-4. Store `SIN(2*X)/X` and probe it at .01 and .001. The limit is not 1.
-   Predict it from the series of step 15 before you press a key, then
-   check it.
-5. Store `X/SIN(X)`, the same specimen upside down, and probe it from
-   both sides. Why must its limit be 1 as well, and what would go wrong
-   if you tried to argue that from the squeeze of step 14 unchanged?
-
----
-
+1. Try the same four ways on `(1-COS(X))/X`. Table first, then probes at
+   .1, .01, .001. Where is it heading? Then do the same for
+   `(1-COS(X))/X^2` and work out what dividing by the extra x changed.
+2. Guess before you press anything: `SIN(2*X)/X`. The limit is not 1. Work
+   out what it should be from the series in step 15, write your answer
+   down, and then go and check it at .01 and .001. Being wrong here is
+   useful, so write the guess down before you look.
+3. In step 7 you halved the table step four times and got to 0.999. Halve
+   it four more times and read the same row. How many nines does the cell
+   give you now, and what is stopping it giving you more? (The answer is
+   about the cell, not about the mathematics.)
+4. `EVAL(1E-9)` came back as exactly 1 in step 12, and we said that was the
+   machine running out of room. Find the largest power of ten at which the
+   answer is still visibly short of 1. That number tells you something
+   about the machine you are holding. What?
+5. Turn it upside down: store `X/SIN(X)` and probe from both sides. Its
+   limit has to be 1 as well, and you can say why in one line. Then try to
+   run the squeeze argument of step 14 on it unchanged and see where it
+   goes wrong. Fixing it is a two-line job once you spot the trouble.
+6. Put the machine in `DEG` and redo exercise 2. Predict the answer before
+   you press a key, using what step 18 showed you. Then set it back to
+   `RAD`, because you will want it there for section 4.2.
 ## 9. What is being asked
 
 Only one thing now: **the voice above**. Accept it, or say what is wrong

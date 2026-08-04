@@ -96,10 +96,9 @@ plain function of `X` over the window; none of them sees the plotted
 solution. With `1` stored, [F4] answers `= 0` and [F5] answers `= 20`,
 the derivative and window integral of the constant slope, and [F1]
 answers the `NO NUMERIC RESULT` notice because the slope never crosses
-zero. With `X` stored, `EVAL(2)` after a completed plot answers `= 2`,
-the slope at x equal to 2, not the solution's value there. To read a
-solution value, use the trace or the table above; the calculus keys
-see only the slope.
+zero. With `X` stored, `EVAL(2)` answers `= 2`, the slope at x equal to
+2, not the solution's value there. To read a solution value, use the
+trace or the table above; the calculus keys see only the slope.
 
 ## What the mode remembers
 

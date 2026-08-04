@@ -38,10 +38,10 @@ single equation takes a few seconds and plots noticeably faster than
 three; a heavy expression slows every column. You can leave at any
 time: [EXIT] or [CLEAR] cancels the
 redraw and returns to the home screen with the equation loaded on the entry
-line. Remember the warning in Chapter 3: Mathematics, Calculus, and
-Comparisons, though: the home-screen calculus commands such as `EVAL(` need
-one completed plot, and after an interrupted plot they answer
-`SYNTAX ERROR` until you let a plot run through once.
+line. Cancelling costs only the picture: [GRAPH] stored the equation before
+the first column was drawn, so the home-screen calculus commands of
+Chapter 3: Mathematics, Calculus, and Comparisons, `EVAL(` among them, read
+it whether or not the plot was left to finish.
 
 The plotter is deliberately hard to crash. Discontinuities, domain errors,
 and values outside the window leave gaps instead of stopping the plot:

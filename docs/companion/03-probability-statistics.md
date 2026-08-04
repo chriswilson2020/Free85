@@ -75,8 +75,9 @@ audit it afterwards.
    box-widths further out.
 
 8. The mean-against-median verdict closes the story. Press [EXIT]
-   for the home screen, which comes back showing a leftover `= 15`
-   from the editor session, so press [CLEAR] before typing. Then
+   for the home screen, which comes back showing a leftover `= 12`,
+   the selected entry handed back, so press [CLEAR] before typing.
+   Then
    `(12+15+15+17+18+19+21)/7` and [ENTER] answers
    `= 16.714285714286`, the mean without the bank holiday: one day
    moved the mean from under 17 to 20, while the median crept from

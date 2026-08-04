@@ -399,6 +399,30 @@ export const SCREEN_CASES = [
       "2ND", "3", 60, "(-)", "X-VAR", "GRAPH", 5000,
       "+", 9000, "+", 9000, "+", 10000]
   },
+  // Chapter 4 section 4.3: the difference quotient of X^3-2*X at step .01,
+  // typed out in full so it needs no calculus command, tabulated beside the
+  // true derivative 3*X^2-2. The Y1 column sits just above Y2 all the way
+  // down, which is the chord overshooting a curve that bends upwards.
+  {
+    name: "co04-diffquot-table",
+    keys: ["(", "(", "X-VAR", "+", ".", "0", "1", ")", "^", "3",
+      "-", "2", "*", "(", "X-VAR", "+", ".", "0", "1", ")",
+      "-", "(", "X-VAR", "^", "3", "-", "2", "*", "X-VAR", ")", ")",
+      "/", ".", "0", "1", "GRAPH", 4000,
+      "2ND", "2", 60, "3", "*", "X-VAR", "X^2", "-", "2", "GRAPH", 4000,
+      "MORE", 1500]
+  },
+  // Chapter 4 section 4.6: the editor showing P1's line 3, the one worth
+  // checking twice. The editor holds one line on screen at a time, which
+  // the first edition never showed and never mentioned; four presses of
+  // [UP] from the blank line 7 land on it.
+  {
+    name: "co04-editor-p1",
+    keys: ["X-VAR", "X^2", "+", "1", "GRAPH", 1200, "EXIT", 60, "CLEAR", 30,
+      "PRGM", 60, "F1", 120,
+      ...CO04_P1_LINES.flatMap((line) => programLineKeys(line)), 200,
+      "UP", 60, "UP", 60, "UP", 60, "UP", 250]
+  },
   // Chapter 4 section 4.2: NDER(1.5) answering the paper derivative 4.75 of
   // the stored X^3-2*X.
   {

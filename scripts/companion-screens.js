@@ -48,6 +48,11 @@ const CO04_P2_LINES = ["0->S", "FOR A,1,4", "S+EVAL(A/2)->S", "END", "DISP S/2",
 const CO04_P3_LINES = ["0->S", "FOR A,1,4", "S+EVAL((2*A-1)/4)->S", "END", "DISP S/2", "STOP"];
 const CO04_P4_LINES = ["0->S", "FOR A,1,8", "S+EVAL((2*A-1)/8)->S", "END", "DISP S/4", "STOP"];
 
+// Chapter 5 spells FNINT( letter by letter on the home screen: [ALPHA]
+// plus the key carrying each letter, as the chapter instructs.
+const FNINT_KEYS = ["ALPHA", "LN", "ALPHA", "9", "ALPHA", ")", "ALPHA", "9",
+  "ALPHA", "-"];
+
 export const SCREEN_CASES = [
   // Chapter 1 section 1.1: the cubic X^3-4*X in the standard window.
   { name: "co01-cubic-window", keys: ["X-VAR", "^", "3", "-", "4", "*", "X-VAR", "GRAPH", 900] },
@@ -295,6 +300,79 @@ export const SCREEN_CASES = [
     name: "co04-between-curves",
     keys: ["2", "-", "X-VAR", "X^2", "/", "2", "GRAPH", 1200,
       "2ND", "2", 30, "X-VAR", "/", "2", "+", "1", "GRAPH", 2400]
+  },
+  // Chapter 5 section 5.1: the designed quartic's root browser opening on
+  // ROOT 1, RE 2.7320508075688 (1 plus root 3).
+  {
+    name: "co05-poly-roots",
+    keys: ["2ND", "PRGM", 30, "F4", 10,
+      "1", "ENTER", "(-)", "2", "ENTER", "(-)", "4", "ENTER",
+      "4", "ENTER", "4", "ENTER", "F1", 9000]
+  },
+  // Chapter 5 section 5.2: the 10 by 5 pond ellipse 5*COS(X), 2.5*SIN(X)
+  // in the square window.
+  {
+    name: "co05-pond-ellipse",
+    keys: ["GRAPH", 100, "2ND", "MORE", 10, "MORE", "MORE", "F3", 100,
+      "EXIT", 30, "5", "*", "COS", "X-VAR", ")", "GRAPH", 12000,
+      "2ND", "2", 60, "2", ".", "5", "*", "SIN", "X-VAR", ")", "GRAPH", 30000,
+      "2ND", "-", 30000]
+  },
+  // Chapter 5 section 5.3: the four-petal rose 4*SIN(2X) in the square
+  // window.
+  {
+    name: "co05-polar-rose",
+    keys: ["GRAPH", 100, "2ND", "MORE", 10, "MORE", "MORE", "F2", 100,
+      "EXIT", 30, "4", "*", "SIN", "2", "X-VAR", ")", "GRAPH", 12000,
+      "2ND", "-", 12000]
+  },
+  // Chapter 5 section 5.3: the spiral X/2 stopping after the fixed single
+  // revolution, plotted after the rose and cardioid in the section's order.
+  {
+    name: "co05-polar-spiral",
+    keys: ["GRAPH", 100, "2ND", "MORE", 10, "MORE", "MORE", "F2", 100,
+      "EXIT", 30, "4", "*", "SIN", "2", "X-VAR", ")", "GRAPH", 12000,
+      "2ND", "-", 12000,
+      "EXIT", 30, "CLEAR", "2", ".", "5", "*", "(", "1", "+", "COS",
+      "X-VAR", ")", ")", "GRAPH", 12000,
+      "EXIT", 30, "CLEAR", "X-VAR", "/", "2", "GRAPH", 12000]
+  },
+  // Chapter 5 section 5.4: the pebble's flight, x(t)=3*X and y(t)=9*X-5*X^2
+  // in the standard window, pre-launch tail included.
+  {
+    name: "co05-projectile",
+    keys: ["GRAPH", 100, "2ND", "MORE", 10, "MORE", "MORE", "F3", 100,
+      "EXIT", 30, "3", "*", "X-VAR", "GRAPH", 6000,
+      "2ND", "2", 60, "9", "*", "X-VAR", "-", "5", "*", "X-VAR", "X^2",
+      "GRAPH", 12000]
+  },
+  // Chapter 5 section 5.5: FNINT(3,6) on the stored 1/X matching the area
+  // from 1 to 2, after the section's exact probe order (the 2*X accumulator
+  // first, then the logarithm probes).
+  {
+    name: "co05-accumulator",
+    keys: ["2", "*", "X-VAR", "GRAPH", 1200, "EXIT", 30, "CLEAR",
+      ...FNINT_KEYS, "(", "0", ",", "1", ")", "ENTER", 600, "CLEAR",
+      ...FNINT_KEYS, "(", "0", ",", "2", ")", "ENTER", 600, "CLEAR",
+      ...FNINT_KEYS, "(", "0", ",", "3", ")", "ENTER", 600, "CLEAR",
+      ...FNINT_KEYS, "(", "0", ",", "2", ".", "5", ")", "ENTER", 600, "CLEAR",
+      "1", "/", "X-VAR", "GRAPH", 1200, "EXIT", 30, "CLEAR",
+      ...FNINT_KEYS, "(", "1", ",", "2", ")", "ENTER", 600, "CLEAR",
+      "LN", "2", ")", "ENTER", 300, "CLEAR",
+      ...FNINT_KEYS, "(", "1", ",", "4", ")", "ENTER", 600, "CLEAR",
+      ...FNINT_KEYS, "(", "1", ",", "8", ")", "ENTER", 600, "CLEAR",
+      ...FNINT_KEYS, "(", "3", ",", "6", ")", "ENTER", 600]
+  },
+  // Chapter 5 section 5.8: SIN(X) in the trigonometric window with its
+  // degree-3 and degree-5 approximations in the other two slots.
+  {
+    name: "co05-taylor-slots",
+    keys: ["SIN", "X-VAR", ")", "GRAPH", 12000,
+      "2ND", "GRAPH", 60, "MORE", 30, "F5", 30000,
+      "2ND", "2", 60, "X-VAR", "-", "X-VAR", "^", "3", "/", "6",
+      "GRAPH", 30000,
+      "2ND", "3", 60, "X-VAR", "-", "X-VAR", "^", "3", "/", "6",
+      "+", "X-VAR", "^", "5", "/", "1", "2", "0", "GRAPH", 40000]
   }
 ];
 

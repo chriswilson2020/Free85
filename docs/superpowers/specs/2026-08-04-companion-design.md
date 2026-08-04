@@ -151,3 +151,35 @@ Branch `docs/companion`; chapter batches with the established
 writer -> emulator-verifying spec review -> editorial review cycle; final
 design QA of the typeset book; PDFs attached to releases alongside the
 other two books; PR to main at the end.
+
+## Independence check (coordinator, 2026-08-04)
+
+Performed after the eight chapters and front matter were finished, as the
+originality rules require. No chapter writer or reviewer was ever shown the
+inspiration; they worked from this spec's topic outline, the Free85
+documentation, and the emulator. The coordinator sampled three chapters of
+the inspiration (business mathematics, calculus I, differential equations)
+and compared every worked example, data set and exercise against the
+finished book.
+
+Result: no overlap of any kind. The inspiration's business chapter works
+abstract matrices named C, D, S, M and W, a maximisation of 2x + 3y under
+4x + y <= 6 and x + 2y <= 5, and systems such as x + y + z = 6. The
+companion's works café receipts, a three-leaf tea blend, a joinery
+maximising 30x + 40y under a timber and a labour constraint, a picture
+framer's tableau and a three-shop Markov chain. The inspiration's calculus
+chapter works sin(x)/x through epsilon-delta rectangles, sin(cos x) at
+x = 15 and 100, and 63-entry difference lists; the companion works a
+parabola with a hole, difference quotients on a designed cubic, a dip
+parabola whose signed areas cancel, a harbour temperature model and
+Riemann-sum programs. The inspiration's differential-equations chapter works
+q' = q^2, dQ/dt = sin^2(t - Q), falling-body resistance models and the
+logistic and Gompertz equations; the companion works a mixing tank and an
+equilibrium family, with Euler and Heun as typed programs.
+
+The machines diverge as much as the examples. Several of the inspiration's
+methods cannot exist on Free85: 63-entry lists (Free85 caps at 8), nine
+differential-equation slots with separate initial conditions and picture
+compositing (Free85 holds one first-order equation with a frozen seed), and
+function-call syntax such as mRAdd(-2, S, 1, 2) (Free85 uses soft keys and
+register operands). The companion's designs follow from its own machine.

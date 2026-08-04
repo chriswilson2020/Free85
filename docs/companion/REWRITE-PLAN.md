@@ -281,8 +281,60 @@ you the truth about it.
 
 So: first person where it earns its place and nowhere else, warnings before
 the mistake rather than explanations after it, the reader's own question
-voiced out loud, and not one sentence written to be quoted. Here is 4.1
-again.
+voiced out loud, and not one sentence written to be quoted.
+
+### And Plummer, which is the part I skated over
+
+I name-checked him last time and then did not do the work. Doing it
+properly changes more than the other two books did.
+
+What makes people sit still for Dave Plummer is not warmth and it is not
+plain language. It is this: **the credential arrives inside the story as a
+plain fact, and is never claimed.** He does not say "as an expert in
+Windows internals". He says "when I wrote Task Manager, we had to..." and
+carries on. The authority leaks out incidentally. It is unarguable, because
+he is not arguing it.
+
+Everything else follows from that. He can afford to tell you what actually
+went wrong, because being the fool in his own story costs him nothing. He
+explains the constraints of the moment, so a decision that looks stupid
+from here turns out to be the only sane call at the time. He is generous
+with the detail a lesser teller would hold back to seem clever. He is
+unhurried, which is its own kind of confidence. And he will say plainly
+when he does not know, or when he is out of date.
+
+Now here is the thing I missed. **This book has the best version of that
+credential available to any calculator workbook anywhere, and it uses it
+exactly once.** I grepped: in 1,441 sentences there is one first person,
+in chapter 7, "a mixing tank of my own design".
+
+You built the machine. Every limit in this book is a decision somebody
+made on purpose: three graph slots, eight-line programs, 128 columns,
+fourteen digits, `^` taking whole exponents from -9 to 9. The first
+edition states all of them in the passive voice, as though they were
+weather. "The plot samples 128 columns." "Free85's three slots." Nobody
+did any of it. It just is that way.
+
+That is the missing ingredient, and it is not a tone. It is authorship.
+
+And the reasons are still in the repo. I went and looked for two of them:
+
+- `firmware/free85/numeric/evaluator.asm:712` is `numeric_integer_power`,
+  and it is a multiply loop counted by a single packed-decimal digit. It
+  checks the exponent byte is zero and every digit after the first is zero,
+  then multiplies. That is *why* `^` stops at 9 and refuses fractions. It
+  is not an arbitrary ceiling, it is what a repeated-multiplication power
+  looks like when the counter is one digit wide.
+- `firmware/free85/include/memory.inc:46` says a number is a decimal
+  exponent plus fourteen packed BCD significant digits, seven bytes. That
+  is *why* fourteen, and it is why `EVAL(1E-9)` comes back as exactly 1.
+
+Neither of those facts appears anywhere in the book. Both are more
+interesting than the sentence currently standing in their place.
+
+So the third change, on top of the other two: **the book gets an author who
+built the thing.** Sparingly, never as a boast, and only where the reason
+is genuinely better than the bare fact. Below are the revised passages.
 
 Every number and screen is the same verified emulator output as before.
 
@@ -439,19 +491,37 @@ five-character cell will hold. The calculus commands will do better.
     `0.9999999999999`. `EVAL(1E-9)` gives `1`, flat.
 
     Be careful with that last one. It does not mean the function equals 1 at
-    a billionth. The machine keeps fourteen digits, and at a billionth, sine
-    of x and x agree in every single one of them, so the division comes out
-    as exactly 1. It has run out of room to show you the difference. That is
-    a fact about the machine and not about the mathematics, and mixing up
-    those two is one of the classic ways to fool yourself with a calculator.
+    a billionth.
+
+    A number in this machine is fourteen significant digits. That is seven
+    bytes of packed decimal, two digits to the byte, and it is all the room
+    a number gets. At a billionth, sine of x and x agree in all fourteen of
+    them, so the division comes out as exactly 1. Nothing has been
+    discovered. The machine has simply run out of places to keep the
+    difference.
+
+    That is a fact about seven bytes, not a fact about sine. Confusing the
+    two is the classic way to fool yourself with a calculator, and knowing
+    the byte count does not make you immune. It just means that when a
+    number looks too clean, you know which drawer to go and look in.
 
 13. Now ask it the original question. Press [CLEAR], spell `EVAL(0)`, and
     press [ENTER]:
 
     ![EVAL at the hole, stopped on SYNTAX ERROR](images/co04-sinx-eval-error.png)
 
-    `SYNTAX ERROR`, with `CLEAR OR EXIT` underneath. Which is the machine
-    being rather brusque about there being nothing there.
+    `SYNTAX ERROR`, with `CLEAR OR EXIT` underneath.
+
+    That message is wrong and it is my fault. There is nothing whatever
+    wrong with the syntax of `EVAL(0)`. What has actually happened is that
+    the evaluation failed at the point you asked about, and the calculus
+    commands report every failure of that kind through the error the parser
+    already had to hand. Laying it out again I would give it its own
+    message, one that mentioned the point rather than your typing.
+
+    So read it as "there is nothing there", because that is what it means,
+    and it will go on meaning that every time a calculus command lands on a
+    point where a function has no value.
 
     Press [CLEAR] to clear the notice. The entry line still holds `EVAL(0)`,
     so press [CLEAR] again to empty that too. Two presses of [CLEAR] after
@@ -572,9 +642,69 @@ The answer 1 is not really a fact about sine. It is a fact about sine
 6. Put the machine in `DEG` and redo exercise 2. Predict the answer before
    you press a key, using what step 18 showed you. Then set it back to
    `RAD`, because you will want it there for section 4.2.
-## 9. What is being asked
+---
 
-Only one thing now: **the voice above**. Accept it, or say what is wrong
+## 9. A second demonstration, because it is the clearest one
+
+The passage above shows the authorial voice patching an existing paragraph.
+This one shows what it unlocks that was not previously writable at all.
+
+Three chapters currently trip over the same limit: `^` takes whole
+exponents from -9 through 9, so compound interest, base-two exponentials
+and anything with a fractional power all have to be routed through
+`EXP(X*LN(b))`. The first edition treats this three separate times as an
+obstacle to be got round. It never says why the obstacle is there, because
+under the old voice there was nobody available to say.
+
+Belongs in 1.4. Every claim in it comes from
+`firmware/free85/numeric/evaluator.asm:712`.
+
+> **Why the power key gives up**
+>
+> Type `1.06^2` and you get `1.1236`. Type `1.06^2.5` and you get
+> `DOMAIN ERROR`. That looks like something broken, and it is the thing I
+> get asked about most, so here is what is really going on in there.
+>
+> The `^` key is a multiply loop. It takes a copy of the left-hand number,
+> multiplies it by itself, and goes round again, counting down as it goes.
+> The counter is a single packed-decimal digit, because that was the
+> smallest thing that would do the job, and a one-digit counter counts to
+> nine. Before any of that starts, the routine looks at every digit of the
+> exponent after the first and refuses if any of them is not zero, which is
+> how it satisfies itself that you have handed it a whole number.
+>
+> So `1.06^2.5` is not the power routine failing. It is the power routine
+> correctly noticing that it has been given something it has no method for,
+> and saying so rather than guessing.
+>
+> The way through is an identity you will use all over this book: b to the
+> power x is e to the power x ln b. Both of those the machine does have.
+> Press [CLEAR] and type `EXP(2.5*LN(1.06))` and there is your answer,
+> `1.1568170026417`, no multiply loop involved.
+>
+> Worth knowing where the join is. `1.06^2` and `EXP(2*LN(1.06))` are the
+> same number mathematically and they are not always the same number here:
+> one is two exact multiplications, the other is a logarithm and an
+> exponential, each rounded to fourteen digits. Try both and see how far
+> down they part company.
+
+Notice what that gets you for free. It explains a wart instead of
+apologising for it, it hands over a technique the reader will need six more
+times, and it ends by turning the wart into an experiment. None of that was
+reachable while the machine's limits were weather.
+
+**One caveat, and it matters.** The two facts above are checked against the
+firmware. The *judgement* in them is not mine to make: whether the
+one-digit counter was a size decision or a speed one, whether you would
+really give the calculus commands their own error message, whether `^`
+was always meant to stay bounded. I can write the shape of an authorial
+sentence, but I cannot invent your reasons, and a made-up reason in your
+voice is worse than no reason at all. Where the pilot chapter needs one, I
+will mark it and ask rather than fill it in.
+
+## 10. What is being asked
+
+Only one thing now: **the voice in sections 8 and 9**. Accept it, or say what is wrong
 with it, and chapter 4 gets written and shown to you as a finished
 chapter.
 

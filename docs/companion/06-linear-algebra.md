@@ -31,8 +31,11 @@ names itself.
 2. Press [F1], `SOLVE`. The result screen answers `UNIQUE SOLUTION` with
    `X 2` and `Y 3`: the crossing, named in one press.
 
-3. Now the same system as a tableau. Press [EXIT] (the home screen keeps a
-   stale `= 3` from the result screen; [CLEAR] sweeps it away), then [2nd]
+3. Now the same system as a tableau. Press [EXIT]. The home screen keeps a
+   stale `= 3` from the result screen, and this one does not wipe: nothing
+   was handed back to the entry line, so [CLEAR] answers `ENTRY EMPTY`
+   rather than sweeping the old result away. Leave it where it sits and
+   press [2nd]
    [7] (the `MATRX` legend) for the matrix editor of the Guidebook, chapter
    13, and [x-VAR] [+] to grow the columns: `SIZE 2X3`. Type the same six
    values, [1] [ENTER] [2] [ENTER] [8] [ENTER] [3] [ENTER] [(-)] [1] [ENTER]
@@ -255,7 +258,7 @@ directions, inside the vector editor of the Guidebook, chapter 13.
 6. Press [F2], `NRM`: `R` reads `0.89442719099991`, `0`,
    `-0.44721359549996`, the same direction rescaled to length one. A unit
    vector is direction with the length divided out: the first component
-   stays exactly twice the size of the last.
+   stays twice the size of the last, to within a digit of dust.
 
 7. One key completes the set. Press [F4], `CRS`: `R` reads `4`, `-10`, `8`,
    the cross product of `A` and `B`, perpendicular to both by construction.

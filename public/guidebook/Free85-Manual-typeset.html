@@ -500,6 +500,38 @@ figure.lcd figcaption {
   margin-top: 3pt;
 }
 
+/* Diagrams of the mathematics: drawn artwork, not screens. Deliberately
+ * undressed — no bezel, no glass, no rule — so a reader can tell at a glance
+ * which pictures came off the calculator and which explain the mathematics
+ * behind it. Authored as SVG so they stay sharp in print; the palette is the
+ * book's single navy plus ink, and nothing depends on colour, so the page
+ * survives greyscale reproduction. */
+figure.diagram {
+  margin: 9pt 0 10pt;
+  text-align: center;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+figure.diagram img,
+figure.diagram svg {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  width: 78mm;              /* ~two thirds of the 120mm measure */
+  height: auto;
+}
+figure.diagram.wide img,
+figure.diagram.wide svg { width: 108mm; }
+figure.diagram figcaption {
+  font-family: var(--sans);
+  font-style: italic;
+  font-size: 7.5pt;
+  line-height: 1.35;
+  color: var(--ink-soft);
+  text-align: center;
+  margin-top: 3.5pt;
+}
+
 /* ------------------------------------------------------------------ code -- */
 
 code, kbd {

@@ -29,6 +29,9 @@ form at all: the complete elliptic integral of the first kind. That is a happy
 accident for a machine like this one, since a quantity nobody can write down
 in elementary functions is exactly what `FNINT(` is for.
 
+![A pendulum of length L held at an angle theta from the vertical, with the
+rest position dashed below the pivot](images/fig-08-pendulum.svg)
+
 The specimen is a garden swing: a seat on ropes 2.5 metres long, with gravity
 taken as 9.8. Write T0 for the small-angle period and T for the truth. The
 mathematics says T divided by T0 is 2 over pi times the integral, from 0 to a

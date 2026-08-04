@@ -1,12 +1,19 @@
 # Second-edition plan for Explorations with Free85
 
-Answering the brief at `REWRITE-BRIEF.md`. Nothing in the book has been
-changed yet. This is the proposal to agree before eight chapters get
-written in a voice nobody has signed off.
+Answering the brief at `REWRITE-BRIEF.md`. Revised after reading the source
+book in full: *Explorations with the Texas Instruments TI-85*, Harvey and
+Kenelly (eds.), Academic Press, 1993, 374 pages, eight chapters by eight
+authors. Nothing in the book has been changed yet.
+
+The method is the one section 1 of the brief prescribes: read the source
+for scope, depth and level; take structured notes on what mathematics to
+cover and how far to push it; write from the notes in your own words with
+your own screens and numbers. What follows is those notes turned into a
+plan. No sentence of the source is reproduced anywhere in this book.
 
 ## 1. Where the first edition stands, measured
 
-The baseline build, run today from a clean tree:
+Baseline build from a clean tree:
 
 ```
 companion: 1818 keycaps, 49 framed screenshots, 1 maths diagram,
@@ -14,118 +21,190 @@ companion: 1818 keycaps, 49 framed screenshots, 1 maths diagram,
 wrote dist/guidebook/Free85-Companion-typeset.pdf (114 pages)
 ```
 
-So: 114 pages, one figure per section and a rounding error, one diagram.
+## 2. What reading the source changed
 
-## 2. What changes, and how much, per chapter
+The chapter list was already right. The first edition's eight subjects sit
+in the same order as the source's, which is the order of a mathematics
+course and belongs to nobody. What the reading changed is the *content of
+the sections*, and the change is large.
 
-Five kinds of work. Not every chapter needs all five in equal measure.
+Three things I got wrong in the first version of this plan:
 
-- **V** voice: kill the over-long sentences, break keystroke narration
-  into steps, drop the literary register.
-- **M** mathematics: push each exploration past its first example, and
-  swap in the standard example of the field where it teaches better than
-  the invented one.
-- **H** hand-holding: what to expect before the key press, what it means
-  if the screen differs, how to get back to a known state.
-- **L** listings: complete programs, the editor screen, the run screen.
-- **F** figures: captures where a reader could doubt their screen, and
-  diagrams for the mathematics behind them.
+**a. I under-counted the missing mathematics.** I had proposed "push each
+section further". Reading the source turned that into a specific list of
+about thirty named topics the first edition simply does not contain, most
+of them standard. They are in section 4 below. Several are better than
+anything I would have invented.
 
-| Ch | Subject | Work | Sections | Notes |
-| --- | --- | --- | --- | --- |
-| Front | Front matter | V H | n/a | Opening sentence deleted. New "getting back to a known state" page. Listings and diagrams added to the conventions. |
-| 1 | Precalculus | V M H F | 6 → 6 | Depth, not new sections. The unit circle arrives as a diagram behind 1.5. |
-| 2 | Business | V M H F | 5 → 5 | LP gets its feasible region drawn properly; Markov gets a transition diagram. |
-| 3 | Probability | V M H L F | 6 → 6 | Both programs get full listings and editor screens. Residuals get a diagram. |
-| 4 | Calculus I | V M H L F | 6 → 7 | Largest mathematical change: see section 3 below. |
-| 5 | Calculus II | V M H L F | 8 → 9 | New section: Newton's method by program. |
-| 6 | Linear algebra | V M H F | 6 → 6 | Row operations get the geometry drawn alongside the arithmetic. |
-| 7 | Differential eqns | V M H L F | 6 → 7 | The logistic and Gompertz equations arrive. Slope field diagram. |
-| 8 | Engineering | V M H L F | 4 → 5 | Worst prose in the book (12 sentences over 45 words). Shooting method gets its geometry. |
-| After | Afterword | V | n/a | Light edit only. It is the one page that already earns its length. |
+**b. I under-weighted the exercises.** The source closes each section with
+around ten exercises; the first edition closes each with three. That ratio
+is a large part of "lacking quite a lot" and I treated it as cosmetic. It
+is not. More important than the count is the *kind*: the source repeatedly
+asks the reader to **sketch or predict first, then check on the machine**.
+The first edition almost never does. That single habit is the cheapest
+available change that turns a demonstration into a lesson.
 
-Section count goes 47 → 51. Every new section brings its own Try it
-panel, so the build's `tryits >= 40` assertion stays satisfied and rises
-to 51.
+**c. I planned to fill gaps that are actually walls.** Several of the
+source's best explorations cannot be done on Free85 at all: the simplex
+method needs a 3 by 6 tableau against a 3 by 3 ceiling; phase planes and
+second-order equations need two simultaneous state variables against one;
+overlaying solution families needs a picture store Free85 has not got.
+These are not omissions to repair. They are the book's own subject, and
+the afterword's thesis. What changes is that I can now name them precisely
+instead of gesturing.
 
-## 3. The standard examples, and what they displace
+What does **not** change: the voice sample in section 7, the figure budget,
+the section count, and the build consequences. Those stand as proposed.
 
-Per section 1 of the brief. In each case the invented example was chosen
-to be different rather than to teach, and the standard one is what the
-reader will meet again in their course.
+## 3. Capability probes already run
 
-| Where | First edition | Second edition |
+Before promising any of this I ran the new candidates on the emulator.
+Results that changed the plan:
+
+| Probe | Result | Consequence |
 | --- | --- | --- |
-| 4.1 limits | `(X^3+X^2)/X`, a removable hole | `SIN(X)/X`, with the squeeze, the series, and the degree-mode surprise |
-| 4.5 Riemann sums | left, right, midpoint at 4 and 8 slices | keeps those, adds the trapezoid and the error orders measured, not asserted |
-| new 5.x | (absent) | Newton's method, built as a program, watched converging and then watched failing |
-| 7.1–7.6 | one linear tank, `dy/dx = -0.15y` | tank stays as the warm-up; the logistic equation becomes the chapter's spine, with Gompertz as its rival |
-| 8.1 pendulum | already the standard example | kept, deepened with the series' second term |
-| 1.5 trigonometry | daylight model | kept: it is a genuinely good model and it survives |
-| 2.1–2.2 receipts, joinery | café receipts, timber budget | kept: these are the standard shapes of the field wearing local clothes |
+| `NCR(5,2)` | `10` | Free85 **has** combinations. Binomial probabilities by formula are open to chapter 3, which I had assumed were not. |
+| `DET` of 1,2,3 / 4,5,6 / 7,8,9 | `0`, exactly | Free85 does **not** reproduce the classic singular-matrix round-off trap. I had this pencilled as a headline addition to chapter 6. Dropped: I will not print a failure the machine does not have. |
+| `EXP(LN(1+.001)/.001)` | `2.7169239351903` | The 1-to-the-infinity indeterminate form is reachable, routed round `^`'s whole-exponent limit the way section 1.4 already routes compound interest. |
+| `-Y*LN(Y/8)` at `Y=3` | `2.9424877590348` | The Gompertz slope evaluates, so it can go in the DifEq slot beside the logistic. |
+| `X*SIN(1/X)` with `X` and `-X` in the other two slots | plots, but the interesting part is invisible in the standard window | The squeeze exploration works and needs three presses of [+] to see. That window hunt is the lesson, not an obstacle. |
 
-The café, the joinery and the lighthouse keeper stay. They are charming
-and they are not the reason the book is thin.
+The remaining feasibility questions (list arithmetic for first differences,
+what the DifEq slope does with `X` in it, whether the parametric mode can
+carry the unit circle and a sine together) get the same treatment before
+the sections that depend on them are written.
 
-## 4. Figure budget
+## 4. The mathematics to add, by chapter
 
-Current: 49 captures, 1 diagram, allocated one per section.
+Every item below is a standard topic of its field, taken from the source
+for *scope*, and every one has been checked against what Free85 can
+actually do. Items marked **[wall]** are things the source does that Free85
+cannot, which the chapter should say plainly and go round.
 
-Proposed, allocated per section by whether a reader could be unsure their
-screen matches, or whether the mathematics needs a picture the calculator
-cannot draw:
+**Chapter 1, Precalculus.** Rational functions and asymptotes are missing
+outright: the source ends its first section with a rational function
+rewritten as a quadratic plus a remainder, then asks how far right you must
+go before the curve and the quadratic differ by less than a thousandth.
+That is a whole section's worth and Free85 can do all of it. Add also the
+four-parameter wave `A*SIN(B*X+C)+D` taken one parameter at a time,
+and damped harmonic motion. The unit circle becomes a diagram rather than a
+plot, because parametric mode holds one pair **[wall]**.
 
-| Ch | Captures | Diagrams | Diagrams proposed |
-| --- | --- | --- | --- |
-| 1 | 14 | 3 | the unit circle behind sine and cosine; a window as a frame over a curve; the even/odd reflection test |
-| 2 | 12 | 3 | the feasible region with its corner points; the profit line sliding out to its last touch; the three-shop transition diagram |
-| 3 | 13 | 3 | the five-number summary as box-plot anatomy; residuals under a straight fit and under a curved one; how four equal-width bins fall on the keeper's week |
-| 4 | 15 | 4 | the squeeze sandwich for sine over x; secants collapsing onto a tangent; left, right and midpoint rectangles over the same curve; the region between two curves |
-| 5 | 16 | 4 | Newton's tangent stepping to the root; the same tangent overshooting on a bad start; polar r and theta; the projectile's path with its apex marked |
-| 6 | 13 | 3 | two lines, three row operations, one unmoving crossing; the shadow of one arrow on another; a direction the matrix keeps |
-| 7 | 14 | 4 | a slope field with one solution threaded through it; Euler's step falling below a bending curve; Heun's two slopes and their average; the logistic S-curve with both equilibria |
-| 8 | 12 | 4 | the pendulum (exists); the shooting method's two misses bracketing the target; the guyed mast in three dimensions; the damper's rebounds as a geometric staircase |
-| Total | **109** | **28** | |
+**Chapter 2, Business Mathematics.** Sensitivity analysis: move one
+constraint's constant, watch a single corner move and the optimum with it.
+The source makes this a named idea in two separate sections and the first
+edition has nothing like it. Add also the contrast between a well-behaved
+system and a nearly-parallel one, which puts conditioning in chapter 2
+where a business reader meets it, rather than only in chapter 6. The
+simplex method **[wall]**: a 3 by 6 tableau does not fit a 3 by 3 world.
 
-Roughly 2.1 captures per section, plus a diagram roughly every other
-section. Diagrams are authored as SVG at
-`docs/companion/images/fig-NN-slug.svg`, on `fig-08-pendulum.svg`'s
-palette: navy `#1a3a6b` and ink, no gradients, nothing carrying meaning
-in colour alone.
+**Chapter 3, Probability and Statistics.** The biggest single addition in
+the book: **fit a line by hand and watch the sum of squared residuals
+fall**. Store a slope and an intercept, loop the eight pairs, accumulate
+the squared deviations, display the total; try again with a better line;
+then press `LIN` and see that the machine's answer is the smallest total
+you could have reached. That is what least squares *means*, it fits an
+eight-line program, and the first edition merely presses `LIN` and reads
+off `A` and `B`. Add also residual plots and what their shapes diagnose,
+relative frequency converging on theoretical probability as the trial count
+grows, and binomial probabilities by formula now that `NCR(` is confirmed.
 
-Captures that specifically did not exist before and should: the program
-editor mid-listing, the run screen with `DONE`, soft-key pages before the
-press that uses them, every zoom and window change the prose currently
-describes, and each error screen the reader is warned about.
+**Chapter 4, Calculus I.** The epsilon-delta rectangle: choose the window
+as the box, and a limit exists when you can always shrink the box's width
+to keep the curve inside its height. Free85's whole thesis is that the
+window is an instrument, and this is the sharpest use of it in the source.
+Add `SIN(1/X)`, where zooming shows a limit failing to exist, and
+`X*SIN(1/X)` squeezed between `X` and `-X` in the other two slots, which is
+exactly what three slots are for. Make **the integral an average first and
+an area second**, which is how the source orders it and is the better way
+round: the average survives a function crossing the axis, and negative area
+is the awkwardness you invent to keep the other story consistent. Add the
+trapezoid and Simpson estimates to the existing left, right and midpoint
+sums, and check the exact bracket relation rather than asserting the error
+orders. Inflection points and tangent-line drawing **[wall]**: the graph
+analysis keys stop at root, minimum, maximum, derivative and integral.
 
-## 5. Consequences for the build
+**Chapter 5, Calculus II.** Newton's method, as planned. Then the interval
+of convergence made visible, which is the point the first edition's Taylor
+section misses entirely: `1/(1+X)` and its approximating polynomials agree
+on a fixed interval that never widens, while sine's agree on an interval
+that widens with every term. One picture each and the contrast does the
+teaching. Add the error curve `abs(Y1-Y2)` plotted directly, pi recovered
+as four times the integral of `1/(1+X^2)` from 0 to 1, the
+1-to-the-infinity form now that the route round `^` is confirmed, and
+improper integrals of the first kind, where the trouble is at the near end
+and the integrand is infinite there. The last is currently one exercise.
 
-- `render("Free85-Companion-typeset", doc, { minPages: 90, maxPages: 200 })`
-  will need raising. The estimate is 190 to 215 pages, so `maxPages: 260`
-  with `minPages` left alone.
-- Every new capture is declared in `scripts/companion-screens.js` and
-  generated with `npm run build:companion:screens`. Settle frames are
-  guessed and then checked by looking at the PNG, every one, because a
-  half-drawn screen throws nothing.
-- `npm run build:guidebook:web` writes under `public/`, so the run ends
-  with `SJASMPLUS=<path> npm run update:free85:reproducibility`. sjasmplus
-  is not installed here; it will be built first from
-  `github.com/z00m128/sjasmplus` at v1.23.1 with `make USE_LUA=0`.
-- Page-break check on every touched spread, since a framed capture cannot
-  break and drags its lead-in with it.
-- `npm test` stays at 194 green throughout.
+**Chapter 6, Linear Algebra.** Gram-Schmidt on three vectors, rather than
+the single projection-and-subtract the first edition stops at: Free85's
+three-component vectors and its `SCL`, `SUB`, `NRM` and `DOT` keys are
+exactly the toolkit, and the result is an orthonormal frame you built
+yourself. Add back substitution as an act of its own, so elimination and
+solving are two ideas rather than one key. The singular-matrix round-off
+trap is **dropped**, per the probe above.
 
-## 6. The voice, for judgement
+**Chapter 7, Differential Equations.** The logistic and Gompertz equations
+become the chapter's spine, with the dye tank demoted to a warm-up, and the
+comparison is where their inflection points sit and how each approaches its
+ceiling. The slope field becomes a diagram, since the mode draws solutions
+and not directions **[wall]**. Overlaying a family of solutions from
+different initial conditions **[wall]**: no picture store, and the
+existing section on the frozen initial condition already tells that story
+honestly.
 
-What follows is section 4.1 rewritten. It is the sample to accept or
-reject before anything else is written. Every number and every screen in
-it was run on the emulator today; the figure captions name captures that
-do not exist yet.
+**Chapter 8, Engineering Mathematics.** The pendulum needs rebuilding, and
+this is the chapter's biggest improvement. The first edition hands the
+reader a finished integrand with no account of where it came from. The
+honest order is the source's: write the period as the integral that
+conservation of energy gives you, try it on the machine, watch it fail
+because the integrand is infinite at the top of the range, then do the two
+trigonometric identities and the substitution that turn it into a proper
+integral the machine can take. **Do the mathematics so the machine can
+succeed** is the lesson, and it is worth a section on its own. Add the
+circular error as a percentage table and use the solver to find the
+amplitude at which it reaches one per cent, which is currently only an
+exercise. In the vector section add the scalar triple product as a volume,
+the cross product's magnitude as a parallelogram's area, and the distance
+between two skew lines. In the series section, sum until the term falls
+below a tolerance instead of counting a fixed number of terms.
+
+## 5. Exercises
+
+Try it panels go from three exercises to five or six. At least one per
+section asks the reader to predict, sketch or compute on paper *before*
+pressing a key, and at least one per section is a second route to an answer
+the section has already found. This is the change I under-weighted and it
+touches all 51 sections.
+
+## 6. Unchanged from the first version of this plan
+
+- **Section count** 47 to 51: a limits split in chapter 4, Newton's method
+  in chapter 5, logistic and Gompertz in chapter 7. Each brings its own Try
+  it panel, so the build's `tryits >= 40` assertion rises to 51.
+- **Figure budget** 49 captures and 1 diagram, to roughly 109 captures and
+  28 diagrams, allocated per section rather than one per section. Diagrams
+  as SVG at `docs/companion/images/fig-NN-slug.svg`, on
+  `fig-08-pendulum.svg`'s palette: navy `#1a3a6b` and ink, no gradients,
+  nothing carrying meaning in colour alone.
+- **Build**: `maxPages` 200 to 260 (estimate 190 to 215 pages); every
+  capture declared in `scripts/companion-screens.js`, generated, and then
+  looked at; `SJASMPLUS=<path> npm run update:free85:reproducibility` at the
+  end because the web build writes under `public/`; sjasmplus built first
+  from source; `npm test` green at 194 throughout.
+- **Order of work**: front matter and chapter 4 as the pilot, built and
+  shown; then 8, 7, 3, 5, 1, 2, 6.
+
+## 7. The voice, for judgement
+
+Unchanged from the first version of this plan, and still the thing to
+accept or reject before anything else is written. Section 4.1 rewritten in
+full. Every number and screen was run on the emulator; the figure captions
+name captures that do not exist yet.
 
 Against the first edition's 4.1 it is about two and a half times as long,
 has four figures instead of one, tells you what to do when the screen is
-wrong, works the limit three further ways after the first answer, and
-does not once congratulate itself.
+wrong, works the limit three further ways after the first answer, and does
+not once congratulate itself.
 
 ---
 
@@ -368,18 +447,13 @@ entire reason calculus insists on them.
 
 ---
 
-## 7. What is being asked
+## 8. What is being asked
 
-Three things, before writing starts.
-
-1. **The voice above.** It is plainer, it counts steps, it stops to say
-   what to do when the screen disagrees, and it has no sentence over 35
-   words. If it is still wrong, it is cheaper to say so now.
-2. **The figure budget of section 4.**  109 captures and 28 diagrams is
-   roughly a doubling and then some. It is the largest single cost in the
-   job, mostly in generating and then eyeballing every PNG.
-3. **The section count going 47 to 51**, and `maxPages` going 200 to 260.
-
-Then the order of work: front matter and chapter 4 first as the pilot,
-built and shown; then chapters 7, 8, 5, 3, 1, 2, 6 in that order, worst
-prose and thinnest mathematics first.
+1. **The voice above.** Unchanged, and still the first thing to settle.
+2. **The additions of section 4.** Roughly thirty named topics. This is
+   what "not enough mathematics" turns into once the source has been read
+   properly, and it is a bigger job than the first version of this plan
+   described.
+3. **Five or six exercises per section instead of three**, with a predict
+   first, check after habit throughout.
+4. **The figure budget, 51 sections, and `maxPages` 260**, as before.

@@ -93,6 +93,12 @@ Eight chapters, each 10-16 typeset A5 pages, in course order:
    (`DOT`, `CRS`, coordinate conversions `RECTV`/`CYLV`/`SPHEREV`,
    work and moment examples).
 
+Closing: a short afterword, "After the last exploration", set as its own
+section with opener furniture and a contents entry. It began as a coda at
+the foot of chapter 8 and was promoted during design QA, which found that a
+reader meeting an unnumbered heading in chapter 8's running head takes it
+for a fifth section rather than the end of the book.
+
 Front matter: title page, original-work notice, how-to-read key (inherits
 the Guidebook's conventions by reference), contents. No appendix
 duplicating the calculator introduction: the Manual and Guidebook are the

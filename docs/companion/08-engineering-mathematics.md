@@ -295,12 +295,12 @@ what the inlet may carry.
    answers `= 0.0203591816463` and, after [CLEAR], `2.014907003357-2` answers
    `= 0.014907003357`. One shot fell short and the other went over, so the
    line joining them says where the target sits. Press [CLEAR] and type
-   `10+.02036/(.02036+.01491)`: `= 10.577261128437`. Press [CLEAR], press
-   [PRGM], press [F1], press [CLEAR], type `10.577->Y`, and press [F2]:
-   `2.0006674214272`. Aim again with the newest pair, 0.00067 over at 10.577
-   against 0.02036 short at 10: press [PRGM], [EXIT], [CLEAR], and type
+   `10+.02036/(.02036+.01491)`: `= 10.577261128437`. Press [CLEAR], [PRGM],
+   [F1], [CLEAR], type `10.577->Y`, and press [F2]: `2.0006674214272`. Aim
+   again with the newest pair, 0.00067 over at 10.577 against 0.02036 short
+   at 10: press [PRGM], [EXIT], [CLEAR], and type
    `10+.02036*.577/(.02036+.00067)` for `= 10.558617213504`. Press [CLEAR],
-   press [PRGM], press [F1], press [CLEAR], type `10.559->Y`, and press [F2]:
+   [PRGM], [F1], [CLEAR], type `10.559->Y`, and press [F2]:
 
    ![The fourth shot landing on the consent condition](images/co08-shot-run.png)
 
@@ -453,23 +453,3 @@ degrees, each tensioned to 1500 newtons.
 3. Move the anchors to 6 metres out instead of 9, keeping the tension. Which
    way does the downward force move, and which way the angle between two guys?
    Answer before you press a key.
-
-## After the last exploration
-
-Eight chapters have used one small machine as a laboratory rather than as an
-oracle. It has three graph slots, eight-entry lists, 3 by 3 matrices,
-three-component vectors, polynomials to degree 4, whole exponents from -9 to
-9, four programs of eight lines, one first-order equation in the DifEq mode,
-and one equation in the solver. Every one of those numbers shaped an
-exploration here, and the few that closed a door said so plainly: no plot of
-period against amplitude, no spiral past one revolution, no phase plane, no
-expression that would let `SOLV` do the shooting. Each time the exploration
-went round instead, by a table written out row by row, by paper, or by your
-own straight line through the last two misses. Three slots made a family of
-curves something to compare rather than skim; eight samples made every
-statistic checkable by hand; a 3 by 3 world made an elimination small enough
-to watch every entry change; eight lines made each program an argument about
-what its algorithm really is; a frozen initial condition made the cost of a
-shot part of the lesson. That is what a bounded instrument is for. Put the
-book down, pick a question of your own, and see how far the machine takes it
-before you have to carry it yourself.

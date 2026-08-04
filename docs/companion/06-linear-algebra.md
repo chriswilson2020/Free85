@@ -238,8 +238,8 @@ directions, inside the vector editor of the Guidebook, chapter 13.
    [2] [ENTER], and press [ALPHA] to return to `A`.
 
 2. Press [F1], `MAG`: `5.3851648071345`, the square root of 29 and the
-   length of the first arrow; the second's is 3 on paper, since 1 + 4 + 4 is
-   9.
+   length of the first arrow; the second's is 3 on paper, since 1 + 4 + 4
+   is 9.
 
 3. Press [F3], `DOT`: `9`, not zero, so the pair is not orthogonal. Press
    [F5], `ANG`: `0.9799235766495`, the angle between them in the fresh

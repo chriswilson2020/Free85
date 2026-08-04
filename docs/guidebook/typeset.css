@@ -8,6 +8,14 @@
  *
  * Format: A5, mirrored margins, running heads, outer folios. Front matter is
  * folioed in lowercase roman numerals; the body restarts at arabic 1.
+ *
+ * RULE WEIGHTS: Chrome floors border-width to whole CSS pixels, so every
+ * border declared below 1.5pt prints at exactly 0.72pt no matter what it
+ * asks for. Hairlines are therefore written at their true intent (0.4pt,
+ * 0.45pt) and land together at 0.72pt, but any rule meant to read as
+ * heavier must be at least 1.5pt — 2px exactly — or the weight step
+ * silently vanishes. This is why the double-rule idiom is 1.5pt over
+ * 0.45pt rather than the 1.4pt the proportions suggest.
  */
 
 :root {
@@ -139,8 +147,11 @@ html {
    * were never CSS hyphenation at all — they were Paged.js fragmenting a
    * word at the page break and appending its own U+2011 hyphen; see the
    * LOCAL PATCH (Free85) in scripts/vendor/paged.polyfill.js textBreak(). */
-  hyphenate-limit-chars: 6 3 3;
-  -webkit-hyphenate-limit-before: 3;
+  /* 4 before, not 3: Chrome counts an opening curly quote towards the
+   * leading characters, so a quoted word could still break after two
+   * letters ("in-tegral", "Ma-trices"). */
+  hyphenate-limit-chars: 6 4 3;
+  -webkit-hyphenate-limit-before: 4;
   -webkit-hyphenate-limit-after: 3;
 }
 body { margin: 0; }
@@ -266,7 +277,7 @@ section.book-body > section.chapter:first-child > header.chapter-opener {
   letter-spacing: -0.015em;
 }
 .chapter-opener .opener-rule {
-  border-top: 1.4pt solid var(--accent);
+  border-top: 1.5pt solid var(--accent);
   border-bottom: 0.45pt solid var(--accent);
   height: 1.6pt;
   margin: 0 0 4.5mm;
@@ -321,7 +332,7 @@ header.fm-title {
   margin: 0 0 4mm;
 }
 .fm-title .opener-rule {
-  border-top: 1.4pt solid var(--accent);
+  border-top: 1.5pt solid var(--accent);
   border-bottom: 0.45pt solid var(--accent);
   height: 1.6pt;
   margin: 0;
@@ -384,7 +395,7 @@ aside.callout p + p { margin-top: 3pt; }
  * left, so a page carrying both reads them as different things. */
 aside.tryit {
   background: var(--accent-tint);
-  border-top: 1.4pt solid var(--accent);
+  border-top: 1.5pt solid var(--accent);
   border-bottom: 0.45pt solid var(--accent);
   padding: 4.5pt 8pt 5pt;
   margin: 9pt 0 9pt;
@@ -517,7 +528,7 @@ th {
   font-size: 7.5pt;
   letter-spacing: 0.03em;
   text-align: left;
-  border-bottom: 1.1pt solid var(--accent);
+  border-bottom: 1.5pt solid var(--accent);
   padding: 2.5pt 6pt 2.5pt 0;
 }
 td {
@@ -559,6 +570,17 @@ section.appendix-a h2 {
  * unbreakable they cascade into orphaned headings and stranded near-empty
  * pages, so let them flow and protect only the rows. A handler re-inserts
  * the header row on the continuation pages. */
+/* Program listings share one grid across the book, so two on a page read as
+ * the same component. Fixed layout is what makes the widths hold: with auto
+ * layout each listing sized its Keys column from its own longest row. */
+table.program {
+  table-layout: fixed;
+  width: 100%;
+}
+table.program th:nth-child(1), table.program td:nth-child(1) { width: 8%; }
+table.program th:nth-child(2), table.program td:nth-child(2) { width: 32%; }
+table.program th:nth-child(3), table.program td:nth-child(3) { width: 60%; }
+
 table.table-long {
   break-inside: auto;
   page-break-inside: auto;
@@ -593,7 +615,7 @@ nav.toc .toc-heading {
   margin: 4mm 0 3mm;
 }
 nav.toc .toc-rule {
-  border-top: 1.4pt solid var(--accent);
+  border-top: 1.5pt solid var(--accent);
   border-bottom: 0.45pt solid var(--accent);
   height: 1.6pt;
   margin: 0 0 5mm;
@@ -777,7 +799,7 @@ section.colophon {
   margin: 0 0 2mm;
 }
 .colophon-rule {
-  border-top: 1.1pt solid var(--accent);
+  border-top: 1.5pt solid var(--accent);
   margin: 0 0 4mm;
   width: 26mm;
 }

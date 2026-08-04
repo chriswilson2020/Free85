@@ -108,11 +108,20 @@ function frameScreenshots(html, stats) {
 // the standard size; tag it so the stylesheet can shrink it. Any other table
 // longer than 12 rows is tagged table-long so it may break across pages
 // (unbreakable near-full-page tables strand headings on empty pages).
+//
+// The companion's program listings are one repeating component, so they are
+// tagged too: left to auto layout, each listing sizes its columns from its
+// own longest cell, and the Keys column starts anywhere from a fifth to two
+// thirds of the way across. Two listings on one page made that look like an
+// accident rather than a grid.
 function markKeymapTable(html) {
   return html.replace(/<table>([\s\S]*?)<\/table>/g, (m, inner) => {
     const headerRow = inner.slice(0, inner.indexOf("</tr>"));
     if (headerRow.includes("<th>Key</th>") && headerRow.includes("<th>ALPHA</th>")) {
       return `<table class="keymap">${inner}</table>`;
+    }
+    if (headerRow.includes("<th>Line</th>") && headerRow.includes("<th>Keys</th>")) {
+      return `<table class="program">${inner}</table>`;
     }
     if ((inner.match(/<tr/g) ?? []).length > 12) {
       return `<table class="table-long">${inner}</table>`;
@@ -234,6 +243,18 @@ function buildOpeners(html, stats) {
         + (standfirst ? `<p class="standfirst">${standfirst.trim()}</p>` : "")
         + `</header>`;
     });
+  // The companion closes with an afterword rather than appendices. It gets
+  // opener furniture of its own so it reads as the end of the book instead of
+  // an unnumbered last section of chapter 8: its own page, its own kicker,
+  // and its own running head (.chapter-opener h1 sets the rhead string).
+  html = html.replace(
+    /<h1 id="([^"]+)">Afterword: ([^<]+)<\/h1>/g,
+    (m, id, title) =>
+      `<header class="chapter-opener appendix-opener afterword-opener">`
+      + `<p class="chapter-kicker">Afterword</p>`
+      + `<h1 id="${id}">${title.trim()}</h1>`
+      + `<div class="opener-rule"></div>`
+      + `</header>`);
   html = html.replace(
     /<h1 id="([^"]+)">Appendix ([A-D]): ([^<]+)<\/h1>/g,
     (m, id, letter, title) => {
@@ -685,8 +706,9 @@ function buildCompanion() {
   const sources = readdirSync(`${root}docs/companion/`)
     .filter((f) => /^\d\d-.*\.md$/.test(f)).sort()
     .map((f) => `${root}docs/companion/${f}`);
-  if (sources.length !== 9) {
-    throw new Error(`companion: expected front matter + 8 chapters, found ${sources.length} sources`);
+  if (sources.length !== 10) {
+    throw new Error(
+      `companion: expected front matter + 8 chapters + afterword, found ${sources.length} sources`);
   }
 
   let html = pandocBody(sources, `${root}docs/companion`);
@@ -723,6 +745,10 @@ function buildCompanion() {
   if (chapters.length !== 8) {
     throw new Error(`companion: expected 8 chapter TOC entries, found ${chapters.length}`);
   }
+  const afterword = bookBody.match(
+    /<header class="chapter-opener appendix-opener afterword-opener">.*?<h1 id="([^"]+)">([^<]+)<\/h1>/);
+  if (!afterword) throw new Error("companion: no afterword opener found");
+  chapters.push({ group: "Afterword", id: afterword[1], title: afterword[2] });
   if (stats.tryits < 40) {
     throw new Error(`companion: expected a Try it panel per section, found ${stats.tryits}`);
   }

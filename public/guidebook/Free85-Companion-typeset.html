@@ -16,6 +16,14 @@
  *
  * Format: A5, mirrored margins, running heads, outer folios. Front matter is
  * folioed in lowercase roman numerals; the body restarts at arabic 1.
+ *
+ * RULE WEIGHTS: Chrome floors border-width to whole CSS pixels, so every
+ * border declared below 1.5pt prints at exactly 0.72pt no matter what it
+ * asks for. Hairlines are therefore written at their true intent (0.4pt,
+ * 0.45pt) and land together at 0.72pt, but any rule meant to read as
+ * heavier must be at least 1.5pt — 2px exactly — or the weight step
+ * silently vanishes. This is why the double-rule idiom is 1.5pt over
+ * 0.45pt rather than the 1.4pt the proportions suggest.
  */
 
 :root {
@@ -147,8 +155,11 @@ html {
    * were never CSS hyphenation at all — they were Paged.js fragmenting a
    * word at the page break and appending its own U+2011 hyphen; see the
    * LOCAL PATCH (Free85) in scripts/vendor/paged.polyfill.js textBreak(). */
-  hyphenate-limit-chars: 6 3 3;
-  -webkit-hyphenate-limit-before: 3;
+  /* 4 before, not 3: Chrome counts an opening curly quote towards the
+   * leading characters, so a quoted word could still break after two
+   * letters ("in-tegral", "Ma-trices"). */
+  hyphenate-limit-chars: 6 4 3;
+  -webkit-hyphenate-limit-before: 4;
   -webkit-hyphenate-limit-after: 3;
 }
 body { margin: 0; }
@@ -274,7 +285,7 @@ section.book-body > section.chapter:first-child > header.chapter-opener {
   letter-spacing: -0.015em;
 }
 .chapter-opener .opener-rule {
-  border-top: 1.4pt solid var(--accent);
+  border-top: 1.5pt solid var(--accent);
   border-bottom: 0.45pt solid var(--accent);
   height: 1.6pt;
   margin: 0 0 4.5mm;
@@ -329,7 +340,7 @@ header.fm-title {
   margin: 0 0 4mm;
 }
 .fm-title .opener-rule {
-  border-top: 1.4pt solid var(--accent);
+  border-top: 1.5pt solid var(--accent);
   border-bottom: 0.45pt solid var(--accent);
   height: 1.6pt;
   margin: 0;
@@ -392,7 +403,7 @@ aside.callout p + p { margin-top: 3pt; }
  * left, so a page carrying both reads them as different things. */
 aside.tryit {
   background: var(--accent-tint);
-  border-top: 1.4pt solid var(--accent);
+  border-top: 1.5pt solid var(--accent);
   border-bottom: 0.45pt solid var(--accent);
   padding: 4.5pt 8pt 5pt;
   margin: 9pt 0 9pt;
@@ -525,7 +536,7 @@ th {
   font-size: 7.5pt;
   letter-spacing: 0.03em;
   text-align: left;
-  border-bottom: 1.1pt solid var(--accent);
+  border-bottom: 1.5pt solid var(--accent);
   padding: 2.5pt 6pt 2.5pt 0;
 }
 td {
@@ -567,6 +578,17 @@ section.appendix-a h2 {
  * unbreakable they cascade into orphaned headings and stranded near-empty
  * pages, so let them flow and protect only the rows. A handler re-inserts
  * the header row on the continuation pages. */
+/* Program listings share one grid across the book, so two on a page read as
+ * the same component. Fixed layout is what makes the widths hold: with auto
+ * layout each listing sized its Keys column from its own longest row. */
+table.program {
+  table-layout: fixed;
+  width: 100%;
+}
+table.program th:nth-child(1), table.program td:nth-child(1) { width: 8%; }
+table.program th:nth-child(2), table.program td:nth-child(2) { width: 32%; }
+table.program th:nth-child(3), table.program td:nth-child(3) { width: 60%; }
+
 table.table-long {
   break-inside: auto;
   page-break-inside: auto;
@@ -601,7 +623,7 @@ nav.toc .toc-heading {
   margin: 4mm 0 3mm;
 }
 nav.toc .toc-rule {
-  border-top: 1.4pt solid var(--accent);
+  border-top: 1.5pt solid var(--accent);
   border-bottom: 0.45pt solid var(--accent);
   height: 1.6pt;
   margin: 0 0 5mm;
@@ -785,7 +807,7 @@ section.colophon {
   margin: 0 0 2mm;
 }
 .colophon-rule {
-  border-top: 1.1pt solid var(--accent);
+  border-top: 1.5pt solid var(--accent);
   margin: 0 0 4mm;
   width: 26mm;
 }
@@ -883,7 +905,7 @@ body.manual section.book-body h2 { string-set: rhead content(text); }
 <p>The explorations assume you can already drive the calculator, which is chapter 1 of the Getting Started Manual, and that you will reach for the Guidebook when a command needs its full reference. Each chapter names the Guidebook chapters it leans on in its opening paragraph.</p>
 <h2 id="a-word-on-the-machines-limits">A word on the machine’s limits</h2>
 <p>Free85 keeps three graph slots, lists of eight samples, matrices no larger than 3 by 3, polynomials to degree 4, and four program slots of eight lines each. Those numbers shape what an exploration can be, so the explorations are designed inside them rather than around them: a family of curves is studied three members at a time, a data set is eight numbers you can hold in your head, an elimination is small enough to watch every entry change. The limits are part of the mathematics here, and the chapters treat them that way.</p>
-<nav class="toc"><h1 class="toc-heading">Contents</h1><div class="toc-rule"></div><p class="toc-group">Front matter</p><a class="toc-entry toc-plain toc-roman" href="#an-original-work"><span class="toc-no"></span><span class="toc-title">An original work</span><span class="toc-dots"></span></a><a class="toc-entry toc-plain toc-roman" href="#how-to-read-it"><span class="toc-no"></span><span class="toc-title">How to read it</span><span class="toc-dots"></span></a><a class="toc-entry toc-plain toc-roman" href="#a-word-on-the-machines-limits"><span class="toc-no"></span><span class="toc-title">A word on the machine’s limits</span><span class="toc-dots"></span></a><p class="toc-group">Chapters</p><a class="toc-entry" href="#chapter-1-explorations-in-precalculus"><span class="toc-no">1</span><span class="toc-title">Explorations in Precalculus</span><span class="toc-dots"></span></a><a class="toc-entry" href="#chapter-2-explorations-in-business-mathematics"><span class="toc-no">2</span><span class="toc-title">Explorations in Business Mathematics</span><span class="toc-dots"></span></a><a class="toc-entry" href="#chapter-3-explorations-in-probability-and-statistics"><span class="toc-no">3</span><span class="toc-title">Explorations in Probability and Statistics</span><span class="toc-dots"></span></a><a class="toc-entry" href="#chapter-4-explorations-in-calculus-i"><span class="toc-no">4</span><span class="toc-title">Explorations in Calculus I</span><span class="toc-dots"></span></a><a class="toc-entry" href="#chapter-5-explorations-in-calculus-ii"><span class="toc-no">5</span><span class="toc-title">Explorations in Calculus II</span><span class="toc-dots"></span></a><a class="toc-entry" href="#chapter-6-explorations-in-linear-algebra"><span class="toc-no">6</span><span class="toc-title">Explorations in Linear Algebra</span><span class="toc-dots"></span></a><a class="toc-entry" href="#chapter-7-explorations-in-differential-equations"><span class="toc-no">7</span><span class="toc-title">Explorations in Differential Equations</span><span class="toc-dots"></span></a><a class="toc-entry" href="#chapter-8-explorations-in-engineering-mathematics"><span class="toc-no">8</span><span class="toc-title">Explorations in Engineering Mathematics</span><span class="toc-dots"></span></a></nav>
+<nav class="toc"><h1 class="toc-heading">Contents</h1><div class="toc-rule"></div><p class="toc-group">Front matter</p><a class="toc-entry toc-plain toc-roman" href="#an-original-work"><span class="toc-no"></span><span class="toc-title">An original work</span><span class="toc-dots"></span></a><a class="toc-entry toc-plain toc-roman" href="#how-to-read-it"><span class="toc-no"></span><span class="toc-title">How to read it</span><span class="toc-dots"></span></a><a class="toc-entry toc-plain toc-roman" href="#a-word-on-the-machines-limits"><span class="toc-no"></span><span class="toc-title">A word on the machine’s limits</span><span class="toc-dots"></span></a><p class="toc-group">Chapters</p><a class="toc-entry" href="#chapter-1-explorations-in-precalculus"><span class="toc-no">1</span><span class="toc-title">Explorations in Precalculus</span><span class="toc-dots"></span></a><a class="toc-entry" href="#chapter-2-explorations-in-business-mathematics"><span class="toc-no">2</span><span class="toc-title">Explorations in Business Mathematics</span><span class="toc-dots"></span></a><a class="toc-entry" href="#chapter-3-explorations-in-probability-and-statistics"><span class="toc-no">3</span><span class="toc-title">Explorations in Probability and Statistics</span><span class="toc-dots"></span></a><a class="toc-entry" href="#chapter-4-explorations-in-calculus-i"><span class="toc-no">4</span><span class="toc-title">Explorations in Calculus I</span><span class="toc-dots"></span></a><a class="toc-entry" href="#chapter-5-explorations-in-calculus-ii"><span class="toc-no">5</span><span class="toc-title">Explorations in Calculus II</span><span class="toc-dots"></span></a><a class="toc-entry" href="#chapter-6-explorations-in-linear-algebra"><span class="toc-no">6</span><span class="toc-title">Explorations in Linear Algebra</span><span class="toc-dots"></span></a><a class="toc-entry" href="#chapter-7-explorations-in-differential-equations"><span class="toc-no">7</span><span class="toc-title">Explorations in Differential Equations</span><span class="toc-dots"></span></a><a class="toc-entry" href="#chapter-8-explorations-in-engineering-mathematics"><span class="toc-no">8</span><span class="toc-title">Explorations in Engineering Mathematics</span><span class="toc-dots"></span></a><p class="toc-group">Afterword</p><a class="toc-entry toc-plain" href="#afterword-after-the-last-exploration"><span class="toc-no"></span><span class="toc-title">After the last exploration</span><span class="toc-dots"></span></a></nav>
 </section>
 <section class="book-body">
 <section class="chapter"><header class="chapter-opener" data-chapter="1"><p class="chapter-kicker">Chapter</p><div class="chapter-number">1</div><h1 id="chapter-1-explorations-in-precalculus">Explorations in Precalculus</h1><div class="opener-rule"></div><p class="standfirst">Precalculus is where functions stop being formulas to evaluate and become objects to study: things with graphs, zeros, symmetries, and families of relatives. This chapter uses the Free85 graph screen as a laboratory for that shift. Each section opens with a question about functions, walks it through on the machine, and leaves you with exercises to continue on your own. The mechanics of graphing (slots, windows, tracing, the analysis keys) are covered in full in the Guidebook, chapter 4; this chapter uses them rather than re-explaining them. Every key sequence and every quoted number in this chapter was run in the emulator on a fresh machine.</p></header>
@@ -1107,7 +1129,7 @@ body.manual section.book-body h2 { string-set: rhead content(text); }
 <p>Rolling a die thirty-six times by hand is character-building; a program does it in one keypress and never loses count. Two builds follow in the program environment of the Guidebook, chapter 16: a nine-flip warm-up, then a thirty-six-roll dice experiment.</p>
 <ol type="1">
 <li><p>Press <kbd>PRGM</kbd>, then <kbd>F1</kbd>, <code>NEW</code>: the editor opens on <code>EDIT P1</code>, <code>LINE 1</code>. Type the six lines, <kbd>ENTER</kbd> after each; letters are <kbd>ALPHA</kbd> plus the key carrying the letter, spaces are <kbd>2nd</kbd> <kbd>0</kbd> in this editor, and <kbd>STO▶</kbd> types the <code>-&gt;</code> arrow.</p>
-<table>
+<table class="program">
 <colgroup>
 <col style="width: 33%" />
 <col style="width: 33%" />
@@ -1338,7 +1360,7 @@ body.manual section.book-body h2 { string-set: rhead content(text); }
 <ol type="1">
 <li><p>Store the equation first: type <kbd>x-VAR</kbd> <kbd>x²</kbd> <kbd>+</kbd> <kbd>1</kbd> so the entry line reads <code>X^2+1</code>, press <kbd>GRAPH</kbd>, let the plot finish, press <kbd>EXIT</kbd>, and press <kbd>CLEAR</kbd>. Then get the target: spell <code>FNINT(0,2)</code> and press <kbd>ENTER</kbd>: <code>= 4.6666666666667</code>, the fourteen-digit 14/3.</p></li>
 <li><p>The left sum with four slices takes each slice’s height from its left edge: the slice width is 2/4 = 0.5 and the sample points are 0, 0.5, 1, 1.5, which is <code>A/2</code> for <code>A</code> counting 0 to 3. Press <kbd>PRGM</kbd>, then <kbd>F1</kbd>, <code>NEW</code>: the editor opens on <code>EDIT P1</code>. Type the six lines, <kbd>ENTER</kbd> after each; letters are <kbd>ALPHA</kbd> plus the key carrying the letter, spaces are <kbd>2nd</kbd> <kbd>0</kbd> in this editor, and <kbd>STO▶</kbd> types the <code>-&gt;</code> arrow.</p>
-<table>
+<table class="program">
 <colgroup>
 <col style="width: 33%" />
 <col style="width: 33%" />
@@ -1597,10 +1619,7 @@ body.manual section.book-body h2 { string-set: rhead content(text); }
 <p>Two directions are orthogonal when they meet at a right angle, and the dot product turns that geometry into one number: zero exactly when the angle is right. This exploration measures a designed pair of arrows, straightens one against the other, and finishes with three mutually perpendicular directions, inside the vector editor of the Guidebook, chapter 13.</p>
 <ol type="1">
 <li><p>Press <kbd>2nd</kbd> <kbd>8</kbd> (the <code>VECTR</code> legend): a fresh machine shows <code>SIZE 3</code> with the <code>RECTV</code> tag. Type the first arrow, <kbd>5</kbd> <kbd>ENTER</kbd> <kbd>2</kbd> <kbd>ENTER</kbd> <kbd>0</kbd> <kbd>ENTER</kbd>, press <kbd>ALPHA</kbd> for <code>B</code>, type the second, <kbd>1</kbd> <kbd>ENTER</kbd> <kbd>2</kbd> <kbd>ENTER</kbd> <kbd>2</kbd> <kbd>ENTER</kbd>, and press <kbd>ALPHA</kbd> to return to <code>A</code>.</p></li>
-<li><p class="num-heavy">Press <kbd>F1</kbd>, <code>MAG</code>: <code>5.3851648071345</code>, the square root of 29 and the length of the first arrow; the second’s is 3 on paper, since 1 + 4 + 4 is</p>
-<ol start="9" type="1">
-<li></li>
-</ol></li>
+<li><p class="num-heavy">Press <kbd>F1</kbd>, <code>MAG</code>: <code>5.3851648071345</code>, the square root of 29 and the length of the first arrow; the second’s is 3 on paper, since 1 + 4 + 4 is 9.</p></li>
 <li><p class="num-heavy">Press <kbd>F3</kbd>, <code>DOT</code>: <code>9</code>, not zero, so the pair is not orthogonal. Press <kbd>F5</kbd>, <code>ANG</code>: <code>0.9799235766495</code>, the angle between them in the fresh machine’s <code>RAD</code> mode, a little over 56 degrees.</p></li>
 <li><p>Straightening is one designed subtraction. The shadow of the first arrow along the second has length dot product over length squared, and 9 over 9 is exactly one copy of <code>B</code>. Press <kbd>MORE</kbd> for the page <code>ADD SUB SCL 2D 3D</code>, then <kbd>F2</kbd>, <code>SUB</code>: <code>R</code> reads <code>4</code>, <code>0</code>, <code>-2</code>, the first arrow with its shadow removed.</p></li>
 <li><p>Carry the result into <code>A</code>: two presses of <kbd>▶</kbd> read the remaining components, one more wraps the selection home, <kbd>ALPHA</kbd> twice returns to <code>A</code>, and retyping <kbd>4</kbd> <kbd>ENTER</kbd> <kbd>0</kbd> <kbd>ENTER</kbd> <kbd>(-)</kbd> <kbd>2</kbd> <kbd>ENTER</kbd> stores it. Press <kbd>EXIT</kbd>, then <kbd>2nd</kbd> <kbd>8</kbd>, and the first soft-key page is back. Press <kbd>F3</kbd>, <code>DOT</code>: <code>0</code>, exactly. Press <kbd>F5</kbd>, <code>ANG</code>:</p>
@@ -1738,7 +1757,7 @@ body.manual section.book-body h2 { string-set: rhead content(text); }
 <p>The program never names the model: <code>EVAL(</code> reads the stored slope, so the calculus command does the modelling and the program the arithmetic. Press <kbd>CLEAR</kbd> and spell <code>EVAL(0)</code> letter by letter (<kbd>ALPHA</kbd> then the key carrying each letter, brackets and digits typed directly), then press <kbd>ENTER</kbd>: <code>= -0.064835852069246</code>. Press <kbd>CLEAR</kbd> and ask <code>EVAL(5)</code>: the same answer, because the stored slope has no <code>X</code> in it. What it does contain is <code>Y</code>, an ordinary variable the mode uses as scratch while integrating; press <kbd>CLEAR</kbd> and ask <kbd>ALPHA</kbd> <kbd>0</kbd> <kbd>ENTER</kbd> for <code>= 0.43223901379497</code>, left there by the last plot at the right-hand window edge. The program must therefore seed <code>Y</code> itself.</p>
 <ol type="1">
 <li><p>Press <kbd>CLEAR</kbd>, then <kbd>PRGM</kbd> and <kbd>F1</kbd>, <code>NEW</code>: the editor opens on <code>EDIT P1</code>. Type the eight lines, <kbd>ENTER</kbd> after each; letters are <kbd>ALPHA</kbd> plus the key carrying the letter, spaces are <kbd>2nd</kbd> <kbd>0</kbd> in this editor, and <kbd>STO▶</kbd> types the <code>-&gt;</code> arrow.</p>
-<table>
+<table class="program">
 <colgroup>
 <col style="width: 33%" />
 <col style="width: 33%" />
@@ -1843,7 +1862,7 @@ body.manual section.book-body h2 { string-set: rhead content(text); }
 <p>That is three statements inside a loop that already needs a test, a countdown, and an <code>END</code>; with three setup lines and the <code>DISP</code>, an eight-line slot is two short. The Guidebook, chapter 16 has the way out: <code>CALL</code> runs another slot and comes back, and variables are shared, so the step can live in its own program. That is the better design anyway, since swapping the called slot makes one driver run any method.</p>
 <ol type="1">
 <li><p>Press <kbd>PRGM</kbd> for the list, press <kbd>▼</kbd> to select the second slot, and press <kbd>F1</kbd> to open <code>EDIT P2</code>. Type the driver:</p>
-<table>
+<table class="program">
 <thead>
 <tr>
 <th>Line</th>
@@ -1895,7 +1914,7 @@ body.manual section.book-body h2 { string-set: rhead content(text); }
 </tbody>
 </table></li>
 <li><p>Press <kbd>EXIT</kbd> to save and return to the list, press <kbd>▼</kbd> for the third slot, and press <kbd>F1</kbd> for <code>EDIT P3</code>. Type the step itself:</p>
-<table>
+<table class="program">
 <colgroup>
 <col style="width: 33%" />
 <col style="width: 33%" />
@@ -2071,7 +2090,7 @@ body.manual section.book-body h2 { string-set: rhead content(text); }
 <p>A closed form is a promise about infinitely many terms; a partial sum is what you can actually hold. The two agree in the limit, so the question worth asking is the rate: how many terms buy how many decimals. That is a program’s question, since the answer comes from summing the same series again at different lengths, and the eight-line slots of the Guidebook, chapter 16 are long enough for two very different answers. The first specimen is the sum of the reciprocal squares, whose closed form is one of the surprises of the subject: pi squared over six.</p>
 <ol type="1">
 <li><p>Press <kbd>PRGM</kbd> and <kbd>F1</kbd>, <code>NEW</code>: the editor opens on <code>EDIT P1</code>. Type the eight lines, <kbd>ENTER</kbd> after each:</p>
-<table>
+<table class="program">
 <thead>
 <tr>
 <th>Line</th>
@@ -2176,7 +2195,7 @@ body.manual section.book-body h2 { string-set: rhead content(text); }
 <p>The rows run <code>X=5</code> to <code>X=10</code>, and the last of them, the outlet, reads <code>1.979</code> where the paperwork says 2: the seed of 10 has undershot.</p></li>
 <li><p>Press <kbd>EXIT</kbd> to leave the table, let the plot redraw, and press <kbd>EXIT</kbd> again for the home screen: it hands <code>-.02*Y^2</code> back to the entry line and publishes <code>= 1.9796408183505</code>, the fourteen-digit face of the <code>1.979</code> cell. Now a second shot, which is where the mode digs in. Press <kbd>CLEAR</kbd> and store a new seed: <kbd>1</kbd> <kbd>2</kbd> <kbd>STO▶</kbd> <kbd>ALPHA</kbd> <kbd>0</kbd> <kbd>ENTER</kbd> answers <code>= 12</code>. Press <kbd>CLEAR</kbd>, retype <code>-.02*Y^2</code>, and press <kbd>GRAPH</kbd>. Let the plot finish and press <kbd>MORE</kbd>: the table reopens on the rows it was left at, and the outlet still reads <code>1.979</code>. Nothing moved. The initial value was frozen when the mode was created, and the only lever that resets it is the deletion of the <code>GDEQ</code> object, the ritual of section 7.6: leave the mode by pressing <code>FN</code> on the graph mode page, delete <code>GDEQ</code> in the memory browser, reseed, come back, and retype the equation, which deleting <code>GDEQ</code> has also cleared. That is some twenty deliberate presses per shot, and shooting wants half a dozen shots.</p></li>
 <li><p>So the mode gives the picture and a program gives the practice. The walk is the one section 7.4 built: the new y is the old y plus the step times the slope, with <code>EVAL(</code> reading the stored slope so the program never names the model. Press <kbd>EXIT</kbd> to leave the table, let the plot redraw, press <kbd>EXIT</kbd> again, and press <kbd>CLEAR</kbd>. Press <kbd>PRGM</kbd>, press <kbd>▼</kbd> twice for the third slot, and press <kbd>F1</kbd>, <code>NEW</code>, opening <code>EDIT P3</code>:</p>
-<table>
+<table class="program">
 <thead>
 <tr>
 <th>Line</th>
@@ -2204,7 +2223,7 @@ body.manual section.book-body h2 { string-set: rhead content(text); }
 </table>
 <p>Lines 4 to 8 are section 7.4’s walk, unchanged and typed the same way: <code>WHILE N</code>, <code>Y+H*EVAL(0)-&gt;Y</code>, <code>N-1-&gt;N</code>, <code>END</code>, <code>DISP Y</code>. Only the three lines above are new, and their step and count are the plot’s own: the mode samples once per column, so 127 steps carry the walk from window edge to window edge.</p></li>
 <li><p class="num-heavy">Press <kbd>F2</kbd>, <code>RUN</code>, and let the hundred and twenty-seven steps run. The run screen answers <code>RUN P3</code> over <code>LINE 9</code> with <code>1.9796408183537</code>, the table’s <code>1.979</code> opened out to its full face and agreeing with the plot’s own <code>1.9796408183505</code> to twelve digits. Now a shot costs one line: press <kbd>PRGM</kbd> for the list, <kbd>F1</kbd> for the editor, which reopens at line 1, then <kbd>CLEAR</kbd>, type <code>11-&gt;Y</code>, and press <kbd>F2</kbd>: <code>2.014907003357</code>.</p></li>
-<li><p class="num-heavy">Aim by straight line. Press <kbd>PRGM</kbd> for the list, <kbd>EXIT</kbd> for the home screen, and <kbd>CLEAR</kbd>, then measure the two misses: <code>2-1.9796408183537</code> answers <code>= 0.0203591816463</code> and, after <kbd>CLEAR</kbd>, <code>2.014907003357-2</code> answers <code>= 0.014907003357</code>. One shot fell short and the other went over, so the line joining them says where the target sits. Press <kbd>CLEAR</kbd> and type <code>10+.02036/(.02036+.01491)</code>: <code>= 10.577261128437</code>. Press <kbd>CLEAR</kbd>, press <kbd>PRGM</kbd>, press <kbd>F1</kbd>, press <kbd>CLEAR</kbd>, type <code>10.577-&gt;Y</code>, and press <kbd>F2</kbd>: <code>2.0006674214272</code>. Aim again with the newest pair, 0.00067 over at 10.577 against 0.02036 short at 10: press <kbd>PRGM</kbd>, <kbd>EXIT</kbd>, <kbd>CLEAR</kbd>, and type <code>10+.02036*.577/(.02036+.00067)</code> for <code>= 10.558617213504</code>. Press <kbd>CLEAR</kbd>, press <kbd>PRGM</kbd>, press <kbd>F1</kbd>, press <kbd>CLEAR</kbd>, type <code>10.559-&gt;Y</code>, and press <kbd>F2</kbd>:</p>
+<li><p class="num-heavy">Aim by straight line. Press <kbd>PRGM</kbd> for the list, <kbd>EXIT</kbd> for the home screen, and <kbd>CLEAR</kbd>, then measure the two misses: <code>2-1.9796408183537</code> answers <code>= 0.0203591816463</code> and, after <kbd>CLEAR</kbd>, <code>2.014907003357-2</code> answers <code>= 0.014907003357</code>. One shot fell short and the other went over, so the line joining them says where the target sits. Press <kbd>CLEAR</kbd> and type <code>10+.02036/(.02036+.01491)</code>: <code>= 10.577261128437</code>. Press <kbd>CLEAR</kbd>, <kbd>PRGM</kbd>, <kbd>F1</kbd>, <kbd>CLEAR</kbd>, type <code>10.577-&gt;Y</code>, and press <kbd>F2</kbd>: <code>2.0006674214272</code>. Aim again with the newest pair, 0.00067 over at 10.577 against 0.02036 short at 10: press <kbd>PRGM</kbd>, <kbd>EXIT</kbd>, <kbd>CLEAR</kbd>, and type <code>10+.02036*.577/(.02036+.00067)</code> for <code>= 10.558617213504</code>. Press <kbd>CLEAR</kbd>, <kbd>PRGM</kbd>, <kbd>F1</kbd>, <kbd>CLEAR</kbd>, type <code>10.559-&gt;Y</code>, and press <kbd>F2</kbd>:</p>
 <figure class="lcd"><div class="lcd-frame"><div class="lcd-glass"><img role="img" aria-label="The fourth shot landing on the consent condition" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAEACAIAAABK8lkwAAAFuElEQVR42u3dMVLDMBBA0VwodTrfmYJzcCU6hgIGCe3KK+nNvCqTKI5x9AtF+PG8Xl3ePt5/1PKcludHjRMl4/yMjAMQ5SEAAgAIgAAIACAAAiAAwFEBqDBxZ4dnJAAzgyQGgAAIgAAAAiAAAAIgAAA7ByDjfQUAQAAEABAAARAAQAAEQACAEwOwykawmZunMjZw2QgGCIAACAAgAAIgAIAACIAAAHcuAmcvfq74z+Bm/mHEABAAARAAQAAEAEAABAAgKwAjC7MCIACAAAiAAAACIAACAAiAAAgAsEYARmJw14ayahOxm8IDAiAAAgAIgAAIACAAAiAAwOwAOAUAAgCAAAAgAAAIAAACAIAAACAAAAgAAAIAgAAAIAAACAAAAgCAAAAgAAAIAAACAIAAACAAAAgAAAIAgAAAIAAAAgCAAAAgAAAIAAACAIAAACAAAAgAAAIAgAAAIAAACAAAdwXgeb2+RA36fczftLy29716j6H32CqcHwABEAAAARAAAAEQAIA7AxA1oY8Eo9pkGhU2AAEQAAABEAAAARAAgB0CkPG4AAAIgAAAAiAAAgAIgAAIACAAdSe+loXiapu/Vjk2QAAEQAAAARAAAQAEQAAEABCAKoufqywCZ583AAEQAAABEAAAARAAAAEQAAABEABAAARAAAABEAABAM4LQNQGJTeFbz9mm78AARAAAQAEQAAEABAAAQDICoBTACAAAAgAAAIAgAAAIAAACAAAAgCAAAAgAAAIAAACAIAAACAAAAgAAAIAgAAAIAAACAAAAgCAAAAgAAAIAAACACAAAAgAAAIAgAAAIAAACAAAAgCAAAAgAAAIAAACAIAAAFAhAM/r9aeZBxd1PLuO0zJ+9vG0vLby8USN6TpEAARAAATAdYgACIAACIAAIAACIAACIABUDMDIRZM96Y88f9dxer/M2ec56u9713m+6/Ou/r1AAARAAARAABAAARAAARAABEAABEAABIA9N4JVCEDLZLfrOFFf8ozjEQABQAAEQAAEQAAQAAEQAAEQAARAAARAAASA9QIw8yLovXA9Pj65Z7zvKhvBVhnHRjAEwOMCIAACgAB4XAAEQAAQAI8LgAAIAJEBqPYP4EYmshPG6f0yZ28cW2Vx8rSNhBaBEQABEAABEAAEQAAEQAAEQAAEQAAEQAAE4NwAZPyxZ/4TNF+82IViAXAdCoAACIAACIBxBEAABEAABMA4CIAACIAAuA5ZOwAZN9HOmMjcjHtOdE+7Kbzr0EYwARAAARAA16EACIAACIAAuA4FQAAEQAAEwHXIiRvBABAAAAQAAAEAQAAAEAAABAAAAQBAAAAQAAAEAAABAEAAABAAAAQAAAEAQAAAEAAABAAAAQBAAAAQAAABAEAAABAAAAQAAAEAQAAAEAAABAAAAQBAAAAQAAAEAAABAEAAAMgOwPN6dWkZdGSckffqPYaRzwggAAIAIAACACAAAgCwUgCiJtyMiTv7eAAEQAAABEAAAARAAAAEYF4AMh4HQAAABEAAAARAAAAEoFYAeheKbf4CEAABABAAAQAQAAEABGC9AFgEBhAAAQAQAAEAEAABABAAAQAQAAAEAAABABAAN4UXDEAABABAAAQAQAAEAGCnADgFAAIAgAAAIAAACADwfxV+HHHX55r5Y43s1+70gxEBAAEQAAEABEAABAAQAAEQACBmchx5fnYwsj/XXedt5DxXC60AgAAIgAAIAAiAAAiAAIAACIAACADsH4CMiUwABAAQAAEQAEAABEAAAAEQAAEAagVgZKF45kawFQNgIxggAAIgAIAACIAAAAIgAAIAWJysO6Fnn2cBAARAAAQAEAABEABAAARAAEAABEAABAAEQAAEQABAAARAAAQABEAABEAA4IwYrH5T+OwNU1GvrXYjHQEAARAAARAAEAABEAABAAEQAAEQAAAEAAABAEAAAAjwCUFy734tzcPbAAAAAElFTkSuQmCC" alt="The fourth shot landing on the consent condition" /></div></div><figcaption>The fourth shot landing on the consent condition</figcaption></figure>
 <p class="num-heavy">The run screen answers <code>2.0000403856688</code>. Four shots have found the inlet the bed can take: a little over 10.5 milligrams per litre.</p></li>
 <li><p class="num-heavy">The answer deserves a second opinion, and this model has one, since a square-law decay can be solved on paper: the outlet is the inlet divided by 1 plus 0.4 times the inlet. Press <kbd>PRGM</kbd>, <kbd>EXIT</kbd>, and <kbd>CLEAR</kbd>, type <code>X/(1+.4*X)-2</code>, and press <kbd>2nd</kbd> <kbd>GRAPH</kbd> for the solver workspace. Press <kbd>F5</kbd> twice for the <code>GUESS</code> page and store 8, then bounds 5 and 20, <kbd>ENTER</kbd> after each. Press <kbd>F1</kbd>, <code>SOLV</code>: a <code>ROOT</code> of <code>9.999980926514</code> with <code>RES</code> <code>-7.629406E-7</code>, the paper answer 10 under the usual bisection dust.</p></li>
@@ -2235,7 +2254,7 @@ body.manual section.book-body h2 { string-set: rhead content(text); }
 <li>Compute the moment of the second guy’s tension with <code>CRS</code>, then take its magnitude with <code>MAG</code>. Should it be 10800 as well, and why?</li>
 <li>Move the anchors to 6 metres out instead of 9, keeping the tension. Which way does the downward force move, and which way the angle between two guys? Answer before you press a key.</li>
 </ol></aside>
-<h2 id="after-the-last-exploration">After the last exploration</h2>
+</section><section class="chapter"><header class="chapter-opener appendix-opener afterword-opener"><p class="chapter-kicker">Afterword</p><h1 id="afterword-after-the-last-exploration">After the last exploration</h1><div class="opener-rule"></div></header>
 <p>Eight chapters have used one small machine as a laboratory rather than as an oracle. It has three graph slots, eight-entry lists, 3 by 3 matrices, three-component vectors, polynomials to degree 4, whole exponents from -9 to 9, four programs of eight lines, one first-order equation in the DifEq mode, and one equation in the solver. Every one of those numbers shaped an exploration here, and the few that closed a door said so plainly: no plot of period against amplitude, no spiral past one revolution, no phase plane, no expression that would let <code>SOLV</code> do the shooting. Each time the exploration went round instead, by a table written out row by row, by paper, or by your own straight line through the last two misses. Three slots made a family of curves something to compare rather than skim; eight samples made every statistic checkable by hand; a 3 by 3 world made an elimination small enough to watch every entry change; eight lines made each program an argument about what its algorithm really is; a frozen initial condition made the cost of a shot part of the lesson. That is what a bounded instrument is for. Put the book down, pick a question of your own, and see how far the machine takes it before you have to carry it yourself.</p>
 </section>
 </section>

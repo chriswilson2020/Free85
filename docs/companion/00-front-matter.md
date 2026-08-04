@@ -99,3 +99,6 @@ chapters treat them that way.
    the pendulum and elliptic integrals, series summed against closed
    forms, a shooting method for a boundary-value problem, and vectors in
    the round.
+
+[Afterword: after the last exploration](09-afterword.md): what a bounded
+instrument is for.

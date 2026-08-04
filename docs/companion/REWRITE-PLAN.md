@@ -1,15 +1,14 @@
 # Second-edition plan for Explorations with Free85
 
-Answering the brief at `REWRITE-BRIEF.md`. Revised after reading the source
-book in full: *Explorations with the Texas Instruments TI-85*, Harvey and
-Kenelly (eds.), Academic Press, 1993, 374 pages, eight chapters by eight
-authors. Nothing in the book has been changed yet.
+Answering the brief at `REWRITE-BRIEF.md`. Revised twice: once after reading
+the source book in full, once after the voice was rejected and rebuilt.
+Nothing in the book has been changed yet.
 
-The method is the one section 1 of the brief prescribes: read the source
-for scope, depth and level; take structured notes on what mathematics to
-cover and how far to push it; write from the notes in your own words with
-your own screens and numbers. What follows is those notes turned into a
-plan. No sentence of the source is reproduced anywhere in this book.
+The source is *Explorations with the Texas Instruments TI-85*, Harvey and
+Kenelly (eds.), Academic Press, 1993, 374 pages, eight chapters by eight
+authors. It was read the way section 1 of the brief prescribes: for scope,
+depth and level, with structured notes on what to cover and how far to push
+it, then written from the notes. No sentence of it is reproduced anywhere.
 
 ## 1. Where the first edition stands, measured
 
@@ -21,325 +20,347 @@ companion: 1818 keycaps, 49 framed screenshots, 1 maths diagram,
 wrote dist/guidebook/Free85-Companion-typeset.pdf (114 pages)
 ```
 
-## 2. What reading the source changed
+## 2. What changed in this plan, and why
 
-The chapter list was already right. The first edition's eight subjects sit
-in the same order as the source's, which is the order of a mathematics
-course and belongs to nobody. What the reading changed is the *content of
-the sections*, and the change is large.
+Five things the first version of this plan got wrong.
 
-Three things I got wrong in the first version of this plan:
+**a. It under-counted the missing mathematics.** "Push each section further"
+became, once the source had been read, a specific list of about thirty named
+standard topics the first edition does not contain. Section 5 below. Several
+are better than anything I would have invented.
 
-**a. I under-counted the missing mathematics.** I had proposed "push each
-section further". Reading the source turned that into a specific list of
-about thirty named topics the first edition simply does not contain, most
-of them standard. They are in section 4 below. Several are better than
-anything I would have invented.
+**b. It under-weighted the exercises.** The source closes each section with
+around ten; the first edition closes each with three. More important than
+the count is the kind: the source repeatedly asks the reader to predict or
+sketch first and check afterwards. The first edition almost never does.
 
-**b. I under-weighted the exercises.** The source closes each section with
-around ten exercises; the first edition closes each with three. That ratio
-is a large part of "lacking quite a lot" and I treated it as cosmetic. It
-is not. More important than the count is the *kind*: the source repeatedly
-asks the reader to **sketch or predict first, then check on the machine**.
-The first edition almost never does. That single habit is the cheapest
-available change that turns a demonstration into a lesson.
+**c. It planned to fill gaps that are walls.** The simplex method needs a
+3 by 6 tableau against a 3 by 3 ceiling; phase planes need two state
+variables against one; overlaying solution families needs a picture store
+that does not exist. These are not omissions to repair. Section 3 turns
+them from apologies into the book's best material.
 
-**c. I planned to fill gaps that are actually walls.** Several of the
-source's best explorations cannot be done on Free85 at all: the simplex
-method needs a 3 by 6 tableau against a 3 by 3 ceiling; phase planes and
-second-order equations need two simultaneous state variables against one;
-overlaying solution families needs a picture store Free85 has not got.
-These are not omissions to repair. They are the book's own subject, and
-the afterword's thesis. What changes is that I can now name them precisely
-instead of gesturing.
-
-**d. I set budgets, which was the same mistake in a new place.** The first
-version of this plan promised so many captures, so many diagrams, so many
-sections, so many exercises. The brief's complaint about the first edition
-is precisely that its figures were allocated by quota rather than by need.
-Answering that with a bigger quota answers nothing. Section 6 replaces
+**d. It set budgets, which was the brief's own complaint in a new place.**
+49 figures across 47 sections is a quota. So is 109. Section 7 replaces
 every number with a rule.
 
-What does **not** change: the voice sample, which is still the one thing
-needing agreement before writing starts.
+**e. Its voice was wrong twice, and the second failure was the instructive
+one.** The first attempt was ornate. The second was plain, which is not the
+same as being taught by anyone: it narrated the keyboard and kept the habit
+of landing every paragraph on something quotable. What was missing was not
+a register. It was a person. Section 3.
 
-## 3. Capability probes already run
+## 3. The voice
 
-Before promising any of this I ran the new candidates on the emulator.
-Results that changed the plan:
+This is the section that matters most, so it comes first, and it is written
+as rules rather than as an account of how I got to them.
+
+### 3.1 Where it comes from
+
+Three sources, each contributing something the drafts lacked.
+
+**Thompson, *Calculus Made Easy*.** Name the frightening thing, then
+puncture it. He lists the "dreadful symbols", says `d` merely means a little
+bit of, and closes the chapter with "That's all." He is not simplifying the
+mathematics; he is refusing to let the notation act as a doorman. He also
+works his examples in real inches when symbols would have looked cleverer.
+
+**Schaefman, *Math Letters*.** Tell the truth about the difficulty.
+Reading mathematics is not like reading a newspaper; you will reread a line
+several times before it clicks, and saying so out loud is what stops a
+reader concluding that they personally are the problem. He also hands over
+devices for thinking, not just results.
+
+**Plummer.** The credential arrives inside the story as a plain fact and is
+never claimed. Not "as an expert in Windows internals" but "when I wrote
+Task Manager, we had to...", and on with the story. The authority leaks out
+incidentally, which makes it unarguable. Everything else follows from having
+nothing to prove: he can afford to be the fool in his own story, he explains
+the constraints of the moment so that a decision which looks stupid from
+here turns out to have been the only sane call, and he is generous with
+detail a lesser teller would keep back.
+
+### 3.2 The rule the first edition never found
+
+**The book has an author, and he built the machine.**
+
+I grepped for it: in 1,441 sentences there is exactly one first person, "a
+mixing tank of my own design", in chapter 7. Everything else is written from
+nowhere. Three graph slots, eight-line programs, 128 columns, fourteen
+digits, `^` stopping at 9: every one of those is a decision somebody made on
+purpose, and all of them are stated in the passive voice, as though they
+were weather.
+
+That is the missing ingredient, and it is not a tone. It is authorship.
+
+The reasons are still in the repo and they are better than the sentences
+currently standing in their place:
+
+- `firmware/free85/numeric/evaluator.asm:712`, `numeric_integer_power`, is a
+  multiply loop counted by a single packed-decimal digit. It checks the
+  exponent byte is zero and every digit after the first is zero, then
+  multiplies. That is why `^` stops at 9 and refuses fractions.
+- `firmware/free85/include/memory.inc:46` gives a number a decimal exponent
+  and fourteen packed BCD significant digits, seven bytes. That is why
+  fourteen, and why `EVAL(1E-9)` comes back as exactly 1.
+
+Neither fact appears in the book.
+
+### 3.3 The rules
+
+1. **First person only where it carries something** the third person could
+   not: a reason from the firmware, a mistake worth confessing, a judgement
+   that is genuinely the author's. Never as decoration, never as a boast.
+   Three or four times a section at most, and some sections will want none.
+2. **A limit gets its reason, or it stays a bare fact.** No inventing. Where
+   the reason exists in the firmware, go and get it. Where it is a design
+   judgement only Chris can supply, mark it and ask.
+3. **Warn before the mistake, not after it.** "You have pressed [(] out of
+   habit after [SIN], which everybody does once" beats a note explaining
+   the error screen afterwards.
+4. **Voice the reader's question out loud** rather than pre-empting it.
+5. **Name the frightening thing, then puncture it.** Short sentence, plain
+   words, move on.
+6. **Say when something is hard, awkward, or a wart** including the author's
+   own. Warts get their constraint explained, not an apology.
+7. **Be generous with the detail an expert would hold back.** The technique,
+   the actual numbers, the reason. No "beyond the scope of this book".
+8. **Nothing written to be quoted.** If a sentence would look good on a
+   poster, cut it. This was the first edition's real vice and it survived
+   into my plain draft in quieter clothes.
+9. House style unchanged: no em dashes, British spelling, sentence case
+   headings, keys bracketed with every [CLEAR] spelled out, on-screen text
+   in code spans, every quoted number copied exactly from the emulator.
+10. Unchanged too: at most one "honest" per chapter. It was a crutch.
+
+### 3.4 What this changes outside the chapters
+
+- **The front matter** currently reads "This book, like the firmware and
+  like the two books before it, was written from scratch for Free85."
+  Written by nobody. It should introduce the person who built the machine
+  and say plainly what he is doing here, in one short paragraph, once.
+- **The afterword** is the passage that gains most. It already argues that a
+  bounded instrument is the point; it argues it from nowhere. The person who
+  chose the bounds saying why he chose them is a different and much stronger
+  page, and it is the natural place to put the reasons that did not fit in a
+  chapter.
+- **Every wall in section 5 becomes an opportunity.** "The simplex needs a
+  3 by 6 tableau and matrices stop at 3 by 3" is an apology. "Here is why
+  matrices stop at 3 by 3, and here is what that costs you and what it buys
+  you" is the book's thesis doing actual work. The walls were always the
+  best material; there was nobody available to write them.
+
+### 3.5 Exhibits
+
+Section 9 is 4.1 rewritten under these rules, with three passages carrying
+the authorial voice. Section 10 is a second passage, on the power operator,
+which shows what the rules unlock that was not previously writable at all.
+Every number and screen in both is verified emulator output.
+
+## 4. Capability probes already run
+
+Before promising anything I ran the new candidates on the emulator. Results
+that changed the plan:
 
 | Probe | Result | Consequence |
 | --- | --- | --- |
 | `NCR(5,2)` | `10` | Free85 **has** combinations. Binomial probabilities by formula are open to chapter 3, which I had assumed were not. |
 | `DET` of 1,2,3 / 4,5,6 / 7,8,9 | `0`, exactly | Free85 does **not** reproduce the classic singular-matrix round-off trap. I had this pencilled as a headline addition to chapter 6. Dropped: I will not print a failure the machine does not have. |
-| `EXP(LN(1+.001)/.001)` | `2.7169239351903` | The 1-to-the-infinity indeterminate form is reachable, routed round `^`'s whole-exponent limit the way section 1.4 already routes compound interest. |
+| `EXP(LN(1+.001)/.001)` | `2.7169239351903` | The 1-to-the-infinity indeterminate form is reachable, routed round `^`'s whole-exponent limit. |
 | `-Y*LN(Y/8)` at `Y=3` | `2.9424877590348` | The Gompertz slope evaluates, so it can go in the DifEq slot beside the logistic. |
 | `X*SIN(1/X)` with `X` and `-X` in the other two slots | plots, but the interesting part is invisible in the standard window | The squeeze exploration works and needs three presses of [+] to see. That window hunt is the lesson, not an obstacle. |
 
-The remaining feasibility questions (list arithmetic for first differences,
-what the DifEq slope does with `X` in it, whether the parametric mode can
-carry the unit circle and a sine together) get the same treatment before
-the sections that depend on them are written.
+Remaining feasibility questions (list arithmetic for first differences, what
+the DifEq slope does with `X` in it, whether the parametric mode can carry
+the unit circle and a sine together) get the same treatment before the
+sections that depend on them are written.
+## 5. The mathematics to add, by chapter
 
-## 4. The mathematics to add, by chapter
+Every item is a standard topic of its field, taken from the source for
+*scope*, and checked against what Free85 can actually do.
 
-Every item below is a standard topic of its field, taken from the source
-for *scope*, and every one has been checked against what Free85 can
-actually do. Items marked **[wall]** are things the source does that Free85
-cannot, which the chapter should say plainly and go round.
+Items marked **[wall]** are things the source does that Free85 cannot. Under
+section 3.2 these stop being apologies. Each one gets the same treatment:
+what you cannot do here, why the machine is built that way, what it costs
+you, and what it buys you. Where the reason is in the firmware I go and get
+it; where it is a judgement of yours I mark it and ask.
 
 **Chapter 1, Precalculus.** Rational functions and asymptotes are missing
 outright: the source ends its first section with a rational function
 rewritten as a quadratic plus a remainder, then asks how far right you must
-go before the curve and the quadratic differ by less than a thousandth.
-That is a whole section's worth and Free85 can do all of it. Add also the
-four-parameter wave `A*SIN(B*X+C)+D` taken one parameter at a time,
-and damped harmonic motion. The unit circle becomes a diagram rather than a
-plot, because parametric mode holds one pair **[wall]**.
+go before the curve and the quadratic differ by less than a thousandth. That
+is a section's worth and Free85 can do all of it. Add the four-parameter
+wave `A*SIN(B*X+C)+D` taken one parameter at a time, and damped harmonic
+motion. Section 1.4 is where the power-operator passage of section 10 goes.
+The unit circle becomes a diagram rather than a plot **[wall]**: parametric
+mode holds one pair.
 
 **Chapter 2, Business Mathematics.** Sensitivity analysis: move one
-constraint's constant, watch a single corner move and the optimum with it.
-The source makes this a named idea in two separate sections and the first
-edition has nothing like it. Add also the contrast between a well-behaved
-system and a nearly-parallel one, which puts conditioning in chapter 2
-where a business reader meets it, rather than only in chapter 6. The
-simplex method **[wall]**: a 3 by 6 tableau does not fit a 3 by 3 world.
+constraint's constant, watch a corner move and the optimum with it. The
+source makes this a named idea twice; the first edition has nothing like it.
+Add the contrast between a well-behaved system and a nearly-parallel one,
+which puts conditioning in front of a business reader in chapter 2 rather
+than only in chapter 6. The simplex method **[wall]**: a 3 by 6 tableau
+against a 3 by 3 ceiling.
 
 **Chapter 3, Probability and Statistics.** The biggest single addition in
 the book: **fit a line by hand and watch the sum of squared residuals
-fall**. Store a slope and an intercept, loop the eight pairs, accumulate
-the squared deviations, display the total; try again with a better line;
-then press `LIN` and see that the machine's answer is the smallest total
-you could have reached. That is what least squares *means*, it fits an
-eight-line program, and the first edition merely presses `LIN` and reads
-off `A` and `B`. Add also residual plots and what their shapes diagnose,
-relative frequency converging on theoretical probability as the trial count
-grows, and binomial probabilities by formula now that `NCR(` is confirmed.
+fall**. Store a slope and an intercept, loop the eight pairs, accumulate the
+squared deviations, display the total; try a better line; then press `LIN`
+and find that the machine's answer is the smallest total you could have
+reached. That is what least squares *means*, it fits an eight-line program,
+and the first edition just presses `LIN` and reads off `A` and `B`. Add
+residual plots and what their shapes diagnose, relative frequency converging
+on theoretical probability as the trial count grows, and binomial
+probabilities by formula now that `NCR(` is confirmed.
 
-**Chapter 4, Calculus I.** The epsilon-delta rectangle: choose the window
-as the box, and a limit exists when you can always shrink the box's width
-to keep the curve inside its height. Free85's whole thesis is that the
-window is an instrument, and this is the sharpest use of it in the source.
-Add `SIN(1/X)`, where zooming shows a limit failing to exist, and
-`X*SIN(1/X)` squeezed between `X` and `-X` in the other two slots, which is
-exactly what three slots are for. Make **the integral an average first and
-an area second**, which is how the source orders it and is the better way
-round: the average survives a function crossing the axis, and negative area
-is the awkwardness you invent to keep the other story consistent. Add the
-trapezoid and Simpson estimates to the existing left, right and midpoint
-sums, and check the exact bracket relation rather than asserting the error
-orders. Inflection points and tangent-line drawing **[wall]**: the graph
-analysis keys stop at root, minimum, maximum, derivative and integral.
+**Chapter 4, Calculus I.** The epsilon-delta rectangle: the window is the
+box, and a limit exists when you can always shrink the box's width to keep
+the curve inside its height. The book's whole thesis is that the window is
+an instrument, and this is the sharpest use of it in the source. Add
+`SIN(1/X)`, where zooming shows a limit failing to exist, and `X*SIN(1/X)`
+squeezed between `X` and `-X` in the other two slots, which is exactly what
+three slots are for. Make **the integral an average first and an area
+second**: the average survives a function crossing the axis, and negative
+area is the awkwardness you invent to keep the other story consistent. Add
+trapezoid and Simpson to the existing left, right and midpoint sums, and
+check the exact bracket relation instead of asserting the error orders.
+Inflection points and tangent-line drawing **[wall]**: the analysis keys
+stop at root, minimum, maximum, derivative, integral.
 
-**Chapter 5, Calculus II.** Newton's method, as planned. Then the interval
-of convergence made visible, which is the point the first edition's Taylor
-section misses entirely: `1/(1+X)` and its approximating polynomials agree
-on a fixed interval that never widens, while sine's agree on an interval
-that widens with every term. One picture each and the contrast does the
-teaching. Add the error curve `abs(Y1-Y2)` plotted directly, pi recovered
-as four times the integral of `1/(1+X^2)` from 0 to 1, the
-1-to-the-infinity form now that the route round `^` is confirmed, and
-improper integrals of the first kind, where the trouble is at the near end
-and the integrand is infinite there. The last is currently one exercise.
+**Chapter 5, Calculus II.** Newton's method. Then the interval of
+convergence made visible, which is the point the first edition's Taylor
+section misses entirely: `1/(1+X)` and its polynomials agree on an interval
+that never widens, sine's on one that widens with every term. One picture
+each and the contrast teaches itself. Add the error curve `abs(Y1-Y2)`
+plotted directly, pi recovered as four times the integral of `1/(1+X^2)`
+from 0 to 1, the 1-to-the-infinity form, and improper integrals of the first
+kind where the integrand blows up at the near end. The last is currently one
+exercise.
 
-**Chapter 6, Linear Algebra.** Gram-Schmidt on three vectors, rather than
-the single projection-and-subtract the first edition stops at: Free85's
-three-component vectors and its `SCL`, `SUB`, `NRM` and `DOT` keys are
-exactly the toolkit, and the result is an orthonormal frame you built
+**Chapter 6, Linear Algebra.** Gram-Schmidt on three vectors rather than the
+single projection the first edition stops at: `SCL`, `SUB`, `NRM` and `DOT`
+are exactly the toolkit and the result is an orthonormal frame you built
 yourself. Add back substitution as an act of its own, so elimination and
 solving are two ideas rather than one key. The singular-matrix round-off
-trap is **dropped**, per the probe above.
+trap is dropped, per the probe in section 4.
 
 **Chapter 7, Differential Equations.** The logistic and Gompertz equations
-become the chapter's spine, with the dye tank demoted to a warm-up, and the
+become the chapter's spine, the dye tank demoted to a warm-up, and the
 comparison is where their inflection points sit and how each approaches its
-ceiling. The slope field becomes a diagram, since the mode draws solutions
-and not directions **[wall]**. Overlaying a family of solutions from
-different initial conditions **[wall]**: no picture store, and the
-existing section on the frozen initial condition already tells that story
-honestly.
+ceiling. The slope field becomes a diagram **[wall]**: the mode draws
+solutions, not directions. Overlaying a family of solutions from different
+initial conditions **[wall]**: no picture store. The existing section on the
+frozen initial condition already tells that story well and now gets to say
+who froze it.
 
-**Chapter 8, Engineering Mathematics.** The pendulum needs rebuilding, and
-this is the chapter's biggest improvement. The first edition hands the
-reader a finished integrand with no account of where it came from. The
-honest order is the source's: write the period as the integral that
-conservation of energy gives you, try it on the machine, watch it fail
-because the integrand is infinite at the top of the range, then do the two
-trigonometric identities and the substitution that turn it into a proper
-integral the machine can take. **Do the mathematics so the machine can
-succeed** is the lesson, and it is worth a section on its own. Add the
-circular error as a percentage table and use the solver to find the
-amplitude at which it reaches one per cent, which is currently only an
-exercise. In the vector section add the scalar triple product as a volume,
-the cross product's magnitude as a parallelogram's area, and the distance
-between two skew lines. In the series section, sum until the term falls
-below a tolerance instead of counting a fixed number of terms.
+**Chapter 8, Engineering Mathematics.** The pendulum needs rebuilding and
+this is the chapter's biggest improvement. The first edition hands over a
+finished integrand with no account of where it came from. The honest order
+is the source's: write the period as the integral conservation of energy
+gives you, try it, watch it fail because the integrand is infinite at the
+top of the range, then do the two trigonometric identities and the
+substitution that turn it into a proper integral the machine can take. **Do
+the mathematics so the machine can succeed** is the lesson and it is worth a
+section. Add the circular error as a percentage table and the solver finding
+the amplitude at which it reaches one per cent, currently only an exercise.
+In the vector section add the scalar triple product as a volume, the cross
+product's magnitude as a parallelogram's area, and the distance between two
+skew lines. In the series section, sum until the term drops below a
+tolerance rather than counting a fixed number of terms.
 
-## 5. Exercises
+**Afterword.** Per section 3.4, this stops being a summary and becomes the
+place the person who chose the bounds explains why, and where reasons that
+did not fit a chapter get their home.
+
+## 6. Exercises
 
 Each Try it panel gets as many exercises as the section's techniques
-actually support, which is more than three and is not the same number
-twice. Two kinds have to be present in every section: one that asks the
-reader to predict, sketch or work something out on paper *before* pressing
-a key, and one that reaches an answer the section already found by a second
-route. Beyond those, the section decides.
+support, which is more than three and is not the same number twice. Three
+kinds have to be present in every section:
 
-## 6. No budgets
+- one that asks the reader to predict, sketch or work something out on paper
+  **before** pressing a key, with an instruction to write the guess down,
+  because being wrong on paper is the point;
+- one that reaches an answer the section already found by a second route;
+- one that pushes past where the section stopped, so the panel is an
+  invitation and not a quiz.
+
+Beyond those three, the section decides.
+
+## 7. No budgets
 
 The first version of this plan set targets: so many captures, so many
-diagrams, so many sections, so many exercises. That was the same mistake
-the brief identifies in the first edition, where 49 figures across 47
-sections is the tell that nobody decided per section what deserved a
-picture. A quota decided in advance is a quota that gets filled whether or
-not the page needs it, and starved when the page needs more.
+diagrams, so many sections. That was the brief's own complaint in a new
+place. 49 figures across 47 sections is the tell that nobody decided per
+section what deserved a picture, and a quota decided in advance gets filled
+whether or not the page needs it and starved when the page needs more.
 
-So there are no numbers here. The rules instead:
+So there are no numbers. Rules instead:
 
 - **Captures** wherever a reader could be unsure their screen matches what
-  the text just claimed, and wherever a menu, soft-key page, editor or
-  error screen is referred to but never shown. Some sections will want one.
-  The pendulum section will want a dozen.
+  the text just claimed, and wherever a menu, soft-key page, editor or error
+  screen is referred to but never shown. Some sections want one. The
+  pendulum section wants a dozen.
 - **Diagrams** wherever the mathematics needs a picture the calculator
   cannot draw. SVG at `docs/companion/images/fig-NN-slug.svg`, on
   `fig-08-pendulum.svg`'s palette: navy `#1a3a6b` and ink, no gradients,
   nothing carrying meaning in colour alone.
-- **Sections** as the subject needs. Chapters will end up unequal, and they
-  should: the source spends 22 pages on precalculus and 84 on probability
-  and statistics, because those subjects are not the same size. The first
-  edition's near-uniform chapters are an artefact of planning, not of the
-  mathematics.
-- **Length** as the above produces. My estimate of where that lands is
-  worth little until a chapter is actually written, which is what the pilot
-  is for.
+- **Sections** as the subject needs. Chapters end up unequal and should: the
+  source spends 22 pages on precalculus and 84 on probability and
+  statistics, because those subjects are not the same size. The first
+  edition's near-uniform chapters are an artefact of planning.
+- **Length** as the above produces.
 
 The build's assertions get moved out of the way rather than written to.
 `maxPages` is a guard against a truncated render, not a target, so it goes
 wide enough to stop mattering; the exact-10-files and exact-8-chapters
-checks are guards on our own structure and can be updated if a chapter
-needs splitting. Nothing about the shape of this book should be decided by
-a number in `build-guidebook-typeset.js`.
+checks are guards on our own structure and can be updated if a chapter needs
+splitting. Nothing about the shape of this book should be decided by a
+number in `build-guidebook-typeset.js`.
 
 One fact rather than a cap: this is an A5 workbook, and past a certain
 extent it stops being one physical object. If the honest version lands
 there, that is a binding decision for you, not a reason to write less.
 
-## 7. Working method
+## 8. Working method
 
 - Every capture declared in `scripts/companion-screens.js`, generated, and
   then **looked at**, because a half-drawn screen throws nothing.
 - Every quoted number run on the emulator. Change an example, re-run it.
-- Feasibility probed before a topic is promised, as in section 3.
-- The sample below introduces H3 sub-headings inside a numbered section,
-  which the book has not used before. Sections are getting long enough to
-  need signposts. `typeset.css` will need a rule for them and the page
-  breaks want checking, so this gets settled in the pilot chapter.
+- Feasibility probed before a topic is promised, as in section 4.
+- **Design reasons harvested from the firmware, per chapter, before
+  writing.** Section 3.2 found two in an afternoon by reading
+  `numeric/evaluator.asm` and `include/memory.inc`. Each chapter gets the
+  same pass over the code its limits come from, and what turns up goes in
+  the chapter or the afterword.
+- **Where a limit's reason is a judgement rather than a mechanism, it gets
+  marked and asked, never invented.** A made-up reason in your voice is
+  worse than no reason at all. Expect a short list of these per chapter.
+- The exhibits introduce H3 sub-headings inside a numbered section, which
+  the book has not used. Sections are getting long enough to need signposts.
+  `typeset.css` needs a rule and the page breaks need checking; settled in
+  the pilot.
 - `SJASMPLUS=<path> npm run update:free85:reproducibility` at the end,
   because the web build writes under `public/`; sjasmplus built from source
   first. `npm test` green at 194 throughout.
 - Order: front matter and chapter 4 as the pilot, built and shown to you
-  before the rest; then 8, 7, 3, 5, 1, 2, 6, worst prose and thinnest
+  before anything else; then 8, 7, 3, 5, 1, 2, 6, worst prose and thinnest
   mathematics first.
 
 The one real constraint is not page count, it is verification. Every number
-and every screen in this book is run rather than asserted, and that is
-slow. It is a reason to sequence the work and show you a finished chapter
-early. It is not a reason to make the book smaller.
+and every screen is run rather than asserted, and that is slow. It is a
+reason to sequence the work and show you a finished chapter early. It is not
+a reason to make the book smaller.
 
-## 8. The voice, second attempt
+## 9. Exhibit A: section 4.1 rewritten
 
-The first attempt was rejected, and rightly. It was plain, which is not the
-same as being taught by anyone. It narrated the keyboard, handed down
-verdicts, and quietly kept up the first edition's habit of finishing every
-paragraph with something quotable. Nobody was in the room.
-
-Reading the two books you sent, three things stand out that both do and
-neither of my drafts did.
-
-**They name the frightening thing and then puncture it.** Thompson lists
-the "dreadful symbols", says `d` merely means a little bit of, and finishes
-the chapter with "That's all." Two words, and the terror is gone. He is
-not simplifying the mathematics, he is refusing to let the notation act as
-a doorman.
-
-**They tell you the truth about the difficulty.** Schaefman says outright
-that reading mathematics is not like reading a newspaper and that you will
-reread a line several times before it clicks. Thompson says he is a
-remarkably stupid fellow who had to unteach himself the difficulties.
-Neither is fishing for sympathy. Both are giving the reader permission to
-find it hard, which is what stops people quietly concluding they are the
-problem.
-
-**They are generous with what an expert would hold back.** Thompson works
-the ladder in actual inches, 19 and 180 and 179.89, when he could have left
-it in symbols and looked cleverer. Schaefman hands over the two-player
-precision game as a device you can use yourself. That generosity is the
-thing your Dave Plummer comparison is really about: he tells you what
-actually happened, including what went wrong, because he has nothing to
-prove. The teacher everyone shut up for was never the one performing
-expertise. It was the one who had obviously done the thing and was telling
-you the truth about it.
-
-So: first person where it earns its place and nowhere else, warnings before
-the mistake rather than explanations after it, the reader's own question
-voiced out loud, and not one sentence written to be quoted.
-
-### And Plummer, which is the part I skated over
-
-I name-checked him last time and then did not do the work. Doing it
-properly changes more than the other two books did.
-
-What makes people sit still for Dave Plummer is not warmth and it is not
-plain language. It is this: **the credential arrives inside the story as a
-plain fact, and is never claimed.** He does not say "as an expert in
-Windows internals". He says "when I wrote Task Manager, we had to..." and
-carries on. The authority leaks out incidentally. It is unarguable, because
-he is not arguing it.
-
-Everything else follows from that. He can afford to tell you what actually
-went wrong, because being the fool in his own story costs him nothing. He
-explains the constraints of the moment, so a decision that looks stupid
-from here turns out to be the only sane call at the time. He is generous
-with the detail a lesser teller would hold back to seem clever. He is
-unhurried, which is its own kind of confidence. And he will say plainly
-when he does not know, or when he is out of date.
-
-Now here is the thing I missed. **This book has the best version of that
-credential available to any calculator workbook anywhere, and it uses it
-exactly once.** I grepped: in 1,441 sentences there is one first person,
-in chapter 7, "a mixing tank of my own design".
-
-You built the machine. Every limit in this book is a decision somebody
-made on purpose: three graph slots, eight-line programs, 128 columns,
-fourteen digits, `^` taking whole exponents from -9 to 9. The first
-edition states all of them in the passive voice, as though they were
-weather. "The plot samples 128 columns." "Free85's three slots." Nobody
-did any of it. It just is that way.
-
-That is the missing ingredient, and it is not a tone. It is authorship.
-
-And the reasons are still in the repo. I went and looked for two of them:
-
-- `firmware/free85/numeric/evaluator.asm:712` is `numeric_integer_power`,
-  and it is a multiply loop counted by a single packed-decimal digit. It
-  checks the exponent byte is zero and every digit after the first is zero,
-  then multiplies. That is *why* `^` stops at 9 and refuses fractions. It
-  is not an arbitrary ceiling, it is what a repeated-multiplication power
-  looks like when the counter is one digit wide.
-- `firmware/free85/include/memory.inc:46` says a number is a decimal
-  exponent plus fourteen packed BCD significant digits, seven bytes. That
-  is *why* fourteen, and it is why `EVAL(1E-9)` comes back as exactly 1.
-
-Neither of those facts appears anywhere in the book. Both are more
-interesting than the sentence currently standing in their place.
-
-So the third change, on top of the other two: **the book gets an author who
-built the thing.** Sparingly, never as a boast, and only where the reason
-is genuinely better than the bare fact. Below are the revised passages.
-
-Every number and screen is the same verified emulator output as before.
+Under the rules of section 3. Every number and screen is verified emulator
+output. Three passages carry the authorial voice: the fourteen-digit
+explanation at step 12, the error message at step 13, and the mode warning
+at step 19.
 
 ---
-
 ## 4.1 Limits by table and zoom
 
 What is sin x divided by x, when x is nought?
@@ -644,7 +665,7 @@ The answer 1 is not really a fact about sine. It is a fact about sine
    `RAD`, because you will want it there for section 4.2.
 ---
 
-## 9. A second demonstration, because it is the clearest one
+## 10. Exhibit B: the power key, which was not writable before
 
 The passage above shows the authorial voice patching an existing paragraph.
 This one shows what it unlocks that was not previously writable at all.
@@ -702,15 +723,23 @@ sentence, but I cannot invent your reasons, and a made-up reason in your
 voice is worse than no reason at all. Where the pilot chapter needs one, I
 will mark it and ask rather than fill it in.
 
-## 10. What is being asked
+## 11. What is being asked
 
-Only one thing now: **the voice in sections 8 and 9**. Accept it, or say what is wrong
-with it, and chapter 4 gets written and shown to you as a finished
-chapter.
+One thing: **the voice of section 3, as it lands in the two exhibits.**
+Accept it, or say what is still wrong, and chapter 4 gets written and built
+as a finished chapter for you to judge.
 
-Everything else in this plan is a rule rather than a request. Section 4's
-additions are what "not enough mathematics" turns into once the source has
-been read properly; sections 5 and 6 say the book gets the exercises and
-the figures it needs and stops counting them. None of that needs your
-approval in advance. The pilot chapter will show it working or show it
-failing, which is a better thing to judge than a table of estimates.
+Two things I need from you rather than from the repo, whenever you get to
+them:
+
+1. **Whether the book acknowledges its author at all.** Section 3.2 is a
+   real editorial change, not a stylistic one. It puts you on the page. If
+   you would rather it did not, say so now, because half the passages in
+   section 5 are written on the assumption that it does.
+2. **The judgement calls behind the limits**, as they come up. I can read
+   the firmware for mechanisms and I will. I cannot read it for reasons.
+
+Everything else is a rule rather than a request. Sections 5 to 8 say what
+gets added, how many exercises, how many figures, and in what order, and
+none of it needs approval in advance. The pilot chapter will show it working
+or show it failing, which is a better thing to judge than a plan.

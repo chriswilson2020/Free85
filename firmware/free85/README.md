@@ -8,11 +8,12 @@ compatibility with TI programs, files, ROM calls, or internal data structures.
 
 Free85 2.10.0 is the stable Phase 14.10 release. The eight-bank ROM is exactly
 131,072 bytes and has SHA-256
-`5a02318d468bcb51d76b8610a4b77cadb0a34e47960de8cfdb00a558e505a088`.
+`dc91f6d59ac3ab930216f7642a68284fdb8d6255170934c9c5733b360df160f0`.
 It freezes persistent RAM schema 13 and object-store schema 1. Run
 `npm run validate:free85` for the complete public validation package and use
 `SJASMPLUS=/path/to/sjasmplus npm run verify:free85:reproducible` to reproduce
-the ROM and Pages artifacts with pinned `sjasmplus` 1.21.1.
+the ROM and Pages artifacts with `sjasmplus` 1.21.1 or newer. The current
+release evidence records `sjasmplus` 1.21.1.
 
 The Phase 1 diagnostic firmware boots, initializes interrupts and the LCD,
 shows an original Free85 splash, and then reports every physical key press.

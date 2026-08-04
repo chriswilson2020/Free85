@@ -9,6 +9,7 @@
   </head>
   <body class="ti85-page-body">
     <main class="ti85-shell">
+      <div id="ti85Workspace" class="ti85-workspace">
       <section class="ti85-frame" aria-label="Free85 calculator">
         <header>
           <p>Open-source Z80 calculator ROM</p>
@@ -30,6 +31,51 @@
           </label>
         </div>
       </section>
+      <aside id="ti85DocReader" class="ti85-doc-reader" aria-label="Free85 documentation reader" hidden>
+        <header class="ti85-doc-reader-bar">
+          <div>
+            <small>Documentation</small>
+            <strong id="ti85DocReaderTitle">Getting Started Manual</strong>
+          </div>
+          <nav aria-label="Choose documentation">
+            <button type="button" data-doc-book="manual" aria-pressed="true">Manual</button>
+            <button type="button" data-doc-book="guidebook" aria-pressed="false">Guidebook</button>
+          </nav>
+          <div class="ti85-doc-reader-actions">
+            <a id="ti85DocNewTab" href="./public/guidebook/Free85-Manual-typeset.html" target="_blank" rel="noopener">Open separately</a>
+            <button id="ti85DocClose" type="button" aria-label="Close documentation">Close</button>
+          </div>
+        </header>
+        <iframe id="ti85DocFrame" title="Getting Started Manual" loading="lazy"></iframe>
+      </aside>
+      <button id="ti85DocHandle" class="ti85-doc-handle" type="button" aria-label="Open documentation drawer" aria-controls="ti85DocReader" aria-expanded="false" hidden>
+        <span aria-hidden="true">‹</span>
+        <strong>Reference</strong>
+      </button>
+      </div>
+      <section class="ti85-docs" aria-labelledby="ti85DocsTitle">
+        <div class="ti85-docs-intro">
+          <p>Free85 2.10 documentation</p>
+          <h2 id="ti85DocsTitle">Learn the calculator</h2>
+          <span>Read the professionally typeset editions online, or download the print-ready PDFs.</span>
+        </div>
+        <div class="ti85-doc-links">
+          <article>
+            <div><small>Start here</small><h3>Getting Started Manual</h3></div>
+            <div class="ti85-doc-actions">
+              <button type="button" data-doc-book="manual">Open beside calculator</button>
+              <a href="https://github.com/chriswilson2020/Free85/releases/latest/download/Free85-Manual-typeset.pdf">PDF</a>
+            </div>
+          </article>
+          <article>
+            <div><small>Complete reference</small><h3>The Free85 Guidebook</h3></div>
+            <div class="ti85-doc-actions">
+              <button type="button" data-doc-book="guidebook">Open beside calculator</button>
+              <a href="https://github.com/chriswilson2020/Free85/releases/latest/download/Free85-Guidebook-typeset.pdf">PDF</a>
+            </div>
+          </article>
+        </div>
+      </section>
       <details id="ti85DebugDrawer" class="debug-drawer ti85-debug-drawer">
         <summary><span>Debug drawer</span><strong>Registers, display, memory, keyboard</strong></summary>
         <section class="debugger ti85-debugger" aria-label="Free85 machine debugger">
@@ -46,4 +92,3 @@
     <script type="module" src="./public/ti85-app.js"></script>
   </body>
 </html>
-

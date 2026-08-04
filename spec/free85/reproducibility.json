@@ -13,8 +13,8 @@
     "sha256": "5942f3fce34b437d1f060e513aa4982baf5b41e5bd2154531a22709d851eb0f0"
   },
   "pages": {
-    "files": 10,
-    "sha256": "2449ca323c53260eea25b7e65e792ea11109267f45179df7476a210243349e7a"
+    "files": 12,
+    "sha256": "c8b0d856c87d80a861bcf4be8398e78dd30b4b808d212759fe372b8be6ea19ed"
   },
   "inputs": [
     "package.json",

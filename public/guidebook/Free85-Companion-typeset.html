@@ -500,6 +500,38 @@ figure.lcd figcaption {
   margin-top: 3pt;
 }
 
+/* Diagrams of the mathematics: drawn artwork, not screens. Deliberately
+ * undressed — no bezel, no glass, no rule — so a reader can tell at a glance
+ * which pictures came off the calculator and which explain the mathematics
+ * behind it. Authored as SVG so they stay sharp in print; the palette is the
+ * book's single navy plus ink, and nothing depends on colour, so the page
+ * survives greyscale reproduction. */
+figure.diagram {
+  margin: 9pt 0 10pt;
+  text-align: center;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+figure.diagram img,
+figure.diagram svg {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  width: 78mm;              /* ~two thirds of the 120mm measure */
+  height: auto;
+}
+figure.diagram.wide img,
+figure.diagram.wide svg { width: 108mm; }
+figure.diagram figcaption {
+  font-family: var(--sans);
+  font-style: italic;
+  font-size: 7.5pt;
+  line-height: 1.35;
+  color: var(--ink-soft);
+  text-align: center;
+  margin-top: 3.5pt;
+}
+
 /* ------------------------------------------------------------------ code -- */
 
 code, kbd {
@@ -2012,6 +2044,7 @@ body.manual section.book-body h2 { string-set: rhead content(text); }
 </section><section class="chapter"><header class="chapter-opener" data-chapter="8"><p class="chapter-kicker">Chapter</p><div class="chapter-number">8</div><h1 id="chapter-8-explorations-in-engineering-mathematics">Explorations in Engineering Mathematics</h1><div class="opener-rule"></div><p class="standfirst">Engineering asks the same questions as the earlier chapters and refuses the same answers. It wants the period of a real pendulum rather than of its linearisation; a series summed to a stated accuracy rather than a limit named; a solution pinned at both ends of a span rather than released from one; forces and moments in three dimensions rather than two. Free85 keeps a tool pointed at each: <code>FNINT(</code> for integrals with no closed form (the Guidebook, chapter 3), the four program slots for sums no hand would face (the Guidebook, chapter 16), the DifEq mode of Chapter 7 (Explorations in Differential Equations) working in turn with the solver workspace of the Guidebook, chapter 14, and the vector editor of the Guidebook, chapter 13 for statics in the round. Every key sequence and every quoted number in this chapter was run in the emulator on a fresh machine, and each exploration ends with a “Try it” block whose answers stay on the calculator. Three habits from the earlier chapters apply at once: the entry line never clears itself, so press <kbd>CLEAR</kbd> before typing at home; the calculus commands read the active stored equation, so store with <kbd>GRAPH</kbd> first; and plots must be allowed to finish, since presses arriving mid-draw are lost.</p></header>
 <h2 id="the-pendulum-and-elliptic-integrals" data-secno="8.1">The pendulum and elliptic integrals</h2>
 <p>The formula every textbook prints for a pendulum, 2 pi times the square root of length over gravity, is not the period of a pendulum. It is the period of a pendulum’s linearisation, the fiction in which the restoring force is proportional to the angle rather than to its sine. The true period depends on how far the thing swings, and the dependence is an integral with no closed form at all: the complete elliptic integral of the first kind. That is a happy accident for a machine like this one, since a quantity nobody can write down in elementary functions is exactly what <code>FNINT(</code> is for.</p>
+<figure class="diagram"><img role="img" aria-label="A pendulum of length L held at an angle theta from the vertical, with the rest position dashed below the pivot" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNDAgMTkwIiByb2xlPSJpbWciCiAgICAgYXJpYS1sYWJlbD0iQSBzaW1wbGUgcGVuZHVsdW0gb2YgbGVuZ3RoIEwgZGlzcGxhY2VkIGJ5IGFuIGFuZ2xlIHRoZXRhIGZyb20gdGhlIHZlcnRpY2FsLiI+CiAgPCEtLSBGcmVlODUgRXhwbG9yYXRpb25zLCBjaGFwdGVyIDg6IHRoZSBzaW1wbGUgcGVuZHVsdW0uCiAgICAgICBQYWxldHRlIGlzIHRoZSBib29rJ3MgbmF2eSBwbHVzIGluazsgbm8gZ3JhZGllbnRzLCBubyBjb2xvdXItZGVwZW5kZW50CiAgICAgICBtZWFuaW5nLCBzbyB0aGUgZmlndXJlIHN1cnZpdmVzIGdyZXlzY2FsZSBwcmludGluZy4gLS0+CiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMTExMTExIiBzdHJva2Utd2lkdGg9IjEuNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj4KICAgIDwhLS0gY2VpbGluZyAtLT4KICAgIDxsaW5lIHgxPSI3MiIgeTE9IjIyIiB4Mj0iMTY4IiB5Mj0iMjIiLz4KICAgIDxnIHN0cm9rZS13aWR0aD0iMSI+CiAgICAgIDxsaW5lIHgxPSI3NiIgeTE9IjIyIiB4Mj0iNjgiIHkyPSIxNCIvPgogICAgICA8bGluZSB4MT0iOTAiIHkxPSIyMiIgeDI9IjgyIiB5Mj0iMTQiLz4KICAgICAgPGxpbmUgeDE9IjEwNCIgeTE9IjIyIiB4Mj0iOTYiIHkyPSIxNCIvPgogICAgICA8bGluZSB4MT0iMTE4IiB5MT0iMjIiIHgyPSIxMTAiIHkyPSIxNCIvPgogICAgICA8bGluZSB4MT0iMTMyIiB5MT0iMjIiIHgyPSIxMjQiIHkyPSIxNCIvPgogICAgICA8bGluZSB4MT0iMTQ2IiB5MT0iMjIiIHgyPSIxMzgiIHkyPSIxNCIvPgogICAgICA8bGluZSB4MT0iMTYwIiB5MT0iMjIiIHgyPSIxNTIiIHkyPSIxNCIvPgogICAgPC9nPgogIDwvZz4KCiAgPCEtLSB2ZXJ0aWNhbCByZXN0IHBvc2l0aW9uIC0tPgogIDxsaW5lIHgxPSIxMjAiIHkxPSIyMiIgeDI9IjEyMCIgeTI9IjE2MiIgc3Ryb2tlPSIjMTExMTExIiBzdHJva2Utd2lkdGg9IjAuOSIKICAgICAgICBzdHJva2UtZGFzaGFycmF5PSI0IDMiIG9wYWNpdHk9IjAuNTUiLz4KCiAgPCEtLSB0aGUgcm9kLCBkaXNwbGFjZWQgLS0+CiAgPGxpbmUgeDE9IjEyMCIgeTE9IjIyIiB4Mj0iMTk0IiB5Mj0iMTI4IiBzdHJva2U9IiMxYTNhNmIiIHN0cm9rZS13aWR0aD0iMS44IgogICAgICAgIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgoKICA8IS0tIGFuZ2xlIGFyYyAtLT4KICA8cGF0aCBkPSJNIDEyMCA2NyBBIDQ1IDQ1IDAgMCAxIDE0NS44IDU4LjkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFhM2E2YiIKICAgICAgICBzdHJva2Utd2lkdGg9IjEuMiIvPgoKICA8IS0tIHBpdm90IGFuZCBib2IgLS0+CiAgPGNpcmNsZSBjeD0iMTIwIiBjeT0iMjIiIHI9IjIuNiIgZmlsbD0iIzExMTExMSIvPgogIDxjaXJjbGUgY3g9IjE5NCIgY3k9IjEyOCIgcj0iOSIgZmlsbD0iIzFhM2E2YiIvPgoKICA8IS0tIGdob3N0ZWQgYm9iIGF0IHJlc3QgLS0+CiAgPGNpcmNsZSBjeD0iMTIwIiBjeT0iMTUyIiByPSI5IiBmaWxsPSJub25lIiBzdHJva2U9IiMxMTExMTEiIHN0cm9rZS13aWR0aD0iMC45IgogICAgICAgICAgc3Ryb2tlLWRhc2hhcnJheT0iMyAyLjUiIG9wYWNpdHk9IjAuNSIvPgoKICA8ZyBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiCiAgICAgZmlsbD0iIzFhM2E2YiI+CiAgICA8dGV4dCB4PSIxMzMiIHk9Ijc4IiBmb250LXN0eWxlPSJpdGFsaWMiPiYjeDNCODs8L3RleHQ+CiAgICA8IS0tIG9mZnNldCBwZXJwZW5kaWN1bGFyIHRvIHRoZSByb2Qgc28gdGhlIGxhYmVsIG5ldmVyIHRvdWNoZXMgdGhlIGxpbmUgLS0+CiAgICA8dGV4dCB4PSIxNjgiIHk9IjcwIiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiMxMTExMTEiPkw8L3RleHQ+CiAgPC9nPgogIDxnIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI5IgogICAgIGZpbGw9IiM0NDQ0NDQiPgogICAgPHRleHQgeD0iMTIwIiB5PSIxNzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPnJlc3Q8L3RleHQ+CiAgPC9nPgo8L3N2Zz4K" alt="A pendulum of length L held at an angle theta from the vertical, with the rest position dashed below the pivot" /><figcaption>A pendulum of length L held at an angle theta from the vertical, with the rest position dashed below the pivot</figcaption></figure>
 <p>The specimen is a garden swing: a seat on ropes 2.5 metres long, with gravity taken as 9.8. Write T0 for the small-angle period and T for the truth. The mathematics says T divided by T0 is 2 over pi times the integral, from 0 to a right angle, of one over the square root of 1 minus k squared sine squared, where k is the sine of half the amplitude.</p>
 <ol type="1">
 <li><p>The fiction first. Press <kbd>CLEAR</kbd> and type <kbd>2</kbd> <kbd>×</kbd> <kbd>2nd</kbd> <kbd>^</kbd> (the <code>π</code> legend) <kbd>×</kbd> <kbd>2nd</kbd> <kbd>x²</kbd> (which inserts <code>SQRT(</code>) <kbd>2</kbd> <kbd>.</kbd> <kbd>5</kbd> <kbd>÷</kbd> <kbd>9</kbd> <kbd>.</kbd> <kbd>8</kbd> <kbd>)</kbd>, then press <kbd>ENTER</kbd>: <code>= 3.1734878129702</code>, a little over three seconds, and the same three seconds whatever the swing does.</p></li>

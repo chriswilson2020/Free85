@@ -92,15 +92,39 @@ function markCallouts(html, stats) {
     });
 }
 
-// Every screenshot figure gets a calculator-bezel frame; pandoc's implicit
-// figcaption (the Markdown alt text) becomes the caption below the frame.
+// Figures come in two kinds and must not be dressed alike. A capture of the
+// machine's screen belongs behind bezel and glass, because the frame is what
+// tells a reader "this is what you will see". A diagram of the mathematics is
+// not a screen and must not pretend to be one: framing a pendulum sketch in a
+// calculator bezel says the calculator drew it, which is a lie.
+//
+// A figure counts as a diagram if ANY of these hold:
+//
+//   1. it carries class="diagram", from `![caption](x.png){.diagram}` in the
+//      Markdown. This is the explicit marker and the only one that works for
+//      a raster diagram;
+//   2. it is an SVG. Captures are always PNG out of the emulator, so every
+//      SVG in these books is drawn artwork;
+//   3. its file name starts with fig-, the naming convention.
+//
+// Test 3 alone is not enough: pandoc runs with --embed-resources, so by the
+// time this sees the HTML the src is a data: URI and the file name is gone.
+// A PNG diagram therefore MUST use {.diagram} or it will be framed as a
+// screen. Prefer SVG for diagrams anyway — it stays sharp in print.
 function frameScreenshots(html, stats) {
   return html.replace(
     /<figure>\s*(<img[^>]*>)\s*<figcaption[^>]*>([\s\S]*?)<\/figcaption>\s*<\/figure>/g,
     (m, img, caption) => {
+      const cap = `<figcaption>${caption.trim()}</figcaption>`;
+      const isDiagram = /class="[^"]*\bdiagram\b[^"]*"/.test(img)
+        || /src="data:image\/svg/.test(img)
+        || /src="[^"]*\/fig-[^"]*"/.test(img);
+      if (isDiagram) {
+        stats.diagrams += 1;
+        return `<figure class="diagram">${img}${cap}</figure>`;
+      }
       stats.figures += 1;
-      return `<figure class="lcd"><div class="lcd-frame"><div class="lcd-glass">${img}</div></div>`
-        + `<figcaption>${caption.trim()}</figcaption></figure>`;
+      return `<figure class="lcd"><div class="lcd-frame"><div class="lcd-glass">${img}</div></div>${cap}</figure>`;
     });
 }
 
@@ -591,7 +615,7 @@ function checkPrintHygiene(name, html) {
 // ------------------------------------------------------------- guidebook --
 
 function buildGuidebook() {
-  const stats = { keycaps: 0, callouts: 0, figures: 0, chapters: 0, appendices: 0 };
+  const stats = { keycaps: 0, callouts: 0, figures: 0, diagrams: 0, chapters: 0, appendices: 0 };
   const chapterFiles = readdirSync(`${root}docs/guidebook/`)
     .filter((f) => /^\d\d-.*\.md$/.test(f)).sort()
     .map((f) => `${root}docs/guidebook/${f}`);
@@ -665,7 +689,7 @@ function buildGuidebook() {
 // ---------------------------------------------------------------- manual --
 
 function buildManual() {
-  const stats = { keycaps: 0, callouts: 0, figures: 0, chapters: 0, appendices: 0 };
+  const stats = { keycaps: 0, callouts: 0, figures: 0, diagrams: 0, chapters: 0, appendices: 0 };
   let html = pandocBody(
     [`${root}docs/manual/Free85-Manual.md`],
     `${root}docs/manual:${root}docs/guidebook`);
@@ -707,7 +731,7 @@ function buildManual() {
 // standfirsts, framed screenshots, keycaps) plus two things of its own — the
 // numbered section headings and the Try it exercise panels.
 function buildCompanion() {
-  const stats = { keycaps: 0, callouts: 0, figures: 0, chapters: 0, appendices: 0, sections: 0, tryits: 0 };
+  const stats = { keycaps: 0, callouts: 0, figures: 0, diagrams: 0, chapters: 0, appendices: 0, sections: 0, tryits: 0 };
   const sources = readdirSync(`${root}docs/companion/`)
     .filter((f) => /^\d\d-.*\.md$/.test(f)).sort()
     .map((f) => `${root}docs/companion/${f}`);
@@ -779,6 +803,7 @@ function buildCompanion() {
   });
   checkPrintHygiene("Free85-Companion-typeset", doc);
   console.log(`companion: ${stats.keycaps} keycaps, ${stats.figures} framed screenshots, `
+    + `${stats.diagrams} maths diagram${stats.diagrams === 1 ? "" : "s"}, `
     + `${stats.chapters} chapters, ${stats.sections} numbered sections, ${stats.tryits} Try it panels`);
   render("Free85-Companion-typeset", doc, { minPages: 90, maxPages: 200 });
 }

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 190" role="img"
+     aria-label="A simple pendulum of length L displaced by an angle theta from the vertical.">
+  <!-- Free85 Explorations, chapter 8: the simple pendulum.
+       Palette is the book's navy plus ink; no gradients, no colour-dependent
+       meaning, so the figure survives greyscale printing. -->
+  <g fill="none" stroke="#111111" stroke-width="1.4" stroke-linecap="round">
+    <!-- ceiling -->
+    <line x1="72" y1="22" x2="168" y2="22"/>
+    <g stroke-width="1">
+      <line x1="76" y1="22" x2="68" y2="14"/>
+      <line x1="90" y1="22" x2="82" y2="14"/>
+      <line x1="104" y1="22" x2="96" y2="14"/>
+      <line x1="118" y1="22" x2="110" y2="14"/>
+      <line x1="132" y1="22" x2="124" y2="14"/>
+      <line x1="146" y1="22" x2="138" y2="14"/>
+      <line x1="160" y1="22" x2="152" y2="14"/>
+    </g>
+  </g>
+
+  <!-- vertical rest position -->
+  <line x1="120" y1="22" x2="120" y2="162" stroke="#111111" stroke-width="0.9"
+        stroke-dasharray="4 3" opacity="0.55"/>
+
+  <!-- the rod, displaced -->
+  <line x1="120" y1="22" x2="194" y2="128" stroke="#1a3a6b" stroke-width="1.8"
+        stroke-linecap="round"/>
+
+  <!-- angle arc -->
+  <path d="M 120 67 A 45 45 0 0 1 145.8 58.9" fill="none" stroke="#1a3a6b"
+        stroke-width="1.2"/>
+
+  <!-- pivot and bob -->
+  <circle cx="120" cy="22" r="2.6" fill="#111111"/>
+  <circle cx="194" cy="128" r="9" fill="#1a3a6b"/>
+
+  <!-- ghosted bob at rest -->
+  <circle cx="120" cy="152" r="9" fill="none" stroke="#111111" stroke-width="0.9"
+          stroke-dasharray="3 2.5" opacity="0.5"/>
+
+  <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="12"
+     fill="#1a3a6b">
+    <text x="133" y="78" font-style="italic">&#x3B8;</text>
+    <!-- offset perpendicular to the rod so the label never touches the line -->
+    <text x="168" y="70" font-style="italic" fill="#111111">L</text>
+  </g>
+  <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9"
+     fill="#444444">
+    <text x="120" y="178" text-anchor="middle">rest</text>
+  </g>
+</svg>

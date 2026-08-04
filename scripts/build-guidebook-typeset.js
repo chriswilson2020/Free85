@@ -121,7 +121,12 @@ function markKeymapTable(html) {
       return `<table class="keymap">${inner}</table>`;
     }
     if (headerRow.includes("<th>Line</th>") && headerRow.includes("<th>Keys</th>")) {
-      return `<table class="program">${inner}</table>`;
+      // Pandoc emits a colgroup of equal thirds for some of these (it depends
+      // on the source table's total width), and under table-layout: fixed a
+      // col width beats the cell widths. Four of the seven listings kept the
+      // thirds, and one of them ran a stored-expression cell straight into
+      // the first keycap. Drop the colgroup so the stylesheet's grid wins.
+      return `<table class="program">${inner.replace(/<colgroup>[\s\S]*?<\/colgroup>/, "")}</table>`;
     }
     if ((inner.match(/<tr/g) ?? []).length > 12) {
       return `<table class="table-long">${inner}</table>`;

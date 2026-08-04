@@ -139,19 +139,24 @@ html {
   font-size: 9.5pt;
   line-height: 1.45;
   color: var(--ink);
-  /* Words shorter than 6 letters never hyphenate, and at least 3 letters
-   * stay on each side. Verified in Chrome 150: the unprefixed property
-   * parses (CSS.supports true, computed "6 3 3"); the -webkit- pair below
-   * does NOT (Safari/WebKit only) and is future-proofing for other
-   * renderers. Note the degenerate page-turn stubs ("stat-us", "bott-om")
-   * were never CSS hyphenation at all — they were Paged.js fragmenting a
-   * word at the page break and appending its own U+2011 hyphen; see the
-   * LOCAL PATCH (Free85) in scripts/vendor/paged.polyfill.js textBreak(). */
-  /* 4 before, not 3: Chrome counts an opening curly quote towards the
-   * leading characters, so a quoted word could still break after two
-   * letters ("in-tegral", "Ma-trices"). */
-  hyphenate-limit-chars: 6 4 3;
-  -webkit-hyphenate-limit-before: 4;
+  /* Words shorter than 6 letters never hyphenate, at least 5 characters stay
+   * before the break and 3 after. Verified in Chrome 150: the unprefixed
+   * property parses (CSS.supports true); the -webkit- pair below does NOT
+   * (Safari/WebKit only) and is future-proofing for other renderers.
+   *
+   * 5 before, not the 3 this started at, because Chrome counts leading
+   * PUNCTUATION towards the limit: at 3 a curly quote bought a break after
+   * two letters ("in-tegral"), and at 4 an opening parenthesis still bought
+   * one after three ("(sec-tion"). 5 costs almost nothing — measured across
+   * the companion it moves the median line's widest word space from 3.78pt
+   * to 3.89pt and leaves the 95th percentile and the worst line unchanged.
+   *
+   * Note the degenerate page-turn stubs ("stat-us", "bott-om") were never
+   * CSS hyphenation at all — they were Paged.js fragmenting a word at the
+   * page break and appending its own U+2011 hyphen; see the LOCAL PATCH
+   * (Free85) in scripts/vendor/paged.polyfill.js textBreak(). */
+  hyphenate-limit-chars: 6 5 3;
+  -webkit-hyphenate-limit-before: 5;
   -webkit-hyphenate-limit-after: 3;
 }
 body { margin: 0; }
@@ -286,6 +291,15 @@ section.book-body > section.chapter:first-child > header.chapter-opener {
   border-top: 0.45pt solid var(--accent);
   border-bottom: none;
   height: 0;
+}
+/* The companion's afterword takes the appendix opener's smaller title but
+ * keeps the chapters' double rule: it is the last page of a book with no
+ * appendices, so beside eight double-ruled openers a single hairline read
+ * as an afterthought rather than as a deliberate ending. */
+.afterword-opener .opener-rule {
+  border-top: 1.5pt solid var(--accent);
+  border-bottom: 0.45pt solid var(--accent);
+  height: 1.6pt;
 }
 .chapter-opener .standfirst {
   font-style: italic;

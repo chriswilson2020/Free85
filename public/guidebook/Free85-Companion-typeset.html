@@ -147,19 +147,24 @@ html {
   font-size: 9.5pt;
   line-height: 1.45;
   color: var(--ink);
-  /* Words shorter than 6 letters never hyphenate, and at least 3 letters
-   * stay on each side. Verified in Chrome 150: the unprefixed property
-   * parses (CSS.supports true, computed "6 3 3"); the -webkit- pair below
-   * does NOT (Safari/WebKit only) and is future-proofing for other
-   * renderers. Note the degenerate page-turn stubs ("stat-us", "bott-om")
-   * were never CSS hyphenation at all — they were Paged.js fragmenting a
-   * word at the page break and appending its own U+2011 hyphen; see the
-   * LOCAL PATCH (Free85) in scripts/vendor/paged.polyfill.js textBreak(). */
-  /* 4 before, not 3: Chrome counts an opening curly quote towards the
-   * leading characters, so a quoted word could still break after two
-   * letters ("in-tegral", "Ma-trices"). */
-  hyphenate-limit-chars: 6 4 3;
-  -webkit-hyphenate-limit-before: 4;
+  /* Words shorter than 6 letters never hyphenate, at least 5 characters stay
+   * before the break and 3 after. Verified in Chrome 150: the unprefixed
+   * property parses (CSS.supports true); the -webkit- pair below does NOT
+   * (Safari/WebKit only) and is future-proofing for other renderers.
+   *
+   * 5 before, not the 3 this started at, because Chrome counts leading
+   * PUNCTUATION towards the limit: at 3 a curly quote bought a break after
+   * two letters ("in-tegral"), and at 4 an opening parenthesis still bought
+   * one after three ("(sec-tion"). 5 costs almost nothing — measured across
+   * the companion it moves the median line's widest word space from 3.78pt
+   * to 3.89pt and leaves the 95th percentile and the worst line unchanged.
+   *
+   * Note the degenerate page-turn stubs ("stat-us", "bott-om") were never
+   * CSS hyphenation at all — they were Paged.js fragmenting a word at the
+   * page break and appending its own U+2011 hyphen; see the LOCAL PATCH
+   * (Free85) in scripts/vendor/paged.polyfill.js textBreak(). */
+  hyphenate-limit-chars: 6 5 3;
+  -webkit-hyphenate-limit-before: 5;
   -webkit-hyphenate-limit-after: 3;
 }
 body { margin: 0; }
@@ -294,6 +299,15 @@ section.book-body > section.chapter:first-child > header.chapter-opener {
   border-top: 0.45pt solid var(--accent);
   border-bottom: none;
   height: 0;
+}
+/* The companion's afterword takes the appendix opener's smaller title but
+ * keeps the chapters' double rule: it is the last page of a book with no
+ * appendices, so beside eight double-ruled openers a single hairline read
+ * as an afterthought rather than as a deliberate ending. */
+.afterword-opener .opener-rule {
+  border-top: 1.5pt solid var(--accent);
+  border-bottom: 0.45pt solid var(--accent);
+  height: 1.6pt;
 }
 .chapter-opener .standfirst {
   font-style: italic;
@@ -1130,11 +1144,7 @@ body.manual section.book-body h2 { string-set: rhead content(text); }
 <ol type="1">
 <li><p>Press <kbd>PRGM</kbd>, then <kbd>F1</kbd>, <code>NEW</code>: the editor opens on <code>EDIT P1</code>, <code>LINE 1</code>. Type the six lines, <kbd>ENTER</kbd> after each; letters are <kbd>ALPHA</kbd> plus the key carrying the letter, spaces are <kbd>2nd</kbd> <kbd>0</kbd> in this editor, and <kbd>STO▶</kbd> types the <code>-&gt;</code> arrow.</p>
 <table class="program">
-<colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
-</colgroup>
+
 <thead>
 <tr>
 <th>Line</th>
@@ -1361,11 +1371,7 @@ body.manual section.book-body h2 { string-set: rhead content(text); }
 <li><p>Store the equation first: type <kbd>x-VAR</kbd> <kbd>x²</kbd> <kbd>+</kbd> <kbd>1</kbd> so the entry line reads <code>X^2+1</code>, press <kbd>GRAPH</kbd>, let the plot finish, press <kbd>EXIT</kbd>, and press <kbd>CLEAR</kbd>. Then get the target: spell <code>FNINT(0,2)</code> and press <kbd>ENTER</kbd>: <code>= 4.6666666666667</code>, the fourteen-digit 14/3.</p></li>
 <li><p>The left sum with four slices takes each slice’s height from its left edge: the slice width is 2/4 = 0.5 and the sample points are 0, 0.5, 1, 1.5, which is <code>A/2</code> for <code>A</code> counting 0 to 3. Press <kbd>PRGM</kbd>, then <kbd>F1</kbd>, <code>NEW</code>: the editor opens on <code>EDIT P1</code>. Type the six lines, <kbd>ENTER</kbd> after each; letters are <kbd>ALPHA</kbd> plus the key carrying the letter, spaces are <kbd>2nd</kbd> <kbd>0</kbd> in this editor, and <kbd>STO▶</kbd> types the <code>-&gt;</code> arrow.</p>
 <table class="program">
-<colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
-</colgroup>
+
 <thead>
 <tr>
 <th>Line</th>
@@ -1758,11 +1764,7 @@ body.manual section.book-body h2 { string-set: rhead content(text); }
 <ol type="1">
 <li><p>Press <kbd>CLEAR</kbd>, then <kbd>PRGM</kbd> and <kbd>F1</kbd>, <code>NEW</code>: the editor opens on <code>EDIT P1</code>. Type the eight lines, <kbd>ENTER</kbd> after each; letters are <kbd>ALPHA</kbd> plus the key carrying the letter, spaces are <kbd>2nd</kbd> <kbd>0</kbd> in this editor, and <kbd>STO▶</kbd> types the <code>-&gt;</code> arrow.</p>
 <table class="program">
-<colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
-</colgroup>
+
 <thead>
 <tr>
 <th>Line</th>
@@ -1915,11 +1917,7 @@ body.manual section.book-body h2 { string-set: rhead content(text); }
 </table></li>
 <li><p>Press <kbd>EXIT</kbd> to save and return to the list, press <kbd>▼</kbd> for the third slot, and press <kbd>F1</kbd> for <code>EDIT P3</code>. Type the step itself:</p>
 <table class="program">
-<colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
-</colgroup>
+
 <thead>
 <tr>
 <th>Line</th>

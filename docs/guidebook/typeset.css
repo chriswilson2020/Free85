@@ -198,8 +198,9 @@ h2 {
   margin: 14pt 0 5pt;
 }
 
-/* Guidebook section-number ladder: "4-3" hung in the outer margin at each
- * section heading (numbers assigned by the build script). */
+/* Section-number ladder hung in the outer margin at each section heading:
+ * "4-3" in the Guidebook (generated from counters) and "1.4" in Explorations
+ * (lifted out of the heading text). Numbers assigned by the build script. */
 h2[data-secno] { position: relative; }
 h2[data-secno]::before {
   content: attr(data-secno);
@@ -374,6 +375,62 @@ aside.callout p + p { margin-top: 3pt; }
   color: var(--accent);
   margin: 0 0 1.5pt !important;
 }
+
+/* ---------------------------------------------------------- Try it panel -- */
+
+/* The signature component of Explorations with Free85: each section closes
+ * with a numbered exercise set. Same navy tint as the callouts, but ruled
+ * top and bottom in the family's double-rule idiom rather than barred on the
+ * left, so a page carrying both reads them as different things. */
+aside.tryit {
+  background: var(--accent-tint);
+  border-top: 1.4pt solid var(--accent);
+  border-bottom: 0.45pt solid var(--accent);
+  padding: 4.5pt 8pt 5pt;
+  margin: 9pt 0 9pt;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.tryit-label {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 6.75pt;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 2.5pt !important;
+}
+/* Hung navy numerals: the exercise text aligns as a block, the way the
+ * numbered steps in the walkthroughs do not need to. */
+aside.tryit ol {
+  list-style: none;
+  counter-reset: tryit;
+  margin: 0;
+  padding-left: 5mm;
+}
+aside.tryit ol > li {
+  position: relative;
+  counter-increment: tryit;
+  font-size: 8.75pt;
+  line-height: 1.42;
+  text-align: left;              /* ragged in the narrow panel */
+  hyphens: manual;
+  -webkit-hyphens: manual;
+  margin: 0 0 2.5pt;
+}
+aside.tryit ol > li:last-child { margin-bottom: 0; }
+aside.tryit ol > li::before {
+  content: counter(tryit) ".";
+  position: absolute;
+  left: -5mm;
+  width: 3.6mm;
+  text-align: right;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 7.5pt;
+  color: var(--accent);
+}
+aside.tryit p { font-size: 8.75pt; line-height: 1.42; text-align: left; }
 
 /* ------------------------------------------------------------ LCD frames -- */
 
@@ -578,6 +635,11 @@ a.toc-entry::after {
   font-family: var(--sans);
   font-size: 8.5pt;
   flex: none;
+}
+/* Front-matter entries point at roman-folioed pages, so their leader has to
+ * resolve in the same numbering the foot of that page prints. */
+a.toc-entry.toc-roman::after {
+  content: target-counter(attr(href url), page, lower-roman);
 }
 
 /* ---------------------------------------------------------------- covers -- */

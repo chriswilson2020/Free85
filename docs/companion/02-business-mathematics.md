@@ -268,10 +268,10 @@ as the unknown.
    knowns first: press [CLEAR], then [8] [STO▶] [ALPHA] [Y] [ENTER]
    for the years, then [CLEAR] and `900->Z` for a target balance.
    Press [CLEAR] once more, type `500*EXP(Y*LN(1+X))-Z`, and press
-   [2nd] [GRAPH]: the `SOLVER` workspace of the Guidebook, chapter 14
-   opens with the equation
-   stored (the `F=` line clips at the screen's right edge; the tail is
-   kept), and `VAR X` names the unknown: the rate.
+   [2nd] [GRAPH]: the `SOLVER` workspace of the Guidebook,
+   chapter 14 opens with the equation stored (the `F=` line clips
+   at the screen's right edge; the tail is kept), and `VAR X`
+   names the unknown: the rate.
 
 3. What rate turns 500 into 900 in eight years? Rates live between
    zero and one, so fence the search: press [F5], the `>` key, three
@@ -303,11 +303,11 @@ as the unknown.
    payments shrink it. For 10000 borrowed at one percent a month with
    payment A over B months, press [EXIT], [CLEAR], store `24->B`,
    press [CLEAR], type
-   `10000*EXP(B*LN(1.01))-A*(EXP(B*LN(1.01))-1)/.01`, and press [2nd]
-   [GRAPH]. Press `VAR` once for `VAR A`, and try the bounds a
-   hopeful borrower would: `0` and `300`. `SOLV` stops at the
-   `NO BOUNDED ROOT` notice: no payment up to 300 clears this loan in
-   24 months. That screen is an answer, not a failure.
+   `10000*EXP(B*LN(1.01))-A*(EXP(B*LN(1.01))-1)/.01`, and press
+   [2nd] [GRAPH]. Press `VAR` once for `VAR A`, and try the bounds
+   a hopeful borrower would: `0` and `300`. `SOLV` stops at the
+   `NO BOUNDED ROOT` notice: no payment up to 300 clears this loan
+   in 24 months. That screen is an answer, not a failure.
 
    ![No payment under 300 clears the loan](images/co02-solver-no-root.png)
 
@@ -393,12 +393,11 @@ raise them and find where the switching settles.
    -.2x + .2y + .2z = 0. The Mill and the Station give two more rows
    of the same shape, each a column of P with one subtracted on the
    diagonal. Retype `A` as that matrix: -.2, .2, .2, then .1, -.3,
-   .2, then .1, .1, -.4. Press
-   [EXIT] and [2nd] [7] to bring back the first soft-key page, and
-   press [F5], `RREF`. Stepping through `R` reads `1`, `0`, `-2.5`,
-   then `0`, `1`, `-1.5`, then a row of zeros: the shares stand in
-   proportion 2.5 to 1.5 to 1, and dividing by their sum, 5, gives
-   0.5, 0.3, and 0.2.
+   .2, then .1, .1, -.4. Press [EXIT] and [2nd] [7] to bring back
+   the first soft-key page, and press [F5], `RREF`. Stepping
+   through `R` reads `1`, `0`, `-2.5`, then `0`, `1`, `-1.5`, then
+   a row of zeros: the shares stand in proportion 2.5 to 1.5 to 1,
+   and dividing by their sum, 5, gives 0.5, 0.3, and 0.2.
 
    ![The steady-state proportions in register R](images/co02-markov-steady.png)
 

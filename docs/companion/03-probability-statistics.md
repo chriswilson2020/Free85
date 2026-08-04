@@ -4,16 +4,15 @@ Statistics is usually taught on data sets too big to think about,
 where the machine's summaries have to be taken on trust. Free85 turns
 that round: its statistics columns hold eight entries, and eight
 numbers are few enough to check every claim the machine makes by
-hand. This chapter treats that as the theme, not a limitation: it
-summarises a small data set and audits the summary, meets the random
-number generator and its strictly repeatable stream, builds
-simulations in the program environment, fits competing models to two
-invented data sets, forecasts from the better one, and ends with the
-four statistical plots, leaning throughout on the statistics editor
-of the Guidebook, chapter 15. Every key sequence and every quoted
-number in this chapter was run in the emulator on a fresh machine,
-and each exploration ends with a "Try it" block whose answers stay
-on the calculator.
+hand. The chapter summarises a small data set and audits the
+summary, meets the random number generator and its strictly
+repeatable stream, builds simulations in the program environment,
+fits competing models to two invented data sets, forecasts from the
+better one, and ends with the four statistical plots, leaning
+throughout on the statistics editor of the Guidebook, chapter 15.
+Every key sequence and every quoted number in this chapter was run
+in the emulator on a fresh machine, and each exploration ends with
+a "Try it" block whose answers stay on the calculator.
 
 ## 3.1 A week of small data
 
@@ -57,7 +56,8 @@ audit it afterwards.
    from 20 are -8, -5, -5, -3, -2, -1, 1, and 23, their squares
    total 658, and 658 over 7 is 94. The `S SD` line of step 2 is
    its square root, its last digit a whisker under the true
-   9.69535971483266: small print is arithmetic, not mathematics.
+   9.69535971483266: the small print of the last digit is
+   arithmetic, not mathematics.
 
 6. Press [CLEAR], then [MORE] for the `MIN MAX Q1 Q3 BOX` page, and
    collect the five-number summary one key at a time, pressing
@@ -77,8 +77,7 @@ audit it afterwards.
 8. The mean-against-median verdict closes the story. Press [EXIT]
    for the home screen, which comes back showing a leftover `= 12`,
    the selected entry handed back, so press [CLEAR] before typing.
-   Then
-   `(12+15+15+17+18+19+21)/7` and [ENTER] answers
+   Then `(12+15+15+17+18+19+21)/7` and [ENTER] answers
    `= 16.714285714286`, the mean without the bank holiday: one day
    moved the mean from under 17 to 20, while the median crept from
    17 to 17.5. Means follow outliers; medians stay with the crowd.
@@ -309,9 +308,11 @@ reading their question from the entry the editor stands on.
 
 1. Step off the table screen that closed section 3.4: press [EXIT]
    to the plot, let the slow exponential finish redrawing, and
-   press [EXIT] again for the home screen. Then rebuild the fit:
-   press [STAT], press [MORE] three times, and press [F2], `EXPR`,
-   answering the same coefficients; press [CLEAR] for the editor.
+   press [EXIT] again for the home screen. Then rebuild the fit
+   (the forecast keys read whichever model was fitted last, so make
+   certain it is the duckweed's): press [STAT], press [MORE] three
+   times, and press [F2], `EXPR`, answering the same coefficients;
+   press [CLEAR] for the editor.
 
 2. Ask about week 6. Press [+] to grow the columns to six entries,
    press [▲] to wrap the selection to the new `INDEX 6`, type 6,

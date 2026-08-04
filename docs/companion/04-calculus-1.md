@@ -1,4 +1,4 @@
-# Chapter 4: Explorations in calculus I
+# Chapter 4: Explorations in Calculus I
 
 Calculus asks what functions do at places the eye cannot reach:
 infinitesimally close to a point, or summed across infinitely many
@@ -15,10 +15,10 @@ exploration ends with a "Try it" block whose answers stay on the
 calculator.
 
 One habit pays for itself all chapter: the calculus commands read the
-*active stored equation* and need one completed plot before they will
-answer. Store the function with [GRAPH] and let the plot draw to the end;
-after an interrupted plot, `EVAL(` and its family answer `SYNTAX ERROR`
-until a plot has run through once.
+*active stored equation*, so store the function with [GRAPH] before
+asking them anything. With no equation stored, `EVAL(` and its family
+answer `SYNTAX ERROR`; once one is stored, they answer whether or not
+the plot was left to finish.
 
 ## 4.1 Limits by table and zoom
 
@@ -70,9 +70,10 @@ zero: a parabola with one point removed.
 
 6. Ask for the point itself: [CLEAR], then `EVAL(0)` stops at the
    `SYNTAX ERROR` screen, which is how the calculus commands report an
-   evaluation that fails at the requested point; press [CLEAR] to dismiss
-   it. Typing the division at 0 by hand instead, `(0^3+0^2)/0`, answers
-   the blunter `DIVIDE BY ZERO`.
+   evaluation that fails at the requested point. Press [CLEAR] to
+   dismiss it (the entry line keeps `EVAL(0)`), press [CLEAR] again, and
+   type the division at 0 by hand instead: `(0^3+0^2)/0` answers the
+   blunter `DIVIDE BY ZERO`.
 
 Every probe said the values head for 0, and no probe proved it: a machine
 tests finitely many points, and a limit is a claim about all of them. The
@@ -187,8 +188,8 @@ value 16/3) and at x = 2 (a local minimum, value -16/3).
 
 5. Values come from `EVAL(` at the found locations, or at the exact ones
    when you know them: [CLEAR], then `EVAL(2)` answers
-   `= -5.3333333333333`, and `EVAL(-2)` answers `= 5.3333333333333`, the
-   fourteen-digit faces of -16/3 and 16/3.
+   `= -5.3333333333333`, and after another [CLEAR], `EVAL(-2)` answers
+   `= 5.3333333333333`, the fourteen-digit faces of -16/3 and 16/3.
 
 6. The tolerance setting belongs to this toolkit's small print. Press
    [2nd] [CLEAR], the `TOLER` key: the `TOLERANCE CHANGED` notice
@@ -250,13 +251,14 @@ subtracts. The specimen dips on purpose: g(x) = x^2 - 2x - 3 factors as
    the fresh-boot default; the `π` legend on [2nd] [^] types `PI`).
    Press [CLEAR], type it ([COS] types `COS(`), press [GRAPH], and let
    the plot finish; the standard window shows only the cold midnight
-   arc, most of the day sitting above `YMAX`, and the numbers below need
-   the completed plot, not the picture.
+   arc, most of the day sitting above `YMAX`, and the numbers below read
+   the stored equation, not the picture.
 
 7. Press [EXIT] and [CLEAR], then check the design: `EVAL(0)` answers
-   `= 8`, and `EVAL(12)` answers `= 20.000025006855`, the noon peak
-   through the machine's fourteen-digit `PI` (the same small print as
-   `SIN(PI/2)` in the Guidebook, chapter 3).
+   `= 8`, and after another [CLEAR], `EVAL(12)` answers
+   `= 20.000025006855`, the noon peak through the machine's
+   fourteen-digit `PI` (the same small print as `SIN(PI/2)` in the
+   Guidebook, chapter 3).
 
 8. The day's average: [CLEAR], then `FNINT(0,24)` answers
    `= 336.000035432` degree-hours, and [CLEAR], then `FNINT(0,24)/24`
@@ -285,7 +287,7 @@ and watching the sums close in on the integral is the best argument for
 why the limit of sums deserves the name "integral". The function is
 f(x) = x^2 + 1 on [0, 2], whose integral is 14/3.
 
-1. Arm the equation first: type [x-VAR] [x²] [+] [1] so the entry line
+1. Store the equation first: type [x-VAR] [x²] [+] [1] so the entry line
    reads `X^2+1`, press [GRAPH], let the plot finish, press [EXIT], and
    press [CLEAR]. Then get the target: spell `FNINT(0,2)` and press
    [ENTER]: `= 4.6666666666667`, the fourteen-digit 14/3.
@@ -312,9 +314,10 @@ f(x) = x^2 + 1 on [0, 2], whose integral is 14/3.
    equation you store later. Line 5 shows the tally times the slice
    width: four heights halved are four half-width slices added.
 
-3. Press [F2], `RUN`. The run screen answers `3.75` over `LINE 6` with
-   the status `DONE`: the left sum, well under 4.6667, because every left
-   edge of a rising function undershoots its slice.
+3. Press [F2], `RUN`. The run screen answers `RUN P1` over `LINE 6`, the
+   output line shows `3.75`, and the status reads `DONE`: the left sum,
+   well under 4.6667, because every left edge of a rising function
+   undershoots its slice.
 
 4. The right sum samples 0.5, 1, 1.5, 2 instead, which is the same
    program counting `A` from 1 to 4. Press [PRGM] for the list, [▼] to
@@ -343,7 +346,7 @@ f(x) = x^2 + 1 on [0, 2], whose integral is 14/3.
 The environment shapes the design: `FOR` bounds are single digits, so a
 counted loop passes at most ten times, and finer slicings hand the count
 to a `WHILE` countdown in the style of Chapter 3 (Explorations in
-probability and statistics). Four program slots held all four sums, with
+Probability and Statistics). Four program slots held all four sums, with
 `EVAL(` keeping every slot ignorant of which function it measures.
 
 **Try it.**

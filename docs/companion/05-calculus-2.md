@@ -7,11 +7,12 @@ integrals, and polynomials impersonating transcendental functions. Free85
 keeps a tool for each: the polynomial editor and solver workspace of the
 Guidebook, chapter 14, the polar and parametric modes of the Guidebook,
 chapters 5 and 6, and the calculus commands of the Guidebook, chapter 3. The
-habit from Chapter 4 (Explorations in calculus I) still governs: the
-calculus commands read the active stored equation after one completed plot,
-so store with [GRAPH], let the plot draw to the end, and press [CLEAR] at
-home before typing a command, because the graph hands its equation back to
-the entry line. Every key sequence and every quoted number in this chapter
+habit from Chapter 4 (Explorations in Calculus I) still governs: the
+calculus commands read the active stored equation, so store with [GRAPH]
+before asking them anything, let plots draw to the end (presses that arrive
+mid-draw are dropped), and press [CLEAR] at home before typing a command,
+because the graph hands its equation back to the entry line. Every key
+sequence and every quoted number in this chapter
 was run in the emulator on a fresh machine, and each exploration ends with a
 "Try it" block whose answers stay on the calculator.
 
@@ -283,17 +284,19 @@ accumulator turns out to be an old acquaintance.
 
    ![The area from 3 to 6 matching the area from 1 to 2](images/co05-accumulator.png)
 
-   The answer is `= 0.69314718242103`, agreeing with step 2's probe in every
-   displayed digit: two differently shaped slabs, equal because both are
-   doublings.
+   The answer is `= 0.69314718242103`, agreeing with step 2's probe to
+   eleven decimal places: two differently shaped slabs, equal because both
+   are doublings.
 
-One route is closed, and knowing it saves a reset: a graph slot cannot hold
-`FNINT(`. In this release a slot storing `FNINT(0,X)` stops the plot at the
-`NO NUMERIC RESULT` notice, the notice returns with every repaint, and no
-key recovers the machine short of a reset. Programs are no way around: they
-may call `FNINT(` freely, but the run screen shows only the most recent
-`DISP` (the Guidebook, chapter 16). The hand-built table is the design to
-work within.
+One route is closed, and knowing it can save a reset: a graph slot cannot
+hold `FNINT(`. In this release a slot storing `FNINT(0,X)` stops the plot
+at the `NO NUMERIC RESULT` notice, and with any other slot stored the
+notice returns with every repaint, no key recovering the machine short of a
+reset; only when the `FNINT(` slot is the sole one stored does [CLEAR]
+dismiss to the home screen, where [GRAPH] on an emptied entry line clears
+the slot. Programs are no way around: they may call `FNINT(` freely, but
+the run screen shows only the most recent `DISP` (the Guidebook, chapter
+16). The hand-built table is the design to work within.
 
 **Try it.**
 
@@ -314,7 +317,7 @@ forms, one specimen of each.
 
 1. The 0/0 specimen divides e to the 2x minus 1 by x, undefined at 0, where
    top and bottom both vanish. Type it as `(EXP(2X)-1)/X` ([2nd] [LN] types
-   `EXP(`; the exponential makes this a slow plot, so let it finish), and
+   `EXP(`), press [GRAPH], and let the slow exponential plot finish; then
    press [MORE] on the graph screen for the table. The `X=0` row reads
    `UNDEF`, and the unit-step rows below grow ferociously: `6.389`, `26.79`,
    `134.1`, `744.9`, `4405.` in the five-character cells. Far from 0 the

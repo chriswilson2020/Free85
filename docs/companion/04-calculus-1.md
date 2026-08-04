@@ -1,98 +1,518 @@
 # Chapter 4: Explorations in Calculus I
 
-Calculus asks what functions do at places the eye cannot reach:
-infinitesimally close to a point, or summed across infinitely many
-slivers. A calculator cannot reach those places either, but it can walk
-arbitrarily far towards them and report back. This chapter probes limits
-with the table and the zoom keys, builds derivatives from raw difference
-quotients before letting `NDER(` take over, hunts extrema with the search
-commands, measures areas with `FNINT(` and the graph keys, and programs
-Riemann sums to watch an integral assembled. The calculus commands and
-the tolerance setting are the Guidebook, chapter 3; the analysis keys are
-the Guidebook, chapter 4. Every key sequence and every quoted number in
-this chapter was run in the emulator on a fresh machine, and each
-exploration ends with a "Try it" block whose answers stay on the
-calculator.
+Calculus asks what functions do at places you cannot reach: infinitely
+close to a point, or added up across infinitely many slivers. A calculator
+cannot reach those places either. What it can do is walk a very long way
+towards them and report back, and this chapter is largely about learning to
+read those reports properly, including the ones that are lying to you.
 
-One habit pays for itself all chapter: the calculus commands read the
-*active stored equation*, so store the function with [GRAPH] before
-asking them anything. With no equation stored, `EVAL(` and its family
-answer `SYNTAX ERROR`; once one is stored, they answer whether or not
-the plot was left to finish.
+We probe limits with the table and the zoom keys, meet a limit that does
+not exist at all, build a derivative out of raw difference quotients before
+letting `NDER(` take over, hunt turning points with the search commands,
+measure an integral as an average before measuring it as an area, and
+program Riemann sums to watch an integral being assembled. The calculus
+commands and the tolerance setting are the Guidebook, chapter 3; the
+analysis keys are the Guidebook, chapter 4.
+
+One habit pays for itself all chapter. The calculus commands read the
+*active stored equation*, so store the function with [GRAPH] before asking
+them anything. With nothing stored, `EVAL(` and its family answer
+`SYNTAX ERROR`. Once something is stored they answer whether or not you let
+the plot finish drawing.
 
 ## 4.1 Limits by table and zoom
 
-A limit asks what value a function is heading for, which is a different
-question from what value it has. The sharpest way to feel the difference
-is a function undefined at exactly one point and perfectly ordinary
-everywhere else. This section's specimen is f(x) = (x^3 + x^2) / x, which
-at every x other than 0 equals x^2 + x, and at 0 itself divides zero by
-zero: a parabola with one point removed.
+What is sin x divided by x, when x is nought?
 
-1. On the home screen, type [(] [x-VAR] [^] [3] [+] [x-VAR] [x²] [)] [÷]
-   [x-VAR] so the entry line reads `(X^3+X^2)/X`, and press [GRAPH]. Let
-   the plot draw to the end. The curve is the familiar parabola of
-   `X^2+X`, and nothing marks the missing point: the plot samples 128
-   columns across the window, and none of them lands exactly on 0.
+Nothing. There is no answer. Nought over nought is not a number, and in a
+few minutes the machine will tell you so in as many words.
 
-2. The table is not so easily fooled. Press [MORE] on the graph screen:
+That is not the interesting question though. The interesting one is what
+the thing is *nearly*, when x is *nearly* nought. That does have an answer,
+a perfectly definite one, and going and getting it is what a limit is.
 
-   ![The table catching the hole at X=0](images/co04-limit-table.png)
+I have not chosen this example to be clever. It is the one every calculus
+course does, and for a good reason: it is the fact that makes the
+derivative of sine come out as cosine. Get this one and you have paid for
+most of the chapter in advance.
 
-   The `X=0` row reads `UNDEF`, and the rows below it read `2`, `6`, `12`,
-   `20`, `30`, exactly the values of x^2 + x. The graph drew what it
-   sampled; the table asked at 0 itself and reported that nothing is
-   there.
+We will go at it four ways. Draw it, tabulate it, probe it, and then do
+some paper. Three of those will point at the answer. Only the last one will
+actually deliver it, and the difference between pointing and delivering is
+most of what this section is about.
 
-3. Now walk towards the hole. Press [-] twice to halve the table step to
-   0.25: the rows read `UNDEF`, `0.312`, `0.75`, `1.312`, `2`, `2.812`
-   (the five-character cells truncate 0.3125 and 1.3125). Press [▲] to
-   scroll up: the rows from `X=-1.25` to the hole read `0.312`, `0`,
-   `-0.18`, `-0.25`, `-0.18`, `UNDEF`. From both sides the values slide
-   towards 0, and the `X=0` row stays `UNDEF` at every step size: the
-   limit is 0, and the value does not exist.
+### Getting it into the machine
 
-4. Zoom at the hole. Press [EXIT] to leave the table and let the plot
-   redraw, then press [+] three times, letting each replot finish: the
-   window is now -1.25 to 1.25 on both axes. Press [▶] twice and the
-   readout gives `X=0.0492125984252` and `Y=0.051634478268959`: this
-   close in, the curve is indistinguishable from the line y = x, because
-   x^2 + x behaves like x when x is small. However far you zoom, the
-   picture stays a clean line with its centre point silently missing.
+1. Press [CLEAR]. There is probably something left on the entry line from
+   whatever you did last, and the machine will cheerfully add your new
+   typing onto the end of it.
 
-5. The calculus commands tell the same story in numbers. Press [EXIT]
-   (the graph hands `(X^3+X^2)/X` back to the entry line) and press
-   [CLEAR]. Spell `EVAL(.1)` letter by letter ([ALPHA] then the key
-   carrying each letter, brackets and digits typed directly) and press
-   [ENTER]: the answer is `= 0.11`. Press [CLEAR] and ask `EVAL(.01)`:
-   `= 0.0101`. Press [CLEAR] and ask `EVAL(-.01)` with the [(-)] key:
-   `= -0.0099`. Each probe lands closer to 0 from its own side.
+2. Press [SIN]. You get `SIN(`, bracket included. Then [x-VAR], [)], [÷],
+   [x-VAR].
 
-6. Ask for the point itself: [CLEAR], then `EVAL(0)` stops at the
-   `SYNTAX ERROR` screen, which is how the calculus commands report an
-   evaluation that fails at the requested point. Press [CLEAR] to
-   dismiss it (the entry line keeps `EVAL(0)`), press [CLEAR] again, and
-   type the division at 0 by hand instead: `(0^3+0^2)/0` answers the
-   blunter `DIVIDE BY ZERO`.
+   Read the line before you go on. It should say `SIN(X)/X`. If it says
+   `SIN((X)/X` you have pressed [(] out of habit after [SIN], which
+   everybody does once. Press [CLEAR] and type it again.
 
-Every probe said the values head for 0, and no probe proved it: a machine
-tests finitely many points, and a limit is a claim about all of them. The
-proof is one line of algebra, (x^3 + x^2)/x = x^2 + x for every nonzero
-x, and the right side plainly heads for 0. Numerical evidence points;
-algebra pins. The whole chapter uses the machine in that spirit.
+3. Press [GRAPH]. That stores the line into `Y1` and draws it in the
+   standard window, -10 to 10 both ways.
+
+   Sine is slow work for this machine. Let the curve reach the right-hand
+   edge before you touch anything, because presses that land mid-draw go
+   nowhere and you will decide the key is broken.
+
+   ![The bump of SIN(X)/X, flattened almost to nothing by the standard window](images/co04-sinx-standard.png)
+
+### The graph, which is no help at all
+
+Look at what you have got. A small bump over the origin, ripples either
+side, the whole thing squashed into a band a few pixels high.
+
+That is the window's doing. You have made room for heights from -10 to 10,
+and this function never leaves the range -0.3 to 1, so nine tenths of the
+screen is empty sky. It is section 1.1's complaint in its natural habitat.
+
+Fix it and get closer.
+
+4. Press [+] three times, waiting for each replot. Each press halves every
+   bound, so you are now looking at -1.25 to 1.25 and the bump fills the
+   screen.
+
+5. Press [▶] twice. The readout says `X=0.0492125984252` and
+   `Y=0.99959640223576`.
+
+   ![The zoomed bump with the trace two columns right of centre](images/co04-sinx-zoom-trace.png)
+
+   So a twentieth of a unit right of the middle, the function is 0.9996.
+   Encouraging.
+
+Now find the hole.
+
+You cannot. Zoom as long as you have patience for and the curve stays a
+smooth unbroken arc, straight through the point that is not there.
+
+Here is why, and it is worth having straight because it will come back at
+you later in this book. The machine draws by choosing 128 columns across
+the window and working out the height at each. Nought is not one of those
+columns and no amount of zooming will make it one: halve the window and you
+get 128 new columns, and nought is not one of those either. A missing point
+one point wide is invisible to something that only ever looks in 128
+places.
+
+It is not lying to you. You asked about 128 columns and it answered about
+128 columns. The question you wanted to ask was about somewhere it never
+looks.
+
+### The table, which is
+
+The table asks at values you choose, nought included. So it can catch what
+the plot cannot.
+
+6. Press [2nd] [+] for the standard window, let it redraw, then [MORE] for
+   the table.
+
+   ![The table, with UNDEF sitting on the X=0 row](images/co04-sinx-table.png)
+
+   The `X=0` row says `UNDEF`. There it is. The machine has gone away, tried
+   to divide nought by nought, failed, and come back and told you.
+
+   Underneath: `0.841`, `0.454`, `0.047`, `-0.18`, `-0.19`. Those are the
+   ripples, not the answer. By `X=1` we are down to 0.841 and falling.
+   Whatever is going on near nought is going on much closer in than a step
+   of 1 can see.
+
+7. Press [-] four times. Each press halves the table step, so you go 1,
+   0.5, 0.25, 0.125, 0.0625. Let each redraw settle before the next press.
+
+   ![The same table at step 0.0625, the values climbing towards 1](images/co04-sinx-table-fine.png)
+
+   Read the rows below the hole *upwards*, towards it: 0.983, 0.989, 0.994,
+   0.997, 0.999. And the `X=0` row still says `UNDEF`.
+
+   That is the whole shape of it. Walk in towards nought and the values
+   climb towards 1 without ever arriving, and at nought itself there is
+   simply nothing at all.
+
+8. Press [▲] to see the other side. From `X=-0.31` the rows read `0.983`,
+   `0.989`, `0.994`, `0.997`, `0.999`, then `UNDEF`.
+
+   The same five numbers in the same order, and that is not luck. Sine is
+   odd, so sin(-x) over -x is the same thing as sin x over x. The function
+   is a mirror image about the y axis with one point missing out of the
+   middle, so both sides always had to climb to the same place.
+
+### Squeezing better numbers out of it
+
+The table gives you three decimal places, because that is all a
+five-character cell will hold. The calculus commands will do better.
+
+9. Press [EXIT] to leave the table, [EXIT] again for the home screen, and
+   [CLEAR] to get rid of the equation the graph has just handed back to
+   you.
+
+10. Spell out `EVAL(.1)` (letters are [ALPHA] and then the key with that
+    letter on it) and press [ENTER]. You get `0.99833416646834`.
+
+11. Now smaller. Press [CLEAR] before each one:
+
+    | Ask this | Get this |
+    | --- | --- |
+    | `EVAL(.01)` | `0.99998333341673` |
+    | `EVAL(.001)` | `0.9999998333334` |
+    | `EVAL(-.001)` | `0.9999998333334` |
+    | `EVAL(.0001)` | `0.9999999983334` |
+
+    Watch the nines. Two more of them every time x shrinks by a factor of
+    ten. That is a rate, rates are worth noticing, and in a few minutes we
+    will work out exactly where this one comes from.
+
+    Notice too that `.001` and `-.001` agree in every last digit. That is
+    step 8's mirror again, now stated to fourteen places.
+
+12. Push it harder. `EVAL(1E-6)`, with the `E` typed as [EE], gives
+    `0.9999999999999`. `EVAL(1E-9)` gives `1`, flat.
+
+    Be careful with that last one. It does not mean the function equals 1 at
+    a billionth.
+
+    A number in this machine is fourteen significant digits. That is seven
+    bytes of packed decimal, two digits to the byte, and it is all the room
+    a number gets. At a billionth, sine of x and x agree in all fourteen of
+    them, so the division comes out as exactly 1. Nothing has been
+    discovered. The machine has simply run out of places to keep the
+    difference.
+
+    That is a fact about seven bytes, not a fact about sine. Confusing the
+    two is the classic way to fool yourself with a calculator, and knowing
+    the byte count does not make you immune. It just means that when a
+    number looks too clean, you know which drawer to go and look in.
+
+13. Now ask it the original question. Press [CLEAR], spell `EVAL(0)`, and
+    press [ENTER]:
+
+    ![EVAL at the hole, stopped on SYNTAX ERROR](images/co04-sinx-eval-error.png)
+
+    `SYNTAX ERROR`, with `CLEAR OR EXIT` underneath.
+
+    That message is wrong and it is my fault. There is nothing whatever
+    wrong with the syntax of `EVAL(0)`. What has actually happened is that
+    the evaluation failed at the point you asked about, and the calculus
+    commands report every failure of that kind through the error the parser
+    already had to hand. Laying it out again I would give it its own
+    message, one that mentioned the point rather than your typing.
+
+    So read it as "there is nothing there", because that is what it means,
+    and it will go on meaning that every time a calculus command lands on a
+    point where a function has no value.
+
+    Press [CLEAR] to clear the notice. The entry line still holds `EVAL(0)`,
+    so press [CLEAR] again to empty that too. Two presses of [CLEAR] after
+    any error screen: the first kills the message, the second empties the
+    line. Get into the habit early and you will save yourself a lot of
+    puzzled retyping.
+
+### Why it is 1, which none of that proved
+
+Stop and take stock for a moment. Everything so far points at 1. Nothing so
+far has proved 1.
+
+That is not a quibble. A machine can try a hundred values, or a million; a
+limit is a claim about all of them at once, and no amount of trying will
+ever get you there. Pointing you at what to go and prove is what the
+machine is genuinely good for. It cannot do the other job and it is
+important not to let it pretend otherwise.
+
+So here is the proof, and it is a nice one.
+
+Draw a unit circle and take a small angle x at the centre. There are three
+regions, each sitting inside the next: the triangle inside the sector, the
+sector itself, and the larger triangle outside it.
+
+![A unit circle sector with the triangle inside it and the triangle outside it, the three areas that squeeze sine over x](images/fig-04-squeeze.svg)
+
+Their areas are sin x over 2, then x over 2, then tan x over 2. Divide the
+lot through by sin x over 2, turn the inequality upside down, and what is
+left is that cos x sits below sin x over x, which sits below 1.
+
+Now let x head for nought. Cosine heads for 1. The quotient is trapped
+between a thing heading for 1 and 1 itself, so it has nowhere to go but 1.
+
+That is the squeeze, and you can watch it close.
+
+14. Press [CLEAR] and ask `COS(.1)`: `0.99500416527802`. Step 10 gave
+    `0.99833416646834` at the same x. Sure enough, the quotient is sitting
+    between them, in a gap five thousandths wide.
+
+    Press [CLEAR] and ask `COS(.01)`: `0.99995000041666`, against the
+    quotient's `0.99998333341673`. The gap is down to five
+    hundred-thousandths. Push the walls together and whatever is between
+    them has no say in the matter.
+
+There is a second route, and it explains those nines from step 11.
+
+Sine of x is x, take away x cubed over 6, plus smaller stuff. Divide by x
+and sin x over x is 1, take away x squared over 6, plus smaller stuff
+still. So the error ought to go like x squared over 6: shrink x by a factor
+of ten and the error should shrink by a hundred, which is two more nines.
+Which is exactly what you saw.
+
+15. Test it. Press [CLEAR] and type `1-.1^2/6`: `0.9983333333334`, against
+    the quotient's `0.99833416646834`. Agreement to six decimals. Press
+    [CLEAR] and type `1-.01^2/6`: `0.9999833333334`, against
+    `0.99998333341673`. Nine decimals.
+
+    That one is worth carrying around in your head. For small x, sin x over
+    x is 1 take away x squared over 6, and you can do it without a machine
+    at all.
+
+### The bit nobody tells you
+
+The answer 1 is not really a fact about sine. It is a fact about sine
+*measured in radians*, and I can show you that in about ten key presses.
+
+16. Press [2nd] [MORE] for the mode screen, press [F1] once so the second
+    line reads `ANGLE DEG`, and press [EXIT].
+
+17. Press [CLEAR], type `SIN(X)/X` again, and press [GRAPH]. Let it draw.
+    It comes out as a flat line lying on the axis, which is your first clue
+    that something has changed underneath you.
+
+18. Press [EXIT], press [CLEAR], and ask `EVAL(.1)`: `0.017453283658983`.
+    Press [CLEAR] and ask `EVAL(.001)`: `0.017453292519057`.
+
+    Still converging. Converging on something else entirely. Press [CLEAR]
+    and type `PI/180`, with the `π` legend on [2nd] [^]:
+    `0.017453292519943`. That is where the probes are heading, and by
+    x = .001 they have got nine decimal places of the way there.
+
+    It is the chain rule wearing a false moustache. A degree is π/180 of a
+    radian, so working in degrees quietly multiplies every angle by π/180
+    before the sine ever gets a look at it, and the limit gets multiplied by
+    the same thing. Radians are simply the unit that makes the constant come
+    out as 1. That is the real reason calculus insists on them, and it is a
+    much better reason than "because the book says so".
+
+19. Press [2nd] [MORE], press [F1] once to get back to `ANGLE RAD`, and
+    press [EXIT].
+
+    Do not skip that. I have left a machine sitting in `DEG` and then spent
+    a quarter of an hour deciding the firmware was broken, when every
+    trigonometric answer in the next section was simply being quietly
+    scaled by π/180. It is a very cheap way to waste an afternoon.
 
 **Try it.**
 
-1. Store `(X^2-2*X)/X` and find its hole with the table. What line does
-   the plot draw, and which single point of it is a lie?
-2. Store `(SQRT(X+9)-3)/X` ([2nd] [x²] types `SQRT(`) and probe the hole
-   at 0 with `EVAL(.001)` and `EVAL(-.001)`. What limit do the probes
-   suggest? Check by multiplying top and bottom by SQRT(X+9)+3.
-3. Store `1/X` and read its table. The `X=0` row shows `UNDEF` here too,
-   but no limit exists. What do the table rows either side of the hole do
-   that section 4.1's rows did not?
+1. Try the same four ways on `(1-COS(X))/X`. Table first, then probes at
+   .1, .01, .001. Where is it heading? Then do the same for
+   `(1-COS(X))/X^2` and work out what dividing by the extra x changed.
+2. Guess before you press anything: `SIN(2*X)/X`. The limit is not 1. Work
+   out what it should be from the series in step 15, write your answer
+   down, and then go and check it at .01 and .001. Being wrong here is
+   useful, so write the guess down before you look.
+3. In step 7 you halved the table step four times and got to 0.999. Halve
+   it four more times and read the same row. How many nines does the cell
+   give you now, and what is stopping it giving you more? (The answer is
+   about the cell, not about the mathematics.)
+4. `EVAL(1E-9)` came back as exactly 1 in step 12, and we said that was the
+   machine running out of room. Find the largest power of ten at which the
+   answer is still visibly short of 1. That number tells you something
+   about the machine you are holding. What?
+5. Turn it upside down: store `X/SIN(X)` and probe from both sides. Its
+   limit has to be 1 as well, and you can say why in one line. Then try to
+   run the squeeze argument of step 14 on it unchanged and see where it
+   goes wrong. Fixing it is a two-line job once you spot the trouble.
+6. Put the machine in `DEG` and redo exercise 2. Predict the answer before
+   you press a key, using what step 18 showed you. Then set it back to
+   `RAD`, because you will want it there for section 4.2.
 
-## 4.2 The derivative as a limit
+## 4.2 A limit that is not there
+
+Section 4.1 could have left you with a comfortable and wrong idea: that if
+you probe hard enough, a number turns up. It does not always. Some
+functions have no limit at all at a point, and the useful skill is telling
+which kind you are looking at.
+
+The specimen is sin of one over x. As x heads for nought, one over x runs
+away to infinity, so the sine is asked for its value at angles that get
+larger and larger without stopping, and it goes on doing what sine does:
+up, down, up, down, faster and faster. It never settles anywhere, because
+there is nowhere for it to settle.
+
+Then we will change one thing, multiply the whole lot by x, and watch a
+limit appear out of the same oscillation.
+
+### Watching it fail to settle
+
+1. Press [CLEAR], then [SIN], [1], [÷], [x-VAR], [)]. The line reads
+   `SIN(1/X)`. Press [GRAPH] and let it finish, which takes a while.
+
+   ![SIN(1/X) in the standard window](images/co04-sinrecip-std.png)
+
+   Away from the origin it is calm enough. It is the middle that matters.
+
+2. Press [+] three times, letting each replot finish.
+
+   ![The same curve zoomed in three times, thrashing near the origin](images/co04-sinrecip-zoom.png)
+
+   Now compare that with section 4.1. There, zooming in made the picture
+   *calmer* every time, until the curve was nearly a straight line. Here
+   zooming in makes it worse. The wiggles do not spread out as you
+   magnify, they crowd together, because there are infinitely many of them
+   packed into any interval you care to draw round nought.
+
+   Those vertical strokes near the middle are the plotter losing the race.
+   It has one column to spend on a stretch of x that contains several
+   complete waves, so it joins two samples that happen to be far apart and
+   draws a near-vertical line between them. The picture is not wrong, it is
+   just badly outnumbered.
+
+3. Probe it and the numbers say the same thing. Press [EXIT], press
+   [CLEAR], and ask `EVAL(` at a few points, [CLEAR] before each:
+
+   | Ask this | Get this |
+   | --- | --- |
+   | `EVAL(.1)` | `-0.544021085826` |
+   | `EVAL(.05)` | `0.91294525072816` |
+   | `EVAL(.02)` | `-0.26237485369997` |
+   | `EVAL(.01)` | `-0.50636564109442` |
+   | `EVAL(.005)` | `-0.87329729713503` |
+   | `EVAL(.003)` | `0.31884634470865` |
+
+   Put those beside section 4.1's column of nines. There, every probe was
+   closer to the answer than the one before it. Here they are all over the
+   place, and getting closer to nought does not help at all. Down, up,
+   down, down, down, up. That is what no limit looks like when you meet one
+   in the wild.
+
+### Where the machine gives up, and why
+
+4. Keep going. Press [CLEAR] and ask `EVAL(.0025)`:
+
+   ![The sine giving up: SYNTAX ERROR at EVAL(.0025)](images/co04-sin-cliff.png)
+
+   `SYNTAX ERROR` again, which by now you know means "no value here". But
+   this time it is not a hole in the function. One over .0025 is 400, and
+   the machine will not take the sine of 400.
+
+   Here is what is going on inside, because you are entitled to know.
+
+   To work out a sine, the firmware first drags the angle back into a range
+   the series it uses can handle, which means somewhere between minus π and
+   π. It does that by repeated subtraction: take 2π off, look again, take
+   another 2π off, and so on. It is the most obvious method there is and on
+   a machine this size it was the right one, because it needs nothing but a
+   subtraction it already had.
+
+   What it does need is a stopping rule, in case somebody hands it
+   something enormous and it sits there subtracting until the battery dies.
+   So the loop gives up after 63 goes. Sixty-three lots of 2π is 395.84, so
+   sine works to a little under 400 radians and then declines.
+
+   You can find the edge yourself. `SIN(398)` answers `0.83175800712131`.
+   `SIN(399)` stops with the same notice. Between those two the angle stops
+   fitting inside 63 subtractions.
+
+   That is a real limit and I am not going to dress it up: it means this
+   machine cannot follow sin of one over x closer to nought than about
+   x = 1/400. What it does not mean is that you have learned nothing. You
+   have watched the function refuse to settle across a factor of forty in
+   x, and the mathematics tells you it goes on refusing forever, at a rate
+   no calculator was ever going to keep up with.
+
+### The same oscillation with a limit
+
+5. Now change one thing. Press [CLEAR], type [x-VAR], [×], [SIN], [1], [÷],
+   [x-VAR], [)] so the line reads `X*SIN(1/X)`, and press [GRAPH]. Let it
+   draw.
+
+   The sine is still doing exactly what it did before, swinging between -1
+   and 1 infinitely often. But now it is being multiplied by x, and x is on
+   its way to nought.
+
+6. Put the walls up so you can see it. Press [2nd] [2] to move to slot
+   `Y2`, type [x-VAR], and press [GRAPH]. Press [2nd] [3] for slot `Y3`,
+   type [(-)], [x-VAR], and press [GRAPH]. That gives you the lines y = x
+   and y = -x on top of the curve.
+
+7. Press [+] three times, letting each replot finish.
+
+   ![X*SIN(1/X) pinched between the lines X and -X](images/co04-squeeze-zoom.png)
+
+   There is the whole argument in one picture. The two straight lines close
+   on the origin like a pair of scissors, and the curve is trapped between
+   them, oscillating as wildly as ever inside a gap that is being squeezed
+   shut. It has no room left to oscillate in.
+
+   This is the squeeze of section 4.1 again, and this time you are not
+   taking it on trust from a diagram. It is on the screen, and the three
+   slots are exactly the right number of slots to show it: the thing, and
+   the two walls closing on it.
+
+8. The probes agree. [CLEAR] before each:
+
+   | Ask this | Get this |
+   | --- | --- |
+   | `EVAL(.1)` | `-0.0544021085826` |
+   | `EVAL(.05)` | `0.045647262536408` |
+   | `EVAL(.02)` | `-0.0052474970739994` |
+   | `EVAL(.01)` | `-0.0050636564109442` |
+   | `EVAL(.005)` | `-0.0043664864856752` |
+   | `EVAL(.003)` | `0.00095653903412595` |
+
+   Still bouncing between positive and negative, exactly as before, because
+   the sine has not changed its mind about anything. But the size is
+   collapsing: five hundredths, then five thousandths, then one thousandth.
+   The sign is still random and the magnitude is not. The limit is 0.
+
+   Compare the two tables directly. Same function inside, same oscillation,
+   same refusal to settle on a sign. One has no limit and the other has a
+   perfectly good one, and the entire difference is the x out in front.
+
+### A test you can actually apply
+
+There is a way to make "settles down" precise, and the graph screen is
+unusually well suited to it, because the thing you need is a rectangle and
+a window *is* a rectangle.
+
+Say you claim a function heads for L as x heads for a. Someone who doubts
+you names a tolerance: they will believe it if the curve stays within that
+much of L. Your job is to find a window narrow enough that the curve does
+not leave the top or bottom of the screen anywhere inside it, apart from at
+a itself.
+
+If you can always do that, however mean the tolerance, the limit is L. If
+there is a tolerance you cannot beat by any narrowing at all, there is no
+limit.
+
+That is the whole of the epsilon-delta definition, in a form you can carry
+out with the zoom keys. Try it on both of this section's functions and the
+difference is immediate: for `X*SIN(1/X)` every squeeze you try succeeds,
+and for `SIN(1/X)` you cannot even get started, because the curve fills the
+band from -1 to 1 no matter how narrow you make the window.
+
+**Try it.**
+
+1. Before pressing anything, write down what you expect the plot of
+   `SIN(1/X)` to do far from the origin, out at x = 5 or 10. Then look.
+   Why is it so calm out there when it is so violent near nought?
+2. Work out on paper the x at which sin of one over x is exactly 1 for the
+   first time going left from x = 1, then the next one, then the next. How
+   fast are they bunching up? Check one of them with `EVAL(`.
+3. `X*SIN(1/X)` is squeezed by `X` and `-X`. Predict what walls would
+   squeeze `X^2*SIN(1/X)`, put all three in the slots, and check that the
+   picture looks the way you said it would.
+4. What about `SIN(1/X)/X`? Predict first: does it settle, blow up, or
+   oscillate worse? Then probe it at .1, .05 and .02 and see.
+5. The machine gave up at 400 radians because of 63 subtractions of 2π.
+   Work out the smallest x at which you could still ask for `SIN(1/X)`, and
+   check your answer against the machine by finding the exact place it
+   stops.
+6. Run the rectangle test of the last part properly on `X*SIN(1/X)`. Start
+   from the standard window, pick a tolerance, and count how many presses
+   of [+] it takes to satisfy it. Then halve the tolerance and do it again.
+   Is the number of presses growing in a way you could have predicted?
+
+## 4.3 The derivative as a limit
 
 The slope of a curve at a point is the limit of the slopes of secant
 lines through it, and unlike most limits, this one can be watched
@@ -151,7 +571,7 @@ emerge, then let the machine's own commands answer in one step.
 3. Ask `NDER(` at 0, 1, and 2, and check each answer against 3x^2 - 2.
    How many keystrokes of retyping did the stored equation save you?
 
-## 4.3 Extrema by search
+## 4.4 Extrema by search
 
 Where a smooth function turns, its derivative passes through zero, and
 finding the turning points is the first genuinely useful service calculus
@@ -213,7 +633,7 @@ value 16/3) and at x = 2 (a local minimum, value -16/3).
    [+], and compare the digits with step 2's whole-window answer. Which
    window's search came closer to -2?
 
-## 4.4 The definite integral
+## 4.5 The definite integral
 
 The integral of a function over an interval is the area between its curve
 and the x axis, counted with sign: area above the axis adds, area below
@@ -277,7 +697,7 @@ subtracts. The specimen dips on purpose: g(x) = x^2 - 2x - 3 factors as
    the model in the pattern of step 6, and confirm with `FNINT(` that its
    average over 24 hours is 17 up to the machine's `PI`.
 
-## 4.5 Riemann sums by program
+## 4.6 Riemann sums by program
 
 `FNINT(` answers in a second and shows nothing of its method. A Riemann
 sum is the method: slice the interval, guess each slice's area from one
@@ -361,7 +781,7 @@ Probability and Statistics). Four program slots held all four sums, with
    editing a single program line. Check its answer against `FNINT(` with
    the matching bounds.
 
-## 4.6 Areas between curves
+## 4.7 Areas between curves
 
 Two curves enclose a region; how much area is in it? The gap between the
 curves at each x is the difference of their heights, so the enclosed area

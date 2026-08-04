@@ -69,6 +69,23 @@ const CO07_P2_LINES = ["9->Y", ".5->H", "7->N", "WHILE N", "CALL 3",
   "N-1->N", "END", "DISP Y"];
 const CO07_P3_LINES = ["EVAL(0)->K", "Y+H*K->Y", "Y+H*(EVAL(0)-K)/2->Y", "RETURN"];
 
+// Chapter 4's two limit specimens, stored into Y1 with [GRAPH]. Both are
+// trigonometric and therefore slow, so callers add their own settle frames.
+const CO04_SINX = ["SIN", "X-VAR", ")", "/", "X-VAR", "GRAPH"];
+const CO04_SINRECIP = ["SIN", "1", "/", "X-VAR", ")", "GRAPH"];
+
+// Chapter 4 spells its calculus commands letter by letter the way the text
+// instructs, so the captures type them the same way rather than by name.
+function co04Spell(text) {
+  const keys = [];
+  for (const character of text) {
+    if (/[A-Z]/.test(character)) keys.push("ALPHA", PROGRAM_LETTER_KEYS[character]);
+    else if (character === "-") keys.push("(-)");
+    else keys.push(character);
+  }
+  return keys;
+}
+
 // Chapter 5 spells FNINT( letter by letter on the home screen: [ALPHA]
 // plus the key carrying each letter, as the chapter instructs.
 const FNINT_KEYS = ["ALPHA", "LN", "ALPHA", "9", "ALPHA", ")", "ALPHA", "9",
@@ -340,12 +357,47 @@ export const SCREEN_CASES = [
       "1", "2", "ENTER", "1", "9", "ENTER", "1", "5", "ENTER", "1", "8", "ENTER",
       "MORE", "MORE", "MORE", "MORE", "MORE", "F2", 600]
   },
-  // Chapter 4 section 4.1: the table catching the hole of (X^3+X^2)/X, the
-  // X=0 row reading UNDEF above the ordinary values of X^2+X.
+  // Chapter 4 section 4.1: SIN(X)/X four ways. Trigonometry is slow to plot,
+  // so every case below pays for a full draw before it does anything else.
+  // The five captures are the standard window, the trace after three zooms,
+  // the table at step 1 and at step 0.0625, and the error EVAL(0) stops on.
+  { name: "co04-sinx-standard", keys: [...CO04_SINX, 9000] },
   {
-    name: "co04-limit-table",
-    keys: ["(", "X-VAR", "^", "3", "+", "X-VAR", "X^2", ")", "/", "X-VAR",
-      "GRAPH", 1200, "MORE", 300]
+    name: "co04-sinx-zoom-trace",
+    keys: [...CO04_SINX, 9000, "+", 5000, "+", 5000, "+", 6000,
+      "RIGHT", 400, "RIGHT", 600]
+  },
+  { name: "co04-sinx-table", keys: [...CO04_SINX, 9000, "MORE", 2000] },
+  {
+    name: "co04-sinx-table-fine",
+    keys: [...CO04_SINX, 9000, "MORE", 2000, "-", 800, "-", 800, "-", 800,
+      "-", 1200]
+  },
+  {
+    name: "co04-sinx-eval-error",
+    keys: [...CO04_SINX, 9000, "EXIT", 300, "CLEAR", 20,
+      ...co04Spell("EVAL(0)"), "ENTER", 600]
+  },
+  // Chapter 4 section 4.2: SIN(1/X), which has no limit at 0, and
+  // X*SIN(1/X), which has one because the two lines X and -X close on it.
+  // The cliff capture is the sine giving up: 1/.0025 is 400 radians, and the
+  // firmware's argument reduction stops after 63 subtractions of 2*PI.
+  { name: "co04-sinrecip-std", keys: [...CO04_SINRECIP, 14000] },
+  {
+    name: "co04-sinrecip-zoom",
+    keys: [...CO04_SINRECIP, 14000, "+", 7000, "+", 7000, "+", 8000]
+  },
+  {
+    name: "co04-sin-cliff",
+    keys: [...CO04_SINRECIP, 14000, "EXIT", 300, "CLEAR", 20,
+      ...co04Spell("EVAL(.0025)"), "ENTER", 900]
+  },
+  {
+    name: "co04-squeeze-zoom",
+    keys: ["X-VAR", "*", ...CO04_SINRECIP, 14000,
+      "2ND", "2", 60, "X-VAR", "GRAPH", 5000,
+      "2ND", "3", 60, "(-)", "X-VAR", "GRAPH", 5000,
+      "+", 9000, "+", 9000, "+", 10000]
   },
   // Chapter 4 section 4.2: NDER(1.5) answering the paper derivative 4.75 of
   // the stored X^3-2*X.

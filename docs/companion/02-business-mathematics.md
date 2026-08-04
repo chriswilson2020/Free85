@@ -1,4 +1,4 @@
-# Chapter 2: Explorations in business mathematics
+# Chapter 2: Explorations in Business Mathematics
 
 Business mathematics runs on a few small machines: linear systems that
 turn receipts into price lists, inequalities that turn scarce resources
@@ -7,7 +7,7 @@ transition tables that turn this week's customers into next year's market
 shares. Free85 has a tool for each, and this chapter visits them in turn:
 the simultaneous editor, the graph screen, the matrix editor's row
 operations, the solver workspace, and matrix multiplication. Chapter 1
-(Explorations in precalculus) ended section 1.4 with money growing at six
+(Explorations in Precalculus) ended section 1.4 with money growing at six
 percent; this chapter picks that thread up and follows it. Every key
 sequence and every quoted number in this chapter was run in the emulator
 on a fresh machine, and each exploration ends with a "Try it" block whose
@@ -92,7 +92,7 @@ plane, the best plan sits at a corner of it, and the graph screen can
 find every corner.
 
 1. Solve each constraint's boundary for y and store the lines: type
-   [(] [1] [6] [-] [x-VAR] [)] [/] [2] and press [GRAPH] to put
+   [(] [1] [6] [-] [x-VAR] [)] [÷] [2] and press [GRAPH] to put
    `(16-X)/2`, the timber line, in `Y1`; then press [2nd] [2] on the
    graph screen, type `(24-3*X)/2`, the labour line, and press [GRAPH].
    In the standard window the feasible region is the four-sided patch
@@ -135,7 +135,8 @@ find every corner.
 6. The corners settle it numerically. Press [EXIT] for the home
    screen and [CLEAR] to empty the entry line, then evaluate the
    profit at each corner with stored letters: [4]
-   [STO▶] [ALPHA] [A] [ENTER], [CLEAR], [6] [STO▶] [ALPHA] [B]
+   [STO▶] [ALPHA] [A] [ENTER], [CLEAR] (the entry line keeps its
+   contents between stores), [6] [STO▶] [ALPHA] [B]
    [ENTER], [CLEAR], then `30*A+40*B` and [ENTER], which answers
    `= 360`. Store 0 and 8 the same way and replay the profit entry with
    three presses of [2nd] [ENTER] (the entry recall of the Guidebook,
@@ -186,7 +187,9 @@ fits the matrix editor exactly.
    `130`, `2`, `1`, `110`: the receipts in the friendlier order.
 
 3. The row operations read register `A`, so the result must be carried
-   forward by hand. The fifth [▶] left the selection at `CELL 2 3`;
+   forward by hand. The three registers share a single selection
+   cursor, so where you step in one view is where you stand in the
+   next. The fifth [▶] left the selection at `CELL 2 3`;
    one more wraps it home to `CELL 1 1`. Press [ALPHA] twice, cycling
    the view from `R` through `B` back to `A`, and retype the six
    values in their new order: 1, 3, 130, 2, 1, 110. This copying is
@@ -222,8 +225,8 @@ fits the matrix editor exactly.
    original tableau, 2, 1, 110, 1, 3, 130, into `A`, press [EXIT] and
    [2nd] [7] to bring back the first soft-key page, and press [F5],
    `RREF`: the same `1`, `0`, `40`, `0`, `1`, `30` in one step, the
-   Guidebook, chapter 13's reduced row-echelon form doing steps 2
-   through 6 unwatched.
+   reduced row-echelon form of the Guidebook, chapter 13, doing
+   steps 2 through 6 unwatched.
 
 The tableau register is the design to work within: a matrix holds at
 most `SIZE 3X3`, so a two-unknown system's 2 by 3 tableau fits, but a
@@ -272,7 +275,7 @@ as the unknown.
 
 3. What rate turns 500 into 900 in eight years? Rates live between
    zero and one, so fence the search: press [F5], the `>` key, three
-   times to reach the `LOWER` page, and store `0` and then `1`. Press
+   times, and store `0` on the `LOWER` page and `1` on `UPPER`. Press
    [F1], `SOLV`, and after a moment the field area answers a `ROOT` of
    `0.07623983640223` with `RES 5.327E-7`: a little over 7.6 percent,
    with the residual line reporting how nearly the equation balances
@@ -319,12 +322,13 @@ as the unknown.
    [EXIT], [CLEAR], store `300->A`, press [CLEAR], and reopen with
    [2nd] [GRAPH]; press `VAR` once for `VAR B`, page to `UPPER`,
    store `100`, and `SOLV` answers a `ROOT` of `40.748907154197`:
-   nearly 41 months, the price of the smaller payment. Then press
-   [EXIT], [CLEAR], store `100->A`, exactly the monthly interest on
-   10000, press [CLEAR], reopen, and `SOLV`: `NO BOUNDED ROOT`
-   again, because a payment that only covers the interest never ends
-   the loan, and no term between the bounds can make the equation
-   balance.
+   nearly 41 months, the price of the smaller payment.
+
+9. One trap deserves its own look. Press [EXIT], [CLEAR], store
+   `100->A`, exactly the monthly interest on 10000, press [CLEAR],
+   reopen, and `SOLV`: `NO BOUNDED ROOT` again, because a payment
+   that only covers the interest never ends the loan, and no term
+   between the bounds can make the equation balance.
 
 One design habit makes the workspace pleasant: `VAR` steps forward
 through the alphabet, one letter per press, wrapping from `Z` to `A`.
@@ -382,10 +386,14 @@ raise them and find where the switching settles.
    converging on one another: where a customer started is washing out
    of the forecast.
 
-5. Where is it all heading? A share-out that no Saturday changes
-   satisfies a linear system built from the columns of P (the flows
-   into each shop) minus one on the diagonal. Retype `A` as that
-   matrix: -.2, .2, .2, then .1, -.3, .2, then .1, .1, -.4. Press
+5. Where is it all heading? Call the standing shares x, y, and z.
+   Next Saturday the Harbour collects .8x from its own regulars plus
+   .2y and .2z from the switchers, and a share-out that stands still
+   must collect exactly x again: .8x + .2y + .2z = x, which is
+   -.2x + .2y + .2z = 0. The Mill and the Station give two more rows
+   of the same shape, each a column of P with one subtracted on the
+   diagonal. Retype `A` as that matrix: -.2, .2, .2, then .1, -.3,
+   .2, then .1, .1, -.4. Press
    [EXIT] and [2nd] [7] to bring back the first soft-key page, and
    press [F5], `RREF`. Stepping through `R` reads `1`, `0`, `-2.5`,
    then `0`, `1`, `-1.5`, then a row of zeros: the shares stand in

@@ -1,4 +1,4 @@
-# Chapter 1: Explorations in precalculus
+# Chapter 1: Explorations in Precalculus
 
 Precalculus is where functions stop being formulas to evaluate and become
 objects to study: things with graphs, zeros, symmetries, and families of
@@ -7,7 +7,7 @@ that shift. Each section opens with a question about functions, walks it
 through on the machine, and leaves you with exercises to continue on your
 own. The mechanics of graphing (slots, windows, tracing, the analysis keys)
 are covered in full in the Guidebook, chapter 4; this chapter uses them
-rather than re-explains them. Every key sequence and every quoted number in
+rather than re-explaining them. Every key sequence and every quoted number in
 this chapter was run in the emulator on a fresh machine.
 
 Each exploration ends with a "Try it" block of exercises. They are all
@@ -215,7 +215,7 @@ functions; here they earn their keep as graphs.
    `= 1.1568170026417`, and the slot text `EXP(X*LN(1.06))` plots the
    whole curve. As a taste of where this leads, 500 invested at six
    percent for eight years is `500*EXP(8*LN(1.06))`, which answers
-   `= 796.92403726725`; Chapter 2 (Explorations in business mathematics)
+   `= 796.92403726725`; Chapter 2 (Explorations in Business Mathematics)
    takes the mathematics of money much further.
 
 **Try it.**
@@ -274,8 +274,8 @@ in the status line, until the walkthrough says otherwise.
    windows hundreds of units wide, and the quick zooms are the way
    there. Return to `RAD` before moving on.
 
-6. Trigonometry earns its place modelling data. Here is a model built
-   for this chapter: at a latitude of about fifty-five degrees north,
+6. Trigonometry earns its place modelling data. Here is a model: at
+   a latitude of about fifty-five degrees north,
    the hours of daylight run roughly 4.3 hours above twelve in
    midsummer and 4.3 below in midwinter. With `X` counting months after
    the March equinox, store the departure from twelve hours as

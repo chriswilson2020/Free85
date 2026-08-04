@@ -1,4 +1,4 @@
-# Chapter 3: Explorations in probability and statistics
+# Chapter 3: Explorations in Probability and Statistics
 
 Statistics is usually taught on data sets too big to think about,
 where the machine's summaries have to be taken on trust. Free85 turns
@@ -17,7 +17,7 @@ on the calculator.
 
 ## 3.1 A week of small data
 
-The harbour town of Chapter 2 (Explorations in business mathematics)
+The harbour town of Chapter 2 (Explorations in Business Mathematics)
 keeps a lighthouse, and the keeper tallies its visitors: 15 on
 Monday, then 12, 17, 15, 19, 21, 18 through the week, and 43 on the
 bank holiday Monday that closes the log. Eight numbers, one

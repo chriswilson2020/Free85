@@ -104,12 +104,13 @@ companion volumes and are cross-referenced instead.
 - A worked exploration: numbered keystroke walkthroughs in the book's
   bracket notation, quoted screen results, and LCD captures at the payoff
   moments.
-- "Try it" blocks: 2-4 reader exercises per section, answerable on the
-  machine, with answers NOT printed (kept for a possible answer key later).
 - Free85 boundary notes where the machine shapes the mathematics (three
   slots, eight-sample lists, 3x3 matrices, degree-4 polynomials, integer
   `^` exponents, the typeable program subset), written in the Guidebook's
   design-boundary register: plain statements, never apologies.
+- A "Try it" block closing the section: 2-4 reader exercises, answerable
+  on the machine, with answers NOT printed (kept for a possible answer
+  key later).
 
 ## Firmware truth constraints (writers must design within these)
 

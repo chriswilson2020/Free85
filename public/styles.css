@@ -2114,7 +2114,16 @@ dd {
   }
 }
 
-@media (max-width: 360px) {
+/* Below this width the book chooser and the reader actions each take a full
+ * row of their own. They used to share one row down to 360px, which fitted
+ * while there were two books: the nav is a flex row that will not shrink, so
+ * once "Explorations" made it a third button the nav overflowed its grid
+ * column and printed straight over "Open separately". The two rows need
+ * about 460px between them, so the switch happens well above that.
+ *
+ * Both rows then wrap and their children flex, so this holds for a fourth
+ * book or a narrower phone without another breakpoint. */
+@media (max-width: 560px) {
   .ti85-doc-reader-bar {
     grid-template-columns: 1fr;
   }
@@ -2122,14 +2131,11 @@ dd {
   .ti85-doc-reader-bar nav,
   .ti85-doc-reader-actions {
     width: 100%;
-    display: grid;
+    flex-wrap: wrap;
   }
 
-  .ti85-doc-reader-bar nav {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .ti85-doc-reader-actions {
-    grid-template-columns: 1fr auto;
+  .ti85-doc-reader-bar nav > button,
+  .ti85-doc-reader-actions > * {
+    flex: 1 1 auto;
   }
 }

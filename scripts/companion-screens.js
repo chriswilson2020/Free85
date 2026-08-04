@@ -53,6 +53,34 @@ const CO04_P4_LINES = ["0->S", "FOR A,1,8", "S+EVAL((2*A-1)/8)->S", "END", "DISP
 const FNINT_KEYS = ["ALPHA", "LN", "ALPHA", "9", "ALPHA", ")", "ALPHA", "9",
   "ALPHA", "-"];
 
+// Keys for typing a run of matrix or vector cells, [ENTER] after each value;
+// a minus sign is the [(-)] key, as chapter 6 instructs.
+function cellKeys(values) {
+  return values.flatMap((value) => [
+    ...String(value).split("").map((character) => (character === "-" ? "(-)" : character)),
+    "ENTER"
+  ]);
+}
+
+// Chapter 6 section 6.3 reaches the ill-conditioned COND through the whole
+// section: the well-conditioned norms and COND, the solve with 5, 4, 4, the
+// 5.001 nudge, then the near-dependent retype and its COND. The perturbed
+// solve continues from the same state.
+const CO06_COND_KEYS = ["2ND", "7", 30, "+", "X-VAR", "+", "X-VAR",
+  ...cellKeys([1, 4, 0, 2, 1, 1, 0, 1, 3]),
+  "MORE", "MORE", "MORE", 30,
+  "F1", 300, "F2", 300, "F3", 300, "F4", 600,
+  "ALPHA", 30, "+", "X-VAR", "-", "X-VAR", 30,
+  ...cellKeys([5, 4, 4]),
+  "ALPHA", 30, "EXIT", 30, "2ND", "7", 30, "MORE", 30, "F5", 600,
+  "RIGHT", "RIGHT", 30, "RIGHT", 30,
+  "ALPHA", 30, ...cellKeys(["5.001"]), 30,
+  "ALPHA", 30, "F5", 600,
+  "RIGHT", "RIGHT", 30, "RIGHT", 30,
+  "ALPHA", "ALPHA", 30,
+  ...cellKeys([1, 1, 1, 1, "1.001", 1, 1, 1, "1.001"]),
+  "MORE", "MORE", 30, "F4", 900];
+
 export const SCREEN_CASES = [
   // Chapter 1 section 1.1: the cubic X^3-4*X in the standard window.
   { name: "co01-cubic-window", keys: ["X-VAR", "^", "3", "-", "4", "*", "X-VAR", "GRAPH", 900] },
@@ -373,6 +401,78 @@ export const SCREEN_CASES = [
       "GRAPH", 30000,
       "2ND", "3", 60, "X-VAR", "-", "X-VAR", "^", "3", "/", "6",
       "+", "X-VAR", "^", "5", "/", "1", "2", "0", "GRAPH", 40000]
+  },
+  // Chapter 6 section 6.1: the reduced tableau of x+2y=8, 3x-y=3 stepped to
+  // CELL 1 3, where the value of x sits, after the section's SIMULT solve.
+  {
+    name: "co06-rref-solution",
+    keys: ["2ND", "STAT", 30, ...cellKeys([1, 2, 8, 3, -1, 3]),
+      "F1", 300, "EXIT", 30, "CLEAR", 30,
+      "2ND", "7", 30, "X-VAR", "+", 30, ...cellKeys([1, 2, 8, 3, -1, 3]),
+      "F5", 300, "RIGHT", "RIGHT", 30]
+  },
+  // Chapter 6 section 6.3: COND answering 9490.8400582879 for the
+  // near-dependent matrix, reached through the section's whole flow.
+  { name: "co06-cond-ill", keys: [...CO06_COND_KEYS] },
+  // Chapter 6 section 6.3: the solution after the one-thousandth nudge,
+  // 3.001 at CELL 1 1 where 1 stood before.
+  {
+    name: "co06-perturbed-solve",
+    keys: [...CO06_COND_KEYS,
+      "ALPHA", 30, ...cellKeys([3, "3.001", "3.001"]),
+      "ALPHA", 30, "EXIT", 30, "2ND", "7", 30, "MORE", 30, "F5", 600,
+      "RIGHT", "RIGHT", 30, "RIGHT", 30,
+      "ALPHA", 30, ...cellKeys(["3.001"]), 30,
+      "ALPHA", 30, "F5", 600]
+  },
+  // Chapter 6 section 6.4: ANG answering the fourteen-digit right angle for
+  // the straightened pair, after the section's subtraction and carry.
+  {
+    name: "co06-right-angle",
+    keys: ["2ND", "8", 30, ...cellKeys([5, 2, 0]),
+      "ALPHA", 30, ...cellKeys([1, 2, 2]), "ALPHA", 30,
+      "F1", 300, "F3", 300, "F5", 300,
+      "MORE", 30, "F2", 300,
+      "RIGHT", "RIGHT", 30, "RIGHT", 30,
+      "ALPHA", "ALPHA", 30, ...cellKeys([4, 0, -2]),
+      "EXIT", 30, "2ND", "8", 30, "F3", 300, "F5", 300]
+  },
+  // Chapter 6 section 6.5: the rotation-flavoured matrix's eigenvalues on
+  // the imaginary-parts page, IM -2 under the first cell, after the whole
+  // section's multiplications and eigensystems in order.
+  {
+    name: "co06-eigen-complex",
+    keys: ["2ND", "7", 30, ...cellKeys([5, 2, 2, 2]),
+      "ALPHA", 30, "X-VAR", "-", "X-VAR", 30, ...cellKeys([1, 0]),
+      "ALPHA", 30, "MORE", 30, "F3", 300, "RIGHT", 30, "RIGHT", 30,
+      "ALPHA", 30, ...cellKeys([2, 1]), "ALPHA", 30, "F3", 300,
+      "RIGHT", 30, "RIGHT", 30,
+      "MORE", "MORE", "MORE", 30, "F2", 3000, "RIGHT", 30,
+      "F3", 3000, "RIGHT", "RIGHT", "RIGHT", 30, "RIGHT", 30,
+      "ALPHA", "ALPHA", 30, "+", "X-VAR", "+", "X-VAR", 30,
+      ...cellKeys([2, 0, 0, 1, 3, 0, 4, 5, 6]),
+      "F2", 30000, "RIGHT", "RIGHT", 30,
+      "F3", 30000, "RIGHT", "RIGHT", "RIGHT", 30, "RIGHT", "RIGHT", "RIGHT", 30,
+      "RIGHT", "RIGHT", "RIGHT", 30,
+      "ALPHA", 30, "+", 30, ...cellKeys([0, 0, 1]),
+      "ALPHA", 30, "EXIT", 30, "2ND", "7", 30, "MORE", 30, "F3", 300,
+      "RIGHT", "RIGHT", 30, "RIGHT", 30,
+      "ALPHA", "ALPHA", 30, "-", "X-VAR", "-", "X-VAR", 30,
+      ...cellKeys([1, -2, 2, 1]),
+      "MORE", "MORE", "MORE", 30, "F2", 3000, "MORE", 30]
+  },
+  // Chapter 6 section 6.6: the combined LU factors of the matrix whose
+  // elimination begins with a row swap, after the section's first specimen.
+  {
+    name: "co06-lu-pivot",
+    keys: ["2ND", "7", 30, "+", "X-VAR", "+", "X-VAR",
+      ...cellKeys([2, 1, 1, 4, 5, 4, 2, 10, 11]),
+      "F1", 300, "MORE", "MORE", "MORE", "MORE", 30, "F1", 3000,
+      "RIGHT", "RIGHT", "RIGHT", "RIGHT", "RIGHT", "RIGHT", "RIGHT", "RIGHT", 30,
+      "RIGHT", 30, "ALPHA", "ALPHA", 30,
+      ...cellKeys([0, 2, 1, 2, 4, 6, 1, 1, 1]),
+      "EXIT", 30, "2ND", "7", 30, "F1", 300,
+      "MORE", "MORE", "MORE", "MORE", 30, "F1", 3000]
   }
 ];
 

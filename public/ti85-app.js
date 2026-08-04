@@ -35,6 +35,10 @@ const DOCUMENTATION = {
   guidebook: {
     title: "The Free85 Guidebook",
     url: "./public/guidebook/Free85-Guidebook-typeset.html"
+  },
+  companion: {
+    title: "Explorations with Free85",
+    url: "./public/guidebook/Free85-Companion-typeset.html"
   }
 };
 const compactDocReaderQuery = window.matchMedia("(max-width: 1100px)");

@@ -8,6 +8,14 @@
  *
  * Format: A5, mirrored margins, running heads, outer folios. Front matter is
  * folioed in lowercase roman numerals; the body restarts at arabic 1.
+ *
+ * RULE WEIGHTS: Chrome floors border-width to whole CSS pixels, so every
+ * border declared below 1.5pt prints at exactly 0.72pt no matter what it
+ * asks for. Hairlines are therefore written at their true intent (0.4pt,
+ * 0.45pt) and land together at 0.72pt, but any rule meant to read as
+ * heavier must be at least 1.5pt — 2px exactly — or the weight step
+ * silently vanishes. This is why the double-rule idiom is 1.5pt over
+ * 0.45pt rather than the 1.4pt the proportions suggest.
  */
 
 :root {
@@ -131,16 +139,24 @@ html {
   font-size: 9.5pt;
   line-height: 1.45;
   color: var(--ink);
-  /* Words shorter than 6 letters never hyphenate, and at least 3 letters
-   * stay on each side. Verified in Chrome 150: the unprefixed property
-   * parses (CSS.supports true, computed "6 3 3"); the -webkit- pair below
-   * does NOT (Safari/WebKit only) and is future-proofing for other
-   * renderers. Note the degenerate page-turn stubs ("stat-us", "bott-om")
-   * were never CSS hyphenation at all — they were Paged.js fragmenting a
-   * word at the page break and appending its own U+2011 hyphen; see the
-   * LOCAL PATCH (Free85) in scripts/vendor/paged.polyfill.js textBreak(). */
-  hyphenate-limit-chars: 6 3 3;
-  -webkit-hyphenate-limit-before: 3;
+  /* Words shorter than 6 letters never hyphenate, at least 5 characters stay
+   * before the break and 3 after. Verified in Chrome 150: the unprefixed
+   * property parses (CSS.supports true); the -webkit- pair below does NOT
+   * (Safari/WebKit only) and is future-proofing for other renderers.
+   *
+   * 5 before, not the 3 this started at, because Chrome counts leading
+   * PUNCTUATION towards the limit: at 3 a curly quote bought a break after
+   * two letters ("in-tegral"), and at 4 an opening parenthesis still bought
+   * one after three ("(sec-tion"). 5 costs almost nothing — measured across
+   * the companion it moves the median line's widest word space from 3.78pt
+   * to 3.89pt and leaves the 95th percentile and the worst line unchanged.
+   *
+   * Note the degenerate page-turn stubs ("stat-us", "bott-om") were never
+   * CSS hyphenation at all — they were Paged.js fragmenting a word at the
+   * page break and appending its own U+2011 hyphen; see the LOCAL PATCH
+   * (Free85) in scripts/vendor/paged.polyfill.js textBreak(). */
+  hyphenate-limit-chars: 6 5 3;
+  -webkit-hyphenate-limit-before: 5;
   -webkit-hyphenate-limit-after: 3;
 }
 body { margin: 0; }
@@ -198,8 +214,9 @@ h2 {
   margin: 14pt 0 5pt;
 }
 
-/* Guidebook section-number ladder: "4-3" hung in the outer margin at each
- * section heading (numbers assigned by the build script). */
+/* Section-number ladder hung in the outer margin at each section heading:
+ * "4-3" in the Guidebook (generated from counters) and "1.4" in Explorations
+ * (lifted out of the heading text). Numbers assigned by the build script. */
 h2[data-secno] { position: relative; }
 h2[data-secno]::before {
   content: attr(data-secno);
@@ -265,7 +282,7 @@ section.book-body > section.chapter:first-child > header.chapter-opener {
   letter-spacing: -0.015em;
 }
 .chapter-opener .opener-rule {
-  border-top: 1.4pt solid var(--accent);
+  border-top: 1.5pt solid var(--accent);
   border-bottom: 0.45pt solid var(--accent);
   height: 1.6pt;
   margin: 0 0 4.5mm;
@@ -274,6 +291,15 @@ section.book-body > section.chapter:first-child > header.chapter-opener {
   border-top: 0.45pt solid var(--accent);
   border-bottom: none;
   height: 0;
+}
+/* The companion's afterword takes the appendix opener's smaller title but
+ * keeps the chapters' double rule: it is the last page of a book with no
+ * appendices, so beside eight double-ruled openers a single hairline read
+ * as an afterthought rather than as a deliberate ending. */
+.afterword-opener .opener-rule {
+  border-top: 1.5pt solid var(--accent);
+  border-bottom: 0.45pt solid var(--accent);
+  height: 1.6pt;
 }
 .chapter-opener .standfirst {
   font-style: italic;
@@ -320,7 +346,7 @@ header.fm-title {
   margin: 0 0 4mm;
 }
 .fm-title .opener-rule {
-  border-top: 1.4pt solid var(--accent);
+  border-top: 1.5pt solid var(--accent);
   border-bottom: 0.45pt solid var(--accent);
   height: 1.6pt;
   margin: 0;
@@ -374,6 +400,62 @@ aside.callout p + p { margin-top: 3pt; }
   color: var(--accent);
   margin: 0 0 1.5pt !important;
 }
+
+/* ---------------------------------------------------------- Try it panel -- */
+
+/* The signature component of Explorations with Free85: each section closes
+ * with a numbered exercise set. Same navy tint as the callouts, but ruled
+ * top and bottom in the family's double-rule idiom rather than barred on the
+ * left, so a page carrying both reads them as different things. */
+aside.tryit {
+  background: var(--accent-tint);
+  border-top: 1.5pt solid var(--accent);
+  border-bottom: 0.45pt solid var(--accent);
+  padding: 4.5pt 8pt 5pt;
+  margin: 9pt 0 9pt;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.tryit-label {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 6.75pt;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 2.5pt !important;
+}
+/* Hung navy numerals: the exercise text aligns as a block, the way the
+ * numbered steps in the walkthroughs do not need to. */
+aside.tryit ol {
+  list-style: none;
+  counter-reset: tryit;
+  margin: 0;
+  padding-left: 5mm;
+}
+aside.tryit ol > li {
+  position: relative;
+  counter-increment: tryit;
+  font-size: 8.75pt;
+  line-height: 1.42;
+  text-align: left;              /* ragged in the narrow panel */
+  hyphens: manual;
+  -webkit-hyphens: manual;
+  margin: 0 0 2.5pt;
+}
+aside.tryit ol > li:last-child { margin-bottom: 0; }
+aside.tryit ol > li::before {
+  content: counter(tryit) ".";
+  position: absolute;
+  left: -5mm;
+  width: 3.6mm;
+  text-align: right;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 7.5pt;
+  color: var(--accent);
+}
+aside.tryit p { font-size: 8.75pt; line-height: 1.42; text-align: left; }
 
 /* ------------------------------------------------------------ LCD frames -- */
 
@@ -460,7 +542,7 @@ th {
   font-size: 7.5pt;
   letter-spacing: 0.03em;
   text-align: left;
-  border-bottom: 1.1pt solid var(--accent);
+  border-bottom: 1.5pt solid var(--accent);
   padding: 2.5pt 6pt 2.5pt 0;
 }
 td {
@@ -502,6 +584,17 @@ section.appendix-a h2 {
  * unbreakable they cascade into orphaned headings and stranded near-empty
  * pages, so let them flow and protect only the rows. A handler re-inserts
  * the header row on the continuation pages. */
+/* Program listings share one grid across the book, so two on a page read as
+ * the same component. Fixed layout is what makes the widths hold: with auto
+ * layout each listing sized its Keys column from its own longest row. */
+table.program {
+  table-layout: fixed;
+  width: 100%;
+}
+table.program th:nth-child(1), table.program td:nth-child(1) { width: 8%; }
+table.program th:nth-child(2), table.program td:nth-child(2) { width: 32%; }
+table.program th:nth-child(3), table.program td:nth-child(3) { width: 60%; }
+
 table.table-long {
   break-inside: auto;
   page-break-inside: auto;
@@ -536,7 +629,7 @@ nav.toc .toc-heading {
   margin: 4mm 0 3mm;
 }
 nav.toc .toc-rule {
-  border-top: 1.4pt solid var(--accent);
+  border-top: 1.5pt solid var(--accent);
   border-bottom: 0.45pt solid var(--accent);
   height: 1.6pt;
   margin: 0 0 5mm;
@@ -578,6 +671,11 @@ a.toc-entry::after {
   font-family: var(--sans);
   font-size: 8.5pt;
   flex: none;
+}
+/* Front-matter entries point at roman-folioed pages, so their leader has to
+ * resolve in the same numbering the foot of that page prints. */
+a.toc-entry.toc-roman::after {
+  content: target-counter(attr(href url), page, lower-roman);
 }
 
 /* ---------------------------------------------------------------- covers -- */
@@ -715,7 +813,7 @@ section.colophon {
   margin: 0 0 2mm;
 }
 .colophon-rule {
-  border-top: 1.1pt solid var(--accent);
+  border-top: 1.5pt solid var(--accent);
   margin: 0 0 4mm;
   width: 26mm;
 }

@@ -1,5 +1,5 @@
-// Builds the professionally typeset (DTP) edition of the Free85 Getting
-// Started Manual and the Free85 Guidebook.
+// Builds the professionally typeset (DTP) edition of the three Free85 books:
+// the Getting Started Manual, the Guidebook, and Explorations with Free85.
 //
 // Pipeline: pandoc renders each book's Markdown to a single HTML document
 // (images embedded as data: URIs), a transform stage rewrites that HTML into
@@ -31,6 +31,8 @@ if (pagedPolyfill.includes("</script")) {
 }
 
 const EDITION = "For firmware 2.10 · Second Edition";
+// Explorations is a new book, so it carries its own edition line.
+const COMPANION_EDITION = "For firmware 2.10 · First Edition";
 const PROJECT_URL = "chriswilson2020.github.io/Free85";
 
 // ---------------------------------------------------------------- keycaps --
@@ -106,11 +108,25 @@ function frameScreenshots(html, stats) {
 // the standard size; tag it so the stylesheet can shrink it. Any other table
 // longer than 12 rows is tagged table-long so it may break across pages
 // (unbreakable near-full-page tables strand headings on empty pages).
+//
+// The companion's program listings are one repeating component, so they are
+// tagged too: left to auto layout, each listing sizes its columns from its
+// own longest cell, and the Keys column starts anywhere from a fifth to two
+// thirds of the way across. Two listings on one page made that look like an
+// accident rather than a grid.
 function markKeymapTable(html) {
   return html.replace(/<table>([\s\S]*?)<\/table>/g, (m, inner) => {
     const headerRow = inner.slice(0, inner.indexOf("</tr>"));
     if (headerRow.includes("<th>Key</th>") && headerRow.includes("<th>ALPHA</th>")) {
       return `<table class="keymap">${inner}</table>`;
+    }
+    if (headerRow.includes("<th>Line</th>") && headerRow.includes("<th>Keys</th>")) {
+      // Pandoc emits a colgroup of equal thirds for some of these (it depends
+      // on the source table's total width), and under table-layout: fixed a
+      // col width beats the cell widths. Four of the seven listings kept the
+      // thirds, and one of them ran a stored-expression cell straight into
+      // the first keycap. Drop the colgroup so the stylesheet's grid wins.
+      return `<table class="program">${inner.replace(/<colgroup>[\s\S]*?<\/colgroup>/, "")}</table>`;
     }
     if ((inner.match(/<tr/g) ?? []).length > 12) {
       return `<table class="table-long">${inner}</table>`;
@@ -163,6 +179,57 @@ function markNumHeavyBlocks(html) {
   return html;
 }
 
+// Explorations numbers its sections in the heading text ("## 1.1 Functions
+// and their windows"). Lift the number out of the text into the same hung
+// outer-margin ladder the Guidebook generates from counters, so the two books
+// look alike and the heading reads as prose. The book's own dot form is kept
+// (not the Guidebook's "4-3") because its cross-references say "section 1.4".
+// Unnumbered H2s (chapter 8's closing section) are left alone.
+function hangSectionNumbers(html, stats) {
+  return html.replace(/<h2 id="([^"]+)">(\d+\.\d+)\s+([\s\S]*?)<\/h2>/g,
+    (m, id, no, title) => {
+      stats.sections += 1;
+      return `<h2 id="${id}" data-secno="${no}">${title.trim()}</h2>`;
+    });
+}
+
+// Returns the index just past the <ol> whose opening tag starts at `open`,
+// counting nested lists so a sub-list cannot end the match early.
+function endOfList(html, open) {
+  const tags = /<(\/?)ol\b[^>]*>/g;
+  tags.lastIndex = open;
+  let depth = 0;
+  for (let m = tags.exec(html); m; m = tags.exec(html)) {
+    depth += m[1] ? -1 : 1;
+    if (depth === 0) return m.index + m[0].length;
+  }
+  return -1;
+}
+
+// The signature component of Explorations: every section ends with a
+// "**Try it.**" line and a numbered exercise list. The pair becomes one
+// tinted panel with the label in small caps — the family's callout ground and
+// double rule, no new colour.
+function markTryIt(html, stats) {
+  const label = /<p><strong>Try it\.<\/strong><\/p>\s*(?=<ol\b)/g;
+  const out = [];
+  let cursor = 0;
+  for (let m = label.exec(html); m; m = label.exec(html)) {
+    const listStart = m.index + m[0].length;
+    const listEnd = endOfList(html, listStart);
+    if (listEnd < 0) continue;
+    stats.tryits += 1;
+    out.push(html.slice(cursor, m.index));
+    out.push(`<aside class="tryit"><p class="tryit-label">Try it</p>`);
+    out.push(html.slice(listStart, listEnd));
+    out.push(`</aside>`);
+    cursor = listEnd;
+    label.lastIndex = listEnd;
+  }
+  out.push(html.slice(cursor));
+  return out.join("");
+}
+
 // Guidebook chapter H1s become opener blocks on a fresh recto: oversized
 // accent number, title, double rule, and the chapter's first paragraph
 // pulled up as a standfirst (every chapter opens with a summary paragraph;
@@ -181,6 +248,18 @@ function buildOpeners(html, stats) {
         + (standfirst ? `<p class="standfirst">${standfirst.trim()}</p>` : "")
         + `</header>`;
     });
+  // The companion closes with an afterword rather than appendices. It gets
+  // opener furniture of its own so it reads as the end of the book instead of
+  // an unnumbered last section of chapter 8: its own page, its own kicker,
+  // and its own running head (.chapter-opener h1 sets the rhead string).
+  html = html.replace(
+    /<h1 id="([^"]+)">Afterword: ([^<]+)<\/h1>/g,
+    (m, id, title) =>
+      `<header class="chapter-opener appendix-opener afterword-opener">`
+      + `<p class="chapter-kicker">Afterword</p>`
+      + `<h1 id="${id}">${title.trim()}</h1>`
+      + `<div class="opener-rule"></div>`
+      + `</header>`);
   html = html.replace(
     /<h1 id="([^"]+)">Appendix ([A-D]): ([^<]+)<\/h1>/g,
     (m, id, letter, title) => {
@@ -203,7 +282,7 @@ function buildTitleBlock(html, kicker) {
     + `<h1 id="${id}">${title.trim()}</h1><div class="opener-rule"></div></header>`);
 }
 
-function coverHtml(title) {
+function coverHtml(title, edition = EDITION) {
   const keys = `<span></span>`.repeat(10);
   return `<section class="cover-page"><div class="cover-inner">`
     + `<div class="cover-motif"><div class="cover-lcd">FREE85</div>`
@@ -212,15 +291,16 @@ function coverHtml(title) {
     + `<p class="cover-kicker">Scientific graphing calculator</p>`
     + `<h1 class="cover-title">${title}</h1>`
     + `<div class="cover-rule"></div>`
-    + `<p class="cover-edition">${EDITION}</p>`
+    + `<p class="cover-edition">${edition}</p>`
     + `<p class="cover-url">${PROJECT_URL}</p>`
     + `</div></div></section>`;
 }
 
-function colophonHtml(title) {
+function colophonHtml(title, { edition = EDITION, note = "" } = {}) {
   return `<section class="colophon"><div class="colophon-push"></div>`
     + `<p class="colophon-mark">FREE85</p><div class="colophon-rule"></div>`
-    + `<p><strong>${title}</strong> · ${EDITION}</p>`
+    + `<p><strong>${title}</strong> · ${edition}</p>`
+    + (note ? `<p>${note}</p>` : "")
     + `<p>Free85 is clean-room software: the firmware, the font, the screen`
     + ` artwork, the tests, and this book were written from scratch for the`
     + ` project. It contains no Texas Instruments ROM code, disassembly,`
@@ -245,7 +325,10 @@ function tocHtml(entries) {
       html += `<p class="toc-group">${group}</p>`;
     }
     const plain = entry.no ? "" : " toc-plain";
-    html += `<a class="toc-entry${plain}" href="#${entry.id}">`
+    // Front-matter targets sit on roman-folioed pages; their leader has to
+    // resolve target-counter in the same numbering the folio prints.
+    const roman = entry.roman ? " toc-roman" : "";
+    html += `<a class="toc-entry${plain}${roman}" href="#${entry.id}">`
       + `<span class="toc-no">${entry.no ?? ""}</span>`
       + `<span class="toc-title">${entry.title}</span>`
       + `<span class="toc-dots"></span></a>`;
@@ -401,7 +484,8 @@ function assemble({ bodyClass, title, cover, frontMatter, bookBody, colophon }) 
     ? `<nav class="web-reader-nav" aria-label="Book navigation">`
       + `<a href="../../index.html">← Free85 calculator</a>`
       + `<a href="./Free85-Manual-typeset.html">Manual</a>`
-      + `<a href="./Free85-Guidebook-typeset.html">Guidebook</a></nav>`
+      + `<a href="./Free85-Guidebook-typeset.html">Guidebook</a>`
+      + `<a href="./Free85-Companion-typeset.html">Explorations</a></nav>`
     : "";
   const paginationScripts = webEdition ? "" : `<script>
 ${pagedPolyfill}
@@ -616,5 +700,89 @@ function buildManual() {
   render("Free85-Manual-typeset", doc, { minPages: 10, maxPages: 48 });
 }
 
+// ------------------------------------------------------------- companion --
+
+// Explorations with Free85: eight chapters, no appendices and no generated
+// content. Structurally it is the Guidebook's chapter machinery (openers,
+// standfirsts, framed screenshots, keycaps) plus two things of its own — the
+// numbered section headings and the Try it exercise panels.
+function buildCompanion() {
+  const stats = { keycaps: 0, callouts: 0, figures: 0, chapters: 0, appendices: 0, sections: 0, tryits: 0 };
+  const sources = readdirSync(`${root}docs/companion/`)
+    .filter((f) => /^\d\d-.*\.md$/.test(f)).sort()
+    .map((f) => `${root}docs/companion/${f}`);
+  if (sources.length !== 10) {
+    throw new Error(
+      `companion: expected front matter + 8 chapters + afterword, found ${sources.length} sources`);
+  }
+
+  let html = pandocBody(sources, `${root}docs/companion`);
+  html = markCallouts(html, stats);        // none in this book; harmless
+  html = markKeycaps(html, stats);
+  html = frameScreenshots(html, stats);
+  html = markKeymapTable(html);
+  html = markNumHeavyBlocks(html);
+  html = markTryIt(html, stats);
+  html = hangSectionNumbers(html, stats);
+  html = buildOpeners(html, stats);
+  html = buildTitleBlock(html, "Free85 · Explorations");
+
+  // The front matter's hand-written Contents (links to the source .md files)
+  // is replaced by the generated TOC with real page numbers.
+  html = html.replace(/<h2 id="contents">[\s\S]*?(?=<header class="chapter-opener")/, "");
+
+  const bodyStart = html.indexOf('<header class="chapter-opener"');
+  if (bodyStart < 0) throw new Error("companion: no chapter opener found");
+  let frontMatter = html.slice(0, bodyStart);
+  let bookBody = html.slice(bodyStart);
+
+  bookBody = bookBody.split(/(?=<header class="chapter-opener)/)
+    .map((chunk) => `<section class="chapter">${chunk}</section>`).join("");
+
+  const entries = [];
+  for (const m of frontMatter.matchAll(/<h2 id="([^"]+)">([^<]+)<\/h2>/g)) {
+    entries.push({ group: "Front matter", roman: true, id: m[1], title: m[2].trim() });
+  }
+  const chapters = [];
+  for (const m of bookBody.matchAll(/<header class="chapter-opener" data-chapter="(\d+)">[\s\S]*?<h1 id="([^"]+)">([^<]+)<\/h1>/g)) {
+    chapters.push({ group: "Chapters", no: m[1], id: m[2], title: m[3] });
+  }
+  if (chapters.length !== 8) {
+    throw new Error(`companion: expected 8 chapter TOC entries, found ${chapters.length}`);
+  }
+  const afterword = bookBody.match(
+    /<header class="chapter-opener appendix-opener afterword-opener">.*?<h1 id="([^"]+)">([^<]+)<\/h1>/);
+  if (!afterword) throw new Error("companion: no afterword opener found");
+  chapters.push({ group: "Afterword", id: afterword[1], title: afterword[2] });
+  if (stats.tryits < 40) {
+    throw new Error(`companion: expected a Try it panel per section, found ${stats.tryits}`);
+  }
+  frontMatter += tocHtml([...entries, ...chapters]);
+
+  const title = "Explorations with Free85";
+  const doc = assemble({
+    bodyClass: "companion",
+    title: `${title} (typeset)`,
+    cover: coverHtml(title, COMPANION_EDITION),
+    frontMatter,
+    bookBody,
+    colophon: colophonHtml(title, {
+      edition: COMPANION_EDITION,
+      // Typographic apostrophe: the body text is set with pandoc's smart
+      // quotes, and the colophon sits on the same page furniture.
+      note: "Explorations with Free85 is the third of the project’s books, after"
+        + " the Getting Started Manual and the Guidebook, and the first to be"
+        + " written as a workbook. Its explorations, worked examples, data sets,"
+        + " and exercises were invented for this machine; every key sequence and"
+        + " every quoted number in it was run on the emulator.",
+    }),
+  });
+  checkPrintHygiene("Free85-Companion-typeset", doc);
+  console.log(`companion: ${stats.keycaps} keycaps, ${stats.figures} framed screenshots, `
+    + `${stats.chapters} chapters, ${stats.sections} numbered sections, ${stats.tryits} Try it panels`);
+  render("Free85-Companion-typeset", doc, { minPages: 90, maxPages: 200 });
+}
+
 buildManual();
 buildGuidebook();
+buildCompanion();

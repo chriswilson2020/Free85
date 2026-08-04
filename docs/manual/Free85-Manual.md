@@ -18,7 +18,7 @@ every shifted function printed above a key, and every reachable menu leads to a
 real, working feature.
 
 Free85 is open source under the MIT License. See the `LICENSE` file for the
-license text and `NOTICE.md` for the project notices.
+licence text and `NOTICE.md` for the project notices.
 
 This manual gets you from a blank screen to confident everyday use: running
 the calculator, understanding the keyboard and display, doing your first

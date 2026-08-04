@@ -148,26 +148,36 @@ temporary directories and rejects any byte or tree-hash difference.
   and feature status. Every documented key sequence and result is captured
   from the emulator, and `npm run test:guidebook` checks that the book
   covers every completed command in the ledger.
+- [Explorations with Free85](docs/companion/00-front-matter.md): a workbook
+  of eight chapters, from precalculus to engineering mathematics, that puts
+  the calculator to work on invented problems. Every exploration, data set,
+  and exercise was written for this machine, and every key sequence and
+  quoted result in it was run on the emulator.
 - Typeset editions, ready to read or print (A5, covers, full table of
   contents): read the
-  [Manual online](https://chriswilson2020.github.io/Free85/public/guidebook/Free85-Manual-typeset.html)
-  or the
+  [Manual online](https://chriswilson2020.github.io/Free85/public/guidebook/Free85-Manual-typeset.html),
+  the
   [Guidebook online](https://chriswilson2020.github.io/Free85/public/guidebook/Free85-Guidebook-typeset.html),
+  or
+  [Explorations online](https://chriswilson2020.github.io/Free85/public/guidebook/Free85-Companion-typeset.html),
   or download the
-  [Manual PDF](https://github.com/chriswilson2020/Free85/releases/latest/download/Free85-Manual-typeset.pdf)
-  and the
+  [Manual PDF](https://github.com/chriswilson2020/Free85/releases/latest/download/Free85-Manual-typeset.pdf),
+  the
   [Guidebook PDF](https://github.com/chriswilson2020/Free85/releases/latest/download/Free85-Guidebook-typeset.pdf)
+  and the
+  [Explorations PDF](https://github.com/chriswilson2020/Free85/releases/latest/download/Free85-Companion-typeset.pdf)
   from the latest release.
-- Both books rebuild into `dist/guidebook/` from the Markdown sources:
+- All three books rebuild into `dist/guidebook/` from the Markdown sources:
 
 ```sh
 npm run build:guidebook:typeset
 npm run build:guidebook:web
 ```
 
-(`npm run build:guidebook` produces the plain untypeset PDFs. Both need
-`pandoc` and Google Chrome, and regenerate the LCD screenshots and the
-generated appendices first.)
+(`npm run build:guidebook` produces the plain untypeset PDFs of the Manual
+and Guidebook. Both need `pandoc` and Google Chrome, and regenerate the LCD
+screenshots and the generated appendices first. The companion's own
+screenshots come from `npm run build:companion:screens`.)
 
 ## Specification
 

@@ -367,3 +367,67 @@ test("[statistics.right-columns] stat plots place their rightmost marks instead 
   }
   assert.deepEqual(rules, [15, 71, 115], "Q1, median and Q3 stand at their own columns");
 });
+
+// p8_sort_x copies the X column aside and bubble-sorts it, but numeric_copy is
+// an LDIR and left HL past the end of its source, so the walk left the column
+// after the first swap of each pass and shuffled scratch memory instead. Every
+// pass therefore kept only one swap, and MIN, MAX, MED and the quartiles all
+// read the part-sorted array: a reversed column answered MIN 3 / MAX 1.
+const STATS_RESULT = 0x8d20;
+const STATS_SORT = 0x8da0;
+const STAT_MEDIAN_X = 1;
+const STAT_MIN_X = 5;
+const STAT_MAX_X = 6;
+const STAT_Q1_X = 7;
+const STAT_Q3_X = 8;
+
+test("[statistics.sort-x] the one-variable summary sorts a column that needs more than one swap per pass", () => {
+  const writePacked = (harness, address, value) => {
+    const [mantissa, exponent] = Math.abs(value).toExponential(13).split("e");
+    const digits = mantissa.replace(".", "");
+    harness.machine.write8(address, value < 0 ? 0x80 : 0);
+    harness.machine.write8(address + 1, Number(exponent) & 0xff);
+    for (let index = 0; index < 7; index += 1) {
+      harness.machine.write8(address + 2 + index, Number.parseInt(digits.slice(index * 2, index * 2 + 2), 16));
+    }
+  };
+
+  const summarise = (xs) => {
+    const harness = Free85Harness.boot();
+    harness.tap("STAT");
+    harness.machine.write8(STATS_LIST_X, xs.length);
+    harness.machine.write8(STATS_LIST_Y, xs.length);
+    xs.forEach((value, index) => {
+      writePacked(harness, STATS_LIST_X + 1 + (index * 9), value);
+      writePacked(harness, STATS_LIST_Y + 1 + (index * 9), 1);
+    });
+    harness.tap("F1");
+    harness.runFrames(1500);
+    const at = (slot) => harness.packedNumber(STATS_RESULT + (slot * 9));
+    return {
+      sorted: xs.map((_, index) => harness.packedNumber(STATS_SORT + (index * 9))),
+      min: at(STAT_MIN_X), max: at(STAT_MAX_X), median: at(STAT_MEDIAN_X),
+      q1: at(STAT_Q1_X), q3: at(STAT_Q3_X)
+    };
+  };
+
+  // A fully reversed column needs a swap at every position of the first pass.
+  // It used to sort to 3,4,5,2,1 and answer a minimum above its maximum.
+  const reversed = summarise([5, 4, 3, 2, 1]);
+  assert.deepEqual(reversed.sorted, [1, 2, 3, 4, 5]);
+  assert.deepEqual([reversed.min, reversed.max], [1, 5]);
+  assert.deepEqual([reversed.q1, reversed.median, reversed.q3], [1.5, 3, 4.5]);
+
+  // The shuffled week from companion chapter 3: used to stop at 1,2,3,6,8,5,4,7
+  // and report the maximum as 7 while the column held an 8.
+  const shuffled = summarise([3, 1, 6, 8, 2, 5, 4, 7]);
+  assert.deepEqual(shuffled.sorted, [1, 2, 3, 4, 5, 6, 7, 8]);
+  assert.deepEqual([shuffled.min, shuffled.max], [1, 8]);
+  assert.deepEqual([shuffled.q1, shuffled.median, shuffled.q3], [2.5, 4.5, 6.5]);
+
+  // An already-sorted column never swapped, which is why it always read true
+  // and why the guidebook's worked example never showed the fault.
+  const alreadySorted = summarise([2, 4, 4, 4, 5, 5, 7, 9]);
+  assert.deepEqual([alreadySorted.min, alreadySorted.max], [2, 9]);
+  assert.deepEqual([alreadySorted.q1, alreadySorted.median, alreadySorted.q3], [4, 4.5, 6]);
+});

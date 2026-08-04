@@ -31,24 +31,26 @@ audit it afterwards.
    full.
 
 2. Press [F1], the `1V` key. The one-variable summary answers
-   `MEAN 20`, `MED 18`, `S SD 9.6953597148325`, and
+   `MEAN 20`, `MED 17.5`, `S SD 9.6953597148325`, and
    `P SD 9.0691785736085`.
 
 3. Now the audit. The mean is right: the eight values total 160, and
-   160 over 8 is 20. The median is not what a sorted list gives: on
-   paper the ordered week reads 12, 15, 15, 17, 18, 19, 21, 43,
-   whose middle two values average 17.5, yet the screen says 18. The
-   summary reads the column in the order it is stored, so hand it
-   sorted data: press [CLEAR] to return to the editor, press [MORE]
-   four times to the `P4 FCX FCY SX SY` page, and press [F4], the
-   ascending sort `SX`. The selection returns to `INDEX 1`, now
-   reading `12`.
+   160 over 8 is 20. The median is right too, and it is the more
+   telling check, because the week was typed in diary order and not
+   in size order: on paper the ordered week reads 12, 15, 15, 17,
+   18, 19, 21, 43, and its middle two values, 17 and 18, average the
+   `17.5` on the screen. The summary puts the column in order for
+   itself, so its figures do not depend on the order the week was
+   entered in.
 
-4. Press [MORE] once more, to the `SHW XYLN LIN 1V 2V` page, and
-   press [F4] for `1V` again: `MED` now reads `17.5`, the paper
-   value, the mean and both deviations unchanged. Sorting first is
-   the habit to keep: in this release `MED` and the quartiles answer
-   for the column as stored, and `SX` is one keypress.
+4. The editor is a different matter, and so is the line plot of
+   section 3.6: both show the column exactly as stored. Press
+   [CLEAR] to return to the editor, press [MORE] four times to the
+   `P4 FCX FCY SX SY` page, and press [F4], the ascending sort `SX`.
+   The selection returns to `INDEX 1`, now reading `12`, with the
+   week in size order down the screen. Press [MORE] once more, to
+   the `SHW XYLN LIN 1V 2V` page, and press [F4] for `1V` again:
+   every figure of step 2 comes back unchanged.
 
 5. The spread audits just as well. Press [CLEAR], press [MORE]
    twice to the `MEAN MED VAR SSD PSD` page, and press [F3], `VAR`:
@@ -414,8 +416,8 @@ entries the wrong choice costs thirty seconds.
 **Try it.**
 
 1. Draw `BOX` straight after step 6, then sort with `SX` and draw it
-   again. Explain the moved bars with what section 3.1 found about
-   sorting before summarising.
+   again. The two pictures are identical. Say which one of the four
+   plots would have changed, and why `BOX` is not one of them.
 2. Put the days back in `X` and the counts in `Y`, sort with `SY`,
    and draw `XYLN`. What ordering does the plot follow now, and
    what question does it answer?

@@ -1226,14 +1226,23 @@ p8_sort_x:
     PUSH DE
     LD DE, P8_WORK_0
     CALL numeric_copy
-    POP HL
-    POP DE
+    POP HL                   ; the later element
+    POP DE                   ; the earlier one
+    ; .ordered walks HL on to the next pair, so the swap has to hand it back
+    ; the element it started on. numeric_copy is an LDIR and leaves HL past
+    ; the end of its source, so without this the walk left the column
+    ; altogether and spent the rest of the pass shuffling scratch: every pass
+    ; kept only its first swap, and a column needing more than one swap per
+    ; pass came out part-sorted. MIN, MAX, MED and the quartiles all read
+    ; that array, so a reversed column answered a minimum above its maximum.
+    PUSH DE
     PUSH HL
     LD BC, NUM_SIZE
     LDIR
     POP DE
     LD HL, P8_WORK_0
     CALL numeric_copy
+    POP HL
 .ordered:
     LD DE, NUM_SIZE
     ADD HL, DE

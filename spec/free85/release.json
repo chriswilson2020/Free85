@@ -17,7 +17,7 @@
   "rom": {
     "path": "ROM/FREE85.ROM",
     "bytes": 131072,
-    "sha256": "dc91f6d59ac3ab930216f7642a68284fdb8d6255170934c9c5733b360df160f0",
+    "sha256": "5942f3fce34b437d1f060e513aa4982baf5b41e5bd2154531a22709d851eb0f0",
     "banks": 8,
     "bank_bytes": 16384
   },

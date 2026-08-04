@@ -114,8 +114,7 @@ interval `XMIN` to `XMAX`, not over one revolution. With the circle
 - [F5] answers `= 100`, the integral of 5 across the 20-unit window;
 - [F1] answers the `NO NUMERIC RESULT` notice, since the radius never
   crosses zero;
-- `EVAL(2)` on the home screen answers `= 5` after a completed plot,
-  the radius at angle 2.
+- `EVAL(2)` on the home screen answers `= 5`, the radius at angle 2.
 
 None of these is an arc length or a swept area; read them as chapter 3
 calculus applied to the radius function. The intersection search

@@ -5,16 +5,16 @@
   "independent_builds": 2,
   "build_tool": {
     "required": "sjasmplus >= 1.21.1",
-    "observed": "SjASMPlus Z80 Cross-Assembler v1.21.1 (https://github.com/z00m128/sjasmplus)"
+    "observed": "SjASMPlus Z80 Cross-Assembler v1.23.1 (https://github.com/z00m128/sjasmplus)"
   },
   "rom": {
     "path": "ROM/FREE85.ROM",
     "bytes": 131072,
-    "sha256": "dc91f6d59ac3ab930216f7642a68284fdb8d6255170934c9c5733b360df160f0"
+    "sha256": "5942f3fce34b437d1f060e513aa4982baf5b41e5bd2154531a22709d851eb0f0"
   },
   "pages": {
     "files": 12,
-    "sha256": "48a608055984ffdc680ad7d531369b93725ecf22887aab6e61a5715102d6a856"
+    "sha256": "c8b0d856c87d80a861bcf4be8398e78dd30b4b808d212759fe372b8be6ea19ed"
   },
   "inputs": [
     "package.json",

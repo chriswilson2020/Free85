@@ -28,7 +28,6 @@ solution through it must set off in. Nothing has been solved; a direction
 has been posted at every address, and reading those directions before
 touching the machine is most of the skill.
 
-
 The model for this chapter is a mixing tank of my own design. A 500-litre
 tank has been dosed to 9 grams of tracer dye per litre; clean water runs in
 at 75 litres a minute and the stirred mixture runs out at the same rate, so
@@ -67,10 +66,10 @@ minutes, the rule is dy/dx = -0.15y.
 
 5. Read the story off the curve. Press [▶] once: `X=0.236220472438` with
    `Y=1.9028746602579`, so ten and a bit minutes after dosing a fifth of
-   the dye is left. Press [◀] four times, letting each readout settle:
-   `X=0.078740157478` with `Y=1.9489119504254`. Four columns are worth a
-   fiftieth of a gram per litre here, a tenth of their worth at the left
-   edge.
+   the dye is left. Press [◀] once, letting the readout settle:
+   `X=0.078740157478` with `Y=1.9489119504254`. A column is worth about a
+   twentieth of a gram per litre here, a fifth of its worth at the left
+   edge where the walk begins.
 
 Slots 2 and 3 exist here but the plot ignores them (the Guidebook, chapter
 7): one first-order equation is what the mode integrates, so the habit of
@@ -131,15 +130,12 @@ zoom keys this mode's numerical controls.
 
 6. Press [EXIT] twice for the home screen and press [CLEAR]. Type [1] [0]
    [÷] [1] [2] [7] [ENTER]: `= 0.078740157480315`, exactly half the old
-   step. Press [CLEAR] and ask for the truth at five minutes, [9] [×] [2nd]
-   [LN] [(-)] [.] [7] [5] [)] [ENTER]: `= 4.2512989746699`, against which
-   `4.232` is low by 0.019 where the wide window was low by 0.036. Press
-   [CLEAR], retype the equation, press [GRAPH], then [2nd] [+] for the
-   standard window, and let the replot finish.
+   step. Press [CLEAR], retype the equation, press [GRAPH], then [2nd] [+]
+   for the standard window, and let the replot finish.
 
-Two things moved between step 3 and step 6, and only one was the step size:
-the run got shorter as well as finer. Section 7.3 turns that into a
-controlled measurement.
+Two things moved between step 3 and step 5, and only one was the step size:
+the run got shorter as well as finer, so the comparison proves nothing on
+its own. Section 7.3 turns it into a controlled measurement.
 
 **Try it.**
 
@@ -147,8 +143,8 @@ controlled measurement.
    the `X=0` row. What is the step now, and how far from the truth at
    twenty minutes does the reading fall?
 2. Work out from step 3's figure which column of the standard window lands
-   closest to five minutes after the dose, then trace to it and compare
-   with step 6's exact value.
+   closest to five minutes after the dose, trace to it, and compare with
+   the exact value that `9*EXP(-.75)` gives.
 3. The `Y2` and `Y3` columns read `-` throughout. Store something in slot 2
    with [2nd] [2], see what the column does, and explain it from the note
    closing section 7.1.
@@ -203,8 +199,9 @@ short to show the curve at all, leaving the table as the whole instrument.
 
 **Try it.**
 
-1. Continue the table one row further by pressing [+] a third time. Which
-   `X` is 3.5 minutes after the dose now, and does the gap halve again?
+1. Press [+] a third time and hunt for the 3.5-minute reading: work out
+   which `X` it needs from the new bounds, look that row up, and say what
+   the answer tells you about refining a step by zooming.
 2. The gaps above are roughly 0.21 times the step. Use that to predict the
    step needed for a gap under 0.001, and say how many halvings that is.
 3. Take the doubled window ([-] from standard) and repeat the measurement.
@@ -259,7 +256,8 @@ last plot at the right-hand window edge. The program must therefore seed
 3. Halve the step. Press [PRGM] for the list and [F1] to reopen `EDIT P1`
    at line 1, press [▼] for line 2, press [CLEAR], and type `.25->H`;
    [ENTER] moves to line 3, where [CLEAR] and `14->N` doubles the count.
-   Press [F2]: `5.2705124549462`. Repeat for `.125->H` and `28->N`.
+   Press [F2]: `5.2705124549462`. Repeat, [CLEAR] before each retype, for
+   `.125->H` and `28->N`.
 
    | `H` | `N` | Run screen | Gap |
    | --- | --- | --- | --- |
@@ -271,10 +269,10 @@ last plot at the right-hand window edge. The program must therefore seed
    version of section 7.3's measurement. The two tables agree on the
    constant as well: gap over step sits near 0.21 in all six rows.
 
-4. Set the program to the mode's own step. Reopen the editor, put
-   `20/127->H` on line 2 and `64->N` on line 3, and press [F2]:
-   `1.9489119504254`, digit for digit the trace readout of section 7.1,
-   step 5. Plot and program are one walk.
+4. Set the program to the mode's own step. Reopen the editor the same way
+   and, [CLEAR] before each retype, put `20/127->H` on line 2 and `64->N`
+   on line 3. Press [F2]: `1.9489119504254`, digit for digit the trace
+   readout of section 7.1, step 5. Plot and program are one walk.
 
 The environment shaped two decisions. `FOR` bounds are single digits (the
 Guidebook, chapter 16), so a counted loop cannot reach fourteen passes, and
@@ -350,8 +348,8 @@ swapping the called slot makes one driver run any method.
    improved steps miss by 0.0028 where seven plain ones missed by 0.109.
 
 4. Halve twice more. Press [PRGM] for the list, which returns with `P2`
-   still selected, press [F1] for the editor, and edit lines 2 and 3 as in
-   section 7.4: `.25->H` with `14->N`, then `.125->H` with `28->N`.
+   selected, press [F1], and edit lines 2 and 3 as in section 7.4, [CLEAR]
+   before each retype: `.25->H` with `14->N`, then `.125->H` with `28->N`.
 
 | `H` | `N` | Run screen | Gap |
 | --- | --- | --- | --- |
@@ -411,10 +409,10 @@ not allow. The lever exists, and it is deliberately stiff.
 4. Press [2nd] [+] for the memory browser of the Guidebook, chapter 18,
    which opens on `A` with `OBJECTS 28`. Press [▼] until the name reads
    `GDEQ`: it is the last entry, twenty-seven steps below `A`, and the
-   selection stops there rather than wrapping. The lines beneath read
-   `TYPE GRAPH DB` and `SIZE 213`. Press [DEL]: the count falls to
-   `OBJECTS 27`, `FREE` rises to `2180`, and the selection moves to
-   `GFUNC`, the mode's memory gone.
+   selection stops there rather than wrapping. The line beneath carries
+   `TYPE GRAPH DB` and `SIZE 213` side by side, `USED 426` under it. Press
+   [DEL]: the count falls to `OBJECTS 27`, `FREE` rises to `2180`, and the
+   selection moves to `GFUNC`, the mode's memory gone.
 
 5. Press [EXIT] for the home screen and seed the new value: [(-)] [6]
    [STO▶] [ALPHA] [0] [ENTER] answers `= -6`. Press [CLEAR], press [GRAPH],

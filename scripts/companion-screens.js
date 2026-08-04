@@ -102,6 +102,42 @@ const CO06_COND_KEYS = ["2ND", "7", 30, "+", "X-VAR", "+", "X-VAR",
   ...cellKeys([1, 1, 1, 1, "1.001", 1, 1, 1, "1.001"]),
   "MORE", "MORE", 30, "F4", 900];
 
+// Chapter 8 section 8.1 keeps the pendulum's elliptic integrand in the graph
+// slot with the squared modulus in the variable K, so a new amplitude costs
+// one store; the ratio probe divides twice the integral by pi and the period
+// multiplies it by four times the root of L over g.
+const CO08_PENDULUM = ["2", "*", "2ND", "^", "*", "2ND", "X^2", "2", ".", "5",
+  "/", "9", ".", "8", ")", "ENTER", 300, "CLEAR", 30,
+  "1", "/", "2ND", "X^2", "1", "-", "ALPHA", "X^2", "*", "SIN", "X-VAR", ")",
+  "X^2", ")", "GRAPH", 12000, "EXIT", 120, "CLEAR", 30];
+const CO08_RATIO = ["2", "*", ...FNINT_KEYS, "(", "0", ",", "2ND", "^", "/",
+  "2", ")", "/", "2ND", "^", "ENTER", 3000, "CLEAR", 30];
+const co08Modulus = (halfAngleKeys) => [...halfAngleKeys, "X^2", "STO",
+  "ALPHA", "X^2", "ENTER", 60, "CLEAR", 30];
+
+// Chapter 8 section 8.2's two summing programs, and section 8.3's Euler shot.
+const CO08_P1_LINES = ["0->S", "10->N", "WHILE N", "S+1/N^2->S", "N-1->N",
+  "END", "DISP S", "STOP"];
+const CO08_P2_LINES = ["0->S", "6->N", "WHILE N", "(1+S)/4->S", "N-1->N",
+  "END", "DISP S", "STOP"];
+const CO08_P3_LINES = ["10->Y", "20/127->H", "127->N", "WHILE N",
+  "Y+H*EVAL(0)->Y", "N-1->N", "END", "DISP Y"];
+
+// Section 8.3's reed bed: dy/dx = -.02*Y^2 seeded at 10 milligrams per litre,
+// entered the same way chapter 7 enters the DifEq mode.
+const CO08_REED = ["1", "0", "STO", "ALPHA", "0", "ENTER", 120, "CLEAR", 30,
+  ...CO07_DEQ_MODE, "(-)", ".", "0", "2", "*", "ALPHA", "0", "X^2",
+  "GRAPH", 9000];
+
+// Section 8.4's vector work runs in ANGLE DEG, and leaves the editor between
+// sub-explorations because re-entry restores register A, component 1, and the
+// first soft-key page in one move.
+const CO08_DEGREES = ["2ND", "MORE", 90, "F1", 60, "EXIT", 60];
+const co08Components = (values) => values.flatMap((value) => [
+  ...String(value).split("").map((character) => (character === "-" ? "(-)" : character)),
+  "ENTER"
+]);
+
 export const SCREEN_CASES = [
   // Chapter 1 section 1.1: the cubic X^3-4*X in the standard window.
   { name: "co01-cubic-window", keys: ["X-VAR", "^", "3", "-", "4", "*", "X-VAR", "GRAPH", 900] },
@@ -532,6 +568,72 @@ export const SCREEN_CASES = [
     name: "co07-equilibrium",
     keys: [...co07Seed(-6), ...CO07_DEQ_MODE,
       ".", "4", "*", "(", "3", "-", "ALPHA", "0", ")", "GRAPH", 9000]
+  },
+  // Chapter 8 section 8.1: the swing's true period at a 150-degree amplitude,
+  // after the section's whole run of modulus stores and ratio probes.
+  {
+    name: "co08-pendulum-period",
+    keys: [...CO08_PENDULUM, ...CO08_RATIO,
+      ...co08Modulus(["SIN", "2ND", "^", "/", "3", "6", ")"]), ...CO08_RATIO,
+      ...co08Modulus(["SIN", "2ND", "^", "/", "1", "2", ")"]), ...CO08_RATIO,
+      ...co08Modulus(["SIN", "2ND", "^", "/", "6", ")"]), ...CO08_RATIO,
+      ...co08Modulus(["SIN", "2ND", "^", "/", "4", ")"]), ...CO08_RATIO,
+      ...co08Modulus(["SIN", "2ND", "^", "/", "3", ")"]), ...CO08_RATIO,
+      ...co08Modulus(["SIN", "5", "*", "2ND", "^", "/", "1", "2", ")"]), ...CO08_RATIO,
+      "4", "*", "2ND", "X^2", "2", ".", "5", "/", "9", ".", "8", ")", "*",
+      ...FNINT_KEYS, "(", "0", ",", "2ND", "^", "/", "2", ")", "ENTER", 3000]
+  },
+  // Chapter 8 section 8.2: the reciprocal-squares partial sum at a hundred
+  // terms, after the ten- and forty-term runs the section takes first.
+  {
+    name: "co08-basel-run",
+    keys: ["PRGM", "F1", 60, ...CO08_P1_LINES.flatMap(programLineKeys), "F2", 6000,
+      "PRGM", 60, "F1", 60, "DOWN", "CLEAR", ...programLineKeys("40->N"), "F2", 24000,
+      "PRGM", 60, "F1", 60, "DOWN", "CLEAR", ...programLineKeys("100->N"), "F2", 60000]
+  },
+  // Chapter 8 section 8.2: the damper series at twelve terms, after the
+  // reciprocal-squares program and the six-term run the section takes first.
+  {
+    name: "co08-damper-run",
+    keys: ["PRGM", "F1", 60, ...CO08_P1_LINES.flatMap(programLineKeys), "F2", 6000,
+      "PRGM", 60, "DOWN", "F1", 60, ...CO08_P2_LINES.flatMap(programLineKeys), "F2", 6000,
+      "PRGM", 60, "F1", 60, "DOWN", "CLEAR", ...programLineKeys("12->N"), "F2", 12000]
+  },
+  // Chapter 8 section 8.3: the first shot's table page, the outlet reading
+  // 1.979 at X=10 against a target of 2.
+  { name: "co08-first-shot", keys: [...CO08_REED, "MORE", 6000, "DOWN", 5000] },
+  // Chapter 8 section 8.3: the fourth shot's run screen, the seed 10.559
+  // landing four hundred-thousandths above the target.
+  {
+    name: "co08-shot-run",
+    keys: [...CO08_REED, "EXIT", 120, "CLEAR", 30,
+      "PRGM", "DOWN", "DOWN", "F1", 60, ...CO08_P3_LINES.flatMap(programLineKeys),
+      "F2", 60000,
+      "PRGM", 60, "F1", 60, "CLEAR", ...programLineKeys("11->Y"), "F2", 60000,
+      "PRGM", 60, "F1", 60, "CLEAR", ...programLineKeys("10.577->Y"), "F2", 60000,
+      "PRGM", 60, "F1", 60, "CLEAR", ...programLineKeys("10.559->Y"), "F2", 60000]
+  },
+  // Chapter 8 section 8.4: the three guy tensions adding to a pure downward
+  // pull, the third component reading -3600 after the section's carries.
+  {
+    name: "co08-guy-sum",
+    keys: [...CO08_DEGREES,
+      "2ND", "8", 60, ...co08Components([9, 120, 0]), 60,
+      "MORE", "MORE", 60, "F2", 600, "RIGHT", 30,
+      "EXIT", 60, "2ND", "8", 60, ...co08Components([9, 0, -12]), 60,
+      "F1", 600, "F2", 600, "RIGHT", 30, "RIGHT", 30,
+      "EXIT", 60, "2ND", "8", 60, ...co08Components([9, 0, -12]), 60,
+      "ALPHA", 30, ...co08Components([-4.5, 7.7942286341, -12]), 60,
+      "ALPHA", 30, "F3", 600, "F5", 900,
+      "EXIT", 60, "2ND", "8", 60, ...co08Components([0, 0, 12]), 60,
+      "ALPHA", 30, ...co08Components([900, 0, -1200]), 60,
+      "ALPHA", 30, "F4", 600, "RIGHT", 30,
+      "EXIT", 60, "2ND", "8", 60, ...co08Components([900, 0, -1200]), 60,
+      "ALPHA", 30, ...co08Components([-450, 779.42286341, -1200]), 60,
+      "ALPHA", 30, "MORE", 30, "F1", 600, "RIGHT", 30, "RIGHT", 30,
+      "EXIT", 60, "2ND", "8", 60, ...co08Components([450, 779.42286341, -2400]), 60,
+      "ALPHA", 30, ...co08Components([-450, -779.42286341, -1200]), 60,
+      "ALPHA", 30, "MORE", 30, "F1", 600, "RIGHT", 30, "RIGHT", 30]
   }
 ];
 

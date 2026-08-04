@@ -10,11 +10,11 @@
   "rom": {
     "path": "ROM/FREE85.ROM",
     "bytes": 131072,
-    "sha256": "dc91f6d59ac3ab930216f7642a68284fdb8d6255170934c9c5733b360df160f0"
+    "sha256": "10ebebd3fcba13800fc659615f52605d1982b03df8f3a565b3521b6a9739cd80"
   },
   "pages": {
     "files": 10,
-    "sha256": "a4d012ba48c1893ab2ef12ee61a4e68e0987e4b8a6fe811acb458566efad32d1"
+    "sha256": "4d6d2418e705b74c8cb2dafc13a73df3ba984856cba368026d219ffcd8200047"
   },
   "inputs": [
     "package.json",

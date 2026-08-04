@@ -114,12 +114,9 @@ ornamental pond 10 metres by 5 at one metre per unit: A is 5, B is 2.5.
    revolutions of the rim (the square window kept those bounds); a window
    narrower than one full turn leaves the rim partly drawn.
 
-The mode holds one pair, so a pond and its path are two plots. One more
-boundary of this release is worth designing around: the polar and parametric
-plotters drop any point landing in the rightmost fifth of the screen, past
-about x = 5.8 in the standard window. A 12 by 6 pond, stored as `6*COS(X)`
-and `3*SIN(X)`, plots with its rightmost arc missing. Keep A within 5 in the
-standard window and every point is drawn.
+The mode holds one pair, so a pond and its path are two plots. The design
+scales freely across the window: a 12 by 6 pond, stored as `6*COS(X)` and
+`3*SIN(X)`, draws its whole rim, right-hand vertex included.
 
 **Try it.**
 
@@ -129,8 +126,7 @@ standard window and every point is drawn.
 2. Swap the pond's pair, `2.5*COS(X)` and `5*SIN(X)`. Predict the picture
    before the plot finishes.
 3. From the square window press [+] twice, letting each replot settle, and
-   explain what changed, remembering that the window is also the sweep and
-   that the rightmost columns are off limits.
+   explain what changed, remembering that the window is also the sweep.
 
 ## 5.3 Polar curves
 
@@ -288,15 +284,17 @@ accumulator turns out to be an old acquaintance.
    eleven decimal places: two differently shaped slabs, equal because both
    are doublings.
 
-One route is closed, and knowing it can save a reset: a graph slot cannot
-hold `FNINT(`. In this release a slot storing `FNINT(0,X)` stops the plot
-at the `NO NUMERIC RESULT` notice, and with any other slot stored the
-notice returns with every repaint, no key recovering the machine short of a
-reset; only when the `FNINT(` slot is the sole one stored does [CLEAR]
-dismiss to the home screen, where [GRAPH] on an emptied entry line clears
-the slot. Programs are no way around: they may call `FNINT(` freely, but
-the run screen shows only the most recent `DISP` (the Guidebook, chapter
-16). The hand-built table is the design to work within.
+One route is closed, and knowing why saves a puzzled minute: a graph slot
+cannot hold `FNINT(`. The command integrates whichever equation is active,
+so a slot holding it would be asked to integrate itself, and the machine
+declines rather than chase its own tail. Store `FNINT(0,X)` as `Y2` beside
+`2*X` in `Y1` and press [GRAPH]: the plot runs to the end, `Y1` draws its
+line exactly as it would alone, and the `FNINT(` slot simply draws nothing,
+reading `UNDEF` in every table row. The refusal is per sample and silent,
+the same answer `EVAL(`, `NDER(`, `FMIN(` and `FMAX(` give from a slot.
+Programs are no way around: they may call `FNINT(` freely, but the run
+screen shows only the most recent `DISP` (the Guidebook, chapter 16). The
+hand-built table is the design to work within.
 
 **Try it.**
 

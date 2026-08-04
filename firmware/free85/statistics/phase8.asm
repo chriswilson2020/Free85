@@ -1009,6 +1009,13 @@ p8_compare:
     SCF
     RET
 
+; Convert a non-negative plot coordinate to an integer by truncating its
+; fractional digits. scientific_to_u8 intentionally rejects fractions, which is
+; correct for combinatorics but would discard almost every plotted point.
+; Screen coordinates run to 127, so three-digit values must convert; the
+; accumulator carries out exactly when the result passes 255, and each
+; intermediate is smaller than the total, so one carry test per add covers the
+; whole digit.
 p8_to_u8_truncated:
     LD A, (NUM_LEFT + NUM_FLAGS)
     AND NUM_SIGN
@@ -1016,7 +1023,7 @@ p8_to_u8_truncated:
     LD A, (NUM_LEFT + NUM_EXPONENT)
     BIT 7, A
     JR NZ, .below_one
-    CP 2
+    CP 3
     JR NC, .invalid
     LD HL, NUM_LEFT
     LD DE, NUM_WORK_A
@@ -1029,10 +1036,15 @@ p8_to_u8_truncated:
 .digit:
     LD C, A
     ADD A, A
+    JR C, .invalid
     ADD A, A
+    JR C, .invalid
     ADD A, C
+    JR C, .invalid
     ADD A, A
+    JR C, .invalid
     ADD A, (HL)
+    JR C, .invalid
     INC HL
     DJNZ .digit
     OR A
@@ -1613,6 +1625,7 @@ p8_draw_scatter:
     LD IX, P8_STATS_RESULT + STAT_MAX_X * NUM_SIZE
     LD A, 119
     CALL p8_map_value
+    JR C, .skip_point
     ADD A, 4
     LD (P8_CONTROL + 20), A
     POP HL
@@ -1620,6 +1633,7 @@ p8_draw_scatter:
     LD IX, P8_STATS_SORT + NUM_SIZE * 3
     LD A, 47
     CALL p8_map_value
+    JR C, .point_done
     LD C, A
     LD A, 54
     SUB C
@@ -1634,6 +1648,9 @@ p8_draw_scatter:
     JR .point_done
 .single_point:
     CALL p8_set_pixel
+    JR .point_done
+.skip_point:
+    POP HL                   ; the y pointer the x mapping never reached
 .point_done:
     POP DE
     POP HL
@@ -1665,6 +1682,7 @@ p8_draw_histogram:
     LD IX, P8_STATS_RESULT + STAT_MAX_X * NUM_SIZE
     LD A, 4
     CALL p8_map_value
+    JR C, .counted           ; a value that will not map belongs to no bin
     CP 4
     JR C, .bin_ready
     LD A, 3
@@ -1674,6 +1692,7 @@ p8_draw_histogram:
     LD HL, P8_CONTROL + 24
     ADD HL, DE
     INC (HL)
+.counted:
     POP HL
     LD DE, NUM_SIZE
     ADD HL, DE
@@ -1759,25 +1778,35 @@ p8_draw_bar:
     JR NZ, .column
     RET
 
+; Every one of the five marks has to map: a box drawn from a partial set puts
+; its whiskers and quartiles at positions that read as data.
 p8_draw_box:
     LD HL, P8_STATS_RESULT + STAT_MIN_X * NUM_SIZE
     LD DE, P8_STATS_RESULT + STAT_MIN_X * NUM_SIZE
     LD IX, P8_STATS_RESULT + STAT_MAX_X * NUM_SIZE
     LD A, 119
     CALL p8_map_value
+    JR C, .no_box
     ADD A, 4
     LD (P8_CONTROL + 20), A
     LD HL, P8_STATS_RESULT + STAT_Q1_X * NUM_SIZE
     CALL p8_map_x_summary
+    JR C, .no_box
     LD (P8_CONTROL + 21), A
     LD HL, P8_STATS_RESULT + STAT_MEDIAN_X * NUM_SIZE
     CALL p8_map_x_summary
+    JR C, .no_box
     LD (P8_CONTROL + 22), A
     LD HL, P8_STATS_RESULT + STAT_Q3_X * NUM_SIZE
     CALL p8_map_x_summary
+    JR C, .no_box
     LD (P8_CONTROL + 23), A
     LD HL, P8_STATS_RESULT + STAT_MAX_X * NUM_SIZE
     CALL p8_map_x_summary
+    JR NC, .box_ready
+.no_box:
+    JP p8_plot_footer
+.box_ready:
     LD (P8_CONTROL + 24), A
     LD A, (P8_CONTROL + 20)
     LD B, A
@@ -1830,10 +1859,15 @@ p8_map_x_summary:
     LD IX, P8_STATS_RESULT + STAT_MAX_X * NUM_SIZE
     LD A, 119
     CALL p8_map_value
+    RET C
     ADD A, 4
     RET
 
-; HL=value, DE=min, IX=max, A=integer scale. Returns mapped byte in A.
+; HL=value, DE=min, IX=max, A=integer scale. Returns mapped byte in A, carry
+; set when the value will not map. A rejected value used to answer 0, which put
+; the mark at the left edge of the plot instead of leaving it out: a wrong
+; position reads as data, a missing one reads as a fault. Callers drop the mark
+; on carry.
 p8_map_value:
     LD (P8_COUNT), A
     PUSH IX
@@ -1879,9 +1913,9 @@ p8_map_value:
     LD DE, NUM_LEFT
     CALL numeric_copy
     CALL p8_to_u8_truncated
-    RET NC
+    RET
 .zero:
-    XOR A
+    SCF
     RET
 
 ; A=0..127, HL destination.

@@ -3,6 +3,7 @@ import test from "node:test";
 import { TI85_PHYSICAL_KEYS } from "../../src/ti85-keys.js";
 import { FREE85_NUMERIC_ERROR_ADDRESS, Free85Harness } from "../helpers/free85-harness.js";
 import { assertLcdGolden } from "../helpers/lcd-visual.js";
+import { readNumericLines } from "../../scripts/free85-lcd-ocr.js";
 
 const GRAPH_ACTIVE = 0x8502;
 const GRAPH_PLOT_X = 0x8503;
@@ -173,6 +174,35 @@ test("[graph.equations-intersection] three selectable slots share the graph engi
   harness.runFrames(3500);
   assert.equal(harness.machine.read8(0x800b), SCREEN_HOME);
   assert.ok(Math.abs(numericResult(harness) - 1) < 1e-5, harness.resultText());
+});
+
+// Slots share one token buffer, and a failed evaluation used to leave the
+// buffer holding its own source while the cache still named the slot before
+// it. Y1 then re-evaluated Y2's source on every sample after the first.
+test("[graph.slot-token-cache] a slot that fails to evaluate leaves its neighbours intact", () => {
+  const soleSlot = openGraph("2*X");
+  finishPlot(soleSlot);
+  const litPixels = (harness) => harness.machine.renderLcdBitmap().pixels
+    .reduce((total, pixel) => total + (pixel ? 1 : 0), 0);
+  const expected = litPixels(soleSlot);
+
+  const harness = openGraph("2*X");
+  finishPlot(harness);
+  harness.tap("2ND");
+  harness.tap("2");
+  typeExpression(harness, "1/0");
+  harness.tap("GRAPH");
+  finishPlot(harness);
+  assert.equal(harness.machine.read8(GRAPH_ENABLED) & 3, 3);
+  assert.equal(litPixels(harness), expected, "Y1 keeps its whole curve while Y2 fails every sample");
+
+  harness.tap("MORE");
+  harness.runFrames(800);
+  assert.equal(harness.machine.read8(0x800b), SCREEN_TABLE);
+  const rows = readNumericLines(harness.machine.renderLcdBitmap(), { originX: 0, originY: 0 })
+    .filter(({ row }) => row >= 1 && row <= 3)
+    .map(({ text }) => text.replace(/\s+/g, " ").split(" ").slice(0, 2).join(" "));
+  assert.deepEqual(rows, ["0 0", "1 2", "2 4"], "the table still tabulates Y1");
 });
 
 test("[graph.trace-analysis] root and intersection keys still publish after the trace has moved", () => {

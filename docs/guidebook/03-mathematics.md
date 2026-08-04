@@ -297,6 +297,11 @@ With `X^2` stored as the active equation:
 - **`ARC(a,b)`** sums a 64-segment polyline approximation to the arc
   length: `ARC(0,1)` answers `= 1.4789246603114`.
 
+Because every one of them reads the stored equation, none of them can be
+stored as one: a slot holding `EVAL(2)` or `FNINT(0,X)` would have to
+evaluate itself, so every sample fails and the slot plots nothing, as
+Chapter 4: Cartesian Graphing, Drawing, Formats, and Persistence shows.
+
 If you are arriving from another calculator's manual, the names map like
 this (Free85 spelling first, then the name elsewhere):
 

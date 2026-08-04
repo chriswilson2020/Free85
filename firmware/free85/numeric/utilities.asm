@@ -793,9 +793,12 @@ utility_calculus_interpolate:
     LD HL, PHASE14_CALC_INTERP
 utility_calculus_call:
     LD (UTIL_SOURCE), HL
-    ; The calculus context save is single-level, so a graph-calculus name
-    ; inside a graph equation would recurse until the stack destroys system
-    ; state. Answer SYNTAX ERROR instead of re-entering.
+    ; The flag is raised for the whole of a graph-slot evaluation as well as
+    ; for this call, so a graph-calculus name inside a graph equation is
+    ; refused before any state moves: the context save is single-level, and
+    ; these routines walk the same GRAPH_NUMERIC_OP, GRAPH_CURRENT_X and
+    ; GRAPH_STATUS that the caller is standing in. Answer SYNTAX ERROR and let
+    ; the sample fail like any other bad expression.
     LD A, (GRAPH_CALC_ACTIVE)
     OR A
     JP NZ, numeric_syntax_error

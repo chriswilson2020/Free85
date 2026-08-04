@@ -29,11 +29,11 @@ form at all: the complete elliptic integral of the first kind. That is a happy
 accident for a machine like this one, since a quantity nobody can write down
 in elementary functions is exactly what `FNINT(` is for.
 
-The specimen is a garden swing of my own measuring, a seat on ropes 2.5 metres
-long, with gravity taken as 9.8. Write T0 for the small-angle period and T for
-the truth. The mathematics says T divided by T0 is 2 over pi times the
-integral, from 0 to a right angle, of one over the square root of 1 minus k
-squared sine squared, where k is the sine of half the amplitude.
+The specimen is a garden swing: a seat on ropes 2.5 metres long, with gravity
+taken as 9.8. Write T0 for the small-angle period and T for the truth. The
+mathematics says T divided by T0 is 2 over pi times the integral, from 0 to a
+right angle, of one over the square root of 1 minus k squared sine squared,
+where k is the sine of half the amplitude.
 
 1. The fiction first. Press [CLEAR] and type [2] [×] [2nd] [^] (the `π`
    legend) [×] [2nd] [x²] (which inserts `SQRT(`) [2] [.] [5] [÷] [9] [.] [8]
@@ -114,18 +114,16 @@ written out by hand, one store and one probe per row.
 ## 8.2 Series against closed forms
 
 A closed form is a promise about infinitely many terms; a partial sum is what
-you can actually hold. The interesting question is never whether the two
-agree, since they must, but how fast: how many terms buy how many decimals.
-That is a program's question, since the answer comes from summing the same
-series again at different lengths, and the eight-line slots of the Guidebook,
-chapter 16 are long enough for two very different answers. The first specimen
-is the sum of the reciprocal squares, whose closed form is one of the
-surprises of the subject: pi squared over six.
+you can actually hold. The two agree in the limit, so the question worth
+asking is the rate: how many terms buy how many decimals. That is a program's
+question, since the answer comes from summing the same series again at
+different lengths, and the eight-line slots of the Guidebook, chapter 16 are
+long enough for two very different answers. The first specimen is the sum of
+the reciprocal squares, whose closed form is one of the surprises of the
+subject: pi squared over six.
 
 1. Press [PRGM] and [F1], `NEW`: the editor opens on `EDIT P1`. Type the eight
-   lines, [ENTER] after each; letters are [ALPHA] plus the key carrying the
-   letter, spaces are [2nd] [0] in this editor, and [STO▶] types the `->`
-   arrow.
+   lines, [ENTER] after each:
 
    | Line | Text | Keys |
    | --- | --- | --- |
@@ -166,10 +164,10 @@ surprises of the subject: pi squared over six.
    The gaps are almost exactly one over the number of terms. Ten times the
    work buys one decimal place, and a hundred terms have not delivered two.
 
-The second specimen is a series of my own staging. A test rig drops a weight
-one metre onto a damper, and each rebound reaches a quarter of the height of
-the one before, so the rebounds measure a quarter of a metre, then a
-sixteenth, then a sixty-fourth, forever, and total a third.
+The second specimen comes from a test rig that drops a weight one metre onto a
+damper. Each rebound reaches a quarter of the height of the one before, so the
+rebounds measure a quarter of a metre, then a sixteenth, then a sixty-fourth,
+forever, and total a third.
 
 4. That series needs no term variable at all, and the saving is what lets it
    fit: each new partial sum is the old one plus one, divided by four, so from
@@ -185,24 +183,26 @@ sixteenth, then a sixty-fourth, forever, and total a third.
    ![Twelve rebounds closing on a third](images/co08-damper-run.png)
 
    The answer is `0.3333333134651`. Once more with `24->N` and the run screen
-   shows `0.33333333333333`, which is what [1] [÷] [3] [ENTER] answers on the
-   home screen as well: at twenty-four terms the series has used up the
-   display. The gaps come the same way as before, [CLEAR] between them:
-   `1/3-.333251953125` answers `= 0.00008138020833` and `1/3-.3333333134651`
-   answers `= 1.986823E-8`: six more terms have divided the gap by 4096, which
-   is 4 to the sixth.
+   shows `0.33333333333333`. Press [PRGM] for the list, [EXIT] for the home
+   screen, and [CLEAR], since the run screen hands `S` to the entry line on
+   the way out, then press [1] [÷] [3] [ENTER]: `= 0.33333333333333` as well.
+   At twenty-four terms the series has used up the display. The gaps come the
+   same way as the first specimen's. Press [CLEAR] and take each in turn,
+   [CLEAR] between them: `1/3-.333251953125` answers `= 0.00008138020833` and
+   `1/3-.3333333134651` answers `= 1.986823E-8`: six more terms have divided
+   the gap by 4096, which is 4 to the sixth.
 
 Two series, two stories. The reciprocal squares close a smaller and smaller
 share of their gap with every term, so the gap falls like one over the count
 and a decimal place costs tenfold work; the rebounds throw away three quarters
-of their gap at every term, so the gap falls like a power and three or four
-terms buy a decimal place outright. The programs are the same shape and the
-same length, and the difference is entirely in line 4. The environment shaped
-one decision and forbade another: `FOR` bounds are single digits (the
-Guidebook, chapter 16), so no counted loop reaches a hundred passes and the
-countdown in `N` is what buys an arbitrary term count; and the run screen
-shows only the most recent `DISP`, so the tables above are built one run at a
-time.
+of their gap at every term, so the gap falls like a power and one or two terms
+buy a decimal place outright. The programs are the same shape and the same
+length, and apart from line 2's term count, retyped before every run anyway,
+the difference is entirely in line 4. The environment shaped one decision and
+forbade another: `FOR` bounds are single digits (the Guidebook, chapter 16),
+so no counted loop reaches a hundred passes and the countdown in `N` is what
+buys an arbitrary term count; and the run screen shows only the most recent
+`DISP`, so the tables above are built one run at a time.
 
 **Try it.**
 
@@ -223,9 +223,9 @@ temperature at both faces of a wall, the deflection at both supports of a
 beam, the concentration at the outlet of a treatment works. The oldest way to
 answer such a question with a forward-marching method is the shooting method,
 and it is exactly what its name says: guess the starting value, integrate to
-the far end, see how far you missed, adjust. The specimen is a reed bed of my
-own design, 20 metres from inlet to outlet, treating a stream whose pollutant
-the bed removes at a rate proportional to the *square* of its concentration:
+the far end, see how far you missed, adjust. The specimen is a reed bed 20
+metres from inlet to outlet, treating a stream whose pollutant the bed
+removes at a rate proportional to the *square* of its concentration:
 dy/dx = -0.02 y squared, with y in milligrams per litre and x in metres. No
 more than 2 milligrams per litre may leave the outlet, and the question is
 what the inlet may carry.
@@ -276,14 +276,12 @@ what the inlet may carry.
    | 1 | `10->Y` | [1] [0] [STO▶] [Y] |
    | 2 | `20/127->H` | [2] [0] [÷] [1] [2] [7] [STO▶] [H] |
    | 3 | `127->N` | [1] [2] [7] [STO▶] [N] |
-   | 4 | `WHILE N` | [W] [H] [I] [L] [E] [2nd] [0] [N] |
-   | 5 | `Y+H*EVAL(0)->Y` | [Y] [+] [H] [×] [E] [V] [A] [L] [(] [0] [)] [STO▶] [Y] |
-   | 6 | `N-1->N` | [N] [-] [1] [STO▶] [N] |
-   | 7 | `END` | [E] [N] [D] |
-   | 8 | `DISP Y` | [D] [I] [S] [P] [2nd] [0] [Y] |
 
-   The step and the count are the plot's own: the mode samples once per
-   column, so 127 steps carry the walk from window edge to window edge.
+   Lines 4 to 8 are section 7.4's walk, unchanged and typed the same way:
+   `WHILE N`, `Y+H*EVAL(0)->Y`, `N-1->N`, `END`, `DISP Y`. Only the three
+   lines above are new, and their step and count are the plot's own: the mode
+   samples once per column, so 127 steps carry the walk from window edge to
+   window edge.
 
 5. Press [F2], `RUN`, and let the hundred and twenty-seven steps run. The run
    screen answers `RUN P3` over `LINE 9` with `1.9796408183537`, the table's
@@ -301,8 +299,8 @@ what the inlet may carry.
    [PRGM], press [F1], press [CLEAR], type `10.577->Y`, and press [F2]:
    `2.0006674214272`. Aim again with the newest pair, 0.00067 over at 10.577
    against 0.02036 short at 10: press [PRGM], [EXIT], [CLEAR], and type
-   `10+.02036*.577/(.02036+.00067)` for `= 10.558617213504`. Edit line 1 to
-   `10.559->Y` and press [F2]:
+   `10+.02036*.577/(.02036+.00067)` for `= 10.558617213504`. Press [CLEAR],
+   press [PRGM], press [F1], press [CLEAR], type `10.559->Y`, and press [F2]:
 
    ![The fourth shot landing on the consent condition](images/co08-shot-run.png)
 
@@ -344,6 +342,10 @@ integrator's error in a modeller's clothes.
 2. Change the consent to 1.5 milligrams per litre and shoot for the new inlet,
    then check it with the solver on `X/(1+.4*X)-1.5`. Why does the bed have no
    answer at all for a consent of 3?
+3. Aim on the bed's length instead of on the inlet. Put line 1 back to
+   `10->Y`, change line 2 so the step is your chosen length over 127, and find
+   the length at which the outlet meets 2. Step 7's closed form checks this
+   one too, with the 0.4 replaced by 0.02 times the length.
 
 ## 8.4 Vectors in the round
 
@@ -353,9 +355,9 @@ axis, and the geometry of a site arrives as bearings and distances rather than
 as coordinates. Free85's vector editor holds three components, exactly the
 number that makes a cross product mean something, and its coordinate pages
 translate between the surveyor's description and the algebra's. The site is a
-radio mast of my own erecting: 12 metres tall, standing at the origin, held by
-three guys running from its top to ground anchors 9 metres out on bearings of
-0, 120, and 240 degrees, each tensioned to 1500 newtons.
+radio mast 12 metres tall, standing at the origin, held by three guys running
+from its top to ground anchors 9 metres out on bearings of 0, 120, and 240
+degrees, each tensioned to 1500 newtons.
 
 1. Bearings are degrees, so put the machine in degrees. Press [2nd] [MORE] for
    the mode screen and press [F1], `ANG`, once: the second line changes from
@@ -459,10 +461,15 @@ oracle. It has three graph slots, eight-entry lists, 3 by 3 matrices,
 three-component vectors, polynomials to degree 4, whole exponents from -9 to
 9, four programs of eight lines, one first-order equation in the DifEq mode,
 and one equation in the solver. Every one of those numbers shaped an
-exploration here and not one of them stopped an exploration finishing. Three
-slots made a family of curves something to compare rather than skim; eight
-samples made every statistic checkable by hand; eight lines made each program
-an argument about what its algorithm really is; a frozen initial condition
-made the cost of a shot part of the lesson. That is what a bounded instrument
-is for. Put the book down, pick a question of your own, and see how far the
-machine takes it before you have to.
+exploration here, and the few that closed a door said so plainly: no plot of
+period against amplitude, no spiral past one revolution, no phase plane, no
+expression that would let `SOLV` do the shooting. Each time the exploration
+went round instead, by a table written out row by row, by paper, or by your
+own straight line through the last two misses. Three slots made a family of
+curves something to compare rather than skim; eight samples made every
+statistic checkable by hand; a 3 by 3 world made an elimination small enough
+to watch every entry change; eight lines made each program an argument about
+what its algorithm really is; a frozen initial condition made the cost of a
+shot part of the lesson. That is what a bounded instrument is for. Put the
+book down, pick a question of your own, and see how far the machine takes it
+before you have to carry it yourself.

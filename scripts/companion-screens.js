@@ -41,6 +41,13 @@ const CO03_P1_LINES = ["0->S", "FOR A,1,9", "S+RANDI(0,1)->S", "END", "DISP S", 
 const CO03_P2_LINES = ["36->N", "0->S", "WHILE N", "S+INT(RANDI(1,6)/6)->S",
   "N-1->N", "END", "DISP S", "STOP"];
 
+// Chapter 4's four Riemann-sum programs: left, right, and midpoint sums with
+// four slices, then the midpoint sum with eight.
+const CO04_P1_LINES = ["0->S", "FOR A,0,3", "S+EVAL(A/2)->S", "END", "DISP S/2", "STOP"];
+const CO04_P2_LINES = ["0->S", "FOR A,1,4", "S+EVAL(A/2)->S", "END", "DISP S/2", "STOP"];
+const CO04_P3_LINES = ["0->S", "FOR A,1,4", "S+EVAL((2*A-1)/4)->S", "END", "DISP S/2", "STOP"];
+const CO04_P4_LINES = ["0->S", "FOR A,1,8", "S+EVAL((2*A-1)/8)->S", "END", "DISP S/4", "STOP"];
+
 export const SCREEN_CASES = [
   // Chapter 1 section 1.1: the cubic X^3-4*X in the standard window.
   { name: "co01-cubic-window", keys: ["X-VAR", "^", "3", "-", "4", "*", "X-VAR", "GRAPH", 900] },
@@ -242,6 +249,52 @@ export const SCREEN_CASES = [
       "1", "7", "ENTER", "1", "5", "ENTER", "2", "1", "ENTER", "4", "3", "ENTER",
       "1", "2", "ENTER", "1", "9", "ENTER", "1", "5", "ENTER", "1", "8", "ENTER",
       "MORE", "MORE", "MORE", "MORE", "MORE", "F2", 600]
+  },
+  // Chapter 4 section 4.1: the table catching the hole of (X^3+X^2)/X, the
+  // X=0 row reading UNDEF above the ordinary values of X^2+X.
+  {
+    name: "co04-limit-table",
+    keys: ["(", "X-VAR", "^", "3", "+", "X-VAR", "X^2", ")", "/", "X-VAR",
+      "GRAPH", 1200, "MORE", 300]
+  },
+  // Chapter 4 section 4.2: NDER(1.5) answering the paper derivative 4.75 of
+  // the stored X^3-2*X.
+  {
+    name: "co04-nder-result",
+    keys: ["X-VAR", "^", "3", "-", "2", "*", "X-VAR", "GRAPH", 1200,
+      "EXIT", 30, "CLEAR",
+      "ALPHA", "9", "ALPHA", "TAN", "ALPHA", "^", "ALPHA", "5",
+      "(", "1", ".", "5", ")", "ENTER", 600]
+  },
+  // Chapter 4 section 4.3: the designed cubic X^3/3-4*X, hill at -2 and
+  // valley at 2, in the standard window.
+  {
+    name: "co04-extrema-cubic",
+    keys: ["X-VAR", "^", "3", "/", "3", "-", "4", "*", "X-VAR", "GRAPH", 1200]
+  },
+  // Chapter 4 section 4.4: the parabola X^2-2*X-3 dipping below the axis
+  // between its zeros -1 and 3.
+  {
+    name: "co04-dip-area",
+    keys: ["X-VAR", "X^2", "-", "2", "*", "X-VAR", "-", "3", "GRAPH", 1200]
+  },
+  // Chapter 4 section 4.5: P4's run screen after the section's exact build
+  // order (P1 to P3 typed and run first), the eight-slice midpoint sum
+  // answering 4.65625 against FNINT's 4.6666666666667.
+  {
+    name: "co04-riemann-run",
+    keys: ["X-VAR", "X^2", "+", "1", "GRAPH", 1200, "EXIT", 30,
+      "PRGM", "F1", 30, ...CO04_P1_LINES.flatMap(programLineKeys), "F2", 6000,
+      "PRGM", 30, "DOWN", "F1", 30, ...CO04_P2_LINES.flatMap(programLineKeys), "F2", 6000,
+      "PRGM", 30, "DOWN", "F1", 30, ...CO04_P3_LINES.flatMap(programLineKeys), "F2", 6000,
+      "PRGM", 30, "DOWN", "F1", 30, ...CO04_P4_LINES.flatMap(programLineKeys), "F2", 9000]
+  },
+  // Chapter 4 section 4.6: the arch 2-X^2/2 and the line X/2+1 crossing at
+  // -2 and 1 in the standard window.
+  {
+    name: "co04-between-curves",
+    keys: ["2", "-", "X-VAR", "X^2", "/", "2", "GRAPH", 1200,
+      "2ND", "2", 30, "X-VAR", "/", "2", "+", "1", "GRAPH", 2400]
   }
 ];
 

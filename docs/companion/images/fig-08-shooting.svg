@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 170" role="img"
+     aria-label="Two solution curves leaving the same left-hand edge from different starting heights: the lower one falls short of the target at the far end, the upper one overshoots it, and a straight line between the two misses picks the next starting value.">
+  <!-- Free85 Explorations, chapter 8: the shooting method.
+       Navy plus ink, no gradients, nothing depending on colour. -->
+
+  <!-- axes: inlet on the left, outlet on the right -->
+  <g stroke="#111111" stroke-width="1" opacity="0.55">
+    <line x1="34" y1="140" x2="248" y2="140"/>
+    <line x1="34" y1="150" x2="34" y2="18"/>
+  </g>
+
+  <!-- the outlet, where the answer is judged -->
+  <line x1="220" y1="146" x2="220" y2="24" stroke="#111111" stroke-width="0.9"
+        stroke-dasharray="4 3" opacity="0.7"/>
+
+  <!-- the consent level: the target the shots are aimed at -->
+  <line x1="34" y1="100" x2="248" y2="100" stroke="#1a3a6b" stroke-width="1.3"
+        stroke-dasharray="6 3"/>
+
+  <!-- shot one: seeded low, lands under the target -->
+  <path d="M 34 62 C 90 104, 150 112, 220 114" fill="none" stroke="#111111"
+        stroke-width="1.5"/>
+  <!-- shot two: seeded higher, lands over the target -->
+  <path d="M 34 36 C 92 84, 152 92, 220 88" fill="none" stroke="#1a3a6b"
+        stroke-width="1.5"/>
+
+  <!-- the two misses, marked at the outlet -->
+  <line x1="220" y1="100" x2="220" y2="114" stroke="#111111" stroke-width="2.4"/>
+  <line x1="220" y1="88" x2="220" y2="100" stroke="#1a3a6b" stroke-width="2.4"/>
+  <circle cx="220" cy="114" r="2.6" fill="#111111"/>
+  <circle cx="220" cy="88" r="2.6" fill="#1a3a6b"/>
+
+  <!-- the two seeds -->
+  <circle cx="34" cy="62" r="2.6" fill="#111111"/>
+  <circle cx="34" cy="36" r="2.6" fill="#1a3a6b"/>
+  <!-- the next seed, interpolated between them -->
+  <circle cx="34" cy="47" r="3" fill="none" stroke="#111111" stroke-width="1.2"
+          stroke-dasharray="2 2"/>
+
+  <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9.5"
+     fill="#444444">
+    <text x="252" y="103" fill="#1a3a6b">target</text>
+    <text x="196" y="158">outlet</text>
+    <text x="38" y="16">inlet</text>
+    <text x="232" y="120">short</text>
+    <text x="232" y="82" fill="#1a3a6b">over</text>
+    <text x="42" y="50" font-style="italic">next</text>
+  </g>
+</svg>

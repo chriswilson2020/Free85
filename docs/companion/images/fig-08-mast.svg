@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 200" role="img"
+     aria-label="A vertical mast with three guy ropes running from its top to ground anchors spaced 120 degrees apart, drawn in perspective, with the first guy marked as a vector from the mast top to its anchor.">
+  <!-- Free85 Explorations, chapter 8: the guyed mast.
+       Navy plus ink, no gradients, nothing depending on colour.
+       Ground drawn as an ellipse in perspective; anchors at bearings
+       0, 120 and 240 degrees, 9 metres out; mast 12 metres tall.
+       Base B(130,150), top T(130,44).
+       Anchor 1 (bearing 0, drawn towards the viewer):  (130,182)
+       Anchor 2 (bearing 120):                           (208,136)
+       Anchor 3 (bearing 240):                           ( 52,136) -->
+
+  <!-- ground plane -->
+  <ellipse cx="130" cy="152" rx="86" ry="30" fill="none" stroke="#111111"
+           stroke-width="0.9" stroke-dasharray="4 3" opacity="0.45"/>
+
+  <!-- the three guys, the first one emphasised as the worked vector -->
+  <g stroke="#111111" stroke-width="1.2" opacity="0.75">
+    <line x1="130" y1="44" x2="208" y2="136"/>
+    <line x1="130" y1="44" x2="52" y2="136"/>
+  </g>
+  <line x1="130" y1="44" x2="130" y2="182" stroke="#1a3a6b" stroke-width="1.8"/>
+  <!-- arrowhead on the worked guy -->
+  <path d="M 130 182 L 126 172 L 134 172 Z" fill="#1a3a6b"/>
+
+  <!-- the mast -->
+  <line x1="130" y1="150" x2="130" y2="44" stroke="#111111" stroke-width="2.6"/>
+
+  <!-- anchors -->
+  <circle cx="130" cy="182" r="2.8" fill="#1a3a6b"/>
+  <circle cx="208" cy="136" r="2.8" fill="#111111"/>
+  <circle cx="52" cy="136" r="2.8" fill="#111111"/>
+  <!-- mast base and top -->
+  <circle cx="130" cy="150" r="2.4" fill="#111111"/>
+  <circle cx="130" cy="44" r="3" fill="#111111"/>
+
+  <!-- height marker -->
+  <line x1="112" y1="44" x2="112" y2="150" stroke="#444444" stroke-width="0.8"
+        stroke-dasharray="3 2.5"/>
+  <g stroke="#444444" stroke-width="0.8">
+    <line x1="108" y1="44" x2="116" y2="44"/>
+    <line x1="108" y1="150" x2="116" y2="150"/>
+  </g>
+
+  <!-- the 120 degree spacing, marked on the ground -->
+  <path d="M 148 160 A 22 22 0 0 1 146 141" fill="none" stroke="#444444"
+        stroke-width="0.9"/>
+
+  <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="11"
+     fill="#111111">
+    <text x="96" y="100" font-style="italic">12</text>
+    <text x="136" y="176" fill="#1a3a6b" font-style="italic">g</text>
+  </g>
+  <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9"
+     fill="#444444">
+    <text x="152" y="156">120°</text>
+    <text x="126" y="196" text-anchor="middle">anchor, 9 m out</text>
+  </g>
+</svg>

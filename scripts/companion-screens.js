@@ -133,6 +133,12 @@ const co08Modulus = (halfAngleKeys) => [...halfAngleKeys, "X^2", "STO",
   "ALPHA", "X^2", "ENTER", 60, "CLEAR", 30];
 
 // Chapter 8 section 8.2's two summing programs, and section 8.3's Euler shot.
+// Section 8.3's tolerance-driven variant: counts up instead of down and
+// stops when the next term falls below a ten thousandth. The editor cannot
+// type "<", so the test is INT(1E4/N^2), which is nonzero exactly while the
+// term is still worth adding.
+const CO08_TOLERANCE_LINES = ["0->S", "1->N", "WHILE INT(1E4/N^2)",
+  "S+1/N^2->S", "N+1->N", "END", "DISP S", "STOP"];
 const CO08_P1_LINES = ["0->S", "10->N", "WHILE N", "S+1/N^2->S", "N-1->N",
   "END", "DISP S", "STOP"];
 const CO08_P2_LINES = ["0->S", "6->N", "WHILE N", "(1+S)/4->S", "N-1->N",
@@ -644,6 +650,26 @@ export const SCREEN_CASES = [
     name: "co07-equilibrium",
     keys: [...co07Seed(-6), ...CO07_DEQ_MODE,
       ".", "4", "*", "(", "3", "-", "ALPHA", "0", ")", "GRAPH", 9000]
+  },
+  // Chapter 8 section 8.1: the integral conservation of energy hands you,
+  // integrated between 0 and the amplitude. The integrand is infinite at the
+  // top of the swing, so one of FNINT('s 64 panels lands on an enormous
+  // value and swamps the rest. The machine returns 9643 where the answer is
+  // about 2.31, and says nothing at all about it.
+  {
+    name: "co08-naive-integral",
+    keys: ["2ND", "^", "/", "4", "STO", "ALPHA", "LOG", "ENTER", 200, "CLEAR", 30,
+      "1", "/", "2ND", "X^2", "COS", "X-VAR", ")", "-", "COS", "ALPHA", "LOG", ")", ")",
+      "GRAPH", 9000, "EXIT", 300, "CLEAR", 30,
+      ...FNINT_KEYS, "(", "0", ",", "ALPHA", "LOG", ")", "ENTER", 12000]
+  },
+  // Chapter 8 section 8.3: the same hundred reciprocal squares added upwards
+  // and stopped on a tolerance rather than a term count. Line 3 is the
+  // comparison this editor cannot type, written as arithmetic instead.
+  {
+    name: "co08-tolerance-run",
+    keys: ["PRGM", 60, "F1", 120,
+      ...CO08_TOLERANCE_LINES.flatMap(programLineKeys), 200, "F2", 90000]
   },
   // Chapter 8 section 8.1: the swing's true period at a 150-degree amplitude,
   // after the section's whole run of modulus stores and ratio probes.

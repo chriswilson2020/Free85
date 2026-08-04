@@ -12,9 +12,9 @@ calculus commands read the active stored equation, so store with [GRAPH]
 before asking them anything, let plots draw to the end (presses that arrive
 mid-draw are dropped), and press [CLEAR] at home before typing a command,
 because the graph hands its equation back to the entry line. Every key
-sequence and every quoted number in this chapter
-was run in the emulator on a fresh machine, and each exploration ends with a
-"Try it" block whose answers stay on the calculator.
+sequence and every quoted number in this chapter was run in the emulator on
+a fresh machine, and each exploration ends with a "Try it" block whose
+answers stay on the calculator.
 
 ## 5.1 Zeros of functions two ways
 
@@ -163,9 +163,9 @@ and a spiral, then reads an equation off the trace.
 
    The radius grows with the angle, half a unit per radian, and the curve
    winds outward until the single revolution is spent, stopping mid-air at
-   radius pi on the positive x axis. The abrupt end is the design boundary
-   stated plainly: the sweep is one revolution, always, so a spiral of many
-   turns is beyond the mode; what there is of it is exact.
+   radius pi on the positive x axis. The abrupt end is the boundary: the
+   sweep is one revolution, always, so a spiral of many turns is beyond the
+   mode; what there is of it is exact.
 
 4. Read the spiral's equation off the screen. Press [▶] once: the readout
    shows `X=-1.6034808029742` and `Y=-0.1192134330108`, the Cartesian point
@@ -229,8 +229,8 @@ seconds, 5.4 metres out.
    `1.7999999523165`: the flight lasts 1.8 seconds. Press [EXIT], press
    [CLEAR], and type `3*1.8`: `= 5.4` metres, the range the paper predicted.
 
-The mode holds one pair, so two pebbles cannot fly together; and zooming
-reframes time as well as space. The window is the clock.
+Here too there is only one pair, so two pebbles cannot fly together; and
+zooming reframes time as well as space. The window is the clock.
 
 **Try it.**
 
@@ -341,7 +341,7 @@ forms, one specimen of each.
    times, doubling the step out to 256: the rows read `3.019` at 256,
    `3.009` at 512, `3.006` at 768, `3.004` at 1024, and `3.003` at 1280. The
    overshoot has drained away and the far right of the table settles onto 3,
-   the ratio of the leading coefficients. As in chapter 4, the probes point
+   the ratio of the leading coefficients. As in Chapter 4, the probes point
    and the algebra pins: dividing top and bottom by x^2 proves it.
 
 **Try it.**

@@ -13,6 +13,13 @@ chapter 14. Every key sequence and every quoted number in this chapter was
 run in the emulator on a fresh machine, and each exploration ends with a
 "Try it" block whose answers stay on the calculator.
 
+Three habits carry the chapter. The editors keep three registers: `A` and
+`B` hold the operands you type, and `R` holds the result of whichever key
+you press, read-only. One selection cursor is shared by all three, so
+wherever a walk through one register leaves it, that is where the next view
+opens. And nothing carries forward on its own: feeding a result into the
+next operation means retyping it into `A` by hand.
+
 ## 6.1 One system, two tools
 
 A system of two linear equations is a pair of lines, and solving it is
@@ -23,8 +30,8 @@ differently: one names the point, the other rewrites the system until it
 names itself.
 
 1. Press [2nd] [STAT] (the `SIMULT` legend) for the simultaneous editor of
-   section 2.1: a fresh machine shows `SIZE 2`. Each row takes its
-   coefficients and then its right-hand side, so type [1] [ENTER] [2]
+   Chapter 2, section 2.1: a fresh machine shows `SIZE 2`. Each row takes
+   its coefficients and then its right-hand side, so type [1] [ENTER] [2]
    [ENTER] [8] [ENTER] for the first line, then [3] [ENTER] [(-)] [1]
    [ENTER] [3] [ENTER] for the second.
 
@@ -35,13 +42,13 @@ names itself.
    stale `= 3` from the result screen, and this one does not wipe: nothing
    was handed back to the entry line, so [CLEAR] answers `ENTRY EMPTY`
    rather than sweeping the old result away. Leave it where it sits and
-   press [2nd]
-   [7] (the `MATRX` legend) for the matrix editor of the Guidebook, chapter
-   13, and [x-VAR] [+] to grow the columns: `SIZE 2X3`. Type the same six
-   values, [1] [ENTER] [2] [ENTER] [8] [ENTER] [3] [ENTER] [(-)] [1] [ENTER]
-   [3] [ENTER], and press [F5], `RREF`. Register `R` opens on `CELL 1 1`
-   reading `1`, and two presses of [▶] read `0` and then `2`: the first
-   equation has become 1x + 0y = 2, and `CELL 1 3` holds the value of x:
+   press [2nd] [7] (the `MATRX` legend) for the matrix editor of the
+   Guidebook, chapter 13, and [x-VAR] [+] to grow the columns: `SIZE 2X3`.
+   Type the same six values, [1] [ENTER] [2] [ENTER] [8] [ENTER] [3]
+   [ENTER] [(-)] [1] [ENTER] [3] [ENTER], and press [F5], `RREF`. Register
+   `R` opens on `CELL 1 1` reading `1`, and two presses of [▶] read `0` and
+   then `2`: the first equation has become 1x + 0y = 2, and `CELL 1 3`
+   holds the value of x:
 
    ![The reduced tableau naming x](images/co06-rref-solution.png)
 
@@ -258,7 +265,7 @@ directions, inside the vector editor of the Guidebook, chapter 13.
 6. Press [F2], `NRM`: `R` reads `0.89442719099991`, `0`,
    `-0.44721359549996`, the same direction rescaled to length one. A unit
    vector is direction with the length divided out: the first component
-   stays twice the size of the last, to within a digit of dust.
+   stays twice the size of the last, bar the final digit.
 
 7. One key completes the set. Press [F4], `CRS`: `R` reads `4`, `-10`, `8`,
    the cross product of `A` and `B`, perpendicular to both by construction.
@@ -319,8 +326,8 @@ lets the machine find the full set, in two sizes and one complex surprise.
    it time: a 3 by 3's roots take the machine far longer than a 2 by 2's
    (the Guidebook, chapter 13). The `SIZE 1X3` result reads
    `6.0000000000007`, then `2.0000000000007`, then `3`. The diagonal
-   promised 2, 3, 6; the iterative hunt delivers them under a grain of
-   search dust.
+   promised 2, 3, 6; the iterative hunt delivers them a whisker off in the
+   final digits.
 
 5. Press [F3], `EVEC`, and give it time again. Stepping through the
    `SIZE 3X3` result, the first column occupies the first, fourth, and
@@ -360,7 +367,7 @@ lets the machine find the full set, in two sizes and one complex surprise.
 3. Ask `EVAL` about 0, -3, 3, 0, a quarter-turn with stretch. What do the
    cells read, and what does the final page add?
 
-## 6.6 LU as elimination's ledger
+## 6.6 `LU` as elimination's ledger
 
 Elimination does work worth keeping: the multipliers used on the way down
 and the triangle left at the bottom record the entire sweep, and with both

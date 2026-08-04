@@ -1,11 +1,11 @@
 # Explorations with Free85
 
-*Explorations with Free85* is a workbook. Its eight chapters follow the
+A question worth asking about the mathematics, worked through on the
+machine keystroke by keystroke, and then handed over as exercises for you
+to carry on with: that is an exploration, and this is a book of them.
+*Explorations with Free85* is a workbook whose eight chapters follow the
 order of a mathematics course, from precalculus through to engineering
-mathematics, and each chapter is a sequence of explorations: a question
-worth asking about the mathematics, worked through on the machine
-keystroke by keystroke, and then handed over as exercises for you to
-carry on with.
+mathematics.
 
 It is a companion to the two books that already exist, and it does not
 re-teach them. The Free85 Getting Started Manual gets you running, from
@@ -33,7 +33,9 @@ The conventions belong to the Guidebook, and this book inherits them:
 - **Keys** appear in brackets using their keycap labels: [ENTER], [2nd],
   [ALPHA], [GRAPH], [F1] through [F5], and the cursor keys
   [▲] [▼] [◀] [▶]. A sequence such as [2nd] [F1] means press and release
-  [2nd], then press [F1].
+  [2nd], then press [F1]. A bracketed letter such as [H] means the key
+  carrying that letter legend, with [ALPHA] supplied where the context
+  needs it.
 - **On-screen text and typed expressions** appear in code spans: the
   status line shows `RAD AUTO`, and the entry line holds `X^3-4*X`.
   Command, mode, and variable names are set the same way.
@@ -41,13 +43,12 @@ The conventions belong to the Guidebook, and this book inherits them:
   made by booting a fresh machine, pressing the listed keys, and
   photographing the result.
 
-Two more conventions are this book's own:
-
-- A bracketed letter such as [H] means the key carrying that letter
-  legend, reached with [ALPHA] where the context needs it.
-- Every section closes with a **Try it** block of exercises. The answers
-  are not printed, because the machine is the answer key: each exercise
-  is answerable with the technique the section has just shown.
+One convention is this book's own. Every section closes with a **Try it**
+block of exercises. The answers are not printed, because the machine is
+the answer key: nearly every exercise is answerable with the technique
+the section has just shown, and where one is not, the chapter says so and
+sends you to paper, as Chapter 7 (Explorations in Differential Equations)
+does at the edge of what the machine will integrate.
 
 The explorations assume you can already drive the calculator, which is
 chapter 1 of the Getting Started Manual, and that you will reach for the
@@ -57,7 +58,7 @@ Guidebook chapters it leans on in its opening paragraph.
 ## A word on the machine's limits
 
 Free85 keeps three graph slots, lists of eight samples, matrices no
-larger than 3 by 3, polynomials to degree four, and four program slots of
+larger than 3 by 3, polynomials to degree 4, and four program slots of
 eight lines each. Those numbers shape what an exploration can be, so the
 explorations are designed inside them rather than around them: a family
 of curves is studied three members at a time, a data set is eight numbers

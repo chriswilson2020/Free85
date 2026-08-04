@@ -14,11 +14,13 @@ The mode is the Guidebook, chapter 7; programs are the Guidebook, chapter
 on a fresh machine, and each exploration ends with a "Try it" block whose
 answers stay on the calculator.
 
-Two habits carry the chapter. The initial value is seeded from the ordinary
-variable `Y` when the mode is first entered, so store it *before* switching
-modes. And the entry line never clears itself: the home screen hands the
-stored slope back whenever you leave the plot, and [GRAPH] stores whatever
-the line holds, so an empty line pressed into [GRAPH] wipes the equation.
+Three habits carry the chapter. The initial value is seeded from the
+ordinary variable `Y` when the mode is first entered, so store it *before*
+switching modes. The entry line never clears itself: the home screen hands
+the stored slope back whenever you leave the plot, and [GRAPH] stores
+whatever the line holds, so an empty line pressed into [GRAPH] wipes the
+equation. And every plot must be left to draw to its end, since integrating
+one column at a time is slow work and presses arriving mid-draw are dropped.
 
 ## 7.1 Slope thinking
 
@@ -166,16 +168,16 @@ the halved one, 1 in the one after that.
 
    The rows run `-7.5` to `-5`, and the `X=-6.5` row reads `5.290`.
 
-2. Press [EXIT] to leave the table, let the plot redraw, press [+] for the
-   halved window, and let that replot finish too. Press [MORE]: the table
-   opens on rows now outside the window, reading `UNDEF` down to `X=-5`,
-   where `9` sits. Press [▼] twice, letting each page settle: the `X=-1.5`
-   row reads `5.307`.
+2. Press [EXIT] to leave the table and press [+] for the halved window,
+   letting each replot finish. Press [MORE]: the table opens on rows now
+   outside the window, reading `UNDEF` down to `X=-5`, where `9` sits.
+   Press [▼] twice, letting each page settle: the `X=-1.5` row reads
+   `5.307`.
 
-3. Press [EXIT], press [+] again, and let the replot finish. The plot is
-   empty: the vertical zoom has come down to -2.5 to 2.5 and the solution
-   spends the whole run above it. The table does not mind. Press [MORE],
-   then [▼] once: the `X=1` row reads `5.315`.
+3. Press [EXIT] and press [+] again. The plot comes up empty: the vertical
+   zoom has come down to -2.5 to 2.5 and the solution spends the whole run
+   above it. The table does not mind. Press [MORE], then [▼] once: the
+   `X=1` row reads `5.315`.
 
 4. Press [EXIT], press [2nd] [+] to restore the standard window, and let
    the replot finish. Press [EXIT] for the home screen and [CLEAR]. Type
@@ -402,17 +404,15 @@ not allow. The lever exists, and it is deliberately stiff.
 3. Now the reset. The mode writes its saved state to the store object
    `GDEQ` when you leave it, and deleting that object is the only way to
    make it seed itself again (the Guidebook, chapter 7). Press [EXIT] to
-   leave the table and let the plot redraw, press [2nd] [MORE] and [MORE]
-   twice for the graph mode page, and press [F1], `FN`, which is what
-   writes `GDEQ`. Let that plot finish and press [EXIT] for home.
+   leave the table, then [2nd] [MORE] and [MORE] twice for the graph mode
+   page, and press [F1], `FN`, which is what writes `GDEQ`, letting each
+   plot finish before the next press. Press [EXIT] for home.
 
 4. Press [2nd] [+] for the memory browser of the Guidebook, chapter 18,
-   which opens on `A` with `OBJECTS 28`. Press [▼] until the name reads
-   `GDEQ`: it is the last entry, twenty-seven steps below `A`, and the
-   selection stops there rather than wrapping. The line beneath carries
-   `TYPE GRAPH DB` and `SIZE 213` side by side, `USED 426` under it. Press
-   [DEL]: the count falls to `OBJECTS 27`, `FREE` rises to `2180`, and the
-   selection moves to `GFUNC`, the mode's memory gone.
+   which opens on `A`. Press [▼] until the name reads `GDEQ`: it is the
+   last entry, and the selection stops there rather than wrapping. The line
+   beneath reads `TYPE GRAPH DB`, confirming the right object. Press [DEL]:
+   the selection moves to `GFUNC`, the mode's memory gone.
 
 5. Press [EXIT] for the home screen and seed the new value: [(-)] [6]
    [STO▶] [ALPHA] [0] [ENTER] answers `= -6`. Press [CLEAR], press [GRAPH],

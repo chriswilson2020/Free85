@@ -84,12 +84,9 @@ right you step: at `X=6.377952755878` it reports `Y=16.377952755878`.
 integrated solution against the ordinary `X` column: with dy/dx = 1
 stored, the fresh table's `X` column reads `0` through `5` and `Y1`
 reads `10`, `11`, `12`, `13`, `14`, `15`, the same line row by row.
-One boundary remains in this release: the table's query reaches only
-the first hundred of the plot's 128 samples, so rows too far right,
-past `X=5.7` or so in the standard window, answer `UNDEF`; one press
-of [▼] shows `5` and `15` above five `UNDEF` rows. The trace has no
-such limit, so read the rightmost stretch of the window from the
-trace instead.
+The query reaches every sample of the plot, so the table reads the
+window from edge to edge: one press of [▼] carries `X` on to `10`
+with `Y1` reading `20`, and only rows past `XMAX` answer `UNDEF`.
 
 ## Analysis reads the slope, not the solution
 
@@ -99,10 +96,9 @@ plain function of `X` over the window; none of them sees the plotted
 solution. With `1` stored, [F4] answers `= 0` and [F5] answers `= 20`,
 the derivative and window integral of the constant slope, and [F1]
 answers the `NO NUMERIC RESULT` notice because the slope never crosses
-zero. With `X` stored, `EVAL(2)` after a completed plot answers `= 2`,
-the slope at x equal to 2, not the solution's value there. To read a
-solution value, use the trace or the table above; the calculus keys
-see only the slope.
+zero. With `X` stored, `EVAL(2)` answers `= 2`, the slope at x equal to
+2, not the solution's value there. To read a solution value, use the
+trace or the table above; the calculus keys see only the slope.
 
 ## What the mode remembers
 

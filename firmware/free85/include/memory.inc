@@ -107,6 +107,9 @@ GRAPH_PREV_Y3       EQU GRAPH_BASE + 11
 GRAPH_TOKEN_SLOT    EQU GRAPH_BASE + 12
 GRAPH_TOKEN_VALID   EQU GRAPH_BASE + 13
 GRAPH_INPUT_GUARD   EQU GRAPH_BASE + 14
+; Set while a graph slot is being evaluated or a callable calculus command is
+; running: both own the shared graph numeric state, so neither may be entered
+; from inside the other.
 GRAPH_CALC_ACTIVE   EQU GRAPH_BASE + 15
 GRAPH_EQ1           EQU GRAPH_BASE + 16
 GRAPH_EQ2           EQU GRAPH_EQ1 + EDITOR_CAPACITY + 1

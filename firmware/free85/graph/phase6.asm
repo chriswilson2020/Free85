@@ -398,7 +398,30 @@ p6_current_slot_mask:
     JR .shift
 
 ; A = slot. Evaluates at GRAPH_CURRENT_X and returns NUM_RESULT.
+; A calculus name inside a slot source cannot be answered: the graph-calculus
+; routines run on the very state a slot evaluation is standing in, from the
+; single-level context save down to the shared GRAPH_NUMERIC_OP that the plot
+; and table loops count their slots in. Claim the calculus context for the
+; whole evaluation so utility_calculus_call answers SYNTAX ERROR before any of
+; that moves, and the sample fails like any other bad expression. The saved
+; value returns on every exit: the callable commands evaluate slots themselves
+; and must not have the context cleared out from under them.
 p6_evaluate_slot:
+    LD (GRAPH_TOKEN_SLOT), A
+    LD A, (GRAPH_CALC_ACTIVE)
+    PUSH AF
+    LD A, 1
+    LD (GRAPH_CALC_ACTIVE), A
+    LD A, (GRAPH_TOKEN_SLOT)
+    CALL p6_evaluate_slot_source
+    POP BC
+    PUSH HL
+    LD HL, GRAPH_CALC_ACTIVE
+    LD (HL), B
+    POP HL
+    RET
+
+p6_evaluate_slot_source:
     LD (GRAPH_TOKEN_SLOT), A
     PUSH AF
     LD HL, GRAPH_CURRENT_X
@@ -433,6 +456,11 @@ p6_evaluate_slot:
     JR NC, .ok
     XOR A
     LD (NUMERIC_ERROR), A
+    ; Only a completed evaluation may claim the shared token buffer. A failed
+    ; one has already overwritten it while GRAPH_TOKEN_VALID still names the
+    ; slot before it, so the next sample of that slot would silently evaluate
+    ; this source instead of its own and report UNDEF for a sound equation.
+    LD (GRAPH_TOKEN_VALID), A
 .error:
     SCF
     RET
@@ -486,6 +514,10 @@ p6_map_result_y:
 ; Convert a non-negative display coordinate to an integer by truncating its
 ; fractional digits. scientific_to_u8 intentionally rejects fractions, which
 ; is correct for combinatorics but would discard almost every plotted point.
+; Screen coordinates run to 127, so three-digit values must convert; the
+; accumulator carries out exactly when the result passes 255, and each
+; intermediate is smaller than the total, so one carry test per add covers
+; the whole digit.
 p6_to_u8_truncated:
     LD A, (NUM_LEFT + NUM_FLAGS)
     AND NUM_SIGN
@@ -493,7 +525,7 @@ p6_to_u8_truncated:
     LD A, (NUM_LEFT + NUM_EXPONENT)
     BIT 7, A
     JR NZ, .below_one
-    CP 2
+    CP 3
     JR NC, .invalid
     LD HL, NUM_LEFT
     LD DE, NUM_WORK_A
@@ -506,10 +538,15 @@ p6_to_u8_truncated:
 .digit:
     LD C, A
     ADD A, A
+    JR C, .invalid
     ADD A, A
+    JR C, .invalid
     ADD A, C
+    JR C, .invalid
     ADD A, A
+    JR C, .invalid
     ADD A, (HL)
+    JR C, .invalid
     INC HL
     DJNZ .digit
     OR A
@@ -1539,15 +1576,15 @@ p6_calculate_extremum:
     LD HL, GRAPH_WORK_0
     LD DE, const_two
     CALL sci_multiply_objects
-    JP C, p6_numeric_failure
+    RET C
     LD HL, NUM_RESULT
     LD DE, GRAPH_WORK_1
     CALL sci_add_objects
-    JP C, p6_numeric_failure
+    RET C
     LD HL, NUM_RESULT
     LD DE, p6_const_3
     CALL sci_divide_objects
-    JP C, p6_numeric_failure
+    RET C
     LD HL, NUM_RESULT
     LD DE, GRAPH_WORK_2        ; m1
     CALL numeric_copy
@@ -1555,7 +1592,7 @@ p6_calculate_extremum:
     LD DE, GRAPH_CURRENT_X
     CALL numeric_copy
     CALL p6_evaluate_target
-    JP C, p6_numeric_failure
+    RET C
     LD HL, NUM_RESULT
     LD DE, GRAPH_WORK_3        ; y1
     CALL numeric_copy
@@ -1563,15 +1600,15 @@ p6_calculate_extremum:
     LD HL, GRAPH_WORK_1
     LD DE, const_two
     CALL sci_multiply_objects
-    JP C, p6_numeric_failure
+    RET C
     LD HL, GRAPH_WORK_0
     LD DE, NUM_RESULT
     CALL sci_add_objects
-    JP C, p6_numeric_failure
+    RET C
     LD HL, NUM_RESULT
     LD DE, p6_const_3
     CALL sci_divide_objects
-    JP C, p6_numeric_failure
+    RET C
     LD HL, NUM_RESULT
     LD DE, GRAPH_RESULT_X      ; m2
     CALL numeric_copy
@@ -1579,14 +1616,14 @@ p6_calculate_extremum:
     LD DE, GRAPH_CURRENT_X
     CALL numeric_copy
     CALL p6_evaluate_target
-    JP C, p6_numeric_failure
+    RET C
     LD HL, NUM_RESULT
     LD DE, GRAPH_RESULT_Y      ; y2
     CALL numeric_copy
     LD HL, GRAPH_WORK_3
     LD DE, GRAPH_RESULT_Y
     CALL sci_subtract_objects  ; y1-y2
-    JP C, p6_numeric_failure
+    RET C
     LD A, (NUM_RESULT + NUM_FLAGS)
     AND NUM_SIGN               ; set when y1 < y2
     LD B, A
@@ -1628,7 +1665,7 @@ p6_calculate_extremum:
     LD DE, GRAPH_CURRENT_X
     CALL numeric_copy
     CALL p6_evaluate_target
-    JP C, p6_numeric_failure
+    RET C
     LD HL, NUM_RESULT
     LD DE, GRAPH_RESULT_Y
     CALL numeric_copy
@@ -1657,7 +1694,7 @@ p6_calculate_derivative:
     LD DE, GRAPH_CURRENT_X
     CALL numeric_copy
     CALL p6_evaluate_target
-    JP C, p6_numeric_failure
+    RET C
     LD HL, NUM_RESULT
     LD DE, GRAPH_WORK_0        ; f(x+h)
     CALL numeric_copy
@@ -1668,14 +1705,14 @@ p6_calculate_derivative:
     LD DE, GRAPH_CURRENT_X
     CALL numeric_copy
     CALL p6_evaluate_target
-    JP C, p6_numeric_failure
+    RET C
     LD HL, NUM_RESULT
     LD DE, GRAPH_WORK_1        ; f(x-h)
     CALL numeric_copy
     LD HL, GRAPH_WORK_0
     LD DE, GRAPH_WORK_1
     CALL sci_subtract_objects
-    JP C, p6_numeric_failure
+    RET C
     LD HL, NUM_RESULT
     LD DE, p6_const_2h5
     CALL sci_divide_objects
@@ -1696,11 +1733,11 @@ p6_calculate_integral:
     LD HL, GRAPH_XMAX
     LD DE, GRAPH_XMIN
     CALL sci_subtract_objects
-    JP C, p6_numeric_failure
+    RET C
     LD HL, NUM_RESULT
     LD DE, p6_const_64
     CALL sci_divide_objects
-    JP C, p6_numeric_failure
+    RET C
     LD HL, NUM_RESULT
     LD DE, GRAPH_WORK_0        ; h
     CALL numeric_copy
@@ -1708,7 +1745,7 @@ p6_calculate_integral:
     LD DE, GRAPH_CURRENT_X
     CALL numeric_copy
     CALL p6_evaluate_target
-    JP C, p6_numeric_failure
+    RET C
     LD HL, NUM_RESULT
     LD DE, GRAPH_WORK_2        ; weighted sum begins with f(a)
     CALL numeric_copy
@@ -1718,12 +1755,12 @@ p6_calculate_integral:
     LD HL, GRAPH_CURRENT_X
     LD DE, GRAPH_WORK_0
     CALL sci_add_objects
-    JP C, p6_numeric_failure
+    RET C
     LD HL, NUM_RESULT
     LD DE, GRAPH_CURRENT_X
     CALL numeric_copy
     CALL p6_evaluate_target
-    JP C, p6_numeric_failure
+    RET C
     LD HL, NUM_RESULT
     LD DE, GRAPH_WORK_3        ; f(x_i)
     CALL numeric_copy
@@ -1737,7 +1774,7 @@ p6_calculate_integral:
 .weight_ready:
     LD HL, GRAPH_WORK_3
     CALL sci_multiply_objects
-    JP C, p6_numeric_failure
+    RET C
     LD HL, NUM_RESULT
     LD DE, GRAPH_WORK_3
     CALL numeric_copy
@@ -1745,7 +1782,7 @@ p6_calculate_integral:
     LD HL, GRAPH_WORK_2
     LD DE, GRAPH_WORK_3
     CALL sci_add_objects
-    JP C, p6_numeric_failure
+    RET C
     LD HL, NUM_RESULT
     LD DE, GRAPH_WORK_2
     CALL numeric_copy
@@ -1757,7 +1794,7 @@ p6_calculate_integral:
     LD HL, GRAPH_WORK_2
     LD DE, GRAPH_WORK_0
     CALL sci_multiply_objects
-    JP C, p6_numeric_failure
+    RET C
     LD HL, NUM_RESULT
     LD DE, p6_const_3
     CALL sci_divide_objects

@@ -3,13 +3,17 @@ import test from "node:test";
 import { TI85_PHYSICAL_KEYS } from "../../src/ti85-keys.js";
 import { FREE85_NUMERIC_ERROR_ADDRESS, Free85Harness } from "../helpers/free85-harness.js";
 import { assertLcdGolden } from "../helpers/lcd-visual.js";
+import { readNumericLines } from "../../scripts/free85-lcd-ocr.js";
 
 const GRAPH_ACTIVE = 0x8502;
 const GRAPH_PLOT_X = 0x8503;
 const GRAPH_TRACE_X = 0x8504;
 const GRAPH_ENABLED = 0x8501;
 const GRAPH_TOLERANCE_EXPONENT = 0x8649;
+const GRAPH_RESULT_X = 0x8675;
+const GRAPH_RESULT_Y = 0x867e;
 const SCREEN_HOME = 0;
+const SCREEN_DIALOG = 1;
 const SCREEN_GRAPH = 2;
 const SCREEN_TABLE = 3;
 const alphaKeys = new Map(TI85_PHYSICAL_KEYS
@@ -171,6 +175,118 @@ test("[graph.equations-intersection] three selectable slots share the graph engi
   harness.runFrames(3500);
   assert.equal(harness.machine.read8(0x800b), SCREEN_HOME);
   assert.ok(Math.abs(numericResult(harness) - 1) < 1e-5, harness.resultText());
+});
+
+// Slots share one token buffer, and a failed evaluation used to leave the
+// buffer holding its own source while the cache still named the slot before
+// it. Y1 then re-evaluated Y2's source on every sample after the first.
+test("[graph.slot-token-cache] a slot that fails to evaluate leaves its neighbours intact", () => {
+  const soleSlot = openGraph("2*X");
+  finishPlot(soleSlot);
+  const litPixels = (harness) => harness.machine.renderLcdBitmap().pixels
+    .reduce((total, pixel) => total + (pixel ? 1 : 0), 0);
+  const expected = litPixels(soleSlot);
+
+  const harness = openGraph("2*X");
+  finishPlot(harness);
+  harness.tap("2ND");
+  harness.tap("2");
+  typeExpression(harness, "1/0");
+  harness.tap("GRAPH");
+  finishPlot(harness);
+  assert.equal(harness.machine.read8(GRAPH_ENABLED) & 3, 3);
+  assert.equal(litPixels(harness), expected, "Y1 keeps its whole curve while Y2 fails every sample");
+
+  harness.tap("MORE");
+  harness.runFrames(800);
+  assert.equal(harness.machine.read8(0x800b), SCREEN_TABLE);
+  const rows = readNumericLines(harness.machine.renderLcdBitmap(), { originX: 0, originY: 0 })
+    .filter(({ row }) => row >= 1 && row <= 3)
+    .map(({ text }) => text.replace(/\s+/g, " ").split(" ").slice(0, 2).join(" "));
+  assert.deepEqual(rows, ["0 0", "1 2", "2 4"], "the table still tabulates Y1");
+});
+
+test("[graph.calculus-interrupted] home-screen calculus reads the stored slot after an interrupted plot", () => {
+  // Guidebook chapters 3, 4, and 17: [GRAPH] stores the entry line before the
+  // first column is drawn, so cancelling the plot costs only the picture. The
+  // calculus commands re-tokenise the stored text on every call.
+  for (const [interruptKey, columns] of [["EXIT", 0], ["EXIT", 40], ["CLEAR", 40]]) {
+    const harness = openGraph("X^2");
+    harness.runFrames(10);
+    while (harness.machine.read8(GRAPH_PLOT_X) < columns
+      && harness.machine.read8(GRAPH_ACTIVE) !== 0) harness.runFrames(10);
+    const drawn = harness.machine.read8(GRAPH_PLOT_X);
+    assert.notEqual(harness.machine.read8(GRAPH_ACTIVE), 0,
+      `plot already finished at column ${drawn}`);
+    assert.ok(drawn < 128, `plot already reached column ${drawn}`);
+    harness.tap(interruptKey);
+    harness.runFrames(30);
+    assert.equal(harness.machine.read8(0x800b), SCREEN_HOME, interruptKey);
+    assert.equal(harness.machine.read8(GRAPH_ACTIVE), 0, interruptKey);
+    assert.equal(harness.editorText(), "X^2", interruptKey);
+    harness.tap("CLEAR");
+    for (const [call, expected, tolerance] of
+      [["EVAL(3)", 9, 0], ["NDER(3)", 6, 1e-8], ["FNINT(0,2)", 8 / 3, 1e-12]]) {
+      typeExpression(harness, call);
+      harness.tap("ENTER");
+      harness.runFrames(2000);
+      assert.equal(harness.machine.read8(FREE85_NUMERIC_ERROR_ADDRESS), 0, call);
+      assert.equal(harness.machine.read8(0x800b), SCREEN_HOME, call);
+      assert.ok(Math.abs(numericResult(harness) - expected) <= tolerance,
+        `${call} after ${interruptKey} at column ${drawn}: ${harness.resultText()}`);
+      harness.tap("CLEAR");
+    }
+  }
+
+  // Only an empty active slot leaves the commands nothing to read.
+  const empty = Free85Harness.boot();
+  typeExpression(empty, "EVAL(3)");
+  empty.tap("ENTER");
+  empty.runFrames(2000);
+  assert.equal(empty.machine.read8(0x800b), SCREEN_DIALOG);
+});
+
+test("[graph.trace-analysis] root and intersection keys still publish after the trace has moved", () => {
+  // Trace to a non-root column: the residual there (|f| ~= 0.246) must be
+  // rejected by the fast path, and the scan must then publish a genuine root.
+  const harness = openGraph("X^3-4*X");
+  finishPlot(harness);
+  for (let press = 0; press < 13; press += 1) {
+    harness.tap("LEFT");
+    harness.runFrames(10);
+  }
+  assert.equal(harness.machine.read8(GRAPH_TRACE_X), 51);
+  const tracedX = harness.packedNumber(GRAPH_RESULT_X);
+  assert.ok(Math.abs(tracedX - -1.968503937008) < 1e-9, `traced X=${tracedX}`);
+  harness.tap("F1");
+  harness.runFrames(1000);
+  assert.equal(harness.machine.read8(0x800b), SCREEN_HOME, "root key must publish on the home screen");
+  assert.ok(Math.abs(numericResult(harness) - -2) < 1e-5, harness.resultText());
+  assert.ok(Math.abs(harness.packedNumber(GRAPH_RESULT_Y)) <= 1e-6,
+    `published root residual ${harness.packedNumber(GRAPH_RESULT_Y)} exceeds tolerance`);
+
+  // Intersection likewise: Y2=X crosses the cubic at -sqrt(5), 0, sqrt(5).
+  harness.tap("GRAPH");
+  finishPlot(harness);
+  harness.tap("2ND");
+  harness.tap("2");
+  harness.runFrames(10);
+  typeExpression(harness, "X");
+  harness.tap("GRAPH");
+  assert.equal(harness.machine.read8(GRAPH_ENABLED) & 3, 3);
+  finishPlot(harness);
+  for (let press = 0; press < 14; press += 1) {
+    harness.tap("LEFT");
+    harness.runFrames(10);
+  }
+  assert.equal(harness.machine.read8(GRAPH_TRACE_X), 50);
+  harness.tap("2ND");
+  harness.tap("F1");
+  harness.runFrames(1000);
+  assert.equal(harness.machine.read8(0x800b), SCREEN_HOME, "intersection key must publish on the home screen");
+  assert.ok(Math.abs(numericResult(harness) - -Math.sqrt(5)) < 1e-5, harness.resultText());
+  assert.ok(Math.abs(harness.packedNumber(GRAPH_RESULT_Y)) <= 1e-6,
+    `published intersection residual ${harness.packedNumber(GRAPH_RESULT_Y)} exceeds tolerance`);
 });
 
 test("[graph.numerical] roots, extrema, derivatives, integrals, and solver use stored equations", () => {

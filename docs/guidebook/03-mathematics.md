@@ -269,11 +269,12 @@ the home screen, from programs, or from the catalog.
 
 To store the function, type it on the home entry line using [x-VAR] for the
 variable and press [GRAPH]: [x-VAR] [x²] [GRAPH] stores `X^2` as `Y1` and
-plots it. Let the plot run to completion; the calculus commands read the
-stored equation, and if you interrupt the plot with [EXIT] the equation is
-not yet ready, so `EVAL(3)` answers `SYNTAX ERROR` until you plot it
-through once. When the plot finishes, press [EXIT] to return home; your
-entry is still on the line, so press [CLEAR] and put the commands to work:
+plots it. Storing is all the calculus commands need, and [GRAPH] stores the
+entry line before the first column is drawn, so the plot need not finish:
+interrupt it with [EXIT] at any point and `EVAL(3)` still answers `= 9`.
+Only an empty active slot leaves the commands nothing to read, and then they
+answer `SYNTAX ERROR`. Press [EXIT] to return home; your entry is still on
+the line, so press [CLEAR] and put the commands to work:
 
 ![EVAL(3) evaluating the stored X^2](images/ch03-calculus-eval.png)
 
@@ -296,6 +297,11 @@ With `X^2` stored as the active equation:
   answers `= 2`, halfway between the endpoint values `0` and `4`.
 - **`ARC(a,b)`** sums a 64-segment polyline approximation to the arc
   length: `ARC(0,1)` answers `= 1.4789246603114`.
+
+Because every one of them reads the stored equation, none of them can be
+stored as one: a slot holding `EVAL(2)` or `FNINT(0,X)` would have to
+evaluate itself, so every sample fails and the slot plots nothing, as
+Chapter 4: Cartesian Graphing, Drawing, Formats, and Persistence shows.
 
 If you are arriving from another calculator's manual, the names map like
 this (Free85 spelling first, then the name elsewhere):

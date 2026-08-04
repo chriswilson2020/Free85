@@ -16,9 +16,7 @@ the answer numerically.
 (Chapter 4: Cartesian Graphing, Drawing, Formats, and Persistence), so
 type [x-VAR] [x²] [-] [4] and press [GRAPH]. The expression `X^2-4` is
 stored as `Y1` and the parabola draws, column by column. Let the plot
-run to completion: the home-screen check we finish with needs one
-completed plot, and after an interrupted plot it answers
-`SYNTAX ERROR` instead (chapter 4's warning).
+run to completion so the whole curve is on screen for the trace below.
 
 **Frame the view.** The zoom keys replot immediately: press [+] to zoom
 in and watch the window halve to -5 to 5, then press [2nd] [+], the

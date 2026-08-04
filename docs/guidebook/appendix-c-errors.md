@@ -89,7 +89,9 @@ your entry is exactly as you left it.
   number of arguments such as `MIN(1,2,3)` (chapter 3), storing to an
   invalid name such as `AB` or `ANS` (chapter 2), or a calculus command
   such as `EVAL(` before a plot has run through once (chapters 3
-  and 4).
+  and 4). A calculus command stored as a graph equation meets the same
+  refusal at every sample, but silently: the slot plots nothing rather
+  than raising a notice (chapter 4).
 - **`DIVIDE BY ZERO`**: division by zero, chapter 1's specimen error.
   `1/0` answers it, so do `MOD(5,0)` (chapter 3) and dividing by a
   complex zero in the complex editor (chapter 11).

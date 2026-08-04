@@ -38,10 +38,10 @@ single equation takes a few seconds and plots noticeably faster than
 three; a heavy expression slows every column. You can leave at any
 time: [EXIT] or [CLEAR] cancels the
 redraw and returns to the home screen with the equation loaded on the entry
-line. Remember the warning in Chapter 3: Mathematics, Calculus, and
-Comparisons, though: the home-screen calculus commands such as `EVAL(` need
-one completed plot, and after an interrupted plot they answer
-`SYNTAX ERROR` until you let a plot run through once.
+line. Cancelling costs only the picture: [GRAPH] stored the equation before
+the first column was drawn, so the home-screen calculus commands of
+Chapter 3: Mathematics, Calculus, and Comparisons, `EVAL(` among them, read
+it whether or not the plot was left to finish.
 
 The plotter is deliberately hard to crash. Discontinuities, domain errors,
 and values outside the window leave gaps instead of stopping the plot:
@@ -49,8 +49,10 @@ and values outside the window leave gaps instead of stopping the plot:
 nothing left of the origin, and adjacent samples are joined into a connected
 curve only when they are fewer than seventeen pixels apart, so a vertical
 asymptote is not smeared into a false vertical line. A graph-calculus
-command stored as the equation itself (`EVAL(2)` as `Y1`, say) is refused
-at every sample the same way: the plot completes with axes and no curve.
+command stored as an equation (`EVAL(2)` or `FNINT(0,X)`, in any of the
+three slots) is refused at every sample the same way: that slot draws no
+curve and reads `UNDEF` in the table, while the slots beside it plot
+exactly as they would alone.
 
 Pressing [GRAPH] again on the graph screen replots. Pressing the `GRF` soft
 key ([F2] on the home screen's first menu page) opens the same graph screen.

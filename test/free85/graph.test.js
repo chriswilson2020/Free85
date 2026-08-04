@@ -12,6 +12,7 @@ const GRAPH_TOLERANCE_EXPONENT = 0x8649;
 const GRAPH_RESULT_X = 0x8675;
 const GRAPH_RESULT_Y = 0x867e;
 const SCREEN_HOME = 0;
+const SCREEN_DIALOG = 1;
 const SCREEN_GRAPH = 2;
 const SCREEN_TABLE = 3;
 const alphaKeys = new Map(TI85_PHYSICAL_KEYS
@@ -173,6 +174,46 @@ test("[graph.equations-intersection] three selectable slots share the graph engi
   harness.runFrames(3500);
   assert.equal(harness.machine.read8(0x800b), SCREEN_HOME);
   assert.ok(Math.abs(numericResult(harness) - 1) < 1e-5, harness.resultText());
+});
+
+test("[graph.calculus-interrupted] home-screen calculus reads the stored slot after an interrupted plot", () => {
+  // Guidebook chapters 3, 4, and 17: [GRAPH] stores the entry line before the
+  // first column is drawn, so cancelling the plot costs only the picture. The
+  // calculus commands re-tokenise the stored text on every call.
+  for (const [interruptKey, columns] of [["EXIT", 0], ["EXIT", 40], ["CLEAR", 40]]) {
+    const harness = openGraph("X^2");
+    harness.runFrames(10);
+    while (harness.machine.read8(GRAPH_PLOT_X) < columns
+      && harness.machine.read8(GRAPH_ACTIVE) !== 0) harness.runFrames(10);
+    const drawn = harness.machine.read8(GRAPH_PLOT_X);
+    assert.notEqual(harness.machine.read8(GRAPH_ACTIVE), 0,
+      `plot already finished at column ${drawn}`);
+    assert.ok(drawn < 128, `plot already reached column ${drawn}`);
+    harness.tap(interruptKey);
+    harness.runFrames(30);
+    assert.equal(harness.machine.read8(0x800b), SCREEN_HOME, interruptKey);
+    assert.equal(harness.machine.read8(GRAPH_ACTIVE), 0, interruptKey);
+    assert.equal(harness.editorText(), "X^2", interruptKey);
+    harness.tap("CLEAR");
+    for (const [call, expected, tolerance] of
+      [["EVAL(3)", 9, 0], ["NDER(3)", 6, 1e-8], ["FNINT(0,2)", 8 / 3, 1e-12]]) {
+      typeExpression(harness, call);
+      harness.tap("ENTER");
+      harness.runFrames(2000);
+      assert.equal(harness.machine.read8(FREE85_NUMERIC_ERROR_ADDRESS), 0, call);
+      assert.equal(harness.machine.read8(0x800b), SCREEN_HOME, call);
+      assert.ok(Math.abs(numericResult(harness) - expected) <= tolerance,
+        `${call} after ${interruptKey} at column ${drawn}: ${harness.resultText()}`);
+      harness.tap("CLEAR");
+    }
+  }
+
+  // Only an empty active slot leaves the commands nothing to read.
+  const empty = Free85Harness.boot();
+  typeExpression(empty, "EVAL(3)");
+  empty.tap("ENTER");
+  empty.runFrames(2000);
+  assert.equal(empty.machine.read8(0x800b), SCREEN_DIALOG);
 });
 
 test("[graph.trace-analysis] root and intersection keys still publish after the trace has moved", () => {

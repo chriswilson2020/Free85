@@ -48,6 +48,27 @@ const CO04_P2_LINES = ["0->S", "FOR A,1,4", "S+EVAL(A/2)->S", "END", "DISP S/2",
 const CO04_P3_LINES = ["0->S", "FOR A,1,4", "S+EVAL((2*A-1)/4)->S", "END", "DISP S/2", "STOP"];
 const CO04_P4_LINES = ["0->S", "FOR A,1,8", "S+EVAL((2*A-1)/8)->S", "END", "DISP S/4", "STOP"];
 
+// Chapter 7's differential-equation runs. Seeding stores the initial y into
+// the variable Y before the mode is entered, because the mode freezes that
+// value when it first starts; DEQ_MODE then walks the graph mode page to the
+// DifEq entry and drops back to the home screen with the entry line empty.
+const co07Seed = (value) => [
+  ...String(value).split("").map((character) => (character === "-" ? "(-)" : character)),
+  "STO", "ALPHA", "0", "ENTER", 120, "CLEAR", 30
+];
+const CO07_DEQ_MODE = ["GRAPH", 1200, "2ND", "MORE", 90, "MORE", "MORE", 90,
+  "F4", 2500, "EXIT", 90];
+// The tank of sections 7.1 to 7.5: dy/dx = -.15*Y seeded at 9.
+const CO07_TANK = [...co07Seed(9), ...CO07_DEQ_MODE,
+  "(-)", ".", "1", "5", "*", "ALPHA", "0", "GRAPH", 6000];
+// Section 7.4's Euler walk and section 7.5's improved-Euler pair, whose step
+// lives in P3 because eight lines cannot hold driver and method together.
+const CO07_P1_LINES = ["9->Y", ".5->H", "7->N", "WHILE N", "Y+H*EVAL(0)->Y",
+  "N-1->N", "END", "DISP Y"];
+const CO07_P2_LINES = ["9->Y", ".5->H", "7->N", "WHILE N", "CALL 3",
+  "N-1->N", "END", "DISP Y"];
+const CO07_P3_LINES = ["EVAL(0)->K", "Y+H*K->Y", "Y+H*(EVAL(0)-K)/2->Y", "RETURN"];
+
 // Chapter 5 spells FNINT( letter by letter on the home screen: [ALPHA]
 // plus the key carrying each letter, as the chapter instructs.
 const FNINT_KEYS = ["ALPHA", "LN", "ALPHA", "9", "ALPHA", ")", "ALPHA", "9",
@@ -473,6 +494,44 @@ export const SCREEN_CASES = [
       ...cellKeys([0, 2, 1, 2, 4, 6, 1, 1, 1]),
       "EXIT", 30, "2ND", "7", 30, "F1", 300,
       "MORE", "MORE", "MORE", "MORE", 30, "F1", 3000]
+  },
+  // Chapter 7 section 7.1: the tank's dye concentration decaying across the
+  // standard window from the frozen initial condition 9.
+  { name: "co07-tank-decay", keys: [...CO07_TANK] },
+  // Chapter 7 section 7.2: the same equation after one [+], the run re-based
+  // on the new left window edge and the step halved with it.
+  { name: "co07-narrow-window", keys: [...CO07_TANK, "+", 6000] },
+  // Chapter 7 section 7.3: the table page holding the 3.5-minute reading of
+  // the standard window, 5.290 at X=-6.5, after halving the table step.
+  {
+    name: "co07-step-table",
+    keys: [...CO07_TANK, "MORE", 6000, "-", 5000, "UP", 5000, "UP", 5000,
+      "UP", 5000]
+  },
+  // Chapter 7 section 7.4: P1's run screen, seven Euler steps of 0.5.
+  {
+    name: "co07-euler-run",
+    keys: [...CO07_TANK, "EXIT", 90, "CLEAR", 30, "PRGM", "F1", 60,
+      ...CO07_P1_LINES.flatMap(programLineKeys), "F2", 12000]
+  },
+  // Chapter 7 section 7.5: P2's run screen after the section's build order,
+  // the driver calling P3 for each improved-Euler step.
+  {
+    name: "co07-heun-run",
+    keys: [...CO07_TANK, "EXIT", 90, "CLEAR", 30, "PRGM", "F1", 60,
+      ...CO07_P1_LINES.flatMap(programLineKeys), "F2", 12000,
+      "PRGM", 60, "DOWN", "F1", 60,
+      ...CO07_P2_LINES.flatMap(programLineKeys), "EXIT", 120,
+      "DOWN", "F1", 60,
+      ...CO07_P3_LINES.flatMap(programLineKeys), "EXIT", 120,
+      "UP", 60, "F3", 40000]
+  },
+  // Chapter 7 section 7.6: the equilibrium of .4*(3-Y) approached from below,
+  // reached by seeding -6 before the mode's first entry.
+  {
+    name: "co07-equilibrium",
+    keys: [...co07Seed(-6), ...CO07_DEQ_MODE,
+      ".", "4", "*", "(", "3", "-", "ALPHA", "0", ")", "GRAPH", 9000]
   }
 ];
 

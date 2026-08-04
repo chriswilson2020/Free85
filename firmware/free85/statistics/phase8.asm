@@ -1913,7 +1913,17 @@ p8_map_value:
     LD DE, NUM_LEFT
     CALL numeric_copy
     CALL p8_to_u8_truncated
-    RET
+    RET C
+    ; The conversion carries any three-digit value, so a value outside
+    ; [min,max] now converts to a byte past the scale instead of being refused
+    ; by the digit count. That byte would be masked back onto the screen and
+    ; drawn as an ordinary mark somewhere it does not belong, so bound it here:
+    ; the scale is the whole range this mapping is allowed to answer.
+    LD C, A
+    LD A, (P8_COUNT)
+    CP C
+    LD A, C
+    RET NC
 .zero:
     SCF
     RET

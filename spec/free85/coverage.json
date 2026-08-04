@@ -34,8 +34,8 @@
   "tests_referenced": 79,
   "rom_usage": {
     "total_bytes": 131072,
-    "used_bytes": 61991,
-    "free_bytes": 69081,
+    "used_bytes": 62031,
+    "free_bytes": 69041,
     "banks": [
       {
         "page": 0,
@@ -57,9 +57,9 @@
       },
       {
         "page": 3,
-        "used_bytes": 9884,
-        "free_bytes": 6500,
-        "percent_used": 60.33
+        "used_bytes": 9924,
+        "free_bytes": 6460,
+        "percent_used": 60.57
       },
       {
         "page": 4,

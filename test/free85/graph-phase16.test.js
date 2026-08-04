@@ -302,3 +302,68 @@ test("[graph.right-columns] polar and parametric curves reach the rightmost scre
     assert.ok(diagonal.columns.includes(target), `x(t)=y(t)=t carries column ${target}`);
   }
 });
+
+// The statistics plotter mapped its points through a byte-for-byte copy of the
+// same broken conversion, but its caller answered 0 for a rejected value rather
+// than dropping the point, so a mark in the top sixth of the x range was drawn
+// at the LEFT edge — a wrong position that reads as data. The exact maximum
+// escaped, because the mapping short-circuits when the value equals the max.
+const STATS_LIST_X = 0x8780;
+const STATS_LIST_Y = 0x8800;
+
+test("[statistics.right-columns] stat plots place their rightmost marks instead of stacking them at the left edge", () => {
+  const writePacked = (harness, address, value) => {
+    const [mantissa, exponent] = Math.abs(value).toExponential(13).split("e");
+    const digits = mantissa.replace(".", "");
+    harness.machine.write8(address, value < 0 ? 0x80 : 0);
+    harness.machine.write8(address + 1, Number(exponent) & 0xff);
+    for (let index = 0; index < 7; index += 1) {
+      harness.machine.write8(address + 2 + index, Number.parseInt(digits.slice(index * 2, index * 2 + 2), 16));
+    }
+  };
+
+  const plot = (xs, ys, keys) => {
+    const harness = Free85Harness.boot();
+    harness.tap("STAT");
+    harness.machine.write8(STATS_LIST_X, xs.length);
+    harness.machine.write8(STATS_LIST_Y, ys.length);
+    xs.forEach((value, index) => writePacked(harness, STATS_LIST_X + 1 + (index * 9), value));
+    ys.forEach((value, index) => writePacked(harness, STATS_LIST_Y + 1 + (index * 9), value));
+    for (const key of keys) harness.tap(key);
+    harness.runFrames(2000);
+    return harness.machine.renderLcdBitmap();
+  };
+
+  // Rows 7..54 are the plotting band; the title and the EXIT footer sit outside
+  // it, so every lit pixel in the band belongs to a mark.
+  const marks = (frame) => {
+    const found = [];
+    for (let y = 7; y <= 54; y += 1) {
+      for (let x = 0; x < frame.width; x += 1) {
+        if (frame.pixels[(y * frame.width) + x]) found.push([x, y]);
+      }
+    }
+    return found.sort(([ax], [bx]) => ax - bx);
+  };
+
+  // x = 1..5 maps to columns 4, 33, 63, 93, 123: whole steps that all convert
+  // even with the two-digit limit, so this set passed before the fix.
+  const wholeSteps = marks(plot([1, 2, 3, 4, 5], [6, 12, 24, 48, 96], ["F4"]));
+  assert.deepEqual(wholeSteps, [[4, 54], [33, 51], [63, 45], [93, 33], [123, 7]]);
+
+  // 4.6 of the way to the maximum lands on column 111, inside the band the
+  // conversion used to reject. Only that one mark moves.
+  const intoTheBand = marks(plot([1, 2, 3, 4.6, 5], [6, 12, 24, 48, 96], ["F4"]));
+  assert.deepEqual(intoTheBand, [[4, 54], [33, 51], [63, 45], [111, 33], [123, 7]]);
+
+  // The box plot draws its quartiles through the same mapping. Q3 = 9.4 of a
+  // 0..10 range is column 115; it used to be drawn on top of the left whisker.
+  const box = plot([0, 1, 2, 9.3, 9.4, 10], [1, 1, 1, 1, 1, 1], ["MORE", "MORE", "F5"]);
+  const rules = [];
+  for (let x = 0; x < box.width; x += 1) {
+    let lit = 0;
+    for (let y = 22; y <= 42; y += 1) if (box.pixels[(y * box.width) + x]) lit += 1;
+    if (lit >= 15) rules.push(x);
+  }
+  assert.deepEqual(rules, [15, 71, 115], "Q1, median and Q3 stand at their own columns");
+});

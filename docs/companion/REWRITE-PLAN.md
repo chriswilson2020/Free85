@@ -53,8 +53,15 @@ These are not omissions to repair. They are the book's own subject, and
 the afterword's thesis. What changes is that I can now name them precisely
 instead of gesturing.
 
-What does **not** change: the voice sample in section 7, the figure budget,
-the section count, and the build consequences. Those stand as proposed.
+**d. I set budgets, which was the same mistake in a new place.** The first
+version of this plan promised so many captures, so many diagrams, so many
+sections, so many exercises. The brief's complaint about the first edition
+is precisely that its figures were allocated by quota rather than by need.
+Answering that with a bigger quota answers nothing. Section 6 replaces
+every number with a rule.
+
+What does **not** change: the voice sample, which is still the one thing
+needing agreement before writing starts.
 
 ## 3. Capability probes already run
 
@@ -170,31 +177,71 @@ below a tolerance instead of counting a fixed number of terms.
 
 ## 5. Exercises
 
-Try it panels go from three exercises to five or six. At least one per
-section asks the reader to predict, sketch or compute on paper *before*
-pressing a key, and at least one per section is a second route to an answer
-the section has already found. This is the change I under-weighted and it
-touches all 51 sections.
+Each Try it panel gets as many exercises as the section's techniques
+actually support, which is more than three and is not the same number
+twice. Two kinds have to be present in every section: one that asks the
+reader to predict, sketch or work something out on paper *before* pressing
+a key, and one that reaches an answer the section already found by a second
+route. Beyond those, the section decides.
 
-## 6. Unchanged from the first version of this plan
+## 6. No budgets
 
-- **Section count** 47 to 51: a limits split in chapter 4, Newton's method
-  in chapter 5, logistic and Gompertz in chapter 7. Each brings its own Try
-  it panel, so the build's `tryits >= 40` assertion rises to 51.
-- **Figure budget** 49 captures and 1 diagram, to roughly 109 captures and
-  28 diagrams, allocated per section rather than one per section. Diagrams
-  as SVG at `docs/companion/images/fig-NN-slug.svg`, on
+The first version of this plan set targets: so many captures, so many
+diagrams, so many sections, so many exercises. That was the same mistake
+the brief identifies in the first edition, where 49 figures across 47
+sections is the tell that nobody decided per section what deserved a
+picture. A quota decided in advance is a quota that gets filled whether or
+not the page needs it, and starved when the page needs more.
+
+So there are no numbers here. The rules instead:
+
+- **Captures** wherever a reader could be unsure their screen matches what
+  the text just claimed, and wherever a menu, soft-key page, editor or
+  error screen is referred to but never shown. Some sections will want one.
+  The pendulum section will want a dozen.
+- **Diagrams** wherever the mathematics needs a picture the calculator
+  cannot draw. SVG at `docs/companion/images/fig-NN-slug.svg`, on
   `fig-08-pendulum.svg`'s palette: navy `#1a3a6b` and ink, no gradients,
   nothing carrying meaning in colour alone.
-- **Build**: `maxPages` 200 to 260 (estimate 190 to 215 pages); every
-  capture declared in `scripts/companion-screens.js`, generated, and then
-  looked at; `SJASMPLUS=<path> npm run update:free85:reproducibility` at the
-  end because the web build writes under `public/`; sjasmplus built first
-  from source; `npm test` green at 194 throughout.
-- **Order of work**: front matter and chapter 4 as the pilot, built and
-  shown; then 8, 7, 3, 5, 1, 2, 6.
+- **Sections** as the subject needs. Chapters will end up unequal, and they
+  should: the source spends 22 pages on precalculus and 84 on probability
+  and statistics, because those subjects are not the same size. The first
+  edition's near-uniform chapters are an artefact of planning, not of the
+  mathematics.
+- **Length** as the above produces. My estimate of where that lands is
+  worth little until a chapter is actually written, which is what the pilot
+  is for.
 
-## 7. The voice, for judgement
+The build's assertions get moved out of the way rather than written to.
+`maxPages` is a guard against a truncated render, not a target, so it goes
+wide enough to stop mattering; the exact-10-files and exact-8-chapters
+checks are guards on our own structure and can be updated if a chapter
+needs splitting. Nothing about the shape of this book should be decided by
+a number in `build-guidebook-typeset.js`.
+
+One fact rather than a cap: this is an A5 workbook, and past a certain
+extent it stops being one physical object. If the honest version lands
+there, that is a binding decision for you, not a reason to write less.
+
+## 7. Working method
+
+- Every capture declared in `scripts/companion-screens.js`, generated, and
+  then **looked at**, because a half-drawn screen throws nothing.
+- Every quoted number run on the emulator. Change an example, re-run it.
+- Feasibility probed before a topic is promised, as in section 3.
+- `SJASMPLUS=<path> npm run update:free85:reproducibility` at the end,
+  because the web build writes under `public/`; sjasmplus built from source
+  first. `npm test` green at 194 throughout.
+- Order: front matter and chapter 4 as the pilot, built and shown to you
+  before the rest; then 8, 7, 3, 5, 1, 2, 6, worst prose and thinnest
+  mathematics first.
+
+The one real constraint is not page count, it is verification. Every number
+and every screen in this book is run rather than asserted, and that is
+slow. It is a reason to sequence the work and show you a finished chapter
+early. It is not a reason to make the book smaller.
+
+## 8. The voice, for judgement
 
 Unchanged from the first version of this plan, and still the thing to
 accept or reject before anything else is written. Section 4.1 rewritten in
@@ -447,13 +494,15 @@ entire reason calculus insists on them.
 
 ---
 
-## 8. What is being asked
+## 9. What is being asked
 
-1. **The voice above.** Unchanged, and still the first thing to settle.
-2. **The additions of section 4.** Roughly thirty named topics. This is
-   what "not enough mathematics" turns into once the source has been read
-   properly, and it is a bigger job than the first version of this plan
-   described.
-3. **Five or six exercises per section instead of three**, with a predict
-   first, check after habit throughout.
-4. **The figure budget, 51 sections, and `maxPages` 260**, as before.
+Only one thing now: **the voice above**. Accept it, or say what is wrong
+with it, and chapter 4 gets written and shown to you as a finished
+chapter.
+
+Everything else in this plan is a rule rather than a request. Section 4's
+additions are what "not enough mathematics" turns into once the source has
+been read properly; sections 5 and 6 say the book gets the exercises and
+the figures it needs and stops counting them. None of that needs your
+approval in advance. The pilot chapter will show it working or show it
+failing, which is a better thing to judge than a table of estimates.

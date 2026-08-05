@@ -84,6 +84,15 @@ const CO07_P2_LINES = ["9->Y", ".5->H", "7->N", "WHILE N", "CALL 3",
   "N-1->N", "END", "DISP Y"];
 const CO07_P3_LINES = ["EVAL(0)->K", "Y+H*K->Y", "Y+H*(EVAL(0)-K)/2->Y", "RETURN"];
 
+// Chapter 2 section 2.2's two solves. The same one-per-cent nudge to a
+// right-hand side barely moves a well-conditioned system and sends a
+// near-parallel one across the axis, from X 5 to X -5.
+const co02Solve = (rows) => ["2ND", "STAT", 60,
+  ...rows.flatMap((value) => [
+    ...String(value).split("").map((character) => (character === "-" ? "(-)" : character)),
+    "ENTER"]),
+  "F1", 1500];
+
 // Chapter 1 section 1.4's rational function. (X^2+1)/(X-1) divides out to
 // X+1 with a remainder of 2/(X-1), so the curve closes on the line X+1 far
 // out and runs away at X=1, where the table reads UNDEF.
@@ -214,6 +223,8 @@ const co08Components = (values) => values.flatMap((value) => [
 
 export const SCREEN_CASES = [
   // Chapter 1 section 1.1: the cubic X^3-4*X in the standard window.
+  { name: "co02-well-conditioned", keys: co02Solve([1, 2, 8.1, 3, -1, 3]) },
+  { name: "co02-ill-conditioned", keys: co02Solve([1, 2, 8.1, 1.01, 2, 8.05]) },
   { name: "co01-cubic-window", keys: ["X-VAR", "^", "3", "-", "4", "*", "X-VAR", "GRAPH", 900] },
   // Chapter 1 section 1.4: the rational function's two branches, with the
   // near-vertical strokes either side of X=1 that are the plotter joining

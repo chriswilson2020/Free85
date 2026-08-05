@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 190" role="img"
+     aria-label="The feasible region of the joinery problem: a four-sided shaded patch bounded by the two axes and two constraint lines, with its four corners marked. A dashed profit line rests on the outermost corner.">
+  <!-- Free85 Explorations, chapter 2: the joinery's feasible region.
+       Navy plus ink, no gradients, nothing depending on colour.
+       Scale: 1 unit = 18px across, 14px up. Origin at (34, 158).
+       Timber line x + 2y = 16 runs (0,8) to (16,0):  (34,46) to (322,158)
+       Labour line 3x + 2y = 24 runs (0,12) to (8,0): (34,-10) to (178,158)
+       Corners: (0,0)=(34,158)  (8,0)=(178,158)  (4,6)=(106,74)  (0,8)=(34,46) -->
+
+  <!-- the feasible region -->
+  <path d="M 34 158 L 178 158 L 106 74 L 34 46 Z"
+        fill="#1a3a6b" fill-opacity="0.13" stroke="none"/>
+
+  <!-- axes -->
+  <g stroke="#111111" stroke-width="1" opacity="0.55">
+    <line x1="24" y1="158" x2="248" y2="158"/>
+    <line x1="34" y1="172" x2="34" y2="20"/>
+  </g>
+
+  <!-- the two constraint lines, extended past the region -->
+  <line x1="34" y1="46" x2="238" y2="125" stroke="#111111" stroke-width="1.4"/>
+  <line x1="34" y1="26" x2="196" y2="179" stroke="#111111" stroke-width="1.4"/>
+
+  <!-- the profit line resting on the outer corner (4,6) -->
+  <line x1="52" y1="128" x2="166" y2="42" stroke="#1a3a6b" stroke-width="1.6"
+        stroke-dasharray="6 3"/>
+
+  <!-- corners -->
+  <circle cx="34" cy="158" r="2.8" fill="#111111"/>
+  <circle cx="178" cy="158" r="2.8" fill="#111111"/>
+  <circle cx="34" cy="46" r="2.8" fill="#111111"/>
+  <circle cx="106" cy="74" r="4" fill="none" stroke="#1a3a6b" stroke-width="1.8"/>
+
+  <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9.5"
+     fill="#111111">
+    <text x="22" y="170">(0,0)</text>
+    <text x="168" y="170">(8,0)</text>
+    <text x="12" y="43">(0,8)</text>
+    <text x="112" y="70" fill="#1a3a6b">(4,6)</text>
+  </g>
+  <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9"
+     fill="#444444">
+    <text x="196" y="122">timber</text>
+    <text x="186" y="176">labour</text>
+    <text x="150" y="36" fill="#1a3a6b">profit</text>
+    <text x="60" y="140">feasible</text>
+  </g>
+</svg>

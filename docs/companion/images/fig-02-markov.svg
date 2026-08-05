@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 200" role="img"
+     aria-label="Three coffee shops drawn as circles, with arrows between each pair carrying the fraction of customers who switch that way each Saturday, and a looping arrow on each showing the fraction who stay.">
+  <!-- Free85 Explorations, chapter 2: the three-shop transition diagram.
+       Navy plus ink, no gradients, nothing depending on colour.
+       Harbour top (140,44), Mill lower left (58,150), Station lower right (222,150). -->
+
+  <defs>
+    <marker id="mk" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a3a6b"/>
+    </marker>
+  </defs>
+
+  <!-- the switching arrows, drawn as gentle arcs so each direction is separate -->
+  <g fill="none" stroke="#1a3a6b" stroke-width="1.2" marker-end="url(#mk)">
+    <!-- Harbour to Mill, and back -->
+    <path d="M 122 62 Q 92 100 72 130"/>
+    <path d="M 82 134 Q 106 98 134 68"/>
+    <!-- Harbour to Station, and back -->
+    <path d="M 158 62 Q 190 100 210 130"/>
+    <path d="M 198 134 Q 174 98 146 68"/>
+    <!-- Mill to Station, and back -->
+    <path d="M 82 160 Q 140 176 198 160"/>
+    <path d="M 198 142 Q 140 126 82 142"/>
+  </g>
+
+  <!-- the shops -->
+  <g fill="none" stroke="#111111" stroke-width="1.6">
+    <circle cx="140" cy="44" r="22"/>
+    <circle cx="58" cy="150" r="22"/>
+    <circle cx="222" cy="150" r="22"/>
+  </g>
+
+  <!-- the stay-put loops -->
+  <g fill="none" stroke="#111111" stroke-width="1.1" marker-end="url(#mk)">
+    <path d="M 130 24 A 15 15 0 1 1 152 26"/>
+    <path d="M 40 132 A 15 15 0 1 1 44 162"/>
+    <path d="M 240 132 A 15 15 0 1 1 236 162"/>
+  </g>
+
+  <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9"
+     fill="#111111" text-anchor="middle">
+    <text x="140" y="41">Harbour</text>
+    <text x="140" y="52">.8</text>
+    <text x="58" y="147">Mill</text>
+    <text x="58" y="158">.7</text>
+    <text x="222" y="147">Station</text>
+    <text x="222" y="158">.6</text>
+  </g>
+  <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="8.5"
+     fill="#1a3a6b">
+    <text x="84" y="92">.1</text>
+    <text x="112" y="112">.2</text>
+    <text x="184" y="92">.1</text>
+    <text x="156" y="112">.2</text>
+    <text x="136" y="176">.1</text>
+    <text x="136" y="126">.2</text>
+  </g>
+</svg>

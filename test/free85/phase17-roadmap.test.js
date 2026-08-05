@@ -75,6 +75,22 @@ test("[phase17.3.completion] dev.3 closes coupled DEQ and phase-plane limitation
   assert.ok(bookChange.documents.length >= 4);
 });
 
+test("[phase17.4.completion] dev.4 closes the fixed matrix workspace and 3x3 ceiling", async () => {
+  const roadmap = await readJson("spec/free85/v3-roadmap.yaml");
+  const ledger = await readJson("spec/free85/v3-capabilities.yaml");
+  const impact = await readJson("spec/free85/v3-book-impact.yaml");
+  const workPackage = roadmap.workPackages.find(({ id }) => id === "17.4");
+  const capabilities = ledger.capabilities.filter(({ owner }) => owner === "17.4");
+  const bookChange = impact.changes.find(({ implementedIn }) => implementedIn === workPackage.release);
+  assert.equal(workPackage.status, "complete");
+  assert.equal(workPackage.release, "3.0.0-dev.4");
+  assert.deepEqual(capabilities.map(({ status }) => status), ["resolved", "resolved"]);
+  assert.ok(capabilities.every(({ resolvedRelease }) => resolvedRelease === workPackage.release));
+  assert.ok(capabilities.every(({ resolutionEvidence }) => resolutionEvidence.length >= 3));
+  assert.match(bookChange.summaryForBooks, /3x6/);
+  assert.ok(bookChange.documents.length >= 4);
+});
+
 test("[phase17.versioning] development builds advance monotonically to one final 3.0", async () => {
   const roadmap = await readJson("spec/free85/v3-roadmap.yaml");
   const releases = roadmap.workPackages.flatMap(({ release }) => release ? [release] : []);

@@ -1,4 +1,4 @@
-// Free85 2.0 typed-object link protocol.
+// Free85 typed-object link protocol.
 //
 // This is the emulator cable for the clean-room Free85 packet format. The ROM
 // exposes commands, selection, duplicate policy and progress through its link
@@ -14,7 +14,8 @@ const DIRECTORY = 0x9e00;
 const ENTRY_COUNT = 64;
 const ENTRY_SIZE = 16;
 const HEAP_START = 0xa200;
-const HEAP_LIMIT = 0xf800;
+// Schema 14 reserves F2D0-F7FF for the versioned 3x6 matrix workspace.
+const HEAP_LIMIT = 0xf2d0;
 const FLAG_USED = 0x01;
 const FLAG_EXTERNAL = 0x02;
 const FLAG_SELECTED = 0x04;

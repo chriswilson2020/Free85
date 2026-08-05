@@ -28,7 +28,7 @@ const SCREEN_CONSTANTS = 22;
 const SCREEN_CHARACTERS = 14;
 const UI_SCREEN = 0x800b;
 const CONSTANT_TYPE = 9;
-const HEAP_CAPACITY = 0xf800 - 0xa200;
+const HEAP_CAPACITY = 0xf2d0 - 0xa200;
 
 const PHASE21 = Object.freeze({ store: 0x402c, delete: 0x402f, rename: 0x4032 });
 

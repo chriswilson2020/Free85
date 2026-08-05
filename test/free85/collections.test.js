@@ -11,7 +11,9 @@ const SCREEN_VECTOR = 7;
 
 const COMPLEX_RESULT = 0x8744;
 const LIST_RESULT = 0x8880;
-const MATRIX_RESULT = 0x8a00;
+const MATRIX_A = 0xf2e0;
+const MATRIX_B = 0xf384;
+const MATRIX_RESULT = 0xf428;
 const VECTOR_A = 0x8b00;
 const VECTOR_RESULT = 0x8b80;
 const P7_ERROR = 0x8705;
@@ -50,7 +52,7 @@ test("[collections.editors] every Phase 7 physical and home-menu entry opens a w
     harness.tap("ENTER");
     assert.equal(harness.packedNumber(expected === SCREEN_COMPLEX ? 0x8720
       : expected === SCREEN_LIST ? 0x8781
-        : expected === SCREEN_MATRIX ? 0x8902 : 0x8b01), 5);
+        : expected === SCREEN_MATRIX ? MATRIX_A + 2 : 0x8b01), 5);
   }
 
   for (const [key, expected] of [["F1", SCREEN_LIST], ["F2", SCREEN_MATRIX], ["F3", SCREEN_VECTOR]]) {
@@ -176,7 +178,7 @@ test("[matrix.operations] matrices support determinant, transpose, multiplicatio
   assert.equal(solve.machine.read8(MATRIX_RESULT + 1), 1);
   assertClose(solve.packedNumber(MATRIX_RESULT + 2), 2);
   assertClose(solve.packedNumber(MATRIX_RESULT + 11), 1);
-  assert.equal(solve.packedNumber(0x8982), 5, "solving must preserve matrix B");
+  assert.equal(solve.packedNumber(MATRIX_B + 2), 5, "solving must preserve matrix B");
 });
 
 test("[matrix.identity] ID fills R with a 2x2 identity and leaves the vector registers untouched", () => {

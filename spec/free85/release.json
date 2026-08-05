@@ -1,23 +1,24 @@
 {
   "schema_version": 2,
   "name": "Free85",
-  "version": "3.0.0-dev.3",
-  "phase": "17.3",
-  "target_release": "3.0.0-dev.3",
+  "version": "3.0.0-dev.4",
+  "phase": "17.4",
+  "target_release": "3.0.0-dev.4",
   "status": "development",
   "license": "MIT",
   "persistent_ram": {
-    "schema": 13,
+    "schema": 14,
     "status": "frozen",
     "migrates_from": [
-      12
+      12,
+      13
     ],
-    "object_store_schema": 1
+    "object_store_schema": 2
   },
   "rom": {
     "path": "ROM/FREE85.ROM",
     "bytes": 131072,
-    "sha256": "3e5ed49166b6ea3e4dba1ad13c8373e7ed6f3bf1df81745954965eaa453876f9",
+    "sha256": "74b431f04f9ac60ec595d4ecf332ec8654dc37e7a5cf8cd80ab947bb33829cb8",
     "banks": 8,
     "bank_bytes": 16384
   },

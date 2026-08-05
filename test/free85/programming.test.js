@@ -141,7 +141,7 @@ test("[program.data-and-calls] program calls and list/matrix access share calcul
   assert.equal(harness.packedNumber(VARIABLES + 9), 7);
   assert.equal(harness.packedNumber(VARIABLES + 18), 9);
   assert.equal(harness.packedNumber(0x8781 + 9), 7);
-  assert.equal(harness.packedNumber(0x8902 + 5 * 9), 9);
+  assert.equal(harness.packedNumber(0xf2e2 + 5 * 9), 9);
 });
 
 test("[program.graph] GRAPH evaluates through the shared expression engine and opens the graph", () => {

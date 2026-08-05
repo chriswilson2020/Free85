@@ -112,10 +112,42 @@
         "test/free85/goldens/graphs/phase17-deq-system-time.lcd",
         "test/free85/goldens/graphs/phase17-deq-phase-plane.lcd"
       ]
+    },
+    {
+      "issue": "workspace.dynamic-matrix-and-collections.matrix-3x6",
+      "implementedIn": "3.0.0-dev.4",
+      "summaryForBooks": "The matrix editor and A, B, R registers now accept real or complex matrices up to 3x6. Columns grow through six, ENTER USE R preserves the complete real and imaginary result, and row operations, augmentation, RREF, addition, subtraction, scaling, and compatible multiplication use the active rectangular dimensions. Square-only determinant, inverse, identity, solve, LU, and eigensystem routines remain limited to 3x3. Transposing a matrix wider than three columns would require more than three result rows, so it reports DIMENSION ERROR and preserves R. Existing schema-13 matrices migrate into the versioned workspace on reset; insufficient object-heap capacity preserves the old state and reports MATRIX WORKSPACE FULL on matrix entry.",
+      "documents": [
+        { "path": "docs/guidebook/13-matrices-and-vectors.md", "sections": ["matrix editor", "row operations", "rectangular matrices", "limits"] },
+        { "path": "docs/companion/05-linear-algebra.md", "sections": ["matrix ceiling", "augmented systems", "linear programming"] },
+        { "path": "docs/companion/08-engineering-mathematics.md", "sections": ["rectangular matrix workflows"] },
+        { "path": "docs/companion/10-afterword.md", "sections": ["machine limits"] }
+      ],
+      "mustRemoveOrCorrect": [
+        "the blanket claim that every Free85 matrix is capped at 3x3",
+        "the claim that a 3x6 augmented tableau cannot be represented",
+        "instructions which assume row operations and RREF stop after column three"
+      ],
+      "mustAdd": [
+        "the distinction between the general 3x6 workspace and square-only 3x3 commands",
+        "column-axis selection with X-VAR and growth with + through six columns",
+        "ENTER USE R chaining for complete rectangular complex results",
+        "the DIMENSION ERROR boundary for a transpose requiring more than three rows",
+        "a small 3x6 augmented or simplex-style worked example"
+      ],
+      "captures": [
+        "the reviewed MATRIX SIZE 2x6 editor fixture",
+        "a 3x6 RREF result and the complete six-column footer context",
+        "DIMENSION ERROR after attempting to transpose a matrix wider than three columns"
+      ],
+      "evidence": [
+        "firmware/free85/include/memory.inc:P23_MATRIX_WORKSPACE_BASE",
+        "firmware/free85/system/object_store.asm:phase23_workspace_migrate",
+        "test/free85/phase17-matrix-3x6.test.js",
+        "test/free85/object-store.test.js:[phase17.4.migration]",
+        "test/free85/goldens/graphs/phase17-matrix-3x6-editor.lcd"
+      ]
     }
   ],
-  "stillPlanned": [
-    "workspace.dynamic-matrix",
-    "collections.matrix-3x6"
-  ]
+  "stillPlanned": []
 }

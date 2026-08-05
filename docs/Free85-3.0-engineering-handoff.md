@@ -61,3 +61,28 @@ EXIT and ON remain polled inside every integration step. Reviewed fixtures and
 method, persistence, migration, cancellation, time-view, and phase-trace tests
 are in `test/free85/phase17-deq-system.test.js` and
 `test/free85/phase15-deq.test.js`.
+
+## Phase 17.4 — 3.0.0-dev.4
+
+Matrix A, B, R, and the private work register now live in a versioned workspace
+and accept up to three rows by six columns in both real and imaginary planes.
+The editor grows columns through six. Rectangular addition, subtraction,
+multiplication, row operations, augmentation, RREF, and ENTER USE R process
+the complete active dimensions. Square-only determinant, inverse, identity,
+solve, LU, and eigensystem operations remain bounded to 3x3. A transpose whose
+result would require more than three rows reports DIMENSION ERROR without
+changing R.
+
+Reset migrates persistent schema 13/object-store schema 1 to schema 14/store
+schema 2. It first proves that the existing heap ends below the new workspace,
+then copies all four legacy 3x3 real and imaginary registers, validates the
+descriptor, and publishes the new schemas last. If capacity is insufficient,
+the old schemas, heap, and matrices remain byte-for-byte intact; matrix entry
+reports MATRIX WORKSPACE FULL so objects can be removed before retrying reset.
+Schema 12 follows its existing migration before the same workspace step.
+
+Exact migration, rollback, editor, 3x6 row/RREF, augmentation, rectangular
+multiplication, complex-plane chaining, and transpose-boundary coverage is in
+`test/free85/object-store.test.js` and
+`test/free85/phase17-matrix-3x6.test.js`. The reviewed editor fixture is
+`test/free85/goldens/graphs/phase17-matrix-3x6-editor.lcd`.

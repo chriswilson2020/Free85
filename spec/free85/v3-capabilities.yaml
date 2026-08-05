@@ -62,19 +62,31 @@
     },
     {
       "id": "workspace.dynamic-matrix",
-      "status": "baseline-limitation",
+      "status": "resolved",
       "owner": "17.4",
+      "resolvedRelease": "3.0.0-dev.4",
       "summary": "Matrix registers are fixed-address 3x3 real and imaginary planes whose layout cannot safely grow in place.",
       "baselineEvidence": ["firmware/free85/include/memory.inc:P7_MATRIX_MAX", "firmware/free85/include/memory.inc:P18_MATRIX_A_IMAG"],
-      "acceptance": ["versioned workspace descriptor", "schema-13 migration", "atomic capacity and rollback semantics"]
+      "acceptance": ["versioned workspace descriptor", "schema-13 migration", "atomic capacity and rollback semantics"],
+      "resolutionEvidence": [
+        "firmware/free85/system/object_store.asm:phase23_workspace_migrate",
+        "test/free85/object-store.test.js:[phase17.4.migration]",
+        "test/free85/object-store.test.js:[phase17.4.rollback]"
+      ]
     },
     {
       "id": "collections.matrix-3x6",
-      "status": "baseline-limitation",
+      "status": "resolved",
       "owner": "17.4",
+      "resolvedRelease": "3.0.0-dev.4",
       "summary": "The 3x3 matrix ceiling cannot hold the 3x6 augmented tableau needed for a small two-variable simplex exercise.",
       "baselineEvidence": ["firmware/free85/collections/phase7.asm:p7_resize_matrix_grow", "test/free85/collections.test.js"],
-      "acceptance": ["3x6 editing and display", "rectangular row operations and RREF", "complex metadata and USE R preservation"]
+      "acceptance": ["3x6 editing and display", "rectangular row operations and RREF", "complex metadata and USE R preservation"],
+      "resolutionEvidence": [
+        "firmware/free85/collections/phase7.asm",
+        "test/free85/phase17-matrix-3x6.test.js",
+        "test/free85/goldens/graphs/phase17-matrix-3x6-editor.lcd"
+      ]
     }
   ]
 }

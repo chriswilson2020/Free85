@@ -31,7 +31,7 @@ test("Free85 initializes RAM, banking, interrupts, LCD, and a visible splash", (
   machine.runFrame();
   const state = machine.getDebugState();
 
-  assert.deepEqual([machine.read8(0x8000), machine.read8(0x8001), machine.read8(0x8002), machine.read8(0x8003)], [70, 56, 53, 13]);
+  assert.deepEqual([machine.read8(0x8000), machine.read8(0x8001), machine.read8(0x8002), machine.read8(0x8003)], [70, 56, 53, 14]);
   assert.equal(state.memory.romBank, 1);
   assert.equal(state.cpu.interruptMode, 1);
   assert.equal(state.cpu.IFF1, true);
@@ -52,8 +52,8 @@ test("Free85 transitions from its splash to the home screen", () => {
 
   for (let index = 5; index < FREE85_BOOT_FRAMES; index += 1) machine.runFrame();
   assert.deepEqual(Free85Harness.prototype.signature.call({ machine }), {
-    litPixelCount: 798,
-    checksum: "B769CE6F",
+    litPixelCount: 797,
+    checksum: "316EDE37",
     lastKey: 0xff
   });
   assert.equal(machine.read8(0x800b), 0);

@@ -59,7 +59,7 @@ test("[phase15.result-chaining] ENTER copies complete complex, list, matrix, and
   const cases = [
     { keys: ["2ND", "9"], result: 0x8744, input: 0x8720, header: [], values: [3, -4] },
     { keys: ["2ND", "-"], result: 0x8880, input: 0x8780, header: [3], values: [1, 2, 3], imagResult: 0xf890, imagInput: 0xf800 },
-    { keys: ["2ND", "7"], result: 0x8a00, input: 0x8900, header: [2, 3], values: [1, 2, 3, 4, 5, 6], imagResult: 0xf97a, imagInput: 0xf8d8 },
+    { keys: ["2ND", "7"], result: 0xf428, input: 0xf2e0, header: [2, 3], values: [1, 2, 3, 4, 5, 6], imagResult: 0xf6b4, imagInput: 0xf570 },
     { keys: ["2ND", "8"], result: 0x8b80, input: 0x8b00, header: [3], values: [7, 8, 9], imagResult: 0xfa52, imagInput: 0xfa1c }
   ];
 

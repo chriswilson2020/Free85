@@ -81,7 +81,7 @@
     {
       "id": "17.4",
       "name": "dynamic-3x6-matrix-workspace",
-      "status": "planned",
+      "status": "complete",
       "release": "3.0.0-dev.4",
       "dependsOn": ["17.0"],
       "owns": ["workspace.dynamic-matrix", "collections.matrix-3x6"],

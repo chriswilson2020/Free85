@@ -197,9 +197,9 @@ The ROM is built on Linux, where it is also checked for byte
 reproducibility. The books are built on macOS, because `typeset.css` asks
 for Charter, Helvetica Neue and Menlo, and those are macOS system fonts.
 Built anywhere else, Chrome substitutes whatever it can find and every book
-silently repaginates. The workflow fails if a book does not come out at
-the page count it was proofed at, which is the check that catches a missing
-font.
+silently repaginates. The workflow fails if a book's PDF does not have
+Charter, Helvetica Neue and Menlo embedded in it, which is what a missing
+font looks like from the outside.
 
 ## Documentation
 

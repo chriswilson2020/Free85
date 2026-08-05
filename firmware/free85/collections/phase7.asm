@@ -754,6 +754,7 @@ p7_render_matrix:
     LD B, 0
     LD C, 3
     CALL p7_draw_number
+    CALL p17_draw_lu_permutation
     LD A, (P7_MENU_PAGE)
     CP 5
     CALL Z, p18_draw_selected_imag
@@ -1012,6 +1013,8 @@ p7_zero:
     JP numeric_clear_bytes
 
 p7_set_result_mode:
+    XOR A
+    LD (P7_RESULT_KIND), A
     LD A, 2
     LD (P7_ACTIVE_SET), A
     XOR A

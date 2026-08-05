@@ -18,6 +18,7 @@ const VECTOR_RESULT = 0x8b80;
 const VECTOR_A_IMAG = 0xfa1c;
 const VECTOR_B_IMAG = 0xfa37;
 const VECTOR_RESULT_IMAG = 0xfa52;
+const LU_PERMUTATION = 0x8c48;
 
 function tapAll(harness, keys) {
   for (const key of keys) harness.tap(key);
@@ -202,14 +203,22 @@ test("[collections.phase18.vector-products] complex scale, dot, and cross produc
   });
 });
 
-test("[collections.phase18.lu] zero-leading pivots report a permutation and reconstruct P*A=L*U", () => {
+test("[collections.phase18.lu] zero-leading pivots report a permutation without overwriting vector R", () => {
   const harness = Free85Harness.boot();
+  harness.machine.write8(VECTOR_RESULT, 2);
+  writePacked(harness, VECTOR_RESULT + 1, 91);
+  writePacked(harness, VECTOR_RESULT + 10, -37);
+  setImaginaryPlane(harness, VECTOR_RESULT_IMAG, [4, -5]);
   tapAll(harness, ["2ND", "7"]);
   enterValues(harness, [0, 1, 2, 3]);
   tapAll(harness, ["MORE", "MORE", "MORE", "MORE", "F1"]);
   harness.runFrames(1500);
   assert.deepEqual(packedValues(harness, MATRIX_RESULT, 4, 2), [2, 3, 0, 1]);
-  assert.deepEqual(packedValues(harness, VECTOR_RESULT, 2, 1), [2, 1]);
+  assert.deepEqual(Array.from({ length: 2 }, (_, index) => harness.machine.read8(LU_PERMUTATION + index)), [2, 1]);
+  assert.equal(harness.machine.read8(VECTOR_RESULT), 2);
+  assert.deepEqual(packedValues(harness, VECTOR_RESULT, 2, 1), [91, -37]);
+  assert.deepEqual(packedValues(harness, VECTOR_RESULT_IMAG, 2), [4, -5]);
+  assertLcdGolden("phase16-lu-permutation", harness.machine.renderLcdBitmap());
 });
 
 test("[collections.phase18.eigenvalues] a general 3x3 matrix returns its real and complex roots", () => {

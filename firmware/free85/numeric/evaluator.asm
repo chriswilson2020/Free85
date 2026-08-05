@@ -9,8 +9,13 @@ NE_OPERATOR        EQU NUM_SCRATCH + 7
 NE_LEFT_LENGTH     EQU NUM_SCRATCH + 8
 NE_RIGHT_PTR       EQU NUM_SCRATCH + 9
 NE_RIGHT_LENGTH    EQU NUM_SCRATCH + 11
-NP_POWER_COUNT     EQU NUM_SCRATCH + 20
 NS_ITERATIONS      EQU NUM_SCRATCH + 21
+; The high nine scratch bytes are outside every arithmetic work counter and
+; preserve a real power exponent across LN's nested square-root operations.
+NP_POWER_EXPONENT  EQU NUM_SCRATCH + 23
+NP_POWER_WORD      EQU SCI_STATE + 12
+NP_POWER_NEGATIVE  EQU SCI_STATE + 14
+NP_POWER_BASE_SIGN EQU SCI_STATE + 15
 
 numeric_unpack_operands:
     LD HL, NUM_LEFT
@@ -709,71 +714,19 @@ numeric_set_right_two:
     LD (NUM_RIGHT + NUM_DIGITS), A
     RET
 
-; Bounded integer power. Right operand may be an integer from -9 through 9.
+; General packed-decimal power.
+;
+; Exact signed-16-bit integer exponents use exponentiation by squaring. This
+; keeps negative bases well-defined without limiting the public key to -9..9.
+; Positive bases with any other real exponent use exp(exponent * ln(base)).
+; Zero and negative-base domains are handled explicitly before either path.
 numeric_integer_power:
-    LD A, (NUM_RIGHT + NUM_FLAGS)
-    AND NUM_SIGN
-    LD (NA_SHIFT), A
-    LD A, (NUM_RIGHT + NUM_EXPONENT)
-    OR A
-    JP NZ, numeric_domain_error
+    ; Squaring dominates graph and calculus workloads. Keep this exact hot path
+    ; in fixed ROM; every other exponent uses the banked general engine.
     LD HL, NUM_RIGHT
-    LD DE, NUM_WORK_B
-    CALL numeric_unpack
-    LD A, (NUM_WORK_B)
-    LD (NP_POWER_COUNT), A
-    LD HL, NUM_WORK_B + 1
-    LD B, NUM_PRECISION - 1
-.integer_check:
-    LD A, (HL)
-    OR A
-    JP NZ, numeric_domain_error
-    INC HL
-    DJNZ .integer_check
-    LD HL, NUM_RESULT
-    LD BC, NUM_SIZE
-    CALL numeric_clear_bytes
-    LD A, $10
-    LD (NUM_RESULT + NUM_DIGITS), A
-    LD A, (NP_POWER_COUNT)
-    OR A
-    JR Z, .power_finished
-    LD HL, NUM_LEFT
-    LD DE, NUM_SAVED
-    CALL numeric_copy
-    LD HL, NUM_LEFT
-    LD DE, NUM_RESULT
-    CALL numeric_copy
-    LD A, (NP_POWER_COUNT)
-    DEC A
-    LD (NP_POWER_COUNT), A
-.power_loop:
-    LD A, (NP_POWER_COUNT)
-    OR A
-    JR Z, .power_finished
-    LD HL, NUM_RESULT
-    LD DE, NUM_LEFT
-    CALL numeric_copy
-    LD HL, NUM_SAVED
-    LD DE, NUM_RIGHT
-    CALL numeric_copy
-    CALL numeric_multiply
-    LD A, (NP_POWER_COUNT)
-    DEC A
-    LD (NP_POWER_COUNT), A
-    JR .power_loop
-.power_finished:
-    LD A, (NA_SHIFT)
-    OR A
-    RET Z
-    LD HL, NUM_RESULT
-    LD DE, NUM_RIGHT
-    CALL numeric_copy
-    LD HL, NUM_LEFT
-    LD BC, NUM_SIZE
-    CALL numeric_clear_bytes
-    LD A, $10
-    LD (NUM_LEFT + NUM_DIGITS), A
-    JP numeric_divide
+    LD DE, const_two
+    CALL sci_objects_equal
+    JP Z, numeric_square
+    JP bank_call_phase16_numeric_power
 
 ; The Phase 4 tokenizer and precedence parser provide numeric_evaluate_editor.

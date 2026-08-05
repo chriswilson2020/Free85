@@ -50,6 +50,12 @@ test("[statistics.editors] physical and home-menu statistics and specialist solv
   assert.equal(menu.machine.read8(FREE85_UI_MODE_ADDRESS), SCREEN_STATISTICS);
 });
 
+test("[phase16.simult-cell] CELL reports the active row and column", () => {
+  const harness = Free85Harness.boot();
+  tapAll(harness, ["2ND", "STAT", "RIGHT"]);
+  assertLcdGolden("phase16-simult-cell-1-2", harness.machine.renderLcdBitmap());
+});
+
 test("[statistics.one-variable] independent summary data distinguishes sample and population formulas", () => {
   const harness = Free85Harness.boot();
   harness.tap("STAT");

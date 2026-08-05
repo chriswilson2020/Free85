@@ -1,6 +1,6 @@
 {
   "name": "free85",
-  "version": "2.20.0",
+  "version": "2.21.0",
   "private": true,
   "license": "MIT",
   "type": "module",
@@ -24,6 +24,7 @@
     "test": "node --test test/free85/*.test.js",
     "test:free85": "node --test test/free85/*.test.js",
     "test:free85:phase15": "node --test test/free85/phase15-*.test.js",
+    "test:free85:phase16-release": "node --test test/free85/phase16-release.test.js",
     "test:guidebook": "node scripts/check-guidebook-traceability.js",
     "test:free85:soak": "node scripts/free85-soak.js",
     "test:free85:stress": "node scripts/free85-stress.js",
@@ -38,6 +39,7 @@
     "update:free85:phase15-deq-goldens": "node scripts/update-free85-phase15-deq-goldens.js",
     "update:free85:phase16-goldens": "node scripts/update-free85-phase16-goldens.js",
     "update:free85:phase17-goldens": "node scripts/update-free85-phase17-goldens.js",
+    "update:free85:phase16-release-goldens": "node scripts/update-free85-phase16-release-goldens.js",
     "update:free85:phase21-goldens": "node scripts/update-free85-phase21-goldens.js",
     "validate:free85": "npm test && npm run benchmark:free85 && npm run test:free85:stress && npm run test:free85:soak",
     "verify:free85:reproducible": "node scripts/free85-reproducibility.js --check",

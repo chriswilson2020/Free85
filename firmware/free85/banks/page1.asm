@@ -23,11 +23,13 @@ bank_start:
     JP p15_recall_gdb
     JP p16_select_mode
     JP p6_start_plot
+    JP phase16_numeric_power
 
     INCLUDE "graph/phase6.asm"
     INCLUDE "graph/phase14.asm"
     INCLUDE "graph/phase15.asm"
     INCLUDE "graph/phase16.asm"
+    INCLUDE "numeric/power.asm"
 
 bank_end:
     ASSERT bank_end <= $8000

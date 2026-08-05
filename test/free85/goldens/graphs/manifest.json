@@ -13,7 +13,7 @@
     {
       "name": "parabola",
       "expression": "X^2-4",
-      "frames": 300,
+      "frames": 500,
       "litPixelCount": 360,
       "checksum": "769A8861"
     },
@@ -46,15 +46,15 @@
         "F1",
         "EXIT"
       ],
-      "frames": 600,
+      "frames": 1000,
       "litPixelCount": 48,
       "checksum": "A73D5C60"
     },
     {
       "name": "phase19-home-version",
       "keys": [],
-      "litPixelCount": 741,
-      "checksum": "EA6E72F6"
+      "litPixelCount": 738,
+      "checksum": "BE4C0E34"
     },
     {
       "name": "phase7-complex-editor",
@@ -106,8 +106,8 @@
         "2ND",
         "STAT"
       ],
-      "litPixelCount": 775,
-      "checksum": "CEF538E3"
+      "litPixelCount": 770,
+      "checksum": "06EC40A3"
     },
     {
       "name": "phase8-polynomial-editor",

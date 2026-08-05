@@ -596,7 +596,9 @@ p8_render_simult:
     CALL p8_sim_selected_rc
     LD A, B
     INC A
+    PUSH BC
     CALL p8_draw_digit_5_2
+    POP BC
     LD A, C
     INC A
     CALL p8_draw_digit_7_2
@@ -828,10 +830,13 @@ p8_sim_selected_rc:
     LD B, 0
 .loop:
     CP C
-    RET C
+    JR C, .column
     SUB C
     INC B
     JR .loop
+.column:
+    LD C, A
+    RET
 
 p8_stats_result_pointer:
     LD HL, P8_STATS_RESULT

@@ -155,6 +155,14 @@ To refresh the assets of a release that already exists, run the same
 workflow by hand from the Actions tab and give it the tag. Same-named
 assets are replaced.
 
+The ROM is built on Linux, where it is also checked for byte
+reproducibility. The books are built on macOS, because `typeset.css` asks
+for Charter, Helvetica Neue and Menlo, and those are macOS system fonts.
+Built anywhere else, Chrome substitutes whatever it can find and every book
+silently repaginates. The workflow fails if any of the three fonts is
+missing, and again if a book does not come out at the page count it was
+proofed at.
+
 ## Documentation
 
 - [Getting Started Manual](docs/manual/Free85-Manual.md): running Free85,

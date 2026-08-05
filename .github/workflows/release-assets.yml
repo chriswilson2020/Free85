@@ -14,6 +14,15 @@ name: Attach Free85 release assets
 #
 # Existing assets of the same name are replaced, so re-running this against
 # a published release is the supported way to refresh a stale one.
+#
+# The PDFs are built on macOS and this is not a preference. typeset.css asks
+# for Charter, Helvetica Neue and Menlo, which are macOS system fonts. On an
+# Ubuntu runner none of the three exists, Chrome substitutes whatever it has,
+# the metrics change and every book repaginates: the first Linux run of this
+# workflow produced a 238-page companion where the proofed book is 248. The
+# page-break work was done against the macOS rendering, so the macOS
+# rendering is the book. The ROM has no such problem and stays on Ubuntu,
+# where it is checked for byte reproducibility.
 
 on:
   release:
@@ -38,7 +47,8 @@ env:
   RELEASE_TAG: ${{ inputs.tag || github.event.release.tag_name }}
 
 jobs:
-  attach:
+  rom:
+    name: Build and attach the ROM
     runs-on: ubuntu-latest
     steps:
       - name: Check out the release tag
@@ -52,25 +62,6 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 24
-
-      - name: Install pandoc and locate Chrome
-        # The typeset pipeline shells out to pandoc and drives headless
-        # Chrome. The runner image ships a browser but the binary's name has
-        # moved before now, so find it rather than assuming a path.
-        run: |
-          set -euo pipefail
-          sudo apt-get update
-          sudo apt-get install --yes --no-install-recommends pandoc
-          pandoc --version | head -1
-          for candidate in google-chrome google-chrome-stable chromium-browser chromium; do
-            if command -v "$candidate" >/dev/null; then
-              echo "CHROME_BIN=$(command -v "$candidate")" >> "$GITHUB_ENV"
-              "$candidate" --version
-              exit 0
-            fi
-          done
-          echo "no Chrome or Chromium on this runner; the typeset build cannot run" >&2
-          exit 1
 
       - name: Run the validation suite
         # Nothing is published from a tree that does not pass. This is the
@@ -101,24 +92,95 @@ jobs:
           SJASMPLUS: ${{ runner.temp }}/sjasmplus/sjasmplus
         run: npm run verify:free85:reproducible
 
-      - name: Build the typeset PDFs
-        # CHROME_BIN comes from the locate step above.
-        run: npm run build:guidebook:typeset
+      - name: Attach the ROM to the release
+        # --clobber replaces a same-named asset, so re-running this against a
+        # published release refreshes a stale one rather than failing.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$RELEASE_TAG" ROM/FREE85.ROM --clobber
 
-      - name: Check every asset exists and is not empty
+      - name: Summarise the ROM
+        run: |
+          {
+            echo "### ROM attached to \`$RELEASE_TAG\`"
+            echo
+            printf '`FREE85.ROM` %s bytes, sha256 `%s`\n' \
+              "$(stat -c%s ROM/FREE85.ROM)" "$(sha256sum ROM/FREE85.ROM | cut -c1-32)"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  books:
+    name: Build and attach the typeset PDFs
+    # macOS, because the design's fonts are macOS system fonts. See the note
+    # at the top of this file: building these on Ubuntu silently repaginates
+    # every book.
+    runs-on: macos-latest
+    steps:
+      - name: Check out the release tag
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ env.RELEASE_TAG }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Install pandoc
+        run: |
+          brew install pandoc
+          pandoc --version | head -1
+
+      - name: Confirm the design's fonts are present
+        # If any of these is missing the books will still build and will be
+        # paginated wrongly, silently. Fail loudly instead.
         run: |
           set -euo pipefail
-          for f in ROM/FREE85.ROM \
-                   dist/guidebook/Free85-Manual-typeset.pdf \
-                   dist/guidebook/Free85-Guidebook-typeset.pdf \
-                   dist/guidebook/Free85-Companion-typeset.pdf; do
-            test -s "$f" || { echo "missing or empty: $f"; exit 1; }
-            printf '%10d bytes  %s\n' "$(stat -c%s "$f")" "$f"
+          missing=0
+          for font in Charter "Helvetica Neue" Menlo; do
+            if system_profiler SPFontsDataType 2>/dev/null | grep -qi "Family Name: $font"; then
+              echo "found: $font"
+            else
+              echo "MISSING: $font" >&2
+              missing=1
+            fi
           done
+          test "$missing" -eq 0 || {
+            echo "typeset.css depends on these fonts; pagination will be wrong without them" >&2
+            exit 1
+          }
 
-      - name: Attach the assets to the release
-        # --clobber replaces same-named assets, so re-running this against a
-        # published release refreshes stale ones rather than failing.
+      - name: Locate Chrome
+        run: |
+          set -euo pipefail
+          chrome="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+          test -x "$chrome" || { echo "Google Chrome not found at $chrome" >&2; exit 1; }
+          echo "CHROME_BIN=$chrome" >> "$GITHUB_ENV"
+          "$chrome" --version
+
+      - name: Build the typeset PDFs
+        run: npm run build:guidebook:typeset
+
+      - name: Check the books paginated as designed
+        # The page counts of the proofed editions. A change here means the
+        # rendering has moved and the books need re-proofing, not publishing.
+        run: |
+          set -euo pipefail
+          check() {
+            actual=$(node -e "
+              const b = require('fs').readFileSync('$2');
+              console.log((b.toString('latin1').match(/\/Type\s*\/Page[^s]/g) || []).length);
+            ")
+            printf '%-12s %4s pages (expected %s)\n' "$1" "$actual" "$3"
+            test "$actual" = "$3" || {
+              echo "$1 paginated to $actual pages, expected $3" >&2
+              exit 1
+            }
+          }
+          check Manual    dist/guidebook/Free85-Manual-typeset.pdf     18
+          check Guidebook dist/guidebook/Free85-Guidebook-typeset.pdf 158
+          check Explorations dist/guidebook/Free85-Companion-typeset.pdf 248
+
+      - name: Attach the books to the release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -126,21 +188,19 @@ jobs:
             dist/guidebook/Free85-Manual-typeset.pdf \
             dist/guidebook/Free85-Guidebook-typeset.pdf \
             dist/guidebook/Free85-Companion-typeset.pdf \
-            ROM/FREE85.ROM \
             --clobber
 
-      - name: Summarise what was attached
+      - name: Summarise the books
         run: |
           {
-            echo "### Assets attached to \`$RELEASE_TAG\`"
+            echo "### Books attached to \`$RELEASE_TAG\`"
             echo
-            echo "| Asset | Bytes | SHA-256 |"
+            echo "| Book | Bytes | SHA-256 |"
             echo "| --- | ---: | --- |"
-            for f in ROM/FREE85.ROM \
-                     dist/guidebook/Free85-Manual-typeset.pdf \
+            for f in dist/guidebook/Free85-Manual-typeset.pdf \
                      dist/guidebook/Free85-Guidebook-typeset.pdf \
                      dist/guidebook/Free85-Companion-typeset.pdf; do
               printf '| `%s` | %s | `%s` |\n' \
-                "$(basename "$f")" "$(stat -c%s "$f")" "$(sha256sum "$f" | cut -c1-16)…"
+                "$(basename "$f")" "$(stat -f%z "$f")" "$(shasum -a 256 "$f" | cut -c1-16)…"
             done
           } >> "$GITHUB_STEP_SUMMARY"

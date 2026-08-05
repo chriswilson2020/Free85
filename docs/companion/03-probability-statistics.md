@@ -209,9 +209,15 @@ experiment, in the program environment of the Guidebook, chapter 16.
 
    Three heads in nine flips, from the stream section 3.2 was reading.
 
-3. Nine is as far as a counted loop goes in one digit. `FOR` takes
-   single-digit bounds, so bigger experiments have to count down with
+3. Nine used to be as far as a counted loop went. `FOR` took single-digit
+   bounds until firmware 2.19, which is why this program counts down with
    `WHILE`, exactly as Chapter 8's series do.
+
+   It no longer has to. `FOR` now takes evaluated bounds and an optional
+   step, so `FOR N,1,50` is a legal line and `FOR N,50,1,-1` counts back
+   down. Run the program below as it stands first, because the countdown
+   is what the next two sections read; then, if you like, rewrite line 2
+   as a `FOR` and satisfy yourself that the answer does not move.
 
    Press [PRGM] for the list, [▼] to select the second slot, and [F1] to
    open `EDIT P2`. Type its eight lines:
@@ -253,8 +259,9 @@ experiment, in the program environment of the Guidebook, chapter 16.
    section answers 3, then 8, then 13, in that order, every time.
 
 The environment's bounds shape the design here: four programs of eight
-48-character lines, single-digit `FOR` bounds, and no way to type `=` or
-`<`, so conditions get built out of arithmetic as line 4 does.
+48-character lines, and no way to type `=` or `<`, so conditions get built
+out of arithmetic as line 4 does. A fourth bound, `FOR`'s single-digit
+count, shaped it too until firmware 2.19 removed it.
 
 **Try it.**
 

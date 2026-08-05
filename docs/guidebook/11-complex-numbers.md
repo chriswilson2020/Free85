@@ -66,7 +66,9 @@ Once a result is on show the letter at the top right reads `R`. Press
 ## Arithmetic with A and B
 
 The second soft-key page ([MORE]) is `ADD SUB MUL DIV POW`. The four
-arithmetic keys combine `A` and `B` into `R`. With 3+4i in `A` and 1+2i
+arithmetic keys combine `A` and `B` into `R`, and [ENTER] while `R` is
+shown copies it back into `A` under the `ENTER USE R` prompt, real and
+imaginary parts together. With 3+4i in `A` and 1+2i
 in `B` ([3] [ENTER] [4] [ENTER] [ALPHA] [1] [ENTER] [2] [ENTER]):
 
 - **`ADD`** ([F1]) answers `RE= 4`, `IM= 6`.

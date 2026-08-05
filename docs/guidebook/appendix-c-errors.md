@@ -89,20 +89,36 @@ your entry is exactly as you left it.
   number of arguments such as `MIN(1,2,3)` (chapter 3), storing to an
   invalid name such as `AB` or `ANS` (chapter 2), or a calculus command
   such as `EVAL(` before a plot has run through once (chapters 3
-  and 4). A calculus command stored as a graph equation meets the same
-  refusal at every sample, but silently: the slot plots nothing rather
-  than raising a notice (chapter 4).
+  and 4). It means the expression could not be *read*; a value that
+  cannot be *computed* has its own message below, and the two should not
+  be confused when reading an old listing.
 - **`DIVIDE BY ZERO`**: division by zero, chapter 1's specimen error.
   `1/0` answers it, so do `MOD(5,0)` (chapter 3) and dividing by a
   complex zero in the complex editor (chapter 11).
 - **`DOMAIN ERROR`**: an argument outside a function's domain. Chapter
   3 collects the home-screen causes (`LN(0)`, `ASIN(2)`, `ACOSH(0.5)`,
   `ROOT(-8,3)`, `FACT(-1)` and kin), chapter 11 adds `SQRT(-9)` on the
-  real line, and chapter 10 adds the word-model violations such as
-  `ROL(1,16)` and `AND(2.5,1)`.
+  real line, chapter 10 adds the word-model violations such as
+  `ROL(1,16)` and `AND(2.5,1)`, and chapter 16 adds a `FOR` bound that is
+  not a whole number, is outside the signed 16-bit range, or a step of
+  zero.
 - **`NUMERIC OVERFLOW`**: a result beyond the numeric range, whose
   exponents run to 127: `FACT(70)` (chapter 3), `1E99*1E99`, or a base
   literal beyond sixteen bits such as `0x10000` (chapter 10).
+- **`PRECISION LOST`**: the argument is too large for its phase to be
+  worth reporting. `SIN`, `COS` and `TAN` are supported through one
+  million radians or one hundred million degrees; past that a
+  fourteen-digit input no longer pins the angle down, so `SIN(1.1E6)`
+  stops here rather than returning a plausible number (chapter 3).
+- **`NO CONVERGENCE`**: the work budget ran out before successive
+  estimates agreed. `FNINT(` compares 32-, 64- and 128-panel Simpson
+  estimates and stops here when they will not settle (chapter 3);
+  differential-equation mode reports it when a solution runs away faster
+  than the window can follow (chapter 7).
+- **`RECURSION ERROR`**: a graph slot reached itself. One nested graph
+  evaluation is available, so a slot may read another slot, but
+  `NDER(1,X)` stored in slot 1, or a cycle between two slots, stops here
+  while the unrelated slots plot as usual (chapter 4).
 - **`SIGNED 16-BIT INT`**: the number-base screen asked to display a
   value the 16-bit word cannot hold; `2.5` and `32768` both stop here.
   Chapter 10 covers the word model.

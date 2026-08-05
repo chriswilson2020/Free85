@@ -3,17 +3,17 @@
   "release": "2.10.0",
   "phase": "14.10",
   "inventory": {
-    "groups": 41,
-    "entries": 298,
+    "groups": 42,
+    "entries": 303,
     "groupsByStatus": {
-      "equivalent": 37,
+      "equivalent": 38,
       "partial": 0,
       "missing": 0,
       "hardware-dependent": 3,
       "excluded-clean-room": 1
     },
     "entriesByStatus": {
-      "equivalent": 280,
+      "equivalent": 285,
       "partial": 0,
       "missing": 0,
       "hardware-dependent": 13,

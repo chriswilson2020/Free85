@@ -3,7 +3,11 @@
 Matrices and vectors each have their own editor, built on the same plan
 as the list editor of Chapter 12 (Lists): two working registers `A` and
 `B`, a result register `R`, [ALPHA] to switch between the working pair,
-and the operations on the soft keys. A matrix is at most 3 by 3 and a
+and the operations on the soft keys. Whenever the screen is showing `R`,
+the line above the soft keys reads `ENTER USE R`, and pressing [ENTER]
+copies the whole result into `A` in one action, dimensions and complex
+components intact, so a result can be used as the next operand without
+being read off and typed back in. A matrix is at most 3 by 3 and a
 vector has two or three components in this release. This chapter covers
 both editors, the linear-algebra operations from determinants to
 eigensystems, the coordinate conversions, and the error screens that
@@ -262,8 +266,10 @@ assume the fresh machine's `ANGLE RAD`. With 3, 4, 0 in `A`:
 
 The conversions read `A` even while the screen shows `R`, so pressing
 `CY>R` straight after `R>CY` does not undo the trip: it reads the
-rectangular 3, 4, 0 still in `A` as if it were cylindrical. Store a
-result back into `A` by retyping it if you want to chain conversions.
+rectangular 3, 4, 0 still in `A` as if it were cylindrical. To chain
+conversions, press [ENTER] on the `ENTER USE R` prompt first: that moves
+the result into `A`, and the next conversion reads what you just
+computed.
 The tag names the last conversion's form rather than tracking each
 register: it survives leaving and re-entering the editor, stays put
 when a list conversion delivers a plainly rectangular vector, and only

@@ -18,15 +18,22 @@ decision.
 The editors keep three registers: `A` and `B` hold the operands you type,
 and `R` holds the result of whichever key you press, read-only. One
 selection cursor is shared by all three, so wherever a walk through one
-register leaves it, that is where the next view opens. And nothing carries
-forward on its own: feeding a result into the next operation means
-retyping it into `A` by hand.
+register leaves it, that is where the next view opens.
 
-That last one will irritate you and it is deliberate. Results land
-somewhere they cannot be silently overwritten, which is what makes every
-intermediate step in this chapter inspectable. On a machine that let
-operations chain, half these explorations would be one keystroke and you
-would see none of the arithmetic.
+Feeding a result into the next operation is one key. While `R` is on the
+screen, the line above the soft keys reads `ENTER USE R`, and [ENTER]
+copies the whole of it into `A`: dimensions, complex parts and all.
+
+That is worth a note, because the first edition of this book made a virtue
+of the alternative. There was no such key then, and I argued that retyping
+each result by hand was what kept every intermediate step inspectable. It
+did nothing of the kind. `R` is still read-only, results still land
+somewhere they cannot be silently overwritten, and every step in this
+chapter is still on the screen waiting to be looked at. What the retyping
+added was typing, and a fair chance of a transcription slip in the middle
+of an elimination you were checking *because* you did not trust it.
+
+Read the result. Then press [ENTER] and carry on.
 
 ## 6.1 One system, two tools
 

@@ -537,20 +537,41 @@ somebody you already know.
 
    Eleven places, from an area. That is worth pausing on: you have just
    computed pi without a single trigonometric function, out of nothing but
-   a rational function and sixty-four rectangles.
+   a rational function and a sheaf of rectangles.
 
-One route is closed, and knowing why saves a puzzled minute. A graph slot
-cannot hold `FNINT(`, because the command integrates whichever equation is
-active and a slot holding it would be asked to integrate itself. Store
-`FNINT(0,X)` as `Y2` beside `2*X` in `Y1` and press [GRAPH]: the plot runs
-to the end, `Y1` draws its line exactly as it would alone, and the `FNINT(`
-slot draws nothing, reading `UNDEF` in every table row.
+One route used to be closed and is now open, and the reason it was closed
+is the reason the open one looks the way it does.
 
-The refusal is per sample and silent, and it is the same answer `EVAL(`,
-`NDER(`, `FMIN(` and `FMAX(` give from a slot, which Chapter 4 met from the
-other side. Programs are no way round either: they may call `FNINT(`
-freely, but the run screen shows only the most recent `DISP`. The
-hand-built table is the design to work within.
+Called as `FNINT(a,b)`, the command integrates whichever equation is
+active. A slot holding *that* form is being asked to integrate itself, and
+the machine says so rather than looping: store `FNINT(0,X)` as `Y2` beside
+`2*X` in `Y1`, press [GRAPH], and `Y2` stops with `RECURSION ERROR` while
+`Y1` draws its line exactly as it would alone.
+
+Name the slot and the ambiguity disappears. `FNINT(1,0,X)` reads
+"integrate slot 1, from 0 to x", and nothing in it refers to the slot doing
+the asking. Put `2*X` in `Y1` and `FNINT(1,0,X)` in `Y2` and press
+[GRAPH]:
+
+![The accumulator of 2*X plotted beside it](images/co05-accumulator-plot.png)
+
+`Y1` draws its line and `Y2` draws x², which is what the accumulator of 2x
+is. The table carries both columns, so the function you were building by
+hand a page ago is now a column you can read down.
+
+Be patient with it. Every plotted column of `Y2` is a complete numerical
+integration starting from 0, so that slot costs 127 integrals where an
+ordinary slot costs 127 evaluations.
+
+The rest of the calculus commands take a slot the same way: `EVAL(slot,x)`,
+`NDER(slot,x)`, `FMIN(slot,a,b)`, `FMAX(slot,a,b)`, `ARC(slot,a,b)` and
+`INTER(slot,a,b)`. One nested evaluation is available, so a slot may read
+another slot; two slots that read each other stop with `RECURSION ERROR`
+while the slots around them carry on.
+
+None of which makes the hand-built table wasted work. Building the
+accumulator one probe at a time is how you find out what it *is*; plotting
+it is how you check that you were right.
 
 **Try it.**
 

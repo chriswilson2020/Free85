@@ -470,8 +470,9 @@ export const SCREEN_CASES = [
   },
   // Chapter 4 section 4.2: SIN(1/X), which has no limit at 0, and
   // X*SIN(1/X), which has one because the two lines X and -X close on it.
-  // The cliff capture is the sine giving up: 1/.0025 is 400 radians, and the
-  // firmware's argument reduction stops after 63 subtractions of 2*PI.
+  // 1/.0025 is 400 radians, which the quotient-based reduction of 2.14
+  // handles without complaint; the boundary the chapter now walks up to is
+  // one million radians, so EVAL(9E-7) is where the machine declines.
   { name: "co04-sinrecip-std", keys: [...CO04_SINRECIP, 14000] },
   {
     name: "co04-sinrecip-zoom",
@@ -481,6 +482,11 @@ export const SCREEN_CASES = [
     name: "co04-sin-cliff",
     keys: [...CO04_SINRECIP, 14000, "EXIT", 300, "CLEAR", 20,
       ...co04Spell("EVAL(.0025)"), "ENTER", 900]
+  },
+  {
+    name: "co04-sin-precision",
+    keys: [...CO04_SINRECIP, 14000, "EXIT", 300, "CLEAR", 20,
+      ...co04Spell("EVAL(9"), "EE", "(-)", "7", ")", "ENTER", 900]
   },
   {
     name: "co04-squeeze-zoom",
@@ -611,6 +617,14 @@ export const SCREEN_CASES = [
   // Chapter 5 section 5.5: FNINT(3,6) on the stored 1/X matching the area
   // from 1 to 2, after the section's exact probe order (the 2*X accumulator
   // first, then the logarithm probes).
+  // Section 5.5's accumulator, now plottable: 2*X in Y1 and the explicit
+  // FNINT(1,0,X) in Y2, which draws x squared. Every column of Y2 is a
+  // whole integration, so this one needs a long settle.
+  {
+    name: "co05-accumulator-plot",
+    keys: ["2", "*", "X-VAR", "GRAPH", 3000, "2ND", "2", 60,
+      ...FNINT_KEYS, "(", "1", ",", "0", ",", "X-VAR", ")", "GRAPH", 40000]
+  },
   {
     name: "co05-accumulator",
     keys: ["2", "*", "X-VAR", "GRAPH", 1200, "EXIT", 30, "CLEAR",
@@ -762,6 +776,14 @@ export const SCREEN_CASES = [
     keys: [...co07Seed(1), ...CO07_DEQ_MODE, ...CO07_GOMPERTZ, "GRAPH", 16000,
       "MORE", 60000]
   },
+  // Section 7.7's setup page, which replaced the GDEQ deletion ritual: the
+  // method and the initial condition, edited in place.
+  {
+    name: "co07-deq-setup",
+    keys: [...co07Seed(1), ...CO07_DEQ_MODE,
+      ".", "4", "*", "(", "3", "-", "ALPHA", "0", ")", "GRAPH", 9000,
+      "2ND", "MORE", "MORE", "MORE", "MORE", 60]
+  },
   {
     name: "co07-equilibrium",
     keys: [...co07Seed(-6), ...CO07_DEQ_MODE,
@@ -769,9 +791,9 @@ export const SCREEN_CASES = [
   },
   // Chapter 8 section 8.1: the integral conservation of energy hands you,
   // integrated between 0 and the amplitude. The integrand is infinite at the
-  // top of the swing, so one of FNINT('s 64 panels lands on an enormous
-  // value and swamps the rest. The machine returns 9643 where the answer is
-  // about 2.31, and says nothing at all about it.
+  // top of the swing, so a sample lands on the singularity and FNINT( now
+  // answers DIVIDE BY ZERO rather than the 9643 that firmware 2.10 handed
+  // back without comment where the answer is about 2.31.
   {
     name: "co08-naive-integral",
     keys: ["2ND", "^", "/", "4", "STO", "ALPHA", "LOG", "ENTER", 200, "CLEAR", 30,

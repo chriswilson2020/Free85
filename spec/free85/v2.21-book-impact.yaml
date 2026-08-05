@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "firmwareTarget": "2.21.0",
+  "phase": "16",
+  "romSha256": "b714dd191c4182c294017f6fe19f1699db039c9579fc39eef1dd568afb05339d",
+  "updateTiming": "Free85 2.21.0 behaviour and ROM are frozen; the separate manual, guidebook, and companion-book process may execute these corrections",
+  "books": [
+    "docs/manual/Free85-Manual.md",
+    "docs/guidebook",
+    "docs/companion"
+  ],
+  "rules": [
+    "Do not edit an old screenshot or infer a replacement result: reproduce it from the exact 2.21 ROM hash recorded here.",
+    "Preserve the mathematical lesson behind an old workaround where it remains useful, but stop presenting that workaround as a current firmware requirement.",
+    "Distinguish exact-integer power, general positive-base real power, and invalid negative-base fractional power.",
+    "Use the labels actually visible on the 21-character LCD even when the prose also names the full operation.",
+    "Do not import planned Phase 17 or Free85 3.0 behaviour into a book edition describing Free85 2.21."
+  ],
+  "changes": [
+    {
+      "issue": "numeric.general-power",
+      "implementedIn": "2.21.0",
+      "summaryForBooks": "The ^ operator is no longer restricted to whole exponents from -9 through 9. Exact signed-16-bit integer exponents use exponentiation by squaring. A positive base with any other real exponent uses exp(exponent*ln(base)). A negative base still requires an integer exponent; a fractional power of a negative base reports DOMAIN ERROR. Zero to a negative power reports DIVIDE BY ZERO, while 0^0 remains 1.",
+      "documents": [
+        { "path": "docs/guidebook/03-mathematics.md", "sections": ["Powers and roots"] },
+        { "path": "docs/guidebook/appendix-a-command-catalog.md", "sections": ["arithmetic and power operators"] },
+        { "path": "docs/companion/00-front-matter.md", "sections": ["A word on the machine's limits"] },
+        { "path": "docs/companion/01-precalculus.md", "sections": ["1.5 Exponential and logarithmic functions", "Where the power key gives up", "Try it"] },
+        { "path": "docs/companion/02-business-mathematics.md", "sections": ["2.5 The mathematics of money"] },
+        { "path": "docs/companion/05-calculus-2.md", "sections": ["5.7 Indeterminate forms by table", "The third form, and a number you know"] },
+        { "path": "docs/companion/09-solutions.md", "sections": ["Solutions for Chapter 1 section 1.5", "Solutions for Chapter 5 section 5.8"] },
+        { "path": "docs/companion/10-afterword.md", "sections": ["After the last exploration", "machine limits"] }
+      ],
+      "mustRemoveOrCorrect": [
+        "the categorical limit 'whole exponents from -9 to 9'",
+        "the claim that 1.06^2.5 returns DOMAIN ERROR",
+        "the claim that a stored 1.06^X produces axes with no curve",
+        "the one-packed-digit countdown description as the current power implementation",
+        "the claim that 1.06^10, 2^10, or 2^-10 fails",
+        "instructions saying a positive-base fractional power cannot be typed directly",
+        "the statement that 1/X^(2/3) cannot be entered directly"
+      ],
+      "mustAdd": [
+        "the exact-integer exponentiation-by-squaring path and its signed-16-bit exponent bound",
+        "the positive-base exp(exponent*ln(base)) path and its slower evaluation cost",
+        "the negative-base integer-only domain rule",
+        "the zero-base rules and precise error classes",
+        "an explanation that EXP(y*LN(x)) remains a valuable identity and numerical comparison even though it is no longer a required workaround"
+      ],
+      "replacementExamples": [
+        { "expression": "1.06^2.5", "result": "1.1568170026417" },
+        { "expression": "1.06^10", "result": "1.7908476965428" },
+        { "expression": "1.06^(-3)", "result": "0.8396192830323" },
+        { "expression": "2^10", "result": "1024" },
+        { "expression": "2^(-10)", "result": "0.0009765625" },
+        { "expression": "2^0.5", "result": "1.4142135623734" },
+        { "expression": "27^(1/3)", "result": "2.9999999999993" },
+        { "expression": "(-2)^0.5", "result": "DOMAIN ERROR" },
+        { "expression": "0^(-1)", "result": "DIVIDE BY ZERO" }
+      ],
+      "captures": [
+        "new home result for 1.06^2.5",
+        "new completed graph or table for 1.06^X",
+        "any image whose teaching point is the former DOMAIN ERROR or empty plot"
+      ],
+      "evidence": [
+        "firmware/free85/numeric/power.asm",
+        "test/free85/phase16-release.test.js",
+        "spec/free85/performance.json"
+      ]
+    },
+    {
+      "issue": "collections.lu-permutation-storage",
+      "implementedIn": "2.21.0",
+      "summaryForBooks": "LU no longer overwrites the vector editor's result register. Matrix R still holds the combined LU factors. The one-based row permutation now has dedicated state and is printed on the matrix result screen as P: followed by one digit per matrix row, for example P:213.",
+      "documents": [
+        { "path": "docs/guidebook/13-matrices-and-vectors.md", "sections": ["Decompositions and eigensystems", "LU"] },
+        { "path": "docs/companion/06-linear-algebra.md", "sections": ["6.6 LU as elimination's ledger"] },
+        { "path": "docs/companion/09-solutions.md", "sections": ["Solutions for Chapter 6 section 6.6"] }
+      ],
+      "mustRemoveOrCorrect": [
+        "claims that LU records its permutation in Vector R",
+        "warnings to keep nothing precious in Vector R before LU",
+        "the explanation that overwriting Vector R is the unavoidable price of permutation reporting"
+      ],
+      "mustAdd": [
+        "how to read the visible P permutation alongside the combined LU matrix",
+        "an explicit statement that both real and imaginary components of Vector R survive LU unchanged",
+        "a pivoted example connecting P:213 to the reordered rows"
+      ],
+      "captures": [
+        "docs/guidebook/images/ch13-matrix-lu.png",
+        "docs/companion/images/co06-lu-pivot.png",
+        "every LU result capture, because the P line is newly visible"
+      ],
+      "evidence": [
+        "firmware/free85/collections/phase17.asm",
+        "firmware/free85/collections/phase18.asm",
+        "test/free85/collections-phase18.test.js:[collections.phase18.lu]",
+        "test/free85/goldens/graphs/phase16-lu-permutation.lcd"
+      ]
+    },
+    {
+      "issue": "solver.simult-cell-coordinate",
+      "implementedIn": "2.21.0",
+      "summaryForBooks": "The simultaneous-equation editor's CELL indicator now shows the selected one-based row and actual one-based column. It no longer displays the augmented-row width as the second figure.",
+      "documents": [
+        { "path": "docs/guidebook/14-solving-equations.md", "sections": ["The simultaneous editor"] },
+        { "path": "docs/companion/02-business-mathematics.md", "sections": ["2.1 Prices from receipts"] },
+        { "path": "docs/companion/06-linear-algebra.md", "sections": ["6.1 Two views of the same solve"] }
+      ],
+      "mustRemoveOrCorrect": [
+        "the warning that CELL's second figure always reads 3",
+        "the claim that CELL shows row width instead of column",
+        "navigation instructions that require readers to ignore the displayed column and count blindly"
+      ],
+      "mustAdd": [
+        "a concise statement that CELL is row then column",
+        "navigation examples which verify positions such as CELL 1 2 and the augmented right-hand-side column"
+      ],
+      "captures": [
+        "docs/guidebook/images/ch14-simult-editor.png",
+        "any simultaneous-editor capture showing the CELL line"
+      ],
+      "evidence": [
+        "firmware/free85/statistics/phase8.asm",
+        "test/free85/statistics-solvers.test.js:[phase16.simult-cell]",
+        "test/free85/goldens/graphs/phase16-simult-cell-1-2.lcd"
+      ]
+    },
+    {
+      "issue": "collections.matrix-row-menu-fit",
+      "implementedIn": "2.21.0",
+      "summaryForBooks": "The third matrix soft-key page now fits the 21-character LCD exactly as REF SWP RADD RMUL AUG. F2 remains the full SWAP operation; only its visible footer abbreviation changed to SWP. AUG is fully visible.",
+      "documents": [
+        { "path": "docs/guidebook/13-matrices-and-vectors.md", "sections": ["Row operations and augmentation"] },
+        { "path": "docs/companion/02-business-mathematics.md", "sections": ["2.4 Elimination as bookkeeping"] },
+        { "path": "docs/companion/06-linear-algebra.md", "sections": ["6.2 Row operations as algebra you can watch"] }
+      ],
+      "mustRemoveOrCorrect": [
+        "the statement that the row-operation page overruns the screen",
+        "the statement that AUG loses its final letter",
+        "literal footer transcriptions which still say REF SWAP RADD RMUL or omit AUG"
+      ],
+      "mustAdd": [
+        "the exact visible footer REF SWP RADD RMUL AUG",
+        "a note, where necessary, that the SWP label invokes the SWAP row operation"
+      ],
+      "captures": [
+        "every image showing the third matrix soft-key page",
+        "docs/companion/images/co02-tableau-solved.png if its footer is visible",
+        "docs/companion/images/co06-rref-solution.png if its footer is visible"
+      ],
+      "evidence": [
+        "firmware/free85/collections/phase17.asm:p17_menu_matrix_2",
+        "test/free85/collections-phase17.test.js:[collections.phase17.menus]",
+        "test/free85/goldens/graphs/phase17-matrix-row-menu.lcd"
+      ]
+    }
+  ],
+  "unchangedClaims": [
+    "Free85 2.21 still has no direct four-field graph-window editor.",
+    "StPic and RcPic store and restore a complete LCD picture, but 2.21 does not preserve that picture as an underlay during a new graph redraw.",
+    "DifEq in 2.21 still integrates one first-order state equation; it has no two-state phase-plane mode.",
+    "Ordinary matrices in 2.21 remain limited to 3 by 3.",
+    "The fourth matrix footer NORM RNORM CNORM COND RND still overruns; only the third row-operation footer was corrected.",
+    "General real power remains bounded by packed-decimal range, numerical precision, and the cost of LN plus EXP; it is not an arbitrary-precision power function."
+  ],
+  "finalVerification": [
+    "No current-edition book calls -9 through 9 the power operator's complete exponent range.",
+    "Every quoted replacement result is reproduced from ROM SHA-256 b714dd191c4182c294017f6fe19f1699db039c9579fc39eef1dd568afb05339d.",
+    "Every affected LCD image is regenerated from the 2.21 ROM and checked against its raw framebuffer fixture.",
+    "Vector R preservation is tested with nonzero real and imaginary sentinels before LU.",
+    "The CELL and matrix-row footer prose matches the reviewed 2.21 LCD fixtures exactly.",
+    "The books retain the unchanged 2.21 limitations and do not describe planned Phase 17 or Free85 3.0 features as shipped.",
+    "Typeset and web editions pass overflow, link, font, and traceability checks after editorial execution."
+  ]
+}

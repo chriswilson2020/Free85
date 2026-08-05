@@ -781,6 +781,16 @@ function buildCompanion() {
   if (stats.tryits < 40) {
     throw new Error(`companion: expected a Try it panel per section, found ${stats.tryits}`);
   }
+  // Every numbered section ends with exactly one Try it panel, so the two
+  // counts must agree. They diverge when a "## N.N Title" heading loses the
+  // blank line above it: pandoc then reads the heading as ordinary paragraph
+  // text, the section silently disappears from the book and the TOC, and
+  // nothing else in the build notices. That has happened once.
+  if (stats.sections !== stats.tryits) {
+    throw new Error(`companion: ${stats.sections} numbered sections but `
+      + `${stats.tryits} Try it panels. A section heading has probably lost `
+      + `the blank line above it and been swallowed into the previous paragraph.`);
+  }
   frontMatter += tocHtml([...entries, ...chapters]);
 
   const title = "Explorations with Free85";

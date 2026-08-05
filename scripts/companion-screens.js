@@ -37,6 +37,21 @@ function programLineKeys(text) {
   return keys;
 }
 
+// Section 3.5 scores a trial line against the bean data by hand. The slope
+// lives in M and the intercept in B, so the program contains no particular
+// line and scores whichever one the reader has just stored. The six heights
+// are written into lines 2 to 4, two points per line, because 48 characters
+// is as many as will fit.
+const CO03_SSD_LINES = ["0->S", "S+(B+M*1-7)^2+(B+M*2-7)^2->S",
+  "S+(B+M*3-10)^2+(B+M*4-12)^2->S", "S+(B+M*5-13)^2+(B+M*6-17)^2->S",
+  "DISP S", "STOP"];
+// Store an intercept into B and a slope into M, then type and run the score.
+const co03Score = (intercept, slope) => [
+  ...String(intercept).split(""), "STO", "ALPHA", "SIN", "ENTER", 200, "CLEAR", 30,
+  ...String(slope).split(""), "STO", "ALPHA", "8", "ENTER", 200, "CLEAR", 30,
+  "PRGM", 60, "F1", 120,
+  ...CO03_SSD_LINES.flatMap(programLineKeys), 200, "F2", 12000];
+
 const CO03_P1_LINES = ["0->S", "FOR A,1,9", "S+RANDI(0,1)->S", "END", "DISP S", "STOP"];
 const CO03_P2_LINES = ["36->N", "0->S", "WHILE N", "S+INT(RANDI(1,6)/6)->S",
   "N-1->N", "END", "DISP S", "STOP"];
@@ -68,6 +83,68 @@ const CO07_P1_LINES = ["9->Y", ".5->H", "7->N", "WHILE N", "Y+H*EVAL(0)->Y",
 const CO07_P2_LINES = ["9->Y", ".5->H", "7->N", "WHILE N", "CALL 3",
   "N-1->N", "END", "DISP Y"];
 const CO07_P3_LINES = ["EVAL(0)->K", "Y+H*K->Y", "Y+H*(EVAL(0)-K)/2->Y", "RETURN"];
+
+// Chapter 2 section 2.2's two solves. The same one-per-cent nudge to a
+// right-hand side barely moves a well-conditioned system and sends a
+// near-parallel one across the axis, from X 5 to X -5.
+const co02Solve = (rows) => ["2ND", "STAT", 60,
+  ...rows.flatMap((value) => [
+    ...String(value).split("").map((character) => (character === "-" ? "(-)" : character)),
+    "ENTER"]),
+  "F1", 1500];
+
+// Chapter 1 section 1.4's rational function. (X^2+1)/(X-1) divides out to
+// X+1 with a remainder of 2/(X-1), so the curve closes on the line X+1 far
+// out and runs away at X=1, where the table reads UNDEF.
+const CO01_RATIONAL = ["(", "X-VAR", "X^2", "+", "1", ")", "/",
+  "(", "X-VAR", "-", "1", ")"];
+
+// Chapter 5 section 5.2's Newton's method. EVAL( and NDER( both read the
+// stored equation, so line 4 is the method entire and the program names no
+// function. Line 2 is the step count, edited between runs to watch the
+// correct digits double. Each step evaluates the stored cubic twice, so the
+// run needs generous settle frames.
+const co05Newton = (start, steps) => ["X-VAR", "^", "3", "-", "2", "*",
+  "X-VAR", "-", "5", "GRAPH", 1500, "EXIT", 200, "CLEAR", 30,
+  "PRGM", 60, "F1", 120,
+  ...[`${start}->R`, `${steps}->N`, "WHILE N", "R-EVAL(R)/NDER(R)->R",
+    "N-1->N", "END", "DISP R", "STOP"].flatMap(programLineKeys), 200,
+  "F2", 20000 + steps * 12000];
+
+// Chapter 5 section 5.9's geometric impersonators against 1/(1+X). Outside
+// the interval of convergence the longer polynomial is the worse of the two,
+// which is the opposite of what the sine slots do.
+const CO05_GEOMETRIC = ["1", "/", "(", "1", "+", "X-VAR", ")", "GRAPH", 2500,
+  "2ND", "2", 60, "1", "-", "X-VAR", "+", "X-VAR", "X^2", "-", "X-VAR", "^",
+  "3", "GRAPH", 2500,
+  "2ND", "3", 60, "1", "-", "X-VAR", "+", "X-VAR", "X^2", "-", "X-VAR", "^",
+  "3", "+", "X-VAR", "^", "4", "-", "X-VAR", "^", "5", "GRAPH", 3000];
+
+// Chapter 7 section 7.6's two growth models, both seeded at 1 with a
+// ceiling of 10. The Gompertz needs a logarithm at every one of the 127
+// Euler steps, which makes it the slowest thing in the book: its table
+// wants around 60000 frames to fill a page, against 3000 for the logistic.
+const CO07_LOGISTIC = [".", "5", "*", "ALPHA", "0", "*", "(", "1", "-",
+  "ALPHA", "0", "/", "1", "0", ")"];
+const CO07_GOMPERTZ = [".", "3", "*", "ALPHA", "0", "*", "LN", "1", "0", "/",
+  "ALPHA", "0", ")"];
+
+// Chapter 4's two limit specimens, stored into Y1 with [GRAPH]. Both are
+// trigonometric and therefore slow, so callers add their own settle frames.
+const CO04_SINX = ["SIN", "X-VAR", ")", "/", "X-VAR", "GRAPH"];
+const CO04_SINRECIP = ["SIN", "1", "/", "X-VAR", ")", "GRAPH"];
+
+// Chapter 4 spells its calculus commands letter by letter the way the text
+// instructs, so the captures type them the same way rather than by name.
+function co04Spell(text) {
+  const keys = [];
+  for (const character of text) {
+    if (/[A-Z]/.test(character)) keys.push("ALPHA", PROGRAM_LETTER_KEYS[character]);
+    else if (character === "-") keys.push("(-)");
+    else keys.push(character);
+  }
+  return keys;
+}
 
 // Chapter 5 spells FNINT( letter by letter on the home screen: [ALPHA]
 // plus the key carrying each letter, as the chapter instructs.
@@ -116,6 +193,12 @@ const co08Modulus = (halfAngleKeys) => [...halfAngleKeys, "X^2", "STO",
   "ALPHA", "X^2", "ENTER", 60, "CLEAR", 30];
 
 // Chapter 8 section 8.2's two summing programs, and section 8.3's Euler shot.
+// Section 8.3's tolerance-driven variant: counts up instead of down and
+// stops when the next term falls below a ten thousandth. The editor cannot
+// type "<", so the test is INT(1E4/N^2), which is nonzero exactly while the
+// term is still worth adding.
+const CO08_TOLERANCE_LINES = ["0->S", "1->N", "WHILE INT(1E4/N^2)",
+  "S+1/N^2->S", "N+1->N", "END", "DISP S", "STOP"];
 const CO08_P1_LINES = ["0->S", "10->N", "WHILE N", "S+1/N^2->S", "N-1->N",
   "END", "DISP S", "STOP"];
 const CO08_P2_LINES = ["0->S", "6->N", "WHILE N", "(1+S)/4->S", "N-1->N",
@@ -140,7 +223,21 @@ const co08Components = (values) => values.flatMap((value) => [
 
 export const SCREEN_CASES = [
   // Chapter 1 section 1.1: the cubic X^3-4*X in the standard window.
+  { name: "co02-well-conditioned", keys: co02Solve([1, 2, 8.1, 3, -1, 3]) },
+  { name: "co02-ill-conditioned", keys: co02Solve([1, 2, 8.1, 1.01, 2, 8.05]) },
   { name: "co01-cubic-window", keys: ["X-VAR", "^", "3", "-", "4", "*", "X-VAR", "GRAPH", 900] },
+  // Chapter 1 section 1.4: the rational function's two branches, with the
+  // near-vertical strokes either side of X=1 that are the plotter joining
+  // samples a very long way apart.
+  { name: "co01-rational", keys: [...CO01_RATIONAL, "GRAPH", 3000] },
+  // The same function with its slant asymptote X+1 in Y2, tabulated so the
+  // gap 2/(X-1) can be read shrinking down the rows, and the pole caught as
+  // UNDEF on the X=1 row.
+  {
+    name: "co01-slant-table",
+    keys: [...CO01_RATIONAL, "GRAPH", 3000,
+      "2ND", "2", 60, "X-VAR", "+", "1", "GRAPH", 2500, "MORE", 2000]
+  },
   // Chapter 1 section 1.2: the slope family X/2, X, 3*X plotted together.
   {
     name: "co01-slope-family",
@@ -287,6 +384,16 @@ export const SCREEN_CASES = [
   // Chapter 3 section 3.3: P2's run screen after the section's exact key
   // order (P1 typed and run once first), answering 8 sixes in 36 rolls.
   {
+    name: "co03-ssd-poor",
+    keys: co03Score(3, 2.5)
+  },
+  // The same program scoring the line LIN actually returns. Every nudge away
+  // from 4 and 2 scores worse, which is what makes it the least squares fit.
+  {
+    name: "co03-ssd-best",
+    keys: co03Score(4, 2)
+  },
+  {
     name: "co03-sim-run",
     keys: ["PRGM", "F1", 30,
       ...CO03_P1_LINES.flatMap(programLineKeys), "F2", 3000,
@@ -340,12 +447,71 @@ export const SCREEN_CASES = [
       "1", "2", "ENTER", "1", "9", "ENTER", "1", "5", "ENTER", "1", "8", "ENTER",
       "MORE", "MORE", "MORE", "MORE", "MORE", "F2", 600]
   },
-  // Chapter 4 section 4.1: the table catching the hole of (X^3+X^2)/X, the
-  // X=0 row reading UNDEF above the ordinary values of X^2+X.
+  // Chapter 4 section 4.1: SIN(X)/X four ways. Trigonometry is slow to plot,
+  // so every case below pays for a full draw before it does anything else.
+  // The five captures are the standard window, the trace after three zooms,
+  // the table at step 1 and at step 0.0625, and the error EVAL(0) stops on.
+  { name: "co04-sinx-standard", keys: [...CO04_SINX, 9000] },
   {
-    name: "co04-limit-table",
-    keys: ["(", "X-VAR", "^", "3", "+", "X-VAR", "X^2", ")", "/", "X-VAR",
-      "GRAPH", 1200, "MORE", 300]
+    name: "co04-sinx-zoom-trace",
+    keys: [...CO04_SINX, 9000, "+", 5000, "+", 5000, "+", 6000,
+      "RIGHT", 400, "RIGHT", 600]
+  },
+  { name: "co04-sinx-table", keys: [...CO04_SINX, 9000, "MORE", 2000] },
+  {
+    name: "co04-sinx-table-fine",
+    keys: [...CO04_SINX, 9000, "MORE", 2000, "-", 800, "-", 800, "-", 800,
+      "-", 1200]
+  },
+  {
+    name: "co04-sinx-eval-error",
+    keys: [...CO04_SINX, 9000, "EXIT", 300, "CLEAR", 20,
+      ...co04Spell("EVAL(0)"), "ENTER", 600]
+  },
+  // Chapter 4 section 4.2: SIN(1/X), which has no limit at 0, and
+  // X*SIN(1/X), which has one because the two lines X and -X close on it.
+  // The cliff capture is the sine giving up: 1/.0025 is 400 radians, and the
+  // firmware's argument reduction stops after 63 subtractions of 2*PI.
+  { name: "co04-sinrecip-std", keys: [...CO04_SINRECIP, 14000] },
+  {
+    name: "co04-sinrecip-zoom",
+    keys: [...CO04_SINRECIP, 14000, "+", 7000, "+", 7000, "+", 8000]
+  },
+  {
+    name: "co04-sin-cliff",
+    keys: [...CO04_SINRECIP, 14000, "EXIT", 300, "CLEAR", 20,
+      ...co04Spell("EVAL(.0025)"), "ENTER", 900]
+  },
+  {
+    name: "co04-squeeze-zoom",
+    keys: ["X-VAR", "*", ...CO04_SINRECIP, 14000,
+      "2ND", "2", 60, "X-VAR", "GRAPH", 5000,
+      "2ND", "3", 60, "(-)", "X-VAR", "GRAPH", 5000,
+      "+", 9000, "+", 9000, "+", 10000]
+  },
+  // Chapter 4 section 4.3: the difference quotient of X^3-2*X at step .01,
+  // typed out in full so it needs no calculus command, tabulated beside the
+  // true derivative 3*X^2-2. The Y1 column sits just above Y2 all the way
+  // down, which is the chord overshooting a curve that bends upwards.
+  {
+    name: "co04-diffquot-table",
+    keys: ["(", "(", "X-VAR", "+", ".", "0", "1", ")", "^", "3",
+      "-", "2", "*", "(", "X-VAR", "+", ".", "0", "1", ")",
+      "-", "(", "X-VAR", "^", "3", "-", "2", "*", "X-VAR", ")", ")",
+      "/", ".", "0", "1", "GRAPH", 4000,
+      "2ND", "2", 60, "3", "*", "X-VAR", "X^2", "-", "2", "GRAPH", 4000,
+      "MORE", 1500]
+  },
+  // Chapter 4 section 4.6: the editor showing P1's line 3, the one worth
+  // checking twice. The editor holds one line on screen at a time, which
+  // the first edition never showed and never mentioned; four presses of
+  // [UP] from the blank line 7 land on it.
+  {
+    name: "co04-editor-p1",
+    keys: ["X-VAR", "X^2", "+", "1", "GRAPH", 1200, "EXIT", 60, "CLEAR", 30,
+      "PRGM", 60, "F1", 120,
+      ...CO04_P1_LINES.flatMap((line) => programLineKeys(line)), 200,
+      "UP", 60, "UP", 60, "UP", 60, "UP", 250]
   },
   // Chapter 4 section 4.2: NDER(1.5) answering the paper derivative 4.75 of
   // the stored X^3-2*X.
@@ -388,6 +554,17 @@ export const SCREEN_CASES = [
   },
   // Chapter 5 section 5.1: the designed quartic's root browser opening on
   // ROOT 1, RE 2.7320508075688 (1 plus root 3).
+  {
+    name: "co05-newton-converged",
+    keys: co05Newton(2, 4)
+  },
+  // The table at its default step of 1, which is where the failure is
+  // loudest: at X=5 the degree-3 impersonator is out by 104 and the
+  // degree-5 by 2604, so the longer polynomial is the worse of the two.
+  {
+    name: "co05-geometric-table",
+    keys: [...CO05_GEOMETRIC, "MORE", 2500]
+  },
   {
     name: "co05-poly-roots",
     keys: ["2ND", "PRGM", 30, "F4", 10,
@@ -565,9 +742,50 @@ export const SCREEN_CASES = [
   // Chapter 7 section 7.6: the equilibrium of .4*(3-Y) approached from below,
   // reached by seeding -6 before the mode's first entry.
   {
+    name: "co07-logistic-plot",
+    keys: [...co07Seed(1), ...CO07_DEQ_MODE, ...CO07_LOGISTIC, "GRAPH", 14000]
+  },
+  // The table paged back twice to the steepest stretch, where the growth is
+  // still accelerating towards the inflection at half the ceiling.
+  {
+    name: "co07-logistic-table",
+    keys: [...co07Seed(1), ...CO07_DEQ_MODE, ...CO07_LOGISTIC, "GRAPH", 14000,
+      "MORE", 4000, "UP", 2500, "UP", 2500]
+  },
+  { name: "co07-gompertz-plot",
+    keys: [...co07Seed(1), ...CO07_DEQ_MODE, ...CO07_GOMPERTZ, "GRAPH", 16000]
+  },
+  // The slowest capture in the book: a logarithm on every Euler step, and a
+  // fresh walk from the window edge for every row of the table.
+  {
+    name: "co07-gompertz-table",
+    keys: [...co07Seed(1), ...CO07_DEQ_MODE, ...CO07_GOMPERTZ, "GRAPH", 16000,
+      "MORE", 60000]
+  },
+  {
     name: "co07-equilibrium",
     keys: [...co07Seed(-6), ...CO07_DEQ_MODE,
       ".", "4", "*", "(", "3", "-", "ALPHA", "0", ")", "GRAPH", 9000]
+  },
+  // Chapter 8 section 8.1: the integral conservation of energy hands you,
+  // integrated between 0 and the amplitude. The integrand is infinite at the
+  // top of the swing, so one of FNINT('s 64 panels lands on an enormous
+  // value and swamps the rest. The machine returns 9643 where the answer is
+  // about 2.31, and says nothing at all about it.
+  {
+    name: "co08-naive-integral",
+    keys: ["2ND", "^", "/", "4", "STO", "ALPHA", "LOG", "ENTER", 200, "CLEAR", 30,
+      "1", "/", "2ND", "X^2", "COS", "X-VAR", ")", "-", "COS", "ALPHA", "LOG", ")", ")",
+      "GRAPH", 9000, "EXIT", 300, "CLEAR", 30,
+      ...FNINT_KEYS, "(", "0", ",", "ALPHA", "LOG", ")", "ENTER", 12000]
+  },
+  // Chapter 8 section 8.3: the same hundred reciprocal squares added upwards
+  // and stopped on a tolerance rather than a term count. Line 3 is the
+  // comparison this editor cannot type, written as arithmetic instead.
+  {
+    name: "co08-tolerance-run",
+    keys: ["PRGM", 60, "F1", 120,
+      ...CO08_TOLERANCE_LINES.flatMap(programLineKeys), 200, "F2", 90000]
   },
   // Chapter 8 section 8.1: the swing's true period at a 150-degree amplitude,
   // after the section's whole run of modulus stores and ratio probes.

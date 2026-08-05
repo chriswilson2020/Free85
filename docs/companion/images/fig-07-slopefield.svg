@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 180" role="img"
+     aria-label="A grid of short slope marks covering the plane, steep at the top and flattening towards the bottom, with one solution curve threaded through them so that it runs along the direction of every mark it passes.">
+  <!-- Free85 Explorations, chapter 7: a slope field with one solution
+       threaded through it. Navy plus ink, no gradients, nothing depending
+       on colour. Field is dy/dx = -0.15 y, so the marks are steepest where
+       y is largest and flatten towards the axis. -->
+
+  <!-- axes -->
+  <g stroke="#111111" stroke-width="1" opacity="0.5">
+    <line x1="26" y1="152" x2="288" y2="152"/>
+    <line x1="34" y1="162" x2="34" y2="16"/>
+  </g>
+
+  <!-- the slope marks: eight columns, five rows. Slope at height h is
+       proportional to -h, so the mark tilts down more the higher it is. -->
+  <g stroke="#111111" stroke-width="1.1" opacity="0.72">
+    <!-- row y=5 (top): steepest -->
+    <line x1="46" y1="26" x2="66" y2="42"/><line x1="80" y1="26" x2="100" y2="42"/>
+    <line x1="114" y1="26" x2="134" y2="42"/><line x1="148" y1="26" x2="168" y2="42"/>
+    <line x1="182" y1="26" x2="202" y2="42"/><line x1="216" y1="26" x2="236" y2="42"/>
+    <line x1="250" y1="26" x2="270" y2="42"/>
+    <!-- row y=4 -->
+    <line x1="46" y1="53" x2="66" y2="66"/><line x1="80" y1="53" x2="100" y2="66"/>
+    <line x1="114" y1="53" x2="134" y2="66"/><line x1="148" y1="53" x2="168" y2="66"/>
+    <line x1="182" y1="53" x2="202" y2="66"/><line x1="216" y1="53" x2="236" y2="66"/>
+    <line x1="250" y1="53" x2="270" y2="66"/>
+    <!-- row y=3 -->
+    <line x1="46" y1="80" x2="66" y2="90"/><line x1="80" y1="80" x2="100" y2="90"/>
+    <line x1="114" y1="80" x2="134" y2="90"/><line x1="148" y1="80" x2="168" y2="90"/>
+    <line x1="182" y1="80" x2="202" y2="90"/><line x1="216" y1="80" x2="236" y2="90"/>
+    <line x1="250" y1="80" x2="270" y2="90"/>
+    <!-- row y=2 -->
+    <line x1="46" y1="107" x2="66" y2="114"/><line x1="80" y1="107" x2="100" y2="114"/>
+    <line x1="114" y1="107" x2="134" y2="114"/><line x1="148" y1="107" x2="168" y2="114"/>
+    <line x1="182" y1="107" x2="202" y2="114"/><line x1="216" y1="107" x2="236" y2="114"/>
+    <line x1="250" y1="107" x2="270" y2="114"/>
+    <!-- row y=1: nearly flat -->
+    <line x1="46" y1="132" x2="66" y2="136"/><line x1="80" y1="132" x2="100" y2="136"/>
+    <line x1="114" y1="132" x2="134" y2="136"/><line x1="148" y1="132" x2="168" y2="136"/>
+    <line x1="182" y1="132" x2="202" y2="136"/><line x1="216" y1="132" x2="236" y2="136"/>
+    <line x1="250" y1="132" x2="270" y2="136"/>
+  </g>
+
+  <!-- one solution threaded through, running along the marks it passes -->
+  <path d="M 46 28 C 96 58, 150 94, 208 118 S 262 134, 282 139"
+        fill="none" stroke="#1a3a6b" stroke-width="2"/>
+  <circle cx="46" cy="28" r="3" fill="#1a3a6b"/>
+
+  <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9.5"
+     fill="#444444">
+    <text x="52" y="20" fill="#1a3a6b">the initial value</text>
+    <text x="196" y="106" fill="#1a3a6b">one solution</text>
+  </g>
+</svg>

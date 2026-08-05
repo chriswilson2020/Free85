@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150" role="img"
+     aria-label="The same rising curve three times, with four rectangles under it: left-edge heights which fall short, right-edge heights which overshoot, and midpoint heights which split the difference.">
+  <!-- Free85 Explorations, chapter 4: left, right and midpoint sums.
+       Navy plus ink, no gradients, nothing depending on colour.
+       Curve is f(x) = x^2 + 1 on 0 to 2, four slices, drawn three times.
+       Panel origins at x = 8, 108, 208; each panel is 84 wide, 100 tall.
+       Slice edges at 0, 21, 42, 63, 84 from the panel origin.
+       Heights below baseline y=126: f(0)=1 -> 8, f(.5)=1.25 -> 10,
+       f(1)=2 -> 16, f(1.5)=3.25 -> 26, f(2)=5 -> 40, scaled by 8. -->
+
+  <g id="panels">
+    <!-- ============ LEFT SUM ============ -->
+    <g transform="translate(8,0)">
+      <g fill="#1a3a6b" fill-opacity="0.16" stroke="#1a3a6b" stroke-width="0.9">
+        <rect x="0"  y="118" width="21" height="8"/>
+        <rect x="21" y="116" width="21" height="10"/>
+        <rect x="42" y="110" width="21" height="16"/>
+        <rect x="63" y="100" width="21" height="26"/>
+      </g>
+      <path d="M 0 118 Q 21 117 42 110 T 84 86" fill="none" stroke="#111111"
+            stroke-width="1.6"/>
+      <line x1="-2" y1="126" x2="90" y2="126" stroke="#111111" stroke-width="1"/>
+      <text x="42" y="141" text-anchor="middle" font-size="9.5"
+            font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+            fill="#444444">left: too low</text>
+    </g>
+
+    <!-- ============ RIGHT SUM ============ -->
+    <g transform="translate(108,0)">
+      <g fill="#1a3a6b" fill-opacity="0.16" stroke="#1a3a6b" stroke-width="0.9">
+        <rect x="0"  y="116" width="21" height="10"/>
+        <rect x="21" y="110" width="21" height="16"/>
+        <rect x="42" y="100" width="21" height="26"/>
+        <rect x="63" y="86"  width="21" height="40"/>
+      </g>
+      <path d="M 0 118 Q 21 117 42 110 T 84 86" fill="none" stroke="#111111"
+            stroke-width="1.6"/>
+      <line x1="-2" y1="126" x2="90" y2="126" stroke="#111111" stroke-width="1"/>
+      <text x="42" y="141" text-anchor="middle" font-size="9.5"
+            font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+            fill="#444444">right: too high</text>
+    </g>
+
+    <!-- ============ MIDPOINT SUM ============ -->
+    <g transform="translate(208,0)">
+      <g fill="#1a3a6b" fill-opacity="0.16" stroke="#1a3a6b" stroke-width="0.9">
+        <rect x="0"  y="117" width="21" height="9"/>
+        <rect x="21" y="113" width="21" height="13"/>
+        <rect x="42" y="105" width="21" height="21"/>
+        <rect x="63" y="93"  width="21" height="33"/>
+      </g>
+      <path d="M 0 118 Q 21 117 42 110 T 84 86" fill="none" stroke="#111111"
+            stroke-width="1.6"/>
+      <line x1="-2" y1="126" x2="90" y2="126" stroke="#111111" stroke-width="1"/>
+      <text x="42" y="141" text-anchor="middle" font-size="9.5"
+            font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+            fill="#444444">midpoint: both</text>
+    </g>
+  </g>
+</svg>

@@ -3,6 +3,19 @@
   "firmwareTarget": "3.0.0",
   "developmentBaseline": "3.0.0-dev.1",
   "phase": "17",
+  "releaseFreeze": {
+    "version": "3.0.0",
+    "romSha256": "f1e80e901e048fe59363613ec9ed0d237505aa748ca0e395300c692c62c3d6f4",
+    "pagesSha256": "c358e7e5a311386307ba68ace6d1226911066645913f3d25a94cef2a3ac3c656",
+    "stateSchema": 14,
+    "objectStoreSchema": 2,
+    "graphDatabaseVersion": 3,
+    "authoritativeEvidence": [
+      "spec/free85/release.json",
+      "spec/free85/reproducibility.json",
+      "test/free85/phase17-hardening.test.js"
+    ]
+  },
   "updateTiming": "The separate book process should execute this ledger only after Free85 3.0 behaviour and the final ROM hash are frozen",
   "rules": [
     "Do not edit manual, guidebook, companion, screenshot, or typeset sources as part of a Phase 17 implementation package.",

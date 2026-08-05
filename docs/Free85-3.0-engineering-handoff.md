@@ -86,3 +86,20 @@ multiplication, complex-plane chaining, and transpose-boundary coverage is in
 `test/free85/object-store.test.js` and
 `test/free85/phase17-matrix-3x6.test.js`. The reviewed editor fixture is
 `test/free85/goldens/graphs/phase17-matrix-3x6-editor.lcd`.
+
+## Phase 17.5 — 3.0.0
+
+This package removes the development suffix without adding another calculator
+surface. It freezes persistent RAM schema 14, object-store schema 2, graph
+database version 3, and the four Phase 17 capabilities as the Free85 3.0
+release contract. The release gate includes the complete public suite, seeded
+rectangular-matrix arithmetic, corrupt and capacity-failed migration rollback,
+reviewed LCD fixtures, measured performance, 10,000 key events, a 9,000-frame
+soak, two independent ROM and Pages builds, and the optional private oracle
+lane. The private oracle remains an optional external check and is not a source
+of public fixtures or Free85 bytes.
+
+The exact final ROM and Pages hashes are recorded in
+`spec/free85/release.json` and `spec/free85/reproducibility.json`. Editorial
+work should consume `spec/free85/v3-book-impact.yaml` only from this frozen
+3.0 baseline; the implementation release does not modify book sources.

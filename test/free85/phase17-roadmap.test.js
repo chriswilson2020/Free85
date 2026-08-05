@@ -134,3 +134,27 @@ test("[phase17.scope] the bounded expansion preserves the sandbox contract", asy
     assert.ok(capability.acceptance.length >= 3, `${capability.id}: acceptance`);
   }
 });
+
+test("[phase17.5.release] the stable 3.0 package closes every work package and editorial deferral", async () => {
+  const roadmap = await readJson("spec/free85/v3-roadmap.yaml");
+  const ledger = await readJson("spec/free85/v3-capabilities.yaml");
+  const impact = await readJson("spec/free85/v3-book-impact.yaml");
+  const packageJson = await readJson("package.json");
+  const release = await readJson("spec/free85/release.json");
+  const reproducibility = await readJson("spec/free85/reproducibility.json");
+  assert.equal(packageJson.version, "3.0.0");
+  assert.ok(roadmap.workPackages.every(({ status }) => status === "complete"));
+  assert.ok(ledger.capabilities.every(({ status }) => status === "resolved"));
+  assert.deepEqual(impact.stillPlanned, []);
+  assert.equal(impact.changes.length, 4);
+  assert.deepEqual({
+    version: impact.releaseFreeze.version,
+    stateSchema: impact.releaseFreeze.stateSchema,
+    objectStoreSchema: impact.releaseFreeze.objectStoreSchema,
+    graphDatabaseVersion: impact.releaseFreeze.graphDatabaseVersion
+  }, { version: "3.0.0", stateSchema: 14, objectStoreSchema: 2, graphDatabaseVersion: 3 });
+  assert.match(impact.releaseFreeze.romSha256, /^[0-9a-f]{64}$/);
+  assert.match(impact.releaseFreeze.pagesSha256, /^[0-9a-f]{64}$/);
+  assert.equal(impact.releaseFreeze.romSha256, release.rom.sha256);
+  assert.equal(impact.releaseFreeze.pagesSha256, reproducibility.pages.sha256);
+});

@@ -94,7 +94,7 @@
     {
       "id": "17.5",
       "name": "free85-3.0-release-hardening",
-      "status": "planned",
+      "status": "complete",
       "release": "3.0.0",
       "dependsOn": ["17.0", "17.1", "17.2", "17.3", "17.4"],
       "owns": ["release.3.0"],

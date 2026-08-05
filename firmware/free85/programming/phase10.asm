@@ -14,6 +14,12 @@ P10_ERR_STACK   EQU 2
 P10_ERR_INPUT   EQU 3
 P10_ERR_PROGRAM EQU 4
 P10_ERR_STOPPED EQU 5
+P10_ERR_DIV_ZERO EQU 6
+P10_ERR_OVERFLOW EQU 7
+P10_ERR_DOMAIN EQU 8
+P10_ERR_RECURSION EQU 9
+P10_ERR_NO_CONVERGENCE EQU 10
+P10_ERR_CANCELLED EQU 11
 
 phase10_init:
     XOR A
@@ -738,7 +744,7 @@ p10_execute_current:
     JP NC, p20_command_vget
     CALL p10_pc_source
     CALL p10_eval_span
-    JP C, p10_runtime_syntax
+    JP C, p10_runtime_evaluation
     JP p10_advance
 
 p10_pc_source:
@@ -780,11 +786,10 @@ p10_match_exact:
 p10_eval_span:
     LD A, B
     OR A
-    SCF
-    RET Z
+    JP Z, numeric_syntax_error
     CP EDITOR_CAPACITY + 1
     CCF
-    RET C
+    JP C, numeric_syntax_error
     LD A, B
     LD (EDITOR_LENGTH), A
     LD (EDITOR_CURSOR), A
@@ -798,7 +803,7 @@ p10_command_disp:
     XOR A
     LD (P20_DISPLAY_MODE), A
     CALL p10_eval_span
-    JP C, p10_runtime_syntax
+    JP C, p10_runtime_evaluation
     CALL numeric_format_result
     LD A, (RESULT_LENGTH)
     LD C, A
@@ -883,7 +888,7 @@ p10_input_key:
 
 p10_command_if:
     CALL p10_eval_span
-    JP C, p10_runtime_syntax
+    JP C, p10_runtime_evaluation
     LD HL, NUM_RESULT
     CALL numeric_is_zero
     JP Z, p10_skip_false_block
@@ -902,7 +907,7 @@ p10_command_while:
     CALL p10_eval_span
     POP BC
     POP HL
-    JP C, p10_runtime_syntax
+    JP C, p10_runtime_evaluation
     LD HL, NUM_RESULT
     CALL numeric_is_zero
     JR Z, .false
@@ -1099,7 +1104,7 @@ p10_return_or_finish:
 
 p10_command_graph:
     CALL p10_eval_span
-    JP C, p10_runtime_syntax
+    JP C, p10_runtime_evaluation
     ; The expression source is now in the shared editor; GRAPH stores it.
     XOR A
     LD (P10_RUNNING), A
@@ -1156,7 +1161,7 @@ p10_command_lset:
     DEC B
     DEC B
     CALL p10_eval_span
-    JP C, p10_runtime_syntax
+    JP C, p10_runtime_evaluation
     LD A, (P10_WORK_BUFFER + 4)
     PUSH AF
     CALL p10_list_value_pointer
@@ -1236,7 +1241,7 @@ p10_command_mset:
     SUB 4
     LD B, A
     CALL p10_eval_span
-    JP C, p10_runtime_syntax
+    JP C, p10_runtime_evaluation
     LD A, (P10_WORK_BUFFER + 4)
     LD B, A
     LD A, (P10_WORK_BUFFER + 5)
@@ -1348,6 +1353,32 @@ p10_finish:
 p10_runtime_syntax:
     LD A, P10_ERR_SYNTAX
     JR p10_runtime_error
+p10_runtime_evaluation:
+    LD A, (NUMERIC_ERROR)
+    CP NUM_ERR_DIV_ZERO
+    LD A, P10_ERR_DIV_ZERO
+    JR Z, p10_runtime_error
+    LD A, (NUMERIC_ERROR)
+    CP NUM_ERR_OVERFLOW
+    LD A, P10_ERR_OVERFLOW
+    JR Z, p10_runtime_error
+    LD A, (NUMERIC_ERROR)
+    CP NUM_ERR_DOMAIN
+    LD A, P10_ERR_DOMAIN
+    JR Z, p10_runtime_error
+    LD A, (NUMERIC_ERROR)
+    CP NUM_ERR_RECURSION
+    LD A, P10_ERR_RECURSION
+    JR Z, p10_runtime_error
+    LD A, (NUMERIC_ERROR)
+    CP NUM_ERR_NO_CONVERGENCE
+    LD A, P10_ERR_NO_CONVERGENCE
+    JR Z, p10_runtime_error
+    LD A, (NUMERIC_ERROR)
+    CP NUM_ERR_CANCELLED
+    LD A, P10_ERR_CANCELLED
+    JR Z, p10_runtime_error
+    JR p10_runtime_syntax
 p10_runtime_stack:
     LD A, P10_ERR_STACK
     JR p10_runtime_error
@@ -1722,7 +1753,36 @@ p10_render_run:
     JR Z, .output
     LD HL, p10_text_error
     CP P10_ERR_STOPPED
-    JR NZ, .error_text
+    JR Z, .stopped_text
+    CP P10_ERR_CANCELLED
+    JR Z, .stopped_text
+    CP P10_ERR_DIV_ZERO
+    JR Z, .div_zero_text
+    CP P10_ERR_OVERFLOW
+    JR Z, .overflow_text
+    CP P10_ERR_DOMAIN
+    JR Z, .domain_text
+    CP P10_ERR_RECURSION
+    JR Z, .recursion_text
+    CP P10_ERR_NO_CONVERGENCE
+    JR Z, .no_convergence_text
+    JR .error_text
+.div_zero_text:
+    LD HL, p10_text_div_zero
+    JR .error_text
+.overflow_text:
+    LD HL, p10_text_overflow
+    JR .error_text
+.domain_text:
+    LD HL, p10_text_domain
+    JR .error_text
+.recursion_text:
+    LD HL, p10_text_recursion
+    JR .error_text
+.no_convergence_text:
+    LD HL, p10_text_no_convergence
+    JR .error_text
+.stopped_text:
     LD HL, p10_text_stopped
 .error_text:
     LD B, 0
@@ -1833,6 +1893,11 @@ p10_text_name_help: DB "ENTER SAVE",0
 p10_text_run: DB "RUN",0
 p10_text_error: DB "ERROR LINE",0
 p10_text_stopped: DB "STOPPED LINE",0
+p10_text_div_zero: DB "DIV ZERO LN",0
+p10_text_overflow: DB "OVERFLOW LN",0
+p10_text_domain: DB "DOMAIN LINE",0
+p10_text_recursion: DB "RECURSE LINE",0
+p10_text_no_convergence: DB "NO CONV LINE",0
 p10_text_done: DB "DONE",0
 p10_text_running: DB "RUNNING",0
 p10_text_stop_help: DB "ON STOP",0

@@ -3,7 +3,7 @@
 ## Implementation status
 
 This original implementation plan has now been delivered through Phase 14.10
-as Free85 2.10.0. The current normative contracts are
+as Free85 2.12.0. The current normative contracts are
 `spec/free85/product.md`, `spec/free85/validation.md`,
 `spec/free85/v2-parity-gaps.yaml`, and `spec/free85/release.json`. The stable
 release is a 128 KiB ROM using persistent RAM schema 13 and object-store schema

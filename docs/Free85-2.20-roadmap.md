@@ -42,6 +42,14 @@ mathematical references rather than TI output.
 - **15.6 / 2.20 — hardening:** public, visual, randomized, performance,
   stress, soak, migration, reproducibility, and optional oracle gates.
 
+## Completed packages
+
+- **15.0:** accepted baseline, quality ledger, executable failure probes, and
+  deferred book-revision map.
+- **15.1 / 2.12:** typed evaluator errors and bounded, cancellable Simpson
+  refinement are implemented and release-gated. The book-impact ledger records
+  the exact old claims and captures to replace after 2.20 behaviour freezes.
+
 ## Explicit boundary
 
 Larger matrices, vectors, lists, statistics columns, and program stores are

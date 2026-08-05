@@ -156,3 +156,11 @@ object-store schema 1, two independent clean builds using pinned `sjasmplus`
 machine-readable manifests. The recorded release passes 181 public tests,
 deterministic performance budgets, 10,000 key events, a 9,000-frame/180-second
 emulated soak, and the optional 270-vector/five-probe private oracle package.
+
+Phase 15.1 is the Free85 2.12.0 numerical-integrity gate. It verifies distinct
+syntax, division, domain, overflow, recursion, convergence, and cancellation
+paths across home, graph, table, and program evaluators. Integration vectors
+cover smooth and reversed intervals, endpoint and interior singularities,
+undersampled functions, bounded 32/64/128-panel refinement, interruption, and
+a deterministic performance budget. Public expectations remain independent of
+the proprietary TI ROM.

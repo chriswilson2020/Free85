@@ -17,7 +17,8 @@
   "changes": [
     {
       "issue": "numeric.error-integrity",
-      "summaryForBooks": "SYNTAX ERROR will mean unreadable syntax; domain, division, overflow, recursion, and convergence failures will retain their own diagnostics across home, graph, table, and program evaluation.",
+      "implementedIn": "2.12.0",
+      "summaryForBooks": "Since Free85 2.12, SYNTAX ERROR means unreadable syntax; domain, division, overflow, recursion, and convergence failures retain their own diagnostics across home, graph, table, and program evaluation.",
       "documents": [
         { "path": "docs/manual/Free85-Manual.md", "sections": ["When something goes wrong"] },
         { "path": "docs/guidebook/appendix-c-errors.md", "sections": ["numeric and evaluator errors"] },
@@ -34,7 +35,8 @@
     },
     {
       "issue": "numeric.integration-safety",
-      "summaryForBooks": "FNINT will use bounded refinement and will report non-convergence or a numerical error when it cannot justify an answer; it will no longer silently present 9643.817428027 for the pendulum endpoint singularity.",
+      "implementedIn": "2.12.0",
+      "summaryForBooks": "Since Free85 2.12, FNINT compares 32-, 64-, and when needed 128-panel Simpson estimates; it reports DIVIDE BY ZERO or NO CONVERGENCE instead of silently presenting 9643.817428027 for the pendulum endpoint singularity.",
       "documents": [
         { "path": "docs/guidebook/03-mathematics.md", "sections": ["Numerical calculus"] },
         { "path": "docs/guidebook/appendix-c-errors.md", "sections": ["numeric and evaluator errors"] },

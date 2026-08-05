@@ -10,6 +10,16 @@ The machine-readable source is
 there with affected files and sections, claims to remove, material to add, and
 LCD captures to regenerate.
 
+## Implementation status
+
+Phase 15.1 shipped in Free85 2.12. The future editions must describe distinct
+syntax, division, domain, overflow, recursion, non-convergence, and cancellation
+diagnostics. They must also replace the fixed-64-panel description of `FNINT`
+with its bounded 32/64/128-panel comparison and show the pendulum endpoint case
+being refused as `DIVIDE BY ZERO` (or `NO CONVERGENCE` when refinement, rather
+than a sampled undefined point, detects the failure). Do not recapture final
+book figures yet: the editorial freeze remains Phase 15.6 / Free85 2.20.
+
 ## The important editorial changes
 
 1. **Errors become meaningful.** Do not use `SYNTAX ERROR` as prose shorthand

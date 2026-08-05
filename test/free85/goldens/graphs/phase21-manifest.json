@@ -5,13 +5,13 @@
   "cases": [
     {
       "name": "phase19-home-version",
-      "litPixelCount": 743,
-      "checksum": "EE7CA56E"
+      "litPixelCount": 738,
+      "checksum": "362970FE"
     },
     {
       "name": "phase14-memory-browser",
-      "litPixelCount": 1129,
-      "checksum": "04CACDD3"
+      "litPixelCount": 1124,
+      "checksum": "8A40C4BB"
     },
     {
       "name": "phase21-user-constants",

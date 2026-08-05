@@ -23,6 +23,7 @@ phase6_init:
     LD (GRAPH_ENABLED), A
     LD (GRAPH_PLOT_ACTIVE), A
     LD (GRAPH_TRACE_X), A
+    LD (GRAPH_LAST_ERROR), A
     LD A, 1
     LD (GRAPH_GRID), A
     LD HL, p6_const_neg10
@@ -132,6 +133,7 @@ p6_start_plot:
     LD (GRAPH_PREV_VALID), A
     LD (GRAPH_TOKEN_VALID), A
     LD (GRAPH_CALC_ACTIVE), A
+    LD (GRAPH_LAST_ERROR), A
     LD A, 64
     LD (GRAPH_TRACE_X), A
     LD HL, p6_const_zero
@@ -402,8 +404,8 @@ p6_current_slot_mask:
 ; routines run on the very state a slot evaluation is standing in, from the
 ; single-level context save down to the shared GRAPH_NUMERIC_OP that the plot
 ; and table loops count their slots in. Claim the calculus context for the
-; whole evaluation so utility_calculus_call answers SYNTAX ERROR before any of
-; that moves, and the sample fails like any other bad expression. The saved
+; whole evaluation so utility_calculus_call answers RECURSION ERROR before any
+; of that moves, and the sample fails like any other bad expression. The saved
 ; value returns on every exit: the callable commands evaluate slots themselves
 ; and must not have the context cleared out from under them.
 p6_evaluate_slot:
@@ -414,11 +416,27 @@ p6_evaluate_slot:
     LD (GRAPH_CALC_ACTIVE), A
     LD A, (GRAPH_TOKEN_SLOT)
     CALL p6_evaluate_slot_source
+    ; Keep the evaluation result and flags while restoring the caller's
+    ; calculus context. Plot/table callers deliberately consume failures as
+    ; gaps or UNDEF, but a numerical command must retain the exact error.
+    PUSH AF
+    POP DE
     POP BC
     PUSH HL
     LD HL, GRAPH_CALC_ACTIVE
     LD (HL), B
     POP HL
+    LD A, E
+    AND 1
+    JR Z, .restore_result
+    LD A, B
+    OR A
+    JR NZ, .restore_result
+    XOR A
+    LD (NUMERIC_ERROR), A
+.restore_result:
+    PUSH DE
+    POP AF
     RET
 
 p6_evaluate_slot_source:
@@ -431,7 +449,7 @@ p6_evaluate_slot_source:
     CALL p6_equation_address
     LD A, (HL)
     OR A
-    JR Z, .error
+    JR Z, .empty
     LD (EDITOR_LENGTH), A
     LD (EDITOR_CURSOR), A
     LD C, A
@@ -454,8 +472,14 @@ p6_evaluate_slot_source:
     CALL numeric_evaluate_expression
 .evaluated:
     JR NC, .ok
+    JR .capture_error
+.empty:
+    CALL numeric_syntax_error
+.capture_error:
+    LD A, (NUMERIC_ERROR)
+    LD (GRAPH_LAST_ERROR), A
+.invalidate_token:
     XOR A
-    LD (NUMERIC_ERROR), A
     ; Only a completed evaluation may claim the shared token buffer. A failed
     ; one has already overwritten it while GRAPH_TOKEN_VALID still names the
     ; slot before it, so the next sample of that slot would silently evaluate
@@ -1082,7 +1106,10 @@ p6_const_tol8:  DB $00,$F8,$10,$00,$00,$00,$00,$00,$00
 p6_const_tol10: DB $00,$F6,$10,$00,$00,$00,$00,$00,$00
 p6_const_3:     DB $00,$00,$30,$00,$00,$00,$00,$00,$00
 p6_const_4:     DB $00,$00,$40,$00,$00,$00,$00,$00,$00
+p6_const_15:    DB $00,$01,$15,$00,$00,$00,$00,$00,$00
+p6_const_32:    DB $00,$01,$32,$00,$00,$00,$00,$00,$00
 p6_const_64:    DB $00,$01,$64,$00,$00,$00,$00,$00,$00
+p6_const_128:   DB $00,$02,$12,$80,$00,$00,$00,$00,$00
 p6_const_h5:    DB $00,$FB,$10,$00,$00,$00,$00,$00,$00
 p6_const_2h5:   DB $00,$FB,$20,$00,$00,$00,$00,$00,$00
 
@@ -1718,7 +1745,11 @@ p6_calculate_derivative:
     CALL sci_divide_objects
     RET
 
-; Composite Simpson rule with 64 fixed subintervals.
+; Bounded composite-Simpson refinement.  The 32-panel estimate is used only
+; as an error probe; ordinary smooth cases publish the compatible 64-panel
+; result.  A failing 32/64 comparison receives one final 128-panel attempt.
+; If the estimated relative/absolute error still exceeds GRAPH_TOLERANCE the
+; command refuses the result instead of publishing an unjustified number.
 p6_find_integral:
     CALL p6_calculate_integral
     JP C, p6_numeric_failure
@@ -1730,12 +1761,53 @@ p6_find_integral:
 p6_calculate_integral:
     XOR A
     LD (GRAPH_NUMERIC_OP), A
+    LD A, 32
+    CALL p6_simpson_integral
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_RESULT_X      ; previous estimate
+    CALL numeric_copy
+    LD A, 64
+.refine:
+    CALL p6_simpson_integral
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_RESULT_Y      ; current estimate
+    CALL numeric_copy
+    CALL p6_integral_converged
+    JR NC, .accepted
+    LD A, (GRAPH_INTEGRAL_PANELS)
+    CP 128
+    JP Z, numeric_no_convergence_error
+    LD HL, GRAPH_RESULT_Y
+    LD DE, GRAPH_RESULT_X
+    CALL numeric_copy
+    LD A, 128
+    JR .refine
+.accepted:
+    LD HL, GRAPH_RESULT_Y
+    LD DE, NUM_RESULT
+    CALL numeric_copy
+    OR A
+    RET
+
+; A=32,64,128. Return the corresponding composite-Simpson estimate.
+p6_simpson_integral:
+    LD (GRAPH_INTEGRAL_PANELS), A
     LD HL, GRAPH_XMAX
     LD DE, GRAPH_XMIN
     CALL sci_subtract_objects
     RET C
     LD HL, NUM_RESULT
+    LD A, (GRAPH_INTEGRAL_PANELS)
+    CP 32
+    LD DE, p6_const_32
+    JR Z, .panel_constant_ready
+    CP 64
     LD DE, p6_const_64
+    JR Z, .panel_constant_ready
+    LD DE, p6_const_128
+.panel_constant_ready:
     CALL sci_divide_objects
     RET C
     LD HL, NUM_RESULT
@@ -1752,6 +1824,8 @@ p6_calculate_integral:
     LD A, 1
     LD (GRAPH_STATUS), A
 .integral_loop:
+    CALL p6_integral_check_cancel
+    RET C
     LD HL, GRAPH_CURRENT_X
     LD DE, GRAPH_WORK_0
     CALL sci_add_objects
@@ -1765,8 +1839,11 @@ p6_calculate_integral:
     LD DE, GRAPH_WORK_3        ; f(x_i)
     CALL numeric_copy
     LD A, (GRAPH_STATUS)
-    CP 64
+    LD B, A
+    LD A, (GRAPH_INTEGRAL_PANELS)
+    CP B
     JR Z, .weighted
+    LD A, B
     AND 1
     LD DE, const_two
     JR Z, .weight_ready
@@ -1789,8 +1866,10 @@ p6_calculate_integral:
     LD A, (GRAPH_STATUS)
     INC A
     LD (GRAPH_STATUS), A
-    CP 65
-    JP C, .integral_loop
+    LD B, A
+    LD A, (GRAPH_INTEGRAL_PANELS)
+    CP B
+    JP NC, .integral_loop
     LD HL, GRAPH_WORK_2
     LD DE, GRAPH_WORK_0
     CALL sci_multiply_objects
@@ -1798,6 +1877,77 @@ p6_calculate_integral:
     LD HL, NUM_RESULT
     LD DE, p6_const_3
     CALL sci_divide_objects
+    RET
+
+; Compare |current-previous|/15 against tolerance*max(1,|current|).
+; NC means converged; carry means another refinement is required.
+p6_integral_converged:
+    LD HL, GRAPH_RESULT_Y
+    LD DE, GRAPH_RESULT_X
+    CALL sci_subtract_objects
+    RET C
+    LD A, (NUM_RESULT + NUM_FLAGS)
+    AND $7F
+    LD (NUM_RESULT + NUM_FLAGS), A
+    LD HL, NUM_RESULT
+    LD DE, p6_const_15
+    CALL sci_divide_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_WORK_0        ; estimated Simpson error
+    CALL numeric_copy
+    LD HL, GRAPH_RESULT_Y
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    LD A, (NUM_LEFT + NUM_FLAGS)
+    AND $7F
+    LD (NUM_LEFT + NUM_FLAGS), A
+    LD HL, const_one
+    LD DE, NUM_RIGHT
+    CALL numeric_copy
+    CALL numeric_compare_magnitude
+    JR C, .unit_scale
+    JR Z, .unit_scale
+    LD HL, GRAPH_TOLERANCE
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    LD HL, GRAPH_RESULT_Y
+    LD DE, NUM_RIGHT
+    CALL numeric_copy
+    LD A, (NUM_RIGHT + NUM_FLAGS)
+    AND $7F
+    LD (NUM_RIGHT + NUM_FLAGS), A
+    CALL numeric_multiply
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_WORK_1
+    CALL numeric_copy
+    JR .compare
+.unit_scale:
+    LD HL, GRAPH_TOLERANCE
+    LD DE, GRAPH_WORK_1
+    CALL numeric_copy
+.compare:
+    LD HL, GRAPH_WORK_0
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    LD HL, GRAPH_WORK_1
+    LD DE, NUM_RIGHT
+    CALL numeric_copy
+    CALL numeric_compare_magnitude
+    CCF                         ; compare returns C for error < tolerance
+    RET NZ
+    OR A                        ; equality is also converged
+    RET
+
+p6_integral_check_cancel:
+    CALL events_poll
+    CALL events_get
+    CP KEY_EXIT
+    JP Z, numeric_cancelled_error
+    CP KEY_ON
+    JP Z, numeric_cancelled_error
+    OR A
     RET
 
 p6_publish_result:
@@ -1839,11 +1989,17 @@ p6_publish_root_result:
 p6_numeric_failure:
     XOR A
     LD (GRAPH_PLOT_ACTIVE), A
+    LD A, (NUMERIC_ERROR)
+    OR A
+    JR NZ, .classified
+    LD A, (GRAPH_LAST_ERROR)
+    OR A
+    JR Z, .no_convergence
     LD (NUMERIC_ERROR), A
-    LD HL, p6_text_no_value
-    CALL screen_show_notice
-    SCF
-    RET
+    JR .classified
+.no_convergence:
+    CALL numeric_no_convergence_error
+.classified:
+    JP ui_show_numeric_error
 
-p6_text_no_value: DB "NO NUMERIC RESULT",0
 p6_text_residual: DB "R=",0

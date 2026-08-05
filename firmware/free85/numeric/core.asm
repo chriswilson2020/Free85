@@ -324,6 +324,15 @@ numeric_div_zero_error:
     JR numeric_set_error
 numeric_domain_error:
     LD A, NUM_ERR_DOMAIN
+    JR numeric_set_error
+numeric_recursion_error:
+    LD A, NUM_ERR_RECURSION
+    JR numeric_set_error
+numeric_no_convergence_error:
+    LD A, NUM_ERR_NO_CONVERGENCE
+    JR numeric_set_error
+numeric_cancelled_error:
+    LD A, NUM_ERR_CANCELLED
 numeric_set_error:
     LD (NUMERIC_ERROR), A
     SCF

@@ -144,6 +144,16 @@ is a fourteen-digit value; in degrees, `COS(60)` answers
 it is why results you know should be round sometimes come out a hair off
 in the last digits.
 
+A large angle costs no more than a small one. The circular functions
+reduce their argument by a quotient rather than by repeated subtraction,
+so `SIN(400)` answers `= -0.85091935964129` and `SIN(999999)` answers
+`= -0.97735203155764` as readily as `SIN(1)` does. The supported range
+is one million radians, or one hundred million degrees, and across it
+`SIN` and `COS` are held to about 1E-7. Beyond the boundary a
+fourteen-digit input no longer fixes the angle's phase well enough to be
+worth reporting, and rather than return a plausible number the machine
+says so: `SIN(1.1E6)` answers `PRECISION LOST`.
+
 Each trigonometric function takes exactly one argument; `SIN(1,2)` answers
 `SYNTAX ERROR`. Out-of-range inverse arguments, such as `ASIN(2)`, answer
 `DOMAIN ERROR`. To convert an angle between units explicitly rather than
@@ -283,9 +293,14 @@ With `X^2` stored as the active equation:
 - **`EVAL(x)`** evaluates the active equation: `EVAL(3)` answers `= 9`.
 - **`NDER(x)`** takes a central numerical derivative: `NDER(3)` answers
   `= 6`.
-- **`FNINT(a,b)`** integrates over `[a,b]` with a 64-panel composite
-  Simpson rule: `FNINT(0,2)` answers `= 2.6666666666667`, the fourteen-digit
-  8/3.
+- **`FNINT(a,b)`** integrates over `[a,b]` by comparing composite Simpson
+  estimates rather than trusting one: 32 panels, then 64, and 128 if those
+  two do not yet agree. `FNINT(0,2)` answers `= 2.6666666666667`, the
+  fourteen-digit 8/3. If the estimates will not settle inside that work
+  budget the command answers `NO CONVERGENCE`, and an endpoint where the
+  integrand is undefined answers `DIVIDE BY ZERO`. Neither is a failure of
+  nerve: a refined-looking number that is quietly wrong is worse than a
+  refusal you can act on.
 - **`FMIN(a,b)` and `FMAX(a,b)`** search `[a,b]` and return the *location*
   of the extremum, not its value: `FMIN(-2,2)` answers
   `= 0.00011982342365967`, the numerical minimum of the parabola near zero,
@@ -296,12 +311,20 @@ With `X^2` stored as the active equation:
   returns the midpoint of that chord: with `X^2` stored, `INTER(0,2)`
   answers `= 2`, halfway between the endpoint values `0` and `4`.
 - **`ARC(a,b)`** sums a 64-segment polyline approximation to the arc
-  length: `ARC(0,1)` answers `= 1.4789246603114`.
+  length: `ARC(0,1)` answers `= 1.4789246603137`.
 
-Because every one of them reads the stored equation, none of them can be
-stored as one: a slot holding `EVAL(2)` or `FNINT(0,X)` would have to
-evaluate itself, so every sample fails and the slot plots nothing, as
-Chapter 4: Cartesian Graphing, Drawing, Formats, and Persistence shows.
+Called with arguments alone, each of them reads the active equation, so a
+slot holding `EVAL(2)` in that form would have to evaluate itself. Give
+the command a slot number first and it reads that slot instead:
+`EVAL(slot,x)` and `NDER(slot,x)`, and likewise `FNINT(slot,a,b)`,
+`FMIN(slot,a,b)`, `FMAX(slot,a,b)`, `ARC(slot,a,b)` and
+`INTER(slot,a,b)`, with slots numbered from one. A slot holding
+`NDER(1,X)` therefore plots the derivative of slot 1 as a function of X,
+and one holding `FNINT(1,0,X)` plots its accumulated area, as Chapter 4:
+Cartesian Graphing, Drawing, Formats, and Persistence shows. One nested
+graph evaluation is available, so a slot may read another slot; a slot
+that reaches itself, directly or round a cycle, answers `RECURSION ERROR`
+while the unrelated slots carry on.
 
 If you are arriving from another calculator's manual, the names map like
 this (Free85 spelling first, then the name elsewhere):

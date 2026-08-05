@@ -26,44 +26,57 @@ holding text.
 
 ## The initial condition
 
-The solver needs a starting value for y, and the mode reads it from
-the ordinary variable `Y` (Chapter 2: Variables and Stored Data), but
-only once: the value of `Y` at the moment the mode first starts with no
-saved state becomes the initial condition, and it is frozen from then
-on. Storing a new value into `Y` and replotting changes nothing.
+The solution starts from a point you choose, and both of its
+coordinates are settings of the mode. Press [2nd] [MORE] four times from
+the graph screen to reach `DEQ SETUP`, the fourth graph-format page:
 
-The one way to choose a new initial condition is to reset the mode's
-saved state. Switch to any other graph mode (that is when the `GDEQ`
-object described below is written), open the memory browser of Chapter
-18 (Memory Management) with [2nd] [+], step to `GDEQ`, and press
-[DEL]. The next entry into differential-equation mode rebuilds its
-state from scratch: the mode's equations are cleared, and the initial
-condition is seeded from whatever `Y` holds at that moment. So the
-working order is: store the initial value with, say, `3->Y`, delete
-`GDEQ`, re-enter the mode, and type the equation again.
+![The DEQ setup page: the method, the initial condition, and the keys that edit them](images/ch07-deq-setup.png)
+
+The page names the current method and shows the initial condition as
+`X0` and `Y0`, and its soft keys are `METH X0 Y0 RST GO`. [F2] (`X0`)
+and [F3] (`Y0`) choose which coordinate the [+] and [-] keys edit, and
+the line above the soft keys names the choice: `EDIT X0 WITH +/-`. Each
+press moves the chosen value by the table's step of chapter 4, one unit
+by default, so two presses of [+] carry `X0` from `-10` to `-8`. [F4]
+(`RST`) restores the defaults, `X0` at `XMIN`, `Y0` at `0`, and the
+method to `EULER`. [F5] (`GO`) leaves the page and redraws.
+
+Nothing has to be deleted to change a seed. The equation, the window
+and the table position all stay as they are, and the new initial
+condition takes effect on the next plot.
 
 ## Plotting a solution
 
-The solution starts at the left window edge, x equal to `XMIN`, with y
-at the initial condition, and advances by Euler's method in a fixed
-step of one 127th of the window width, one sample per plotted column.
-There are no solver settings, and the result is deterministic: the same
-equation, window, and initial condition always draw the same curve.
-Other calculators pair their differential-equation modes with the
-differentiation-mode settings `dxDer1` and `dxNDer`; Free85 has no such
-settings, and the fixed Euler step is the whole numerical story.
+The solution starts at `X0` with y at `Y0` and advances in a fixed step
+of one 127th of the window width, one sample per plotted column. [F1]
+(`METH`) on the setup page cycles the method through `EULER`, `HEUN`
+and `RK4`. Euler takes one slope per step, Heun averages the slope at
+each end of the step, and `RK4` combines four of them. Halving the step
+divides Euler's error by about two, Heun's by about four, and RK4's by
+about sixteen, which is what first, second and fourth order mean in
+practice. The result stays deterministic: the same equation, window,
+initial condition and method always draw the same curve.
 
-For the worked example, select the mode on a fresh machine (so the
-initial condition seeds from `Y` holding 0), press [EXIT], type [1],
-and press [GRAPH]:
+The step is set by the window rather than chosen adaptively, so this is
+not a stiff solver and does not claim to be one. An equation whose
+solution runs away faster than the window can follow gives up rather
+than inventing a curve, and reports `NO CONVERGENCE`. Other calculators
+pair their differential-equation modes with the differentiation-mode
+settings `dxDer1` and `dxNDer`; Free85 has no such settings, and the
+method and the window between them are the whole numerical story.
+
+For the worked example, select the mode on a fresh machine, so the
+initial condition holds its defaults of `X0` at `-10` and `Y0` at `0`,
+press [EXIT], type [1], and press [GRAPH]:
 
 ![The Euler solution of dy/dx=1 from the initial condition 0](images/ch07-diffeq-line.png)
 
 A constant slope of 1 integrates to the straight line through (-10, 0)
-with unit slope. Seeding `3->Y` before the mode's first start moves the
-same line up through (-10, 3). For a curve the step size actually
-shapes, store `0.05` in `Y`, reset as above, and plot `Y` as the
-equation: dy/dx = y grows an Euler exponential across the window.
+with unit slope. Three presses of [+] after [F3] (`Y0`) move the same
+line up through (-10, 3), with no deletion and no re-entry. For a curve
+the method actually shapes, plot `Y` as the equation: dy/dx = y grows
+an exponential across the window, and cycling [F1] through `EULER`,
+`HEUN` and `RK4` visibly changes where it ends up on the right.
 Plotting draws left to right and cancels like every other mode: [EXIT]
 or [CLEAR] mid-plot returns to the home screen with the equation on the
 entry line.
@@ -103,10 +116,12 @@ trace or the table above; the calculus keys see only the slope.
 ## What the mode remembers
 
 Like the other modes, differential-equation mode saves its equations,
-slots, window, table position, and frozen initial condition to the
-store object `GDEQ` when you leave it, and restores them exactly when
-you return. Its memory-browser entry looks exactly as chapter 5
-describes, and deleting it is the reset lever described above, the only
-one the mode has. Appendix A catalogues this chapter's
-workflow as `diffeq-editor`, `diffeq-plot`, `diffeq-explore`, and
-`diffeq-solve`.
+slots, window, table position, and now its initial condition and method
+to the store object `GDEQ` when you leave it, and restores them exactly
+when you return. Its memory-browser entry looks exactly as chapter 5
+describes. A `GDEQ` saved by an earlier firmware still loads, and gains
+the setup fields on the next save; deleting the object remains a way to
+clear the mode entirely, but it is no longer how an initial condition
+is changed. Appendix A catalogues this chapter's workflow as
+`diffeq-editor`, `diffeq-plot`, `diffeq-explore`, `diffeq-solve`, and
+`diffeq-setup`.

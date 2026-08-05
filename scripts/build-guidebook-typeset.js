@@ -31,9 +31,9 @@ if (pagedPolyfill.includes("</script")) {
   throw new Error("paged.polyfill.js contains '</script' and cannot be inlined");
 }
 
-const EDITION = "For firmware 2.10 · Second Edition";
-// Explorations is a new book, so it carries its own edition line.
-const COMPANION_EDITION = "For firmware 2.10 · First Edition";
+const EDITION = "For firmware 2.20 · Second Edition";
+// Explorations keeps its own constant so the two can diverge again.
+const COMPANION_EDITION = "For firmware 2.20 · Second Edition";
 const PROJECT_URL = "chriswilson2020.github.io/Free85";
 
 // ---------------------------------------------------------------- keycaps --
@@ -337,7 +337,7 @@ function colophonHtml(title, { edition = EDITION, note = "" } = {}) {
     + ` not affiliated with or endorsed by Texas Instruments.</p>`
     + `<p>Free85 is open source under the MIT License. See the LICENSE file`
     + ` for the licence text and NOTICE.md for the project notices.</p>`
-    + `<p>Free85 2.10 · Typeset from the Markdown sources with pandoc and`
+    + `<p>Free85 2.20 · Typeset from the Markdown sources with pandoc and`
     + ` Paged.js, and rendered to PDF by headless Chromium. Set in Charter,`
     + ` Helvetica Neue, and Menlo.</p>`
     + `<p>https://${PROJECT_URL}/</p>`

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "release": "2.19.0",
-  "phase": "15.5",
+  "release": "2.20.0",
+  "phase": "15.6",
   "clock_hz": 6000000,
   "key_response": {
     "frames": 1,
@@ -10,19 +10,19 @@
   "evaluation": {
     "arithmetic": {
       "frames": 3,
-      "tstates": 360029,
+      "tstates": 360010,
       "result": "751.33333333333",
       "error": 0
     },
     "sin": {
       "frames": 13,
-      "tstates": 1560073,
+      "tstates": 1560057,
       "result": "0.84147098480797",
       "error": 0
     },
     "sin_large": {
       "frames": 17,
-      "tstates": 2040080,
+      "tstates": 2040091,
       "result": "-0.3499934460541",
       "error": 0
     },
@@ -40,7 +40,7 @@
     },
     "integral": {
       "frames": 159,
-      "tstates": 19080785,
+      "tstates": 19080789,
       "result": "2.6666666666667",
       "error": 0
     }
@@ -48,19 +48,19 @@
   "graph": {
     "linear": {
       "frames": 123,
-      "tstates": 15240554
+      "tstates": 15240618
     },
     "quadratic": {
       "frames": 293,
-      "tstates": 35641165
+      "tstates": 35641245
     },
     "sine": {
       "frames": 2326,
-      "tstates": 279609939
+      "tstates": 279609835
     },
     "derivative": {
       "frames": 844,
-      "tstates": 101763773
+      "tstates": 101763821
     },
     "accumulator": {
       "frames": 23257,
@@ -69,7 +69,7 @@
   },
   "improvement_percent": {
     "evaluation": {
-      "arithmetic": -0.01,
+      "arithmetic": 0,
       "sin": 0,
       "sin_large": null,
       "exp": 43.48,

@@ -134,6 +134,15 @@ test("[phase15.5.completion] 2.19 closes both workflow owners and records the bo
   }
 });
 
+test("[phase15.6.completion] 2.20 closes the hardening package after every dependency", async () => {
+  const roadmap = await readJson("spec/free85/v2.20-roadmap.yaml");
+  const workPackage = roadmap.workPackages.find(({ id }) => id === "15.6");
+  assert.equal(workPackage.status, "complete");
+  assert.equal(workPackage.release, "2.20.0");
+  assert.deepEqual(workPackage.dependsOn, roadmap.workPackages.slice(0, -1).map(({ id }) => id));
+  assert.ok(roadmap.workPackages.every(({ status }) => status === "complete"));
+});
+
 test("[phase15.books] every quality correction has an explicit deferred book revision", async () => {
   const quality = await readJson("spec/free85/numerical-quality.yaml");
   const impact = await readJson("spec/free85/v2.20-book-impact.yaml");

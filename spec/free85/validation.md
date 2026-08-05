@@ -195,3 +195,10 @@ imaginary metadata, including corrupt-shape rollback. Counted-loop vectors
 cover legacy syntax, expression and function-comma bounds, signed 16-bit
 limits, default/positive/negative steps, descending and empty ranges, nesting,
 domain failures, boundary overshoot, and physical ON interruption.
+
+Phase 15.6 is the Free85 2.20.0 release-hardening gate. It rejects any remaining
+Phase 15 skipped/TODO test, adds deterministic seeded counted-loop vectors, and
+binds the full functional and exact-framebuffer suite to migration, performance,
+10,000-key stress, 9,000-frame soak, clean two-build ROM/Pages reproducibility,
+and the optional user-owned-ROM oracle lane. The oracle skips cleanly when its
+private input is absent and is never required by public CI.

@@ -63,6 +63,10 @@ mathematical references rather than TI output.
   without losing shape, coordinate, or complex metadata. `FOR` accepts evaluated
   signed 16-bit bounds, an optional nonzero step, descending and empty ranges,
   while retaining the original one-digit syntax.
+- **15.6 / 2.20:** all Phase 15 TODO probes are closed. Exact visual fixtures,
+  seeded randomized vectors, migration/failure paths, performance budgets,
+  stress, soak, clean rebuilds, Pages, and the optional private oracle lane are
+  owned by the release command and bound to the final manifests.
 
 ## Explicit boundary
 

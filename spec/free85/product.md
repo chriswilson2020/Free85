@@ -5,7 +5,7 @@ firmware for the TI-85-compatible machine layer in this repository. It runs on
 the emulated Z80 and calculator hardware and does not require services from the
 original TI firmware.
 
-The current stable release is Free85 2.19.0 (Phase 15.5): an exact 128 KiB
+The current stable release is Free85 2.20.0 (Phase 15.6): an exact 128 KiB
 ROM with persistent RAM schema 13, object-store schema 1, a closed applicable
 2.0 parity ledger, independently reproducible ROM and Pages artifacts, typed
 numerical errors, bounded convergence-checked integration, and measured

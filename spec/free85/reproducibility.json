@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "release": "2.19.0",
-  "phase": "15.5",
+  "release": "2.20.0",
+  "phase": "15.6",
   "independent_builds": 2,
   "build_tool": {
     "required": "sjasmplus >= 1.21.1",
@@ -10,11 +10,11 @@
   "rom": {
     "path": "ROM/FREE85.ROM",
     "bytes": 131072,
-    "sha256": "8420a1ed9f7e93541475f0d870ebb1600a6e1160f4231d1c45ce4bafa76c1d9d"
+    "sha256": "fc3f889ff0cc0c70f3fd02b74768ce37a4d6c8f2eb8af883d5057d9b6e1e9de3"
   },
   "pages": {
     "files": 13,
-    "sha256": "92e5aefdd179bd49994eb267aa3cddd9a74ec2d835d491d224926616662d295c"
+    "sha256": "d87f0ff7d2f502ee2bca7511aea0cac2b60c1c5b60bf64d7c6c804f1637cb534"
   },
   "inputs": [
     "package.json",

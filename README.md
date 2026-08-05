@@ -16,11 +16,11 @@ The repository includes:
 
 ## Current status
 
-Free85 2.19.0 is the stable Phase 15.5 release. It is a deterministic 128 KiB
+Free85 2.20.0 is the stable Phase 15.6 release. It is a deterministic 128 KiB
 ROM with complete coverage of the applicable Free85 2.0 parity ledger,
 persistent RAM schema 13, object-store schema 1, and independently reproducible
 ROM and GitHub Pages artifacts. The home screen identifies the running release
-as `VERSION 2.19`. Version 2.12 preserves numerical error classes through home,
+as `VERSION 2.20`. Version 2.12 preserves numerical error classes through home,
 graph, table, and program evaluation, and makes `FNINT` compare bounded
 32/64/128-panel Simpson estimates before it publishes a result. Version 2.14
 adds bounded quotient-based trigonometric reduction through one million
@@ -35,6 +35,9 @@ migration of older `GDEQ` objects.
 Version 2.19 adds atomic `R`-to-`A` collection chaining with `ENTER`, preserving
 shape, coordinate, and complex metadata. Program `FOR` now evaluates signed
 16-bit integer bounds and accepts an optional nonzero positive or negative step.
+Version 2.20 freezes those Phase 15 behaviours behind the complete public,
+visual, randomized, performance, migration, stress, soak, reproducibility, and
+optional private-oracle release gate.
 
 The original 1.0 baseline completed Phases 0-13: boot/diagnostics, UI and
 editor, packed-BCD numeric core, expression parsing, scientific functions,
@@ -94,6 +97,8 @@ Heun and RK4 provide independently verified second- and fourth-order methods.
 Phase 15.5 ships as 2.19.0. Pressing `ENTER` while a collection result `R` is
 displayed copies it atomically into `A`; `FOR V,start,end[,step]` accepts
 evaluated integer expressions, descending loops, and empty ranges.
+Phase 15.6 ships as 2.20.0, closes the roadmap, converts every Phase 15 TODO to
+an ordinary passing test, and freezes the ROM hash for the deferred book update.
 
 ## Run the calculator
 

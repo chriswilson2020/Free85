@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "release": "2.20.0",
+  "umbrellaPhase": 15,
+  "requires": ["free85-2.11.1"],
+  "completionRule": "Every Phase 15 numerical-quality issue is resolved or explicitly deferred to the dynamic-workspace major release, and every 2.20 release gate passes",
+  "workPackages": [
+    {
+      "id": "15.0",
+      "name": "baseline-and-failure-catalogue",
+      "release": null,
+      "dependsOn": [],
+      "owns": ["quality.contract"],
+      "gates": [
+        "every reviewed weakness has a stable identifier and owner",
+        "current failures have executable baseline probes where the future interface is defined",
+        "the existing 2.11.1 validation suite remains green"
+      ]
+    },
+    {
+      "id": "15.1",
+      "name": "error-integrity-and-safe-integration",
+      "release": "2.12.0",
+      "dependsOn": ["15.0"],
+      "owns": ["numeric.error-integrity", "numeric.integration-safety"],
+      "gates": [
+        "syntax domain divide overflow and convergence failures remain distinct through every evaluator",
+        "integration supplies a bounded convergence check and never publishes the pendulum failure as trustworthy",
+        "integration remains deterministic cancellable and within its performance budget"
+      ]
+    },
+    {
+      "id": "15.2",
+      "name": "trigonometric-range-reduction",
+      "release": "2.14.0",
+      "dependsOn": ["15.1"],
+      "owns": ["numeric.trig-reduction"],
+      "gates": [
+        "the repeated-subtraction cliff is removed",
+        "the guaranteed angle range and accuracy are measured and published",
+        "large-angle evaluation is bounded and interruptible"
+      ]
+    },
+    {
+      "id": "15.3",
+      "name": "reentrant-calculus",
+      "release": "2.16.0",
+      "dependsOn": ["15.1", "15.2"],
+      "owns": ["numeric.calculus-context"],
+      "gates": [
+        "calculus commands can name a graph slot without corrupting their caller",
+        "direct and indirect equation cycles fail with the correct diagnostic",
+        "derivative and accumulator plots have reviewed framebuffers and independent numeric vectors"
+      ]
+    },
+    {
+      "id": "15.4",
+      "name": "differential-equation-redesign",
+      "release": "2.18.0",
+      "dependsOn": ["15.1", "15.3"],
+      "owns": ["graph.diffeq-state", "graph.diffeq-solver"],
+      "gates": [
+        "X0 and Y0 are directly editable without deleting the stored equation",
+        "Euler Heun and RK4 meet independently measured convergence orders",
+        "DEQ state migration reset cancellation and non-convergence paths are deterministic"
+      ]
+    },
+    {
+      "id": "15.5",
+      "name": "workflow-restrictions",
+      "release": "2.19.0",
+      "dependsOn": ["15.0"],
+      "owns": ["collections.result-chaining", "program.for-expressions"],
+      "gates": [
+        "result-to-input copying preserves shape coordinate and complex metadata atomically",
+        "FOR accepts evaluated integer bounds and an optional nonzero step",
+        "legacy programs and collection workflows remain compatible"
+      ]
+    },
+    {
+      "id": "15.6",
+      "name": "release-hardening",
+      "release": "2.20.0",
+      "dependsOn": ["15.0", "15.1", "15.2", "15.3", "15.4", "15.5"],
+      "owns": ["release.2.20"],
+      "gates": [
+        "all Phase 15 TODO probes have become ordinary passing tests",
+        "public visual randomized performance stress soak migration and optional oracle lanes pass",
+        "ROM Pages reports and release artifacts reproduce from a clean checkout"
+      ]
+    }
+  ],
+  "deferred": [
+    {
+      "id": "workspace.dynamic-capacity",
+      "target": "3.0.0",
+      "reason": "Larger matrices lists vectors and programs require a dynamic RAM workspace, editor changes, algorithm resizing, and persistent-schema migration."
+    }
+  ]
+}

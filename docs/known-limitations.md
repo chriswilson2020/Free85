@@ -18,14 +18,30 @@ it is not a binary-compatible replacement for Texas Instruments firmware.
   ordinary decimal arithmetic retains the wider packed-BCD range.
 - Home calculus callables operate on the active Y1 equation. They intentionally
   use short `EVAL(x)`/`FNINT(a,b)` forms instead of accepting an expression and
-  variable as additional arguments.
+  variable as additional arguments. A calculus callable stored inside a graph
+  slot is refused to protect the single-level evaluator context.
+- Circular functions reduce their arguments by repeatedly adding or
+  subtracting two pi. The bounded reducer refuses angles which need 64 passes,
+  creating a practical limit near 399 radians.
+- `FNINT` uses one 64-panel composite Simpson estimate. It has no refinement
+  comparison or error estimate, so singular, sharply peaked, or poorly sampled
+  integrands can return a seriously inaccurate finite value without warning.
+- Differential-equation graphing uses fixed-step Euler integration. Its initial
+  Y value is frozen in the saved `GDEQ` state; choosing another currently
+  requires deleting that object and re-entering the equation.
 - Lists contain at most eight values, matrices are at most 3x3, vectors have at
   most three components, simultaneous systems are at most 4x4, and polynomial
-  solving is limited to degree four.
+  solving is limited to degree four. Collection results land in read-only `R`
+  and there is not yet an atomic result-to-input copy operation.
 - The programming environment provides four programs of eight 48-character
-  lines each, eight nested control frames, and four nested calls.
+  lines each, eight nested control frames, and four nested calls. `FOR` bounds
+  are single digits from 0 through 9 and its step is always positive one.
 - Free85 2.10.0 freezes persistent RAM schema 13 and object-store schema 1. It
   migrates schema 12 transactionally; unsupported or corrupt schema headers
   are reset rather than interpreted speculatively.
 - The browser integration targets the repository's TI-85-compatible emulator;
   physical-hardware installation is not part of the 2.10.0 release validation.
+
+The accepted Phase 15 roadmap owns the numerical and workflow limitations
+above for Free85 2.20. Larger dynamic collections and program stores remain a
+separate potential Free85 3.0 workspace redesign.

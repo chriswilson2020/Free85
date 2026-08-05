@@ -545,25 +545,34 @@ may leave the outlet, and the question is what the inlet may carry.
    and publishes `= 1.9796408183505`, the fourteen-digit face of that
    `1.979` cell.
 
-   Now try a second shot, and watch the mode refuse. Press [CLEAR] and
-   store a new seed: [1] [2] [STO▶] [ALPHA] [0] [ENTER] answers `= 12`.
-   Press [CLEAR], retype `-.02*Y^2`, and press [GRAPH]. Let the plot
-   finish and press [MORE]: the table reopens where it was, and the outlet
-   still reads `1.979`.
+   Now try a second shot the obvious way, and watch it fail. Press [CLEAR]
+   and store a new seed: [1] [2] [STO▶] [ALPHA] [0] [ENTER] answers
+   `= 12`. Press [CLEAR], retype `-.02*Y^2`, and press [GRAPH]. Let the
+   plot finish and press [MORE]: the table reopens where it was, and the
+   outlet still reads `1.979`.
 
-   Nothing moved.
+   Nothing moved, and that is worth understanding rather than working
+   around. `Y` seeds the mode at the moment the mode is *created*. After
+   that the initial condition belongs to the mode, and storing into `Y` is
+   talking to the wrong thing.
 
-   The initial value was frozen when the mode was created, and the only
-   lever that resets it is deleting the `GDEQ` object.
+   So talk to the right thing. Press [EXIT] to leave the table, press
+   [2nd] [MORE] four times for `DEQ SETUP`, press [F3] (`Y0`), press [+]
+   twice to carry the seed from 10 to 12, and press [F5] (`GO`). Let the
+   plot finish, then press [MORE] and read the outlet cell again. It has
+   moved, the equation is untouched, and the window is where you left it.
 
-   That is the ritual of section 7.6: leave the mode, delete `GDEQ` in the
-   memory browser, reseed, and come back. Then retype the equation, which
-   deleting `GDEQ` has also cleared.
+   That is three keys a shot. In the first edition of this book it was
+   about twenty, because the seed lived in a store object and the only way
+   to change your mind was to delete the object, which cleared your
+   equation along with it. I wrote then that I would not defend it as a
+   design. I did not have to defend it for long.
 
-   That is around twenty deliberate presses per shot, and shooting wants
-   half a dozen shots. I will not defend that as a design. It is the price
-   of the mode keeping its state in a store object, and if you want to
-   shoot, you want a program.
+   Which leaves a better reason to write the program than the one I gave
+   before. It is no longer that the mode is painful. It is that shooting
+   is a *search*, and a search wants a number out rather than a picture to
+   squint at: the program below returns the outlet value directly, so you
+   can compare two shots by subtracting them instead of by eye.
 
 ### So the mode gives the picture and a program gives the practice
 

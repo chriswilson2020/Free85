@@ -1622,11 +1622,13 @@ Now subtract the first two: press [CLEAR] and type
 That is *not* `1.3862945205893`. They differ by about four and a half
 millionths.
 
-The mathematics is exact and the arithmetic is not. `FNINT(` puts 64 panels
-across whatever interval it is given, so the 1-to-8 integral used panels
+The mathematics is exact and the arithmetic is not. `FNINT(` fits its
+panels to whatever interval it is given, so the 1-to-8 integral used panels
 seven times wider than the 1-to-2 one, and the three answers were computed
-at three different resolutions. Additivity holds for integrals and only
-approximately for their estimates.
+at three different resolutions. Comparing coarse and fine estimates catches
+an estimate that is not converging at all; it does not make two converged
+estimates on different intervals add up exactly. Additivity holds for
+integrals and only approximately for their estimates.
 
 **3.** Any pair in the ratio 2 works: 5 to 10, 7 to 14, 100 to 200. Each
 gives about 0.693, because the logarithm turns ratios into differences and
@@ -1731,7 +1733,8 @@ exponents. Route it through the identity: store `EXP(LN(X)*(-2/3))`.
 The plot will fail, because the standard window includes negative x and
 there is no logarithm of a negative number. The equation is stored all the
 same, and `FNINT(` works. Be patient with it: a logarithm and an
-exponential at each of 64 panels is slow.
+exponential at every panel is slow, and there are at least 96 panels
+between the coarse estimate and the one it is checked against.
 
 On paper the integral from a to 1 is 3(1 - a^(1/3)), so it climbs to 3.
 
@@ -2377,9 +2380,9 @@ positive times negative, so negative: solutions fall back to 3. So 3 is
 stable, and 0 and 6 are unstable.
 
 Predicting the fate of a solution started in each gap needs only the sign of
-the product, which you can do in your head. Checking them all costs one
-`GDEQ` deletion each, which is where your patience gives out, and that is
-the honest cost of the mode's frozen initial value.
+the product, which you can do in your head. Checking them all costs three
+keys each on the `DEQ SETUP` page: [F3], the [+] or [-] presses that move
+`Y0` where you want it, and [F5]. Check every one of them.
 
 ## 9.8 Solutions for Chapter 8
 

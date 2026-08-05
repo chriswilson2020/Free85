@@ -73,7 +73,12 @@ minutes, the rule is dy/dx = -0.15y.
    Write that shape down. In a moment you will see whether you were right,
    and being right for the right reason here is worth more than the plot.
 
-2. Seed the initial value. Press [CLEAR], type [9] [STO▶] [ALPHA] [0] (the
+2. Seed the initial value, and check the method while you are at it: the
+   mode starts on `EULER`, which is what this section wants, and [2nd]
+   [MORE] pressed four times shows it under `METHOD` on the `DEQ SETUP`
+   page. Section 7.5 changes it.
+
+   Press [CLEAR], type [9] [STO▶] [ALPHA] [0] (the
    letter `Y`), and press [ENTER]: `= 9`.
 
 3. Press [CLEAR], then [GRAPH] for the graph screen, then [2nd] [MORE] for
@@ -485,6 +490,20 @@ undercorrected it.
 Seven improved steps beat twenty-eight plain ones by nearly ten to one, and
 they ask `EVAL(` half as many times to do it. That is the whole argument
 for better methods in one table.
+
+The mode has this method built in, and has had since firmware 2.18. On the
+`DEQ SETUP` page ([2nd] [MORE] four times), [F1] cycles `METHOD` through
+`EULER`, `HEUN` and `RK4`; `HEUN` is the method you have just written by
+hand, and `RK4` takes four slopes per step instead of two and quarters its
+error again twice over.
+
+Which raises the obvious question: why write it, if it is already there?
+Because a method you have not built is a method you are trusting. You now
+know what `HEUN` costs, why it overshoots a curve of this shape, and what
+its error does when you halve the step, and none of that is visible from
+the outside of a menu. Select it on the setup page from here on, and plot
+the same equation under all three: the shapes you get are the table above,
+drawn.
 
 **Try it.**
 

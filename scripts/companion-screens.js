@@ -617,6 +617,14 @@ export const SCREEN_CASES = [
   // Chapter 5 section 5.5: FNINT(3,6) on the stored 1/X matching the area
   // from 1 to 2, after the section's exact probe order (the 2*X accumulator
   // first, then the logarithm probes).
+  // Section 5.5's accumulator, now plottable: 2*X in Y1 and the explicit
+  // FNINT(1,0,X) in Y2, which draws x squared. Every column of Y2 is a
+  // whole integration, so this one needs a long settle.
+  {
+    name: "co05-accumulator-plot",
+    keys: ["2", "*", "X-VAR", "GRAPH", 3000, "EXIT", 60, "2ND", "2", 60,
+      ...FNINT_KEYS, "(", "1", ",", "0", ",", "X-VAR", ")", "GRAPH", 40000]
+  },
   {
     name: "co05-accumulator",
     keys: ["2", "*", "X-VAR", "GRAPH", 1200, "EXIT", 30, "CLEAR",

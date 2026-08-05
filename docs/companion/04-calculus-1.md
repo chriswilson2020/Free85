@@ -628,25 +628,27 @@ every point of the curve has a slope, so the slopes are themselves a
 function of x, and that function is the thing calculus actually cares
 about.
 
-You might reasonably try to plot it directly. It does not work, and it is
-worth seeing why.
+You can plot it directly, and there is one wrong way to ask that is worth
+meeting first.
 
 7. With `X^3-2*X` still in `Y1`, press [2nd] [2] for slot `Y2`, spell
-   `NDER(X)`, and press [GRAPH]. Then press [MORE] for the table.
+   `NDER(X)`, and press [GRAPH].
 
-   The `Y2` column reads `UNDEF` in every row.
+   `Y2` stops with `RECURSION ERROR`, and `Y1` carries on drawing.
 
-   The calculus commands will not run from inside a graph slot.
+   `NDER(x)` in that form reads *the active stored equation*, so a slot
+   holding it is asking the machine to differentiate the equation it is in
+   the middle of evaluating. Rather than chase its own tail it says so, and
+   says so once rather than at every sample.
 
-   That is a deliberate refusal and not a bug, though it is one I inherited
-   from the design rather than chose. These commands read *the active
-   stored equation*, so a slot asking one of them for a value is asking the
-   machine to evaluate the equation it is in the middle of evaluating.
+   Name the slot you actually mean and it is ordinary work. Press [CLEAR],
+   spell `NDER(1,X)`, and press [GRAPH]: slot 2 now reads slot 1, and the
+   derivative draws as a curve in its own right. One nested evaluation is
+   available, which is enough for a slot to read another slot but not
+   enough for the two of them to read each other; a pair that does stops
+   with the same `RECURSION ERROR`.
 
-   Rather than chase its own tail, it declines, once per sample, quietly.
-   Chapter 5 meets the same refusal from `FNINT(`.
-
-8. So type the quotient out in full instead. It is longer but it has no
+8. It is still worth typing the quotient out in full. It is longer but it has no
    such problem, because it mentions no commands at all. Press [2nd] [1],
    press [CLEAR], and type
 

@@ -53,8 +53,8 @@
     {
       "name": "phase19-home-version",
       "keys": [],
-      "litPixelCount": 743,
-      "checksum": "EE7CA56E"
+      "litPixelCount": 738,
+      "checksum": "362970FE"
     },
     {
       "name": "phase7-complex-editor",
@@ -216,8 +216,8 @@
         "STOP"
       ],
       "frames": 1,
-      "litPixelCount": 301,
-      "checksum": "53C0642D"
+      "litPixelCount": 312,
+      "checksum": "6D500A93"
     },
     {
       "name": "phase20-positioned-output",

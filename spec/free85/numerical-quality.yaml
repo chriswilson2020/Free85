@@ -6,14 +6,20 @@
   "issues": [
     {
       "id": "numeric.error-integrity",
-      "status": "known-limitation",
+      "status": "resolved",
       "owner": "15.1",
       "targetRelease": "2.12.0",
+      "resolvedRelease": "2.12.0",
       "summary": "Nested graph and calculus evaluation can erase a numeric error or replace a runtime/context failure with SYNTAX ERROR.",
       "baselineEvidence": [
         "firmware/free85/graph/phase6.asm:p6_evaluate_slot_source",
         "firmware/free85/graph/phase6.asm:p6_numeric_failure",
         "firmware/free85/numeric/utilities.asm:utility_calculus_call"
+      ],
+      "resolutionEvidence": [
+        "test/free85/phase15-integration.test.js:[phase15.error-integrity]",
+        "test/free85/phase15-integration.test.js:[phase15.error-contexts]",
+        "firmware/free85/programming/phase10.asm:p10_runtime_evaluation"
       ],
       "acceptance": [
         "syntax errors are reserved for unreadable expressions",
@@ -23,13 +29,20 @@
     },
     {
       "id": "numeric.integration-safety",
-      "status": "known-limitation",
+      "status": "resolved",
       "owner": "15.1",
       "targetRelease": "2.12.0",
+      "resolvedRelease": "2.12.0",
       "summary": "FNINT uses one fixed 64-panel Simpson estimate and can silently publish a grossly inaccurate finite result.",
       "baselineEvidence": [
         "firmware/free85/graph/phase6.asm:p6_calculate_integral",
         "test/free85/phase15-baseline.test.js:[phase15.integration-safety]"
+      ],
+      "resolutionEvidence": [
+        "test/free85/phase15-integration.test.js:[phase15.integration-smooth]",
+        "test/free85/phase15-integration.test.js:[phase15.integration-unsafe]",
+        "test/free85/phase15-integration.test.js:[phase15.integration-cancel]",
+        "firmware/free85/graph/phase6.asm:p6_calculate_integral"
       ],
       "acceptance": [
         "smooth reference integrals retain or improve existing accuracy",

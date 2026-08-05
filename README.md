@@ -16,11 +16,13 @@ The repository includes:
 
 ## Current status
 
-Free85 2.10.0 is the stable Phase 14.10 release. It is a deterministic 128 KiB
+Free85 2.12.0 is the stable Phase 15.1 release. It is a deterministic 128 KiB
 ROM with complete coverage of the applicable Free85 2.0 parity ledger,
 persistent RAM schema 13, object-store schema 1, and independently reproducible
 ROM and GitHub Pages artifacts. The home screen identifies the running release
-as `VERSION 2.10`.
+as `VERSION 2.12`. Version 2.12 preserves numerical error classes through home,
+graph, table, and program evaluation, and makes `FNINT` compare bounded
+32/64/128-panel Simpson estimates before it publishes a result.
 
 The original 1.0 baseline completed Phases 0-13: boot/diagnostics, UI and
 editor, packed-BCD numeric core, expression parsing, scientific functions,
@@ -61,6 +63,13 @@ characters, typed memory accounting, and fault-tested Free85 link transfer and
 backup workflows. Phase 14.10 freezes schema 13, closes the applicable parity
 ledger, and publishes independently rebuilt ROM and Pages hashes. Physical-cable
 validation remains explicitly separate from the emulator-tested 2.0 release.
+
+Phase 15 is the accepted numerical-integrity programme leading to Free85 2.20.
+Phase 15.1 ships as 2.12.0: syntax, domain, division, overflow, recursion,
+non-convergence, and cancellation remain distinct, while unsafe quadrature is
+refused instead of being displayed as a trustworthy finite answer. The book
+sources remain on their published 2.10 behaviour until the final 2.20 editorial
+pass; the exact corrections are tracked in the book-impact handoff.
 
 ## Run the calculator
 

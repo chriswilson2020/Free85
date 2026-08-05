@@ -353,6 +353,7 @@ ui_notice_evaluator:
 ui_evaluate:
     CALL numeric_evaluate_editor
     JP NC, screen_show_home
+ui_show_numeric_error:
     LD A, (NUMERIC_ERROR)
     CP NUM_ERR_DIV_ZERO
     LD HL, notice_div_zero
@@ -362,6 +363,15 @@ ui_evaluate:
     JP Z, screen_show_notice
     CP NUM_ERR_DOMAIN
     LD HL, notice_domain
+    JP Z, screen_show_notice
+    CP NUM_ERR_RECURSION
+    LD HL, notice_recursion
+    JP Z, screen_show_notice
+    CP NUM_ERR_NO_CONVERGENCE
+    LD HL, notice_no_convergence
+    JP Z, screen_show_notice
+    CP NUM_ERR_CANCELLED
+    LD HL, notice_cancelled
     JP Z, screen_show_notice
     LD HL, notice_syntax
     JP screen_show_notice

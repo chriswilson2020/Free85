@@ -80,7 +80,7 @@ test.todo("[phase15.trig-range] large representable angles remain numerically su
   }
 });
 
-test.todo("[phase15.integration-safety] an endpoint singularity cannot publish an unqualified nonsense result", () => {
+test("[phase15.integration-safety] an endpoint singularity cannot publish an unqualified nonsense result", () => {
   const harness = Free85Harness.boot();
   typeExpression(harness, "PI/4");
   harness.tap("STO▶");
@@ -93,8 +93,7 @@ test.todo("[phase15.integration-safety] an endpoint singularity cannot publish a
   harness.tap("ENTER");
   harness.runFrames(5000);
   const error = harness.machine.read8(FREE85_NUMERIC_ERROR_ADDRESS);
-  const value = Number(harness.resultText());
-  assert.ok(error !== 0 || Math.abs(value - 2.31) < 0.1, `expected refusal or approximately 2.31, got ${value}`);
+  assert.ok([2, 6].includes(error), `expected DIVIDE BY ZERO or NO CONVERGENCE, got ${error} and ${harness.resultText()}`);
 });
 
 test.todo("[phase15.calculus-target] calculus commands can explicitly evaluate a stored graph slot", () => {

@@ -79,7 +79,7 @@ p20_goto_saved:
 
 p20_command_repeat:
     CALL p10_eval_span
-    JP C, p10_runtime_syntax
+    JP C, p10_runtime_evaluation
     LD HL, NUM_RESULT
     CALL numeric_is_zero
     JR Z, .repeat
@@ -146,7 +146,7 @@ p20_command_skip:
     DEC B
     DEC B
     CALL p10_eval_span
-    JP C, p10_runtime_syntax
+    JP C, p10_runtime_evaluation
     LD HL, NUM_RESULT
     LD DE, P20_NUM_TEMP
     CALL numeric_copy
@@ -658,7 +658,7 @@ p20_command_vset:
     DEC B
     DEC B
     CALL p10_eval_span
-    JP C, p10_runtime_syntax
+    JP C, p10_runtime_evaluation
     LD A, (P20_WAIT_ARG)
     CALL p20_vector_value_pointer
     EX DE, HL
@@ -840,7 +840,7 @@ p20_string_address:
 
 p20_command_cat:
     CALL p10_eval_span
-    JP C, p10_runtime_syntax
+    JP C, p10_runtime_evaluation
     JP p10_advance
 
 p20_command_coll:

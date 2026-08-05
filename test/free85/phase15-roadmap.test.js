@@ -19,6 +19,7 @@ test("[phase15.roadmap] every quality issue has one ordered work-package owner",
   assert.equal(new Set(registered).size, registered.length);
 
   for (const workPackage of roadmap.workPackages) {
+    assert.ok(["complete", "planned"].includes(workPackage.status), `${workPackage.id}: invalid status`);
     assert.ok(workPackage.gates.length >= 3, `${workPackage.id}: insufficient gates`);
     for (const dependency of workPackage.dependsOn) {
       assert.ok(packages.has(dependency), `${workPackage.id}: unknown dependency ${dependency}`);
@@ -42,6 +43,10 @@ test("[phase15.quality] every limitation has evidence, acceptance criteria, and 
     assert.ok(issue.summary.length > 30, `${issue.id}: summary too short`);
     assert.ok(issue.baselineEvidence.length >= 2, `${issue.id}: insufficient evidence`);
     assert.ok(issue.acceptance.length >= 3, `${issue.id}: insufficient acceptance criteria`);
+    if (issue.status === "resolved") {
+      assert.equal(issue.resolvedRelease, issue.targetRelease, `${issue.id}: wrong resolved release`);
+      assert.ok(issue.resolutionEvidence.length >= 2, `${issue.id}: insufficient resolution evidence`);
+    }
   }
 });
 
@@ -51,6 +56,22 @@ test("[phase15.versioning] feature versions advance beyond 2.11 without becoming
   const minors = releases.map((release) => Number(release.split(".")[1]));
   assert.deepEqual(minors, [12, 14, 16, 18, 19, 20]);
   assert.equal(roadmap.deferred.find(({ id }) => id === "workspace.dynamic-capacity").target, "3.0.0");
+});
+
+test("[phase15.1.completion] 2.12 closes its two quality owners and records the book impact", async () => {
+  const roadmap = await readJson("spec/free85/v2.20-roadmap.yaml");
+  const quality = await readJson("spec/free85/numerical-quality.yaml");
+  const impact = await readJson("spec/free85/v2.20-book-impact.yaml");
+  const workPackage = roadmap.workPackages.find(({ id }) => id === "15.1");
+  assert.equal(workPackage.status, "complete");
+  assert.equal(workPackage.release, "2.12.0");
+  for (const id of workPackage.owns) {
+    const issue = quality.issues.find((entry) => entry.id === id);
+    const bookChange = impact.changes.find((entry) => entry.issue === id);
+    assert.equal(issue.status, "resolved", id);
+    assert.equal(issue.resolvedRelease, "2.12.0", id);
+    assert.equal(bookChange.implementedIn, "2.12.0", id);
+  }
 });
 
 test("[phase15.books] every quality correction has an explicit deferred book revision", async () => {

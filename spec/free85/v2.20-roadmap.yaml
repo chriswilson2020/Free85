@@ -8,6 +8,7 @@
     {
       "id": "15.0",
       "name": "baseline-and-failure-catalogue",
+      "status": "complete",
       "release": null,
       "dependsOn": [],
       "owns": ["quality.contract"],
@@ -20,6 +21,7 @@
     {
       "id": "15.1",
       "name": "error-integrity-and-safe-integration",
+      "status": "complete",
       "release": "2.12.0",
       "dependsOn": ["15.0"],
       "owns": ["numeric.error-integrity", "numeric.integration-safety"],
@@ -32,6 +34,7 @@
     {
       "id": "15.2",
       "name": "trigonometric-range-reduction",
+      "status": "planned",
       "release": "2.14.0",
       "dependsOn": ["15.1"],
       "owns": ["numeric.trig-reduction"],
@@ -44,6 +47,7 @@
     {
       "id": "15.3",
       "name": "reentrant-calculus",
+      "status": "planned",
       "release": "2.16.0",
       "dependsOn": ["15.1", "15.2"],
       "owns": ["numeric.calculus-context"],
@@ -56,6 +60,7 @@
     {
       "id": "15.4",
       "name": "differential-equation-redesign",
+      "status": "planned",
       "release": "2.18.0",
       "dependsOn": ["15.1", "15.3"],
       "owns": ["graph.diffeq-state", "graph.diffeq-solver"],
@@ -68,6 +73,7 @@
     {
       "id": "15.5",
       "name": "workflow-restrictions",
+      "status": "planned",
       "release": "2.19.0",
       "dependsOn": ["15.0"],
       "owns": ["collections.result-chaining", "program.for-expressions"],
@@ -80,6 +86,7 @@
     {
       "id": "15.6",
       "name": "release-hardening",
+      "status": "planned",
       "release": "2.20.0",
       "dependsOn": ["15.0", "15.1", "15.2", "15.3", "15.4", "15.5"],
       "owns": ["release.2.20"],

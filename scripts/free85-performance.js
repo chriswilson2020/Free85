@@ -25,7 +25,7 @@ const phase11Baseline = {
 
 const limits = {
   key_response_frames: 1,
-  evaluation_frames: { arithmetic: 4, sin: 15, exp: 30, ln: 70 },
+  evaluation_frames: { arithmetic: 4, sin: 15, exp: 30, ln: 70, integral: 250 },
   graph_frames: { linear: 150, quadratic: 320, sine: 2300 }
 };
 
@@ -53,8 +53,15 @@ function measureKeyResponse() {
   return { frames, tstates: harness.machine.cpu.tStates - start };
 }
 
-function measureEvaluation(expression) {
+function measureEvaluation(expression, equation) {
   const harness = Free85Harness.boot();
+  if (equation) {
+    harness.machine.write8(0x8510, equation.length);
+    for (let index = 0; index < equation.length; index += 1) {
+      harness.machine.write8(0x8511 + index, equation.charCodeAt(index));
+    }
+    harness.machine.write8(0x8501, 1);
+  }
   typeExpression(harness, expression);
   const start = harness.machine.cpu.tStates;
   harness.machine.pressKey("ENTER");
@@ -93,7 +100,8 @@ const evaluation = {
   arithmetic: measureEvaluation("(12+34)*(56-7)/3"),
   sin: measureEvaluation("SIN(1)"),
   exp: measureEvaluation("EXP(1)"),
-  ln: measureEvaluation("LN(2)")
+  ln: measureEvaluation("LN(2)"),
+  integral: measureEvaluation("FNINT(0,2)", "X^2")
 };
 const graph = {
   linear: measureGraph("X"),
@@ -103,8 +111,8 @@ const graph = {
 
 const report = {
   schema_version: 1,
-  release: "2.10.0",
-  phase: "14.10",
+  release: "2.12.0",
+  phase: "15.1",
   clock_hz: 6000000,
   key_response: measureKeyResponse(),
   evaluation,
@@ -112,7 +120,9 @@ const report = {
   improvement_percent: {
     evaluation: Object.fromEntries(Object.entries(evaluation).map(([name, value]) => [
       name,
-      improvement(phase11Baseline.evaluation[name].tstates, value.tstates)
+      phase11Baseline.evaluation[name]
+        ? improvement(phase11Baseline.evaluation[name].tstates, value.tstates)
+        : null
     ])),
     graph: Object.fromEntries(Object.entries(graph).map(([name, value]) => [
       name,

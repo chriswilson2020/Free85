@@ -6,9 +6,9 @@ compatibility with TI programs, files, ROM calls, or internal data structures.
 
 ## Current release
 
-Free85 2.10.0 is the stable Phase 14.10 release. The eight-bank ROM is exactly
-131,072 bytes and has SHA-256
-`dc91f6d59ac3ab930216f7642a68284fdb8d6255170934c9c5733b360df160f0`.
+Free85 2.12.0 is the stable Phase 15.1 release. The eight-bank ROM is exactly
+131,072 bytes; its SHA-256 digest is recorded in
+`spec/free85/release.json`.
 It freezes persistent RAM schema 13 and object-store schema 1. Run
 `npm run validate:free85` for the complete public validation package and use
 `SJASMPLUS=/path/to/sjasmplus npm run verify:free85:reproducible` to reproduce
@@ -114,7 +114,11 @@ bounds. Root finding combines an estimate test, bounded interval scan,
 bisection, and a safeguarded secant refinement; it displays the residual and
 rejects discontinuity sign changes that do not meet tolerance. Extrema use 22
 bounded ternary refinements, derivatives use a central difference with h=1e-5,
-and integration uses the composite Simpson rule with 64 panels. `2ND+CLEAR`
+and integration compares composite-Simpson estimates at 32 and 64 panels,
+refining once to 128 panels when necessary. It publishes only an estimate
+whose Richardson error is within the selected tolerance; otherwise it reports
+`NO CONVERGENCE`. Undefined samples retain their specific numerical error and
+EXIT/ON cancels the bounded calculation. `2ND+CLEAR`
 cycles tolerance through 1e-6, 1e-8, and 1e-10. Numerical failure is a
 recoverable dialog.
 

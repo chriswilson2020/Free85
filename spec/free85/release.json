@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "name": "Free85",
-  "version": "2.10.0",
-  "phase": "14.10",
-  "target_release": "2.10.0",
+  "version": "2.12.0",
+  "phase": "15.1",
+  "target_release": "2.12.0",
   "status": "stable",
   "license": "MIT",
   "persistent_ram": {
@@ -17,7 +17,7 @@
   "rom": {
     "path": "ROM/FREE85.ROM",
     "bytes": 131072,
-    "sha256": "5942f3fce34b437d1f060e513aa4982baf5b41e5bd2154531a22709d851eb0f0",
+    "sha256": "e9163025fee159d1458f5e09375ace704a4634d7e3f21a6c3169e01d03e8ff84",
     "banks": 8,
     "bank_bytes": 16384
   },
@@ -27,7 +27,7 @@
   "performance_report": "spec/free85/performance.json",
   "parity_report": "spec/free85/v2-parity-report.json",
   "reproducibility_report": "spec/free85/reproducibility.json",
-  "release_notes": "docs/Free85-2.0-release.md",
+  "release_notes": "docs/Free85-2.12-release.md",
   "known_limitations": "docs/known-limitations.md",
   "notices": [
     "LICENSE",

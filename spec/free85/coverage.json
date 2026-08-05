@@ -34,20 +34,20 @@
   "tests_referenced": 79,
   "rom_usage": {
     "total_bytes": 131072,
-    "used_bytes": 62033,
-    "free_bytes": 69039,
+    "used_bytes": 62605,
+    "free_bytes": 68467,
     "banks": [
       {
         "page": 0,
-        "used_bytes": 15675,
-        "free_bytes": 709,
-        "percent_used": 95.67
+        "used_bytes": 15762,
+        "free_bytes": 622,
+        "percent_used": 96.2
       },
       {
         "page": 1,
-        "used_bytes": 9896,
-        "free_bytes": 6488,
-        "percent_used": 60.4
+        "used_bytes": 10209,
+        "free_bytes": 6175,
+        "percent_used": 62.31
       },
       {
         "page": 2,
@@ -69,9 +69,9 @@
       },
       {
         "page": 5,
-        "used_bytes": 5451,
-        "free_bytes": 10933,
-        "percent_used": 33.27
+        "used_bytes": 5623,
+        "free_bytes": 10761,
+        "percent_used": 34.32
       },
       {
         "page": 6,

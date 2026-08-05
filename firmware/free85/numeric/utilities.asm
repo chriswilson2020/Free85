@@ -797,11 +797,11 @@ utility_calculus_call:
     ; for this call, so a graph-calculus name inside a graph equation is
     ; refused before any state moves: the context save is single-level, and
     ; these routines walk the same GRAPH_NUMERIC_OP, GRAPH_CURRENT_X and
-    ; GRAPH_STATUS that the caller is standing in. Answer SYNTAX ERROR and let
-    ; the sample fail like any other bad expression.
+    ; GRAPH_STATUS that the caller is standing in. This is a runtime context
+    ; cycle, not malformed input, so retain a distinct recursion diagnostic.
     LD A, (GRAPH_CALC_ACTIVE)
     OR A
-    JP NZ, numeric_syntax_error
+    JP NZ, numeric_recursion_error
     LD A, 1
     LD (GRAPH_CALC_ACTIVE), A
     CALL bank_get

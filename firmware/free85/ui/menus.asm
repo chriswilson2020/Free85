@@ -159,6 +159,9 @@ notice_syntax:       DB "SYNTAX ERROR",0
 notice_div_zero:     DB "DIVIDE BY ZERO",0
 notice_numeric_overflow: DB "NUMERIC OVERFLOW",0
 notice_domain:       DB "DOMAIN ERROR",0
+notice_recursion:    DB "RECURSION ERROR",0
+notice_no_convergence: DB "NO CONVERGENCE",0
+notice_cancelled:    DB "CALCULATION STOPPED",0
 notice_awake:        DB "ALREADY AWAKE",0
 notice_home:         DB "ALREADY AT HOME",0
 notice_no_alpha:     DB "NO ALPHA MAP",0

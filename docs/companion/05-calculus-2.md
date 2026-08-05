@@ -648,10 +648,19 @@ indeterminate forms, one specimen each.
    1 to any power is 1. The catch is that the base is only *heading* for 1,
    and how fast it heads there competes with how fast the exponent grows.
 
-   The specimen is (1 + h) to the power 1/h as h heads for 0. You cannot
-   type that directly, because `^` takes whole exponents from -9 to 9 and
-   1/h is neither whole nor small. Section 1.4's identity is the way
-   through: b to the power x is e to the power x ln b.
+   The specimen is (1 + h) to the power 1/h as h heads for 0. You can type
+   that directly now, and it is worth doing once: `(1+.1)^(1/.1)` answers
+   `= 2.5937424601`, exactly, because 1/.1 is 10 and a whole exponent takes
+   the exact route of section 1.5.
+
+   It is written below through that section's identity instead, b to the
+   power x is e to the power x ln b, for two reasons. The first is that the
+   identity is the form the mathematics is in: the whole question is a race
+   between `LN(1+h)` heading for 0 and the `1/h` multiplying it heading for
+   infinity, and this way both are on the screen where you can watch them.
+   The second is that `1/h` stops being a whole number the moment h stops
+   being a power of ten, so the direct form would quietly change route
+   partway down the table while the identity holds one method throughout.
 
    So type `EXP(LN(1+.1)/.1)` and press [ENTER]. Pressing [CLEAR] before
    each, work down:

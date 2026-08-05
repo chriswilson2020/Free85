@@ -441,9 +441,11 @@ coefficients from `A` and the right-hand sides from `B`'s first column.
 
 ## 2.5 The mathematics of money
 
-Section 1.5 left money compounding through `EXP(` and `LN(`, because `^`
-takes whole exponents from -9 to 9 and the identity b to the x equals e to
-the x ln b carries the fractional cases.
+Section 1.5 left money compounding through `EXP(` and `LN(`. The `^` key
+will now take a fractional exponent directly, and for a whole number of
+years it is the exact route and the better one, but the identity b to the x
+equals e to the x ln b is what the solver below needs: an equation it can
+rearrange, not an operator it must invert.
 
 The solver workspace turns that identity from a formula you evaluate into
 an equation you can interrogate from any side. The same line answers what

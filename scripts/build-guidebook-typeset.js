@@ -800,7 +800,7 @@ function buildCompanion() {
   // Chapter 9 is written a chapter at a time. Raise this as each set of
   // solutions lands; it reaches 8 when the chapter is complete, and until
   // then it still catches a swallowed heading.
-  const SOLUTION_SECTIONS_WRITTEN = 1;
+  const SOLUTION_SECTIONS_WRITTEN = 4;
   if (stats.solutions !== SOLUTION_SECTIONS_WRITTEN) {
     throw new Error(`companion: expected ${SOLUTION_SECTIONS_WRITTEN} solution `
       + `sections, found ${stats.solutions}`);

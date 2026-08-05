@@ -196,7 +196,7 @@ one unmoving point beneath all of them.
 
 **Try it.**
 
-1. Rerun the elimination after a [F2], `SWAP`, so the 3, 4, 11 row is on
+1. Rerun the elimination after a [F2], `SWP`, so the 3, 4, 11 row is on
    top. The moves need different scales; predict whether the finished
    tableau differs before you start.
 2. Rescale row 1 of the original tableau by 10 with `RMUL`, carry the

@@ -1866,7 +1866,8 @@ in a way that matters. `COND` in section 6.3 is the number that does.
 
 ### 6.2 Row operations as algebra you can watch
 
-**1.** After `SWAP` the tableau is 3, 4, 11 on top and 1, 2, 5 beneath. The
+**1.** After the swap ([F2], `SWP`) the tableau is 3, 4, 11 on top and
+1, 2, 5 beneath. The
 first move is now to subtract a third of the top row from the bottom, so the
 scale is -1/3 rather than -3, and the numbers along the way are messier.
 
@@ -1886,7 +1887,7 @@ moves, and the licence is precisely that it does not change the solution
 set.
 
 **3.** Elimination cannot start with a zero in the pivot position, so the
-single move needed is `SWAP`, putting 1, 1, 4 on top.
+single move needed is the swap ([F2], `SWP`), putting 1, 1, 4 on top.
 
 Then subtract nothing (the new second row already has 0 in the first
 column), rescale row 2 by a half to get 0, 1, 3, and clear the 1 above it.

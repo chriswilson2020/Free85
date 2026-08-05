@@ -8,6 +8,8 @@ const root = resolve(import.meta.dirname, "..");
 const assembler = process.env.SJASMPLUS ? resolve(process.env.SJASMPLUS) : "sjasmplus";
 const reportPath = resolve(root, "spec/free85/reproducibility.json");
 const releaseInputs = ["package.json", "index.html", "firmware/free85", "scripts/build-free85.js", "scripts/build-pages.js", "public", "src"];
+const packageJson = JSON.parse(await readFile(resolve(root, "package.json"), "utf8"));
+const usage = JSON.parse(await readFile(resolve(root, "firmware/free85/generated/usage.json"), "utf8"));
 
 function run(command, args, cwd, env = process.env) {
   const result = spawnSync(command, args, { cwd, env, encoding: "utf8" });
@@ -88,8 +90,8 @@ try {
 
   const report = {
     schema_version: 1,
-    release: "2.21.0",
-    phase: "16",
+    release: packageJson.version,
+    phase: usage.phase,
     independent_builds: 2,
     build_tool: {
       required: "sjasmplus >= 1.21.1",

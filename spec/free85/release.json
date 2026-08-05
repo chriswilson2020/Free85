@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
   "name": "Free85",
-  "version": "2.21.0",
-  "phase": "16",
-  "target_release": "2.21.0",
-  "status": "stable",
+  "version": "3.0.0-dev.1",
+  "phase": "17.1",
+  "target_release": "3.0.0-dev.1",
+  "status": "development",
   "license": "MIT",
   "persistent_ram": {
     "schema": 13,
@@ -17,7 +17,7 @@
   "rom": {
     "path": "ROM/FREE85.ROM",
     "bytes": 131072,
-    "sha256": "b714dd191c4182c294017f6fe19f1699db039c9579fc39eef1dd568afb05339d",
+    "sha256": "1556dce6987544e3910a990800981354882c71403a36e86b4f7da031b71c4179",
     "banks": 8,
     "bank_bytes": 16384
   },
@@ -27,7 +27,7 @@
   "performance_report": "spec/free85/performance.json",
   "parity_report": "spec/free85/v2-parity-report.json",
   "reproducibility_report": "spec/free85/reproducibility.json",
-  "release_notes": "docs/Free85-2.21-engineering-handoff.md",
+  "release_notes": "docs/Free85-3.0-engineering-handoff.md",
   "known_limitations": "docs/known-limitations.md",
   "notices": [
     "LICENSE",

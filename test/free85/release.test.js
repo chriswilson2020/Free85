@@ -3,15 +3,17 @@ import { createHash } from "node:crypto";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
-test("[release.bundle] the stable 2.21 ROM is bound to frozen schemas and reproducibility evidence", async () => {
+test("[release.bundle] the current ROM is bound to its version, schemas, and reproducibility evidence", async () => {
   const manifest = JSON.parse(await readFile("spec/free85/release.json", "utf8"));
+  const packageJson = JSON.parse(await readFile("package.json", "utf8"));
+  const usage = JSON.parse(await readFile("firmware/free85/generated/usage.json", "utf8"));
   const rom = await readFile(manifest.rom.path);
   const reproducibility = JSON.parse(await readFile(manifest.reproducibility_report, "utf8"));
   assert.equal(manifest.schema_version, 2);
-  assert.equal(manifest.version, "2.21.0");
-  assert.equal(manifest.phase, "16");
-  assert.equal(manifest.target_release, "2.21.0");
-  assert.equal(manifest.status, "stable");
+  assert.equal(manifest.version, packageJson.version);
+  assert.equal(manifest.phase, usage.phase);
+  assert.equal(manifest.target_release, packageJson.version);
+  assert.equal(manifest.status, packageJson.version.includes("-dev.") ? "development" : "stable");
   assert.equal(manifest.license, "MIT");
   assert.deepEqual(manifest.persistent_ram, {
     schema: 13,
@@ -41,12 +43,14 @@ test("[release.bundle] the stable 2.21 ROM is bound to frozen schemas and reprod
 test("[release.coverage-performance] release reports retain all parity and timing gates", async () => {
   const coverage = JSON.parse(await readFile("spec/free85/coverage.json", "utf8"));
   const performance = JSON.parse(await readFile("spec/free85/performance.json", "utf8"));
-  assert.equal(coverage.phase, "16");
+  const usage = JSON.parse(await readFile("firmware/free85/generated/usage.json", "utf8"));
+  const expectedPhase = usage.phase;
+  assert.equal(coverage.phase, expectedPhase);
   assert.equal(coverage.physical_keys.percent, 100);
   assert.equal(coverage.shifted_functions.percent, 100);
   assert.equal(coverage.alpha_mappings.percent, 100);
   assert.equal(coverage.features.complete_test_percent, 100);
-  assert.equal(performance.phase, "16");
+  assert.equal(performance.phase, expectedPhase);
   assert.ok(performance.key_response.frames <= performance.limits.key_response_frames);
   for (const [name, limit] of Object.entries(performance.limits.evaluation_frames)) {
     assert.ok(performance.evaluation[name].frames <= limit, name);

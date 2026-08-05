@@ -16,11 +16,18 @@ The repository includes:
 
 ## Current status
 
-Free85 2.21.0 is the stable Phase 16 release. It is a deterministic 128 KiB
+Free85 3.0.0-dev.1 is the current Phase 17 development build. It adds a direct
+four-field graph-window editor: open the third zoom page and choose `WIN`,
+select `XMIN`, `XMAX`, `YMIN`, or `YMAX`, type an expression, press `ENTER`,
+then `SAVE`. All four draft bounds are validated and committed atomically;
+cancelled, malformed, or unordered input leaves the live window unchanged.
+The home screen identifies this build as `VERSION 3.0 DEV1`.
+
+Free85 2.21.0 remains the latest stable Phase 16 release. It is a deterministic 128 KiB
 ROM with complete coverage of the applicable Free85 2.0 parity ledger,
 persistent RAM schema 13, object-store schema 1, and independently reproducible
 ROM and GitHub Pages artifacts. The home screen identifies the running release
-as `VERSION 2.21`, and all three books are written against this ROM.
+as `VERSION 2.21`, and all three published books are written against that ROM.
 Version 2.12 preserves numerical error classes through home,
 graph, table, and program evaluation, and makes `FNINT` compare bounded
 32/64/128-panel Simpson estimates before it publishes a result. Version 2.14

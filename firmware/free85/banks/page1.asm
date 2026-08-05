@@ -29,6 +29,7 @@ bank_start:
     INCLUDE "graph/phase14.asm"
     INCLUDE "graph/phase15.asm"
     INCLUDE "graph/phase16.asm"
+    INCLUDE "graph/phase22.asm"
     INCLUDE "numeric/power.asm"
 
 bank_end:

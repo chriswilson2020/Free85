@@ -37,6 +37,21 @@ function programLineKeys(text) {
   return keys;
 }
 
+// Section 3.5 scores a trial line against the bean data by hand. The slope
+// lives in M and the intercept in B, so the program contains no particular
+// line and scores whichever one the reader has just stored. The six heights
+// are written into lines 2 to 4, two points per line, because 48 characters
+// is as many as will fit.
+const CO03_SSD_LINES = ["0->S", "S+(B+M*1-7)^2+(B+M*2-7)^2->S",
+  "S+(B+M*3-10)^2+(B+M*4-12)^2->S", "S+(B+M*5-13)^2+(B+M*6-17)^2->S",
+  "DISP S", "STOP"];
+// Store an intercept into B and a slope into M, then type and run the score.
+const co03Score = (intercept, slope) => [
+  ...String(intercept).split(""), "STO", "ALPHA", "SIN", "ENTER", 200, "CLEAR", 30,
+  ...String(slope).split(""), "STO", "ALPHA", "8", "ENTER", 200, "CLEAR", 30,
+  "PRGM", 60, "F1", 120,
+  ...CO03_SSD_LINES.flatMap(programLineKeys), 200, "F2", 12000];
+
 const CO03_P1_LINES = ["0->S", "FOR A,1,9", "S+RANDI(0,1)->S", "END", "DISP S", "STOP"];
 const CO03_P2_LINES = ["36->N", "0->S", "WHILE N", "S+INT(RANDI(1,6)/6)->S",
   "N-1->N", "END", "DISP S", "STOP"];
@@ -318,6 +333,16 @@ export const SCREEN_CASES = [
   },
   // Chapter 3 section 3.3: P2's run screen after the section's exact key
   // order (P1 typed and run once first), answering 8 sixes in 36 rolls.
+  {
+    name: "co03-ssd-poor",
+    keys: co03Score(3, 2.5)
+  },
+  // The same program scoring the line LIN actually returns. Every nudge away
+  // from 4 and 2 scores worse, which is what makes it the least squares fit.
+  {
+    name: "co03-ssd-best",
+    keys: co03Score(4, 2)
+  },
   {
     name: "co03-sim-run",
     keys: ["PRGM", "F1", 30,

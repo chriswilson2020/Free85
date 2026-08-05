@@ -16,11 +16,12 @@ The repository includes:
 
 ## Current status
 
-Free85 2.20.0 is the stable Phase 15.6 release. It is a deterministic 128 KiB
+Free85 2.21.0 is the stable Phase 16 release. It is a deterministic 128 KiB
 ROM with complete coverage of the applicable Free85 2.0 parity ledger,
 persistent RAM schema 13, object-store schema 1, and independently reproducible
 ROM and GitHub Pages artifacts. The home screen identifies the running release
-as `VERSION 2.20`. Version 2.12 preserves numerical error classes through home,
+as `VERSION 2.21`, and all three books are written against this ROM.
+Version 2.12 preserves numerical error classes through home,
 graph, table, and program evaluation, and makes `FNINT` compare bounded
 32/64/128-panel Simpson estimates before it publishes a result. Version 2.14
 adds bounded quotient-based trigonometric reduction through one million
@@ -38,6 +39,13 @@ shape, coordinate, and complex metadata. Program `FOR` now evaluates signed
 Version 2.20 freezes those Phase 15 behaviours behind the complete public,
 visual, randomized, performance, migration, stress, soak, reproducibility, and
 optional private-oracle release gate.
+Version 2.21 generalises `^`: a whole-number exponent in the signed 16-bit
+range is exact by repeated squaring, any other real exponent on a positive base
+goes through `EXP(y*LN(x))`, and the invalid cases report `DOMAIN ERROR`,
+`DIVIDE BY ZERO`, or `NUMERIC OVERFLOW` rather than a plausible number. `LU`
+no longer uses Vector `R` as workspace and prints its row permutation as
+`P:213`; the simultaneous editor's `CELL` reports the true column; and the
+matrix row-operation footer fits the LCD as `REF SWP RADD RMUL AUG`.
 
 The original 1.0 baseline completed Phases 0-13: boot/diagnostics, UI and
 editor, packed-BCD numeric core, expression parsing, scientific functions,
@@ -83,8 +91,8 @@ Phase 15 is the accepted numerical-integrity programme leading to Free85 2.20.
 Phase 15.1 ships as 2.12.0: syntax, domain, division, overflow, recursion,
 non-convergence, and cancellation remain distinct, while unsafe quadrature is
 refused instead of being displayed as a trustworthy finite answer. The book
-sources remain on their published 2.10 behaviour until the final 2.20 editorial
-pass; the exact corrections are tracked in the book-impact handoff.
+sources were held on their published 2.10 behaviour until the 2.20 editorial
+pass, which has since been executed along with the 2.21 one.
 Phase 15.2 ships as 2.14.0, removing the 399-radian cliff while publishing an
 explicit accuracy range and outer failure boundary.
 Phase 15.3 ships as 2.16.0: `NDER(slot,x)`, `EVAL(slot,x)`, and the ternary
@@ -99,6 +107,10 @@ displayed copies it atomically into `A`; `FOR V,start,end[,step]` accepts
 evaluated integer expressions, descending loops, and empty ranges.
 Phase 15.6 ships as 2.20.0, closes the roadmap, converts every Phase 15 TODO to
 an ordinary passing test, and freezes the ROM hash for the deferred book update.
+Phase 16 ships as 2.21.0: the general power operator, LU permutation reporting
+that leaves Vector `R` alone, a truthful simultaneous-editor `CELL`, and a
+matrix row-operation footer that fits the screen. Its book corrections are
+tracked in `spec/free85/v2.21-book-impact.yaml` and have been executed.
 
 ## Run the calculator
 

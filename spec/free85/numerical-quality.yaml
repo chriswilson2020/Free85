@@ -52,13 +52,21 @@
     },
     {
       "id": "numeric.trig-reduction",
-      "status": "known-limitation",
+      "status": "resolved",
       "owner": "15.2",
       "targetRelease": "2.14.0",
+      "resolvedRelease": "2.14.0",
       "summary": "Circular functions reduce angles by at most 63 repeated additions or subtractions of two pi.",
       "baselineEvidence": [
         "firmware/free85/numeric/scientific.asm:scientific_prepare_angle",
         "test/free85/phase15-baseline.test.js:[phase15.trig-range]"
+      ],
+      "resolutionEvidence": [
+        "test/free85/phase15-trig.test.js:[phase15.trig-range-reduction]",
+        "test/free85/phase15-trig.test.js:[phase15.trig-quadrants]",
+        "test/free85/phase15-trig.test.js:[phase15.trig-degrees]",
+        "test/free85/phase15-trig.test.js:[phase15.trig-precision]",
+        "firmware/free85/numeric/scientific.asm:scientific_prepare_angle"
       ],
       "acceptance": [
         "SIN COS and TAN work beyond the current 399-radian boundary",

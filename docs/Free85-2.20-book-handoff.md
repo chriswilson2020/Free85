@@ -20,6 +20,12 @@ being refused as `DIVIDE BY ZERO` (or `NO CONVERGENCE` when refinement, rather
 than a sampled undefined point, detects the failure). Do not recapture final
 book figures yet: the editorial freeze remains Phase 15.6 / Free85 2.20.
 
+Phase 15.2 shipped in Free85 2.14. Replace the 63-subtraction/399-radian story
+with quotient-based reduction, the measured limits of 1E6 radians and 1E8
+degrees, the 1E-7 outer SIN/COS accuracy guarantee, and `PRECISION LOST` beyond
+the supported phase range. The old cliff remains useful only when clearly
+labelled as historical 2.10 behaviour.
+
 ## The important editorial changes
 
 1. **Errors become meaningful.** Do not use `SYNTAX ERROR` as prose shorthand

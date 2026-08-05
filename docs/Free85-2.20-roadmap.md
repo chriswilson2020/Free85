@@ -49,6 +49,9 @@ mathematical references rather than TI output.
 - **15.1 / 2.12:** typed evaluator errors and bounded, cancellable Simpson
   refinement are implemented and release-gated. The book-impact ledger records
   the exact old claims and captures to replace after 2.20 behaviour freezes.
+- **15.2 / 2.14:** bounded quotient-based circular reduction removes the old
+  399-radian cliff, publishes measured radian/degree ranges, and reports
+  precision loss beyond them.
 
 ## Explicit boundary
 

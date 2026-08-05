@@ -471,14 +471,139 @@ scientific_pow10:
     CALL numeric_copy
     JP scientific_exp
 
-; Convert NUM_LEFT according to ANGLE_MODE and reduce it into [-pi, pi].
+; Reduce circular inputs with a bounded quotient/remainder operation rather
+; than repeated subtraction. Radian inputs are guaranteed through 1E6 and
+; degree inputs through 1E8; outside those limits the fourteen-digit format
+; cannot retain enough phase during quotient subtraction, so fail honestly.
+; Degree values are reduced modulo 360 before conversion, avoiding a needless
+; large multiplication by pi.
 scientific_prepare_angle:
     LD HL, NUM_LEFT
     LD DE, SCI_X
     CALL numeric_copy
     LD A, (ANGLE_MODE)
     OR A
-    JR Z, .reduce_start
+    LD HL, const_trig_radian_limit
+    JR Z, .limit_ready
+    LD HL, const_trig_degree_limit
+.limit_ready:
+    LD DE, NUM_RIGHT
+    CALL numeric_copy
+    LD HL, SCI_X
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    LD A, (NUM_LEFT + NUM_FLAGS)
+    AND $7F
+    LD (NUM_LEFT + NUM_FLAGS), A
+    CALL numeric_compare_magnitude
+    JR C, .within_limit
+    JR Z, .within_limit
+    JP numeric_precision_error
+.within_limit:
+    CALL scientific_angle_cancel
+    RET C
+    ; Preserve the fast path for the overwhelmingly common already-reduced
+    ; input while keeping the same bounded cancellation point.
+    LD A, (ANGLE_MODE)
+    OR A
+    LD HL, const_pi
+    JR Z, .fast_half_ready
+    LD HL, const_180
+.fast_half_ready:
+    LD DE, NUM_RIGHT
+    CALL numeric_copy
+    CALL numeric_compare_magnitude
+    JP C, .reduced
+    JP Z, .reduced
+    ; q = trunc(x / period)
+    LD HL, SCI_X
+    LD A, (ANGLE_MODE)
+    OR A
+    LD DE, const_two_pi
+    JR Z, .divide_period
+    LD DE, const_360
+.divide_period:
+    CALL sci_divide_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    CALL utility_integer
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, SCI_TEMP
+    CALL numeric_copy
+    CALL scientific_angle_cancel
+    RET C
+    ; r = x - q*period
+    LD HL, SCI_TEMP
+    LD A, (ANGLE_MODE)
+    OR A
+    LD DE, const_two_pi
+    JR Z, .multiply_period
+    LD DE, const_360
+.multiply_period:
+    CALL sci_multiply_objects
+    RET C
+    LD HL, SCI_X
+    LD DE, NUM_RESULT
+    CALL sci_subtract_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, SCI_X
+    CALL numeric_copy
+    ; Truncation leaves |r| below one period. Fold the outer half into the
+    ; symmetric interval expected by the sine/cosine series.
+    LD A, (SCI_X + NUM_FLAGS)
+    AND NUM_SIGN
+    LD (SCI_NEGATIVE), A
+    LD HL, SCI_X
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    LD A, (NUM_LEFT + NUM_FLAGS)
+    AND $7F
+    LD (NUM_LEFT + NUM_FLAGS), A
+    LD A, (ANGLE_MODE)
+    OR A
+    LD HL, const_pi
+    JR Z, .half_period_ready
+    LD HL, const_180
+.half_period_ready:
+    LD DE, NUM_RIGHT
+    CALL numeric_copy
+    CALL numeric_compare_magnitude
+    JR C, .reduced
+    JR Z, .reduced
+    LD A, (SCI_NEGATIVE)
+    OR A
+    JR NZ, .add_period
+    LD HL, SCI_X
+    LD A, (ANGLE_MODE)
+    OR A
+    LD DE, const_two_pi
+    JR Z, .subtract_period
+    LD DE, const_360
+.subtract_period:
+    CALL sci_subtract_objects
+    JR .store_remainder
+.add_period:
+    LD HL, SCI_X
+    LD A, (ANGLE_MODE)
+    OR A
+    LD DE, const_two_pi
+    JR Z, .do_add_period
+    LD DE, const_360
+.do_add_period:
+    CALL sci_add_objects
+.store_remainder:
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, SCI_X
+    CALL numeric_copy
+.reduced:
+    LD A, (ANGLE_MODE)
+    OR A
+    JR Z, .ready
     LD HL, SCI_X
     LD DE, const_pi
     CALL sci_multiply_objects
@@ -490,56 +615,97 @@ scientific_prepare_angle:
     LD HL, NUM_RESULT
     LD DE, SCI_X
     CALL numeric_copy
-.reduce_start:
-    XOR A
-    LD (SCI_COUNTER), A
-.reduce_loop:
+.ready:
+    OR A
+    RET
+
+scientific_angle_cancel:
+    CALL events_poll
+    CALL events_get
+    CP KEY_EXIT
+    JP Z, numeric_cancelled_error
+    CP KEY_ON
+    JP Z, numeric_cancelled_error
+    OR A
+    RET
+
+; The short Taylor series is most accurate on [-pi/2,pi/2]. Preserve sine's
+; sign while reflecting the outer quadrants into that interval.
+scientific_fold_sin:
     LD A, (SCI_X + NUM_FLAGS)
     AND NUM_SIGN
-    JR NZ, .negative
+    LD (SCI_NEGATIVE), A
     LD HL, SCI_X
     LD DE, NUM_LEFT
     CALL numeric_copy
-    LD HL, const_pi
+    LD A, (NUM_LEFT + NUM_FLAGS)
+    AND $7F
+    LD (NUM_LEFT + NUM_FLAGS), A
+    LD HL, NUM_LEFT
+    LD DE, SCI_TEMP
+    CALL numeric_copy
+    LD HL, const_half_pi
     LD DE, NUM_RIGHT
     CALL numeric_copy
     CALL numeric_compare_magnitude
     JR C, .ready
     JR Z, .ready
-    LD HL, SCI_X
-    LD DE, const_two_pi
+    LD HL, const_pi
+    LD DE, SCI_TEMP
     CALL sci_subtract_objects
-    JR .store_reduced
-.negative:
+    RET C
+    LD A, (SCI_NEGATIVE)
+    OR A
+    JR Z, .store
+    LD A, (NUM_RESULT + NUM_FLAGS)
+    OR NUM_SIGN
+    LD (NUM_RESULT + NUM_FLAGS), A
+.store:
+    LD HL, NUM_RESULT
+    LD DE, SCI_X
+    CALL numeric_copy
+    OR A
+    RET
+.ready:
+    OR A
+    RET
+
+; Cosine is even. Reflect its magnitude into [0,pi/2] and remember whether
+; the original quadrant requires a negative result.
+scientific_fold_cos:
+    XOR A
+    LD (SCI_LIMIT), A
+    LD A, (SCI_X + NUM_FLAGS)
+    AND $7F
+    LD (SCI_X + NUM_FLAGS), A
     LD HL, SCI_X
     LD DE, NUM_LEFT
     CALL numeric_copy
-    LD HL, const_pi
+    LD HL, const_half_pi
     LD DE, NUM_RIGHT
     CALL numeric_copy
     CALL numeric_compare_magnitude
     JR C, .ready
     JR Z, .ready
-    LD HL, SCI_X
-    LD DE, const_two_pi
-    CALL sci_add_objects
-.store_reduced:
+    LD HL, const_pi
+    LD DE, SCI_X
+    CALL sci_subtract_objects
     RET C
     LD HL, NUM_RESULT
     LD DE, SCI_X
     CALL numeric_copy
-    LD A, (SCI_COUNTER)
-    INC A
-    LD (SCI_COUNTER), A
-    CP 64
-    JP NC, numeric_domain_error
-    JR .reduce_loop
+    LD A, 1
+    LD (SCI_LIMIT), A
+    OR A
+    RET
 .ready:
     OR A
     RET
 
 scientific_sin:
     CALL scientific_prepare_angle
+    RET C
+    CALL scientific_fold_sin
     RET C
     LD HL, SCI_X
     LD DE, SCI_TERM
@@ -613,6 +779,8 @@ scientific_sin_denominator:
 scientific_cos:
     CALL scientific_prepare_angle
     RET C
+    CALL scientific_fold_cos
+    RET C
     CALL sci_set_one_result
     LD HL, NUM_RESULT
     LD DE, SCI_TERM
@@ -658,7 +826,7 @@ scientific_cos:
     LD HL, NUM_RESULT
     LD DE, SCI_SUM
     CALL sci_objects_equal
-    RET Z
+    JR Z, .apply_sign
     LD HL, NUM_RESULT
     LD DE, SCI_SUM
     CALL numeric_copy
@@ -669,7 +837,15 @@ scientific_cos:
     JR C, .loop
     LD HL, SCI_SUM
     LD DE, NUM_RESULT
-    JP numeric_copy
+    CALL numeric_copy
+.apply_sign:
+    LD A, (SCI_LIMIT)
+    OR A
+    RET Z
+    LD A, (NUM_RESULT + NUM_FLAGS)
+    XOR NUM_SIGN
+    LD (NUM_RESULT + NUM_FLAGS), A
+    RET
 
 scientific_cos_denominator:
     LD A, (SCI_COUNTER)
@@ -689,15 +865,27 @@ scientific_tan:
     CALL numeric_copy
     CALL scientific_sin
     RET C
-    LD HL, NUM_RESULT
-    LD DE, SCI_SUM
-    CALL numeric_copy
     LD HL, SCI_SAVED
     LD DE, NUM_LEFT
     CALL numeric_copy
+    LD HL, NUM_RESULT
+    LD DE, SCI_SAVED
+    CALL numeric_copy
     CALL scientific_cos
     RET C
-    LD HL, SCI_SUM
+    LD HL, NUM_RESULT
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    LD A, (NUM_LEFT + NUM_FLAGS)
+    AND $7F
+    LD (NUM_LEFT + NUM_FLAGS), A
+    LD HL, const_trig_pole_tolerance
+    LD DE, NUM_RIGHT
+    CALL numeric_copy
+    CALL numeric_compare_magnitude
+    JP C, numeric_domain_error
+    JP Z, numeric_domain_error
+    LD HL, SCI_SAVED
     LD DE, NUM_RESULT
     JP sci_divide_objects
 
@@ -1307,6 +1495,10 @@ const_e:        DB $00,$00,$27,$18,$28,$18,$28,$45,$90
 const_ln10:     DB $00,$00,$23,$02,$58,$50,$92,$99,$40
 const_90:       DB $00,$01,$90,$00,$00,$00,$00,$00,$00
 const_180:      DB $00,$02,$18,$00,$00,$00,$00,$00,$00
+const_360:      DB $00,$02,$36,$00,$00,$00,$00,$00,$00
+const_trig_radian_limit: DB $00,$06,$10,$00,$00,$00,$00,$00,$00
+const_trig_degree_limit: DB $00,$08,$10,$00,$00,$00,$00,$00,$00
+const_trig_pole_tolerance: DB $00,$F6,$10,$00,$00,$00,$00,$00,$00
 
 ; HL = uppercase identifier source, B = length. Returns A = function id.
 scientific_lookup_identifier:

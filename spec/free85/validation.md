@@ -164,3 +164,10 @@ cover smooth and reversed intervals, endpoint and interior singularities,
 undersampled functions, bounded 32/64/128-panel refinement, interruption, and
 a deterministic performance budget. Public expectations remain independent of
 the proprietary TI ROM.
+
+Phase 15.2 is the Free85 2.14.0 trigonometric-reduction gate. Independent
+vectors cover both signs, the former 399-radian cliff, quadrant boundaries,
+SIN/COS/TAN, radians through magnitude 1E6, degrees through 1E8, explicit
+`PRECISION LOST` outside those limits, program propagation, cancellation, and
+large-angle performance. The ordinary graph benchmark remains below the
+pre-optimisation Phase 11 baseline.

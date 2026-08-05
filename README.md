@@ -16,13 +16,16 @@ The repository includes:
 
 ## Current status
 
-Free85 2.12.0 is the stable Phase 15.1 release. It is a deterministic 128 KiB
+Free85 2.14.0 is the stable Phase 15.2 release. It is a deterministic 128 KiB
 ROM with complete coverage of the applicable Free85 2.0 parity ledger,
 persistent RAM schema 13, object-store schema 1, and independently reproducible
 ROM and GitHub Pages artifacts. The home screen identifies the running release
-as `VERSION 2.12`. Version 2.12 preserves numerical error classes through home,
+as `VERSION 2.14`. Version 2.12 preserves numerical error classes through home,
 graph, table, and program evaluation, and makes `FNINT` compare bounded
-32/64/128-panel Simpson estimates before it publishes a result.
+32/64/128-panel Simpson estimates before it publishes a result. Version 2.14
+adds bounded quotient-based trigonometric reduction through one million
+radians or one hundred million degrees and reports `PRECISION LOST` outside
+that measured range.
 
 The original 1.0 baseline completed Phases 0-13: boot/diagnostics, UI and
 editor, packed-BCD numeric core, expression parsing, scientific functions,
@@ -70,6 +73,8 @@ non-convergence, and cancellation remain distinct, while unsafe quadrature is
 refused instead of being displayed as a trustworthy finite answer. The book
 sources remain on their published 2.10 behaviour until the final 2.20 editorial
 pass; the exact corrections are tracked in the book-impact handoff.
+Phase 15.2 ships as 2.14.0, removing the 399-radian cliff while publishing an
+explicit accuracy range and outer failure boundary.
 
 ## Run the calculator
 

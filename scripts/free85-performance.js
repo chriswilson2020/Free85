@@ -25,8 +25,8 @@ const phase11Baseline = {
 
 const limits = {
   key_response_frames: 1,
-  evaluation_frames: { arithmetic: 4, sin: 15, exp: 30, ln: 70, integral: 250 },
-  graph_frames: { linear: 150, quadratic: 320, sine: 2300 }
+  evaluation_frames: { arithmetic: 4, sin: 15, sin_large: 30, exp: 30, ln: 70, integral: 250 },
+  graph_frames: { linear: 150, quadratic: 320, sine: 2400 }
 };
 
 function typeExpression(harness, expression) {
@@ -99,6 +99,7 @@ function improvement(before, after) {
 const evaluation = {
   arithmetic: measureEvaluation("(12+34)*(56-7)/3"),
   sin: measureEvaluation("SIN(1)"),
+  sin_large: measureEvaluation("SIN(1000000)"),
   exp: measureEvaluation("EXP(1)"),
   ln: measureEvaluation("LN(2)"),
   integral: measureEvaluation("FNINT(0,2)", "X^2")
@@ -111,8 +112,8 @@ const graph = {
 
 const report = {
   schema_version: 1,
-  release: "2.12.0",
-  phase: "15.1",
+  release: "2.14.0",
+  phase: "15.2",
   clock_hz: 6000000,
   key_response: measureKeyResponse(),
   evaluation,

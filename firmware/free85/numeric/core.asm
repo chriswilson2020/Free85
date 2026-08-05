@@ -333,6 +333,9 @@ numeric_no_convergence_error:
     JR numeric_set_error
 numeric_cancelled_error:
     LD A, NUM_ERR_CANCELLED
+    JR numeric_set_error
+numeric_precision_error:
+    LD A, NUM_ERR_PRECISION
 numeric_set_error:
     LD (NUMERIC_ERROR), A
     SCF

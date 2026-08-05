@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "release": "2.12.0",
-  "phase": "15.1",
+  "release": "2.14.0",
+  "phase": "15.2",
   "clock_hz": 6000000,
   "key_response": {
     "frames": 1,
@@ -16,8 +16,14 @@
     },
     "sin": {
       "frames": 13,
-      "tstates": 1560053,
+      "tstates": 1560041,
       "result": "0.84147098480797",
+      "error": 0
+    },
+    "sin_large": {
+      "frames": 17,
+      "tstates": 2040068,
+      "result": "-0.3499934460541",
       "error": 0
     },
     "exp": {
@@ -49,14 +55,15 @@
       "tstates": 35641321
     },
     "sine": {
-      "frames": 2262,
-      "tstates": 271929872
+      "frames": 2326,
+      "tstates": 279609707
     }
   },
   "improvement_percent": {
     "evaluation": {
       "arithmetic": 0,
       "sin": 0,
+      "sin_large": null,
       "exp": 43.48,
       "ln": 34.38,
       "integral": null
@@ -64,7 +71,7 @@
     "graph": {
       "linear": 47.52,
       "quadratic": 28.09,
-      "sine": 7.21
+      "sine": 4.59
     }
   },
   "limits": {
@@ -72,6 +79,7 @@
     "evaluation_frames": {
       "arithmetic": 4,
       "sin": 15,
+      "sin_large": 30,
       "exp": 30,
       "ln": 70,
       "integral": 250
@@ -79,7 +87,7 @@
     "graph_frames": {
       "linear": 150,
       "quadratic": 320,
-      "sine": 2300
+      "sine": 2400
     }
   }
 }

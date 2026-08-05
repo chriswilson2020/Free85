@@ -5,10 +5,11 @@ firmware for the TI-85-compatible machine layer in this repository. It runs on
 the emulated Z80 and calculator hardware and does not require services from the
 original TI firmware.
 
-The current stable release is Free85 2.12.0 (Phase 15.1): an exact 128 KiB
+The current stable release is Free85 2.14.0 (Phase 15.2): an exact 128 KiB
 ROM with persistent RAM schema 13, object-store schema 1, a closed applicable
 2.0 parity ledger, independently reproducible ROM and Pages artifacts, typed
-numerical errors, and bounded convergence-checked integration.
+numerical errors, bounded convergence-checked integration, and measured
+large-angle trigonometric reduction.
 
 ## Parity target
 
@@ -63,6 +64,8 @@ Phase 15 strengthens numerical integrity without reopening the completed
 command-parity ledger. Phase 15.1 preserves error classes across nested
 evaluators and refuses an `FNINT` result when bounded Simpson refinement cannot
 meet the selected tolerance.
+Phase 15.2 replaces repeated trigonometric subtraction with bounded
+quotient/remainder reduction and an explicit precision boundary.
 
 ## Definition of a complete feature
 

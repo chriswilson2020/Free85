@@ -1251,7 +1251,7 @@ p11_menu_system: DB "ANG FMT  -   +  MEM",0
 p11_text_variables: DB "VARIABLES",0
 p11_text_var_help: DB "ARROWS SELECT",0
 p11_menu_variables: DB "ENTER RECALL CLR",0
-p11_text_memory: DB "MEMORY 2.12",0
+p11_text_memory: DB "MEMORY 2.14",0
 p11_text_objects: DB "OBJECTS",0
 p11_text_free: DB "FREE",0
 p11_text_used: DB "USED",0

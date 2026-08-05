@@ -130,24 +130,18 @@ jobs:
           brew install pandoc
           pandoc --version | head -1
 
-      - name: Confirm the design's fonts are present
-        # If any of these is missing the books will still build and will be
-        # paginated wrongly, silently. Fail loudly instead.
+      - name: Report which of the design's fonts are installed
+        # Diagnostic only. The real guard is the page-count check after the
+        # build: if the books paginate as proofed, the fonts resolved
+        # correctly by definition. Asserting on font names instead was
+        # tried and was worse, because macOS enumerates fonts through
+        # system_profiler, which is slow and reports nothing useful from a
+        # headless runner even when the font is installed and usable.
+        continue-on-error: true
         run: |
-          set -euo pipefail
-          missing=0
-          for font in Charter "Helvetica Neue" Menlo; do
-            if system_profiler SPFontsDataType 2>/dev/null | grep -qi "Family Name: $font"; then
-              echo "found: $font"
-            else
-              echo "MISSING: $font" >&2
-              missing=1
-            fi
+          for dir in /System/Library/Fonts /System/Library/Fonts/Supplemental /Library/Fonts; do
+            test -d "$dir" && ls "$dir" | grep -iE "charter|helveticaneue|menlo" | sed "s|^|  $dir/|" || true
           done
-          test "$missing" -eq 0 || {
-            echo "typeset.css depends on these fonts; pagination will be wrong without them" >&2
-            exit 1
-          }
 
       - name: Locate Chrome
         run: |
@@ -161,8 +155,11 @@ jobs:
         run: npm run build:guidebook:typeset
 
       - name: Check the books paginated as designed
-        # The page counts of the proofed editions. A change here means the
-        # rendering has moved and the books need re-proofing, not publishing.
+        # This is the guard that matters, and the one that would have caught
+        # the Ubuntu build. The page counts are those of the proofed
+        # editions; a change means the rendering has moved and the books
+        # need re-proofing, not publishing. The commonest cause is a missing
+        # font, so the diagnostic step above lists what was available.
         run: |
           set -euo pipefail
           check() {

@@ -157,7 +157,8 @@ worth asking.
 The table reads `UNDEF` at `X=2`, exactly as the pole did. But this is a
 completely different situation. Probe either side and you see it: with the
 equation stored, `EVAL(1.9)` answers `= 3.9` and `EVAL(2.1)` answers
-`= 4.1`, and `EVAL(2)` stops at `SYNTAX ERROR`.
+`= 4.1`, and `EVAL(2)` stops at `DIVIDE BY ZERO`, which names exactly what
+it met there.
 
 The values from both sides are heading for 4, which is what x + 2 gives at
 x = 2. The function has a *hole*, not a pole: one point missing from an

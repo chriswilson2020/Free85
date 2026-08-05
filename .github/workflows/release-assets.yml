@@ -19,7 +19,7 @@ name: Attach Free85 release assets
 # for Charter, Helvetica Neue and Menlo, which are macOS system fonts. On an
 # Ubuntu runner none of the three exists, Chrome substitutes whatever it has,
 # the metrics change and every book repaginates: the first Linux run of this
-# workflow produced a 238-page companion where the proofed book is 250. The
+# workflow produced a 238-page companion where the proofed book is 256. The
 # page-break work was done against the macOS rendering, so the macOS
 # rendering is the book. The ROM has no such problem and stays on Ubuntu,
 # where it is checked for byte reproducibility.
@@ -175,7 +175,7 @@ jobs:
           }
           check Manual    dist/guidebook/Free85-Manual-typeset.pdf     18
           check Guidebook dist/guidebook/Free85-Guidebook-typeset.pdf 158
-          check Explorations dist/guidebook/Free85-Companion-typeset.pdf 250
+          check Explorations dist/guidebook/Free85-Companion-typeset.pdf 256
 
       - name: Attach the books to the release
         env:

@@ -191,20 +191,28 @@ five-character cell will hold. The calculus commands will do better.
 13. Now ask it the original question. Press [CLEAR], spell `EVAL(0)`, and
     press [ENTER]:
 
-    ![EVAL at the hole, stopped on SYNTAX ERROR](images/co04-sinx-eval-error.png)
+    ![EVAL at the hole, stopped on DIVIDE BY ZERO](images/co04-sinx-eval-error.png)
 
-    `SYNTAX ERROR`, with `CLEAR OR EXIT` underneath.
+    `DIVIDE BY ZERO`, with `CLEAR OR EXIT` underneath. Which is exactly
+    right: `SIN(X)/X` at zero divides by zero, and the machine has told you
+    the truth about what it met.
 
-    That message is wrong and it is my fault. There is nothing whatever
-    wrong with the syntax of `EVAL(0)`. What has actually happened is that
-    the evaluation failed at the point you asked about, and the calculus
-    commands report every failure of that kind through the error the parser
-    already had to hand. Laying it out again I would give it its own
-    message, one that mentioned the point rather than your typing.
+    It did not always. Until firmware 2.12 this answered `SYNTAX ERROR`,
+    and the first edition of this book had a paragraph here apologising for
+    it. There was nothing wrong with the syntax of `EVAL(0)`; the
+    evaluation had failed at the point you asked about, and the calculus
+    commands reported every failure of that kind through the one error the
+    parser already had to hand. I wrote that, laying it out again, I would
+    give each failure its own message.
 
-    So read it as "there is nothing there", because that is what it means,
-    and it will go on meaning that every time a calculus command lands on a
-    point where a function has no value.
+    I did. Domain, division, overflow, recursion, convergence and lost
+    precision are now separate diagnostics, in the home screen, in graphs,
+    in tables and in programs. `SYNTAX ERROR` has gone back to meaning what
+    it says: the machine could not read you.
+
+    The practical difference is that the message is now evidence. When a
+    calculus command stops, the name tells you what it hit, and you can act
+    on it instead of guessing.
 
     Press [CLEAR] to clear the notice. The entry line still holds `EVAL(0)`,
     so press [CLEAR] again to empty that too. Two presses of [CLEAR] after

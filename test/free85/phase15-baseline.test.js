@@ -96,7 +96,11 @@ test("[phase15.integration-safety] an endpoint singularity cannot publish an unq
   assert.ok([2, 6].includes(error), `expected DIVIDE BY ZERO or NO CONVERGENCE, got ${error} and ${harness.resultText()}`);
 });
 
-test.todo("[phase15.calculus-target] calculus commands can explicitly evaluate a stored graph slot", () => {
+test("[phase15.calculus-target] calculus commands can explicitly evaluate a stored graph slot", () => {
+  const value = evaluate("EVAL(1,3)", { equation: "X^2" });
+  assert.equal(value.machine.read8(FREE85_NUMERIC_ERROR_ADDRESS), 0);
+  assertClose(Number(value.resultText()), 9);
+
   const derivative = evaluate("NDER(1,2)", { equation: "X^2" });
   assert.equal(derivative.machine.read8(FREE85_NUMERIC_ERROR_ADDRESS), 0);
   assertClose(Number(derivative.resultText()), 4, 1e-8);
@@ -104,6 +108,20 @@ test.todo("[phase15.calculus-target] calculus commands can explicitly evaluate a
   const integral = evaluate("FNINT(1,0,2)", { equation: "X^2", frames: 3000 });
   assert.equal(integral.machine.read8(FREE85_NUMERIC_ERROR_ADDRESS), 0);
   assertClose(Number(integral.resultText()), 8 / 3, 1e-9);
+
+  const minimum = evaluate("FMIN(1,-2,2)", { equation: "X^2" });
+  assertClose(Number(minimum.resultText()), 0, 2e-4);
+  const maximum = evaluate("FMAX(1,-2,2)", { equation: "X^2" });
+  assertClose(Number(maximum.resultText()), -2, 4e-4);
+  const interpolation = evaluate("INTER(1,0,2)", { equation: "X^2" });
+  assertClose(Number(interpolation.resultText()), 2);
+  const arc = evaluate("ARC(1,0,1)", { equation: "X^2", frames: 3000 });
+  assertClose(Number(arc.resultText()), 1.4789428575, 3e-5);
+
+  for (const expression of ["EVAL(0,2)", "EVAL(4,2)", "EVAL(1.5,2)"]) {
+    const invalid = evaluate(expression, { equation: "X^2" });
+    assert.equal(invalid.machine.read8(FREE85_NUMERIC_ERROR_ADDRESS), 4, expression);
+  }
 });
 
 test.todo("[phase15.program-for] FOR accepts multi-digit expression bounds and an explicit step", () => {

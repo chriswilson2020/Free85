@@ -82,6 +82,7 @@
     },
     {
       "issue": "numeric.calculus-context",
+      "implementedIn": "2.16.0",
       "summaryForBooks": "Existing active-equation calculus forms remain, while explicit-slot forms allow derivative and accumulator functions to be evaluated and plotted without recursive state corruption.",
       "documents": [
         { "path": "docs/guidebook/03-mathematics.md", "sections": ["Numerical calculus"] },

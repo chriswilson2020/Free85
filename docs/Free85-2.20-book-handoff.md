@@ -26,6 +26,16 @@ degrees, the 1E-7 outer SIN/COS accuracy guarantee, and `PRECISION LOST` beyond
 the supported phase range. The old cliff remains useful only when clearly
 labelled as historical 2.10 behaviour.
 
+Phase 15.3 shipped in Free85 2.16. Retain the familiar active-equation syntax,
+then add the explicit one-based forms: `EVAL(slot,x)` and `NDER(slot,x)`, plus
+`FNINT(slot,a,b)`, `FMIN(slot,a,b)`, `FMAX(slot,a,b)`, `ARC(slot,a,b)`, and
+`INTER(slot,a,b)`. Replace claims that calculus cannot appear in graph slots
+with reviewed derivative and accumulator graph/table workflows. Explain that
+one nested graph-evaluation frame is available and that direct, indirect, or
+deeper cycles report `RECURSION ERROR` while unrelated equations continue.
+The reviewed implementation fixtures are `phase15-calculus-derivative` and
+`phase15-calculus-accumulator`; final book recapture still waits for 2.20.
+
 ## The important editorial changes
 
 1. **Errors become meaningful.** Do not use `SYNTAX ERROR` as prose shorthand

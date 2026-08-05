@@ -1,46 +1,46 @@
 {
   "schema_version": 1,
-  "release": "2.14.0",
-  "phase": "15.2",
+  "release": "2.16.0",
+  "phase": "15.3",
   "clock_hz": 6000000,
   "key_response": {
     "frames": 1,
-    "tstates": 120003
+    "tstates": 120006
   },
   "evaluation": {
     "arithmetic": {
       "frames": 3,
-      "tstates": 360017,
+      "tstates": 360029,
       "result": "751.33333333333",
       "error": 0
     },
     "sin": {
       "frames": 13,
-      "tstates": 1560041,
+      "tstates": 1560061,
       "result": "0.84147098480797",
       "error": 0
     },
     "sin_large": {
       "frames": 17,
-      "tstates": 2040068,
+      "tstates": 2040091,
       "result": "-0.3499934460541",
       "error": 0
     },
     "exp": {
       "frames": 26,
-      "tstates": 3120117,
+      "tstates": 3120096,
       "result": "2.7182818284583",
       "error": 0
     },
     "ln": {
       "frames": 63,
-      "tstates": 7560287,
+      "tstates": 7560237,
       "result": "0.69314718056122",
       "error": 0
     },
     "integral": {
       "frames": 159,
-      "tstates": 19080765,
+      "tstates": 19080785,
       "result": "2.6666666666667",
       "error": 0
     }
@@ -48,20 +48,28 @@
   "graph": {
     "linear": {
       "frames": 123,
-      "tstates": 15240534
+      "tstates": 15240607
     },
     "quadratic": {
       "frames": 293,
-      "tstates": 35641321
+      "tstates": 35641250
     },
     "sine": {
       "frames": 2326,
-      "tstates": 279609707
+      "tstates": 279609836
+    },
+    "derivative": {
+      "frames": 844,
+      "tstates": 101763794
+    },
+    "accumulator": {
+      "frames": 23257,
+      "tstates": 2791421966
     }
   },
   "improvement_percent": {
     "evaluation": {
-      "arithmetic": 0,
+      "arithmetic": -0.01,
       "sin": 0,
       "sin_large": null,
       "exp": 43.48,
@@ -71,7 +79,9 @@
     "graph": {
       "linear": 47.52,
       "quadratic": 28.09,
-      "sine": 4.59
+      "sine": 4.59,
+      "derivative": null,
+      "accumulator": null
     }
   },
   "limits": {
@@ -87,7 +97,9 @@
     "graph_frames": {
       "linear": 150,
       "quadratic": 320,
-      "sine": 2400
+      "sine": 2400,
+      "derivative": 1000,
+      "accumulator": 25000
     }
   }
 }

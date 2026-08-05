@@ -52,6 +52,10 @@ mathematical references rather than TI output.
 - **15.2 / 2.14:** bounded quotient-based circular reduction removes the old
   399-radian cliff, publishes measured radian/degree ranges, and reports
   precision loss beyond them.
+- **15.3 / 2.16:** legacy active-equation calculus remains compatible, while
+  explicit one-based slot forms restore caller state across nested evaluation.
+  Direct and indirect cycles fail as recursion errors; reviewed derivative and
+  accumulator plots and tables exercise the new path.
 
 ## Explicit boundary
 

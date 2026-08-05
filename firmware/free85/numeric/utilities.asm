@@ -772,33 +772,44 @@ utility_parse_base_literal:
     JP numeric_overflow_error
 
 utility_calculus_eval:
+    LD A, 1
+    LD (UTIL_COUNT), A
     LD HL, PHASE14_CALC_EVAL
     JR utility_calculus_call
 utility_calculus_derivative:
+    LD A, 1
+    LD (UTIL_COUNT), A
     LD HL, PHASE14_CALC_DERIV
     JR utility_calculus_call
 utility_calculus_integral:
+    LD A, 2
+    LD (UTIL_COUNT), A
     LD HL, PHASE14_CALC_INTEGRAL
     JR utility_calculus_call
 utility_calculus_minimum:
+    LD A, 2
+    LD (UTIL_COUNT), A
     LD HL, PHASE14_CALC_MINIMUM
     JR utility_calculus_call
 utility_calculus_maximum:
+    LD A, 2
+    LD (UTIL_COUNT), A
     LD HL, PHASE14_CALC_MAXIMUM
     JR utility_calculus_call
 utility_calculus_arc:
+    LD A, 2
+    LD (UTIL_COUNT), A
     LD HL, PHASE14_CALC_ARC
     JR utility_calculus_call
 utility_calculus_interpolate:
+    LD A, 2
+    LD (UTIL_COUNT), A
     LD HL, PHASE14_CALC_INTERP
 utility_calculus_call:
     LD (UTIL_SOURCE), HL
-    ; The flag is raised for the whole of a graph-slot evaluation as well as
-    ; for this call, so a graph-calculus name inside a graph equation is
-    ; refused before any state moves: the context save is single-level, and
-    ; these routines walk the same GRAPH_NUMERIC_OP, GRAPH_CURRENT_X and
-    ; GRAPH_STATUS that the caller is standing in. This is a runtime context
-    ; cycle, not malformed input, so retain a distinct recursion diagnostic.
+    ; One bank-1 context frame is available. Slot validation, argument ABI
+    ; rearrangement, and cycle detection happen beside that frame so the fixed
+    ; page does not have to duplicate graph-state knowledge.
     LD A, (GRAPH_CALC_ACTIVE)
     OR A
     JP NZ, numeric_recursion_error

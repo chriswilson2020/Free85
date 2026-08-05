@@ -19,7 +19,7 @@ if (rom.length !== 131072) throw new Error(`Release ROM is ${rom.length} bytes i
 if (coverage.features.complete_test_percent !== 100) {
   throw new Error("Release coverage is not at 100 percent");
 }
-if (performance.phase !== "15.2" || performance.release !== packageJson.version) {
+if (performance.phase !== "15.3" || performance.release !== packageJson.version) {
   throw new Error("Release performance report does not match the package version");
 }
 if ((parity.gaps.byStatus.missing ?? 0) !== 0 || (parity.gaps.byStatus.partial ?? 0) !== 0) {
@@ -33,7 +33,7 @@ if (parity.phase !== "14.10" || releaseGap?.status !== "equivalent") {
 }
 const romHash = createHash("sha256").update(rom).digest("hex");
   if (reproducibility.release !== packageJson.version
-  || reproducibility.phase !== "15.2"
+  || reproducibility.phase !== "15.3"
   || reproducibility.rom.sha256 !== romHash
   || reproducibility.independent_builds < 2) {
   throw new Error("Release reproducibility evidence is absent or stale");
@@ -43,9 +43,9 @@ const manifest = {
   schema_version: 2,
   name: "Free85",
   version: packageJson.version,
-  phase: "15.2",
+  phase: "15.3",
   target_release: packageJson.version,
-  status: packageJson.version === "2.14.0" ? "stable" : "development",
+  status: packageJson.version === "2.16.0" ? "stable" : "development",
   license: "MIT",
   persistent_ram: {
     schema: 13,
@@ -66,7 +66,7 @@ const manifest = {
   performance_report: "spec/free85/performance.json",
   parity_report: "spec/free85/v2-parity-report.json",
   reproducibility_report: "spec/free85/reproducibility.json",
-  release_notes: "docs/Free85-2.14-release.md",
+  release_notes: "docs/Free85-2.16-release.md",
   known_limitations: "docs/known-limitations.md",
   notices: ["LICENSE", "NOTICE.md", "firmware/free85/LICENSE"],
   browser_default: "public/ti85-app.js"

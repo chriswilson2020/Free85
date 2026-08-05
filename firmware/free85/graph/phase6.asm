@@ -134,6 +134,7 @@ p6_start_plot:
     LD (GRAPH_TOKEN_VALID), A
     LD (GRAPH_CALC_ACTIVE), A
     LD (GRAPH_LAST_ERROR), A
+    LD (GRAPH_EVAL_MASK), A
     LD A, 64
     LD (GRAPH_TRACE_X), A
     LD HL, p6_const_zero
@@ -399,21 +400,29 @@ p6_current_slot_mask:
     DEC C
     JR .shift
 
-; A = slot. Evaluates at GRAPH_CURRENT_X and returns NUM_RESULT.
-; A calculus name inside a slot source cannot be answered: the graph-calculus
-; routines run on the very state a slot evaluation is standing in, from the
-; single-level context save down to the shared GRAPH_NUMERIC_OP that the plot
-; and table loops count their slots in. Claim the calculus context for the
-; whole evaluation so utility_calculus_call answers RECURSION ERROR before any
-; of that moves, and the sample fails like any other bad expression. The saved
-; value returns on every exit: the callable commands evaluate slots themselves
-; and must not have the context cleared out from under them.
+; A = slot. Evaluates at GRAPH_CURRENT_X and returns NUM_RESULT. The bit mask
+; follows nested slot references through one callable-calculus frame, so a
+; direct or indirect equation cycle fails as RECURSION ERROR while unrelated
+; slots remain available to the plotter and table.
 p6_evaluate_slot:
     LD (GRAPH_TOKEN_SLOT), A
-    LD A, (GRAPH_CALC_ACTIVE)
+    LD C, A
+    LD B, 1
+.slot_bit:
+    LD A, C
+    OR A
+    JR Z, .bit_ready
+    SLA B
+    DEC C
+    JR .slot_bit
+.bit_ready:
+    LD A, (GRAPH_EVAL_MASK)
+    AND B
+    JP NZ, numeric_recursion_error
+    LD A, (GRAPH_EVAL_MASK)
     PUSH AF
-    LD A, 1
-    LD (GRAPH_CALC_ACTIVE), A
+    OR B
+    LD (GRAPH_EVAL_MASK), A
     LD A, (GRAPH_TOKEN_SLOT)
     CALL p6_evaluate_slot_source
     ; Keep the evaluation result and flags while restoring the caller's
@@ -423,13 +432,13 @@ p6_evaluate_slot:
     POP DE
     POP BC
     PUSH HL
-    LD HL, GRAPH_CALC_ACTIVE
+    LD HL, GRAPH_EVAL_MASK
     LD (HL), B
     POP HL
     LD A, E
     AND 1
     JR Z, .restore_result
-    LD A, B
+    LD A, (GRAPH_CALC_ACTIVE)
     OR A
     JR NZ, .restore_result
     XOR A
@@ -1117,6 +1126,33 @@ p6_const_2h5:   DB $00,$FB,$20,$00,$00,$00,$00,$00,$00
 ; evaluation has its own editor/token/parser context, so preserve the home
 ; expression around every call.
 p14_calculus_begin:
+    CALL p14_calculus_arguments
+    RET C
+    LD A, (GRAPH_ACTIVE_SLOT)
+    LD (P10_WORK_BUFFER + 0), A
+    LD A, (GRAPH_NUMERIC_OP)
+    LD (P10_WORK_BUFFER + 1), A
+    LD A, (GRAPH_STATUS)
+    LD (P10_WORK_BUFFER + 2), A
+    LD A, (GRAPH_TOKEN_SLOT)
+    LD (P10_WORK_BUFFER + 14), A
+    LD HL, GRAPH_XMIN
+    LD DE, P10_WORK_BUFFER + 3
+    LD BC, NUM_SIZE
+    LDIR
+    ; The parser/editor save consumes the rest of P10_WORK_BUFFER. Preserve
+    ; Xmax in its two small free tails: seven bytes after the saved X variable
+    ; and the remaining two immediately after the saved Xmin.
+    LD HL, GRAPH_XMAX
+    LD DE, P10_WORK_BUFFER + 217
+    LD BC, 7
+    LDIR
+    LD HL, GRAPH_XMAX + 7
+    LD DE, P10_WORK_BUFFER + 12
+    LD BC, 2
+    LDIR
+    LD A, (GRAPH_CALC_SLOT)
+    LD (GRAPH_ACTIVE_SLOT), A
     XOR A
     LD (GRAPH_TOKEN_VALID), A
     LD HL, TOKEN_BUFFER
@@ -1143,6 +1179,56 @@ p14_calculus_begin:
     LDIR
     RET
 
+; Convert the optional one-based slot argument into GRAPH_CALC_SLOT and move
+; the remaining values into the legacy NUM_LEFT/NUM_RIGHT ABI. The active-slot
+; form stays source-compatible. A slot already present in the evaluator mask
+; is a direct or indirect equation cycle.
+p14_calculus_arguments:
+    LD A, (SCI_ARG_COUNT)
+    LD B, A
+    LD A, (UTIL_COUNT)
+    CP B
+    JR Z, .legacy_slot
+    CALL scientific_to_u8
+    RET C
+    DEC A
+    CP 3
+    JP NC, numeric_domain_error
+    LD (GRAPH_CALC_SLOT), A
+    LD A, (SCI_ARG_COUNT)
+    CP 2
+    JR Z, .move_unary
+    LD HL, NUM_RIGHT
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    LD HL, NUM_SAVED
+    LD DE, NUM_RIGHT
+    CALL numeric_copy
+    JR .cycle_guard
+.move_unary:
+    LD HL, NUM_RIGHT
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    JR .cycle_guard
+.legacy_slot:
+    LD A, (GRAPH_ACTIVE_SLOT)
+    LD (GRAPH_CALC_SLOT), A
+.cycle_guard:
+    LD A, (GRAPH_CALC_SLOT)
+    LD B, 1
+.slot_bit:
+    OR A
+    JR Z, .bit_ready
+    SLA B
+    DEC A
+    JR .slot_bit
+.bit_ready:
+    LD A, (GRAPH_EVAL_MASK)
+    AND B
+    JP NZ, numeric_recursion_error
+    OR A
+    RET
+
 p14_calculus_end:
     LD HL, P9_WORK_BUFFER
     LD DE, TOKEN_BUFFER
@@ -1166,12 +1252,40 @@ p14_calculus_end:
     LD DE, VARIABLES + 23 * NUM_SIZE
     LD BC, NUM_SIZE
     LDIR
+    ; The restored outer X variable is the graph sample that was current when
+    ; this callable began; use it to restore GRAPH_CURRENT_X without another
+    ; nine-byte save area.
+    LD HL, VARIABLES + 23 * NUM_SIZE
+    LD DE, GRAPH_CURRENT_X
+    LD BC, NUM_SIZE
+    LDIR
+    LD A, (P10_WORK_BUFFER + 0)
+    LD (GRAPH_ACTIVE_SLOT), A
+    LD A, (P10_WORK_BUFFER + 1)
+    LD (GRAPH_NUMERIC_OP), A
+    LD A, (P10_WORK_BUFFER + 2)
+    LD (GRAPH_STATUS), A
+    LD A, (P10_WORK_BUFFER + 14)
+    LD (GRAPH_TOKEN_SLOT), A
+    LD HL, P10_WORK_BUFFER + 3
+    LD DE, GRAPH_XMIN
+    LD BC, NUM_SIZE
+    LDIR
+    LD HL, P10_WORK_BUFFER + 217
+    LD DE, GRAPH_XMAX
+    LD BC, 7
+    LDIR
+    LD HL, P10_WORK_BUFFER + 12
+    LD DE, GRAPH_XMAX + 7
+    LD BC, 2
+    LDIR
     XOR A
     LD (GRAPH_TOKEN_VALID), A
     RET
 
 p14_calculus_eval:
     CALL p14_calculus_begin
+    RET C
     XOR A
     LD (GRAPH_NUMERIC_OP), A
     LD HL, NUM_LEFT
@@ -1182,6 +1296,7 @@ p14_calculus_eval:
 
 p14_calculus_derivative:
     CALL p14_calculus_begin
+    RET C
     LD HL, NUM_LEFT
     LD DE, GRAPH_RESULT_X
     CALL numeric_copy
@@ -1190,12 +1305,14 @@ p14_calculus_derivative:
 
 p14_calculus_integral:
     CALL p14_calculus_begin
+    RET C
     CALL p14_calculus_bounds
     CALL p6_calculate_integral
     JP p14_calculus_return
 
 p14_calculus_minimum:
     CALL p14_calculus_begin
+    RET C
     CALL p14_calculus_bounds
     XOR A
     CALL p6_calculate_extremum
@@ -1203,6 +1320,7 @@ p14_calculus_minimum:
 
 p14_calculus_maximum:
     CALL p14_calculus_begin
+    RET C
     CALL p14_calculus_bounds
     LD A, 1
     CALL p6_calculate_extremum
@@ -1219,6 +1337,7 @@ p14_calculus_bounds:
 ; Linear endpoint interpolation at the interval midpoint.
 p14_calculus_interpolate:
     CALL p14_calculus_begin
+    RET C
     CALL p14_calculus_bounds
     XOR A
     LD (GRAPH_NUMERIC_OP), A
@@ -1247,6 +1366,7 @@ p14_calculus_interpolate:
 ; Arc length by a 64-segment polyline over the supplied interval.
 p14_calculus_arc:
     CALL p14_calculus_begin
+    RET C
     CALL p14_calculus_bounds
     XOR A
     LD (GRAPH_NUMERIC_OP), A

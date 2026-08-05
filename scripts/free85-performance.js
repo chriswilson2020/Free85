@@ -26,7 +26,7 @@ const phase11Baseline = {
 const limits = {
   key_response_frames: 1,
   evaluation_frames: { arithmetic: 4, sin: 15, sin_large: 30, exp: 30, ln: 70, integral: 250 },
-  graph_frames: { linear: 150, quadratic: 320, sine: 2400 }
+  graph_frames: { linear: 150, quadratic: 320, sine: 2400, derivative: 1000, accumulator: 25000 }
 };
 
 function typeExpression(harness, expression) {
@@ -92,6 +92,28 @@ function measureGraph(expression) {
   return { frames, tstates: harness.machine.cpu.tStates - start };
 }
 
+function measureGraphSlots(first, second, frameLimit) {
+  const harness = Free85Harness.boot();
+  harness.tap("GRAPH");
+  while (harness.machine.read8(GRAPH_ACTIVE)) harness.machine.runFrame();
+  for (const [address, source] of [[0x8510, first], [0x8541, second]]) {
+    harness.machine.write8(address, source.length);
+    for (let index = 0; index < source.length; index += 1) {
+      harness.machine.write8(address + 1 + index, source.charCodeAt(index));
+    }
+  }
+  harness.machine.write8(0x8501, 3);
+  const start = harness.machine.cpu.tStates;
+  harness.tap("GRAPH");
+  let frames = 0;
+  while (harness.machine.read8(GRAPH_ACTIVE) && frames < frameLimit) {
+    harness.machine.runFrame();
+    frames += 1;
+  }
+  if (harness.machine.read8(GRAPH_ACTIVE)) throw new Error(`${second} graph exceeded ${frameLimit} frames`);
+  return { frames, tstates: harness.machine.cpu.tStates - start };
+}
+
 function improvement(before, after) {
   return Number((((before - after) / before) * 100).toFixed(2));
 }
@@ -107,13 +129,15 @@ const evaluation = {
 const graph = {
   linear: measureGraph("X"),
   quadratic: measureGraph("X^2-4"),
-  sine: measureGraph("5*SIN(X)")
+  sine: measureGraph("5*SIN(X)"),
+  derivative: measureGraphSlots("X^2", "NDER(1,X)", 1000),
+  accumulator: measureGraphSlots("2*X", "FNINT(1,0,X)", 25000)
 };
 
 const report = {
   schema_version: 1,
-  release: "2.14.0",
-  phase: "15.2",
+  release: "2.16.0",
+  phase: "15.3",
   clock_hz: 6000000,
   key_response: measureKeyResponse(),
   evaluation,
@@ -127,7 +151,9 @@ const report = {
     ])),
     graph: Object.fromEntries(Object.entries(graph).map(([name, value]) => [
       name,
-      improvement(phase11Baseline.graph[name].tstates, value.tstates)
+      phase11Baseline.graph[name]
+        ? improvement(phase11Baseline.graph[name].tstates, value.tstates)
+        : null
     ]))
   },
   limits

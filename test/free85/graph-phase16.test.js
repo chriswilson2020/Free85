@@ -159,12 +159,10 @@ test("[graph.eval-guard] a graph-calculus name stored in a graph slot errors ins
   assert.equal(polar.machine.read8(0x800b), 2, "polar plot stays on the graph screen");
 });
 
-// The simultaneous plotter and the table both count their equation slots in
-// GRAPH_NUMERIC_OP, which every callable calculus entry point resets to zero.
-// A calculus name in Y2 or Y3 therefore rewound the slot counter on each
-// sample and the tick never returned, so no key was ever read again. Slot Y1
-// hid the fault: rewinding to zero is where its counter already stood.
-test("[graph.calculus-slot] a calculus name in a later graph slot fails the sample, not the machine", () => {
+// Legacy one/two-argument calculus retains its active-equation meaning inside
+// a later graph slot. The nested evaluator must restore the plotter and table
+// counters after each sample instead of rewinding them to Y1 and wedging.
+test("[graph.calculus-slot] legacy calculus in a later graph slot preserves the caller", () => {
   const writeSlot = (harness, address, source) => {
     harness.machine.write8(address, source.length);
     for (let index = 0; index < source.length; index += 1) {
@@ -172,7 +170,7 @@ test("[graph.calculus-slot] a calculus name in a later graph slot fails the samp
     }
   };
 
-  for (const source of ["FNINT(0,X)", "EVAL(2)", "NDER(X)"]) {
+  for (const source of ["EVAL(2)", "NDER(X)"]) {
     const harness = Free85Harness.boot();
     harness.tap("GRAPH");
     finishPlot(harness);

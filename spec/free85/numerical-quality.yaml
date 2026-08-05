@@ -76,14 +76,22 @@
     },
     {
       "id": "numeric.calculus-context",
-      "status": "known-limitation",
+      "status": "resolved",
       "owner": "15.3",
       "targetRelease": "2.16.0",
+      "resolvedRelease": "2.16.0",
       "summary": "Calculus commands implicitly consume the active graph equation and cannot safely be evaluated from a graph slot.",
       "baselineEvidence": [
         "firmware/free85/graph/phase6.asm:p6_evaluate_slot",
         "test/free85/graph-phase16.test.js:[graph.calculus-slot]",
         "test/free85/phase15-baseline.test.js:[phase15.calculus-target]"
+      ],
+      "resolutionEvidence": [
+        "firmware/free85/graph/phase6.asm:p14_calculus_arguments",
+        "test/free85/phase15-baseline.test.js:[phase15.calculus-target]",
+        "test/free85/phase15-calculus.test.js:[phase15.calculus-derivative-plot]",
+        "test/free85/phase15-calculus.test.js:[phase15.calculus-accumulator-plot]",
+        "test/free85/phase15-calculus.test.js:[phase15.calculus-cycles]"
       ],
       "acceptance": [
         "existing active-equation forms remain compatible",

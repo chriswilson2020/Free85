@@ -6,7 +6,7 @@ compatibility with TI programs, files, ROM calls, or internal data structures.
 
 ## Current release
 
-Free85 2.14.0 is the stable Phase 15.2 release. The eight-bank ROM is exactly
+Free85 2.16.0 is the stable Phase 15.3 release. The eight-bank ROM is exactly
 131,072 bytes; its SHA-256 digest is recorded in
 `spec/free85/release.json`.
 It freezes persistent RAM schema 13 and object-store schema 1. Run
@@ -129,6 +129,15 @@ whose Richardson error is within the selected tolerance; otherwise it reports
 EXIT/ON cancels the bounded calculation. `2ND+CLEAR`
 cycles tolerance through 1e-6, 1e-8, and 1e-10. Numerical failure is a
 recoverable dialog.
+
+Free85 2.16 retains the legacy active-equation forms (`EVAL(x)`, `NDER(x)`,
+`FNINT(a,b)`, and the corresponding interval callables) and adds one-based
+explicit targets. `EVAL(slot,x)` and `NDER(slot,x)` accept two arguments;
+`FNINT`, `FMIN`, `FMAX`, `ARC`, and `INTER` accept `slot,a,b`. These forms may
+be stored in another graph equation, so derivative and accumulator functions
+plot and tabulate normally. One nested graph-evaluation frame is permitted;
+direct or indirect slot cycles report `RECURSION ERROR` without stopping
+unrelated equations.
 
 Phase 6 code occupies bank 1 and calls the fixed packed-BCD/parser kernel in
 bank 0. This keeps graph-domain failures local to individual samples while the

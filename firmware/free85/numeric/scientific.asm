@@ -1558,7 +1558,7 @@ scientific_dispatch:
     CP SCI_ID_NCR
     JR Z, .require_two
     CP SCI_ID_RAND
-    JR Z, .require_zero
+    JP Z, .require_zero
     CP SCI_ID_ROUND
     JR Z, .require_two
     CP SCI_ID_MOD
@@ -1591,16 +1591,20 @@ scientific_dispatch:
     JR Z, .require_two
     CP SCI_ID_ROR
     JR Z, .require_two
+    CP SCI_ID_EVAL
+    JR Z, .require_one_or_two
+    CP SCI_ID_NDER
+    JR Z, .require_one_or_two
     CP SCI_ID_FNINT
-    JR Z, .require_two
+    JR Z, .require_two_or_three
     CP SCI_ID_FMIN
-    JR Z, .require_two
+    JR Z, .require_two_or_three
     CP SCI_ID_FMAX
-    JR Z, .require_two
+    JR Z, .require_two_or_three
     CP SCI_ID_ARC
-    JR Z, .require_two
+    JR Z, .require_two_or_three
     CP SCI_ID_INTER
-    JR Z, .require_two
+    JR Z, .require_two_or_three
     LD A, C
     CP 1
     JP NZ, numeric_syntax_error
@@ -1612,6 +1616,22 @@ scientific_dispatch:
     JP NZ, numeric_syntax_error
     LD A, B
     JR .dispatch
+.require_one_or_two:
+    LD A, C
+    CP 1
+    JR Z, .calculus_arity_ready
+    CP 2
+    JP NZ, numeric_syntax_error
+.calculus_arity_ready:
+    LD A, B
+    JR .dispatch
+.require_two_or_three:
+    LD A, C
+    CP 2
+    JR Z, .calculus_arity_ready
+    CP 3
+    JP NZ, numeric_syntax_error
+    JR .calculus_arity_ready
 .require_zero:
     LD A, C
     OR A

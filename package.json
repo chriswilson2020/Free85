@@ -1,6 +1,6 @@
 {
   "name": "free85",
-  "version": "2.14.0",
+  "version": "2.16.0",
   "private": true,
   "license": "MIT",
   "type": "module",
@@ -34,6 +34,7 @@
     "update:free85:release": "node scripts/free85-release.js --write",
     "update:free85:goldens": "node scripts/update-free85-graph-goldens.js",
     "update:free85:phase15-goldens": "node scripts/update-free85-phase15-goldens.js",
+    "update:free85:phase15-calculus-goldens": "node scripts/update-free85-phase15-calculus-goldens.js",
     "update:free85:phase16-goldens": "node scripts/update-free85-phase16-goldens.js",
     "update:free85:phase17-goldens": "node scripts/update-free85-phase17-goldens.js",
     "update:free85:phase21-goldens": "node scripts/update-free85-phase21-goldens.js",

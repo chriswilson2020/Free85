@@ -171,3 +171,12 @@ SIN/COS/TAN, radians through magnitude 1E6, degrees through 1E8, explicit
 `PRECISION LOST` outside those limits, program propagation, cancellation, and
 large-angle performance. The ordinary graph benchmark remains below the
 pre-optimisation Phase 11 baseline.
+
+Phase 15.3 is the Free85 2.16.0 re-entrant-calculus gate. The legacy
+active-equation forms and new explicit one-based slot forms are checked against
+independent derivative and integral results. Caller-state restoration covers
+the parser, editor, token cache, plot/table counters, active slot, X value, and
+graph window. Direct and indirect equation cycles must report recursion while
+an unrelated slot continues. Lossless reviewed LCD fixtures cover derivative
+and accumulator plots, with deterministic frame limits recorded in the
+performance report.

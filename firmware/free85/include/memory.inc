@@ -107,9 +107,8 @@ GRAPH_PREV_Y3       EQU GRAPH_BASE + 11
 GRAPH_TOKEN_SLOT    EQU GRAPH_BASE + 12
 GRAPH_TOKEN_VALID   EQU GRAPH_BASE + 13
 GRAPH_INPUT_GUARD   EQU GRAPH_BASE + 14
-; Set while a graph slot is being evaluated or a callable calculus command is
-; running: both own the shared graph numeric state, so neither may be entered
-; from inside the other.
+; Set while the one available callable-calculus context frame is running.
+; GRAPH_EVAL_MASK separately follows graph-slot ownership for cycle detection.
 GRAPH_CALC_ACTIVE   EQU GRAPH_BASE + 15
 GRAPH_EQ1           EQU GRAPH_BASE + 16
 GRAPH_EQ2           EQU GRAPH_EQ1 + EDITOR_CAPACITY + 1
@@ -152,6 +151,8 @@ GRAPH_COORD_MODE    EQU GRAPH_SHARED_BASE + 11
 ; holds the current bounded Simpson refinement (32, 64, or 128 panels).
 GRAPH_LAST_ERROR    EQU GRAPH_SHARED_BASE + 12
 GRAPH_INTEGRAL_PANELS EQU GRAPH_SHARED_BASE + 13
+GRAPH_CALC_SLOT     EQU GRAPH_SHARED_BASE + 14
+GRAPH_EVAL_MASK     EQU GRAPH_SHARED_BASE + 15
 GRAPH_ZOOM_FACTOR   EQU $86A0
 GRAPH_BOX_VALUE     EQU $86A9
 GRAPH_PREV_XMIN     EQU $86B2

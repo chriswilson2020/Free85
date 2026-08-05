@@ -910,6 +910,13 @@ parser_parse_primary:
     CALL parser_parse_assignment
     JR C, .function_error
     LD B, 2
+    CALL parser_current_type
+    CP TOKEN_COMMA
+    JR NZ, .function_arguments_ready
+    CALL parser_advance
+    CALL parser_parse_assignment
+    JR C, .function_error
+    LD B, 3
     JR .function_arguments_ready
 .zero_arguments:
     LD B, 0
@@ -923,8 +930,15 @@ parser_parse_primary:
     LD A, (SCI_ARG_COUNT)
     OR A
     JR Z, .dispatch_call
+    CP 3
+    JR NZ, .two_argument_pop
+    LD DE, NUM_SAVED
+    CALL parser_pop
+    JR C, .function_error
+.two_argument_pop:
+    LD A, (SCI_ARG_COUNT)
     CP 2
-    JR NZ, .one_argument
+    JR C, .one_argument
     LD DE, NUM_RIGHT
     CALL parser_pop
     JR C, .function_error

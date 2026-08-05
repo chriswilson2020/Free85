@@ -6,7 +6,7 @@ compatibility with TI programs, files, ROM calls, or internal data structures.
 
 ## Current release
 
-Free85 2.18.0 is the stable Phase 15.4 release. The eight-bank ROM is exactly
+Free85 2.19.0 is the stable Phase 15.5 release. The eight-bank ROM is exactly
 131,072 bytes; its SHA-256 digest is recorded in
 `spec/free85/release.json`.
 It freezes persistent RAM schema 13 and object-store schema 1. Run
@@ -265,7 +265,7 @@ DISP expression
 INPUT V
 IF expression / ELSE / END
 WHILE expression / END
-FOR V,start,end / END
+FOR V,start,end[,step] / END
 CALL 1..4
 RETURN
 STOP
@@ -278,10 +278,12 @@ MGET row,column,V
 
 Expressions and assignments are evaluated by the same packed-decimal parser,
 variables, functions, constants, and angle mode as the home screen. Conditions
-treat zero as false and all other numeric values as true. `FOR` is an ascending
-integer loop with one-digit inclusive bounds; list indices are 1-8 and matrix
-rows/columns are 1-3. `GRAPH` stores and opens the expression through the normal
-graph engine.
+treat zero as false and all other numeric values as true. `FOR` evaluates exact
+signed 16-bit integer expressions for its inclusive start and end bounds. Its
+optional nonzero step defaults to one and may be positive or negative; a step
+whose direction cannot reach the bound produces an empty loop. List indices
+are 1-8 and matrix rows/columns are 1-3. `GRAPH` stores and opens the expression
+through the normal graph engine.
 
 Execution advances by one source statement per firmware tick. Consequently an
 infinite `WHILE` remains responsive: `ON`, `EXIT`, or `CLEAR` stops it without

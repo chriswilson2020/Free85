@@ -923,7 +923,10 @@ p10_command_while:
     CALL Z, p10_pop_control
     JP p10_skip_to_end
 
-; Compact syntax: FOR V,start,end where start/end are digits 0-9.
+; FOR V,start,end[,step]. Each bound is evaluated by the shared expression
+; engine and must be an exact signed 16-bit integer. The default step is +1.
+; Top-level commas delimit fields; commas inside parenthesised functions remain
+; part of the expression.
 p10_command_for:
     LD A, B
     CP 5
@@ -933,56 +936,185 @@ p10_command_for:
     JP C, p10_runtime_syntax
     CP 'Z' + 1
     JP NC, p10_runtime_syntax
-    LD D, A
-    INC HL
-    LD A, (HL)
-    CP ','
-    JP NZ, p10_runtime_syntax
-    INC HL
-    LD A, (HL)
-    SUB '0'
-    JP C, p10_runtime_syntax
-    CP 10
-    JP NC, p10_runtime_syntax
-    LD E, A
-    INC HL
-    LD A, (HL)
-    CP ','
-    JP NZ, p10_runtime_syntax
-    INC HL
-    LD A, (HL)
-    SUB '0'
-    JP C, p10_runtime_syntax
-    CP 10
-    JP NC, p10_runtime_syntax
-    LD C, A
-    LD A, D
     LD (P10_WORK_BUFFER + 1), A
-    LD A, E
-    LD (P10_WORK_BUFFER + 2), A
-    LD A, C
-    LD (P10_WORK_BUFFER + 3), A
+    INC HL
+    DEC B
+    LD A, (HL)
+    CP ','
+    JP NZ, p10_runtime_syntax
+    INC HL
+    DEC B
+    LD IX, P10_WORK_BUFFER + 2
+    CALL p10_for_capture_span
+    JP C, p10_runtime_syntax
+    LD A, B
+    OR A
+    JP Z, p10_runtime_syntax
+    LD A, (HL)
+    CP ','
+    JP NZ, p10_runtime_syntax
+    INC HL
+    DEC B
+    LD IX, P10_WORK_BUFFER + 5
+    CALL p10_for_capture_span
+    JP C, p10_runtime_syntax
+    LD A, B
+    OR A
+    JR Z, .default_step
+    LD A, (HL)
+    CP ','
+    JP NZ, p10_runtime_syntax
+    INC HL
+    DEC B
+    LD IX, P10_WORK_BUFFER + 8
+    CALL p10_for_capture_span
+    JP C, p10_runtime_syntax
+    LD A, B
+    OR A
+    JP NZ, p10_runtime_syntax
+    LD IX, P10_WORK_BUFFER + 8
+    LD DE, P10_WORK_BUFFER + 16
+    CALL p10_for_evaluate_span
+    JP C, p10_runtime_evaluation
+    JR .evaluate_bounds
+.default_step:
+    LD HL, 1
+    LD (P10_WORK_BUFFER + 16), HL
+.evaluate_bounds:
+    LD IX, P10_WORK_BUFFER + 2
+    LD DE, P10_WORK_BUFFER + 12
+    CALL p10_for_evaluate_span
+    JP C, p10_runtime_evaluation
+    LD IX, P10_WORK_BUFFER + 5
+    LD DE, P10_WORK_BUFFER + 14
+    CALL p10_for_evaluate_span
+    JP C, p10_runtime_evaluation
+    LD HL, (P10_WORK_BUFFER + 16)
+    LD A, H
+    OR L
+    JR NZ, .step_valid
+    LD A, P10_ERR_DOMAIN
+    JP p10_runtime_error
+.step_valid:
     CALL p10_top_is_current_for
     JP Z, p10_advance
+    ; A direction whose first value is already beyond the inclusive bound has
+    ; zero iterations and skips directly to the matching END.
+    LD HL, (P10_WORK_BUFFER + 12)
+    LD DE, (P10_WORK_BUFFER + 14)
+    LD A, (P10_WORK_BUFFER + 17)
+    OR A
+    JP M, .negative_entry
+    CALL p10_s16_compare
+    JR C, .enter
+    JR Z, .enter
+    JP p10_skip_to_end
+.negative_entry:
+    CALL p10_s16_compare
+    JP C, p10_skip_to_end
+.enter:
     LD A, P10_FRAME_FOR
     CALL p10_push_control
     JP C, p10_runtime_stack
-    ; Store variable, end and current in the new top frame.
+    ; Store variable and signed end in the new top frame.
     CALL p10_control_top_pointer
     INC HL
     INC HL
     LD A, (P10_WORK_BUFFER + 1)
     LD (HL), A
     INC HL
-    LD A, (P10_WORK_BUFFER + 3)
+    LD A, (P10_WORK_BUFFER + 14)
     LD (HL), A
     INC HL
-    LD A, (P10_WORK_BUFFER + 2)
+    LD A, (P10_WORK_BUFFER + 15)
     LD (HL), A
-    LD C, A
+    ; Step values are parallel to the bounded control stack, preserving the
+    ; established six-byte frame and call-stack addresses.
+    LD A, (P10_CONTROL_DEPTH)
+    DEC A
+    CALL p10_for_step_pointer
+    LD A, (P10_WORK_BUFFER + 16)
+    LD (HL), A
+    INC HL
+    LD A, (P10_WORK_BUFFER + 17)
+    LD (HL), A
+    LD HL, (P10_WORK_BUFFER + 12)
     LD A, (P10_WORK_BUFFER + 1)
-    CALL p10_set_variable_u8
+    CALL p10_set_variable_s16
     JP p10_advance
+
+; Capture one expression span. Input HL/source, B/remaining bytes, IX/three-byte
+; metadata destination. Output leaves HL/B at a top-level comma or at the end.
+p10_for_capture_span:
+    LD A, L
+    LD (IX + 0), A
+    LD A, H
+    LD (IX + 1), A
+    LD C, 0                    ; span length
+    LD D, 0                    ; parenthesis depth
+.scan:
+    LD A, B
+    OR A
+    JR Z, .finish
+    LD A, (HL)
+    CP '('
+    JR Z, .open
+    CP ')'
+    JR Z, .close
+    CP ','
+    JR NZ, .consume
+    LD A, D
+    OR A
+    JR Z, .finish
+.consume:
+    INC HL
+    INC C
+    DEC B
+    JR .scan
+.open:
+    INC D
+    JR .consume
+.close:
+    LD A, D
+    OR A
+    JR Z, .invalid
+    DEC D
+    JR .consume
+.finish:
+    LD A, D
+    OR C
+    JR Z, .invalid
+    LD A, D
+    OR A
+    JR NZ, .invalid
+    LD (IX + 2), C
+    OR A
+    RET
+.invalid:
+    SCF
+    RET
+
+; Evaluate metadata at IX and store an exact signed word at DE.
+p10_for_evaluate_span:
+    LD L, (IX + 0)
+    LD H, (IX + 1)
+    LD B, (IX + 2)
+    PUSH DE
+    CALL p10_eval_span
+    POP DE
+    RET C
+    PUSH DE
+    LD HL, NUM_RESULT
+    CALL utility_to_s16
+    POP DE
+    RET C
+    LD A, L
+    LD (DE), A
+    INC DE
+    LD A, H
+    LD (DE), A
+    OR A
+    RET
 
 p10_command_end:
     CALL p10_control_top_pointer
@@ -1009,29 +1141,94 @@ p10_command_end:
 p10_for_end:
     INC HL
     LD A, (HL)
-    LD B, A                    ; FOR line
+    LD (P10_WORK_BUFFER + 20), A ; FOR line
     INC HL
     LD A, (HL)
-    LD D, A                    ; variable
+    LD (P10_WORK_BUFFER + 1), A  ; variable
     INC HL
     LD A, (HL)
-    LD C, A                    ; end
+    LD (P10_WORK_BUFFER + 14), A
     INC HL
     LD A, (HL)
-    INC A
-    LD (HL), A
-    CP C
+    LD (P10_WORK_BUFFER + 15), A ; signed end
+    LD A, (P10_WORK_BUFFER + 1)
+    CALL parser_variable_address
+    JP C, p10_runtime_syntax
+    CALL utility_to_s16
+    JP C, p10_runtime_evaluation
+    LD (P10_WORK_BUFFER + 12), HL
+    LD A, (P10_CONTROL_DEPTH)
+    DEC A
+    CALL p10_for_step_pointer
+    LD E, (HL)
+    INC HL
+    LD D, (HL)
+    LD HL, (P10_WORK_BUFFER + 12)
+    LD A, H                    ; signed-add overflow: same-sign operands whose
+    XOR D                      ; result changes sign are outside s16 range.
+    LD (P10_WORK_BUFFER + 18), A
+    ADD HL, DE
+    LD A, H
+    LD (P10_WORK_BUFFER + 19), A
+    LD A, (P10_WORK_BUFFER + 18)
+    OR A
+    JP M, .sum_valid
+    LD A, (P10_WORK_BUFFER + 12 + 1)
+    XOR H
+    JP M, p10_for_finish
+.sum_valid:
+    LD (P10_WORK_BUFFER + 12), HL
+    LD A, (P10_CONTROL_DEPTH)
+    DEC A
+    CALL p10_for_step_pointer
+    INC HL
+    LD A, (HL)                 ; sign of step
+    LD HL, (P10_WORK_BUFFER + 12)
+    LD DE, (P10_WORK_BUFFER + 14)
+    OR A
+    JP M, .negative
+    CALL p10_s16_compare
     JR C, .continue
     JR Z, .continue
-    CALL p10_pop_control
-    JP p10_advance
+    JP p10_for_finish
+.negative:
+    CALL p10_s16_compare
+    JR NC, .continue
+    JP p10_for_finish
 .continue:
-    LD C, A
-    LD A, D
-    CALL p10_set_variable_u8
-    LD A, B
+    LD A, (P10_WORK_BUFFER + 1)
+    CALL p10_set_variable_s16
+    LD A, (P10_WORK_BUFFER + 20)
     INC A
     LD (P10_PC), A
+    RET
+
+p10_for_finish:
+    CALL p10_pop_control
+    JP p10_advance
+
+; A=zero-based control depth -> HL points to its signed step word.
+p10_for_step_pointer:
+    ADD A, A
+    LD L, A
+    LD H, 0
+    LD DE, P10_FOR_STEP_STACK
+    ADD HL, DE
+    RET
+
+; Signed comparison preserving HL/DE: carry iff HL < DE, zero iff equal.
+p10_s16_compare:
+    LD A, H
+    XOR $80
+    LD B, A
+    LD A, D
+    XOR $80
+    LD C, A
+    LD A, B
+    CP C
+    RET NZ
+    LD A, L
+    CP E
     RET
 
 p10_command_call:
@@ -1615,7 +1812,18 @@ p10_scan_line_kind:
     LD A, 3
     RET
 
-; A=variable ASCII, C=value 0-9.
+; A=variable ASCII, HL=signed 16-bit value.
+p10_set_variable_s16:
+    PUSH AF
+    CALL utility_set_s16
+    POP AF
+    CALL parser_variable_address
+    RET C
+    EX DE, HL
+    LD HL, NUM_RESULT
+    JP numeric_copy
+
+; A=variable ASCII, C=value 0-9. Retained for legacy data helpers.
 p10_set_variable_u8:
     PUSH AF
     LD A, C

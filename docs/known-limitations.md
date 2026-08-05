@@ -1,4 +1,4 @@
-# Free85 2.18.0 known limitations
+# Free85 2.19.0 known limitations
 
 Free85 is a complete standalone calculator for its documented feature set, but
 it is not a binary-compatible replacement for Texas Instruments firmware.
@@ -42,16 +42,16 @@ it is not a binary-compatible replacement for Texas Instruments firmware.
   behavior. Queries beyond the work bound report `NO CONVERGENCE`.
 - Lists contain at most eight values, matrices are at most 3x3, vectors have at
   most three components, simultaneous systems are at most 4x4, and polynomial
-  solving is limited to degree four. Collection results land in read-only `R`
-  and there is not yet an atomic result-to-input copy operation.
+  solving is limited to degree four. When a collection result `R` is displayed,
+  `ENTER` copies its complete value and metadata atomically into input `A`.
 - The programming environment provides four programs of eight 48-character
   lines each, eight nested control frames, and four nested calls. `FOR` bounds
-  are single digits from 0 through 9 and its step is always positive one.
-- Free85 2.18.0 retains the frozen persistent RAM schema 13 and object-store schema 1. It
+  and its optional nonzero step must evaluate to signed 16-bit integers.
+- Free85 2.19.0 retains the frozen persistent RAM schema 13 and object-store schema 1. It
   migrates schema 12 transactionally; unsupported or corrupt schema headers
   are reset rather than interpreted speculatively.
 - The browser integration targets the repository's TI-85-compatible emulator;
-  physical-hardware installation is not part of the 2.18.0 release validation.
+  physical-hardware installation is not part of the 2.19.0 release validation.
 
 The accepted Phase 15 roadmap owns the numerical and workflow limitations
 above for Free85 2.20. Larger dynamic collections and program stores remain a

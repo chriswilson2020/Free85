@@ -188,3 +188,10 @@ mutation and grows transactionally to the 224-byte v2 payload on save.
 Independent `y'=y`, `(0,1)` vectors at h=0.1 and h=0.05 verify convergence
 ratios near 2, 4, and 16 for Euler, Heun, and RK4. Distant-query work limits
 and physical EXIT cancellation exercise `NO CONVERGENCE` and `CANCELLED`.
+
+Phase 15.5 is the Free85 2.19.0 workflow gate. Complex, list, matrix, and vector
+result promotion is checked byte-for-byte across value, shape, coordinate, and
+imaginary metadata, including corrupt-shape rollback. Counted-loop vectors
+cover legacy syntax, expression and function-comma bounds, signed 16-bit
+limits, default/positive/negative steps, descending and empty ranges, nesting,
+domain failures, boundary overshoot, and physical ON interruption.

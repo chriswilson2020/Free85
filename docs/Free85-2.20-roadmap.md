@@ -59,6 +59,10 @@ mathematical references rather than TI output.
 - **15.4 / 2.18:** DEQ exposes editable X0/Y0 and reset controls, migrates old
   GDEQ payloads transactionally, and offers Euler, Heun, and classical RK4 with
   measured convergence orders, bounded work, and cancellation.
+- **15.5 / 2.19:** `ENTER` promotes a complete collection result `R` into `A`
+  without losing shape, coordinate, or complex metadata. `FOR` accepts evaluated
+  signed 16-bit bounds, an optional nonzero step, descending and empty ranges,
+  while retaining the original one-digit syntax.
 
 ## Explicit boundary
 

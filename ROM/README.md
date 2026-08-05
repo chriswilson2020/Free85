@@ -10,7 +10,7 @@ Rebuild it with:
 npm run build:free85
 ```
 
-Free85 2.18.0's exact size and SHA-256 digest are recorded in
+Free85 2.19.0's exact size and SHA-256 digest are recorded in
 `spec/free85/release.json`. `npm run release:free85` rebuilds and validates the
 complete release bundle, while `npm run verify:free85:reproducible` performs
 two independent ROM and GitHub Pages builds and checks their recorded hashes.

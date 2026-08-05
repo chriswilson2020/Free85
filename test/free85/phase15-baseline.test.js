@@ -124,7 +124,7 @@ test("[phase15.calculus-target] calculus commands can explicitly evaluate a stor
   }
 });
 
-test.todo("[phase15.program-for] FOR accepts multi-digit expression bounds and an explicit step", () => {
+test("[phase15.program-for-baseline] FOR accepts multi-digit bounds and an explicit step", () => {
   const harness = Free85Harness.boot();
   writeProgram(harness, ["FOR A,2,12,2", "DISP A", "END", "STOP"]);
   harness.tap("PRGM");

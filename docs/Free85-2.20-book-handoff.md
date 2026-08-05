@@ -46,6 +46,14 @@ EXIT/ON cancellation, persistence, and transactional v1 GDEQ migration. The
 reviewed setup fixture is `phase15-deq-setup`; numerical recapture still waits
 for the final 2.20 ROM.
 
+Phase 15.5 shipped in Free85 2.19. Replace manual collection-result
+transcription with: display `R`, then press `ENTER` (`ENTER USE R`) to copy the
+complete result into `A`; dimensions, vector coordinate form, and complex
+components are retained. Replace the single-digit `FOR` limitation with
+`FOR V,start,end[,step]`: all three fields are evaluated exact signed 16-bit
+integer expressions, step defaults to one, negative steps descend, and zero,
+fractional, or out-of-range values report `DOMAIN ERROR`.
+
 ## The important editorial changes
 
 1. **Errors become meaningful.** Do not use `SYNTAX ERROR` as prose shorthand

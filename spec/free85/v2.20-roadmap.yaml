@@ -73,7 +73,7 @@
     {
       "id": "15.5",
       "name": "workflow-restrictions",
-      "status": "planned",
+      "status": "complete",
       "release": "2.19.0",
       "dependsOn": ["15.0"],
       "owns": ["collections.result-chaining", "program.for-expressions"],

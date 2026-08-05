@@ -369,6 +369,10 @@ P10_PROGRAM_DATA    EQU $9540
 P10_CONTROL_STACK   EQU $9B80
 P10_CONTROL_FRAME   EQU 6
 P10_CONTROL_MAX     EQU 8
+; FOR frames keep their signed 16-bit step in the otherwise unused 16-byte
+; gap between the control and call stacks. End values live in frame bytes 3-4.
+P10_FOR_STEP_STACK  EQU P10_CONTROL_STACK + P10_CONTROL_FRAME * P10_CONTROL_MAX
+    ASSERT P10_FOR_STEP_STACK + P10_CONTROL_MAX * 2 <= P10_CALL_STACK
 P10_CALL_STACK      EQU $9BC0
 P10_CALL_FRAME      EQU 3
 P10_CALL_MAX        EQU 4

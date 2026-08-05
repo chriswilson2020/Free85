@@ -20,11 +20,17 @@
     },
     {
       "id": "graph.picture-overlay",
-      "status": "baseline-limitation",
+      "status": "resolved",
       "owner": "17.2",
+      "resolvedRelease": "3.0.0-dev.2",
       "summary": "StPic and RcPic preserve a framebuffer, but starting a new graph clears the recalled picture instead of using it as an underlay.",
       "baselineEvidence": ["firmware/free85/graph/phase15.asm:p15_recall_picture", "test/free85/graph-phase15.test.js:[graph.phase15-picture]"],
-      "acceptance": ["explicit one-shot underlay", "stored object immutability", "clear recall overlay and cancellation fixtures"]
+      "acceptance": ["explicit one-shot underlay", "stored object immutability", "clear recall overlay and cancellation fixtures"],
+      "resolutionEvidence": [
+        "firmware/free85/graph/phase22.asm:p22_overlay_arm",
+        "test/free85/phase17-overlay.test.js",
+        "test/free85/goldens/graphs/phase17-overlay-missing.lcd"
+      ]
     },
     {
       "id": "graph.diffeq-system",

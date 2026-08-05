@@ -16,12 +16,16 @@ The repository includes:
 
 ## Current status
 
-Free85 3.0.0-dev.1 is the current Phase 17 development build. It adds a direct
+Free85 3.0.0-dev.2 is the current Phase 17 development build. It adds a direct
 four-field graph-window editor: open the third zoom page and choose `WIN`,
 select `XMIN`, `XMAX`, `YMIN`, or `YMAX`, type an expression, press `ENTER`,
 then `SAVE`. All four draft bounds are validated and committed atomically;
 cancelled, malformed, or unordered input leaves the live window unchanged.
-The home screen identifies this build as `VERSION 3.0 DEV1`.
+The fourth drawing-menu page now adds `OVR` and `OFF`: `OVR` recalls `PIC1` as
+a one-shot underlay for the next graph, while `OFF`, leaving for Home, or the
+completed graph consumes/cancels that state. The stored picture is never
+modified by compositing. The home screen identifies this build as
+`VERSION 3.0 DEV2`.
 
 Free85 2.21.0 remains the latest stable Phase 16 release. It is a deterministic 128 KiB
 ROM with complete coverage of the applicable Free85 2.0 parity ledger,

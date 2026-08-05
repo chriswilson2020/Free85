@@ -26,6 +26,7 @@ p15_init:
     LD (P15_STATE), A
     LD (P15_ACTIVE), A
     LD (P15_MENU_SAVED), A
+    LD (P22_OVERLAY_ARMED), A
     RET
 
 ; ---------------------------------------------------------------------------
@@ -110,6 +111,10 @@ p15_draw_panel_key:
     JR Z, .page2
     CP KEY_F1
     JP Z, p15_menu_recall_gdb
+    CP KEY_F2
+    JP Z, p22_overlay_arm
+    CP KEY_F3
+    JP Z, p22_overlay_cancel
     JP p15_render_draw_menu
 .page0:
     CP KEY_F1
@@ -1371,4 +1376,4 @@ p15_program_variable_u8:
 p15_menu_0: DB "LINE VERT CIRC TAN SH",0
 p15_menu_1: DB "ON OFF CHG DRAWF INV",0
 p15_menu_2: DB "PEN CLR STP RCP STG",0
-p15_menu_3: DB "RCG",0
+p15_menu_3: DB "RCG OVR OFF",0

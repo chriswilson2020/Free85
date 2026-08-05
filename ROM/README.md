@@ -10,8 +10,10 @@ Rebuild it with:
 npm run build:free85
 ```
 
-Free85 2.20.0's exact size and SHA-256 digest are recorded in
-`spec/free85/release.json`. `npm run release:free85` rebuilds and validates the
+The bundled ROM follows the package version; development branches may therefore
+contain a newer Phase 17 image than the last stable release. Free85 2.21.0's
+exact stable size and SHA-256 digest remain recorded in
+`spec/free85/release.json`. `npm run release:free85` rebuilds and validates a
 complete release bundle, while `npm run verify:free85:reproducible` performs
 two independent ROM and GitHub Pages builds and checks their recorded hashes.
 

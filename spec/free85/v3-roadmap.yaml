@@ -42,7 +42,7 @@
     {
       "id": "17.1",
       "name": "direct-window-editor",
-      "status": "planned",
+      "status": "complete",
       "release": "3.0.0-dev.1",
       "dependsOn": ["17.0"],
       "owns": ["graph.window-editor"],

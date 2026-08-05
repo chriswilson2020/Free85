@@ -6,11 +6,17 @@
   "capabilities": [
     {
       "id": "graph.window-editor",
-      "status": "baseline-limitation",
+      "status": "resolved",
       "owner": "17.1",
+      "resolvedRelease": "3.0.0-dev.1",
       "summary": "Graph windows can be zoomed and recalled but their four bounds cannot be entered directly as numeric expressions.",
       "baselineEvidence": ["firmware/free85/graph/phase14.asm", "docs/known-limitations.md"],
-      "acceptance": ["four direct fields", "atomic validation", "exact LCD and persistence coverage"]
+      "acceptance": ["four direct fields", "atomic validation", "exact LCD and persistence coverage"],
+      "resolutionEvidence": [
+        "firmware/free85/graph/phase22.asm",
+        "test/free85/phase17-window.test.js",
+        "test/free85/goldens/graphs/phase17-window-editor.lcd"
+      ]
     },
     {
       "id": "graph.picture-overlay",

@@ -1,4 +1,4 @@
-import { writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { TI85_PHYSICAL_KEYS } from "../src/ti85-keys.js";
 import { Free85Harness } from "../test/helpers/free85-harness.js";
 
@@ -8,6 +8,8 @@ const NUMERIC_ERROR = 0x805a;
 const alphaKeys = new Map(TI85_PHYSICAL_KEYS
   .filter(({ alpha }) => /^[A-Z]$/.test(alpha ?? ""))
   .map(({ alpha, key }) => [alpha, key]));
+const packageJson = JSON.parse(await readFile("package.json", "utf8"));
+const usage = JSON.parse(await readFile("firmware/free85/generated/usage.json", "utf8"));
 
 const phase11Baseline = {
   evaluation: {
@@ -138,8 +140,8 @@ const graph = {
 
 const report = {
   schema_version: 1,
-  release: "2.21.0",
-  phase: "16",
+  release: packageJson.version,
+  phase: usage.phase,
   clock_hz: 6000000,
   key_response: measureKeyResponse(),
   evaluation,

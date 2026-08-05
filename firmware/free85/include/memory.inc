@@ -163,6 +163,12 @@ GRAPH_RECALL_XMIN   EQU $86D8
 GRAPH_RECALL_XMAX   EQU GRAPH_RECALL_XMIN + NUM_SIZE
 GRAPH_RECALL_YMIN   EQU GRAPH_RECALL_XMAX + NUM_SIZE
 GRAPH_RECALL_YMAX   EQU GRAPH_RECALL_YMIN + NUM_SIZE
+; Phase 17.1 direct-window editor. Draft packed values reuse GRAPH_WORK_0..3
+; while plotting is stopped; these bytes only track the editor UI itself.
+P22_WINDOW_FIELD    EQU $86FC
+P22_WINDOW_INPUT    EQU $86FD
+P22_WINDOW_ERROR    EQU $86FE
+P22_WINDOW_RENDER_FIELD EQU $86FF
 PHASE6_STATE_END    EQU $8700
 
 ; Phase 7 collection/object RAM. Scalar payloads retain the packed-BCD format.

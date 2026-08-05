@@ -27,6 +27,22 @@ test("[phase17.roadmap] Free85 3.0 owns every approved capability exactly once",
   }
 });
 
+test("[phase17.1.completion] dev.1 closes the direct-window limitation and records book impact", async () => {
+  const roadmap = await readJson("spec/free85/v3-roadmap.yaml");
+  const ledger = await readJson("spec/free85/v3-capabilities.yaml");
+  const impact = await readJson("spec/free85/v3-book-impact.yaml");
+  const workPackage = roadmap.workPackages.find(({ id }) => id === "17.1");
+  const capability = ledger.capabilities.find(({ id }) => id === "graph.window-editor");
+  const bookChange = impact.changes.find(({ issue }) => issue === capability.id);
+  assert.equal(workPackage.status, "complete");
+  assert.equal(workPackage.release, "3.0.0-dev.1");
+  assert.equal(capability.status, "resolved");
+  assert.equal(capability.resolvedRelease, workPackage.release);
+  assert.ok(capability.resolutionEvidence.length >= 3);
+  assert.equal(bookChange.implementedIn, workPackage.release);
+  assert.ok(bookChange.documents.length >= 4);
+});
+
 test("[phase17.versioning] development builds advance monotonically to one final 3.0", async () => {
   const roadmap = await readJson("spec/free85/v3-roadmap.yaml");
   const releases = roadmap.workPackages.flatMap(({ release }) => release ? [release] : []);
@@ -65,7 +81,7 @@ test("[phase17.scope] the bounded expansion preserves the sandbox contract", asy
     "workspace.dynamic-matrix"
   ]);
   for (const capability of ledger.capabilities) {
-    assert.equal(capability.status, "baseline-limitation", capability.id);
+    assert.ok(["baseline-limitation", "in-progress", "resolved"].includes(capability.status), capability.id);
     assert.ok(capability.baselineEvidence.length >= 2, `${capability.id}: evidence`);
     assert.ok(capability.acceptance.length >= 3, `${capability.id}: acceptance`);
   }

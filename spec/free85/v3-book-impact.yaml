@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "firmwareTarget": "3.0.0",
+  "developmentBaseline": "3.0.0-dev.1",
+  "phase": "17",
+  "updateTiming": "The separate book process should execute this ledger only after Free85 3.0 behaviour and the final ROM hash are frozen",
+  "rules": [
+    "Do not edit manual, guidebook, companion, screenshot, or typeset sources as part of a Phase 17 implementation package.",
+    "Regenerate every affected LCD capture from the final 3.0 ROM rather than editing an older image.",
+    "Retain the 2.21 instructions where an old edition intentionally describes the stable 2.21 ROM.",
+    "Use exact key sequences and visible labels from reviewed Phase 17 framebuffer fixtures.",
+    "Do not describe a later Phase 17 package as shipped until its capability status is resolved."
+  ],
+  "changes": [
+    {
+      "issue": "graph.window-editor",
+      "implementedIn": "3.0.0-dev.1",
+      "summaryForBooks": "The third zoom page now includes WIN. It opens a four-field GRAPH WINDOW panel for XMIN, XMAX, YMIN, and YMAX. F1-F4 select a bound, typed expressions are evaluated with ENTER into private drafts, and F5 SAVE validates XMIN<XMAX and YMIN<YMAX before committing the complete window. EXIT cancels an active expression first and then returns to zoom; invalid input leaves the live window unchanged.",
+      "documents": [
+        { "path": "docs/guidebook/04-cartesian-graphing.md", "sections": ["Graph windows", "Zoom"] },
+        { "path": "docs/guidebook/05-polar-graphing.md", "sections": ["Window setup"] },
+        { "path": "docs/guidebook/06-parametric-graphing.md", "sections": ["Window setup"] },
+        { "path": "docs/guidebook/07-differential-equation-graphing.md", "sections": ["Window setup"] },
+        { "path": "docs/companion/01-precalculus.md", "sections": ["1.1", "1.5", "window editor limitation"] },
+        { "path": "docs/companion/10-afterword.md", "sections": ["machine limits"] }
+      ],
+      "mustRemoveOrCorrect": [
+        "the claim that Free85 has no direct window editor",
+        "instructions saying exact bounds must be approximated with repeated zoom keys",
+        "claims that the lack of four numeric fields is an intentional current limitation"
+      ],
+      "mustAdd": [
+        "the exact 2ND GRAPH, MORE, MORE, WIN route",
+        "F1-F4 field selection, expression entry with ENTER, and atomic F5 SAVE",
+        "EXIT cancellation and unordered-bound DOMAIN ERROR behaviour",
+        "a worked exact trigonometric or time window entered as expressions"
+      ],
+      "captures": [
+        "GRAPH WINDOW with all four bounds and the complete XMN XMX YMN YMX SAVE footer",
+        "any old zoom-page image which omitted WIN"
+      ],
+      "evidence": [
+        "firmware/free85/graph/phase22.asm",
+        "test/free85/phase17-window.test.js",
+        "test/free85/goldens/graphs/phase17-window-editor.lcd"
+      ]
+    }
+  ],
+  "stillPlanned": [
+    "graph.picture-overlay",
+    "graph.diffeq-system",
+    "graph.phase-plane",
+    "workspace.dynamic-matrix",
+    "collections.matrix-3x6"
+  ]
+}

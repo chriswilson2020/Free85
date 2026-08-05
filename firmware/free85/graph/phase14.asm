@@ -12,6 +12,9 @@ p14_graph_init:
     LD (GRAPH_BOX_STATE), A
     LD (GRAPH_MODE), A
     LD (GRAPH_COORD_MODE), A
+    LD (P22_WINDOW_FIELD), A
+    LD (P22_WINDOW_INPUT), A
+    LD (P22_WINDOW_ERROR), A
     LD HL, p6_const_zero
     LD DE, P16_INITIAL_X
     CALL numeric_copy
@@ -255,6 +258,10 @@ p14_graph_panel_key:
     CP GRAPH_PANEL_DRAW
     LD A, B
     JP Z, p15_draw_panel_key
+    LD A, (GRAPH_PANEL)
+    CP GRAPH_PANEL_WINDOW
+    LD A, B
+    JP Z, p22_window_key
     CP KEY_EXIT
     JP Z, p14_graph_redraw
     CP KEY_MORE
@@ -644,7 +651,7 @@ p14_graph_zoom_key:
     JP Z, p14_graph_factor_two
     CP KEY_F4
     JP Z, p14_graph_factor_four
-    JR .render
+    JP p22_window_open
 .page_zero:
     CP KEY_F1
     JP Z, p14_graph_box_start
@@ -872,4 +879,4 @@ p14_menu_format_0: DB "AX CO LB GD DR MORE",0
 p14_menu_format_1: DB "MD Y1 Y2 Y3 ZM MORE",0
 p14_menu_zoom_0: DB "BOX IN OUT STD SQR",0
 p14_menu_zoom_1: DB "DEC FIT INT PRE TRIG",0
-p14_menu_zoom_2: DB "STO RCL F2 F4",0
+p14_menu_zoom_2: DB "STO RCL F2 F4 WIN",0

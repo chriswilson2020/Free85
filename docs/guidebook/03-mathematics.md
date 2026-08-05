@@ -72,14 +72,28 @@ The [x²] key types `^2`, so [3] [x²] [ENTER] puts `3^2` on the entry line
 and answers `= 9`. It is a plain piece of entry-line text; you can cursor
 back into it and edit it like anything else you typed.
 
-The `^` operator accepts whole-number exponents from `-9` through `9`, and
-the exponent may be any expression that evaluates to such a whole number:
-`2^9` answers `= 512`, `2^-1` answers `= 0.5`, `2^(3*3)` answers `= 512`,
-and `0^0` answers `= 1`. Outside that range, or with a fractional exponent,
-the answer is the `DOMAIN ERROR` screen: `2^10`, `2^-10`, and `2^0.5` all
-stop there. For larger powers, multiply in stages (`2^9*2^9` answers
-`= 262144`, which is 2 to the 18th); for fractional powers, use the root
-functions below or the logarithm functions in the next section.
+The `^` operator takes any real exponent, by one of two routes, and which
+route it takes is worth knowing because it decides how exact the answer is.
+
+An exponent that is a whole number in the signed 16-bit range is done by
+repeated squaring, which is exact: `2^9` answers `= 512`, `2^18` answers
+`= 262144`, `2^-1` answers `= 0.5`, `10^15` answers `= 1E15`, and the
+exponent may be any expression that evaluates to such a whole number, so
+`2^(3*3)` answers `= 512`. `0^0` answers `= 1`.
+
+Any other real exponent, on a positive base, is done as `EXP(y*LN(x))`.
+That is slower, because it runs a logarithm and an exponential, and it is
+approximate in the last digits: `2^0.5` answers `= 1.4142135623734` where
+`SQRT(2)` answers `= 1.4142135623731`, and `27^(1/3)` answers
+`= 2.9999999999993` rather than a flat 3. Neither is wrong; they are
+different calculations of the same number, and the exact route is the one
+that goes through whole exponents.
+
+Three cases are refused rather than approximated. A negative base with a
+fractional exponent has no real value, so `(-2)^0.5` answers
+`DOMAIN ERROR`. Zero to a negative power is a division by zero, so
+`0^(-1)` answers `DIVIDE BY ZERO`. A result too large for the numeric
+range answers `NUMERIC OVERFLOW`.
 
 Four function keys cover the most common powers and roots:
 
@@ -89,8 +103,8 @@ Four function keys cover the most common powers and roots:
 - **Powers of ten.** [2nd] [LOG] (the `10^x` legend) inserts `TEN(`, which
   raises 10 to any real power. It works through logarithms, so its results
   are fourteen-digit approximations: `TEN(3)` answers `= 999.99999999938`.
-  When the exponent is a whole number from `-9` to `9`, typing `10^3`
-  instead answers an exact `= 1000`.
+  When the exponent is a whole number, typing `10^3` instead takes the
+  exact route above and answers `= 1000`.
 - **The exponential function.** [2nd] [LN] (the `e^x` legend) inserts
   `EXP(`. `EXP(1)` answers `= 2.7182818284583` and `EXP(2)` answers
   `= 7.3890560989266`.

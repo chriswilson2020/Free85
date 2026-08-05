@@ -743,3 +743,87 @@ Everything else is a rule rather than a request. Sections 5 to 8 say what
 gets added, how many exercises, how many figures, and in what order, and
 none of it needs approval in advance. The pilot chapter will show it working
 or show it failing, which is a better thing to judge than a plan.
+
+---
+
+## Appendix: verified emulator results not yet written up
+
+Everything below was run on the emulator and is ready to go straight into
+prose. It is here so that no probe has to be repeated.
+
+### Chapter 5.2, Newton's method (new section)
+
+Program, eight lines, on the stored equation `X^3-2*X-5` whose only real
+root is near 2.0945514815. `EVAL(` and `NDER(` both read the stored
+equation, so line 4 is Newton's method entire and the program names no
+function:
+
+```
+1 2->R        2 5->N        3 WHILE N
+4 R-EVAL(R)/NDER(R)->R      5 N-1->N
+6 END         7 DISP R      8 STOP
+```
+
+Line 4 is 20 characters. Convergence from a start of 2, by editing line 2:
+
+| Steps | Iterate |
+| --- | --- |
+| 1 | `2.1` |
+| 2 | `2.0945681211042` |
+| 3 | `2.0945514816982` |
+| 4 | `2.0945514815424` |
+| 5 | `2.0945514815424` |
+
+Correct digits roughly double each step, then it sticks. That is quadratic
+convergence, visible without any theory.
+
+From a start of 0, where the curve is nearly flat, it never settles at all:
+`-2.5000000125`, `-1.5671641902429`, `-0.5025924653538`, `-3.8207066344471`
+at four steps, `-1.6081115996896` at six, `-4.5977119699788` at eight.
+Newton is not guaranteed to converge, and eight lines proves it.
+
+### Chapter 5.6, pi from the arctangent integral
+
+`4*FNINT(0,1)` on the stored `1/(1+X^2)` answers `3.1415926535863`, against
+`PI` at `3.1415926535898`. Eleven places from an integral.
+
+### Chapter 5.7, the 1-to-the-infinity form
+
+Routed round `^`'s whole-exponent limit as `EXP(LN(1+h)/h)`:
+
+| h | Answer |
+| --- | --- |
+| `.1` | `2.5937424601248` |
+| `.01` | `2.7048138297089` |
+| `.001` | `2.7169239351903` |
+| `.0001` | `2.7181459484956` |
+
+against `EXP(1)` at `2.7182818284583`. Converging, and slowly: one more
+correct digit per tenfold shrink, which is worth contrasting with 4.1's two
+per shrink.
+
+### Chapter 5.8, improper integrals of the first kind
+
+The integrand `1/SQRT(X)` blows up at the near end. The true value of the
+integral from a to 1 is 2 minus twice the square root of a, so it should
+climb to 2.
+
+| Lower bound | Answer | Truth |
+| --- | --- | --- |
+| `.25` | `1.0000000248458` | 1 |
+| `.0625` | `1.5000071749317` | 1.5 |
+| `.01` | `1.8016594383027` | 1.8 |
+| `.0001` | `2.3623050025348` | 1.98 |
+
+The last row is the point: the machine sails past the limit it is supposed
+to be approaching. This is chapter 8.1's pendulum failure met deliberately
+and on purpose, and the two sections should cross-reference each other.
+
+### Chapter 3.5 and 4.x, machine facts established in passing
+
+- The home entry line holds **48 characters**, the same buffer as a program
+  line. A 49-character expression stops with an error.
+- The statistics columns are **not reachable from a program**, which is why
+  3.5's data is written into its lines.
+- Six `EVAL(` calls across three program lines **hangs** the run screen at
+  the line it is on. Two per line is fine.

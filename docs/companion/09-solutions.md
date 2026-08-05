@@ -1127,14 +1127,18 @@ Probe it at .1, .05 and .02: the values swing to roughly -5.4, 18.3 and
 unlike `SIN(1/X)` it is not even bounded. Both of those are ways of failing
 to have a limit, and they are different failures.
 
-**5.** Sine gives up when the angle needs more than 63 subtractions of 2π,
-which is at about 395.84. One over x reaches that when x is about
-1/395.84, which is 0.002526.
+**5.** The supported range is one million radians, so `SIN(1/X)` should
+answer while one over x stays inside it: x down to 1E-6 and no further.
 
-The section found the edge from the other side: `SIN(398)` answers and
-`SIN(399)` does not, so the exact stopping point depends on where the angle
-falls relative to π. Anywhere below about x = 0.0025 you are asking for
-trouble, and `EVAL(.0025)` needs sin(400) and stops.
+That is what happens. `EVAL(1E-6)` asks for the sine of exactly a million
+and answers `-0.3499934460541`. `EVAL(9E-7)` asks for about 1.11 million
+and answers `PRECISION LOST`.
+
+The two need not agree to the last digit, and the reason is worth having.
+One million is where the firmware stops *guaranteeing* about 1E-7; it is a
+promise about accuracy, not a wall the arithmetic runs into. A limit
+quoted as a round number is nearly always a promise rather than a
+mechanism, and it is worth knowing which kind of number you are reading.
 
 **6.** Start from the standard window and pick a tolerance, say 0.1. The
 curve of `X*SIN(1/X)` is inside a band of ±0.1 once |x| is below 0.1, and

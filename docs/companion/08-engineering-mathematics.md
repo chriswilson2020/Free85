@@ -74,38 +74,47 @@ in, because what happens next is the most useful thing in this section.
 4. Press [EXIT], press [CLEAR], spell `FNINT(0,A)`, and press [ENTER]. Give
    it time.
 
-   ![The naive pendulum integral answering nonsense](images/co08-naive-integral.png)
+   ![The pendulum integral refused: DIVIDE BY ZERO](images/co08-naive-integral.png)
 
-   `= 9643.817428027`.
+   `DIVIDE BY ZERO`.
 
-Stop and look at that.
-
-The answer should be about 2.31. The machine has returned something four
-thousand times too big, and it has done it without a murmur: no error, no
-warning, no notice. If you had not known roughly what to expect you would
-have written 9643 down and carried it into the next calculation.
-
-Here is what happened, and it is worth having straight because it will
-happen to you again with some other integral one day.
+Stop and look at that, because the refusal is the interesting part.
 
 At the top of the swing, where theta reaches A, cos theta minus cos A is
 zero and the integrand is infinite. The integral still converges, because
-the infinity is mild enough, but the *function* is unbounded at the
-endpoint. `FNINT(` does not know that. It spreads 64 panels across whatever
-interval you give it, evaluates the integrand at each, and adds up. One of
-those panels lands close to the top, the integrand there is enormous, and
-that single enormous value swamps everything else.
+the infinity is mild enough, but the *function* is unbounded at that
+endpoint. `FNINT(` samples the interval, one of its samples lands on the
+endpoint, and dividing by zero is exactly what it finds there. So it says
+so, and stops.
 
-The machine did exactly what it was told. It was told the wrong thing.
+It did not always. Firmware 2.10 spread 64 panels across whatever interval
+you gave it, evaluated the integrand at each, added up, and answered
+`= 9643.817428027` without a murmur: no error, no warning, no notice. The
+answer should be about 2.31. That one was four thousand times too big, and
+if you had not known roughly what to expect you would have written 9643
+down and carried it into the next calculation.
 
-I could have made `FNINT(` detect this and refuse. I chose not to, and I
-still think that is right: an integrator that second-guesses you is a
-worse tool than one that does what you ask. But it does put the
-responsibility somewhere, and the place it puts it is on you.
+I defended that, in the first edition of this book. I wrote that an
+integrator which second-guesses you is a worse tool than one that does
+what you ask, and that the responsibility therefore sits with you. I was
+wrong, and it is worth naming how. The argument confused refusing to
+*guess* with refusing to *warn*. The machine was not honouring my request;
+it was answering a question I had not asked, in a voice indistinguishable
+from the one it uses when it is right. Putting the responsibility on the
+reader only works if the reader is given something to act on, and silence
+is not something you can act on.
+
+So `FNINT(` now compares a 32-panel estimate with a 64-panel one, and with
+a 128-panel one when those two disagree. If the estimates will not settle
+inside that budget it answers `NO CONVERGENCE`; if a sample lands on a
+singularity it answers `DIVIDE BY ZERO`. It still will not guess what you
+meant. It has simply stopped pretending.
 
 ### Doing the mathematics so the machine can succeed
 
-The fix is not a better integrator. The fix is to hand the machine a
+The refusal tells you to stop. It does not tell you what to do, and no
+integrator was ever going to, because the difficulty here is in the
+integral rather than in the arithmetic. The fix is to hand the machine a
 different integral, one that means the same thing and has no infinity in
 it. This is the lesson of the section and probably of the chapter: **when a
 numerical method struggles, the first place to look is the mathematics, not

@@ -470,8 +470,9 @@ export const SCREEN_CASES = [
   },
   // Chapter 4 section 4.2: SIN(1/X), which has no limit at 0, and
   // X*SIN(1/X), which has one because the two lines X and -X close on it.
-  // The cliff capture is the sine giving up: 1/.0025 is 400 radians, and the
-  // firmware's argument reduction stops after 63 subtractions of 2*PI.
+  // 1/.0025 is 400 radians, which the quotient-based reduction of 2.14
+  // handles without complaint; the boundary the chapter now walks up to is
+  // one million radians, so EVAL(9E-7) is where the machine declines.
   { name: "co04-sinrecip-std", keys: [...CO04_SINRECIP, 14000] },
   {
     name: "co04-sinrecip-zoom",
@@ -481,6 +482,11 @@ export const SCREEN_CASES = [
     name: "co04-sin-cliff",
     keys: [...CO04_SINRECIP, 14000, "EXIT", 300, "CLEAR", 20,
       ...co04Spell("EVAL(.0025)"), "ENTER", 900]
+  },
+  {
+    name: "co04-sin-precision",
+    keys: [...CO04_SINRECIP, 14000, "EXIT", 300, "CLEAR", 20,
+      ...co04Spell("EVAL(9"), "EE", "(-)", "7", ")", "ENTER", 900]
   },
   {
     name: "co04-squeeze-zoom",

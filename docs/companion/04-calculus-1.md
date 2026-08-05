@@ -389,36 +389,46 @@ limit appear out of the same oscillation.
 
 4. Keep going. Press [CLEAR] and ask `EVAL(.0025)`:
 
-   ![The sine giving up: SYNTAX ERROR at EVAL(.0025)](images/co04-sin-cliff.png)
+   ![EVAL(.0025) answering the sine of 400 radians](images/co04-sin-cliff.png)
 
-   `SYNTAX ERROR` again, which by now you know means "no value here". But
-   this time it is not a hole in the function. One over .0025 is 400, and
-   the machine will not take the sine of 400.
+   `-0.85091935964129`. One over .0025 is 400, and the machine takes the
+   sine of 400 radians without hesitating.
 
-   Here is what is going on inside, because you are entitled to know.
+   Keep pushing and it keeps answering. `EVAL(1E-6)` asks for the sine of
+   a million radians and gets `-0.3499934460541`. That is the edge of the
+   guarantee: `SIN` and `COS` are supported through one million radians,
+   or one hundred million degrees, and across that range they are held to
+   about 1E-7.
 
-   To work out a sine, the firmware first drags the angle back into a range
-   the series it uses can handle, which means somewhere between minus π and
-   π. It does that by repeated subtraction: take 2π off, look again, take
-   another 2π off, and so on. It is the most obvious method there is and on
-   a machine this size it was the right one, because it needs nothing but a
-   subtraction it already had.
+   Go past it and the machine stops, but not with a shrug. Press [CLEAR]
+   and ask `EVAL(9E-7)`, which wants the sine of about 1.11 million:
 
-   What it does need is a stopping rule, in case somebody hands it
-   something enormous and it sits there subtracting until the battery dies.
-   So the loop gives up after 63 goes. Sixty-three lots of 2π is 395.84, so
-   sine works to a little under 400 radians and then declines.
+   ![PRECISION LOST at EVAL(9E-7), past the supported range](images/co04-sin-precision.png)
 
-   You can find the edge yourself. `SIN(398)` answers `0.83175800712131`.
-   `SIN(399)` stops with the same notice. Between those two the angle stops
-   fitting inside 63 subtractions.
+   `PRECISION LOST`, and that name is the whole point. It is not saying
+   the sine has no value there. It is saying that your input carries
+   fourteen digits, and by the time an angle that large has been folded
+   back into a single turn, those fourteen digits no longer pin down where
+   in the turn you are. The answer would be a number, and it would be
+   meaningless, and the machine would rather tell you than let you quote
+   it.
 
-   That is a real limit and I am not going to dress it up: it means this
-   machine cannot follow sin of one over x closer to nought than about
-   x = 1/400. What it does not mean is that you have learned nothing. You
-   have watched the function refuse to settle across a factor of forty in
-   x, and the mathematics tells you it goes on refusing forever, at a rate
-   no calculator was ever going to keep up with.
+   Being told is worth more than being answered. A calculator that
+   returned something here would be inviting you to publish it.
+
+   > **Historical note.** Firmware 2.10 reduced the angle by taking 2π off
+   > repeatedly and gave up after 63 goes, which put the wall at 395.84
+   > radians, so `SIN(399)` refused. Reducing by quotient instead of by
+   > repeated subtraction moved the wall out by a factor of two and a half
+   > thousand. If you are reading an older edition of this book, that is
+   > why its numbers stop where they do.
+
+   So the limit is real but it is now a long way out: this machine follows
+   sin of one over x down to about x = 1E-6, and no further. What that
+   does not mean is that you have learned nothing. You have watched the
+   function refuse to settle across six orders of magnitude in x, and the
+   mathematics tells you it goes on refusing forever, at a rate no
+   calculator was ever going to keep up with.
 
 ### The same oscillation with a limit
 
@@ -506,10 +516,10 @@ how narrow you make the window.
    picture looks the way you said it would.
 4. What about `SIN(1/X)/X`? Predict first: does it settle, blow up, or
    oscillate worse? Then probe it at .1, .05 and .02 and see.
-5. The machine gave up at 400 radians because of 63 subtractions of 2π.
-   Work out the smallest x at which you could still ask for `SIN(1/X)`, and
-   check your answer against the machine by finding the exact place it
-   stops.
+5. `SIN` and `COS` are supported to one million radians. Work out the
+   smallest x at which you could still ask for `SIN(1/X)`, then find the
+   place the machine actually stops and explain why the two do not have to
+   agree to the last digit.
 6. Run the rectangle test of the last part properly on `X*SIN(1/X)`. Start
    from the standard window, pick a tolerance, and count how many presses
    of [+] it takes to satisfy it. Then halve the tolerance and do it again.

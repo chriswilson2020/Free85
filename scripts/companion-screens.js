@@ -69,6 +69,15 @@ const CO07_P2_LINES = ["9->Y", ".5->H", "7->N", "WHILE N", "CALL 3",
   "N-1->N", "END", "DISP Y"];
 const CO07_P3_LINES = ["EVAL(0)->K", "Y+H*K->Y", "Y+H*(EVAL(0)-K)/2->Y", "RETURN"];
 
+// Chapter 7 section 7.6's two growth models, both seeded at 1 with a
+// ceiling of 10. The Gompertz needs a logarithm at every one of the 127
+// Euler steps, which makes it the slowest thing in the book: its table
+// wants around 60000 frames to fill a page, against 3000 for the logistic.
+const CO07_LOGISTIC = [".", "5", "*", "ALPHA", "0", "*", "(", "1", "-",
+  "ALPHA", "0", "/", "1", "0", ")"];
+const CO07_GOMPERTZ = [".", "3", "*", "ALPHA", "0", "*", "LN", "1", "0", "/",
+  "ALPHA", "0", ")"];
+
 // Chapter 4's two limit specimens, stored into Y1 with [GRAPH]. Both are
 // trigonometric and therefore slow, so callers add their own settle frames.
 const CO04_SINX = ["SIN", "X-VAR", ")", "/", "X-VAR", "GRAPH"];
@@ -646,6 +655,27 @@ export const SCREEN_CASES = [
   },
   // Chapter 7 section 7.6: the equilibrium of .4*(3-Y) approached from below,
   // reached by seeding -6 before the mode's first entry.
+  {
+    name: "co07-logistic-plot",
+    keys: [...co07Seed(1), ...CO07_DEQ_MODE, ...CO07_LOGISTIC, "GRAPH", 14000]
+  },
+  // The table paged back twice to the steepest stretch, where the growth is
+  // still accelerating towards the inflection at half the ceiling.
+  {
+    name: "co07-logistic-table",
+    keys: [...co07Seed(1), ...CO07_DEQ_MODE, ...CO07_LOGISTIC, "GRAPH", 14000,
+      "MORE", 4000, "UP", 2500, "UP", 2500]
+  },
+  { name: "co07-gompertz-plot",
+    keys: [...co07Seed(1), ...CO07_DEQ_MODE, ...CO07_GOMPERTZ, "GRAPH", 16000]
+  },
+  // The slowest capture in the book: a logarithm on every Euler step, and a
+  // fresh walk from the window edge for every row of the table.
+  {
+    name: "co07-gompertz-table",
+    keys: [...co07Seed(1), ...CO07_DEQ_MODE, ...CO07_GOMPERTZ, "GRAPH", 16000,
+      "MORE", 60000]
+  },
   {
     name: "co07-equilibrium",
     keys: [...co07Seed(-6), ...CO07_DEQ_MODE,

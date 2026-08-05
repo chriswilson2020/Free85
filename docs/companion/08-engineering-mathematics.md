@@ -74,38 +74,47 @@ in, because what happens next is the most useful thing in this section.
 4. Press [EXIT], press [CLEAR], spell `FNINT(0,A)`, and press [ENTER]. Give
    it time.
 
-   ![The naive pendulum integral answering nonsense](images/co08-naive-integral.png)
+   ![The pendulum integral refused: DIVIDE BY ZERO](images/co08-naive-integral.png)
 
-   `= 9643.817428027`.
+   `DIVIDE BY ZERO`.
 
-Stop and look at that.
-
-The answer should be about 2.31. The machine has returned something four
-thousand times too big, and it has done it without a murmur: no error, no
-warning, no notice. If you had not known roughly what to expect you would
-have written 9643 down and carried it into the next calculation.
-
-Here is what happened, and it is worth having straight because it will
-happen to you again with some other integral one day.
+Stop and look at that, because the refusal is the interesting part.
 
 At the top of the swing, where theta reaches A, cos theta minus cos A is
 zero and the integrand is infinite. The integral still converges, because
-the infinity is mild enough, but the *function* is unbounded at the
-endpoint. `FNINT(` does not know that. It spreads 64 panels across whatever
-interval you give it, evaluates the integrand at each, and adds up. One of
-those panels lands close to the top, the integrand there is enormous, and
-that single enormous value swamps everything else.
+the infinity is mild enough, but the *function* is unbounded at that
+endpoint. `FNINT(` samples the interval, one of its samples lands on the
+endpoint, and dividing by zero is exactly what it finds there. So it says
+so, and stops.
 
-The machine did exactly what it was told. It was told the wrong thing.
+It did not always. Firmware 2.10 spread 64 panels across whatever interval
+you gave it, evaluated the integrand at each, added up, and answered
+`= 9643.817428027` without a murmur: no error, no warning, no notice. The
+answer should be about 2.31. That one was four thousand times too big, and
+if you had not known roughly what to expect you would have written 9643
+down and carried it into the next calculation.
 
-I could have made `FNINT(` detect this and refuse. I chose not to, and I
-still think that is right: an integrator that second-guesses you is a
-worse tool than one that does what you ask. But it does put the
-responsibility somewhere, and the place it puts it is on you.
+I defended that, in the first edition of this book. I wrote that an
+integrator which second-guesses you is a worse tool than one that does
+what you ask, and that the responsibility therefore sits with you. I was
+wrong, and it is worth naming how. The argument confused refusing to
+*guess* with refusing to *warn*. The machine was not honouring my request;
+it was answering a question I had not asked, in a voice indistinguishable
+from the one it uses when it is right. Putting the responsibility on the
+reader only works if the reader is given something to act on, and silence
+is not something you can act on.
+
+So `FNINT(` now compares a 32-panel estimate with a 64-panel one, and with
+a 128-panel one when those two disagree. If the estimates will not settle
+inside that budget it answers `NO CONVERGENCE`; if a sample lands on a
+singularity it answers `DIVIDE BY ZERO`. It still will not guess what you
+meant. It has simply stopped pretending.
 
 ### Doing the mathematics so the machine can succeed
 
-The fix is not a better integrator. The fix is to hand the machine a
+The refusal tells you to stop. It does not tell you what to do, and no
+integrator was ever going to, because the difficulty here is in the
+integral rather than in the arithmetic. The fix is to hand the machine a
 different integral, one that means the same thing and has no infinity in
 it. This is the lesson of the section and probably of the chapter: **when a
 numerical method struggles, the first place to look is the mathematics, not
@@ -459,9 +468,12 @@ count, retyped before every run anyway, the difference is entirely in line
 cheap or hopeless is not the code, it is the mathematics the code is
 carrying.
 
-The environment shaped one decision and forbade another. `FOR` bounds are
-single digits, so no counted loop reaches a hundred passes and the
-countdown in `N` is what buys an arbitrary term count. And the run screen
+The environment shaped one decision and forbade another. `FOR` bounds were
+single digits when this was written, so no counted loop reached a hundred
+passes and the countdown in `N` is what bought an arbitrary term count.
+Since firmware 2.19 `FOR N,1,100` would say it directly, and the countdown
+survives here because it keeps the running total and the remaining work
+both visible on one line. And the run screen
 shows only the most recent `DISP`, so the tables above are built one run at
 a time.
 
@@ -536,25 +548,34 @@ may leave the outlet, and the question is what the inlet may carry.
    and publishes `= 1.9796408183505`, the fourteen-digit face of that
    `1.979` cell.
 
-   Now try a second shot, and watch the mode refuse. Press [CLEAR] and
-   store a new seed: [1] [2] [STO▶] [ALPHA] [0] [ENTER] answers `= 12`.
-   Press [CLEAR], retype `-.02*Y^2`, and press [GRAPH]. Let the plot
-   finish and press [MORE]: the table reopens where it was, and the outlet
-   still reads `1.979`.
+   Now try a second shot the obvious way, and watch it fail. Press [CLEAR]
+   and store a new seed: [1] [2] [STO▶] [ALPHA] [0] [ENTER] answers
+   `= 12`. Press [CLEAR], retype `-.02*Y^2`, and press [GRAPH]. Let the
+   plot finish and press [MORE]: the table reopens where it was, and the
+   outlet still reads `1.979`.
 
-   Nothing moved.
+   Nothing moved, and that is worth understanding rather than working
+   around. `Y` seeds the mode at the moment the mode is *created*. After
+   that the initial condition belongs to the mode, and storing into `Y` is
+   talking to the wrong thing.
 
-   The initial value was frozen when the mode was created, and the only
-   lever that resets it is deleting the `GDEQ` object.
+   So talk to the right thing. Press [EXIT] to leave the table, press
+   [2nd] [MORE] four times for `DEQ SETUP`, press [F3] (`Y0`), press [+]
+   twice to carry the seed from 10 to 12, and press [F5] (`GO`). Let the
+   plot finish, then press [MORE] and read the outlet cell again. It has
+   moved, the equation is untouched, and the window is where you left it.
 
-   That is the ritual of section 7.6: leave the mode, delete `GDEQ` in the
-   memory browser, reseed, and come back. Then retype the equation, which
-   deleting `GDEQ` has also cleared.
+   That is three keys a shot. In the first edition of this book it was
+   about twenty, because the seed lived in a store object and the only way
+   to change your mind was to delete the object, which cleared your
+   equation along with it. I wrote then that I would not defend it as a
+   design. I did not have to defend it for long.
 
-   That is around twenty deliberate presses per shot, and shooting wants
-   half a dozen shots. I will not defend that as a design. It is the price
-   of the mode keeping its state in a store object, and if you want to
-   shoot, you want a program.
+   Which leaves a better reason to write the program than the one I gave
+   before. It is no longer that the mode is painful. It is that shooting
+   is a *search*, and a search wants a number out rather than a picture to
+   squint at: the program below returns the outlet value directly, so you
+   can compare two shots by subtracting them instead of by eye.
 
 ### So the mode gives the picture and a program gives the practice
 
@@ -778,9 +799,9 @@ and 240 degrees, each tensioned to 1500 newtons.
    the second soft-key page and [F1], `ADD`: `450`, `779.42286341`,
    `-2400`.
 
-   Carry that into `A` the way Chapter 6 carries a result, by pressing
-   [EXIT] and [2nd] [8] and retyping it, put the third force into `B`, and
-   press [MORE] [F1] again:
+   Carry that into `A` the way Chapter 6 carries a result: with `R` on the
+   screen the prompt reads `ENTER USE R`, so press [ENTER]. Put the third
+   force into `B` and press [MORE] [F1] again:
 
    ![Three guy tensions adding to a pure downward pull](images/co08-guy-sum.png)
 
@@ -807,9 +828,9 @@ hand you sooner or later, and none of them needs a new key.
 
    Press [F4], `CRS`: `R` reads `10`, `7`, `58`.
 
-   Now carry that into `A` and take its length. Press [EXIT], [2nd] [8],
-   type [1] [0] [ENTER] [7] [ENTER] [5] [8] [ENTER], and press [F1],
-   `MAG`: `59.27056605095`.
+   Now carry that into `A` and take its length: press [ENTER] on the
+   `ENTER USE R` prompt, then press [F1], `MAG`: `59.27056605095`. Nothing
+   was retyped, so nothing could be mistyped.
 
    That is the area of the parallelogram spanned by the original pair, and
    half of it is the area of the triangle they make. Check it a second way

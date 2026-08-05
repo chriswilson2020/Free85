@@ -49,10 +49,13 @@ and values outside the window leave gaps instead of stopping the plot:
 nothing left of the origin, and adjacent samples are joined into a connected
 curve only when they are fewer than seventeen pixels apart, so a vertical
 asymptote is not smeared into a false vertical line. A graph-calculus
-command stored as an equation (`EVAL(2)` or `FNINT(0,X)`, in any of the
-three slots) is refused at every sample the same way: that slot draws no
-curve and reads `UNDEF` in the table, while the slots beside it plot
-exactly as they would alone.
+command that reaches its own slot is refused rather than followed round:
+`NDER(1,X)` stored in slot 1, or `EVAL(2,X)` in slot 1 against
+`EVAL(1,X)` in slot 2, answers `RECURSION ERROR`, and that slot draws no
+curve while the slots beside it plot exactly as they would alone. Pointed
+at a different slot the same command is ordinary work, because one nested
+graph evaluation is available: `NDER(1,X)` stored in slot 2 plots the
+derivative of slot 1 across the window.
 
 Pressing [GRAPH] again on the graph screen replots. Pressing the `GRF` soft
 key ([F2] on the home screen's first menu page) opens the same graph screen.
@@ -177,9 +180,10 @@ result on the home screen. With `X^2-4` plotted:
   difference: with `2*X+3` plotted it answers `= 2`, and with `X^2`
   plotted, tracing three columns right of centre and pressing [F4] answers
   `= 1.102362205`, twice the traced `X`.
-- **[F5] integrates** the active equation across the window with the same
-  64-panel Simpson rule as `FNINT(`: with `X^2` in the standard window it
-  answers `= 666.66666666667`, the fourteen-digit 2000/3.
+- **[F5] integrates** the active equation across the window by the same
+  compared-estimate Simpson rule as `FNINT(`: with `X^2` in the standard
+  window it answers `= 666.66666666667`, the fourteen-digit 2000/3, and it
+  refuses in the same terms when the estimates will not settle.
 - **[2nd] [F1] finds an intersection** of `Y1` and `Y2` (both slots must
   be enabled). With `Y1=X` and `Y2=2-X` it answers `= 1`, again with a
   residual line.

@@ -157,7 +157,8 @@ worth asking.
 The table reads `UNDEF` at `X=2`, exactly as the pole did. But this is a
 completely different situation. Probe either side and you see it: with the
 equation stored, `EVAL(1.9)` answers `= 3.9` and `EVAL(2.1)` answers
-`= 4.1`, and `EVAL(2)` stops at `SYNTAX ERROR`.
+`= 4.1`, and `EVAL(2)` stops at `DIVIDE BY ZERO`, which names exactly what
+it met there.
 
 The values from both sides are heading for 4, which is what x + 2 gives at
 x = 2. The function has a *hole*, not a pole: one point missing from an
@@ -1127,14 +1128,18 @@ Probe it at .1, .05 and .02: the values swing to roughly -5.4, 18.3 and
 unlike `SIN(1/X)` it is not even bounded. Both of those are ways of failing
 to have a limit, and they are different failures.
 
-**5.** Sine gives up when the angle needs more than 63 subtractions of 2π,
-which is at about 395.84. One over x reaches that when x is about
-1/395.84, which is 0.002526.
+**5.** The supported range is one million radians, so `SIN(1/X)` should
+answer while one over x stays inside it: x down to 1E-6 and no further.
 
-The section found the edge from the other side: `SIN(398)` answers and
-`SIN(399)` does not, so the exact stopping point depends on where the angle
-falls relative to π. Anywhere below about x = 0.0025 you are asking for
-trouble, and `EVAL(.0025)` needs sin(400) and stops.
+That is what happens. `EVAL(1E-6)` asks for the sine of exactly a million
+and answers `-0.3499934460541`. `EVAL(9E-7)` asks for about 1.11 million
+and answers `PRECISION LOST`.
+
+The two need not agree to the last digit, and the reason is worth having.
+One million is where the firmware stops *guaranteeing* about 1E-7; it is a
+promise about accuracy, not a wall the arithmetic runs into. A limit
+quoted as a round number is nearly always a promise rather than a
+mechanism, and it is worth knowing which kind of number you are reading.
 
 **6.** Start from the standard window and pick a tolerance, say 0.1. The
 curve of `X*SIN(1/X)` is inside a band of ±0.1 once |x| is below 0.1, and
@@ -1344,7 +1349,8 @@ soon as the function is not a polynomial of degree three or less.
 you need the error below about 1E-6, which is a factor of 40000, which is
 seven or eight doublings: around 512 to 1024 slices.
 
-The eight-line slot could never run it. `FOR` bounds are single digits and
+The eight-line slot could not run it when this was written. `FOR` bounds
+were single digits and
 even the `WHILE` countdown would need the loop to run a thousand times,
 which on this machine is minutes of work for a number `FNINT(` gives you in
 a second. That is the honest limit of doing numerical integration by hand
@@ -1618,11 +1624,13 @@ Now subtract the first two: press [CLEAR] and type
 That is *not* `1.3862945205893`. They differ by about four and a half
 millionths.
 
-The mathematics is exact and the arithmetic is not. `FNINT(` puts 64 panels
-across whatever interval it is given, so the 1-to-8 integral used panels
+The mathematics is exact and the arithmetic is not. `FNINT(` fits its
+panels to whatever interval it is given, so the 1-to-8 integral used panels
 seven times wider than the 1-to-2 one, and the three answers were computed
-at three different resolutions. Additivity holds for integrals and only
-approximately for their estimates.
+at three different resolutions. Comparing coarse and fine estimates catches
+an estimate that is not converging at all; it does not make two converged
+estimates on different intervals add up exactly. Additivity holds for
+integrals and only approximately for their estimates.
 
 **3.** Any pair in the ratio 2 works: 5 to 10, 7 to 14, 100 to 200. Each
 gives about 0.693, because the logarithm turns ratios into differences and
@@ -1727,7 +1735,8 @@ exponents. Route it through the identity: store `EXP(LN(X)*(-2/3))`.
 The plot will fail, because the standard window includes negative x and
 there is no logarithm of a negative number. The equation is stored all the
 same, and `FNINT(` works. Be patient with it: a logarithm and an
-exponential at each of 64 panels is slow.
+exponential at every panel is slow, and there are at least 96 panels
+between the coarse estimate and the one it is checked against.
 
 On paper the integral from a to 1 is 3(1 - a^(1/3)), so it climbs to 3.
 
@@ -2373,9 +2382,9 @@ positive times negative, so negative: solutions fall back to 3. So 3 is
 stable, and 0 and 6 are unstable.
 
 Predicting the fate of a solution started in each gap needs only the sign of
-the product, which you can do in your head. Checking them all costs one
-`GDEQ` deletion each, which is where your patience gives out, and that is
-the honest cost of the mode's frozen initial value.
+the product, which you can do in your head. Checking them all costs three
+keys each on the `DEQ SETUP` page: [F3], the [+] or [-] presses that move
+`Y0` where you want it, and [F5]. Check every one of them.
 
 ## 9.8 Solutions for Chapter 8
 

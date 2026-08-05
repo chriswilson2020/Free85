@@ -155,7 +155,7 @@ Reading from the top:
   `ENG`, or `FIX`) on the left, and the editor state on the right (`INS` for
   insert mode, `OVR` for overwrite, and `LOCK` when alpha lock is on).
 - **Title banner.** `FREE85 HOME` tells you which screen you are on.
-- **Version banner.** `VERSION 2.10` names the firmware release and
+- **Version banner.** `VERSION 2.20` names the firmware release and
   disappears as soon as you type.
 - **Entry line.** The underscore is the cursor. Whatever you type appears
   here.
@@ -232,7 +232,12 @@ the character under the cursor, so the same [◀] [2] on `13` then produces
 Errors are full-screen and polite. Type [1] [÷] [0] [ENTER] and a message
 screen replaces the home screen. It shows three lines: the error name
 `DIVIDE BY ZERO`, the hint `CLEAR OR EXIT` beneath it, and `EXIT BACK` at the
-bottom, telling you that [EXIT] returns you to your entry. Press [CLEAR] or
+bottom, telling you that [EXIT] returns you to your entry. The name is worth
+reading rather than glancing past: `SYNTAX ERROR` means the machine could not
+read what you typed, while `DIVIDE BY ZERO`, `DOMAIN ERROR`,
+`NUMERIC OVERFLOW` and `PRECISION LOST` all mean it read you perfectly well
+and the answer does not exist or cannot be trusted. Appendix C of the
+Guidebook lists them all. Press [CLEAR] or
 [EXIT] and you are back on the home screen with `1/0` intact and the cursor
 at the end, so you can fix the mistake instead of retyping it.
 

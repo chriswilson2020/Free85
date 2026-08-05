@@ -19,9 +19,9 @@ name: Attach Free85 release assets
 # for Charter, Helvetica Neue and Menlo, which are macOS system fonts. On an
 # Ubuntu runner none of the three exists, Chrome substitutes whatever it has,
 # the metrics change and every book repaginates: the first Linux run of this
-# workflow produced a 238-page companion where the proofed book is 250. The
+# workflow produced a 238-page companion where the proofed book is 256. The
 # page-break work was done against the macOS rendering, so the macOS
-# rendering is the book. The ROM has no such problem and stays on Ubuntu,
+# rendering is the book, and the build checks the fonts are embedded. The ROM has no such problem and stays on Ubuntu,
 # where it is checked for byte reproducibility.
 
 on:
@@ -154,28 +154,47 @@ jobs:
       - name: Build the typeset PDFs
         run: npm run build:guidebook:typeset
 
-      - name: Check the books paginated as designed
+      - name: Check the design's fonts actually made it into the PDFs
         # This is the guard that matters, and the one that would have caught
-        # the Ubuntu build. The page counts are those of the proofed
-        # editions; a change means the rendering has moved and the books
-        # need re-proofing, not publishing. The commonest cause is a missing
-        # font, so the diagnostic step above lists what was available.
+        # the Ubuntu build. It asserts the cause directly: if Charter,
+        # Helvetica Neue and Menlo are embedded in the PDF, Chrome resolved
+        # them and the pagination is the proofed one by construction. On a
+        # runner without them Chrome substitutes silently, the metrics move,
+        # and every book repaginates without erroring.
+        #
+        # This replaced an exact page-count assertion, which tested the
+        # symptom instead. That version had to be edited on every legitimate
+        # content change (248, then 250, then 256 in a single day), and a
+        # check you routinely edit to make green teaches you to update the
+        # number rather than look at the failure.
         run: |
           set -euo pipefail
           check() {
-            actual=$(node -e "
+            fonts=$(node -e "
+              const b = require('fs').readFileSync('$2').toString('latin1');
+              const m = b.match(/\/BaseFont\s*\/[A-Za-z0-9+#-]+/g) || [];
+              console.log([...new Set(m.map(s => s.split('+').pop()))].join(' '));
+            ")
+            for want in Charter HelveticaNeue Menlo; do
+              case "$fonts" in
+                *"$want"*) ;;
+                *) echo "$1: $want is not embedded; Chrome substituted a fallback" >&2; exit 1 ;;
+              esac
+            done
+            pages=$(node -e "
               const b = require('fs').readFileSync('$2');
               console.log((b.toString('latin1').match(/\/Type\s*\/Page[^s]/g) || []).length);
             ")
-            printf '%-12s %4s pages (expected %s)\n' "$1" "$actual" "$3"
-            test "$actual" = "$3" || {
-              echo "$1 paginated to $actual pages, expected $3" >&2
-              exit 1
+            printf '%-12s %4s pages, all three fonts embedded\n' "$1" "$pages"
+            # A loose sanity band, not an equality: catches a truncated or
+            # runaway render without failing on ordinary editing.
+            test "$pages" -ge "$3" && test "$pages" -le "$4" || {
+              echo "$1: $pages pages is outside the sane range $3-$4" >&2; exit 1
             }
           }
-          check Manual    dist/guidebook/Free85-Manual-typeset.pdf     18
-          check Guidebook dist/guidebook/Free85-Guidebook-typeset.pdf 158
-          check Explorations dist/guidebook/Free85-Companion-typeset.pdf 250
+          check Manual       dist/guidebook/Free85-Manual-typeset.pdf      10  40
+          check Guidebook    dist/guidebook/Free85-Guidebook-typeset.pdf  120 220
+          check Explorations dist/guidebook/Free85-Companion-typeset.pdf  200 340
 
       - name: Attach the books to the release
         env:

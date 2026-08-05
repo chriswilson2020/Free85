@@ -66,6 +66,14 @@ export const SCREEN_CASES = [
     keys: ["GRAPH", 100, "2ND", "MORE", "MORE", "MORE", "F4", 600, "EXIT", 30,
       "1", "GRAPH", 900]
   },
+  // The DEQ setup page, the fourth graph-format page, reached from the
+  // plotted worked example. It carries the method and the initial condition,
+  // which is why chapter 7 no longer tells anyone to delete GDEQ.
+  {
+    name: "ch07-deq-setup",
+    keys: ["GRAPH", 100, "2ND", "MORE", "MORE", "MORE", "F4", 600, "EXIT", 30,
+      "1", "GRAPH", 900, "2ND", "MORE", "MORE", "MORE", "MORE", 60]
+  },
   { name: "ch08-constants-menu", keys: ["2ND", "4"] },
   // CTOF( from the conversions menu's second page, applied to 100 degrees
   // Celsius, shows a conversion evaluated on the home screen.

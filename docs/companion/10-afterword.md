@@ -47,19 +47,36 @@ enough to watch every entry change. Eight lines made each program an
 argument about what its algorithm really is, because there was no room for
 anything that was not the argument. Forty-eight characters forced the sum
 of squared residuals into a program, where it became something you run
-repeatedly rather than something you evaluate once. A frozen initial
-condition made the cost of a shot part of the lesson. Sixty-four panels
-under `FNINT(` meant that twice in this book the machine handed you a
-confident, wrong answer, and you had to know enough mathematics to catch
-it.
+repeatedly rather than something you evaluate once. Two more belong on that list, and they are no longer there.
 
-That last one matters most. A bigger machine would have got the pendulum
-integral right and you would have learned nothing. This one returned
-9643.817428027 where the answer was about 2.31, said nothing about it, and
-made you go and do the trigonometry that turns an improper integral into a
-proper one. That is not a limitation being secretly good for you. That is
-a limitation being *visible*, at a size where you can still see all the way
-round it, at the exact moment when seeing it teaches you the thing.
+The initial condition in differential-equation mode used to be frozen once
+it was set, so changing a shot meant deleting a store object and starting
+over, and I argued that the cost of a shot was part of the lesson.
+`FNINT(` used to spread sixty-four panels across whatever interval you
+gave it and hand back the total, which meant that twice in this book the
+machine gave you a confident, wrong answer and you needed enough
+mathematics to catch it. I argued that too, and rather well, in the
+edition of this book that came before this one.
+
+Both arguments were comfortable, and one of them was wrong. A limitation
+can teach you something and still be a defect, and the test is not whether
+a reader learns from working around it, because a reader can learn from
+almost anything. The test is whether the machine was honest. A frozen seed
+was honest: it never pretended to be anything else, and you could see the
+whole of it from outside. The silent integral was not. It answered in the
+same voice it uses when it is right, and no amount of pedagogical benefit
+buys that back.
+
+So the seed is now an ordinary editable setting, and `FNINT(` compares its
+estimates and refuses when they will not agree. The pendulum still needs
+the substitution: nothing about the mathematics moved, and the
+trigonometry that turns an improper integral into a proper one is still
+the thing worth learning. What moved is that you now find out you need it.
+
+That is the distinction I was reaching for and did not have. Not a
+limitation being secretly good for you. A limitation being *visible*, at a
+size where you can still see all the way round it, at the exact moment
+when seeing it teaches you the thing.
 
 The other half of the argument is about what these bounds are not. They are
 not the mathematics. The logistic equation does not care that this machine

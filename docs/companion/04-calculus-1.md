@@ -191,20 +191,28 @@ five-character cell will hold. The calculus commands will do better.
 13. Now ask it the original question. Press [CLEAR], spell `EVAL(0)`, and
     press [ENTER]:
 
-    ![EVAL at the hole, stopped on SYNTAX ERROR](images/co04-sinx-eval-error.png)
+    ![EVAL at the hole, stopped on DIVIDE BY ZERO](images/co04-sinx-eval-error.png)
 
-    `SYNTAX ERROR`, with `CLEAR OR EXIT` underneath.
+    `DIVIDE BY ZERO`, with `CLEAR OR EXIT` underneath. Which is exactly
+    right: `SIN(X)/X` at zero divides by zero, and the machine has told you
+    the truth about what it met.
 
-    That message is wrong and it is my fault. There is nothing whatever
-    wrong with the syntax of `EVAL(0)`. What has actually happened is that
-    the evaluation failed at the point you asked about, and the calculus
-    commands report every failure of that kind through the error the parser
-    already had to hand. Laying it out again I would give it its own
-    message, one that mentioned the point rather than your typing.
+    It did not always. Until firmware 2.12 this answered `SYNTAX ERROR`,
+    and the first edition of this book had a paragraph here apologising for
+    it. There was nothing wrong with the syntax of `EVAL(0)`; the
+    evaluation had failed at the point you asked about, and the calculus
+    commands reported every failure of that kind through the one error the
+    parser already had to hand. I wrote that, laying it out again, I would
+    give each failure its own message.
 
-    So read it as "there is nothing there", because that is what it means,
-    and it will go on meaning that every time a calculus command lands on a
-    point where a function has no value.
+    I did. Domain, division, overflow, recursion, convergence and lost
+    precision are now separate diagnostics, in the home screen, in graphs,
+    in tables and in programs. `SYNTAX ERROR` has gone back to meaning what
+    it says: the machine could not read you.
+
+    The practical difference is that the message is now evidence. When a
+    calculus command stops, the name tells you what it hit, and you can act
+    on it instead of guessing.
 
     Press [CLEAR] to clear the notice. The entry line still holds `EVAL(0)`,
     so press [CLEAR] again to empty that too. Two presses of [CLEAR] after
@@ -389,36 +397,46 @@ limit appear out of the same oscillation.
 
 4. Keep going. Press [CLEAR] and ask `EVAL(.0025)`:
 
-   ![The sine giving up: SYNTAX ERROR at EVAL(.0025)](images/co04-sin-cliff.png)
+   ![EVAL(.0025) answering the sine of 400 radians](images/co04-sin-cliff.png)
 
-   `SYNTAX ERROR` again, which by now you know means "no value here". But
-   this time it is not a hole in the function. One over .0025 is 400, and
-   the machine will not take the sine of 400.
+   `-0.85091935964129`. One over .0025 is 400, and the machine takes the
+   sine of 400 radians without hesitating.
 
-   Here is what is going on inside, because you are entitled to know.
+   Keep pushing and it keeps answering. `EVAL(1E-6)` asks for the sine of
+   a million radians and gets `-0.3499934460541`. That is the edge of the
+   guarantee: `SIN` and `COS` are supported through one million radians,
+   or one hundred million degrees, and across that range they are held to
+   about 1E-7.
 
-   To work out a sine, the firmware first drags the angle back into a range
-   the series it uses can handle, which means somewhere between minus π and
-   π. It does that by repeated subtraction: take 2π off, look again, take
-   another 2π off, and so on. It is the most obvious method there is and on
-   a machine this size it was the right one, because it needs nothing but a
-   subtraction it already had.
+   Go past it and the machine stops, but not with a shrug. Press [CLEAR]
+   and ask `EVAL(9E-7)`, which wants the sine of about 1.11 million:
 
-   What it does need is a stopping rule, in case somebody hands it
-   something enormous and it sits there subtracting until the battery dies.
-   So the loop gives up after 63 goes. Sixty-three lots of 2π is 395.84, so
-   sine works to a little under 400 radians and then declines.
+   ![PRECISION LOST at EVAL(9E-7), past the supported range](images/co04-sin-precision.png)
 
-   You can find the edge yourself. `SIN(398)` answers `0.83175800712131`.
-   `SIN(399)` stops with the same notice. Between those two the angle stops
-   fitting inside 63 subtractions.
+   `PRECISION LOST`, and that name is the whole point. It is not saying
+   the sine has no value there. It is saying that your input carries
+   fourteen digits, and by the time an angle that large has been folded
+   back into a single turn, those fourteen digits no longer pin down where
+   in the turn you are. The answer would be a number, and it would be
+   meaningless, and the machine would rather tell you than let you quote
+   it.
 
-   That is a real limit and I am not going to dress it up: it means this
-   machine cannot follow sin of one over x closer to nought than about
-   x = 1/400. What it does not mean is that you have learned nothing. You
-   have watched the function refuse to settle across a factor of forty in
-   x, and the mathematics tells you it goes on refusing forever, at a rate
-   no calculator was ever going to keep up with.
+   Being told is worth more than being answered. A calculator that
+   returned something here would be inviting you to publish it.
+
+   > **Historical note.** Firmware 2.10 reduced the angle by taking 2π off
+   > repeatedly and gave up after 63 goes, which put the wall at 395.84
+   > radians, so `SIN(399)` refused. Reducing by quotient instead of by
+   > repeated subtraction moved the wall out by a factor of two and a half
+   > thousand. If you are reading an older edition of this book, that is
+   > why its numbers stop where they do.
+
+   So the limit is real but it is now a long way out: this machine follows
+   sin of one over x down to about x = 1E-6, and no further. What that
+   does not mean is that you have learned nothing. You have watched the
+   function refuse to settle across six orders of magnitude in x, and the
+   mathematics tells you it goes on refusing forever, at a rate no
+   calculator was ever going to keep up with.
 
 ### The same oscillation with a limit
 
@@ -506,10 +524,10 @@ how narrow you make the window.
    picture looks the way you said it would.
 4. What about `SIN(1/X)/X`? Predict first: does it settle, blow up, or
    oscillate worse? Then probe it at .1, .05 and .02 and see.
-5. The machine gave up at 400 radians because of 63 subtractions of 2π.
-   Work out the smallest x at which you could still ask for `SIN(1/X)`, and
-   check your answer against the machine by finding the exact place it
-   stops.
+5. `SIN` and `COS` are supported to one million radians. Work out the
+   smallest x at which you could still ask for `SIN(1/X)`, then find the
+   place the machine actually stops and explain why the two do not have to
+   agree to the last digit.
 6. Run the rectangle test of the last part properly on `X*SIN(1/X)`. Start
    from the standard window, pick a tolerance, and count how many presses
    of [+] it takes to satisfy it. Then halve the tolerance and do it again.
@@ -618,25 +636,27 @@ every point of the curve has a slope, so the slopes are themselves a
 function of x, and that function is the thing calculus actually cares
 about.
 
-You might reasonably try to plot it directly. It does not work, and it is
-worth seeing why.
+You can plot it directly, and there is one wrong way to ask that is worth
+meeting first.
 
 7. With `X^3-2*X` still in `Y1`, press [2nd] [2] for slot `Y2`, spell
-   `NDER(X)`, and press [GRAPH]. Then press [MORE] for the table.
+   `NDER(X)`, and press [GRAPH].
 
-   The `Y2` column reads `UNDEF` in every row.
+   `Y2` stops with `RECURSION ERROR`, and `Y1` carries on drawing.
 
-   The calculus commands will not run from inside a graph slot.
+   `NDER(x)` in that form reads *the active stored equation*, so a slot
+   holding it is asking the machine to differentiate the equation it is in
+   the middle of evaluating. Rather than chase its own tail it says so, and
+   says so once rather than at every sample.
 
-   That is a deliberate refusal and not a bug, though it is one I inherited
-   from the design rather than chose. These commands read *the active
-   stored equation*, so a slot asking one of them for a value is asking the
-   machine to evaluate the equation it is in the middle of evaluating.
+   Name the slot you actually mean and it is ordinary work. Press [CLEAR],
+   spell `NDER(1,X)`, and press [GRAPH]: slot 2 now reads slot 1, and the
+   derivative draws as a curve in its own right. One nested evaluation is
+   available, which is enough for a slot to read another slot but not
+   enough for the two of them to read each other; a pair that does stops
+   with the same `RECURSION ERROR`.
 
-   Rather than chase its own tail, it declines, once per sample, quietly.
-   Chapter 5 meets the same refusal from `FNINT(`.
-
-8. So type the quotient out in full instead. It is longer but it has no
+8. It is still worth typing the quotient out in full. It is longer but it has no
    such problem, because it mentions no commands at all. Press [2nd] [1],
    press [CLEAR], and type
 
@@ -1083,10 +1103,13 @@ rules fall straight out of them.
    estimates are for: not one of them is the answer, and combining them
    cleverly is worth more than computing any one of them harder.
 
-The environment shaped the design here and it is worth saying how. `FOR`
-bounds are single digits, so a counted loop passes at most ten times, which
-is why the finer slicings in Chapter 3 hand the count to a `WHILE`
-countdown instead. Four program slots held all four sums, and `EVAL(` kept
+The environment shaped the design here and it is worth saying how. When
+this chapter was written `FOR` bounds were single digits, so a counted loop
+passed at most ten times, which is why the finer slicings in Chapter 3 hand
+the count to a `WHILE` countdown instead. Firmware 2.19 gave `FOR`
+evaluated bounds and an optional step, so that particular wall is gone; the
+countdown shape is kept here because it is still a good way to see a loop's
+state, not because anything forces it. Four program slots held all four sums, and `EVAL(` kept
 every one of them ignorant of which function it was measuring.
 
 **Try it.**

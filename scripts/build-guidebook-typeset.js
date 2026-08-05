@@ -13,7 +13,8 @@
 //
 // Run via `npm run build:guidebook:typeset`.
 import { execFileSync } from "node:child_process";
-import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { basename, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { TI85_PHYSICAL_KEYS } from "../src/ti85-keys.js";
 
@@ -365,7 +366,69 @@ function tocHtml(entries) {
 
 // ---------------------------------------------------------------- pandoc --
 
+// Pandoc embeds every figure as a base64 data: URI and does not care in the
+// least whether the bytes it embedded are valid. A malformed SVG therefore
+// survives the entire build: pandoc succeeds, the page lays out around the
+// figure's box, the page count is unchanged, and the only trace is a
+// broken-image glyph in the finished PDF. That is how chapter 1's unit
+// circle came to ship broken, over a stray "--" in a comment. Both faults a
+// figure can have are checked here, before pandoc runs: a reference with no
+// file behind it, and a file a browser will refuse to parse.
+function assertFiguresRender(inputs, resourcePath) {
+  // Same semantics as pandoc's --resource-path: a colon-separated list of
+  // directories, searched in order. The manual relies on this, reaching
+  // sideways into the guidebook's images.
+  const dirs = resourcePath.split(":");
+  for (const input of inputs) {
+    const md = readFileSync(input, "utf8");
+    for (const m of md.matchAll(/!\[[^\]]*\]\(((?![a-z]+:)[^)\s]+\.(?:svg|png))\)/g)) {
+      const file = dirs.map((d) => resolve(d, m[1])).find(existsSync);
+      if (!file) {
+        throw new Error(`${basename(input)} references ${m[1]}, which does not exist`);
+      }
+      if (!file.endsWith(".svg")) continue;
+      const fault = xmlFault(readFileSync(file, "utf8"));
+      if (fault) {
+        throw new Error(`${m[1]} is not well-formed XML: ${fault}. `
+          + "A browser will refuse to draw it and the figure will be blank");
+      }
+    }
+  }
+}
+
+// A small well-formedness scanner. This repo has no dependencies and Node has
+// no XML parser, so rather than take one on for a build check, this looks for
+// the three faults that make a browser reject a hand-authored file outright.
+// It does not validate SVG, only that the XML around it parses.
+function xmlFault(src) {
+  // XML forbids "--" anywhere inside a comment, which makes the obvious
+  // "<!-- ---- section ---- -->" divider fatal. This is the one that bit.
+  for (const m of src.matchAll(/<!--([\s\S]*?)-->/g)) {
+    if (m[1].includes("--")) return `"--" inside the comment at offset ${m.index}`;
+  }
+  const naked = src.replace(/<!--[\s\S]*?-->/g, "")
+    .match(/&(?!(?:[A-Za-z][A-Za-z0-9]*|#[0-9]+|#x[0-9A-Fa-f]+);)/);
+  if (naked) return `an unescaped "&" at offset ${naked.index}`;
+  // Every element has to close, and in order. Comments are blanked first so
+  // that a tag written inside one is not counted.
+  const stack = [];
+  const body = src.replace(/<!--[\s\S]*?-->/g, (c) => " ".repeat(c.length));
+  for (const m of body.matchAll(/<(\/?)([A-Za-z][\w:.-]*)(?:"[^"]*"|'[^']*'|[^"'>])*?(\/?)>/g)) {
+    if (m[1]) {
+      const open = stack.pop();
+      if (open !== m[2]) {
+        return `</${m[2]}> at offset ${m.index} closes <${open ?? "nothing"}>`;
+      }
+    } else if (!m[3]) {
+      stack.push(m[2]);
+    }
+  }
+  if (stack.length) return `<${stack[stack.length - 1]}> is never closed`;
+  return null;
+}
+
 function pandocBody(inputs, resourcePath) {
+  assertFiguresRender(inputs, resourcePath);
   const html = execFileSync("pandoc", [
     ...inputs,
     "--standalone",

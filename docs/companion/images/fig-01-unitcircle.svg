@@ -7,7 +7,7 @@
        The sine curve to the right runs from x = 150 to x = 306, one full
        period, with the same height marked at the matching angle. -->
 
-  <!-- ---- left: the unit circle ---- -->
+  <!-- ==== left: the unit circle ==== -->
   <g stroke="#111111" stroke-width="1" opacity="0.5">
     <line x1="8" y1="86" x2="132" y2="86"/>
     <line x1="68" y1="146" x2="68" y2="26"/>
@@ -27,7 +27,7 @@
   <path d="M 90 86 A 22 22 0 0 0 80.5 68" fill="none" stroke="#111111"
         stroke-width="1.1"/>
 
-  <!-- ---- right: the sine curve ---- -->
+  <!-- ==== right: the sine curve ==== -->
   <g stroke="#111111" stroke-width="1" opacity="0.5">
     <line x1="150" y1="86" x2="312" y2="86"/>
     <line x1="150" y1="146" x2="150" y2="26"/>
@@ -45,12 +45,12 @@
      fill="#111111">
     <text x="82" y="80" font-style="italic">x</text>
     <text x="58" y="100">O</text>
-    <text x="118" y="100">1</text>
+    <text x="124" y="100">1</text>
   </g>
   <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9"
      fill="#1a3a6b">
     <text x="102" y="36">height</text>
-    <text x="182" y="36">sin x</text>
+    <text x="186" y="28">sin x</text>
   </g>
   <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9"
      fill="#444444">

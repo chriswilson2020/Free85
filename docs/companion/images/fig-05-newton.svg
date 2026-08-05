@@ -41,13 +41,13 @@
 
   <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="10"
      fill="#111111">
-    <text x="100" y="112">x</text><text x="108" y="115" font-size="7">1</text>
-    <text x="162" y="110">x</text><text x="170" y="113" font-size="7">2</text>
+    <text x="100" y="112">x</text><text x="105.5" y="115" font-size="7">1</text>
+    <text x="162" y="110">x</text><text x="167.5" y="113" font-size="7">2</text>
     <text x="204" y="134">root</text>
   </g>
   <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9"
      fill="#1a3a6b">
-    <text x="54" y="152">tangent</text>
+    <text x="54" y="166">tangent</text>
     <text x="214" y="78">tangent</text>
   </g>
 </svg>

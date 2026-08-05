@@ -34,14 +34,14 @@
   <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9.5"
      fill="#111111">
     <text x="22" y="170">(0,0)</text>
-    <text x="168" y="170">(8,0)</text>
+    <text x="158" y="170">(8,0)</text>
     <text x="12" y="43">(0,8)</text>
     <text x="112" y="70" fill="#1a3a6b">(4,6)</text>
   </g>
   <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9"
      fill="#444444">
     <text x="196" y="122">timber</text>
-    <text x="186" y="176">labour</text>
+    <text x="200" y="176">labour</text>
     <text x="150" y="36" fill="#1a3a6b">profit</text>
     <text x="60" y="140">feasible</text>
   </g>

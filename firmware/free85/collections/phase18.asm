@@ -1494,28 +1494,17 @@ p18_eigen_cross_columns:
     DB 0,1, 1,0
 
 ; ---------------------------------------------------------------------------
-; Pivot-reporting LU.  The combined LU remains in matrix R; vector R records
-; the 1-based row permutation so callers can reconstruct P*A=L*U.
+; Pivot-reporting LU. The combined LU remains in matrix R and the 1-based row
+; permutation has dedicated state, so an unrelated vector R is never damaged.
 
 p18_lu_init_permutation:
-    LD A, (P7_ROWS)
-    LD (P7_VECTOR_RESULT + P7_VECTOR_LENGTH), A
-    LD HL, P18_VECTOR_R_IMAG
-    LD BC, NUM_SIZE * P7_VECTOR_MAX
-    CALL numeric_clear_bytes
-    LD HL, const_one
-    LD DE, P7_VECTOR_RESULT + P7_VECTOR_DATA
-    CALL numeric_copy
-    LD HL, const_two
-    LD DE, P7_VECTOR_RESULT + P7_VECTOR_DATA + NUM_SIZE
-    CALL numeric_copy
-    LD HL, const_one
-    LD DE, const_two
-    LD IX, P7_WORK_0
-    CALL p7_add
-    LD HL, P7_WORK_0
-    LD DE, P7_VECTOR_RESULT + P7_VECTOR_DATA + NUM_SIZE * 2
-    JP numeric_copy
+    LD HL, P7_LU_PERMUTATION
+    LD (HL), 1
+    INC HL
+    LD (HL), 2
+    INC HL
+    LD (HL), 3
+    RET
 
 p18_lu_pivot_if_needed:
     LD A, (P7_PIVOT)
@@ -1567,20 +1556,20 @@ p18_lu_pivot_if_needed:
     LD A, (P7_ROWS)
     CP B
     JR NZ, .column
-    ; Swap the corresponding packed permutation entries.
+    ; Swap the corresponding raw permutation entries.
     LD A, (P7_PIVOT)
     CALL p18_permutation_pointer
+    LD B, (HL)
+    PUSH BC
     PUSH HL
-    LD DE, P7_WORK_0
-    CALL numeric_copy
     LD A, (P7_I)
     CALL p18_permutation_pointer
+    LD C, (HL)
     POP DE
-    PUSH HL
-    CALL numeric_copy
-    POP DE
-    LD HL, P7_WORK_0
-    CALL numeric_copy
+    LD A, C
+    LD (DE), A
+    POP BC
+    LD (HL), B
     OR A
     RET
 .singular:
@@ -1588,14 +1577,10 @@ p18_lu_pivot_if_needed:
     RET
 
 p18_permutation_pointer:
-    LD B, A
-    LD HL, P7_VECTOR_RESULT + P7_VECTOR_DATA
-    OR A
-    RET Z
-.loop:
-    LD DE, NUM_SIZE
+    LD E, A
+    LD D, 0
+    LD HL, P7_LU_PERMUTATION
     ADD HL, DE
-    DJNZ .loop
     RET
 
 p18_text_imag: DB "IM",0

@@ -228,6 +228,11 @@ P7_K                EQU P7_CONTROL + 3
 P7_PIVOT            EQU P7_CONTROL + 4
 P7_ROWS             EQU P7_CONTROL + 5
 P7_COLS             EQU P7_CONTROL + 6
+; Phase 16 keeps LU bookkeeping out of the public vector result register.
+; The raw 1-based permutation is displayed alongside the combined LU result.
+P7_RESULT_KIND       EQU P7_CONTROL + 7
+P7_LU_PERMUTATION    EQU P7_CONTROL + 8
+P7_RESULT_KIND_LU    EQU 1
 P7_STATE_END        EQU $8D00
 
 ; Phase 8 statistics and specialist-solver RAM. Statistics use the Phase 7

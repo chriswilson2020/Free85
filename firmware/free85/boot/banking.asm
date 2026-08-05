@@ -221,3 +221,18 @@ bank_call_phase20_graph_mode:
     CALL bank_select
     POP AF
     RET
+
+; Fixed-page numeric evaluation can originate from any mapped application
+; bank. Preserve that bank while the Phase 16 power engine runs in page 1.
+bank_call_phase16_numeric_power:
+    CALL bank_get
+    PUSH AF
+    LD A, 1
+    CALL bank_select
+    CALL $4044
+    POP BC
+    PUSH AF
+    LD A, B
+    CALL bank_select
+    POP AF
+    RET

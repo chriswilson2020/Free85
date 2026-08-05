@@ -768,7 +768,14 @@ p17_matrix_lu_core:
     LD A, (P7_ROWS)
     CP B
     JP NZ, .pivot
-    JP p7_set_result_mode
+    LD A, P7_RESULT_KIND_LU
+    LD (P7_RESULT_KIND), A
+    LD A, 2
+    LD (P7_ACTIVE_SET), A
+    XOR A
+    LD (P7_SELECTED), A
+    LD (P7_ERROR), A
+    JP p7_render
 
 ; Input A=row, C=column, DE=destination.
 p17_copy_a_element:
@@ -1046,7 +1053,40 @@ p17_off_diagonal_coordinates:
 
 p17_menu_list_3:   DB "DIM FILL D-S L>V V>L",0
 p18_menu_complex_collection: DB "CSET CGET REAL IMAG CLR",0
-p17_menu_matrix_2: DB "REF SWAP RADD RMUL AUG",0
+p17_menu_matrix_2: DB "REF SWP RADD RMUL AUG",0
 p17_menu_matrix_3: DB "NORM RNORM CNORM COND RND",0
 p17_menu_matrix_4: DB "LU EVAL EVEC DIM FILL",0
 p17_menu_vector_3: DB "DIM FILL NORM V>L L>V",0
+
+p17_draw_lu_permutation:
+    LD A, (P7_ACTIVE_SET)
+    CP 2
+    RET NZ
+    LD A, (P7_RESULT_KIND)
+    CP P7_RESULT_KIND_LU
+    RET NZ
+    LD HL, p17_text_permutation
+    LD B, 0
+    LD C, 4
+    CALL text_draw_string
+    LD HL, P7_LU_PERMUTATION
+    LD B, 2
+    LD A, (P7_ROWS)
+    LD E, A
+.digit:
+    LD A, (HL)
+    PUSH HL
+    PUSH BC
+    PUSH DE
+    LD C, 4
+    CALL p7_draw_digit
+    POP DE
+    POP BC
+    POP HL
+    INC HL
+    INC B
+    DEC E
+    JR NZ, .digit
+    RET
+
+p17_text_permutation: DB "P:",0

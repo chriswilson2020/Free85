@@ -120,6 +120,8 @@ function improvement(before, after) {
 
 const evaluation = {
   arithmetic: measureEvaluation("(12+34)*(56-7)/3"),
+  integer_power: measureEvaluation("2^20"),
+  real_power: measureEvaluation("9^0.5"),
   sin: measureEvaluation("SIN(1)"),
   sin_large: measureEvaluation("SIN(1000000)"),
   exp: measureEvaluation("EXP(1)"),
@@ -136,8 +138,8 @@ const graph = {
 
 const report = {
   schema_version: 1,
-  release: "2.20.0",
-  phase: "15.6",
+  release: "2.21.0",
+  phase: "16",
   clock_hz: 6000000,
   key_response: measureKeyResponse(),
   evaluation,

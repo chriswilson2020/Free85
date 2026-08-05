@@ -382,8 +382,12 @@ the last plot happened to stop.
 
 The environment shaped two decisions here.
 
-`FOR` bounds are single digits, so a counted loop cannot reach fourteen
-passes, and the countdown in `N` is what buys an arbitrary step count.
+`FOR` bounds were single digits when this was written, so a counted loop
+could not reach fourteen passes, and the countdown in `N` is what bought an
+arbitrary step count. Firmware 2.19 lifted that: `FOR N,1,127` is now a
+legal line, and section 7.4's walk would fit it. The countdown is kept
+because `N` is doing double duty as the loop's remaining work and as
+something the run screen can show you.
 
 And `EVAL(` takes the slope at the current `Y` but at a *typed* `X`, so a
 model containing `X` would need the running x stepped alongside `Y`, which

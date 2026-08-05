@@ -622,7 +622,7 @@ export const SCREEN_CASES = [
   // whole integration, so this one needs a long settle.
   {
     name: "co05-accumulator-plot",
-    keys: ["2", "*", "X-VAR", "GRAPH", 3000, "EXIT", 60, "2ND", "2", 60,
+    keys: ["2", "*", "X-VAR", "GRAPH", 3000, "2ND", "2", 60,
       ...FNINT_KEYS, "(", "1", ",", "0", ",", "X-VAR", ")", "GRAPH", 40000]
   },
   {

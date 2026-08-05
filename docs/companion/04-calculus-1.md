@@ -1095,10 +1095,13 @@ rules fall straight out of them.
    estimates are for: not one of them is the answer, and combining them
    cleverly is worth more than computing any one of them harder.
 
-The environment shaped the design here and it is worth saying how. `FOR`
-bounds are single digits, so a counted loop passes at most ten times, which
-is why the finer slicings in Chapter 3 hand the count to a `WHILE`
-countdown instead. Four program slots held all four sums, and `EVAL(` kept
+The environment shaped the design here and it is worth saying how. When
+this chapter was written `FOR` bounds were single digits, so a counted loop
+passed at most ten times, which is why the finer slicings in Chapter 3 hand
+the count to a `WHILE` countdown instead. Firmware 2.19 gave `FOR`
+evaluated bounds and an optional step, so that particular wall is gone; the
+countdown shape is kept here because it is still a good way to see a loop's
+state, not because anything forces it. Four program slots held all four sums, and `EVAL(` kept
 every one of them ignorant of which function it was measuring.
 
 **Try it.**

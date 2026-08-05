@@ -468,9 +468,12 @@ count, retyped before every run anyway, the difference is entirely in line
 cheap or hopeless is not the code, it is the mathematics the code is
 carrying.
 
-The environment shaped one decision and forbade another. `FOR` bounds are
-single digits, so no counted loop reaches a hundred passes and the
-countdown in `N` is what buys an arbitrary term count. And the run screen
+The environment shaped one decision and forbade another. `FOR` bounds were
+single digits when this was written, so no counted loop reached a hundred
+passes and the countdown in `N` is what bought an arbitrary term count.
+Since firmware 2.19 `FOR N,1,100` would say it directly, and the countdown
+survives here because it keeps the running total and the remaining work
+both visible on one line. And the run screen
 shows only the most recent `DISP`, so the tables above are built one run at
 a time.
 
@@ -796,9 +799,9 @@ and 240 degrees, each tensioned to 1500 newtons.
    the second soft-key page and [F1], `ADD`: `450`, `779.42286341`,
    `-2400`.
 
-   Carry that into `A` the way Chapter 6 carries a result, by pressing
-   [EXIT] and [2nd] [8] and retyping it, put the third force into `B`, and
-   press [MORE] [F1] again:
+   Carry that into `A` the way Chapter 6 carries a result: with `R` on the
+   screen the prompt reads `ENTER USE R`, so press [ENTER]. Put the third
+   force into `B` and press [MORE] [F1] again:
 
    ![Three guy tensions adding to a pure downward pull](images/co08-guy-sum.png)
 
@@ -825,9 +828,9 @@ hand you sooner or later, and none of them needs a new key.
 
    Press [F4], `CRS`: `R` reads `10`, `7`, `58`.
 
-   Now carry that into `A` and take its length. Press [EXIT], [2nd] [8],
-   type [1] [0] [ENTER] [7] [ENTER] [5] [8] [ENTER], and press [F1],
-   `MAG`: `59.27056605095`.
+   Now carry that into `A` and take its length: press [ENTER] on the
+   `ENTER USE R` prompt, then press [F1], `MAG`: `59.27056605095`. Nothing
+   was retyped, so nothing could be mistyped.
 
    That is the area of the parallelogram spanned by the original pair, and
    half of it is the area of the triangle they make. Check it a second way

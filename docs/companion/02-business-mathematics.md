@@ -668,7 +668,7 @@ converge, which is the actual mathematics here.
 
 1. Start the whole town at the Station: a `SIZE 1X3` row holding 0, 0, 1 in
    `A`, with P in `B`. Multiply repeatedly, carrying each result back into
-   `A`. After how many Saturdays does the Harbour's share first pass 0.45?
+   `A` with [ENTER] on the `ENTER USE R` prompt. After how many Saturdays does the Harbour's share first pass 0.45?
    Guess first.
 2. The `TRN` key transposes `A` into `R`. Rebuild step 5 without arithmetic
    on paper: transpose P, carry it to `A`, put an identity in `B`, and

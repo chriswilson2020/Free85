@@ -1348,7 +1348,8 @@ soon as the function is not a polynomial of degree three or less.
 you need the error below about 1E-6, which is a factor of 40000, which is
 seven or eight doublings: around 512 to 1024 slices.
 
-The eight-line slot could never run it. `FOR` bounds are single digits and
+The eight-line slot could not run it when this was written. `FOR` bounds
+were single digits and
 even the `WHILE` countdown would need the loop to run a thousand times,
 which on this machine is minutes of work for a number `FNINT(` gives you in
 a second. That is the honest limit of doing numerical integration by hand

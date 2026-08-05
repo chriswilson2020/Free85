@@ -234,6 +234,31 @@ test("[phase17.4.rollback] insufficient schema-13 heap capacity preserves old ma
   assert.equal(machine.read8(0x800b), 1, "matrix entry reports the migration capacity failure");
 });
 
+test("[phase17.5.corruption] corrupt schema-13 storage fails migration without partial publication", () => {
+  const harness = Free85Harness.boot();
+  const { machine } = harness;
+  const legacyMatrixA = 0x8900;
+  const workspace = 0xf2d0;
+  machine.write8(legacyMatrixA, 3);
+  machine.write8(legacyMatrixA + 1, 3);
+  machine.write8(legacyMatrixA + 2, 0x42);
+  machine.write8(0x8003, 13);
+  machine.write8(HEADER, 0);
+  machine.write8(HEADER + 3, 1);
+  machine.write16(HEAP_END, HEAP_START);
+  const beforeWorkspace = Array.from({ length: 16 }, (_, index) => machine.read8(workspace + index));
+
+  machine.reset();
+  harness.runFrames(FREE85_BOOT_FRAMES);
+  assert.equal(machine.read8(0x8003), 13, "schema publication remains retryable");
+  assert.equal(machine.read8(HEADER), 0, "corrupt source is not silently rebuilt");
+  assert.equal(machine.read8(HEADER + 3), 1);
+  assert.deepEqual(Array.from({ length: 3 }, (_, index) => machine.read8(legacyMatrixA + index)), [3, 3, 0x42]);
+  assert.equal(machine.read16(HEAP_END), HEAP_START);
+  assert.deepEqual(Array.from({ length: 16 }, (_, index) => machine.read8(workspace + index)), beforeWorkspace);
+  assert.equal(machine.read8(0x9dd6), 0);
+});
+
 test("[v2.memory.browser] browser renders typed entries and clears one selected object", () => {
   const harness = Free85Harness.boot();
   harness.tap("2ND");

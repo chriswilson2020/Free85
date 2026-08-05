@@ -34,19 +34,31 @@
     },
     {
       "id": "graph.diffeq-system",
-      "status": "baseline-limitation",
+      "status": "resolved",
       "owner": "17.3",
+      "resolvedRelease": "3.0.0-dev.3",
       "summary": "DEQ integrates one first-order state equation and therefore cannot represent coupled dynamic systems.",
       "baselineEvidence": ["firmware/free85/graph/phase16.asm:p16_diffeq_step", "test/free85/phase15-deq.test.js"],
-      "acceptance": ["two equation slots", "shared-stage two-state integration", "transactional GDEQ migration"]
+      "acceptance": ["two equation slots", "shared-stage two-state integration", "transactional GDEQ migration"],
+      "resolutionEvidence": [
+        "firmware/free85/graph/phase16.asm:p23_system_step",
+        "test/free85/phase17-deq-system.test.js",
+        "test/free85/phase15-deq.test.js:[phase17.3.deq-v2-migration]"
+      ]
     },
     {
       "id": "graph.phase-plane",
-      "status": "baseline-limitation",
+      "status": "resolved",
       "owner": "17.3",
+      "resolvedRelease": "3.0.0-dev.3",
       "summary": "The graph engine has no view which plots one integrated state against another.",
       "baselineEvidence": ["firmware/free85/graph/phase16.asm:p16_graph_prepare_plot", "docs/known-limitations.md"],
-      "acceptance": ["selectable time and phase views", "traceable x-y samples", "reviewed phase-plane framebuffer"]
+      "acceptance": ["selectable time and phase views", "traceable x-y samples", "reviewed phase-plane framebuffer"],
+      "resolutionEvidence": [
+        "firmware/free85/graph/phase16.asm:p23_tick_phase",
+        "test/free85/phase17-deq-system.test.js:[phase17.3.views]",
+        "test/free85/goldens/graphs/phase17-deq-phase-plane.lcd"
+      ]
     },
     {
       "id": "workspace.dynamic-matrix",

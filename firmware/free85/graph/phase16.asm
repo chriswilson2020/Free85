@@ -7,8 +7,9 @@ GRAPH_MODE_POLAR EQU 1
 GRAPH_MODE_PARAM EQU 2
 GRAPH_MODE_DIFEQ EQU 3
 P16_MODE_V1_SIZE EQU 213
-P16_MODE_SIZE    EQU 224
-P16_MODE_VERSION EQU 2
+P16_MODE_V2_SIZE EQU 224
+P16_MODE_SIZE    EQU 234
+P16_MODE_VERSION EQU 3
 P16_METHOD_EULER EQU 0
 P16_METHOD_HEUN  EQU 1
 P16_METHOD_RK4   EQU 2
@@ -76,6 +77,11 @@ p16_graph_mode_key:
 p16_diffeq_render_setup:
     CALL lcd_clear
     LD HL, p16_text_setup
+    LD A, (P23_SYSTEM_FLAGS)
+    AND P23_FLAG_SYSTEM
+    JR Z, .title
+    LD HL, p23_text_setup_system
+.title:
     LD B, 0
     LD C, 0
     CALL text_draw_string
@@ -96,23 +102,83 @@ p16_diffeq_render_setup:
     LD B, 7
     LD C, 1
     CALL text_draw_string
+    LD A, (P23_SYSTEM_FLAGS)
+    AND P23_FLAG_SYSTEM
+    JR Z, .single_values
+    LD HL, p23_text_view
+    LD B, 12
+    LD C, 1
+    CALL text_draw_string
+    LD HL, p23_text_time
+    LD A, (P23_SYSTEM_FLAGS)
+    AND P23_FLAG_PHASE
+    JR Z, .draw_view
+    LD HL, p23_text_phase
+.draw_view:
+    LD B, 17
+    LD C, 1
+    CALL text_draw_string
+    LD HL, p23_text_t0
+    LD B, 0
+    LD C, 2
+    CALL text_draw_string
+    LD HL, P16_INITIAL_X
+    LD C, 2
+    CALL p16_draw_setup_value
+    LD HL, p16_text_x0
+    LD B, 0
+    LD C, 3
+    CALL text_draw_string
+    LD HL, P16_INITIAL_Y
+    LD C, 3
+    CALL p16_draw_setup_value
+    LD HL, p16_text_y0
+    LD B, 0
+    LD C, 4
+    CALL text_draw_string
+    LD HL, P23_INITIAL_Y2
+    LD C, 4
+    CALL p16_draw_setup_value
+    JR .field_text
+.single_values:
     LD HL, p16_text_x0
     LD B, 0
     LD C, 2
     CALL text_draw_string
     LD HL, P16_INITIAL_X
+    LD C, 2
     CALL p16_draw_setup_value
     LD HL, p16_text_y0
     LD B, 0
     LD C, 3
     CALL text_draw_string
     LD HL, P16_INITIAL_Y
+    LD C, 3
     CALL p16_draw_setup_value
+.field_text:
+    LD A, (P16_SETUP_FIELD)
+    LD B, A
+    LD A, (P23_SYSTEM_FLAGS)
+    AND P23_FLAG_SYSTEM
+    LD A, B
+    JR Z, .single_field_text
+    LD HL, p23_text_edit_t0
+    OR A
+    JR Z, .field
+    LD HL, p23_text_edit_x0
+    CP 1
+    JR Z, .field
+    LD HL, p23_text_edit_y0
+    JR .field
+.single_field_text:
     LD A, (P16_SETUP_FIELD)
     OR A
     LD HL, p16_text_edit_x0
     JR Z, .field
     LD HL, p16_text_edit_y0
+    CP 1
+    JR Z, .field
+    LD HL, p23_text_edit_y0
 .field:
     LD B, 0
     LD C, 5
@@ -134,19 +200,43 @@ p16_draw_setup_value:
 
 p16_diffeq_setup_key:
     CP KEY_F1
-    JR Z, .method
+    JR Z, .system
     CP KEY_F2
-    JR Z, .select_x
+    JR Z, .method
     CP KEY_F3
-    JR Z, .select_y
+    JR Z, .next_field
     CP KEY_F4
     JR Z, .reset
     CP KEY_F5
     JP Z, p14_graph_redraw
+    CP KEY_MORE
+    JR Z, .view
     CP KEY_PLUS
-    JR Z, .increase
+    JP Z, .increase
     CP KEY_MINUS
-    JR Z, .decrease
+    JP Z, .decrease
+    JP p16_diffeq_render_setup
+.system:
+    LD A, (P23_SYSTEM_FLAGS)
+    XOR P23_FLAG_SYSTEM
+    AND P23_FLAG_SYSTEM | P23_FLAG_PHASE
+    LD B, A
+    AND P23_FLAG_SYSTEM
+    LD A, B
+    JR NZ, .store_system
+    XOR A
+.store_system:
+    LD (P23_SYSTEM_FLAGS), A
+    XOR A
+    LD (P16_SETUP_FIELD), A
+    JP p16_diffeq_render_setup
+.view:
+    LD A, (P23_SYSTEM_FLAGS)
+    AND P23_FLAG_SYSTEM
+    JP Z, p16_diffeq_render_setup
+    LD A, (P23_SYSTEM_FLAGS)
+    XOR P23_FLAG_PHASE
+    LD (P23_SYSTEM_FLAGS), A
     JP p16_diffeq_render_setup
 .method:
     LD A, (P16_METHOD)
@@ -157,12 +247,22 @@ p16_diffeq_setup_key:
 .store_method:
     LD (P16_METHOD), A
     JP p16_diffeq_render_setup
-.select_x:
+.next_field:
+    LD A, (P16_SETUP_FIELD)
+    INC A
+    LD B, A
+    LD A, (P23_SYSTEM_FLAGS)
+    AND P23_FLAG_SYSTEM
+    LD A, B
+    JR NZ, .field_limit
+    CP 2
+    JR .field_wrap
+.field_limit:
+    CP 3
+.field_wrap:
+    JR C, .store_field
     XOR A
-    LD (P16_SETUP_FIELD), A
-    JP p16_diffeq_render_setup
-.select_y:
-    LD A, 1
+.store_field:
     LD (P16_SETUP_FIELD), A
     JP p16_diffeq_render_setup
 .reset:
@@ -171,6 +271,9 @@ p16_diffeq_setup_key:
     CALL numeric_copy
     LD HL, p6_const_zero
     LD DE, P16_INITIAL_Y
+    CALL numeric_copy
+    LD HL, p6_const_zero
+    LD DE, P23_INITIAL_Y2
     CALL numeric_copy
     XOR A
     LD (P16_METHOD), A
@@ -210,6 +313,9 @@ p16_setup_value_address:
     OR A
     RET Z
     LD HL, P16_INITIAL_Y
+    CP 1
+    RET Z
+    LD HL, P23_INITIAL_Y2
     RET
 
 ; A=new mode. Save outgoing state, restore incoming state, then redraw.
@@ -256,10 +362,17 @@ p16_save_mode:
     LD A, (P16_METHOD)
     LD (DE), A
     INC DE
+    LD A, (P23_SYSTEM_FLAGS)
+    AND P23_FLAG_SYSTEM | P23_FLAG_PHASE
+    LD (DE), A
+    INC DE
     LD HL, P16_INITIAL_X
     LD BC, NUM_SIZE
     LDIR
     LD HL, P16_INITIAL_Y
+    LD BC, NUM_SIZE
+    LDIR
+    LD HL, P23_INITIAL_Y2
     LD BC, NUM_SIZE
     LDIR
     LD HL, GRAPH_XMIN
@@ -274,9 +387,9 @@ p16_save_mode:
     OR A
     RET
 
-; HL=mode name. Create a v2 payload, accept an existing v2 payload, or grow a
-; v1 payload transactionally before overwriting it. phase14_resize checks heap
-; capacity before moving any bytes, so a failed migration leaves GDEQ intact.
+; HL=mode name. Create a v3 payload, accept v3, or grow either legacy layout
+; transactionally before overwriting it. phase14_resize checks heap capacity
+; before moving bytes, so a failed migration leaves GDEQ intact.
 p16_mode_payload:
     CALL p15_copy_name
     LD A, P14_TYPE_GRAPH_DB
@@ -296,8 +409,11 @@ p16_mode_payload:
     LD A, (IX + P14_ENTRY_SIZE_LO)
     CP P16_MODE_SIZE
     JR Z, .payload
+    CP P16_MODE_V2_SIZE
+    JR Z, .grow
     CP P16_MODE_V1_SIZE
     JR NZ, .wrong_size
+.grow:
     LD BC, P16_MODE_SIZE
     CALL bank_call_phase14_resize_from_graph
     RET C
@@ -327,7 +443,9 @@ p16_load_mode:
     JP NZ, .defaults
     LD A, (IX + P14_ENTRY_SIZE_LO)
     CP P16_MODE_V1_SIZE
-    JR Z, .legacy
+    JP Z, .legacy
+    CP P16_MODE_V2_SIZE
+    JP Z, .version_two
     CP P16_MODE_SIZE
     JP NZ, .defaults
     LD A, (HL)
@@ -345,7 +463,49 @@ p16_load_mode:
     INC HL
     LD A, (HL)
     CP P16_METHOD_RK4 + 1
-    JR NC, .defaults
+    JP NC, .defaults
+    LD (P16_METHOD), A
+    INC HL
+    LD A, (HL)
+    AND P23_FLAG_SYSTEM | P23_FLAG_PHASE
+    LD (P23_SYSTEM_FLAGS), A
+    INC HL
+    LD DE, P16_INITIAL_X
+    LD BC, NUM_SIZE
+    LDIR
+    LD DE, P16_INITIAL_Y
+    LD BC, NUM_SIZE
+    LDIR
+    LD DE, P23_INITIAL_Y2
+    LD BC, NUM_SIZE
+    LDIR
+    LD DE, GRAPH_XMIN
+    LD BC, NUM_SIZE * 4
+    LDIR
+    LD DE, GRAPH_TABLE_START
+    LD BC, NUM_SIZE * 2
+    LDIR
+    LD DE, GRAPH_EQ1
+    LD BC, 147
+    LDIR
+    JP p6_load_active_equation
+.version_two:
+    LD A, (HL)
+    CP 2
+    JP NZ, .defaults
+    INC HL
+    LD A, (HL)
+    LD (GRAPH_ENABLED), A
+    INC HL
+    LD A, (HL)
+    LD (GRAPH_ACTIVE_SLOT), A
+    INC HL
+    LD A, (HL)
+    LD (GRAPH_COORD_MODE), A
+    INC HL
+    LD A, (HL)
+    CP P16_METHOD_RK4 + 1
+    JP NC, .defaults
     LD (P16_METHOD), A
     INC HL
     LD DE, P16_INITIAL_X
@@ -354,6 +514,13 @@ p16_load_mode:
     LD DE, P16_INITIAL_Y
     LD BC, NUM_SIZE
     LDIR
+    PUSH HL
+    LD HL, p6_const_zero
+    LD DE, P23_INITIAL_Y2
+    CALL numeric_copy
+    POP HL
+    XOR A
+    LD (P23_SYSTEM_FLAGS), A
     LD DE, GRAPH_XMIN
     LD BC, NUM_SIZE * 4
     LDIR
@@ -391,6 +558,12 @@ p16_load_mode:
     CALL numeric_copy
     XOR A
     LD (P16_METHOD), A
+    LD (P23_SYSTEM_FLAGS), A
+    PUSH HL
+    LD HL, p6_const_zero
+    LD DE, P23_INITIAL_Y2
+    CALL numeric_copy
+    POP HL
     JP p6_load_active_equation
 .defaults:
     XOR A
@@ -399,11 +572,15 @@ p16_load_mode:
     LD (GRAPH_COORD_MODE), A
     LD (P16_METHOD), A
     LD (P16_SETUP_FIELD), A
+    LD (P23_SYSTEM_FLAGS), A
     LD HL, GRAPH_XMIN
     LD DE, P16_INITIAL_X
     CALL numeric_copy
     LD HL, VARIABLES + 24 * NUM_SIZE
     LD DE, P16_INITIAL_Y
+    CALL numeric_copy
+    LD HL, p6_const_zero
+    LD DE, P23_INITIAL_Y2
     CALL numeric_copy
     LD HL, GRAPH_EQ1
     LD DE, GRAPH_EQ1 + 1
@@ -437,6 +614,28 @@ p16_graph_evaluate:
     JP p6_evaluate_slot
 .diffeq:
     LD A, B
+    LD C, A
+    LD A, (P23_SYSTEM_FLAGS)
+    AND P23_FLAG_SYSTEM
+    LD A, C
+    JR Z, .single_diffeq
+    CP 2
+    JP NC, numeric_domain_error
+    PUSH AF
+    LD HL, GRAPH_CURRENT_X
+    LD DE, P16_QUERY_X
+    CALL numeric_copy
+    CALL p16_diffeq_solve_query
+    POP AF
+    RET C
+    OR A
+    JR Z, .diffeq_result
+    LD HL, GRAPH_WORK_3
+    LD DE, NUM_RESULT
+    CALL numeric_copy
+    OR A
+    RET
+.single_diffeq:
     OR A
     JP NZ, numeric_domain_error
     LD HL, GRAPH_CURRENT_X
@@ -447,6 +646,7 @@ p16_graph_evaluate:
     LD HL, P16_QUERY_X
     LD DE, GRAPH_RESULT_X
     CALL numeric_copy
+.diffeq_result:
     LD HL, GRAPH_RESULT_Y
     LD DE, NUM_RESULT
     CALL numeric_copy
@@ -479,14 +679,32 @@ p16_graph_prepare_plot:
     OR A
     RET
 .prepare_diffeq:
+    LD A, (P23_SYSTEM_FLAGS)
+    AND P23_FLAG_SYSTEM | P23_FLAG_PHASE
+    CP P23_FLAG_SYSTEM | P23_FLAG_PHASE
+    JR Z, .prepare_phase
     LD HL, GRAPH_XMIN
     LD DE, P16_QUERY_X
     CALL numeric_copy
     CALL p16_diffeq_solve_query
     RET C
+.prepare_time:
+    OR A
     LD HL, GRAPH_XMIN
     LD DE, GRAPH_CURRENT_X
     JP numeric_copy
+.prepare_phase:
+    LD HL, P16_INITIAL_X
+    LD DE, GRAPH_CURRENT_X
+    CALL numeric_copy
+    LD HL, P16_INITIAL_Y
+    LD DE, GRAPH_RESULT_Y
+    CALL numeric_copy
+    LD HL, P23_INITIAL_Y2
+    LD DE, GRAPH_WORK_3
+    CALL numeric_copy
+    OR A
+    RET
 
 p16_graph_tick:
     LD A, (GRAPH_PLOT_X)
@@ -547,14 +765,41 @@ p16_tick_param:
     JP p16_plot_advance
 
 p16_tick_diffeq:
+    LD A, (P23_SYSTEM_FLAGS)
+    AND P23_FLAG_SYSTEM | P23_FLAG_PHASE
+    CP P23_FLAG_SYSTEM | P23_FLAG_PHASE
+    JP Z, p23_tick_phase
     LD HL, GRAPH_CURRENT_X
     LD DE, GRAPH_RESULT_X
     CALL numeric_copy
+    JR .plot
+.plot:
     CALL p16_plot_point
     LD HL, GRAPH_XSTEP
     LD DE, P7_WORK_4
     CALL numeric_copy
     CALL p16_diffeq_plot_step
+    JP C, p16_diffeq_step_failure
+    JP p16_advance_index
+
+p23_tick_phase:
+    LD HL, GRAPH_RESULT_Y
+    LD DE, P7_WORK_5
+    CALL numeric_copy
+    LD HL, GRAPH_RESULT_Y
+    LD DE, GRAPH_RESULT_X
+    CALL numeric_copy
+    LD HL, GRAPH_WORK_3
+    LD DE, GRAPH_RESULT_Y
+    CALL numeric_copy
+    CALL p16_plot_point
+    LD HL, P7_WORK_5
+    LD DE, GRAPH_RESULT_Y
+    CALL numeric_copy
+    LD HL, GRAPH_TABLE_STEP
+    LD DE, P7_WORK_4
+    CALL numeric_copy
+    CALL p16_diffeq_step
     JP C, p16_diffeq_step_failure
     JP p16_advance_index
 
@@ -680,8 +925,48 @@ p16_trace_at:
 
 p16_trace_diffeq:
     LD A, B
+    LD C, A
+    LD A, (P23_SYSTEM_FLAGS)
+    AND P23_FLAG_SYSTEM | P23_FLAG_PHASE
+    CP P23_FLAG_SYSTEM | P23_FLAG_PHASE
+    LD A, C
+    JR NZ, .solve_time
+    CALL p23_diffeq_solve_phase
+    JR .solved
+.solve_time:
     CALL p16_diffeq_solve
+.solved:
+    RET C
+    LD A, (P23_SYSTEM_FLAGS)
+    AND P23_FLAG_SYSTEM | P23_FLAG_PHASE
+    CP P23_FLAG_SYSTEM | P23_FLAG_PHASE
+    JR NZ, .draw
+    LD HL, GRAPH_RESULT_Y
+    LD DE, GRAPH_RESULT_X
+    CALL numeric_copy
+    LD HL, GRAPH_WORK_3
+    LD DE, GRAPH_RESULT_Y
+    CALL numeric_copy
+.draw:
     JP p6_draw_trace_values
+
+; Phase-plane samples advance from T0 by the table step. The graph window is
+; therefore free to describe state X/Y bounds instead of doubling as time.
+p23_diffeq_solve_phase:
+    LD DE, P7_WORK_5
+    CALL sci_set_integer
+    LD HL, GRAPH_TABLE_STEP
+    LD DE, P7_WORK_5
+    CALL sci_multiply_objects
+    RET C
+    LD HL, P16_INITIAL_X
+    LD DE, NUM_RESULT
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P16_QUERY_X
+    CALL numeric_copy
+    JP p16_diffeq_solve_query
 
 ; A=sample index. Reintegrate from editable (X0,Y0) with a final partial step
 ; that lands exactly on the requested graph sample.
@@ -708,6 +993,12 @@ p16_diffeq_solve_query:
     CALL numeric_copy
     LD HL, P16_INITIAL_Y
     LD DE, GRAPH_RESULT_Y
+    CALL numeric_copy
+    LD A, (P23_SYSTEM_FLAGS)
+    AND P23_FLAG_SYSTEM
+    JR Z, .loop
+    LD HL, P23_INITIAL_Y2
+    LD DE, GRAPH_WORK_3
     CALL numeric_copy
 .loop:
     CALL p16_diffeq_check_cancel
@@ -766,6 +1057,9 @@ p16_diffeq_solve_query:
 p16_diffeq_step:
     CALL p16_diffeq_check_cancel
     RET C
+    LD A, (P23_SYSTEM_FLAGS)
+    AND P23_FLAG_SYSTEM
+    JP NZ, p23_system_step
     LD A, (P16_METHOD)
     OR A
     JP Z, p16_step_euler
@@ -968,6 +1262,280 @@ p16_step_advance_x:
     LD DE, GRAPH_CURRENT_X
     JP numeric_copy
 
+; Phase 17.3 coupled-system engine. GRAPH_CURRENT_X is independent time,
+; GRAPH_RESULT_Y/GRAPH_WORK_3 are the two live states, and P7_WORK_4 is h.
+; Both derivatives are evaluated from the same stage before either state is
+; advanced, which preserves the documented Euler/Heun/RK4 orders.
+p23_system_step:
+    LD HL, GRAPH_RESULT_Y
+    LD DE, GRAPH_WORK_0
+    CALL numeric_copy
+    LD HL, GRAPH_WORK_3
+    LD DE, GRAPH_WORK_1
+    CALL numeric_copy
+    LD A, (P16_METHOD)
+    OR A
+    JP Z, p23_step_euler
+    CP P16_METHOD_HEUN
+    JP Z, p23_step_heun
+    JP p23_step_rk4
+
+; Evaluate slot 1 and slot 2 as dX/dT and dY/dT. p6_evaluate_slot normally
+; installs GRAPH_CURRENT_X as variable X, so temporarily put state X there
+; while publishing the saved independent value as variable T.
+p23_eval_pair:
+    LD HL, GRAPH_CURRENT_X
+    LD DE, GRAPH_RESULT_X
+    CALL numeric_copy
+    LD HL, GRAPH_RESULT_X
+    LD DE, VARIABLES + 19 * NUM_SIZE
+    CALL numeric_copy
+    CALL p23_install_stage_variables
+    XOR A
+    CALL p6_evaluate_slot
+    JR C, p23_eval_restore_error
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_0
+    CALL numeric_copy
+    CALL p23_install_stage_variables
+    LD A, 1
+    CALL p6_evaluate_slot
+    JR C, p23_eval_restore_error
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_1
+    CALL numeric_copy
+    LD HL, GRAPH_RESULT_X
+    LD DE, GRAPH_CURRENT_X
+    CALL numeric_copy
+    OR A
+    RET
+p23_eval_restore_error:
+    LD HL, GRAPH_RESULT_X
+    LD DE, GRAPH_CURRENT_X
+    CALL numeric_copy
+    SCF
+    RET
+
+p23_install_stage_variables:
+    LD HL, GRAPH_RESULT_Y
+    LD DE, GRAPH_CURRENT_X
+    CALL numeric_copy
+    LD HL, GRAPH_WORK_3
+    LD DE, VARIABLES + 24 * NUM_SIZE
+    JP numeric_copy
+
+p23_step_euler:
+    CALL p23_eval_pair
+    RET C
+    LD HL, P7_WORK_0
+    LD DE, P7_WORK_4
+    CALL sci_multiply_objects
+    RET C
+    LD HL, GRAPH_WORK_0
+    LD DE, NUM_RESULT
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_RESULT_Y
+    CALL numeric_copy
+    LD HL, P7_WORK_1
+    LD DE, P7_WORK_4
+    CALL sci_multiply_objects
+    RET C
+    LD HL, GRAPH_WORK_1
+    LD DE, NUM_RESULT
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_WORK_3
+    CALL numeric_copy
+    JP p16_step_advance_x
+
+p23_step_heun:
+    CALL p23_eval_pair
+    RET C
+    LD HL, P7_WORK_0
+    LD DE, P7_WORK_2
+    CALL numeric_copy
+    LD HL, P7_WORK_1
+    LD DE, P7_WORK_3
+    CALL numeric_copy
+    LD HL, P7_WORK_4
+    LD DE, P7_WORK_5
+    CALL numeric_copy
+    CALL p23_set_stage
+    RET C
+    CALL p16_step_advance_x
+    RET C
+    CALL p23_eval_pair
+    RET C
+    CALL p23_add_pair_to_sum
+    RET C
+    LD HL, P7_WORK_4
+    LD DE, const_two
+    CALL sci_divide_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_5
+    CALL numeric_copy
+    JP p23_finish_sum
+
+p23_step_rk4:
+    CALL p23_eval_pair
+    RET C
+    LD HL, P7_WORK_0
+    LD DE, P7_WORK_2
+    CALL numeric_copy
+    LD HL, P7_WORK_1
+    LD DE, P7_WORK_3
+    CALL numeric_copy
+    LD HL, P7_WORK_4
+    LD DE, const_two
+    CALL sci_divide_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_5
+    CALL numeric_copy
+    CALL p23_set_stage
+    RET C
+    CALL p23_advance_half
+    RET C
+    CALL p23_eval_pair                    ; k2
+    RET C
+    CALL p23_add_double_pair_to_sum
+    RET C
+    CALL p23_set_stage                    ; stage from k2
+    RET C
+    CALL p23_eval_pair                    ; k3 at same half time
+    RET C
+    CALL p23_add_double_pair_to_sum
+    RET C
+    LD HL, P7_WORK_4
+    LD DE, P7_WORK_5
+    CALL numeric_copy
+    CALL p23_set_stage                    ; stage from k3 using h
+    RET C
+    LD HL, P7_WORK_4
+    LD DE, const_two
+    CALL sci_divide_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_5
+    CALL numeric_copy
+    CALL p23_advance_half                 ; full time
+    RET C
+    CALL p23_eval_pair                    ; k4
+    RET C
+    CALL p23_add_pair_to_sum
+    RET C
+    LD HL, P7_WORK_4
+    LD DE, p16_const_6
+    CALL sci_divide_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_5
+    CALL numeric_copy
+    JP p23_finish_sum
+
+; Build a shared stage from the old states in GRAPH_WORK_0/1, the current
+; derivative pair in P7_WORK_0/1, and the scale in P7_WORK_5.
+p23_set_stage:
+    LD HL, P7_WORK_0
+    LD DE, P7_WORK_5
+    CALL sci_multiply_objects
+    RET C
+    LD HL, GRAPH_WORK_0
+    LD DE, NUM_RESULT
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_RESULT_Y
+    CALL numeric_copy
+    LD HL, P7_WORK_1
+    LD DE, P7_WORK_5
+    CALL sci_multiply_objects
+    RET C
+    LD HL, GRAPH_WORK_1
+    LD DE, NUM_RESULT
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_WORK_3
+    JP numeric_copy
+
+p23_advance_half:
+    LD HL, GRAPH_CURRENT_X
+    LD DE, P7_WORK_5
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_CURRENT_X
+    JP numeric_copy
+
+p23_add_double_pair_to_sum:
+    LD HL, P7_WORK_0
+    LD DE, const_two
+    CALL sci_multiply_objects
+    RET C
+    LD HL, P7_WORK_2
+    LD DE, NUM_RESULT
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_2
+    CALL numeric_copy
+    LD HL, P7_WORK_1
+    LD DE, const_two
+    CALL sci_multiply_objects
+    RET C
+    LD HL, P7_WORK_3
+    LD DE, NUM_RESULT
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_3
+    JP numeric_copy
+
+p23_add_pair_to_sum:
+    LD HL, P7_WORK_2
+    LD DE, P7_WORK_0
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_2
+    CALL numeric_copy
+    LD HL, P7_WORK_3
+    LD DE, P7_WORK_1
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_3
+    JP numeric_copy
+
+p23_finish_sum:
+    LD HL, P7_WORK_2
+    LD DE, P7_WORK_5
+    CALL sci_multiply_objects
+    RET C
+    LD HL, GRAPH_WORK_0
+    LD DE, NUM_RESULT
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_RESULT_Y
+    CALL numeric_copy
+    LD HL, P7_WORK_3
+    LD DE, P7_WORK_5
+    CALL sci_multiply_objects
+    RET C
+    LD HL, GRAPH_WORK_1
+    LD DE, NUM_RESULT
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_WORK_3
+    JP numeric_copy
+
 p16_diffeq_check_cancel:
     CALL events_poll
     CALL events_get
@@ -1064,16 +1632,24 @@ p16_text_param: DB "PARAM X(T),Y(T)",0
 p16_text_difeq: DB "DIFEQ DY/DX",0
 p16_menu_modes: DB "FN POL PAR DEQ GC",0
 p16_text_setup: DB "DEQ SETUP",0
+p23_text_setup_system: DB "DEQ SYSTEM",0
 p16_text_method: DB "METHOD",0
+p23_text_view: DB "VIEW",0
+p23_text_time: DB "TIME",0
+p23_text_phase: DB "PHASE",0
+p23_text_t0: DB "T0",0
 p16_text_x0: DB "X0",0
 p16_text_y0: DB "Y0",0
 p16_text_edit_x0: DB "EDIT X0 WITH +/-",0
 p16_text_edit_y0: DB "EDIT Y0 WITH +/-",0
+p23_text_edit_t0: DB "EDIT T0 WITH +/-",0
+p23_text_edit_x0: DB "EDIT SYS X0 WITH +/-",0
+p23_text_edit_y0: DB "EDIT SYS Y0 WITH +/-",0
 p16_text_euler: DB "EULER",0
 p16_text_heun: DB "HEUN",0
 p16_text_rk4: DB "RK4",0
 p16_method_text_table: DW p16_text_euler, p16_text_heun, p16_text_rk4
-p16_menu_setup: DB "METH X0 Y0 RST GO",0
+p16_menu_setup: DB "SYS METH NEXT RST GO",0
 p16_text_rect_gc: DB "GRAPH COORD RECT",0
 p16_text_polar_gc: DB "GRAPH COORD POLAR",0
 p16_const_360: DB $00,$02,$36,$00,$00,$00,$00,$00,$00

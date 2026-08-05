@@ -76,11 +76,45 @@
         "test/free85/phase17-overlay.test.js",
         "test/free85/goldens/graphs/phase17-overlay-missing.lcd"
       ]
+    },
+    {
+      "issue": "graph.diffeq-system-and-phase-plane",
+      "implementedIn": "3.0.0-dev.3",
+      "summaryForBooks": "DEQ SETUP now toggles between the compatible single equation and a two-state SYSTEM. In SYSTEM, slot 1 is dX/dT and slot 2 is dY/dT; T0, X0, and Y0 are directly selected with NEXT and adjusted by +/-. METH cycles Euler, Heun, and RK4, with both derivatives evaluated from the same old stage. MORE switches TIME and PHASE views. TIME plots state X against T and the table exposes both states. PHASE plots X against Y, uses the graph window for state-space bounds, and uses the table step as its integration step. GDEQ v1 and v2 objects load as single-state and grow transactionally to v3 only when saved.",
+      "documents": [
+        { "path": "docs/guidebook/07-differential-equation-graphing.md", "sections": ["DEQ setup", "systems", "phase planes", "tables and trace"] },
+        { "path": "docs/companion/07-differential-equations.md", "sections": ["coupled systems", "predator-prey", "phase-plane limitation"] },
+        { "path": "docs/companion/08-engineering-mathematics.md", "sections": ["coupled states", "oscillators"] },
+        { "path": "docs/companion/10-afterword.md", "sections": ["machine limits"] }
+      ],
+      "mustRemoveOrCorrect": [
+        "the claim that Free85 integrates only one first-order state equation",
+        "the claim that phase-plane plots are unavailable",
+        "instructions that compare coupled states only by separate runs or handwritten tables"
+      ],
+      "mustAdd": [
+        "the SYS, METH, NEXT, RST, GO setup controls and MORE view toggle",
+        "slot 1 dX/dT and slot 2 dY/dT semantics with variables T, X, and Y",
+        "the distinction between TIME window bounds and PHASE state-space bounds",
+        "the rule that PHASE uses the table step for its 128 integration samples",
+        "a worked harmonic oscillator showing both the time trace and closed phase orbit",
+        "the shared-stage accuracy and cancellation behaviour of Euler, Heun, and RK4"
+      ],
+      "captures": [
+        "DEQ SYSTEM setup with T0, X0, Y0 and TIME/PHASE state",
+        "the reviewed harmonic-oscillator time framebuffer",
+        "the reviewed harmonic-oscillator phase-plane framebuffer"
+      ],
+      "evidence": [
+        "firmware/free85/graph/phase16.asm:p23_system_step",
+        "test/free85/phase17-deq-system.test.js",
+        "test/free85/goldens/graphs/phase17-deq-system-setup.lcd",
+        "test/free85/goldens/graphs/phase17-deq-system-time.lcd",
+        "test/free85/goldens/graphs/phase17-deq-phase-plane.lcd"
+      ]
     }
   ],
   "stillPlanned": [
-    "graph.diffeq-system",
-    "graph.phase-plane",
     "workspace.dynamic-matrix",
     "collections.matrix-3x6"
   ]

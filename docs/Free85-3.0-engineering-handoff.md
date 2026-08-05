@@ -36,3 +36,28 @@ creates an empty object. The 1,024 stored bytes are read-only throughout the
 recall and overlay workflow. Exact superset, immutability, one-shot,
 cancellation, missing-object, and menu-framebuffer tests live in
 `test/free85/phase17-overlay.test.js`.
+
+## Phase 17.3 — 3.0.0-dev.3
+
+DEQ retains its single-equation `dY/dX` behaviour by default. F1 `SYS` on the
+setup page enables the coupled layout: graph slot 1 is `dX/dT`, graph slot 2
+is `dY/dT`, and expressions may read `T`, `X`, and `Y`. F3 `NEXT` cycles the
+directly editable `T0`, `X0`, and `Y0` fields. F2 `METH` retains Euler, Heun,
+and RK4; both derivatives are evaluated from the same stage before either
+state advances. Convergence tests use the oscillator `X'=Y`, `Y'=-X` and
+measure first-, second-, and fourth-order behaviour for the complete state.
+
+MORE switches the persisted system view. `TIME` uses the graph X interval as
+the independent interval and plots state X; both state columns remain
+available through the table. `PHASE` plots state X horizontally and state Y
+vertically. In that view the direct graph window describes state-space bounds,
+while the table step is the signed integration step for 128 samples starting
+at T0. Phase trace reports the state X/Y pair, not time and state X.
+
+GDEQ payload version 3 is 234 bytes. It adds a bounded system/view flag and a
+second packed initial state. Existing 213-byte v1 and 224-byte v2 objects load
+without mutation as single-state DEQ; a later save grows them transactionally.
+EXIT and ON remain polled inside every integration step. Reviewed fixtures and
+method, persistence, migration, cancellation, time-view, and phase-trace tests
+are in `test/free85/phase17-deq-system.test.js` and
+`test/free85/phase15-deq.test.js`.

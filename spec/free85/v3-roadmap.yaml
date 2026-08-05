@@ -68,7 +68,7 @@
     {
       "id": "17.3",
       "name": "two-state-differential-equations",
-      "status": "planned",
+      "status": "complete",
       "release": "3.0.0-dev.3",
       "dependsOn": ["17.1", "17.2"],
       "owns": ["graph.diffeq-system", "graph.phase-plane"],

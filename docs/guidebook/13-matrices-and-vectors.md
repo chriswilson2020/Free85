@@ -90,9 +90,9 @@ as adding a 3 by 2 to a 2 by 2, stops at `DIMENSION ERROR`.
 
 ## Row operations and augmentation
 
-The third soft-key page is `REF SWAP RADD RMUL AUG`; the legend
-overruns the screen's right edge, so `AUG` loses its last letter, but
-[F5] answers all the same. The row operations work on the selected
+The third soft-key page is `REF SWP RADD RMUL AUG`, which is exactly 21
+characters and so fits the screen whole. `SWP` is the label; the operation
+it runs is the full `SWAP` described below. The row operations work on the selected
 row, the row the cell cursor is sitting in, and a fresh entry wraps
 the cursor back to cell 1, so the examples below all start with row 1
 selected. Where a second row is needed it is the following
@@ -104,7 +104,7 @@ With the screenshot's 1, 2, 3, 4 in `A`:
   For our invertible matrix the elimination reduces all the way to the
   identity, so stepping through `R` reads `1`, `0`, `0`, `1`, the same
   answer as `RREF`.
-- **`SWAP`** ([F2]) swaps the selected row with the following row
+- **`SWAP`** ([F2], labelled `SWP`) swaps the selected row with the following row
   (elsewhere `rSwap`): `R` reads `3`, `4`, `1`, `2`.
 - **`RADD`** ([F3]) adds the following row, scaled by `B`'s top-left
   cell, to the selected row. With 2 stored there ([ALPHA] [2] [ENTER]),
@@ -157,9 +157,11 @@ The fifth soft-key page is `LU EVAL EVEC DIM FILL`:
   rows 4, 3 and 0, -1.5, and 1.5 is the multiplier that rebuilds row 2
   as 1.5 times row 1 plus 0, -1.5. The factorisation pivots when it
   must: a zero leading cell (try 0, 1, 2, 3) swaps the rows first and
-  answers `2`, `3`, `0`, `1`, recording the row order, 2 then 1, in
-  the vector editor's result register as it goes, overwriting whatever
-  that register held.
+  answers `2`, `3`, `0`, `1`. The row order is printed on the result
+  screen itself, as `P:` followed by one digit per row: the unpivoted
+  4, 3, 6, 3 above reads `P:12`, and this one reads `P:21`, the original
+  rows in the order the factorisation used them. Vector `R` is not
+  touched by any of this, real or imaginary parts.
 - **`EVAL`** ([F2]) answers the eigenvalues (elsewhere `eigVl`) as a
   `SIZE 1X2` (or `1X3`) row. The symmetric 2, 1, 1, 2 answers `3`
   then `1`. Complex pairs use the imaginary plane of the final page:

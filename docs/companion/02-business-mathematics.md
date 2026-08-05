@@ -75,9 +75,11 @@ editor for exactly that.
    the cells keep their values, and five presses of [▼] bring the selection
    to row 2's right-hand side, still holding `9`.
 
-   (The `CELL` line's first figure is the row you are in; its second always
-   reads `3` in this release, so keep count as you step. That is a wart. It
-   should show the column and it shows the row width instead.)
+   (The `CELL` line reads row then column, so you can check where you are
+   rather than counting presses: row 2's right-hand side is `CELL 2 3`.
+   Until firmware 2.21 that second figure always read `3` whatever column
+   you were in, which is why earlier editions of this book told you to keep
+   count.)
 
    Type [1] [0] [ENTER], and `SOLVE` now answers `UNDERDETERMINED`.
 
@@ -350,11 +352,13 @@ takings, that is a 2 by 3 matrix, and it fits the matrix editor exactly.
    [ENTER] [1] [ENTER] [3] [ENTER] [1] [3] [0] [ENTER], and the entry wraps
    back to `CELL 1 1`, leaving row 1 selected.
 
-2. Press [MORE] [MORE] for the row-operation page `REF SWAP RADD RMUL` (its
-   fifth name overruns the screen, which is a wart I have not fixed).
+2. Press [MORE] [MORE] for the row-operation page `REF SWP RADD RMUL AUG`.
+   Five labels in twenty-one characters, which is why the second one is
+   `SWP` and not `SWAP`: it is the same swap, one letter shorter, so the
+   fifth name fits on the screen instead of running off it.
 
    Elimination is easiest when the pivot is a 1, and the second receipt
-   starts with one, so press [F2], `SWAP`. The banner's register letter
+   starts with one, so press [F2], `SWP`. The banner's register letter
    changes to `R`, where every result lands, and stepping through with [▶]
    reads `1`, `3`, `130`, `2`, `1`, `110`: the receipts in the friendlier
    order.

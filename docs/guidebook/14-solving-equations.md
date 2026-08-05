@@ -173,10 +173,12 @@ the simultaneous-equation editor:
 
 Under the `SIMULTANEOUS` banner, `SIZE 2` gives the number of
 equations. `2X2` ([F2]), `3X3` ([F3]), and `4X4` ([F4]) set the size,
-[+] and [-] step it, and 4 is the release ceiling. The `CELL` line's
-first figure is the row you are in; its second figure always reads `3`
-in this release and does not follow your position along the row, so
-keep count as you step. Cells run row by row: each row
+[+] and [-] step it, and 4 is the release ceiling. The `CELL` line reads row
+then column, both counted from one, and the column follows the cursor
+along the row: stepping once to the right from `CELL 1 1` reads
+`CELL 1 2`. The right-hand side is the last column of the row, so a 2 by
+2 system's right-hand sides sit at `CELL 1 3` and `CELL 2 3`. Cells run
+row by row: each row
 takes its coefficients left to right and then its right-hand side, and
 [ENTER] steps through them with the same entry rules as the polynomial
 editor. `CLR` ([F5]) zeroes every cell, and [EXIT] keeps the contents.

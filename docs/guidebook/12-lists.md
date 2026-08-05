@@ -129,7 +129,9 @@ With the chapter's 4, 1, 3, 2 in `A`:
   A vector has at most three components (chapter 13), so our four-value
   list stops at the `DIMENSION ERROR` notice; shorten to the
   three-value 4, 1, 3 with [-] and the same key lands you in the
-  vector editor with its result register holding `4`, `1`, `3`.
+  vector editor with its result register holding `4`, `1`, `3`. As in
+  every collection editor, [ENTER] on the `ENTER USE R` prompt copies that
+  result into `A` to carry it on.
 - **`V>L`** ([F5]) converts the other way (elsewhere `vc->li`),
   reading the vector editor's `A`: with a vector 7, 8, 9 stored there,
   `V>L` here answers the three-value list `7`, `8`, `9` in `R`. The

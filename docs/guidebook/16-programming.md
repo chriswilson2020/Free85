@@ -113,7 +113,7 @@ arguments.
 | `IF e` ... `ELSE` ... `END` | run a block when `e` is nonzero |
 | `WHILE e` ... `END` | repeat a block while `e` is nonzero |
 | `REPEAT e` ... `END` | repeat a block until `e` is nonzero |
-| `FOR V,a,b` ... `END` | count `V` from `a` to `b`, one per pass |
+| `FOR V,a,b[,s]` ... `END` | count `V` from `a` to `b`, stepping `s` |
 | `LBL name` / `GOTO name` | mark a line and jump to it |
 | `IS> V,e` / `DS< V,e` | step `V`, skipping a line on a comparison |
 | `MENU one,two,...` | suspend on a soft-key chooser of labels |
@@ -242,10 +242,13 @@ ended. Change the first line to `3->A` and it answers `3`, the body
 never entered, because the condition was already satisfied at the
 first test.
 
-`FOR` is the counted loop, and its bounds are deliberately compact: the
-variable is any letter, the start and end are single digits `0` through
-`9`, and the step is always 1. `FOR A,1,3` runs its block with `A` at
-1, 2, and 3, and leaves `A` at 3 afterwards. This program:
+`FOR` is the counted loop. The variable is any letter; the start, the
+end, and an optional step are evaluated expressions rather than literal
+digits, and each must come out a whole number within the signed 16-bit
+range. The step defaults to 1 and may be negative, in which case the
+count descends; a range already empty in the chosen direction runs its
+block no times at all. `FOR A,1,3` runs its block with `A` at 1, 2, and
+3, and leaves `A` at 3 afterwards. This program:
 
 ```text
 FOR A,1,3
@@ -255,8 +258,15 @@ STOP
 ```
 
 displays the squares 1, 4, 9 in turn and finishes with `9` on the
-output line, the last `DISP` standing. For bounds beyond a single
-digit, use `WHILE` with an ordinary stored variable instead.
+output line, the last `DISP` standing. Because the bounds are
+expressions, `FOR A,1+1,NCR(5,2)+2,2` counts 2, 4, 6, 8, 10, 12, and
+loops nest as you would expect: `FOR A,1,2` wrapped around
+`FOR B,2,4,2` finishes with `A*10+B` reading `24`.
+
+Three things are refused rather than guessed at, each with
+`DOMAIN ERROR`: a step of zero, which would never finish; a bound that
+is not a whole number, as in `FOR A,1.5,3`; and a bound outside the
+signed 16-bit range, as in `FOR A,1,40000`.
 
 ## Labels, jumps, and skips
 

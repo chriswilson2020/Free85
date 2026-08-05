@@ -60,7 +60,7 @@
     {
       "id": "15.4",
       "name": "differential-equation-redesign",
-      "status": "planned",
+      "status": "complete",
       "release": "2.18.0",
       "dependsOn": ["15.1", "15.3"],
       "owns": ["graph.diffeq-state", "graph.diffeq-solver"],

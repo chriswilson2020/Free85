@@ -6,7 +6,12 @@ GRAPH_MODE_FUNC  EQU 0
 GRAPH_MODE_POLAR EQU 1
 GRAPH_MODE_PARAM EQU 2
 GRAPH_MODE_DIFEQ EQU 3
-P16_MODE_SIZE    EQU 213
+P16_MODE_V1_SIZE EQU 213
+P16_MODE_SIZE    EQU 224
+P16_MODE_VERSION EQU 2
+P16_METHOD_EULER EQU 0
+P16_METHOD_HEUN  EQU 1
+P16_METHOD_RK4   EQU 2
 
 p16_graph_render_modes:
     LD HL, p16_text_graph_mode
@@ -65,6 +70,148 @@ p16_graph_mode_key:
 .render:
     JP p14_graph_render_format
 
+; Fourth format page: visible DEQ initial-condition and method controls. F2/F3
+; choose X0/Y0; +/- then edits the selected value by the table step. This keeps
+; setup numeric, deterministic, and usable without deleting the GDEQ object.
+p16_diffeq_render_setup:
+    CALL lcd_clear
+    LD HL, p16_text_setup
+    LD B, 0
+    LD C, 0
+    CALL text_draw_string
+    LD HL, p16_text_method
+    LD B, 0
+    LD C, 1
+    CALL text_draw_string
+    LD A, (P16_METHOD)
+    ADD A, A
+    LD E, A
+    LD D, 0
+    LD HL, p16_method_text_table
+    ADD HL, DE
+    LD E, (HL)
+    INC HL
+    LD D, (HL)
+    EX DE, HL
+    LD B, 7
+    LD C, 1
+    CALL text_draw_string
+    LD HL, p16_text_x0
+    LD B, 0
+    LD C, 2
+    CALL text_draw_string
+    LD HL, P16_INITIAL_X
+    CALL p16_draw_setup_value
+    LD HL, p16_text_y0
+    LD B, 0
+    LD C, 3
+    CALL text_draw_string
+    LD HL, P16_INITIAL_Y
+    CALL p16_draw_setup_value
+    LD A, (P16_SETUP_FIELD)
+    OR A
+    LD HL, p16_text_edit_x0
+    JR Z, .field
+    LD HL, p16_text_edit_y0
+.field:
+    LD B, 0
+    LD C, 5
+    CALL text_draw_string
+    LD HL, p16_menu_setup
+    LD B, 0
+    LD C, 7
+    JP text_draw_string
+
+p16_draw_setup_value:
+    PUSH BC
+    LD DE, NUM_RESULT
+    CALL numeric_copy
+    CALL numeric_format_result
+    POP BC
+    LD HL, RESULT_BUFFER
+    LD B, 3
+    JP text_draw_string
+
+p16_diffeq_setup_key:
+    CP KEY_F1
+    JR Z, .method
+    CP KEY_F2
+    JR Z, .select_x
+    CP KEY_F3
+    JR Z, .select_y
+    CP KEY_F4
+    JR Z, .reset
+    CP KEY_F5
+    JP Z, p14_graph_redraw
+    CP KEY_PLUS
+    JR Z, .increase
+    CP KEY_MINUS
+    JR Z, .decrease
+    JP p16_diffeq_render_setup
+.method:
+    LD A, (P16_METHOD)
+    INC A
+    CP P16_METHOD_RK4 + 1
+    JR C, .store_method
+    XOR A
+.store_method:
+    LD (P16_METHOD), A
+    JP p16_diffeq_render_setup
+.select_x:
+    XOR A
+    LD (P16_SETUP_FIELD), A
+    JP p16_diffeq_render_setup
+.select_y:
+    LD A, 1
+    LD (P16_SETUP_FIELD), A
+    JP p16_diffeq_render_setup
+.reset:
+    LD HL, GRAPH_XMIN
+    LD DE, P16_INITIAL_X
+    CALL numeric_copy
+    LD HL, p6_const_zero
+    LD DE, P16_INITIAL_Y
+    CALL numeric_copy
+    XOR A
+    LD (P16_METHOD), A
+    LD (P16_SETUP_FIELD), A
+    JP p16_diffeq_render_setup
+.increase:
+    XOR A
+    JR .adjust
+.decrease:
+    LD A, 1
+.adjust:
+    PUSH AF
+    CALL p16_setup_value_address
+    PUSH HL
+    POP DE
+    POP AF
+    OR A
+    JR NZ, .subtract
+    LD HL, GRAPH_TABLE_STEP
+    CALL sci_add_objects
+    JR .store_adjusted
+.subtract:
+    LD HL, DE
+    LD DE, GRAPH_TABLE_STEP
+    CALL sci_subtract_objects
+.store_adjusted:
+    JP C, p16_diffeq_render_setup
+    CALL p16_setup_value_address
+    EX DE, HL
+    LD HL, NUM_RESULT
+    CALL numeric_copy
+    JP p16_diffeq_render_setup
+
+p16_setup_value_address:
+    LD HL, P16_INITIAL_X
+    LD A, (P16_SETUP_FIELD)
+    OR A
+    RET Z
+    LD HL, P16_INITIAL_Y
+    RET
+
 ; A=new mode. Save outgoing state, restore incoming state, then redraw.
 p16_select_mode:
     PUSH AF
@@ -92,10 +239,11 @@ p16_mode_name:
 p16_save_mode:
     LD A, (GRAPH_MODE)
     CALL p16_mode_name
-    LD A, P14_TYPE_GRAPH_DB
-    LD BC, P16_MODE_SIZE
-    CALL p15_object_payload
+    CALL p16_mode_payload
     RET C
+    LD A, P16_MODE_VERSION
+    LD (DE), A
+    INC DE
     LD A, (GRAPH_ENABLED)
     LD (DE), A
     INC DE
@@ -105,6 +253,12 @@ p16_save_mode:
     LD A, (GRAPH_COORD_MODE)
     LD (DE), A
     INC DE
+    LD A, (P16_METHOD)
+    LD (DE), A
+    INC DE
+    LD HL, P16_INITIAL_X
+    LD BC, NUM_SIZE
+    LDIR
     LD HL, P16_INITIAL_Y
     LD BC, NUM_SIZE
     LDIR
@@ -120,6 +274,42 @@ p16_save_mode:
     OR A
     RET
 
+; HL=mode name. Create a v2 payload, accept an existing v2 payload, or grow a
+; v1 payload transactionally before overwriting it. phase14_resize checks heap
+; capacity before moving any bytes, so a failed migration leaves GDEQ intact.
+p16_mode_payload:
+    CALL p15_copy_name
+    LD A, P14_TYPE_GRAPH_DB
+    LD HL, P15_NAME
+    CALL bank_call_phase14_lookup_from_graph
+    JR NC, .found
+    LD A, P14_TYPE_GRAPH_DB
+    LD BC, P16_MODE_SIZE
+    LD HL, P15_NAME
+    JP bank_call_phase14_create_from_graph
+.found:
+    PUSH HL
+    POP IX
+    LD A, (IX + P14_ENTRY_SIZE_LO + 1)
+    OR A
+    JR NZ, .wrong_size
+    LD A, (IX + P14_ENTRY_SIZE_LO)
+    CP P16_MODE_SIZE
+    JR Z, .payload
+    CP P16_MODE_V1_SIZE
+    JR NZ, .wrong_size
+    LD BC, P16_MODE_SIZE
+    CALL bank_call_phase14_resize_from_graph
+    RET C
+.payload:
+    LD E, (IX + P14_ENTRY_ADDRESS)
+    LD D, (IX + P14_ENTRY_ADDRESS + 1)
+    OR A
+    RET
+.wrong_size:
+    SCF
+    RET
+
 p16_load_mode:
     LD A, (GRAPH_MODE)
     CALL p16_mode_name
@@ -127,11 +317,54 @@ p16_load_mode:
     LD A, P14_TYPE_GRAPH_DB
     LD HL, P15_NAME
     CALL bank_call_phase14_lookup_from_graph
-    JR C, .defaults
+    JP C, .defaults
     PUSH HL
     POP IX
     LD L, (IX + P14_ENTRY_ADDRESS)
     LD H, (IX + P14_ENTRY_ADDRESS + 1)
+    LD A, (IX + P14_ENTRY_SIZE_LO + 1)
+    OR A
+    JP NZ, .defaults
+    LD A, (IX + P14_ENTRY_SIZE_LO)
+    CP P16_MODE_V1_SIZE
+    JR Z, .legacy
+    CP P16_MODE_SIZE
+    JP NZ, .defaults
+    LD A, (HL)
+    CP P16_MODE_VERSION
+    JP NZ, .defaults
+    INC HL
+    LD A, (HL)
+    LD (GRAPH_ENABLED), A
+    INC HL
+    LD A, (HL)
+    LD (GRAPH_ACTIVE_SLOT), A
+    INC HL
+    LD A, (HL)
+    LD (GRAPH_COORD_MODE), A
+    INC HL
+    LD A, (HL)
+    CP P16_METHOD_RK4 + 1
+    JR NC, .defaults
+    LD (P16_METHOD), A
+    INC HL
+    LD DE, P16_INITIAL_X
+    LD BC, NUM_SIZE
+    LDIR
+    LD DE, P16_INITIAL_Y
+    LD BC, NUM_SIZE
+    LDIR
+    LD DE, GRAPH_XMIN
+    LD BC, NUM_SIZE * 4
+    LDIR
+    LD DE, GRAPH_TABLE_START
+    LD BC, NUM_SIZE * 2
+    LDIR
+    LD DE, GRAPH_EQ1
+    LD BC, 147
+    LDIR
+    JP p6_load_active_equation
+.legacy:
     LD A, (HL)
     LD (GRAPH_ENABLED), A
     INC HL
@@ -153,12 +386,22 @@ p16_load_mode:
     LD DE, GRAPH_EQ1
     LD BC, 147
     LDIR
+    LD HL, GRAPH_XMIN
+    LD DE, P16_INITIAL_X
+    CALL numeric_copy
+    XOR A
+    LD (P16_METHOD), A
     JP p6_load_active_equation
 .defaults:
     XOR A
     LD (GRAPH_ACTIVE_SLOT), A
     LD (GRAPH_ENABLED), A
     LD (GRAPH_COORD_MODE), A
+    LD (P16_METHOD), A
+    LD (P16_SETUP_FIELD), A
+    LD HL, GRAPH_XMIN
+    LD DE, P16_INITIAL_X
+    CALL numeric_copy
     LD HL, VARIABLES + 24 * NUM_SIZE
     LD DE, P16_INITIAL_Y
     CALL numeric_copy
@@ -197,58 +440,10 @@ p16_graph_evaluate:
     OR A
     JP NZ, numeric_domain_error
     LD HL, GRAPH_CURRENT_X
-    LD DE, GRAPH_XMIN
-    CALL sci_subtract_objects
-    RET C
-    LD HL, NUM_RESULT
-    LD DE, GRAPH_XSTEP
-    CALL sci_divide_objects
-    RET C
-    LD HL, NUM_RESULT
-    LD DE, NUM_LEFT
-    CALL numeric_copy
-    CALL p6_to_u8_truncated
-    RET C
-    CP 128
-    JP NC, numeric_domain_error
-    ; The solve walks GRAPH_CURRENT_X from XMIN, so keep the caller's query
-    ; point: tables and analysis continue stepping from it afterwards.
-    PUSH AF
-    LD HL, GRAPH_CURRENT_X
     LD DE, P16_QUERY_X
     CALL numeric_copy
-    POP AF
-    CALL p16_diffeq_solve
+    CALL p16_diffeq_solve_query
     RET C
-    ; Finish with one partial Euler step from the last whole sample so
-    ; off-grid queries report the integrated value at the query point.
-    LD HL, GRAPH_RESULT_Y
-    LD DE, VARIABLES + 24 * NUM_SIZE
-    CALL numeric_copy
-    XOR A
-    CALL p6_evaluate_slot
-    RET C
-    LD HL, NUM_RESULT
-    LD DE, VARIABLES + 24 * NUM_SIZE
-    CALL numeric_copy
-    LD HL, P16_QUERY_X
-    LD DE, GRAPH_CURRENT_X
-    CALL sci_subtract_objects
-    RET C
-    LD HL, NUM_RESULT
-    LD DE, VARIABLES + 24 * NUM_SIZE
-    CALL sci_multiply_objects
-    RET C
-    LD HL, GRAPH_RESULT_Y
-    LD DE, NUM_RESULT
-    CALL sci_add_objects
-    RET C
-    LD HL, NUM_RESULT
-    LD DE, GRAPH_RESULT_Y
-    CALL numeric_copy
-    LD HL, P16_QUERY_X
-    LD DE, GRAPH_CURRENT_X
-    CALL numeric_copy
     LD HL, P16_QUERY_X
     LD DE, GRAPH_RESULT_X
     CALL numeric_copy
@@ -280,9 +475,17 @@ p16_graph_prepare_plot:
     JP numeric_copy
 .diffeq:
     CP GRAPH_MODE_DIFEQ
-    RET NZ
-    LD HL, P16_INITIAL_Y
-    LD DE, GRAPH_RESULT_Y
+    JR Z, .prepare_diffeq
+    OR A
+    RET
+.prepare_diffeq:
+    LD HL, GRAPH_XMIN
+    LD DE, P16_QUERY_X
+    CALL numeric_copy
+    CALL p16_diffeq_solve_query
+    RET C
+    LD HL, GRAPH_XMIN
+    LD DE, GRAPH_CURRENT_X
     JP numeric_copy
 
 p16_graph_tick:
@@ -348,24 +551,49 @@ p16_tick_diffeq:
     LD DE, GRAPH_RESULT_X
     CALL numeric_copy
     CALL p16_plot_point
-    LD HL, GRAPH_RESULT_Y
-    LD DE, VARIABLES + 24 * NUM_SIZE
+    LD HL, GRAPH_XSTEP
+    LD DE, P7_WORK_4
     CALL numeric_copy
+    CALL p16_diffeq_plot_step
+    JP C, p16_diffeq_step_failure
+    JP p16_advance_index
+
+p16_diffeq_step_failure:
+    LD A, (NUMERIC_ERROR)
+    CP NUM_ERR_CANCELLED
+    JP NZ, p16_break_advance
     XOR A
-    CALL p6_evaluate_slot
-    JP C, p16_break_advance
-    LD HL, NUM_RESULT
+    LD (GRAPH_PLOT_ACTIVE), A
+    LD (GRAPH_INPUT_GUARD), A
+    RET
+
+; A forward plot seeded by integrating backwards from X0 must not carry that
+; backward-method error through the initial condition. At the sample interval
+; which crosses X0, solve the next point afresh from the exact (X0,Y0); all
+; later samples then continue forward normally.
+p16_diffeq_plot_step:
+    LD HL, GRAPH_CURRENT_X
+    LD DE, P16_INITIAL_X
+    CALL sci_subtract_objects
+    RET C
+    LD A, (NUM_RESULT + NUM_FLAGS)
+    AND NUM_SIGN
+    JP Z, p16_diffeq_step
+    LD HL, GRAPH_CURRENT_X
     LD DE, GRAPH_XSTEP
-    CALL sci_multiply_objects
-    JP C, p16_break_advance
-    LD HL, GRAPH_RESULT_Y
-    LD DE, NUM_RESULT
     CALL sci_add_objects
-    JP C, p16_break_advance
+    RET C
     LD HL, NUM_RESULT
-    LD DE, GRAPH_RESULT_Y
+    LD DE, P16_QUERY_X
     CALL numeric_copy
-    JP p16_advance
+    LD HL, P16_QUERY_X
+    LD DE, P16_INITIAL_X
+    CALL sci_subtract_objects
+    RET C
+    LD A, (NUM_RESULT + NUM_FLAGS)
+    AND NUM_SIGN
+    JP NZ, p16_diffeq_step
+    JP p16_diffeq_solve_query
 
 ; Trace uses the mode parameter rather than treating the cursor as Cartesian
 ; x. DifEq deterministically reintegrates from (Xmin, initial Y).
@@ -455,63 +683,299 @@ p16_trace_diffeq:
     CALL p16_diffeq_solve
     JP p6_draw_trace_values
 
-; A=sample index. Reintegrate from the mode's independent initial Y value.
-; The independent variable accumulates as an offset from XMIN in GRAPH_RESULT_X
-; (dead until .done) so Y and the offset round identically step for step and
-; the query remainder in p16_graph_evaluate cancels against the step sums.
+; A=sample index. Reintegrate from editable (X0,Y0) with a final partial step
+; that lands exactly on the requested graph sample.
 p16_diffeq_solve:
-    LD B, A
-    PUSH BC
-    LD HL, p6_const_zero
-    LD DE, GRAPH_RESULT_X
-    CALL numeric_copy
+    LD DE, P7_WORK_5
+    CALL sci_set_integer
+    LD HL, GRAPH_XSTEP
+    LD DE, P7_WORK_5
+    CALL sci_multiply_objects
+    RET C
     LD HL, GRAPH_XMIN
+    LD DE, NUM_RESULT
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P16_QUERY_X
+    CALL numeric_copy
+
+p16_diffeq_solve_query:
+    LD A, 255
+    LD (P16_SOLVE_STEPS), A
+    LD HL, P16_INITIAL_X
     LD DE, GRAPH_CURRENT_X
     CALL numeric_copy
     LD HL, P16_INITIAL_Y
     LD DE, GRAPH_RESULT_Y
     CALL numeric_copy
-    POP BC
 .loop:
-    LD A, B
-    OR A
-    JR Z, .done
-    PUSH BC
-    LD HL, GRAPH_RESULT_Y
-    LD DE, VARIABLES + 24 * NUM_SIZE
-    CALL numeric_copy
-    XOR A
-    CALL p6_evaluate_slot
-    POP BC
+    CALL p16_diffeq_check_cancel
     RET C
-    PUSH BC
-    LD HL, NUM_RESULT
-    LD DE, GRAPH_XSTEP
-    CALL sci_multiply_objects
-    LD HL, GRAPH_RESULT_Y
-    LD DE, NUM_RESULT
-    CALL sci_add_objects
-    LD HL, NUM_RESULT
-    LD DE, GRAPH_RESULT_Y
-    CALL numeric_copy
-    LD HL, GRAPH_RESULT_X
-    LD DE, GRAPH_XSTEP
-    CALL sci_add_objects
-    LD HL, NUM_RESULT
-    LD DE, GRAPH_RESULT_X
-    CALL numeric_copy
-    LD HL, GRAPH_XMIN
-    LD DE, GRAPH_RESULT_X
-    CALL sci_add_objects
-    LD HL, NUM_RESULT
+    LD HL, P16_QUERY_X
     LD DE, GRAPH_CURRENT_X
+    CALL sci_subtract_objects
+    RET C
+    LD HL, NUM_RESULT
+    CALL numeric_is_zero
+    JR Z, .done
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_4
     CALL numeric_copy
-    POP BC
-    DJNZ .loop
+    LD HL, NUM_RESULT
+    LD DE, NUM_LEFT
+    CALL numeric_copy
+    LD HL, GRAPH_XSTEP
+    LD DE, NUM_RIGHT
+    CALL numeric_copy
+    CALL numeric_compare_magnitude
+    JR C, .step_ready
+    JR Z, .step_ready
+    LD HL, GRAPH_XSTEP
+    LD DE, P7_WORK_4
+    CALL numeric_copy
+    LD A, (NUM_RESULT + NUM_FLAGS)
+    AND NUM_SIGN
+    LD A, (P7_WORK_4 + NUM_FLAGS)
+    JR Z, .positive_step
+    OR NUM_SIGN
+    JR .store_step_sign
+.positive_step:
+    AND $7F
+.store_step_sign:
+    LD (P7_WORK_4 + NUM_FLAGS), A
+.step_ready:
+    CALL p16_diffeq_step
+    RET C
+    LD A, (P16_SOLVE_STEPS)
+    DEC A
+    LD (P16_SOLVE_STEPS), A
+    JR NZ, .loop
+    JP numeric_no_convergence_error
 .done:
     LD HL, GRAPH_CURRENT_X
     LD DE, GRAPH_RESULT_X
     CALL numeric_copy
+    LD HL, GRAPH_RESULT_Y
+    LD DE, NUM_RESULT
+    CALL numeric_copy
+    OR A
+    RET
+
+; P7_WORK_4 is signed h. GRAPH_CURRENT_X and GRAPH_RESULT_Y update in place.
+p16_diffeq_step:
+    CALL p16_diffeq_check_cancel
+    RET C
+    LD A, (P16_METHOD)
+    OR A
+    JP Z, p16_step_euler
+    CP P16_METHOD_HEUN
+    JP Z, p16_step_heun
+    JP p16_step_rk4
+
+p16_diffeq_eval:
+    LD HL, GRAPH_RESULT_Y
+    LD DE, VARIABLES + 24 * NUM_SIZE
+    CALL numeric_copy
+    XOR A
+    JP p6_evaluate_slot
+
+p16_step_euler:
+    CALL p16_diffeq_eval
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_4
+    CALL sci_multiply_objects
+    RET C
+    LD HL, GRAPH_RESULT_Y
+    LD DE, NUM_RESULT
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_RESULT_Y
+    CALL numeric_copy
+    JP p16_step_advance_x
+
+p16_step_heun:
+    CALL p16_diffeq_eval
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_0
+    CALL numeric_copy
+    LD HL, P7_WORK_0
+    LD DE, P7_WORK_4
+    CALL sci_multiply_objects
+    RET C
+    LD HL, GRAPH_RESULT_Y
+    LD DE, NUM_RESULT
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_5
+    CALL numeric_copy
+    CALL p16_step_advance_x
+    RET C
+    LD HL, P7_WORK_5
+    LD DE, VARIABLES + 24 * NUM_SIZE
+    CALL numeric_copy
+    XOR A
+    CALL p6_evaluate_slot
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_1
+    CALL numeric_copy
+    LD HL, P7_WORK_0
+    LD DE, P7_WORK_1
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, const_two
+    CALL sci_divide_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_4
+    CALL sci_multiply_objects
+    RET C
+    LD HL, GRAPH_RESULT_Y
+    LD DE, NUM_RESULT
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_RESULT_Y
+    JP numeric_copy
+
+p16_step_rk4:
+    CALL p16_diffeq_eval
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_0          ; k1
+    CALL numeric_copy
+    LD HL, P7_WORK_4
+    LD DE, const_two
+    CALL sci_divide_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_5          ; h/2
+    CALL numeric_copy
+    ; k2 at x+h/2, y+h*k1/2
+    LD HL, P7_WORK_0
+    LD DE, P7_WORK_5
+    CALL sci_multiply_objects
+    RET C
+    CALL p16_rk4_temp_y
+    LD HL, GRAPH_CURRENT_X
+    LD DE, P7_WORK_5
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_CURRENT_X
+    CALL numeric_copy
+    XOR A
+    CALL p6_evaluate_slot
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_1          ; k2
+    CALL numeric_copy
+    ; k3 at the same x and y+h*k2/2
+    LD HL, P7_WORK_1
+    LD DE, P7_WORK_5
+    CALL sci_multiply_objects
+    RET C
+    CALL p16_rk4_temp_y
+    XOR A
+    CALL p6_evaluate_slot
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_2          ; k3
+    CALL numeric_copy
+    ; k4 at x+h and y+h*k3
+    LD HL, P7_WORK_2
+    LD DE, P7_WORK_4
+    CALL sci_multiply_objects
+    RET C
+    CALL p16_rk4_temp_y
+    LD HL, GRAPH_CURRENT_X
+    LD DE, P7_WORK_5
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_CURRENT_X
+    CALL numeric_copy
+    XOR A
+    CALL p6_evaluate_slot
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_3          ; k4
+    CALL numeric_copy
+    ; k1 + 2*k2 + 2*k3 + k4
+    LD HL, P7_WORK_1
+    LD DE, const_two
+    CALL sci_multiply_objects
+    RET C
+    LD HL, P7_WORK_0
+    LD DE, NUM_RESULT
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_0
+    CALL numeric_copy
+    LD HL, P7_WORK_2
+    LD DE, const_two
+    CALL sci_multiply_objects
+    RET C
+    LD HL, P7_WORK_0
+    LD DE, NUM_RESULT
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_0
+    CALL numeric_copy
+    LD HL, P7_WORK_0
+    LD DE, P7_WORK_3
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, p16_const_6
+    CALL sci_divide_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, P7_WORK_4
+    CALL sci_multiply_objects
+    RET C
+    LD HL, GRAPH_RESULT_Y
+    LD DE, NUM_RESULT
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_RESULT_Y
+    JP numeric_copy
+
+p16_rk4_temp_y:
+    LD HL, GRAPH_RESULT_Y
+    LD DE, NUM_RESULT
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, VARIABLES + 24 * NUM_SIZE
+    JP numeric_copy
+
+p16_step_advance_x:
+    LD HL, GRAPH_CURRENT_X
+    LD DE, P7_WORK_4
+    CALL sci_add_objects
+    RET C
+    LD HL, NUM_RESULT
+    LD DE, GRAPH_CURRENT_X
+    JP numeric_copy
+
+p16_diffeq_check_cancel:
+    CALL events_poll
+    CALL events_get
+    CP KEY_EXIT
+    JP Z, numeric_cancelled_error
+    CP KEY_ON
+    JP Z, numeric_cancelled_error
+    OR A
     RET
 
 p16_plot_advance:
@@ -526,18 +990,20 @@ p16_advance:
     LD HL, GRAPH_CURRENT_X
     LD DE, GRAPH_XSTEP
     CALL sci_add_objects
-    JR C, .stop
+    JP C, p16_advance_stop
     LD HL, NUM_RESULT
     LD DE, GRAPH_CURRENT_X
     CALL numeric_copy
+p16_advance_index:
     LD A, (GRAPH_PLOT_X)
     INC A
     LD (GRAPH_PLOT_X), A
     CP 128
     RET C
-.stop:
+p16_advance_stop:
     XOR A
     LD (GRAPH_PLOT_ACTIVE), A
+    LD (GRAPH_INPUT_GUARD), A
     RET
 
 p16_plot_point:
@@ -597,6 +1063,18 @@ p16_text_polar: DB "POLAR R(THETA)",0
 p16_text_param: DB "PARAM X(T),Y(T)",0
 p16_text_difeq: DB "DIFEQ DY/DX",0
 p16_menu_modes: DB "FN POL PAR DEQ GC",0
+p16_text_setup: DB "DEQ SETUP",0
+p16_text_method: DB "METHOD",0
+p16_text_x0: DB "X0",0
+p16_text_y0: DB "Y0",0
+p16_text_edit_x0: DB "EDIT X0 WITH +/-",0
+p16_text_edit_y0: DB "EDIT Y0 WITH +/-",0
+p16_text_euler: DB "EULER",0
+p16_text_heun: DB "HEUN",0
+p16_text_rk4: DB "RK4",0
+p16_method_text_table: DW p16_text_euler, p16_text_heun, p16_text_rk4
+p16_menu_setup: DB "METH X0 Y0 RST GO",0
 p16_text_rect_gc: DB "GRAPH COORD RECT",0
 p16_text_polar_gc: DB "GRAPH COORD POLAR",0
 p16_const_360: DB $00,$02,$36,$00,$00,$00,$00,$00,$00
+p16_const_6: DB $00,$00,$60,$00,$00,$00,$00,$00,$00

@@ -36,6 +36,16 @@ deeper cycles report `RECURSION ERROR` while unrelated equations continue.
 The reviewed implementation fixtures are `phase15-calculus-derivative` and
 `phase15-calculus-accumulator`; final book recapture still waits for 2.20.
 
+Phase 15.4 shipped in Free85 2.18. Replace the `GDEQ` deletion ritual with the
+fourth graph-format page: F1 cycles Euler/Heun/RK4, F2/F3 select X0/Y0, +/-
+edits by the table step, F4 resets to `(Xmin,0)` and Euler, and F5 redraws.
+Euler examples must explicitly select Euler. Add Heun/RK4 comparisons and their
+measured convergence orders, while stating that the bounded fixed-step engine
+is not a stiff solver. Document `NO CONVERGENCE` at the 255-step query limit,
+EXIT/ON cancellation, persistence, and transactional v1 GDEQ migration. The
+reviewed setup fixture is `phase15-deq-setup`; numerical recapture still waits
+for the final 2.20 ROM.
+
 ## The important editorial changes
 
 1. **Errors become meaningful.** Do not use `SYNTAX ERROR` as prose shorthand

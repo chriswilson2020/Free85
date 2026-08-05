@@ -6,7 +6,7 @@ compatibility with TI programs, files, ROM calls, or internal data structures.
 
 ## Current release
 
-Free85 2.16.0 is the stable Phase 15.3 release. The eight-bank ROM is exactly
+Free85 2.18.0 is the stable Phase 15.4 release. The eight-bank ROM is exactly
 131,072 bytes; its SHA-256 digest is recorded in
 `spec/free85/release.json`.
 It freezes persistent RAM schema 13 and object-store schema 1. Run
@@ -138,6 +138,14 @@ be stored in another graph equation, so derivative and accumulator functions
 plot and tabulate normally. One nested graph-evaluation frame is permitted;
 direct or indirect slot cycles report `RECURSION ERROR` without stopping
 unrelated equations.
+
+The fourth graph-format page is the DEQ setup page. F1 cycles Euler, Heun, and
+RK4; F2/F3 select X0/Y0; +/- changes the selected value by the table step; F4
+resets to `(Xmin,0)` and Euler; F5 redraws. Solves start from the visible
+initial condition, accept a bounded final partial step, poll EXIT/ON, and report
+`NO CONVERGENCE` if the 255-step work limit cannot reach a query. Version-1
+`GDEQ` objects load without mutation and grow transactionally to the version-2
+payload when next saved.
 
 Phase 6 code occupies bank 1 and calls the fixed packed-BCD/parser kernel in
 bank 0. This keeps graph-domain failures local to individual samples while the

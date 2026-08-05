@@ -5,12 +5,13 @@ firmware for the TI-85-compatible machine layer in this repository. It runs on
 the emulated Z80 and calculator hardware and does not require services from the
 original TI firmware.
 
-The current stable release is Free85 2.16.0 (Phase 15.3): an exact 128 KiB
+The current stable release is Free85 2.18.0 (Phase 15.4): an exact 128 KiB
 ROM with persistent RAM schema 13, object-store schema 1, a closed applicable
 2.0 parity ledger, independently reproducible ROM and Pages artifacts, typed
 numerical errors, bounded convergence-checked integration, and measured
 large-angle trigonometric reduction, and cycle-safe explicit graph-slot
-calculus that supports derivative and accumulator plots.
+calculus that supports derivative and accumulator plots, plus editable DEQ
+initial conditions and selectable Euler/Heun/RK4 integration.
 
 ## Parity target
 
@@ -70,6 +71,9 @@ quotient/remainder reduction and an explicit precision boundary.
 Phase 15.3 preserves the active-equation calculus forms, adds one-based
 explicit graph-slot targets, restores all caller state across the bounded
 nested evaluation, and rejects direct and indirect equation cycles cleanly.
+Phase 15.4 adds visible DEQ `(X0,Y0)` editing and reset, transactional GDEQ
+migration, selectable first-/second-/fourth-order methods, bounded queries, and
+cancellation without claiming adaptive or stiff-solver behavior.
 
 ## Definition of a complete feature
 

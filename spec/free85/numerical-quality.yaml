@@ -101,13 +101,21 @@
     },
     {
       "id": "graph.diffeq-state",
-      "status": "known-limitation",
+      "status": "resolved",
       "owner": "15.4",
       "targetRelease": "2.18.0",
+      "resolvedRelease": "2.18.0",
       "summary": "The DEQ initial Y is frozen in GDEQ and can only be reseeded by deleting the entire saved mode object.",
       "baselineEvidence": [
         "firmware/free85/graph/phase16.asm:P16_INITIAL_Y",
         "docs/guidebook/07-differential-equation-graphing.md:The initial condition"
+      ],
+      "resolutionEvidence": [
+        "firmware/free85/graph/phase16.asm:p16_diffeq_render_setup",
+        "firmware/free85/graph/phase16.asm:p16_mode_payload",
+        "test/free85/phase15-deq.test.js:[phase15.deq-setup]",
+        "test/free85/phase15-deq.test.js:[phase15.deq-persistence]",
+        "test/free85/phase15-deq.test.js:[phase15.deq-migration]"
       ],
       "acceptance": [
         "X0 and Y0 have a direct visible editing path",
@@ -117,13 +125,20 @@
     },
     {
       "id": "graph.diffeq-solver",
-      "status": "known-limitation",
+      "status": "resolved",
       "owner": "15.4",
       "targetRelease": "2.18.0",
+      "resolvedRelease": "2.18.0",
       "summary": "DEQ provides only fixed-step first-order Euler integration with no error estimate.",
       "baselineEvidence": [
         "firmware/free85/graph/phase16.asm",
         "test/free85/graph-phase16.test.js:[graph.diffeq]"
+      ],
+      "resolutionEvidence": [
+        "firmware/free85/graph/phase16.asm:p16_diffeq_step",
+        "test/free85/phase15-deq.test.js:[phase15.deq-orders]",
+        "test/free85/phase15-deq.test.js:[phase15.deq-work-limit]",
+        "test/free85/phase15-deq.test.js:[phase15.deq-cancel]"
       ],
       "acceptance": [
         "Euler remains selectable for teaching and compatibility",

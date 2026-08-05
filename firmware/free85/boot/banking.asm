@@ -70,6 +70,18 @@ bank_call_phase14_create_from_graph:
     POP AF
     RET
 
+bank_call_phase14_resize_from_graph:
+    LD A, 7
+    CALL bank_select
+    CALL PHASE14_RESIZE
+    PUSH AF
+    PUSH HL
+    LD A, 1
+    CALL bank_select
+    POP HL
+    POP AF
+    RET
+
 ; Bank-6 system workflows use the same typed-store ABI while returning to the
 ; system bank. These trampolines keep all object mutations inside bank 7.
 bank_call_phase14_create_from_system:

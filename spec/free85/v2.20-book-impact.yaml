@@ -106,6 +106,7 @@
     },
     {
       "issue": "graph.diffeq-state",
+      "implementedIn": "2.18.0",
       "summaryForBooks": "DEQ will expose editable X0 and Y0 settings and a normal reset action; changing an initial condition will preserve the equation and will not require deleting GDEQ.",
       "documents": [
         { "path": "docs/guidebook/07-differential-equation-graphing.md", "sections": ["The initial condition", "What the mode remembers"] },
@@ -127,6 +128,7 @@
     },
     {
       "issue": "graph.diffeq-solver",
+      "implementedIn": "2.18.0",
       "summaryForBooks": "DEQ will retain selectable Euler and add Heun and RK4, with visible method/step controls and bounded failure behaviour; Free85 will not claim to solve stiff equations reliably.",
       "documents": [
         { "path": "docs/guidebook/07-differential-equation-graphing.md", "sections": ["Plotting a solution", "Tracing and the table"] },

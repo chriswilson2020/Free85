@@ -183,7 +183,14 @@ p6_start_plot:
     LD DE, GRAPH_YSCALE
     CALL numeric_copy
     CALL p16_graph_prepare_plot
+    JR C, .prepare_failed
     LD A, 1
+    LD (GRAPH_PLOT_ACTIVE), A
+    RET
+.prepare_failed:
+    LD A, (NUMERIC_ERROR)
+    LD (GRAPH_LAST_ERROR), A
+    XOR A
     LD (GRAPH_PLOT_ACTIVE), A
     RET
 

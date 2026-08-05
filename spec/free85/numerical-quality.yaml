@@ -148,13 +148,19 @@
     },
     {
       "id": "collections.result-chaining",
-      "status": "known-limitation",
+      "status": "resolved",
       "owner": "15.5",
       "targetRelease": "2.19.0",
+      "resolvedRelease": "2.19.0",
       "summary": "Collection operations write a read-only R register but provide no atomic way to use R as the next A input.",
       "baselineEvidence": [
         "firmware/free85/collections/phase7.asm",
         "docs/guidebook/13-matrices-and-vectors.md:Matrix operations"
+      ],
+      "resolutionEvidence": [
+        "firmware/free85/collections/phase7.asm:p7_use_result",
+        "test/free85/phase15-workflows.test.js:[phase15.result-chaining]",
+        "docs/Free85-collections-linear-algebra.md:result-chaining"
       ],
       "acceptance": [
         "lists matrices vectors and complex values expose one consistent USE R operation",
@@ -164,13 +170,19 @@
     },
     {
       "id": "program.for-expressions",
-      "status": "known-limitation",
+      "status": "resolved",
       "owner": "15.5",
       "targetRelease": "2.19.0",
+      "resolvedRelease": "2.19.0",
       "summary": "FOR accepts only literal bounds from zero through nine and always steps upward by one.",
       "baselineEvidence": [
         "firmware/free85/programming/phase10.asm:p10_command_for",
         "test/free85/phase15-baseline.test.js:[phase15.program-for]"
+      ],
+      "resolutionEvidence": [
+        "firmware/free85/programming/phase10.asm:p10_command_for",
+        "test/free85/phase15-workflows.test.js:[phase15.program-for]",
+        "test/free85/phase15-workflows.test.js:[phase15.program-for-errors]"
       ],
       "acceptance": [
         "bounds are evaluated integer expressions",

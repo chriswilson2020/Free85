@@ -52,8 +52,8 @@ test("Free85 transitions from its splash to the home screen", () => {
 
   for (let index = 5; index < FREE85_BOOT_FRAMES; index += 1) machine.runFrame();
   assert.deepEqual(Free85Harness.prototype.signature.call({ machine }), {
-    litPixelCount: 741,
-    checksum: "EA6E72F6",
+    litPixelCount: 740,
+    checksum: "3EDF76EE",
     lastKey: 0xff
   });
   assert.equal(machine.read8(0x800b), 0);

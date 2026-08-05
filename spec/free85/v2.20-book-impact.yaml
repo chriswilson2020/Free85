@@ -150,7 +150,8 @@
     },
     {
       "issue": "collections.result-chaining",
-      "summaryForBooks": "List, matrix, vector, and complex editors will provide a consistent atomic USE R operation so results can become the next A input without manual transcription.",
+      "implementedIn": "2.19.0",
+      "summaryForBooks": "Since Free85 2.19, list, matrix, vector, and complex editors provide a consistent atomic USE R operation: display R and press ENTER to copy the complete result into A without manual transcription.",
       "documents": [
         { "path": "docs/guidebook/11-complex-numbers.md", "sections": ["register workflow"] },
         { "path": "docs/guidebook/12-lists.md", "sections": ["editor and operations"] },
@@ -172,7 +173,8 @@
     },
     {
       "issue": "program.for-expressions",
-      "summaryForBooks": "FOR will accept evaluated integer bounds and an optional positive or negative nonzero step instead of literal digits zero through nine only.",
+      "implementedIn": "2.19.0",
+      "summaryForBooks": "Since Free85 2.19, FOR accepts evaluated signed 16-bit integer bounds and an optional positive or negative nonzero step instead of literal digits zero through nine only.",
       "documents": [
         { "path": "docs/guidebook/16-programming.md", "sections": ["Loops", "Limits"] },
         { "path": "docs/guidebook/appendix-a-command-catalog.md", "sections": ["program control"] },

@@ -229,19 +229,99 @@ p7_clear_input:
 p7_commit_input:
     LD A, (P7_INPUT_ACTIVE)
     OR A
-    JP Z, p7_next
+    JR NZ, .parse
+    LD A, (P7_ACTIVE_SET)
+    CP 2
+    JP Z, p7_use_result
+    JP p7_next
+.parse:
     CALL p7_selected_pointer
     EX DE, HL
     LD HL, EDITOR_BUFFER
     LD A, (EDITOR_LENGTH)
     LD B, A
     CALL numeric_parse
-    JR C, p7_numeric_error
+    JP C, p7_numeric_error
     CALL p18_zero_selected_imag_if_collection
     XOR A
     LD (P7_INPUT_ACTIVE), A
     CALL editor_init
     JP p7_next
+
+; Result chaining first validates bounded shape metadata, then performs one
+; complete copy into input A. It includes shape headers and the matching
+; complex shadow plane. Vector coordinate metadata is global to the active
+; vector editor and therefore remains unchanged by the copy.
+p7_use_result:
+    LD A, (P7_ACTIVE_APP)
+    OR A
+    JR Z, .complex
+    CP P7_APP_LIST
+    JR Z, .list
+    CP P7_APP_MATRIX
+    JR Z, .matrix
+    ; Vector: length, all bounded components, and their imaginary metadata.
+    LD A, (P7_VECTOR_RESULT + P7_VECTOR_LENGTH)
+    CP 2
+    JP C, p7_fail_dimension
+    CP P7_VECTOR_MAX + 1
+    JP NC, p7_fail_dimension
+    LD HL, P7_VECTOR_RESULT
+    LD DE, P7_VECTOR_A
+    LD BC, P7_VECTOR_DATA + P7_VECTOR_MAX * NUM_SIZE
+    LDIR
+    LD HL, P18_VECTOR_R_IMAG
+    LD DE, P18_VECTOR_A_IMAG
+    LD BC, P7_VECTOR_MAX * NUM_SIZE
+    LDIR
+    JR .activate
+.complex:
+    LD HL, P7_COMPLEX_RESULT
+    LD DE, P7_COMPLEX_A
+    LD BC, NUM_SIZE * 2
+    LDIR
+    JR .activate
+.list:
+    LD A, (P7_LIST_RESULT + P7_LIST_LENGTH)
+    OR A
+    JP Z, p7_fail_dimension
+    CP P7_LIST_MAX + 1
+    JP NC, p7_fail_dimension
+    LD HL, P7_LIST_RESULT
+    LD DE, P7_LIST_A
+    LD BC, P7_LIST_DATA + P7_LIST_MAX * NUM_SIZE
+    LDIR
+    LD HL, P18_LIST_R_IMAG
+    LD DE, P18_LIST_A_IMAG
+    LD BC, P7_LIST_MAX * NUM_SIZE
+    LDIR
+    JR .activate
+.matrix:
+    LD A, (P7_MATRIX_RESULT + P7_MATRIX_ROWS)
+    OR A
+    JP Z, p7_fail_dimension
+    CP P7_MATRIX_MAX + 1
+    JP NC, p7_fail_dimension
+    LD A, (P7_MATRIX_RESULT + P7_MATRIX_COLS)
+    OR A
+    JP Z, p7_fail_dimension
+    CP P7_MATRIX_MAX + 1
+    JP NC, p7_fail_dimension
+    LD HL, P7_MATRIX_RESULT
+    LD DE, P7_MATRIX_A
+    LD BC, P7_MATRIX_DATA + P7_MATRIX_MAX * P7_MATRIX_MAX * NUM_SIZE
+    LDIR
+    LD HL, P18_MATRIX_R_IMAG
+    LD DE, P18_MATRIX_A_IMAG
+    LD BC, P7_MATRIX_MAX * P7_MATRIX_MAX * NUM_SIZE
+    LDIR
+.activate:
+    XOR A
+    LD (P7_ACTIVE_SET), A
+    LD (P7_SELECTED), A
+    LD (P7_INPUT_ACTIVE), A
+    CALL editor_init
+    JP p7_render
 
 p7_numeric_error:
     XOR A
@@ -761,6 +841,11 @@ p7_render_footer:
     JR .menu
 .help:
     LD HL, p7_text_help
+    LD A, (P7_ACTIVE_SET)
+    CP 2
+    JR NZ, .draw_help
+    LD HL, p7_text_use_result
+.draw_help:
     LD B, 0
     LD C, 5
     CALL text_draw_string
@@ -3278,6 +3363,7 @@ p7_menu_matrix_1: DB "ADD SUB MUL SCL SOLVE",0
 p7_menu_vector_0: DB "MAG NRM DOT CRS ANG",0
 p7_menu_vector_1: DB "ADD SUB SCL 2D 3D",0
 p7_menu_vector_2: DB "R>CY CY>R R>SP SP>R",0
+p7_text_use_result: DB "ENTER USE R",0
 p7_vector_mode_table: DW p7_text_rectv, p7_text_cylv, p7_text_sphv
 p7_text_rectv: DB "RECTV",0
 p7_text_cylv:  DB "CYLV",0

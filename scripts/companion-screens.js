@@ -768,6 +768,14 @@ export const SCREEN_CASES = [
     keys: [...co07Seed(1), ...CO07_DEQ_MODE, ...CO07_GOMPERTZ, "GRAPH", 16000,
       "MORE", 60000]
   },
+  // Section 7.7's setup page, which replaced the GDEQ deletion ritual: the
+  // method and the initial condition, edited in place.
+  {
+    name: "co07-deq-setup",
+    keys: [...co07Seed(1), ...CO07_DEQ_MODE,
+      ".", "4", "*", "(", "3", "-", "ALPHA", "0", ")", "GRAPH", 9000,
+      "2ND", "MORE", "MORE", "MORE", "MORE", 60]
+  },
   {
     name: "co07-equilibrium",
     keys: [...co07Seed(-6), ...CO07_DEQ_MODE,
@@ -775,9 +783,9 @@ export const SCREEN_CASES = [
   },
   // Chapter 8 section 8.1: the integral conservation of energy hands you,
   // integrated between 0 and the amplitude. The integrand is infinite at the
-  // top of the swing, so one of FNINT('s 64 panels lands on an enormous
-  // value and swamps the rest. The machine returns 9643 where the answer is
-  // about 2.31, and says nothing at all about it.
+  // top of the swing, so a sample lands on the singularity and FNINT( now
+  // answers DIVIDE BY ZERO rather than the 9643 that firmware 2.10 handed
+  // back without comment where the answer is about 2.31.
   {
     name: "co08-naive-integral",
     keys: ["2ND", "^", "/", "4", "STO", "ALPHA", "LOG", "ENTER", 200, "CLEAR", 30,

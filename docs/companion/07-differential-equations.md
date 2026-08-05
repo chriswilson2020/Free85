@@ -19,10 +19,12 @@ The mode is the Guidebook, chapter 7; programs are chapter 16.
 
 Three habits carry the chapter, and the first one catches everybody once.
 
-The initial value is seeded from the ordinary variable `Y` when the mode is
-*first entered*, and frozen there. Store it before you switch modes.
-Storing a new one afterwards does nothing at all, and section 7.7 has the
-deliberately stiff lever that resets it.
+The initial value is seeded from the ordinary variable `Y` when the mode
+is *first entered*, so store it before you switch modes. Storing a new one
+into `Y` afterwards does nothing: from then on the initial condition
+belongs to the mode, and it is edited on the mode's own setup page,
+reached with [2nd] [MORE] pressed four times. Section 7.7 works that page
+properly.
 
 The entry line never clears itself: the home screen hands the stored slope
 back whenever you leave the plot, and [GRAPH] stores whatever the line
@@ -589,17 +591,14 @@ predicts.
    should turn its corner at just over a third of the ceiling rather than
    at half of it. Write that down before you look.
 
-7. Reset the mode so a fresh seed takes. Press [MORE] twice from the format
-   page for the graph mode page and press [F1], `FN`, then press [EXIT] for
-   home. Press [2nd] [+] for the memory browser, press [▼] until the name
-   reads `GDEQ`, and press [DEL]. Press [EXIT].
+7. Put the starting value back to 1. Press [2nd] [MORE] four times for the
+   `DEQ SETUP` page, press [F3] (`Y0`), and press [-] or [+] until `Y0`
+   reads `1`. Press [F5] (`GO`).
 
-   Section 7.7 explains that ritual properly. Here it is just the price of
-   changing your mind about a starting value.
+   That is the whole of it. The equation stays where it is and the window
+   stays where it is; only the seed moves.
 
-8. Press [CLEAR], type [1] [STO▶] [ALPHA] [0] [ENTER] for the same seed,
-   press [CLEAR], press [GRAPH], then [2nd] [MORE], [MORE], [MORE], [F4]
-   for `DEQ`, and [EXIT].
+8. Press [EXIT] for the entry line.
 
 9. Type the Gompertz rule: [.] [3] [×] [ALPHA] [0] [×] [LN] [1] [0] [÷]
    [ALPHA] [0] [)] so the line reads `.3*Y*LN(10/Y)`. Press [GRAPH].
@@ -671,8 +670,8 @@ is zero and nothing moves at all, and that last line is a solution in its
 own right: the constant one, called an equilibrium.
 
 This section takes A = 3 with k = 0.4, and it needs the initial value to
-change, which section 7.1 said the mode will not allow. The lever exists.
-It is deliberately stiff, and it is stiff for a reason worth knowing.
+change, which is what the setup page is for. It used to be for something
+much worse, and the story is short and worth having.
 
 1. The seed from section 7.6 is still 1, below A, so start there and come
    back for the other side. Press [PRGM] to leave any run screen, press
@@ -682,46 +681,36 @@ It is deliberately stiff, and it is stiff for a reason worth knowing.
 2. Press [MORE] for the table. The solution climbs and flattens, squeezing
    onto 3 without arriving: an asymptote seen from below.
 
-3. Now the reset, and here is what is actually happening. The mode writes
-   its saved state to a store object called `GDEQ` when you leave it, and
-   that object holds the frozen initial condition among other things.
-   Deleting it is the only way to make the mode seed itself again.
+3. Now cross the equilibrium. Press [EXIT] to leave the table, then press
+   [2nd] [MORE] four times for the `DEQ SETUP` page:
 
-   I made it work that way so the mode would survive being left and come
-   back exactly as you had it, which is the right behaviour ninety-nine
-   times out of a hundred and infuriating the other time. This section is
-   the other time.
+   ![The DEQ setup page, where the initial condition lives](images/co07-deq-setup.png)
 
-   Press [EXIT] to leave the table, then [2nd] [MORE] and [MORE] twice for
-   the graph mode page, and press [F1], `FN`, which is what writes `GDEQ`.
-   Let each plot finish before the next press. Press [EXIT] for home.
+   `METHOD` names the solver, and `X0` and `Y0` are the initial condition.
+   [F2] and [F3] choose which of the two the [+] and [-] keys move, and
+   the line above the soft keys tells you which one you have got.
 
-4. Press [2nd] [+] for the memory browser of the Guidebook, chapter 18,
-   which opens on `A`. Press [▼] until the name reads `GDEQ`: it is the
-   last entry, and the selection stops there rather than wrapping. The line
-   beneath reads `TYPE GRAPH DB`, which confirms you are about to delete
-   the right thing.
+   This is worth a paragraph of history, because the first edition of this
+   book taught a ritual here instead. The mode used to freeze its initial
+   condition on first entry and keep it in a store object called `GDEQ`,
+   and the only way to change your mind was to leave the mode, open the
+   memory browser, find `GDEQ`, and delete it, which cleared your equations
+   along with your seed. I wrote that the stiffness was instructive: that
+   the cost of a shot ought to be part of the lesson. It was not
+   instructive. It was a missing feature with a good story attached, and
+   the story was mine, which is exactly the kind of argument to distrust.
 
-   Press [DEL]: the selection moves to `GFUNC`, and the mode's memory is
-   gone.
+4. Press [F3] (`Y0`), then press [-] until `Y0` reads `-6`, seven presses
+   down from `1`. The equation is untouched and so is the window.
 
-5. Press [EXIT] for the home screen and seed the new value from above the
-   equilibrium: [(-)] [6] [STO▶] [ALPHA] [0] [ENTER] answers `= -6`.
-
-   Press [CLEAR], press [GRAPH], then [2nd] [MORE], [MORE], [MORE], and
-   [F4] for `DEQ`. Let the replot finish: the flat line now sits low in the
-   window, the receipt for -6, and the equation slot is empty, because
-   deleting `GDEQ` cleared the mode's equations too.
-
-6. Press [EXIT], retype [.] [4] [×] [(] [3] [-] [ALPHA] [0] [)], and press
-   [GRAPH]:
+5. Press [F5] (`GO`):
 
    ![The same equilibrium approached from below](images/co07-equilibrium.png)
 
    Let the plot finish. The curve climbs out of the bottom of the window
    and flattens along the same level as before.
 
-   Press [MORE] for the table, which the reset returned to steps of 1:
+   Press [MORE] for the table, still in steps of 1:
    `X=0` reads `2.855`, then `2.904`, `2.936`, `2.958`, `2.972`, `2.981`.
 
    The equilibrium is approached from below just as it was from above, and
@@ -781,4 +770,4 @@ where you learn to.
    the same thing.
 5. Design a rule with three equilibria, alternating stable and unstable.
    Predict the fate of a solution started between each pair, then check as
-   many as your patience with the `GDEQ` ritual allows.
+   many as you like: each one is now three keys on the setup page.

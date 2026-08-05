@@ -139,6 +139,22 @@ SJASMPLUS=/absolute/path/to/sjasmplus npm run release:free85
 The release command builds the ROM and Pages artifact twice in isolated
 temporary directories and rejects any byte or tree-hash difference.
 
+### Publishing a release
+
+The download links below point at the assets of the *latest release*, which
+are not tracked in the repository: `dist/` is ignored, and the Pages
+workflow publishes only the online editions. Attaching them is therefore a
+separate step, and it is automated.
+
+Publish a release on GitHub and the **Attach Free85 release assets**
+workflow builds the ROM and all three typeset PDFs from that tag, runs the
+validation suite and the reproducibility check first, and uploads them. It
+runs on nothing else: not on a push to `main`, not on a pull request.
+
+To refresh the assets of a release that already exists, run the same
+workflow by hand from the Actions tab and give it the tag. Same-named
+assets are replaced.
+
 ## Documentation
 
 - [Getting Started Manual](docs/manual/Free85-Manual.md): running Free85,

@@ -1,0 +1,146 @@
+name: Attach Free85 release assets
+
+# Builds the ROM and the three typeset PDFs and attaches them to a release.
+#
+# This runs ONLY when you publish a release, or when you ask for it by hand.
+# It never runs on a push to main and never runs on a pull request, so the
+# assets change only when you decide a release should be made.
+#
+# It exists because release assets are the one publishing path in this
+# project that nothing automated: dist/ is gitignored, so no PDF is tracked
+# in the repository, and pages.yml publishes only the Pages artifact. The
+# assets on Release_2.10 therefore went stale, and both the ROM and the
+# companion PDF were months behind main before anybody noticed.
+#
+# Existing assets of the same name are replaced, so re-running this against
+# a published release is the supported way to refresh a stale one.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to build and attach assets to"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-assets-${{ inputs.tag || github.event.release.tag_name }}
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  # Resolved once so every later step and the summary agree on the target.
+  RELEASE_TAG: ${{ inputs.tag || github.event.release.tag_name }}
+
+jobs:
+  attach:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the release tag
+        uses: actions/checkout@v6
+        with:
+          # Build from the tag, not from main. A release cut from an older
+          # commit must ship that commit's ROM and books.
+          ref: ${{ env.RELEASE_TAG }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Install pandoc and locate Chrome
+        # The typeset pipeline shells out to pandoc and drives headless
+        # Chrome. The runner image ships a browser but the binary's name has
+        # moved before now, so find it rather than assuming a path.
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends pandoc
+          pandoc --version | head -1
+          for candidate in google-chrome google-chrome-stable chromium-browser chromium; do
+            if command -v "$candidate" >/dev/null; then
+              echo "CHROME_BIN=$(command -v "$candidate")" >> "$GITHUB_ENV"
+              "$candidate" --version
+              exit 0
+            fi
+          done
+          echo "no Chrome or Chromium on this runner; the typeset build cannot run" >&2
+          exit 1
+
+      - name: Run the validation suite
+        # Nothing is published from a tree that does not pass. This is the
+        # whole point of building the assets in CI rather than by hand.
+        run: npm run validate:free85
+
+      - name: Build pinned sjasmplus
+        # Same pin and same checksum as ci.yml. Keep the two in step: the
+        # reproducibility hash is computed from the ROM this produces.
+        run: |
+          curl --fail --location --silent --show-error \
+            https://github.com/z00m128/sjasmplus/releases/download/v1.21.1/sjasmplus-1.21.1-src.tar.xz \
+            --output "$RUNNER_TEMP/sjasmplus.tar.xz"
+          echo "7c3e0bb473715777bec41f1b68caf9d4921da3f0cd9db66d922d3b804e0655c6  $RUNNER_TEMP/sjasmplus.tar.xz" | sha256sum --check
+          mkdir "$RUNNER_TEMP/sjasmplus"
+          tar --extract --xz --file "$RUNNER_TEMP/sjasmplus.tar.xz" --directory "$RUNNER_TEMP/sjasmplus" --strip-components=1
+          make --directory "$RUNNER_TEMP/sjasmplus" --jobs=2
+
+      - name: Build the ROM
+        env:
+          SJASMPLUS: ${{ runner.temp }}/sjasmplus/sjasmplus
+        run: npm run build:free85
+
+      - name: Verify the ROM is reproducible
+        # Catches a tag whose committed reproducibility hash does not match
+        # the ROM the sources actually assemble to.
+        env:
+          SJASMPLUS: ${{ runner.temp }}/sjasmplus/sjasmplus
+        run: npm run verify:free85:reproducible
+
+      - name: Build the typeset PDFs
+        # CHROME_BIN comes from the locate step above.
+        run: npm run build:guidebook:typeset
+
+      - name: Check every asset exists and is not empty
+        run: |
+          set -euo pipefail
+          for f in ROM/FREE85.ROM \
+                   dist/guidebook/Free85-Manual-typeset.pdf \
+                   dist/guidebook/Free85-Guidebook-typeset.pdf \
+                   dist/guidebook/Free85-Companion-typeset.pdf; do
+            test -s "$f" || { echo "missing or empty: $f"; exit 1; }
+            printf '%10d bytes  %s\n' "$(stat -c%s "$f")" "$f"
+          done
+
+      - name: Attach the assets to the release
+        # --clobber replaces same-named assets, so re-running this against a
+        # published release refreshes stale ones rather than failing.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "$RELEASE_TAG" \
+            dist/guidebook/Free85-Manual-typeset.pdf \
+            dist/guidebook/Free85-Guidebook-typeset.pdf \
+            dist/guidebook/Free85-Companion-typeset.pdf \
+            ROM/FREE85.ROM \
+            --clobber
+
+      - name: Summarise what was attached
+        run: |
+          {
+            echo "### Assets attached to \`$RELEASE_TAG\`"
+            echo
+            echo "| Asset | Bytes | SHA-256 |"
+            echo "| --- | ---: | --- |"
+            for f in ROM/FREE85.ROM \
+                     dist/guidebook/Free85-Manual-typeset.pdf \
+                     dist/guidebook/Free85-Guidebook-typeset.pdf \
+                     dist/guidebook/Free85-Companion-typeset.pdf; do
+              printf '| `%s` | %s | `%s` |\n' \
+                "$(basename "$f")" "$(stat -c%s "$f")" "$(sha256sum "$f" | cut -c1-16)…"
+            done
+          } >> "$GITHUB_STEP_SUMMARY"

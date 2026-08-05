@@ -13,8 +13,14 @@ p14_graph_init:
     LD (GRAPH_MODE), A
     LD (GRAPH_COORD_MODE), A
     LD HL, p6_const_zero
+    LD DE, P16_INITIAL_X
+    CALL numeric_copy
+    LD HL, p6_const_zero
     LD DE, P16_INITIAL_Y
     CALL numeric_copy
+    XOR A
+    LD (P16_METHOD), A
+    LD (P16_SETUP_FIELD), A
     LD HL, const_two
     LD DE, GRAPH_ZOOM_FACTOR
     CALL numeric_copy
@@ -128,7 +134,9 @@ p14_graph_render_format:
     JR Z, .page_one
     CP 1
     JR Z, .page_two
-    JP p16_graph_render_modes
+    CP 2
+    JP Z, p16_graph_render_modes
+    JP p16_diffeq_render_setup
 .page_one:
     LD HL, p14_text_axes
     LD A, GRAPH_FMT_AXES
@@ -250,7 +258,12 @@ p14_graph_panel_key:
     CP KEY_EXIT
     JP Z, p14_graph_redraw
     CP KEY_MORE
-    JR Z, .format_more
+    JP Z, .format_more
+    LD B, A
+    LD A, (GRAPH_PANEL_PAGE)
+    CP 3
+    LD A, B
+    JP Z, p16_diffeq_setup_key
     CP KEY_F1
     JR C, .format_render
     CP KEY_F5 + 1
@@ -319,7 +332,7 @@ p14_graph_panel_key:
 .format_more:
     LD A, (GRAPH_PANEL_PAGE)
     INC A
-    CP 3
+    CP 4
     JR C, .store_page
     XOR A
 .store_page:

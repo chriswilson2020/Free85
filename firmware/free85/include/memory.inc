@@ -175,9 +175,16 @@ P7_INPUT_ACTIVE     EQU PHASE7_BASE + 4
 P7_ERROR            EQU PHASE7_BASE + 5
 P7_DIM_AXIS         EQU PHASE7_BASE + 6
 P7_COORD_MODE       EQU PHASE7_BASE + 7
-P16_INITIAL_Y       EQU PHASE7_BASE + 8
+; Phase 15.4 DEQ settings use the otherwise empty tail before the list bank.
+; Keeping them out of the Phase 7 register planes preserves schema-13
+; collection addresses while allowing GDEQ payload migration independently.
+P16_INITIAL_X       EQU $8760
+P16_INITIAL_Y       EQU P16_INITIAL_X + NUM_SIZE
 P16_QUERY_X         EQU P16_INITIAL_Y + NUM_SIZE
-    ASSERT P16_QUERY_X + NUM_SIZE <= $8720
+P16_METHOD          EQU P16_QUERY_X + NUM_SIZE
+P16_SETUP_FIELD     EQU P16_METHOD + 1
+P16_SOLVE_STEPS     EQU P16_SETUP_FIELD + 1
+    ASSERT P16_SOLVE_STEPS + 1 <= P7_LIST_A
 
 P7_COMPLEX_A        EQU $8720
 P7_COMPLEX_B        EQU P7_COMPLEX_A + NUM_SIZE * 2

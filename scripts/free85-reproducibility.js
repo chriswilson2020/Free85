@@ -88,8 +88,8 @@ try {
 
   const report = {
     schema_version: 1,
-    release: "2.16.0",
-    phase: "15.3",
+    release: "2.18.0",
+    phase: "15.4",
     independent_builds: 2,
     build_tool: {
       required: "sjasmplus >= 1.21.1",

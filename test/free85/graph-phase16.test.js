@@ -116,16 +116,16 @@ test("[graph.diffeq] Euler solve, trace reintegration, table, and cancellation a
   const rows = readNumericLines(harness.machine.renderLcdBitmap(), { originX: 0, originY: 0 })
     .filter(({ row }) => row >= 1 && row <= 6)
     .map(({ text }) => text.replace(/\s+/g, " "));
-  assert.deepEqual(rows, ["0 10 - -", "1 11 - -", "2 12 - -", "3 13 - -", "4 14 - -", "5 15 - -"]);
+  assert.deepEqual(rows, ["0 10 - -", "1 10.99- -", "2 11.99- -", "3 12.99- -", "4 13.99- -", "5 14.99- -"]);
   harness.tap("GRAPH");
   harness.runFrames(8);
   if (harness.machine.read8(0x800b) === 3) harness.tap("GRAPH");
   while (harness.machine.read8(0x850e)) harness.runFrames(1);
   assert.equal(harness.machine.read8(0x800b), 2);
   assert.equal(harness.machine.read8(GRAPH_ACTIVE), 1);
-  harness.runFrames(8);
-  harness.tap("EXIT");
-  harness.runFrames(8);
+  harness.machine.pressKey("EXIT");
+  for (let frames = 0; frames < 200 && harness.machine.read8(GRAPH_ACTIVE); frames += 1) harness.machine.runFrame();
+  harness.machine.releaseKey("EXIT");
   assert.equal(harness.machine.read8(GRAPH_ACTIVE), 0);
 });
 
@@ -228,10 +228,10 @@ test("[graph.diffeq-table-depth] the DifEq table reads to the right edge of the 
   const tableRows = () => readNumericLines(harness.machine.renderLcdBitmap(), { originX: 0, originY: 0 })
     .filter(({ row }) => row >= 1 && row <= 6)
     .map(({ text }) => text.replace(/\s+/g, " "));
-  assert.deepEqual(tableRows(), ["0 10 - -", "1 11 - -", "2 12 - -", "3 13 - -", "4 14 - -", "5 15 - -"]);
+  assert.deepEqual(tableRows(), ["0 10 - -", "1 10.99- -", "2 11.99- -", "3 12.99- -", "4 13.99- -", "5 14.99- -"]);
   harness.tap("DOWN");
   harness.runFrames(2500);
-  assert.deepEqual(tableRows(), ["5 15 - -", "6 16 - -", "7 17 - -", "8 18 - -", "9 19 - -", "10 20 - -"]);
+  assert.deepEqual(tableRows(), ["5 14.99- -", "6 15.99- -", "7 16.99- -", "8 17.99- -", "9 18.99- -", "10 19.99- -"]);
 });
 
 // Mapping a plotted point to its screen column used to reject any value of

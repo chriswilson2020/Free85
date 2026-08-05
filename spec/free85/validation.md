@@ -180,3 +180,11 @@ graph window. Direct and indirect equation cycles must report recursion while
 an unrelated slot continues. Lossless reviewed LCD fixtures cover derivative
 and accumulator plots, with deterministic frame limits recorded in the
 performance report.
+
+Phase 15.4 is the Free85 2.18.0 differential-equation gate. A reviewed LCD
+fixture covers the visible method/X0/Y0/reset controls. Persistence tests switch
+modes without deleting GDEQ; a synthetic 213-byte v1 payload loads without
+mutation and grows transactionally to the 224-byte v2 payload on save.
+Independent `y'=y`, `(0,1)` vectors at h=0.1 and h=0.05 verify convergence
+ratios near 2, 4, and 16 for Euler, Heun, and RK4. Distant-query work limits
+and physical EXIT cancellation exercise `NO CONVERGENCE` and `CANCELLED`.

@@ -1,4 +1,4 @@
-# Free85 2.16.0 known limitations
+# Free85 2.18.0 known limitations
 
 Free85 is a complete standalone calculator for its documented feature set, but
 it is not a binary-compatible replacement for Texas Instruments firmware.
@@ -35,9 +35,11 @@ it is not a binary-compatible replacement for Texas Instruments firmware.
   `NO CONVERGENCE` when the bounded comparison misses the selected tolerance.
   This is a safety check, not a general adaptive integrator: narrow features
   which every sampled mesh misses can still evade detection.
-- Differential-equation graphing uses fixed-step Euler integration. Its initial
-  Y value is frozen in the saved `GDEQ` state; choosing another currently
-  requires deleting that object and re-entering the equation.
+- Differential-equation graphing offers Euler, Heun, and classical RK4 with a
+  graph-step mesh, editable `(X0,Y0)`, reset, persistence, cancellation, and a
+  255-step query bound. It is an educational non-stiff solver: it has no
+  adaptive step-size controller and does not claim reliable stiff-equation
+  behavior. Queries beyond the work bound report `NO CONVERGENCE`.
 - Lists contain at most eight values, matrices are at most 3x3, vectors have at
   most three components, simultaneous systems are at most 4x4, and polynomial
   solving is limited to degree four. Collection results land in read-only `R`
@@ -45,11 +47,11 @@ it is not a binary-compatible replacement for Texas Instruments firmware.
 - The programming environment provides four programs of eight 48-character
   lines each, eight nested control frames, and four nested calls. `FOR` bounds
   are single digits from 0 through 9 and its step is always positive one.
-- Free85 2.16.0 retains the frozen persistent RAM schema 13 and object-store schema 1. It
+- Free85 2.18.0 retains the frozen persistent RAM schema 13 and object-store schema 1. It
   migrates schema 12 transactionally; unsupported or corrupt schema headers
   are reset rather than interpreted speculatively.
 - The browser integration targets the repository's TI-85-compatible emulator;
-  physical-hardware installation is not part of the 2.16.0 release validation.
+  physical-hardware installation is not part of the 2.18.0 release validation.
 
 The accepted Phase 15 roadmap owns the numerical and workflow limitations
 above for Free85 2.20. Larger dynamic collections and program stores remain a

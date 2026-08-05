@@ -16,11 +16,11 @@ The repository includes:
 
 ## Current status
 
-Free85 2.16.0 is the stable Phase 15.3 release. It is a deterministic 128 KiB
+Free85 2.18.0 is the stable Phase 15.4 release. It is a deterministic 128 KiB
 ROM with complete coverage of the applicable Free85 2.0 parity ledger,
 persistent RAM schema 13, object-store schema 1, and independently reproducible
 ROM and GitHub Pages artifacts. The home screen identifies the running release
-as `VERSION 2.16`. Version 2.12 preserves numerical error classes through home,
+as `VERSION 2.18`. Version 2.12 preserves numerical error classes through home,
 graph, table, and program evaluation, and makes `FNINT` compare bounded
 32/64/128-panel Simpson estimates before it publishes a result. Version 2.14
 adds bounded quotient-based trigonometric reduction through one million
@@ -29,6 +29,9 @@ that measured range. Version 2.16 adds explicit graph-slot targets to the
 calculus functions, preserves their legacy active-equation forms, and makes
 derivative and accumulator functions safe to plot and tabulate with bounded
 cycle detection.
+Version 2.18 adds an ordinary DEQ setup page for `(X0,Y0)`, selectable Euler,
+Heun, and RK4 methods, bounded work and cancellation, and transactional
+migration of older `GDEQ` objects.
 
 The original 1.0 baseline completed Phases 0-13: boot/diagnostics, UI and
 editor, packed-BCD numeric core, expression parsing, scientific functions,
@@ -82,6 +85,9 @@ Phase 15.3 ships as 2.16.0: `NDER(slot,x)`, `EVAL(slot,x)`, and the ternary
 interval forms such as `FNINT(slot,a,b)` evaluate a named one-based graph slot
 without corrupting their caller. Direct and indirect equation cycles report
 `RECURSION ERROR`; unrelated graph slots continue normally.
+Phase 15.4 ships as 2.18.0. DEQ initial conditions can be changed and reset
+without deleting the stored equation. Euler remains available for teaching;
+Heun and RK4 provide independently verified second- and fourth-order methods.
 
 ## Run the calculator
 

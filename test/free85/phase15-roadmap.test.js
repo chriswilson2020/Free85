@@ -102,6 +102,22 @@ test("[phase15.3.completion] 2.16 closes re-entrant calculus and records the boo
   assert.equal(bookChange.implementedIn, "2.16.0");
 });
 
+test("[phase15.4.completion] 2.18 closes both DEQ owners and records the book impact", async () => {
+  const roadmap = await readJson("spec/free85/v2.20-roadmap.yaml");
+  const quality = await readJson("spec/free85/numerical-quality.yaml");
+  const impact = await readJson("spec/free85/v2.20-book-impact.yaml");
+  const workPackage = roadmap.workPackages.find(({ id }) => id === "15.4");
+  assert.equal(workPackage.status, "complete");
+  assert.equal(workPackage.release, "2.18.0");
+  for (const id of workPackage.owns) {
+    const issue = quality.issues.find((entry) => entry.id === id);
+    const bookChange = impact.changes.find((entry) => entry.issue === id);
+    assert.equal(issue.status, "resolved", id);
+    assert.equal(issue.resolvedRelease, "2.18.0", id);
+    assert.equal(bookChange.implementedIn, "2.18.0", id);
+  }
+});
+
 test("[phase15.books] every quality correction has an explicit deferred book revision", async () => {
   const quality = await readJson("spec/free85/numerical-quality.yaml");
   const impact = await readJson("spec/free85/v2.20-book-impact.yaml");

@@ -56,6 +56,9 @@ mathematical references rather than TI output.
   explicit one-based slot forms restore caller state across nested evaluation.
   Direct and indirect cycles fail as recursion errors; reviewed derivative and
   accumulator plots and tables exercise the new path.
+- **15.4 / 2.18:** DEQ exposes editable X0/Y0 and reset controls, migrates old
+  GDEQ payloads transactionally, and offers Euler, Heun, and classical RK4 with
+  measured convergence orders, bounded work, and cancellation.
 
 ## Explicit boundary
 

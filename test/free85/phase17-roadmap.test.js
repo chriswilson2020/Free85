@@ -43,6 +43,22 @@ test("[phase17.1.completion] dev.1 closes the direct-window limitation and recor
   assert.ok(bookChange.documents.length >= 4);
 });
 
+test("[phase17.2.completion] dev.2 closes picture overlays without mutating stored pictures", async () => {
+  const roadmap = await readJson("spec/free85/v3-roadmap.yaml");
+  const ledger = await readJson("spec/free85/v3-capabilities.yaml");
+  const impact = await readJson("spec/free85/v3-book-impact.yaml");
+  const workPackage = roadmap.workPackages.find(({ id }) => id === "17.2");
+  const capability = ledger.capabilities.find(({ id }) => id === "graph.picture-overlay");
+  const bookChange = impact.changes.find(({ issue }) => issue === capability.id);
+  assert.equal(workPackage.status, "complete");
+  assert.equal(workPackage.release, "3.0.0-dev.2");
+  assert.equal(capability.status, "resolved");
+  assert.equal(capability.resolvedRelease, workPackage.release);
+  assert.ok(capability.resolutionEvidence.length >= 3);
+  assert.equal(bookChange.implementedIn, workPackage.release);
+  assert.ok(bookChange.documents.length >= 4);
+});
+
 test("[phase17.versioning] development builds advance monotonically to one final 3.0", async () => {
   const roadmap = await readJson("spec/free85/v3-roadmap.yaml");
   const releases = roadmap.workPackages.flatMap(({ release }) => release ? [release] : []);

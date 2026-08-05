@@ -363,3 +363,42 @@ p22_text_domain: DB "DOMAIN ERROR",0
 p22_text_recursion: DB "RECURSION ERROR",0
 p22_text_no_convergence: DB "NO CONVERGENCE",0
 p22_text_precision: DB "PRECISION LOST",0
+
+; ---------------------------------------------------------------------------
+; Phase 17.2 one-shot picture underlay.
+;
+; OVR validates and recalls PIC1, then arms exactly one subsequent graph start.
+; p6_start_plot consumes the flag and skips only its normal framebuffer clear;
+; axes, grid, and samples still use the ordinary OR drawing path. The picture
+; object is read-only throughout. OFF or leaving the graph for Home cancels it.
+
+p22_overlay_arm:
+    CALL p15_menu_leave
+    CALL p15_recall_picture
+    JR C, .missing
+    LD A, 1
+    LD (P22_OVERLAY_ARMED), A
+    RET
+.missing:
+    XOR A
+    LD (P22_OVERLAY_ARMED), A
+    CALL lcd_clear
+    LD HL, p22_text_no_picture
+    LD B, 0
+    LD C, 3
+    CALL text_draw_string
+    LD HL, p22_text_exit_back
+    LD B, 0
+    LD C, 7
+    CALL text_draw_string
+    SCF
+    RET
+
+p22_overlay_cancel:
+    CALL p15_menu_leave
+    XOR A
+    LD (P22_OVERLAY_ARMED), A
+    RET
+
+p22_text_no_picture: DB "NO PICTURE",0
+p22_text_exit_back: DB "EXIT BACK",0

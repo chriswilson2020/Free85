@@ -44,10 +44,41 @@
         "test/free85/phase17-window.test.js",
         "test/free85/goldens/graphs/phase17-window-editor.lcd"
       ]
+    },
+    {
+      "issue": "graph.picture-overlay",
+      "implementedIn": "3.0.0-dev.2",
+      "summaryForBooks": "The fourth drawing-menu page now reads RCG OVR OFF. OVR validates and recalls PIC1, then uses its 1,024 pixels as a one-shot underlay for the next graph. OFF cancels the armed underlay. The graph adds pixels without changing the stored picture, and the following redraw clears normally. OVR with no PIC1 displays NO PICTURE and remains disarmed.",
+      "documents": [
+        { "path": "docs/guidebook/04-cartesian-graphing.md", "sections": ["Pictures", "Drawing menu"] },
+        { "path": "docs/guidebook/07-differential-equation-graphing.md", "sections": ["Comparing solutions"] },
+        { "path": "docs/companion/07-differential-equations.md", "sections": ["comparing models", "picture-store limitation"] },
+        { "path": "docs/companion/10-afterword.md", "sections": ["machine limits"] }
+      ],
+      "mustRemoveOrCorrect": [
+        "the claim that Free85 has no picture store suitable for graph comparison",
+        "instructions saying two plots can only be compared from separate screens or copied table rows",
+        "the claim that recalling a picture can never survive a subsequent graph start"
+      ],
+      "mustAdd": [
+        "the exact CUSTOM, MORE, MORE, MORE, OVR route after storing PIC1",
+        "the one-shot nature of the underlay and the explicit OFF action",
+        "the NO PICTURE behavior and the fact that PIC1 remains immutable",
+        "a worked two-model overlay with identical window settings"
+      ],
+      "captures": [
+        "the complete RCG OVR OFF footer",
+        "NO PICTURE when PIC1 is absent",
+        "a reviewed two-curve overlay produced from a stored first graph"
+      ],
+      "evidence": [
+        "firmware/free85/graph/phase22.asm:p22_overlay_arm",
+        "test/free85/phase17-overlay.test.js",
+        "test/free85/goldens/graphs/phase17-overlay-missing.lcd"
+      ]
     }
   ],
   "stillPlanned": [
-    "graph.picture-overlay",
     "graph.diffeq-system",
     "graph.phase-plane",
     "workspace.dynamic-matrix",

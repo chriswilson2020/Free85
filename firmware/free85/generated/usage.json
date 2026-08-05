@@ -1,5 +1,5 @@
 {
-  "phase": "17.1",
+  "phase": "17.2",
   "rom_bytes": 131072,
   "page_size": 16384,
   "pages": [
@@ -11,9 +11,9 @@
     },
     {
       "page": 1,
-      "used_bytes": 12713,
-      "free_bytes": 3671,
-      "percent_used": 77.59
+      "used_bytes": 12821,
+      "free_bytes": 3563,
+      "percent_used": 78.25
     },
     {
       "page": 2,

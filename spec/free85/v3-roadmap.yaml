@@ -55,7 +55,7 @@
     {
       "id": "17.2",
       "name": "picture-underlay-overlays",
-      "status": "planned",
+      "status": "complete",
       "release": "3.0.0-dev.2",
       "dependsOn": ["17.1"],
       "owns": ["graph.picture-overlay"],

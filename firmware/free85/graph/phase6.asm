@@ -141,7 +141,15 @@ p6_start_plot:
     LD HL, p6_const_zero
     LD DE, GRAPH_RESULT_X
     CALL numeric_copy
+    LD A, (P22_OVERLAY_ARMED)
+    OR A
+    JR Z, .clear_frame
+    XOR A
+    LD (P22_OVERLAY_ARMED), A
+    JR .frame_ready
+.clear_frame:
     CALL lcd_clear
+.frame_ready:
     CALL p6_draw_grid_axes
     ; xstep = (xmax-xmin) / 127
     LD HL, GRAPH_XMAX
@@ -745,6 +753,7 @@ phase6_handle_key:
 .home:
     XOR A
     LD (GRAPH_PLOT_ACTIVE), A
+    LD (P22_OVERLAY_ARMED), A
     LD (UI_MODIFIERS), A
     CALL p6_load_active_equation
     JP screen_show_home

@@ -6,7 +6,7 @@ compatibility with TI programs, files, ROM calls, or internal data structures.
 
 ## Current release
 
-Free85 2.19.0 is the stable Phase 15.5 release. The eight-bank ROM is exactly
+Free85 2.20.0 is the stable Phase 15.6 release. The eight-bank ROM is exactly
 131,072 bytes; its SHA-256 digest is recorded in
 `spec/free85/release.json`.
 It freezes persistent RAM schema 13 and object-store schema 1. Run

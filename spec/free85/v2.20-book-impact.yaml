@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "firmwareTarget": "2.20.0",
-  "updateTiming": "after Phase 15.6 behaviour and screenshots are frozen",
+  "updateTiming": "Phase 15.6 behaviour and the Free85 2.20 ROM are frozen; editorial execution may begin",
   "books": [
     "docs/manual/Free85-Manual.md",
     "docs/guidebook",

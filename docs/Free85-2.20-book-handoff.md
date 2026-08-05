@@ -18,7 +18,8 @@ diagnostics. They must also replace the fixed-64-panel description of `FNINT`
 with its bounded 32/64/128-panel comparison and show the pendulum endpoint case
 being refused as `DIVIDE BY ZERO` (or `NO CONVERGENCE` when refinement, rather
 than a sampled undefined point, detects the failure). Do not recapture final
-book figures yet: the editorial freeze remains Phase 15.6 / Free85 2.20.
+book figures during the firmware packages. Phase 15.6 / Free85 2.20 is now
+frozen, so the separate editorial process may begin from the recorded ROM hash.
 
 Phase 15.2 shipped in Free85 2.14. Replace the 63-subtraction/399-radian story
 with quotient-based reduction, the measured limits of 1E6 radians and 1E8

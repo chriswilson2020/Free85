@@ -18,7 +18,8 @@
     {
       "issue": "numeric.error-integrity",
       "implementedIn": "2.12.0",
-      "summaryForBooks": "Since Free85 2.12, SYNTAX ERROR means unreadable syntax; domain, division, overflow, recursion, and convergence failures retain their own diagnostics across home, graph, table, and program evaluation.",
+      "extendedIn": ["2.14.0"],
+      "summaryForBooks": "Since Free85 2.12, SYNTAX ERROR means unreadable syntax; domain, division, overflow, recursion, convergence, and cancellation failures retain their own diagnostics across home, graph, table, and program evaluation. Free85 2.14 adds PRECISION LOST for inputs whose phase cannot be justified.",
       "documents": [
         { "path": "docs/manual/Free85-Manual.md", "sections": ["When something goes wrong"] },
         { "path": "docs/guidebook/appendix-c-errors.md", "sections": ["numeric and evaluator errors"] },
@@ -29,7 +30,7 @@
         "instructions to reinterpret a parser error as a domain or runtime result"
       ],
       "mustAdd": [
-        "one example for each distinct numerical error class",
+        "one example for each distinct numerical error class, including PRECISION LOST",
         "an explanation that UNDEF in a table is a display result whose diagnostic cause remains classified"
       ]
     },
@@ -60,7 +61,8 @@
     },
     {
       "issue": "numeric.trig-reduction",
-      "summaryForBooks": "Circular functions will use bounded quotient-based range reduction with a published supported range instead of stopping after 63 subtractions near 399 radians.",
+      "implementedIn": "2.14.0",
+      "summaryForBooks": "Since Free85 2.14, circular functions use bounded quotient-based range reduction instead of stopping after 63 subtractions. SIN, COS, and TAN support inputs through one million radians or one hundred million degrees; larger inputs report PRECISION LOST.",
       "documents": [
         { "path": "docs/guidebook/03-mathematics.md", "sections": ["Trigonometry"] },
         { "path": "docs/companion/04-calculus-1.md", "sections": ["Where the machine gives up, and why", "The same oscillation with a limit"] },

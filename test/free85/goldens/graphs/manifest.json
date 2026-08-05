@@ -6,7 +6,7 @@
     {
       "name": "sine-5x",
       "expression": "5*SIN(X)",
-      "frames": 2300,
+      "frames": 2400,
       "litPixelCount": 556,
       "checksum": "4BE3F2EA"
     },
@@ -54,7 +54,7 @@
       "name": "phase19-home-version",
       "keys": [],
       "litPixelCount": 738,
-      "checksum": "362970FE"
+      "checksum": "80298F2E"
     },
     {
       "name": "phase7-complex-editor",

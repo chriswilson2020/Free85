@@ -373,6 +373,9 @@ ui_show_numeric_error:
     CP NUM_ERR_CANCELLED
     LD HL, notice_cancelled
     JP Z, screen_show_notice
+    CP NUM_ERR_PRECISION
+    LD HL, notice_precision
+    JP Z, screen_show_notice
     LD HL, notice_syntax
     JP screen_show_notice
 ui_notice_awake:

@@ -20,6 +20,7 @@ P10_ERR_DOMAIN EQU 8
 P10_ERR_RECURSION EQU 9
 P10_ERR_NO_CONVERGENCE EQU 10
 P10_ERR_CANCELLED EQU 11
+P10_ERR_PRECISION EQU 12
 
 phase10_init:
     XOR A
@@ -1378,6 +1379,10 @@ p10_runtime_evaluation:
     CP NUM_ERR_CANCELLED
     LD A, P10_ERR_CANCELLED
     JR Z, p10_runtime_error
+    LD A, (NUMERIC_ERROR)
+    CP NUM_ERR_PRECISION
+    LD A, P10_ERR_PRECISION
+    JR Z, p10_runtime_error
     JR p10_runtime_syntax
 p10_runtime_stack:
     LD A, P10_ERR_STACK
@@ -1766,6 +1771,8 @@ p10_render_run:
     JR Z, .recursion_text
     CP P10_ERR_NO_CONVERGENCE
     JR Z, .no_convergence_text
+    CP P10_ERR_PRECISION
+    JR Z, .precision_text
     JR .error_text
 .div_zero_text:
     LD HL, p10_text_div_zero
@@ -1781,6 +1788,9 @@ p10_render_run:
     JR .error_text
 .no_convergence_text:
     LD HL, p10_text_no_convergence
+    JR .error_text
+.precision_text:
+    LD HL, p10_text_precision
     JR .error_text
 .stopped_text:
     LD HL, p10_text_stopped
@@ -1898,6 +1908,7 @@ p10_text_overflow: DB "OVERFLOW LN",0
 p10_text_domain: DB "DOMAIN LINE",0
 p10_text_recursion: DB "RECURSE LINE",0
 p10_text_no_convergence: DB "NO CONV LINE",0
+p10_text_precision: DB "PRECISION LN",0
 p10_text_done: DB "DONE",0
 p10_text_running: DB "RUNNING",0
 p10_text_stop_help: DB "ON STOP",0

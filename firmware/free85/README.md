@@ -6,7 +6,7 @@ compatibility with TI programs, files, ROM calls, or internal data structures.
 
 ## Current release
 
-Free85 2.12.0 is the stable Phase 15.1 release. The eight-bank ROM is exactly
+Free85 2.14.0 is the stable Phase 15.2 release. The eight-bank ROM is exactly
 131,072 bytes; its SHA-256 digest is recorded in
 `spec/free85/release.json`.
 It freezes persistent RAM schema 13 and object-store schema 1. Run
@@ -88,6 +88,14 @@ are `CMIN`/`INCM` (length), `SQMFT`/`SQFTM` (area), `LGAL`/`GALL` (volume),
 (energy), `WHP`/`HPW` (power), and `RAD`/`DEG` (angle). Conversion factors
 are packed-BCD source tables adjacent to the routines and are independently
 tested in both affine and multiplicative cases.
+
+Circular input reduction uses a quotient/remainder path rather than repeated
+subtraction. Radian inputs are supported through magnitude 1E6 and degree
+inputs through 1E8; SIN and COS have a measured absolute-error bound of 1E-7
+across that outer range and tighter 1E-9 vectors through 1E4 radians. Larger
+inputs report `PRECISION LOST` because fourteen-digit quotient subtraction can
+no longer promise meaningful phase. Degree inputs reduce modulo 360 before
+conversion, and outer quadrants fold into the Taylor series' accurate interval.
 
 ## Phase 6 graphing and numerical tools
 

@@ -3,14 +3,14 @@ import { createHash } from "node:crypto";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
-test("[release.bundle] the stable 2.12 ROM is bound to frozen schemas and reproducibility evidence", async () => {
+test("[release.bundle] the stable 2.14 ROM is bound to frozen schemas and reproducibility evidence", async () => {
   const manifest = JSON.parse(await readFile("spec/free85/release.json", "utf8"));
   const rom = await readFile(manifest.rom.path);
   const reproducibility = JSON.parse(await readFile(manifest.reproducibility_report, "utf8"));
   assert.equal(manifest.schema_version, 2);
-  assert.equal(manifest.version, "2.12.0");
-  assert.equal(manifest.phase, "15.1");
-  assert.equal(manifest.target_release, "2.12.0");
+  assert.equal(manifest.version, "2.14.0");
+  assert.equal(manifest.phase, "15.2");
+  assert.equal(manifest.target_release, "2.14.0");
   assert.equal(manifest.status, "stable");
   assert.equal(manifest.license, "MIT");
   assert.deepEqual(manifest.persistent_ram, {
@@ -46,7 +46,7 @@ test("[release.coverage-performance] release reports retain all parity and timin
   assert.equal(coverage.shifted_functions.percent, 100);
   assert.equal(coverage.alpha_mappings.percent, 100);
   assert.equal(coverage.features.complete_test_percent, 100);
-  assert.equal(performance.phase, "15.1");
+  assert.equal(performance.phase, "15.2");
   assert.ok(performance.key_response.frames <= performance.limits.key_response_frames);
   for (const [name, limit] of Object.entries(performance.limits.evaluation_frames)) {
     assert.ok(performance.evaluation[name].frames <= limit, name);

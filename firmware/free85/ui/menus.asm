@@ -162,6 +162,7 @@ notice_domain:       DB "DOMAIN ERROR",0
 notice_recursion:    DB "RECURSION ERROR",0
 notice_no_convergence: DB "NO CONVERGENCE",0
 notice_cancelled:    DB "CALCULATION STOPPED",0
+notice_precision:    DB "PRECISION LOST",0
 notice_awake:        DB "ALREADY AWAKE",0
 notice_home:         DB "ALREADY AT HOME",0
 notice_no_alpha:     DB "NO ALPHA MAP",0

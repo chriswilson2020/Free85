@@ -1,4 +1,4 @@
-# Free85 2.12.0 known limitations
+# Free85 2.14.0 known limitations
 
 Free85 is a complete standalone calculator for its documented feature set, but
 it is not a binary-compatible replacement for Texas Instruments firmware.
@@ -20,9 +20,13 @@ it is not a binary-compatible replacement for Texas Instruments firmware.
   use short `EVAL(x)`/`FNINT(a,b)` forms instead of accepting an expression and
   variable as additional arguments. A calculus callable stored inside a graph
   slot is refused to protect the single-level evaluator context.
-- Circular functions reduce their arguments by repeatedly adding or
-  subtracting two pi. The bounded reducer refuses angles which need 64 passes,
-  creating a practical limit near 399 radians.
+- Circular functions use bounded quotient/remainder reduction. Their measured
+  supported input range is magnitude 1E6 radians or 1E8 degrees; larger values
+  report `PRECISION LOST` rather than returning an unjustified phase. SIN and
+  COS are bounded to 1E-7 absolute error across the outer tested range and
+  1E-9 through 1E4 radians. TAN necessarily becomes ill-conditioned near its
+  poles and should not be treated as having a uniform absolute-error bound;
+  a reduced cosine within 1E-10 of zero is refused as `DOMAIN ERROR`.
 - `FNINT` compares 32- and 64-panel composite-Simpson estimates and may refine
   once to 128 panels. It reports `DIVIDE BY ZERO` for an undefined sample and
   `NO CONVERGENCE` when the bounded comparison misses the selected tolerance.
@@ -38,11 +42,11 @@ it is not a binary-compatible replacement for Texas Instruments firmware.
 - The programming environment provides four programs of eight 48-character
   lines each, eight nested control frames, and four nested calls. `FOR` bounds
   are single digits from 0 through 9 and its step is always positive one.
-- Free85 2.12.0 retains the frozen persistent RAM schema 13 and object-store schema 1. It
+- Free85 2.14.0 retains the frozen persistent RAM schema 13 and object-store schema 1. It
   migrates schema 12 transactionally; unsupported or corrupt schema headers
   are reset rather than interpreted speculatively.
 - The browser integration targets the repository's TI-85-compatible emulator;
-  physical-hardware installation is not part of the 2.12.0 release validation.
+  physical-hardware installation is not part of the 2.14.0 release validation.
 
 The accepted Phase 15 roadmap owns the numerical and workflow limitations
 above for Free85 2.20. Larger dynamic collections and program stores remain a

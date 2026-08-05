@@ -34,7 +34,7 @@
     {
       "id": "15.2",
       "name": "trigonometric-range-reduction",
-      "status": "planned",
+      "status": "complete",
       "release": "2.14.0",
       "dependsOn": ["15.1"],
       "owns": ["numeric.trig-reduction"],

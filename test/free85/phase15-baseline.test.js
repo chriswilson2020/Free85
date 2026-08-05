@@ -72,7 +72,7 @@ function programOutput(harness) {
   return String.fromCharCode(...bytes);
 }
 
-test.todo("[phase15.trig-range] large representable angles remain numerically supported", () => {
+test("[phase15.trig-range] large representable angles remain numerically supported", () => {
   for (const angle of [400, 1000, -1000]) {
     const harness = evaluate(`SIN(${angle})`);
     assert.equal(harness.machine.read8(FREE85_NUMERIC_ERROR_ADDRESS), 0, `SIN(${angle})`);

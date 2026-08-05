@@ -136,7 +136,7 @@ The specimen is x + 2y = 5 and 3x + 4y = 11, two lines designed to cross at
 1. Press [2nd] [7], then [x-VAR] [+] for `SIZE 2X3`, and type the tableau:
    [1] [ENTER] [2] [ENTER] [5] [ENTER] [3] [ENTER] [4] [ENTER] [1] [1]
    [ENTER]. The entry wraps home, and [MORE] [MORE] brings back the
-   row-operation page `REF SWAP RADD RMUL`.
+   row-operation page `REF SWP RADD RMUL AUG`.
 
 2. First move: subtract three copies of row 1 from row 2.
 
@@ -196,7 +196,7 @@ one unmoving point beneath all of them.
 
 **Try it.**
 
-1. Rerun the elimination after a [F2], `SWAP`, so the 3, 4, 11 row is on
+1. Rerun the elimination after a [F2], `SWP`, so the 3, 4, 11 row is on
    top. The moves need different scales; predict whether the finished
    tableau differs before you start.
 2. Rescale row 1 of the original tableau by 10 with `RMUL`, carry the
@@ -641,12 +641,26 @@ the multipliers of the unit lower triangle `L` below.
    diagonal and count the swaps", and this is the case that teaches you the
    second half.
 
-   The row order itself, 2 then 1 then 3, lands in the vector editor's
-   result register as the factorisation runs, overwriting whatever was
-   there. Keep nothing precious in that register when `LU` runs. That is a
-   wart and I know it: the permutation had to go somewhere, and a register
+   The row order itself is on the screen with the answer. Below the cell
+   value the result reads `P:213`: one digit per row, giving the original
+   rows in the order the factorisation used them, so the second row went
+   first. Read that against the top row you have just stepped through and
+   the swap is something you can see rather than something you deduce. A
+   factorisation that needed no swap reads `P:123`.
+
+   That line is new in firmware 2.21. Before it, the permutation was
+   written into the vector editor's result register, overwriting whatever
+   was there, and this book told you to keep nothing precious in that
+   register while `LU` ran. I called it a wart at the time, and defended it
+   in the same breath: the permutation had to go somewhere, and a register
    that already existed was cheaper than a new object with a new type and a
    new way of being displayed.
+
+   It was cheaper. It was also a calculation quietly destroying data you
+   had put somewhere else, which is a different kind of cost and one I was
+   counting at zero. Vector `R` now survives `LU` untouched, real and
+   imaginary parts both, and the permutation has the two lines of display
+   it should have had from the start.
 
 On a machine whose world is 3 by 3, the saving `LU` represents is a lesson
 rather than a speed-up. But it is the right lesson: `SOLVE`, `INV` and

@@ -132,8 +132,8 @@ chapter 18 will show you what the machine is actually holding.
 ## A word on the machine's limits
 
 Free85 keeps three graph slots, lists of eight samples, matrices no larger
-than 3 by 3, vectors of three components, polynomials to degree 4, whole
-exponents from -9 to 9, and four program slots of eight lines each.
+than 3 by 3, vectors of three components, polynomials to degree 4, and four
+program slots of eight lines each.
 
 Those numbers are not accidents and they are not apologies. Each of them is
 a decision I made, mostly about how much of a very small machine to spend on

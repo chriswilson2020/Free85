@@ -373,49 +373,56 @@ functions; here they earn their keep as graphs.
    reflection is still true and no longer looks true, which is exactly the
    sort of thing section 1.1 warned about.
 
-### Where the power key gives up
+### Two routes to the same power
 
 3. Compound growth at six per cent per year is the function 1.06 to the
-   power x. Try it directly and something surprising happens.
+   power x. Type it directly and it simply works: `1.06^2` answers
+   `= 1.1236`, `1.06^2.5` answers `= 1.1568170026417`, and a slot holding
+   `1.06^X` plots the whole curve.
 
-   On a cleared home entry line, `1.06^2` answers `= 1.1236`, which is
-   right. But `1.06^2.5` answers `DOMAIN ERROR`, and a slot holding
-   `1.06^X` plots axes with no curve at all, because almost every sample
-   column asks for a fractional power.
+   So far so dull. What is worth knowing is that two quite different
+   machines live behind that one key, and which of them answered you
+   decides how much of the answer to believe.
 
-   That looks like something broken, and it is the thing I get asked about
-   most, so here is what is actually going on in there.
+   A whole-number exponent is done by repeated squaring. Squaring and
+   multiplying are exact, so the answer is exact: `1.06^2` really is
+   `1.1236` and nothing has been rounded on the way. Any other real
+   exponent, on a positive base, is done as e to the power x ln b: a
+   logarithm and an exponential, each rounded to fourteen digits.
 
-   The `^` key is a multiply loop. It takes a copy of the left-hand number,
-   multiplies it by itself, and goes round again, counting down as it goes.
-   The counter is a single packed-decimal digit, because that was the
-   smallest thing that would do the job, and a one-digit counter counts to
-   nine. Before any of that starts, the routine looks at every digit of the
-   exponent after the first and refuses if any of them is not zero, which
-   is how it satisfies itself that you have handed it a whole number.
+   Three cases have no answer to give, and say so instead of guessing. A
+   negative base with a fractional exponent has no real value, so
+   `(-2)^0.5` answers `DOMAIN ERROR`. Zero to a negative power is a
+   division by zero, so `0^(-1)` answers `DIVIDE BY ZERO`. Anything too big
+   for the numeric range answers `NUMERIC OVERFLOW`.
 
-   So `^` takes whole numbers from -9 through 9 and nothing else.
-   `1.06^2.5` is not the power routine failing. It is the power routine
-   correctly noticing that it has been handed something it has no method
-   for, and saying so rather than guessing.
+4. You can see the join between the two routes, and you should, because it
+   is the clearest look at rounding you will get in this chapter.
 
-4. The way through is an identity you will use all over this book: b to the
-   power x is e to the power x ln b. Both of those the machine does have.
+   That identity, b to the power x is e to the power x ln b, is exactly
+   what the key does for the general case. So type it yourself and compare.
+   Press [CLEAR] and type `EXP(2*LN(1.06))`: `= 1.1236000000004`. The
+   power key answered `= 1.1236`.
 
-   Press [CLEAR] and type `EXP(2.5*LN(1.06))`: `= 1.1568170026417`. And the
-   slot text `EXP(X*LN(1.06))` plots the whole curve, smoothly, with no
-   complaint.
+   Same number in mathematics. Different number here, from the eleventh
+   digit on. One is two exact multiplications; the other is a logarithm and
+   an exponential, each rounded, and the roundings do not cancel.
 
-   It is worth knowing where the join is. `1.06^2` and `EXP(2*LN(1.06))`
-   are the same number mathematically and they are not always the same
-   number here: one is two exact multiplications, the other is a logarithm
-   and an exponential, each rounded to fourteen digits. Try both and see
-   how far down they part company.
+   Try `1.06^9` against `EXP(9*LN(1.06))`: `= 1.6894789590026` against
+   `= 1.6894789590072`. The gap has grown, because nine steps of rounding
+   is more than two.
+
+   Neither is a bug and neither is the "real" answer. They are two
+   calculations of the same quantity, and the exact one is available only
+   when the exponent is a whole number. Knowing which route your expression
+   took is the whole of the skill here.
 
 5. As a taste of where this leads, 500 invested at six per cent for eight
-   years is `500*EXP(8*LN(1.06))`, which answers `= 796.92403726725`.
-   Chapter 2 takes the mathematics of money much further, and it takes this
-   identity with it.
+   years is `500*1.06^8`, which answers `= 796.9240372654`, while
+   `500*EXP(8*LN(1.06))` answers `= 796.92403726725`. Not quite two
+   hundredths of a penny apart, on five hundred pounds, from nothing but
+   the route taken. Chapter 2 takes the mathematics of money much further,
+   and it takes this identity with it.
 
 **Try it.**
 
@@ -430,8 +437,10 @@ functions; here they earn their keep as graphs.
    units.
 4. Work out `1.06^9` two ways, with the power key and with the identity,
    and compare all fourteen digits. Which do you trust more, and why?
-5. Predict what `1.06^-3` does before you press it. Then predict
-   `1.06^10`. Only one of them works; say which and why from step 3.
+5. Predict which route each of `1.06^-3`, `1.06^10` and `1.06^0.5` takes
+   before you press it, and therefore which of the three is exact. Then
+   check by computing each one again through `EXP(` and `LN(` and seeing
+   which answers move.
 
 ## 1.6 Trigonometric functions
 

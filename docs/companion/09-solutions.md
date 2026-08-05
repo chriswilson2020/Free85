@@ -255,16 +255,21 @@ The identity is not less accurate because it is cleverer. It is less
 accurate because it goes the long way round, and it exists for the cases
 where the short way is not available at all.
 
-**5.** `1.06^-3` works and answers `= 0.8396192830323`, because -3 is a
-whole number inside the range -9 to 9.
+**5.** All three work. What differs is the route each one takes, and
+therefore whether the answer is exact.
 
-`1.06^10` fails, because 10 is a whole number *outside* it. The counter in
-the multiply loop is one packed-decimal digit and a one-digit counter counts
-to nine.
+`1.06^-3` and `1.06^10` have whole-number exponents, so both go by repeated
+squaring and both are exact: `= 0.8396192830323` and `= 1.7908476965428`.
+`1.06^0.5` does not, so it goes through the logarithm and the exponential,
+and answers `= 1.0295630140986`.
 
-So the limit is not about fractions, as the section's `1.06^2.5` might
-suggest. It is about the size of the exponent as well, and both come from
-the same digit. For 10 you want `EXP(10*LN(1.06))`.
+Checking with the identity is the test, and it separates the two routes
+cleanly. `EXP(10*LN(1.06))` answers `= 1.7908476965481` against the key's
+`= 1.7908476965428`: the identity took the long way round for an exponent
+that did not need it, and the last three digits paid for it.
+`EXP(0.5*LN(1.06))` answers `= 1.0295630140986`, agreeing with `1.06^0.5`
+to every digit, because for a fractional exponent the identity is not an
+alternative to what the key does. It is a description of it.
 
 ### 1.6 Trigonometric functions
 
@@ -1861,7 +1866,8 @@ in a way that matters. `COND` in section 6.3 is the number that does.
 
 ### 6.2 Row operations as algebra you can watch
 
-**1.** After `SWAP` the tableau is 3, 4, 11 on top and 1, 2, 5 beneath. The
+**1.** After the swap ([F2], `SWP`) the tableau is 3, 4, 11 on top and
+1, 2, 5 beneath. The
 first move is now to subtract a third of the top row from the bottom, so the
 scale is -1/3 rather than -3, and the numbers along the way are messier.
 
@@ -1881,7 +1887,7 @@ moves, and the licence is precisely that it does not change the solution
 set.
 
 **3.** Elimination cannot start with a zero in the pivot position, so the
-single move needed is `SWAP`, putting 1, 1, 4 on top.
+single move needed is the swap ([F2], `SWP`), putting 1, 1, 4 on top.
 
 Then subtract nothing (the new second row already has 0 in the first
 column), rescale row 2 by a half to get 0, 1, 3, and clear the 1 above it.

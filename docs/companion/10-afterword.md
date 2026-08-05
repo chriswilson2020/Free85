@@ -5,8 +5,7 @@ an oracle.
 
 Here is what it has, written out plainly. Three graph slots. Lists of eight
 samples. Matrices no bigger than 3 by 3. Vectors of three components.
-Polynomials to degree 4. Whole exponents from -9 to 9. Four programs of
-eight lines. An entry line of forty-eight characters, and a program line of
+Polynomials to degree 4. Four programs of eight lines. An entry line of forty-eight characters, and a program line of
 the same forty-eight, because they share a buffer. One first-order equation
 in the DifEq mode, and one equation in the solver. Fourteen significant
 digits, which is seven bytes of packed decimal.

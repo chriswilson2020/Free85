@@ -155,7 +155,7 @@ Reading from the top:
   `ENG`, or `FIX`) on the left, and the editor state on the right (`INS` for
   insert mode, `OVR` for overwrite, and `LOCK` when alpha lock is on).
 - **Title banner.** `FREE85 HOME` tells you which screen you are on.
-- **Version banner.** `VERSION 2.20` names the firmware release and
+- **Version banner.** `VERSION 2.21` names the firmware release and
   disappears as soon as you type.
 - **Entry line.** The underscore is the cursor. Whatever you type appears
   here.

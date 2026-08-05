@@ -21,9 +21,13 @@ p14_graph_init:
     LD HL, p6_const_zero
     LD DE, P16_INITIAL_Y
     CALL numeric_copy
+    LD HL, p6_const_zero
+    LD DE, P23_INITIAL_Y2
+    CALL numeric_copy
     XOR A
     LD (P16_METHOD), A
     LD (P16_SETUP_FIELD), A
+    LD (P23_SYSTEM_FLAGS), A
     LD HL, const_two
     LD DE, GRAPH_ZOOM_FACTOR
     CALL numeric_copy
@@ -264,13 +268,13 @@ p14_graph_panel_key:
     JP Z, p22_window_key
     CP KEY_EXIT
     JP Z, p14_graph_redraw
-    CP KEY_MORE
-    JP Z, .format_more
     LD B, A
     LD A, (GRAPH_PANEL_PAGE)
     CP 3
     LD A, B
     JP Z, p16_diffeq_setup_key
+    CP KEY_MORE
+    JP Z, .format_more
     CP KEY_F1
     JR C, .format_render
     CP KEY_F5 + 1

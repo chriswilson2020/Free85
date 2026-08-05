@@ -195,6 +195,14 @@ P16_SOLVE_STEPS     EQU P16_SETUP_FIELD + 1
 P7_COMPLEX_A        EQU $8720
 P7_COMPLEX_B        EQU P7_COMPLEX_A + NUM_SIZE * 2
 P7_COMPLEX_RESULT   EQU P7_COMPLEX_B + NUM_SIZE * 2
+; Phase 17.3 uses the ten-byte gap after the complex result planes for the
+; second DEQ initial state and its persisted system/view flags.  Collection
+; registers retain their established addresses.
+P23_INITIAL_Y2      EQU P7_COMPLEX_RESULT + NUM_SIZE * 2
+P23_SYSTEM_FLAGS    EQU P23_INITIAL_Y2 + NUM_SIZE
+P23_FLAG_SYSTEM     EQU $01
+P23_FLAG_PHASE      EQU $02
+    ASSERT P23_SYSTEM_FLAGS + 1 <= P16_INITIAL_X
 
 P7_LIST_MAX         EQU 8
 P7_LIST_A           EQU $8780

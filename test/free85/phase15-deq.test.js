@@ -96,6 +96,25 @@ function createLegacyGdeq(harness) {
   return { entry, payload };
 }
 
+function createV2Gdeq(harness) {
+  for (let index = 0; index < 9; index += 1) {
+    harness.machine.write8(NAME_BUFFER + index, index < 4 ? "GDEQ".charCodeAt(index) : 0);
+  }
+  const state = callStore(harness.machine, 0x400e, { A: 10, BC: 224, HL: NAME_BUFFER });
+  assert.equal(state.flags.C, false);
+  const entry = state.registers.HL;
+  const payload = state.registers.DE;
+  for (const [index, value] of [2, 1, 0, 0, 2].entries()) harness.machine.write8(payload + index, value);
+  packed(3).forEach((byte, index) => harness.machine.write8(payload + 5 + index, byte));
+  packed(4).forEach((byte, index) => harness.machine.write8(payload + 14 + index, byte));
+  for (let index = 0; index < 36; index += 1) harness.machine.write8(payload + 23 + index, harness.machine.read8(GRAPH_XMIN + index));
+  for (let index = 0; index < 18; index += 1) harness.machine.write8(payload + 59 + index, harness.machine.read8(0x8636 + index));
+  for (let index = 0; index < 147; index += 1) harness.machine.write8(payload + 77 + index, 0);
+  harness.machine.write8(payload + 77, 1);
+  harness.machine.write8(payload + 78, "1".charCodeAt(0));
+  return { entry, payload };
+}
+
 function configuredDeq({ equation = "1", x0 = -10, y0 = 0, method = 0, xmin = -10, xmax = 10 } = {}) {
   const harness = Free85Harness.boot();
   harness.tap("GRAPH");
@@ -134,9 +153,8 @@ test("[phase15.deq-setup] X0, Y0, method, reset, and redraw have a visible editi
   harness.tap("MORE");
   assertLcdGolden("phase15-deq-setup", harness.machine.renderLcdBitmap());
 
-  harness.tap("F1");
-  assert.equal(harness.machine.read8(P16_METHOD), 1, "F1 selects Heun");
   harness.tap("F2");
+  assert.equal(harness.machine.read8(P16_METHOD), 1, "F2 selects Heun");
   harness.tap("+");
   assert.equal(harness.packedNumber(P16_INITIAL_X), -9);
   harness.tap("F3");
@@ -162,10 +180,14 @@ test("[phase15.deq-orders] Euler, Heun, and RK4 exhibit first-, second-, and fou
 
 test("[phase15.deq-persistence] edited setup survives mode switches without deleting GDEQ", () => {
   const harness = configuredDeq({ x0: -9, y0: 2, method: 2 });
+  harness.runFrames(3000);
   finishPlot(harness);
+  harness.runFrames(20);
   openModePage(harness);
   harness.tap("F1");
   finishPlot(harness);
+  assert.equal(harness.machine.read8(GRAPH_MODE), 0, "F1 leaves DEQ and saves its payload");
+  harness.runFrames(20);
   openModePage(harness);
   harness.tap("F4");
   finishPlot(harness);
@@ -191,9 +213,34 @@ test("[phase15.deq-migration] a v1 GDEQ loads compatibly and grows transactional
   openModePage(harness);
   harness.tap("F1");
   finishPlot(harness);
-  assert.equal(harness.machine.read16(entry + 13), 224);
+  assert.equal(harness.machine.read16(entry + 13), 234);
   const payload = harness.machine.read16(entry + 11);
-  assert.equal(harness.machine.read8(payload), 2);
+  assert.equal(harness.machine.read8(payload), 3);
+});
+
+test("[phase17.3.deq-v2-migration] a v2 GDEQ remains single-state and grows only when saved", () => {
+  const harness = Free85Harness.boot();
+  const { entry } = createV2Gdeq(harness);
+  harness.tap("GRAPH");
+  finishPlot(harness);
+  openModePage(harness);
+  harness.tap("F4");
+  harness.runFrames(6000);
+  finishPlot(harness);
+  assert.equal(harness.packedNumber(P16_INITIAL_X), 3);
+  assert.equal(harness.packedNumber(P16_INITIAL_Y), 4);
+  assert.equal(harness.machine.read8(P16_METHOD), 2);
+  assert.equal(harness.machine.read8(0x875f), 0, "v2 defaults to single-state mode");
+  assert.equal(harness.packedNumber(0x8756), 0, "v2 gets a zero second state");
+  assert.equal(harness.machine.read16(entry + 13), 224, "load is non-mutating");
+
+  harness.runFrames(20);
+  openModePage(harness);
+  harness.tap("F1");
+  finishPlot(harness);
+  assert.equal(harness.machine.read8(GRAPH_MODE), 0, "F1 leaves the migrated DEQ mode");
+  assert.equal(harness.machine.read16(entry + 13), 234);
+  assert.equal(harness.machine.read8(harness.machine.read16(entry + 11)), 3);
 });
 
 test("[phase15.deq-work-limit] distant initial conditions fail with bounded non-convergence", () => {

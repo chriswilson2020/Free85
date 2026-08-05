@@ -1,0 +1,72 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import test from "node:test";
+
+const readJson = (path) => readFile(path, "utf8").then(JSON.parse);
+
+test("[phase17.roadmap] Free85 3.0 owns every approved capability exactly once", async () => {
+  const roadmap = await readJson("spec/free85/v3-roadmap.yaml");
+  const ledger = await readJson("spec/free85/v3-capabilities.yaml");
+  const packages = new Map(roadmap.workPackages.map((entry) => [entry.id, entry]));
+  const positions = new Map(roadmap.workPackages.map(({ id }, index) => [id, index]));
+  const owned = roadmap.workPackages.flatMap(({ owns }) => owns)
+    .filter((id) => !id.startsWith("release.") && id !== "workspace.migration-contract");
+  const registered = ledger.capabilities.map(({ id }) => id);
+
+  assert.equal(roadmap.release, "3.0.0");
+  assert.equal(roadmap.umbrellaPhase, 17);
+  assert.deepEqual([...owned].sort(), [...registered].sort());
+  assert.equal(new Set(registered).size, registered.length);
+  for (const workPackage of roadmap.workPackages) {
+    assert.ok(["complete", "planned"].includes(workPackage.status), `${workPackage.id}: status`);
+    assert.ok(workPackage.gates.length >= 3, `${workPackage.id}: gates`);
+    for (const dependency of workPackage.dependsOn) {
+      assert.ok(packages.has(dependency), `${workPackage.id}: unknown dependency ${dependency}`);
+      assert.ok(positions.get(dependency) < positions.get(workPackage.id), `${workPackage.id}: dependency order`);
+    }
+  }
+});
+
+test("[phase17.versioning] development builds advance monotonically to one final 3.0", async () => {
+  const roadmap = await readJson("spec/free85/v3-roadmap.yaml");
+  const releases = roadmap.workPackages.flatMap(({ release }) => release ? [release] : []);
+  assert.deepEqual(releases, [
+    "3.0.0-dev.1",
+    "3.0.0-dev.2",
+    "3.0.0-dev.3",
+    "3.0.0-dev.4",
+    "3.0.0"
+  ]);
+  assert.equal(roadmap.workPackages.at(0).status, "complete");
+  assert.deepEqual(roadmap.workPackages.at(-1).dependsOn, roadmap.workPackages.slice(0, -1).map(({ id }) => id));
+});
+
+test("[phase17.migration] the major-release boundary has transactional source and target schemas", async () => {
+  const roadmap = await readJson("spec/free85/v3-roadmap.yaml");
+  const architecture = roadmap.architecture;
+  assert.equal(architecture.stateSchemaBaseline, 13);
+  assert.equal(architecture.targetStateSchema, 14);
+  assert.equal(architecture.objectStoreSchemaBaseline, 1);
+  assert.equal(architecture.targetObjectStoreSchema, 2);
+  assert.equal(architecture.targetGraphDatabaseVersion, 3);
+  assert.ok(architecture.migrationSources.length >= 2);
+  assert.match(architecture.rollbackRule, /leaves .* unchanged/);
+});
+
+test("[phase17.scope] the bounded expansion preserves the sandbox contract", async () => {
+  const ledger = await readJson("spec/free85/v3-capabilities.yaml");
+  const ids = ledger.capabilities.map(({ id }) => id);
+  assert.deepEqual(ids.sort(), [
+    "collections.matrix-3x6",
+    "graph.diffeq-system",
+    "graph.phase-plane",
+    "graph.picture-overlay",
+    "graph.window-editor",
+    "workspace.dynamic-matrix"
+  ]);
+  for (const capability of ledger.capabilities) {
+    assert.equal(capability.status, "baseline-limitation", capability.id);
+    assert.ok(capability.baselineEvidence.length >= 2, `${capability.id}: evidence`);
+    assert.ok(capability.acceptance.length >= 3, `${capability.id}: acceptance`);
+  }
+});

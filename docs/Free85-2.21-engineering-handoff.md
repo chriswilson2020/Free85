@@ -36,3 +36,6 @@ General real power is intentionally slower than integer power because it runs
 both logarithm and exponential kernels. Validation waits up to 240 emulated
 frames for that bounded path to complete rather than sampling intermediate
 numeric workspace.
+
+The separate book process should execute the exact claim, example, screenshot,
+and verification changes in `spec/free85/v2.21-book-impact.yaml`.

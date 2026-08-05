@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "baselineRelease": "2.21.0",
+  "targetRelease": "3.0.0",
+  "statuses": ["baseline-limitation", "in-progress", "resolved"],
+  "capabilities": [
+    {
+      "id": "graph.window-editor",
+      "status": "baseline-limitation",
+      "owner": "17.1",
+      "summary": "Graph windows can be zoomed and recalled but their four bounds cannot be entered directly as numeric expressions.",
+      "baselineEvidence": ["firmware/free85/graph/phase14.asm", "docs/known-limitations.md"],
+      "acceptance": ["four direct fields", "atomic validation", "exact LCD and persistence coverage"]
+    },
+    {
+      "id": "graph.picture-overlay",
+      "status": "baseline-limitation",
+      "owner": "17.2",
+      "summary": "StPic and RcPic preserve a framebuffer, but starting a new graph clears the recalled picture instead of using it as an underlay.",
+      "baselineEvidence": ["firmware/free85/graph/phase15.asm:p15_recall_picture", "test/free85/graph-phase15.test.js:[graph.phase15-picture]"],
+      "acceptance": ["explicit one-shot underlay", "stored object immutability", "clear recall overlay and cancellation fixtures"]
+    },
+    {
+      "id": "graph.diffeq-system",
+      "status": "baseline-limitation",
+      "owner": "17.3",
+      "summary": "DEQ integrates one first-order state equation and therefore cannot represent coupled dynamic systems.",
+      "baselineEvidence": ["firmware/free85/graph/phase16.asm:p16_diffeq_step", "test/free85/phase15-deq.test.js"],
+      "acceptance": ["two equation slots", "shared-stage two-state integration", "transactional GDEQ migration"]
+    },
+    {
+      "id": "graph.phase-plane",
+      "status": "baseline-limitation",
+      "owner": "17.3",
+      "summary": "The graph engine has no view which plots one integrated state against another.",
+      "baselineEvidence": ["firmware/free85/graph/phase16.asm:p16_graph_prepare_plot", "docs/known-limitations.md"],
+      "acceptance": ["selectable time and phase views", "traceable x-y samples", "reviewed phase-plane framebuffer"]
+    },
+    {
+      "id": "workspace.dynamic-matrix",
+      "status": "baseline-limitation",
+      "owner": "17.4",
+      "summary": "Matrix registers are fixed-address 3x3 real and imaginary planes whose layout cannot safely grow in place.",
+      "baselineEvidence": ["firmware/free85/include/memory.inc:P7_MATRIX_MAX", "firmware/free85/include/memory.inc:P18_MATRIX_A_IMAG"],
+      "acceptance": ["versioned workspace descriptor", "schema-13 migration", "atomic capacity and rollback semantics"]
+    },
+    {
+      "id": "collections.matrix-3x6",
+      "status": "baseline-limitation",
+      "owner": "17.4",
+      "summary": "The 3x3 matrix ceiling cannot hold the 3x6 augmented tableau needed for a small two-variable simplex exercise.",
+      "baselineEvidence": ["firmware/free85/collections/phase7.asm:p7_resize_matrix_grow", "test/free85/collections.test.js"],
+      "acceptance": ["3x6 editing and display", "rectangular row operations and RREF", "complex metadata and USE R preservation"]
+    }
+  ]
+}

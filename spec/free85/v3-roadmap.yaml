@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "release": "3.0.0",
+  "umbrellaPhase": 17,
+  "requires": ["free85-2.21.0"],
+  "completionRule": "Every Phase 17 capability is implemented with migration, visual, numerical, performance, and failure coverage, and the final 3.0 release gate passes",
+  "versionPolicy": "Merged feature packages use ordered 3.0.0 development prereleases; only the final hardening package removes the prerelease suffix",
+  "bookPolicy": "Implementation packages update engineering contracts and the book-impact ledger only; manual, guidebook, companion, and typeset book sources remain owned by the separate editorial process",
+  "architecture": {
+    "stateSchemaBaseline": 13,
+    "objectStoreSchemaBaseline": 1,
+    "graphDatabaseBaseline": 2,
+    "targetStateSchema": 14,
+    "targetObjectStoreSchema": 2,
+    "targetGraphDatabaseVersion": 3,
+    "migrationSources": [
+      "state schema 13 with object-store schema 1",
+      "graph databases of 213-byte v1 or 224-byte v2 form"
+    ],
+    "rollbackRule": "Every growth or migration validates capacity before mutation; failure leaves the last valid object and public registers unchanged",
+    "ramStrategy": [
+      "window editing reuses the bounded expression editor and packed-decimal evaluator",
+      "picture overlays render directly from a validated named picture object and do not reserve a second permanent 1024-byte framebuffer",
+      "two-state DEQ adds bounded packed-decimal state and grows GDEQ transactionally",
+      "3x6 complex matrix registers move behind a versioned workspace descriptor rather than consuming the stack or LCD pages"
+    ]
+  },
+  "workPackages": [
+    {
+      "id": "17.0",
+      "name": "major-release-contract-and-baselines",
+      "status": "complete",
+      "release": null,
+      "dependsOn": [],
+      "owns": ["release.contract", "workspace.migration-contract"],
+      "gates": [
+        "all four approved expansions have one work-package owner and executable acceptance criteria",
+        "the release is classified as 3.0 because matrix capacity crosses the persistent workspace boundary",
+        "migration, rollback, versioning, and deferred-book rules are explicit before firmware state changes"
+      ]
+    },
+    {
+      "id": "17.1",
+      "name": "direct-window-editor",
+      "status": "planned",
+      "release": "3.0.0-dev.1",
+      "dependsOn": ["17.0"],
+      "owns": ["graph.window-editor"],
+      "gates": [
+        "XMIN XMAX YMIN and YMAX accept direct evaluated numeric entry",
+        "invalid non-finite or unordered bounds preserve the previous complete window and report the correct diagnostic",
+        "cursor editing cancellation persistence graph redraw and reviewed LCD fixtures are deterministic"
+      ]
+    },
+    {
+      "id": "17.2",
+      "name": "picture-underlay-overlays",
+      "status": "planned",
+      "release": "3.0.0-dev.2",
+      "dependsOn": ["17.1"],
+      "owns": ["graph.picture-overlay"],
+      "gates": [
+        "a recalled named picture can be armed as the underlay for the next graph without clearing its pixels",
+        "overlay state is explicit cancellable and does not silently alter the stored picture object",
+        "normal redraw still clears normally and exact framebuffer tests distinguish recall overlay cancellation and missing-object paths"
+      ]
+    },
+    {
+      "id": "17.3",
+      "name": "two-state-differential-equations",
+      "status": "planned",
+      "release": "3.0.0-dev.3",
+      "dependsOn": ["17.1", "17.2"],
+      "owns": ["graph.diffeq-system", "graph.phase-plane"],
+      "gates": [
+        "DEQ accepts two coupled first-order equations with directly editable independent and state initial conditions",
+        "Euler Heun and RK4 advance both states from the same old-state stage and meet measured convergence orders",
+        "time-series and phase-plane views are selectable persistent bounded cancellable and covered by reviewed framebuffers"
+      ]
+    },
+    {
+      "id": "17.4",
+      "name": "dynamic-3x6-matrix-workspace",
+      "status": "planned",
+      "release": "3.0.0-dev.4",
+      "dependsOn": ["17.0"],
+      "owns": ["workspace.dynamic-matrix", "collections.matrix-3x6"],
+      "gates": [
+        "matrix A B R and work registers preserve complex 3x3 behaviour and accept up to 3 rows by 6 columns",
+        "editing row operations augmentation transpose multiplication RREF and result chaining use dimensions rather than a packed 3x3 stride",
+        "schema-13 and object-store-v1 state migrates transactionally with capacity failure corruption and rollback tests"
+      ]
+    },
+    {
+      "id": "17.5",
+      "name": "free85-3.0-release-hardening",
+      "status": "planned",
+      "release": "3.0.0",
+      "dependsOn": ["17.0", "17.1", "17.2", "17.3", "17.4"],
+      "owns": ["release.3.0"],
+      "gates": [
+        "all Phase 17 planned probes are ordinary passing tests and every development version advances monotonically",
+        "public visual numerical randomized migration performance stress soak reproducibility Pages and optional oracle lanes pass",
+        "the final ROM manifest and book-impact ledger bind every changed behaviour to exact source tests and framebuffer evidence"
+      ]
+    }
+  ]
+}

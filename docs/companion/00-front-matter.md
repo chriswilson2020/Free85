@@ -78,10 +78,24 @@ The conventions belong to the Guidebook and this book inherits them:
   which figures came off the machine and which are explaining the
   mathematics behind it.
 
-Every section closes with a **Try it** block of exercises. The answers are
-not printed, because the machine is the answer key: nearly every exercise is
-answerable with the technique the section has just shown. Where one is not,
-the chapter says so and sends you to paper.
+Every section closes with a **Try it** block of exercises. Nearly every one
+is answerable with the technique the section has just shown, and where one
+is not, the chapter says so and sends you to paper.
+
+Chapter 9 works all of them out, with the key presses and the numbers the
+machine gives back.
+
+I went back and forth about printing those. An answer at the back of the
+book is a temptation, and the machine really is the best answer key there
+is: press the keys and it tells you. But an answer you cannot check is
+worth very little when you are working alone, and being stuck with no way
+forward is how people stop.
+
+So the answers are there, and I would ask you to use them the way you would
+use a friend who already knows: after you have had a proper go, and to find
+out *why*, not just *what*. Several of the solutions do something the
+exercise did not ask for, because the interesting part turned out to be
+somewhere else.
 
 Some exercises ask you to predict or sketch something **before** you press a
 key, and tell you to write the guess down. Please do. Being wrong on paper
@@ -169,5 +183,8 @@ there, and goes round. That turns out to be the most useful thing in it.
    forms, a shooting method for a boundary-value problem, and vectors in
    the round.
 
-[Afterword: after the last exploration](09-afterword.md): what a bounded
+9. [Solutions](09-solutions.md): every Try it exercise in the book, worked
+   through with its key presses and the numbers that come back.
+
+[Afterword: after the last exploration](10-afterword.md): what a bounded
 instrument is for.

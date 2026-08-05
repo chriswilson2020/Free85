@@ -212,7 +212,10 @@ function markNumHeavyBlocks(html) {
 function hangSectionNumbers(html, stats) {
   return html.replace(/<h2 id="([^"]+)">(\d+\.\d+)\s+([\s\S]*?)<\/h2>/g,
     (m, id, no, title) => {
-      stats.sections += 1;
+      // Chapter 9's sections are worked solutions and have no Try it panel,
+      // so they are tallied apart from the explorations they answer.
+      if (no.startsWith("9.")) stats.solutions += 1;
+      else stats.sections += 1;
       return `<h2 id="${id}" data-secno="${no}">${title.trim()}</h2>`;
     });
 }
@@ -731,13 +734,13 @@ function buildManual() {
 // standfirsts, framed screenshots, keycaps) plus two things of its own — the
 // numbered section headings and the Try it exercise panels.
 function buildCompanion() {
-  const stats = { keycaps: 0, callouts: 0, figures: 0, diagrams: 0, chapters: 0, appendices: 0, sections: 0, tryits: 0 };
+  const stats = { keycaps: 0, callouts: 0, figures: 0, diagrams: 0, chapters: 0, appendices: 0, sections: 0, tryits: 0, solutions: 0 };
   const sources = readdirSync(`${root}docs/companion/`)
     .filter((f) => /^\d\d-.*\.md$/.test(f)).sort()
     .map((f) => `${root}docs/companion/${f}`);
-  if (sources.length !== 10) {
-    throw new Error(
-      `companion: expected front matter + 8 chapters + afterword, found ${sources.length} sources`);
+  if (sources.length !== 11) {
+    throw new Error("companion: expected front matter + 8 chapters + solutions "
+      + `+ afterword, found ${sources.length} sources`);
   }
 
   let html = pandocBody(sources, `${root}docs/companion`);
@@ -771,8 +774,8 @@ function buildCompanion() {
   for (const m of bookBody.matchAll(/<header class="chapter-opener" data-chapter="(\d+)">[\s\S]*?<h1 id="([^"]+)">([^<]+)<\/h1>/g)) {
     chapters.push({ group: "Chapters", no: m[1], id: m[2], title: m[3] });
   }
-  if (chapters.length !== 8) {
-    throw new Error(`companion: expected 8 chapter TOC entries, found ${chapters.length}`);
+  if (chapters.length !== 9) {
+    throw new Error(`companion: expected 9 chapter TOC entries, found ${chapters.length}`);
   }
   const afterword = bookBody.match(
     /<header class="chapter-opener appendix-opener afterword-opener">.*?<h1 id="([^"]+)">([^<]+)<\/h1>/);
@@ -786,10 +789,18 @@ function buildCompanion() {
   // blank line above it: pandoc then reads the heading as ordinary paragraph
   // text, the section silently disappears from the book and the TOC, and
   // nothing else in the build notices. That has happened once.
+  // Chapter 9 is the solutions and carries no Try it panels of its own, so
+  // it is counted separately and excluded from the comparison.
   if (stats.sections !== stats.tryits) {
-    throw new Error(`companion: ${stats.sections} numbered sections but `
-      + `${stats.tryits} Try it panels. A section heading has probably lost `
-      + `the blank line above it and been swallowed into the previous paragraph.`);
+    throw new Error(`companion: ${stats.sections} numbered sections in chapters `
+      + `1 to 8 but ${stats.tryits} Try it panels. A section heading has `
+      + `probably lost the blank line above it and been swallowed into the `
+      + `previous paragraph.`);
+  }
+  // Chapter 9 answers every Try it panel, one solution section per chapter.
+  if (stats.solutions !== 8) {
+    throw new Error("companion: expected 8 solution sections, one per "
+      + `chapter, found ${stats.solutions}`);
   }
   frontMatter += tocHtml([...entries, ...chapters]);
 
@@ -814,8 +825,9 @@ function buildCompanion() {
   checkPrintHygiene("Free85-Companion-typeset", doc);
   console.log(`companion: ${stats.keycaps} keycaps, ${stats.figures} framed screenshots, `
     + `${stats.diagrams} maths diagram${stats.diagrams === 1 ? "" : "s"}, `
-    + `${stats.chapters} chapters, ${stats.sections} numbered sections, ${stats.tryits} Try it panels`);
-  render("Free85-Companion-typeset", doc, { minPages: 90, maxPages: 200 });
+    + `${stats.chapters} chapters, ${stats.sections} numbered sections, `
+    + `${stats.tryits} Try it panels, ${stats.solutions} solution sections`);
+  render("Free85-Companion-typeset", doc, { minPages: 90, maxPages: 340 });
 }
 
 buildManual();

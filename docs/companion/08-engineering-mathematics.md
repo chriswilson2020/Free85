@@ -273,9 +273,9 @@ of a series, and it is worth knowing exactly how far you can trust it.
 
 **Try it.**
 
-1. Add the series' next term, the amplitude to the fourth power over 3072,
-   to the rule of step 4, and work out how far up the table it survives now.
-   Does it buy you one more row or three?
+1. Add the series' next term, eleven times the amplitude to the fourth
+   power over 3072, to the rule of step 4, and work out how far up the
+   table it survives now. Does it buy you one more row or three?
 2. Find the amplitude at which the swing runs exactly one per cent slow.
    You have two routes: interpolate between the 10 and 30 degree rows of
    the table, or put the series of step 4 into the solver workspace and let

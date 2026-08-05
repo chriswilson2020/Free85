@@ -8,12 +8,14 @@ eight entries. Eight numbers are few enough to check every claim the
 machine makes by hand, and that is the whole design: at this size you never
 have to believe anything, you can always look.
 
-The chapter summarises a small data set and then audits the summary, meets
-the random number generator and its strictly repeatable stream, builds
-simulations in the program environment, finds out what "best fit" actually
-means by computing it by hand, fits competing models to two invented data
-sets, forecasts from the better one, and ends with the four statistical
-plots. The statistics editor is the Guidebook, chapter 15.
+The chapter summarises a small data set and then audits the summary. It
+meets the random number generator and its strictly repeatable stream, and
+builds simulations in the program environment. It finds out what "best fit"
+actually means by computing it by hand, fits competing models to two
+invented data sets, and forecasts from the better one. It ends with the
+four statistical plots.
+
+The statistics editor is the Guidebook, chapter 15.
 
 ## 3.1 A week of small data
 
@@ -469,9 +471,11 @@ so it wants a program.
 
    So the score grows like the *square* of how far you move, not in
    proportion to it. That is what makes the minimum a smooth bowl rather
-   than a sharp point, it is why a line that is slightly wrong is only
-   slightly worse, and it is why fitting is a stable business: small errors
-   in the data move the answer by small amounts.
+   than a sharp point.
+
+   It is also why a line that is slightly wrong is only slightly worse, and
+   why fitting is a stable business: small errors in the data move the
+   answer by small amounts.
 
 **Try it.**
 
@@ -594,9 +598,10 @@ where it starts.
    `XYLN` is the one plot of the four that trusts your ordering, and that
    makes it the one that can lie to you without any warning at all.
 
-3. Sort the pairs. Press [EXIT] (the home screen shows a leftover `= 17`,
-   which does no harm here), press [STAT] to reopen the editor on its first
-   page, press [MORE] four times, and press [F4], `SX`: the days come out 1
+3. Sort the pairs. Press [EXIT], which leaves a harmless `= 17` on the home
+   screen, then press [STAT] to reopen the editor on its first page.
+
+   Press [MORE] four times, then press [F4], `SX`. The days come out 1
    through 8, each count still riding beside its own day.
 
    Press [MORE] once and press [F2] for `XYLN` again: now the line ambles

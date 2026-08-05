@@ -6,13 +6,14 @@ cannot reach those places either. What it can do is walk a very long way
 towards them and report back, and this chapter is largely about learning to
 read those reports properly, including the ones that are lying to you.
 
-We probe limits with the table and the zoom keys, meet a limit that does
-not exist at all, build a derivative out of raw difference quotients before
-letting `NDER(` take over, hunt turning points with the search commands,
-measure an integral as an average before measuring it as an area, and
-program Riemann sums to watch an integral being assembled. The calculus
-commands and the tolerance setting are the Guidebook, chapter 3; the
-analysis keys are the Guidebook, chapter 4.
+We probe limits with the table and the zoom keys, then meet a limit that
+does not exist at all. We build a derivative out of raw difference
+quotients before letting `NDER(` take over, and hunt turning points with
+the search commands. We measure an integral as an average before measuring
+it as an area, and program Riemann sums to watch one being assembled.
+
+The calculus commands and the tolerance setting are the Guidebook, chapter
+3; the analysis keys are the Guidebook, chapter 4.
 
 One habit pays for itself all chapter. The calculus commands read the
 *active stored equation*, so store the function with [GRAPH] before asking
@@ -485,10 +486,12 @@ there is a tolerance you cannot beat by any narrowing at all, there is no
 limit.
 
 That is the whole of the epsilon-delta definition, in a form you can carry
-out with the zoom keys. Try it on both of this section's functions and the
-difference is immediate: for `X*SIN(1/X)` every squeeze you try succeeds,
-and for `SIN(1/X)` you cannot even get started, because the curve fills the
-band from -1 to 1 no matter how narrow you make the window.
+out with the zoom keys.
+
+Try it on both of this section's functions and the difference is immediate.
+For `X*SIN(1/X)` every squeeze you try succeeds. For `SIN(1/X)` you cannot
+even get started, because the curve fills the band from -1 to 1 no matter
+how narrow you make the window.
 
 **Try it.**
 
@@ -623,13 +626,15 @@ worth seeing why.
 
    The `Y2` column reads `UNDEF` in every row.
 
-   The calculus commands will not run from inside a graph slot. That is a
-   deliberate refusal and not a bug, but it is a refusal I inherited from
-   the design rather than chose: these commands read *the active stored
-   equation*, and a slot asking one of them for a value is asking the
-   machine to evaluate the very equation it is in the middle of
-   evaluating. Rather than chase its own tail, it declines, once per
-   sample, quietly. Chapter 5 meets the same refusal from `FNINT(`.
+   The calculus commands will not run from inside a graph slot.
+
+   That is a deliberate refusal and not a bug, though it is one I inherited
+   from the design rather than chose. These commands read *the active
+   stored equation*, so a slot asking one of them for a value is asking the
+   machine to evaluate the equation it is in the middle of evaluating.
+
+   Rather than chase its own tail, it declines, once per sample, quietly.
+   Chapter 5 meets the same refusal from `FNINT(`.
 
 8. So type the quotient out in full instead. It is longer but it has no
    such problem, because it mentions no commands at all. Press [2nd] [1],
@@ -711,11 +716,13 @@ with height 16/3, the valley at 2 with height -16/3.
 
    That drift is not a mistake. These searches close a bracket around the
    turning point and stop when the bracket is tight enough, not when the
-   digits are exact, and near a smooth maximum the curve is almost flat, so
-   an enormous range of x values all look equally like the top. Being flat
-   is what makes a maximum a maximum and it is exactly what makes it hard
-   to locate precisely. Expect three or four good digits from these keys
-   and do not go hunting for more.
+   digits are exact.
+
+   Near a smooth maximum the curve is almost flat, so an enormous range of
+   x values all look equally like the top. Being flat is what makes a
+   maximum a maximum, and it is exactly what makes it hard to locate
+   precisely. Expect three or four good digits from these keys and do not
+   go hunting for more.
 
 3. The result screen left `X^3/3-4*X` on the entry line, so pressing
    [GRAPH] stores it back unchanged and replots.
@@ -822,11 +829,12 @@ to 20 at noon and back down. Modelled for this chapter as
    and divide it by the width of the day, `FNINT(0,24)/24`:
    `= 14.000001476333`.
 
-   Fourteen degrees. Which is exactly halfway between the 8 at midnight and
-   the 20 at noon, and if that is what you guessed, you guessed it because
-   the cosine spends as much time above its centre line as below it, and
-   over a whole period the two cancel exactly. The `.000001476` on the end
-   is `PI` again.
+   Fourteen degrees, exactly halfway between the 8 at midnight and the 20
+   at noon.
+
+   If that is what you guessed, you guessed it because the cosine spends as
+   much time above its centre line as below it, so over a whole period the
+   two cancel exactly. The `.000001476` on the end is `PI` again.
 
 5. Two things worth checking, since they cost one key each.
 

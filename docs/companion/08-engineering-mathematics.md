@@ -545,10 +545,11 @@ may leave the outlet, and the question is what the inlet may carry.
    Nothing moved.
 
    The initial value was frozen when the mode was created, and the only
-   lever that resets it is deleting the `GDEQ` object, which is the ritual
-   of section 7.6: leave the mode, delete `GDEQ` in the memory browser,
-   reseed, come back, and retype the equation, which deleting `GDEQ` has
-   also cleared.
+   lever that resets it is deleting the `GDEQ` object.
+
+   That is the ritual of section 7.6: leave the mode, delete `GDEQ` in the
+   memory browser, reseed, and come back. Then retype the equation, which
+   deleting `GDEQ` has also cleared.
 
    That is around twenty deliberate presses per shot, and shooting wants
    half a dozen shots. I will not defend that as a design. It is the price

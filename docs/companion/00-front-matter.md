@@ -124,11 +124,12 @@ exponents from -9 to 9, and four program slots of eight lines each.
 Those numbers are not accidents and they are not apologies. Each of them is
 a decision I made, mostly about how much of a very small machine to spend on
 one feature, and each of them shapes what an exploration can be. So the
-explorations here are designed inside the limits rather than around them: a
-family of curves is studied three members at a time, a data set is eight
-numbers you can hold in your head, an elimination is small enough to watch
-every entry change, a program is short enough to be an argument about what
-its algorithm really is.
+explorations here are designed inside the limits rather than around them.
+
+A family of curves is studied three members at a time. A data set is eight
+numbers you can hold in your head. An elimination is small enough to watch
+every entry change, and a program is short enough to be an argument about
+what its algorithm really is.
 
 Where a limit closes a door, this book says so, tells you why the door is
 there, and goes round. That turns out to be the most useful thing in it.

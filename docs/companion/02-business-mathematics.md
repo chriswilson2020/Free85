@@ -27,10 +27,11 @@ editor for exactly that.
    shows `SIZE 2`, two equations in two unknowns.
 
    Each row takes its coefficients left to right and then its right-hand
-   side, so the morning's two receipts, 2 coffees and 5 pastries for 7.90,
-   then 4 coffees and 5 pastries for 12.30, are typed as [2] [ENTER] [5]
-   [ENTER] [7] [.] [9] [ENTER] [4] [ENTER] [5] [ENTER] [1] [2] [.] [3]
-   [ENTER].
+   side. The morning's two receipts are 2 coffees and 5 pastries for 7.90,
+   then 4 coffees and 5 pastries for 12.30.
+
+   So type [2] [ENTER] [5] [ENTER] [7] [.] [9] [ENTER] for the first, then
+   [4] [ENTER] [5] [ENTER] [1] [2] [.] [3] [ENTER] for the second.
 
 2. Press [F1], the `SOLVE` key. The result screen answers
    `UNIQUE SOLUTION` with `X 2.2` and `Y 0.7`: coffee is 2.20 and a pastry
@@ -251,10 +252,12 @@ step 5 shows you the picture that does it.
    (4, 6) alone.
 
    That is the whole of linear programming in one picture. Slide a line of
-   constant profit outwards until it is about to leave the region; the last
-   thing it touches is the best plan; and because the region is a polygon,
-   the last thing it touches is a corner, unless the line happens to lie
-   along an edge, in which case the whole edge ties.
+   constant profit outwards until it is about to leave the region, and the
+   last thing it touches is the best plan.
+
+   Because the region is a polygon, that last thing is a corner. The one
+   exception is a profit line lying exactly along an edge, in which case
+   the whole edge ties.
 
 6. The corners settle it numerically. Press [EXIT] for the home screen and
    [CLEAR], then evaluate the profit at each corner with stored letters:
@@ -459,9 +462,11 @@ unknown, and that is a genuinely different way of working.
    [ENTER] for the years, then [CLEAR] and `900->Z` for a target balance.
 
    Press [CLEAR] once more, type `500*EXP(Y*LN(1+X))-Z`, and press [2nd]
-   [GRAPH]: the `SOLVER` workspace of the Guidebook, chapter 14 opens with
-   the equation stored (the `F=` line clips at the screen's right edge; the
-   tail is kept), and `VAR X` names the unknown, which is the rate.
+   [GRAPH].
+
+   The `SOLVER` workspace of the Guidebook, chapter 14 opens with the
+   equation stored, and `VAR X` names the unknown, which is the rate. The
+   `F=` line clips at the screen's right edge; the tail is kept.
 
 3. What rate turns 500 into 900 in eight years? Rates live between zero and
    one, so fence the search: press [F5], the `>` key, three times, and
@@ -650,10 +655,9 @@ switching settles.
    mattered.
 
 Every result landing in `R` is the register design of the Guidebook,
-chapter 13, and the copying forward in steps 4 and 5 is the cost of
-iterating inside one editor: the fourth power arrives in three
-multiplications and three retypings, and the steady-state matrix is a
-fourth retype.
+chapter 13. The copying forward in steps 4 and 5 is what iterating inside
+one editor costs: the fourth power arrives in three multiplications and
+three retypings, and the steady-state matrix is a fourth retype.
 
 The reward is that nothing is hidden. Every forecast you quote is one you
 watched being made, and on a machine that could raise a matrix to the

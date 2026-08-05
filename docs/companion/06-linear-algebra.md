@@ -144,10 +144,12 @@ The specimen is x + 2y = 5 and 3x + 4y = 11, two lines designed to cross at
    row says -2y = -4, which is the horizontal line y = 2. The pair of lines
    has changed. The crossing has not: (1, 2) still satisfies both.
 
-3. Carry the result forward as section 2.4 taught: the fifth [▶] left the
-   selection at `CELL 2 3`, one more wraps it home, [ALPHA] twice returns
-   the view to `A`, and retyping [1] [ENTER] [2] [ENTER] [5] [ENTER] [0]
-   [ENTER] [(-)] [2] [ENTER] [(-)] [4] [ENTER] copies the new tableau in.
+3. Carry the result forward as section 2.4 taught. The fifth [▶] left the
+   selection at `CELL 2 3`, so one more wraps it home, and [ALPHA] twice
+   returns the view to `A`.
+
+   Retype the new tableau: [1] [ENTER] [2] [ENTER] [5] [ENTER] [0] [ENTER]
+   [(-)] [2] [ENTER] [(-)] [4] [ENTER].
 
 4. Second move: rescale the new row so its surviving coefficient is 1.
    Press [ALPHA], type [(-)] [.] [5] [ENTER], press [ALPHA], then [▼] three
@@ -400,11 +402,14 @@ are independent and not remotely perpendicular.
    Subtracting both shadows on paper: (0, 1, 1) minus (0.5, 0.5, 0) minus a
    third of (0.5, -0.5, 1) gives (-2/3, 2/3, 2/3).
 
-9. Check the frame. Press [EXIT] and [2nd] [8], type the third direction
+9. Check the frame. Press [EXIT] and [2nd] [8], then type the third
+   direction into `A`. Its components are minus two thirds and then two
+   thirds twice, so the first is
    [(-)] [.] [6] [6] [6] [6] [6] [6] [6] [6] [6] [6] [6] [6] [7] [ENTER]
-   and the other two components the same way, press [ALPHA], type the first
-   direction (1, 1, 0) into `B`, press [ALPHA], and press [F3], `DOT`: `0`,
-   exactly.
+   and the other two are the same digits without the sign.
+
+   Press [ALPHA], type the first direction (1, 1, 0) into `B`, press
+   [ALPHA], and press [F3], `DOT`: `0`, exactly.
 
    Now do it against the second. Retype `B` as (0.5, -0.5, 1) and press
    `DOT` again: `-1E-14`.

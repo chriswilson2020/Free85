@@ -64,6 +64,10 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger's st
 
 `cross`, `dim-vector`, `->dimV`, `dot`, `Fill-vector`, `norm-vector`, `unitV`
 
+## collections.result-chaining — workflow (equivalent)
+
+`USE R`
+
 ## collections.elementwise — semantic (equivalent)
 
 `elementwise-real`, `elementwise-complex`, `elementwise-list`, `elementwise-matrix`, `elementwise-vector`
@@ -98,7 +102,7 @@ Grouped by functional area. Status comes from the Free85 2.0 command ledger's st
 
 ## graph.diffeq — workflow (equivalent)
 
-`DifEq`, `dxDer1`, `dxNDer`, `diffeq-editor`, `diffeq-plot`, `diffeq-explore`, `diffeq-solve`
+`DifEq`, `dxDer1`, `dxNDer`, `diffeq-editor`, `diffeq-plot`, `diffeq-explore`, `diffeq-solve`, `diffeq-setup`, `Euler`, `Heun`, `RK4`
 
 ## solver.general — command (equivalent)
 

@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 170" role="img"
+     aria-label="A unit circle on the left with a point marked at an angle, its height above the horizontal axis shown as a vertical bar. To the right, the same height is carried across to plot one point of the sine curve.">
+  <!-- Free85 Explorations, chapter 1: where sine comes from.
+       Navy plus ink, no gradients, nothing depending on colour.
+       Circle centre (68, 86), radius 52. Angle taken at 55 degrees, so the
+       point sits at (68 + 52cos55, 86 - 52sin55) = (98, 43).
+       The sine curve to the right runs from x = 150 to x = 306, one full
+       period, with the same height marked at the matching angle. -->
+
+  <!-- ---- left: the unit circle ---- -->
+  <g stroke="#111111" stroke-width="1" opacity="0.5">
+    <line x1="8" y1="86" x2="132" y2="86"/>
+    <line x1="68" y1="146" x2="68" y2="26"/>
+  </g>
+  <circle cx="68" cy="86" r="52" fill="none" stroke="#111111" stroke-width="1.3"/>
+
+  <!-- the radius out to the point -->
+  <line x1="68" y1="86" x2="98" y2="43" stroke="#1a3a6b" stroke-width="1.6"/>
+  <!-- the height of the point above the axis -->
+  <line x1="98" y1="86" x2="98" y2="43" stroke="#1a3a6b" stroke-width="2.4"/>
+  <!-- the foot of it, dashed back to the axis -->
+  <line x1="68" y1="43" x2="98" y2="43" stroke="#444444" stroke-width="0.8"
+        stroke-dasharray="2.5 2.5"/>
+  <circle cx="98" cy="43" r="3" fill="#1a3a6b"/>
+
+  <!-- the angle arc -->
+  <path d="M 90 86 A 22 22 0 0 0 80.5 68" fill="none" stroke="#111111"
+        stroke-width="1.1"/>
+
+  <!-- ---- right: the sine curve ---- -->
+  <g stroke="#111111" stroke-width="1" opacity="0.5">
+    <line x1="150" y1="86" x2="312" y2="86"/>
+    <line x1="150" y1="146" x2="150" y2="26"/>
+  </g>
+  <path d="M 150 86 C 170 42, 190 34, 208 34 S 246 46, 260 86
+           S 288 130, 306 86" fill="none" stroke="#111111" stroke-width="1.5"/>
+
+  <!-- the same height, carried across -->
+  <line x1="98" y1="43" x2="176" y2="43" stroke="#444444" stroke-width="0.8"
+        stroke-dasharray="2.5 2.5"/>
+  <line x1="176" y1="86" x2="176" y2="43" stroke="#1a3a6b" stroke-width="2.4"/>
+  <circle cx="176" cy="43" r="3" fill="#1a3a6b"/>
+
+  <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="10"
+     fill="#111111">
+    <text x="82" y="80" font-style="italic">x</text>
+    <text x="58" y="100">O</text>
+    <text x="118" y="100">1</text>
+  </g>
+  <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9"
+     fill="#1a3a6b">
+    <text x="102" y="36">height</text>
+    <text x="182" y="36">sin x</text>
+  </g>
+  <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9"
+     fill="#444444">
+    <text x="30" y="160">the unit circle</text>
+    <text x="206" y="160">the sine curve</text>
+  </g>
+</svg>

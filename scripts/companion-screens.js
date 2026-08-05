@@ -84,6 +84,12 @@ const CO07_P2_LINES = ["9->Y", ".5->H", "7->N", "WHILE N", "CALL 3",
   "N-1->N", "END", "DISP Y"];
 const CO07_P3_LINES = ["EVAL(0)->K", "Y+H*K->Y", "Y+H*(EVAL(0)-K)/2->Y", "RETURN"];
 
+// Chapter 1 section 1.4's rational function. (X^2+1)/(X-1) divides out to
+// X+1 with a remainder of 2/(X-1), so the curve closes on the line X+1 far
+// out and runs away at X=1, where the table reads UNDEF.
+const CO01_RATIONAL = ["(", "X-VAR", "X^2", "+", "1", ")", "/",
+  "(", "X-VAR", "-", "1", ")"];
+
 // Chapter 5 section 5.2's Newton's method. EVAL( and NDER( both read the
 // stored equation, so line 4 is the method entire and the program names no
 // function. Line 2 is the step count, edited between runs to watch the
@@ -209,6 +215,18 @@ const co08Components = (values) => values.flatMap((value) => [
 export const SCREEN_CASES = [
   // Chapter 1 section 1.1: the cubic X^3-4*X in the standard window.
   { name: "co01-cubic-window", keys: ["X-VAR", "^", "3", "-", "4", "*", "X-VAR", "GRAPH", 900] },
+  // Chapter 1 section 1.4: the rational function's two branches, with the
+  // near-vertical strokes either side of X=1 that are the plotter joining
+  // samples a very long way apart.
+  { name: "co01-rational", keys: [...CO01_RATIONAL, "GRAPH", 3000] },
+  // The same function with its slant asymptote X+1 in Y2, tabulated so the
+  // gap 2/(X-1) can be read shrinking down the rows, and the pole caught as
+  // UNDEF on the X=1 row.
+  {
+    name: "co01-slant-table",
+    keys: [...CO01_RATIONAL, "GRAPH", 3000,
+      "2ND", "2", 60, "X-VAR", "+", "1", "GRAPH", 2500, "MORE", 2000]
+  },
   // Chapter 1 section 1.2: the slope family X/2, X, 3*X plotted together.
   {
     name: "co01-slope-family",

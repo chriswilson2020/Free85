@@ -84,6 +84,27 @@ const CO07_P2_LINES = ["9->Y", ".5->H", "7->N", "WHILE N", "CALL 3",
   "N-1->N", "END", "DISP Y"];
 const CO07_P3_LINES = ["EVAL(0)->K", "Y+H*K->Y", "Y+H*(EVAL(0)-K)/2->Y", "RETURN"];
 
+// Chapter 5 section 5.2's Newton's method. EVAL( and NDER( both read the
+// stored equation, so line 4 is the method entire and the program names no
+// function. Line 2 is the step count, edited between runs to watch the
+// correct digits double. Each step evaluates the stored cubic twice, so the
+// run needs generous settle frames.
+const co05Newton = (start, steps) => ["X-VAR", "^", "3", "-", "2", "*",
+  "X-VAR", "-", "5", "GRAPH", 1500, "EXIT", 200, "CLEAR", 30,
+  "PRGM", 60, "F1", 120,
+  ...[`${start}->R`, `${steps}->N`, "WHILE N", "R-EVAL(R)/NDER(R)->R",
+    "N-1->N", "END", "DISP R", "STOP"].flatMap(programLineKeys), 200,
+  "F2", 20000 + steps * 12000];
+
+// Chapter 5 section 5.9's geometric impersonators against 1/(1+X). Outside
+// the interval of convergence the longer polynomial is the worse of the two,
+// which is the opposite of what the sine slots do.
+const CO05_GEOMETRIC = ["1", "/", "(", "1", "+", "X-VAR", ")", "GRAPH", 2500,
+  "2ND", "2", 60, "1", "-", "X-VAR", "+", "X-VAR", "X^2", "-", "X-VAR", "^",
+  "3", "GRAPH", 2500,
+  "2ND", "3", 60, "1", "-", "X-VAR", "+", "X-VAR", "X^2", "-", "X-VAR", "^",
+  "3", "+", "X-VAR", "^", "4", "-", "X-VAR", "^", "5", "GRAPH", 3000];
+
 // Chapter 7 section 7.6's two growth models, both seeded at 1 with a
 // ceiling of 10. The Gompertz needs a logarithm at every one of the 127
 // Euler steps, which makes it the slowest thing in the book: its table
@@ -504,6 +525,17 @@ export const SCREEN_CASES = [
   },
   // Chapter 5 section 5.1: the designed quartic's root browser opening on
   // ROOT 1, RE 2.7320508075688 (1 plus root 3).
+  {
+    name: "co05-newton-converged",
+    keys: co05Newton(2, 4)
+  },
+  // The table at its default step of 1, which is where the failure is
+  // loudest: at X=5 the degree-3 impersonator is out by 104 and the
+  // degree-5 by 2604, so the longer polynomial is the worse of the two.
+  {
+    name: "co05-geometric-table",
+    keys: [...CO05_GEOMETRIC, "MORE", 2500]
+  },
   {
     name: "co05-poly-roots",
     keys: ["2ND", "PRGM", 30, "F4", 10,

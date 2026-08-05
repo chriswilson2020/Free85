@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 170" role="img"
+     aria-label="A rising curve crossing the axis at a root. A tangent drawn at a first guess runs down to the axis much nearer the root, and a second tangent drawn from there lands nearer still.">
+  <!-- Free85 Explorations, chapter 5: Newton's method.
+       Navy plus ink, no gradients, no fills, nothing depending on colour.
+       Axis at y = 118. Root at x = 196.
+       First guess x1 = 110 sits on the curve at y = 146;
+       its tangent meets the axis at x = 172, which is the second guess;
+       the second tangent meets the axis at x = 192, all but on the root. -->
+
+  <!-- axis -->
+  <line x1="24" y1="118" x2="264" y2="118" stroke="#111111" stroke-width="1"
+        opacity="0.55"/>
+
+  <!-- the curve: below the axis on the left, crossing steeply at the root -->
+  <path d="M 34 154 C 92 150, 142 142, 172 130 S 208 102, 236 34"
+        fill="none" stroke="#111111" stroke-width="1.7"/>
+
+  <!-- the tangent at the first guess: shallow, so it travels a long way -->
+  <line x1="82" y1="155" x2="200" y2="112" stroke="#1a3a6b" stroke-width="1.4"
+        stroke-dasharray="5 3"/>
+
+  <!-- the tangent at the second guess: steeper, so it lands close -->
+  <line x1="156" y1="146" x2="212" y2="82" stroke="#1a3a6b" stroke-width="1.4"
+        stroke-dasharray="5 3"/>
+
+  <!-- drop lines from each guess down to the axis -->
+  <g stroke="#444444" stroke-width="0.8" stroke-dasharray="2.5 2.5">
+    <line x1="110" y1="146" x2="110" y2="118"/>
+    <line x1="172" y1="130" x2="172" y2="118"/>
+  </g>
+
+  <!-- the two guesses, on the curve -->
+  <circle cx="110" cy="146" r="3" fill="#111111"/>
+  <circle cx="172" cy="130" r="3" fill="#111111"/>
+  <!-- where each tangent crosses the axis -->
+  <circle cx="172" cy="118" r="2.8" fill="#1a3a6b"/>
+  <circle cx="192" cy="118" r="2.8" fill="#1a3a6b"/>
+  <!-- the root itself, hollow so it reads as the target -->
+  <circle cx="196" cy="118" r="4.2" fill="none" stroke="#111111"
+          stroke-width="1.6"/>
+
+  <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="10"
+     fill="#111111">
+    <text x="100" y="112">x</text><text x="108" y="115" font-size="7">1</text>
+    <text x="162" y="110">x</text><text x="170" y="113" font-size="7">2</text>
+    <text x="204" y="134">root</text>
+  </g>
+  <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9"
+     fill="#1a3a6b">
+    <text x="54" y="152">tangent</text>
+    <text x="214" y="78">tangent</text>
+  </g>
+</svg>

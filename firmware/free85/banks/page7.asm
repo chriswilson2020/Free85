@@ -11,6 +11,8 @@ bank_start:
     JP phase14_resize
     JP phase14_compact
     JP phase14_delete_selected
+    JP phase23_workspace_migrate
+    JP phase23_workspace_validate
 
     INCLUDE "system/object_store.asm"
 

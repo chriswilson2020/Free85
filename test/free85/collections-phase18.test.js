@@ -10,10 +10,12 @@ const LIST_RESULT = 0x8880;
 const LIST_A_IMAG = 0xf800;
 const LIST_B_IMAG = 0xf848;
 const LIST_RESULT_IMAG = 0xf890;
-const MATRIX_RESULT = 0x8a00;
-const MATRIX_A_IMAG = 0xf8d8;
-const MATRIX_B_IMAG = 0xf929;
-const MATRIX_RESULT_IMAG = 0xf97a;
+const MATRIX_A = 0xf2e0;
+const MATRIX_B = 0xf384;
+const MATRIX_RESULT = 0xf428;
+const MATRIX_A_IMAG = 0xf570;
+const MATRIX_B_IMAG = 0xf612;
+const MATRIX_RESULT_IMAG = 0xf6b4;
 const VECTOR_RESULT = 0x8b80;
 const VECTOR_A_IMAG = 0xfa1c;
 const VECTOR_B_IMAG = 0xfa37;
@@ -140,12 +142,12 @@ test("[collections.phase18.matrix-products] complex scale and matrix product mat
   const setup = () => {
     const harness = Free85Harness.boot();
     tapAll(harness, ["2ND", "7"]);
-    harness.machine.write8(0x8900, 2);
-    harness.machine.write8(0x8901, 2);
-    harness.machine.write8(0x8980, 2);
-    harness.machine.write8(0x8981, 2);
-    [1, 2, 3, 4].forEach((value, index) => writePacked(harness, 0x8902 + index * 9, value));
-    [2, 0, 1, 2].forEach((value, index) => writePacked(harness, 0x8982 + index * 9, value));
+    harness.machine.write8(MATRIX_A, 2);
+    harness.machine.write8(MATRIX_A + 1, 2);
+    harness.machine.write8(MATRIX_B, 2);
+    harness.machine.write8(MATRIX_B + 1, 2);
+    [1, 2, 3, 4].forEach((value, index) => writePacked(harness, MATRIX_A + 2 + index * 9, value));
+    [2, 0, 1, 2].forEach((value, index) => writePacked(harness, MATRIX_B + 2 + index * 9, value));
     setImaginaryPlane(harness, MATRIX_A_IMAG, [1, 0, -1, 2]);
     setImaginaryPlane(harness, MATRIX_B_IMAG, [1, 0, 0, -1]);
     return harness;
@@ -224,9 +226,9 @@ test("[collections.phase18.lu] zero-leading pivots report a permutation without 
 test("[collections.phase18.eigenvalues] a general 3x3 matrix returns its real and complex roots", () => {
   const harness = Free85Harness.boot();
   tapAll(harness, ["2ND", "7"]);
-  harness.machine.write8(0x8900, 3);
-  harness.machine.write8(0x8901, 3);
-  [0, -1, 0, 1, 0, 0, 0, 0, 2].forEach((value, index) => writePacked(harness, 0x8902 + index * 9, value));
+  harness.machine.write8(MATRIX_A, 3);
+  harness.machine.write8(MATRIX_A + 1, 3);
+  [0, -1, 0, 1, 0, 0, 0, 0, 2].forEach((value, index) => writePacked(harness, MATRIX_A + 2 + index * 9, value));
   tapAll(harness, ["MORE", "MORE", "MORE", "MORE", "F2"]);
   harness.runFrames(30_000);
   const roots = Array.from({ length: 3 }, (_, index) => [
@@ -245,10 +247,10 @@ test("[collections.phase18.eigenvalues] a general 3x3 matrix returns its real an
 test("[collections.phase18.eigensystem] a 2x2 rotation returns normalized complex eigenpairs", () => {
   const harness = Free85Harness.boot();
   tapAll(harness, ["2ND", "7"]);
-  harness.machine.write8(0x8900, 2);
-  harness.machine.write8(0x8901, 2);
+  harness.machine.write8(MATRIX_A, 2);
+  harness.machine.write8(MATRIX_A + 1, 2);
   const matrix = [0, -1, 1, 0];
-  matrix.forEach((value, index) => writePacked(harness, 0x8902 + index * 9, value));
+  matrix.forEach((value, index) => writePacked(harness, MATRIX_A + 2 + index * 9, value));
   tapAll(harness, ["MORE", "MORE", "MORE", "MORE", "F3"]);
   harness.runFrames(35_000);
 
@@ -278,10 +280,10 @@ test("[collections.phase18.eigensystem] a 2x2 rotation returns normalized comple
 test("[collections.phase18.eigenvectors] normalized complex 3x3 vectors satisfy A*v=lambda*v", () => {
   const harness = Free85Harness.boot();
   tapAll(harness, ["2ND", "7"]);
-  harness.machine.write8(0x8900, 3);
-  harness.machine.write8(0x8901, 3);
+  harness.machine.write8(MATRIX_A, 3);
+  harness.machine.write8(MATRIX_A + 1, 3);
   const matrix = [2, 1, 0, 0, 3, 1, 1, 0, 4];
-  matrix.forEach((value, index) => writePacked(harness, 0x8902 + index * 9, value));
+  matrix.forEach((value, index) => writePacked(harness, MATRIX_A + 2 + index * 9, value));
   tapAll(harness, ["MORE", "MORE", "MORE", "MORE", "F3"]);
   harness.runFrames(40_000);
 

@@ -1,6 +1,6 @@
 ; Free85 Phase 7: complex numbers and bounded list/matrix/vector objects.
 ; This bank owns only application logic; decimal arithmetic and drawing remain
-; in the fixed page. Maximums: lists 8, matrices 3x3, vectors 3 components.
+; in the fixed page. Maximums: lists 8, matrices 3x6, vectors 3 components.
 
 P7_APP_COMPLEX EQU 0
 P7_APP_LIST    EQU 1
@@ -32,6 +32,30 @@ phase7_init:
     LD BC, P18_SHADOW_END - P18_SHADOW_BASE - 1
     LD (HL), A
     LDIR
+    LD HL, P23_MATRIX_WORKSPACE_BASE
+    LD DE, P23_MATRIX_WORKSPACE_BASE + 1
+    LD BC, P23_MATRIX_WORKSPACE_END - P23_MATRIX_WORKSPACE_BASE - 1
+    LD (HL), A
+    LDIR
+    LD A, 'M'
+    LD (P23_WORKSPACE_MAGIC_0), A
+    LD A, '8'
+    LD (P23_WORKSPACE_MAGIC_1), A
+    LD A, '5'
+    LD (P23_WORKSPACE_MAGIC_2), A
+    LD A, P23_WORKSPACE_SCHEMA
+    LD (P23_WORKSPACE_VERSION), A
+    LD A, P23_WORKSPACE_READY
+    LD (P23_WORKSPACE_FLAGS), A
+    LD (P23_WORKSPACE_RUNTIME), A
+    LD HL, P7_MATRIX_A
+    LD (P23_WORKSPACE_PTR_A), HL
+    LD HL, P7_MATRIX_B
+    LD (P23_WORKSPACE_PTR_B), HL
+    LD HL, P7_MATRIX_RESULT
+    LD (P23_WORKSPACE_PTR_R), HL
+    LD HL, P7_MATRIX_WORK
+    LD (P23_WORKSPACE_PTR_W), HL
     LD A, 4
     LD (P7_LIST_A + P7_LIST_LENGTH), A
     LD (P7_LIST_B + P7_LIST_LENGTH), A
@@ -62,6 +86,12 @@ phase7_open_list:
     JR p7_open_common
 
 phase7_open_matrix:
+    LD A, (P23_WORKSPACE_RUNTIME)
+    AND P23_WORKSPACE_READY
+    JR NZ, .ready
+    LD HL, p23_text_workspace_full
+    JP screen_show_notice
+.ready:
     LD A, P7_APP_MATRIX
     LD (P7_ACTIVE_APP), A
     LD A, SCREEN_MATRIX
@@ -305,15 +335,15 @@ p7_use_result:
     LD A, (P7_MATRIX_RESULT + P7_MATRIX_COLS)
     OR A
     JP Z, p7_fail_dimension
-    CP P7_MATRIX_MAX + 1
+    CP P7_MATRIX_COL_MAX + 1
     JP NC, p7_fail_dimension
     LD HL, P7_MATRIX_RESULT
     LD DE, P7_MATRIX_A
-    LD BC, P7_MATRIX_DATA + P7_MATRIX_MAX * P7_MATRIX_MAX * NUM_SIZE
+    LD BC, P23_MATRIX_REAL_BLOCK_SIZE
     LDIR
     LD HL, P18_MATRIX_R_IMAG
     LD DE, P18_MATRIX_A_IMAG
-    LD BC, P7_MATRIX_MAX * P7_MATRIX_MAX * NUM_SIZE
+    LD BC, P23_MATRIX_IMAG_BLOCK_SIZE
     LDIR
 .activate:
     XOR A
@@ -392,7 +422,7 @@ p7_resize_matrix_grow:
 .cols:
     INC HL
     LD A, (HL)
-    CP P7_MATRIX_MAX
+    CP P7_MATRIX_COL_MAX
     JP NC, p7_render
     INC (HL)
     JP p7_render
@@ -1871,7 +1901,7 @@ p7_list_stddev:
     JP p7_set_result_mode
 
 ; ---------------------------------------------------------------------------
-; Matrix operations (up to 3x3)
+; Matrix operations (up to 3x6; square-only routines remain bounded to 3x3)
 
 p7_matrix_soft:
     LD C, A
@@ -2074,6 +2104,8 @@ p7_matrix_multiply_real_legacy:
 
 p7_matrix_transpose:
     LD A, (P7_MATRIX_A + P7_MATRIX_COLS)
+    CP P7_MATRIX_MAX + 1
+    JP NC, p7_fail_dimension
     LD (P7_MATRIX_RESULT + P7_MATRIX_ROWS), A
     LD (P7_COLS), A
     LD A, (P7_MATRIX_A + P7_MATRIX_ROWS)
@@ -2526,7 +2558,7 @@ p7_matrix_rref:
     LD (P7_MATRIX_RESULT + P7_MATRIX_COLS), A
     LD HL, P7_MATRIX_A + P7_MATRIX_DATA
     LD DE, P7_MATRIX_RESULT + P7_MATRIX_DATA
-    LD BC, NUM_SIZE * 9
+    LD BC, P7_MATRIX_CAPACITY * NUM_SIZE
     LDIR
     XOR A
     LD (P7_PIVOT), A          ; pivot row
@@ -3351,6 +3383,7 @@ p7_text_component: DB "COMP",0
 p7_text_edit: DB "EDIT",0
 p7_text_help: DB "ALPHA A/B  +/- SIZE",0
 p7_text_number_error: DB "INVALID NUMBER",0
+p23_text_workspace_full: DB "MATRIX WORKSPACE FULL",0
 p7_text_dimension: DB "DIMENSION ERROR",0
 p7_text_singular: DB "SINGULAR MATRIX",0
 p7_text_zero_vector: DB "ZERO VECTOR",0

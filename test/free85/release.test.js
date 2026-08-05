@@ -16,10 +16,10 @@ test("[release.bundle] the current ROM is bound to its version, schemas, and rep
   assert.equal(manifest.status, packageJson.version.includes("-dev.") ? "development" : "stable");
   assert.equal(manifest.license, "MIT");
   assert.deepEqual(manifest.persistent_ram, {
-    schema: 13,
+    schema: 14,
     status: "frozen",
-    migrates_from: [12],
-    object_store_schema: 1
+    migrates_from: [12, 13],
+    object_store_schema: 2
   });
   assert.equal(rom.length, 131072);
   assert.equal(createHash("sha256").update(rom).digest("hex"), manifest.rom.sha256);

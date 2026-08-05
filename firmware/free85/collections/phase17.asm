@@ -224,7 +224,7 @@ p17_matrix_copy_a_result:
     LD (P7_MATRIX_RESULT + P7_MATRIX_COLS), A
     LD HL, P7_MATRIX_A + P7_MATRIX_DATA
     LD DE, P7_MATRIX_RESULT + P7_MATRIX_DATA
-    LD BC, NUM_SIZE * 9
+    LD BC, P7_MATRIX_CAPACITY * NUM_SIZE
     LDIR
     RET
 
@@ -427,7 +427,7 @@ p17_matrix_augment:
     LD C, A
     LD A, (P7_MATRIX_B + P7_MATRIX_COLS)
     ADD A, C
-    CP P7_MATRIX_MAX + 1
+    CP P7_MATRIX_COL_MAX + 1
     JP NC, p7_fail_dimension
     LD (P7_COLS), A
     LD A, B

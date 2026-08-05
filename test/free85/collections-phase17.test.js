@@ -8,7 +8,7 @@ const SCREEN_DIALOG = 1;
 const SCREEN_LIST = 5;
 const SCREEN_VECTOR = 7;
 const LIST_RESULT = 0x8880;
-const MATRIX_RESULT = 0x8a00;
+const MATRIX_RESULT = 0xf428;
 const VECTOR_RESULT = 0x8b80;
 const P7_ERROR = 0x8705;
 

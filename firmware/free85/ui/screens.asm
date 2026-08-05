@@ -186,7 +186,7 @@ text_free85:      DB "FREE85", 0
 text_open_z80:    DB "OPEN Z80", 0
 text_calculator:  DB "CALCULATOR", 0
 text_home:        DB "FREE85 HOME", 0
-text_version:     DB "VERSION 3.0 DEV3", 0
+text_version:     DB "VERSION 3.0 DEV4", 0
 text_status_rad:  DB "RAD AUTO", 0
 text_status_deg:  DB "DEG AUTO", 0
 text_status_rad_sci: DB "RAD SCI", 0

@@ -48,10 +48,10 @@ const manifest = {
   status: packageJson.version.includes("-dev.") ? "development" : "stable",
   license: "MIT",
   persistent_ram: {
-    schema: 13,
+    schema: 14,
     status: "frozen",
-    migrates_from: [12],
-    object_store_schema: 1
+    migrates_from: [12, 13],
+    object_store_schema: 2
   },
   rom: {
     path: "ROM/FREE85.ROM",

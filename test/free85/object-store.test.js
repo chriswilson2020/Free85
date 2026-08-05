@@ -9,7 +9,7 @@ const HEAP_END = HEADER + 6;
 const DIRECTORY = 0x9e00;
 const ENTRY_SIZE = 16;
 const HEAP_START = 0xa200;
-const HEAP_LIMIT = 0xf800;
+const HEAP_LIMIT = 0xf2d0;
 const VARIABLES = 0x8218;
 const NAME_BUFFER = 0x80c0;
 
@@ -70,11 +70,11 @@ function create(machine, type, name, size) {
   return { entry: state.registers.HL, payload: state.registers.DE };
 }
 
-test("[v2.storage.objects] schema 13 registers persistent typed reserved variables", () => {
+test("[v3.storage.objects] schema 14 registers persistent typed reserved variables", () => {
   const harness = Free85Harness.boot();
   const { machine } = harness;
-  assert.deepEqual(Array.from({ length: 4 }, (_, index) => machine.read8(0x8000 + index)), [70, 56, 53, 13]);
-  assert.deepEqual(Array.from({ length: 4 }, (_, index) => machine.read8(HEADER + index)), [79, 56, 53, 1]);
+  assert.deepEqual(Array.from({ length: 4 }, (_, index) => machine.read8(0x8000 + index)), [70, 56, 53, 14]);
+  assert.deepEqual(Array.from({ length: 4 }, (_, index) => machine.read8(HEADER + index)), [79, 56, 53, 2]);
   assert.equal(machine.read8(COUNT), 26);
   assert.equal(machine.read16(HEAP_END), HEAP_START);
   for (let index = 0; index < 26; index += 1) {
@@ -179,9 +179,59 @@ test("[v2.storage.migration] schema-12 migration is retryable and preserves lega
   machine.write8(HEADER, 0);
   machine.reset();
   harness.runFrames(FREE85_BOOT_FRAMES);
-  assert.equal(machine.read8(0x8003), 13);
+  assert.equal(machine.read8(0x8003), 14);
   assert.deepEqual(Array.from({ length: 9 }, (_, index) => machine.read8(VARIABLES + index)), legacy);
   assert.equal(machine.read16(DIRECTORY + 11), VARIABLES);
+});
+
+test("[phase17.4.migration] schema-13 matrices move transactionally into the 3x6 workspace", () => {
+  const harness = Free85Harness.boot();
+  const { machine } = harness;
+  const legacyMatrixA = 0x8900;
+  const legacyMatrixAImag = 0xf8d8;
+  const matrixA = 0xf2e0;
+  const matrixAImag = 0xf570;
+  const real = [0, 0, 0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34];
+  const imag = [0x80, 0, 0x50, 0, 0, 0, 0, 0, 0];
+  machine.write8(legacyMatrixA, 2);
+  machine.write8(legacyMatrixA + 1, 2);
+  real.forEach((byte, index) => machine.write8(legacyMatrixA + 2 + index, byte));
+  imag.forEach((byte, index) => machine.write8(legacyMatrixAImag + index, byte));
+  machine.write8(0x8003, 13);
+  machine.write8(HEADER + 3, 1);
+  machine.write16(HEAP_END, HEAP_START);
+
+  machine.reset();
+  harness.runFrames(FREE85_BOOT_FRAMES);
+  assert.equal(machine.read8(0x8003), 14);
+  assert.equal(machine.read8(HEADER + 3), 2);
+  assert.deepEqual(Array.from({ length: 2 }, (_, index) => machine.read8(matrixA + index)), [2, 2]);
+  assert.deepEqual(Array.from({ length: 9 }, (_, index) => machine.read8(matrixA + 2 + index)), real);
+  assert.deepEqual(Array.from({ length: 9 }, (_, index) => machine.read8(matrixAImag + index)), imag);
+  assert.equal(machine.read16(HEAP_END), HEAP_START);
+});
+
+test("[phase17.4.rollback] insufficient schema-13 heap capacity preserves old matrices and blocks workspace entry", () => {
+  const harness = Free85Harness.boot();
+  const { machine } = harness;
+  const legacyMatrixA = 0x8900;
+  machine.write8(legacyMatrixA, 3);
+  machine.write8(legacyMatrixA + 1, 3);
+  machine.write8(legacyMatrixA + 2, 0x80);
+  machine.write8(0x8003, 13);
+  machine.write8(HEADER + 3, 1);
+  machine.write16(HEAP_END, HEAP_LIMIT + 1);
+
+  machine.reset();
+  harness.runFrames(FREE85_BOOT_FRAMES);
+  assert.equal(machine.read8(0x8003), 13, "failed migration remains retryable");
+  assert.equal(machine.read8(HEADER + 3), 1);
+  assert.deepEqual([machine.read8(legacyMatrixA), machine.read8(legacyMatrixA + 1), machine.read8(legacyMatrixA + 2)], [3, 3, 0x80]);
+  assert.equal(machine.read16(HEAP_END), HEAP_LIMIT + 1);
+  assert.equal(machine.read8(0x9dd6), 0, "runtime workspace remains disabled");
+  harness.tap("2ND");
+  harness.tap("7");
+  assert.equal(machine.read8(0x800b), 1, "matrix entry reports the migration capacity failure");
 });
 
 test("[v2.memory.browser] browser renders typed entries and clears one selected object", () => {

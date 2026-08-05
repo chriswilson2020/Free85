@@ -93,6 +93,161 @@ phase14_validate:
     SCF
     RET
 
+; Phase 17.4 schema-13-to-14 matrix migration. Capacity and the complete old
+; object-store envelope are validated before the reserved workspace is
+; touched. On failure P23_WORKSPACE_RUNTIME remains clear, so matrix entry is
+; blocked while the user can delete heap objects and retry on the next reset.
+phase23_workspace_migrate:
+    XOR A
+    LD (P23_WORKSPACE_RUNTIME), A
+    LD A, (P14_MAGIC_0)
+    CP 'O'
+    JP NZ, .fail
+    LD A, (P14_MAGIC_1)
+    CP '8'
+    JP NZ, .fail
+    LD A, (P14_MAGIC_2)
+    CP '5'
+    JP NZ, .fail
+    LD A, (P14_VERSION)
+    CP OBJECT_STORE_SCHEMA_VERSION
+    JR NZ, .legacy_store
+    LD A, (STATE_VERSION)
+    CP STATE_LEGACY_MIGRATION_VERSION
+    JR Z, .copy_legacy
+    JP phase23_workspace_validate
+.legacy_store:
+    CP OBJECT_STORE_LEGACY_SCHEMA_VERSION
+    JR NZ, .fail
+    LD A, (P14_OBJECT_COUNT)
+    CP P14_ENTRY_COUNT + 1
+    JR NC, .fail
+    LD HL, (P14_HEAP_END)
+    LD DE, P14_HEAP_START
+    OR A
+    SBC HL, DE
+    JR C, .fail
+    LD HL, P14_HEAP_LIMIT
+    LD DE, (P14_HEAP_END)
+    OR A
+    SBC HL, DE
+    JR C, .fail
+.copy_legacy:
+    CALL p23_workspace_initialize
+    LD HL, P7_LEGACY_MATRIX_A
+    LD DE, P7_MATRIX_A
+    CALL p23_copy_legacy_real
+    LD HL, P7_LEGACY_MATRIX_B
+    LD DE, P7_MATRIX_B
+    CALL p23_copy_legacy_real
+    LD HL, P7_LEGACY_MATRIX_RESULT
+    LD DE, P7_MATRIX_RESULT
+    CALL p23_copy_legacy_real
+    LD HL, P7_LEGACY_MATRIX_WORK
+    LD DE, P7_MATRIX_WORK
+    CALL p23_copy_legacy_real
+    LD HL, P18_LEGACY_MATRIX_A_IMAG
+    LD DE, P18_MATRIX_A_IMAG
+    CALL p23_copy_legacy_imag
+    LD HL, P18_LEGACY_MATRIX_B_IMAG
+    LD DE, P18_MATRIX_B_IMAG
+    CALL p23_copy_legacy_imag
+    LD HL, P18_LEGACY_MATRIX_R_IMAG
+    LD DE, P18_MATRIX_R_IMAG
+    CALL p23_copy_legacy_imag
+    LD HL, P18_LEGACY_MATRIX_W_IMAG
+    LD DE, P18_MATRIX_W_IMAG
+    CALL p23_copy_legacy_imag
+    LD A, OBJECT_STORE_SCHEMA_VERSION
+    LD (P14_VERSION), A
+    JP phase23_workspace_validate
+.fail:
+    SCF
+    RET
+
+p23_copy_legacy_real:
+    LD BC, P7_MATRIX_DATA + P7_MATRIX_MAX * P7_MATRIX_MAX * NUM_SIZE
+    LDIR
+    RET
+
+p23_copy_legacy_imag:
+    LD BC, P7_MATRIX_MAX * P7_MATRIX_MAX * NUM_SIZE
+    LDIR
+    RET
+
+p23_workspace_initialize:
+    LD HL, P23_MATRIX_WORKSPACE_BASE
+    LD DE, P23_MATRIX_WORKSPACE_BASE + 1
+    LD BC, P23_MATRIX_WORKSPACE_END - P23_MATRIX_WORKSPACE_BASE - 1
+    XOR A
+    LD (HL), A
+    LDIR
+    LD A, 'M'
+    LD (P23_WORKSPACE_MAGIC_0), A
+    LD A, '8'
+    LD (P23_WORKSPACE_MAGIC_1), A
+    LD A, '5'
+    LD (P23_WORKSPACE_MAGIC_2), A
+    LD A, P23_WORKSPACE_SCHEMA
+    LD (P23_WORKSPACE_VERSION), A
+    LD A, P23_WORKSPACE_READY
+    LD (P23_WORKSPACE_FLAGS), A
+    LD HL, P7_MATRIX_A
+    LD (P23_WORKSPACE_PTR_A), HL
+    LD HL, P7_MATRIX_B
+    LD (P23_WORKSPACE_PTR_B), HL
+    LD HL, P7_MATRIX_RESULT
+    LD (P23_WORKSPACE_PTR_R), HL
+    LD HL, P7_MATRIX_WORK
+    LD (P23_WORKSPACE_PTR_W), HL
+    RET
+
+phase23_workspace_validate:
+    XOR A
+    LD (P23_WORKSPACE_RUNTIME), A
+    LD A, (P23_WORKSPACE_MAGIC_0)
+    CP 'M'
+    JR NZ, .invalid
+    LD A, (P23_WORKSPACE_MAGIC_1)
+    CP '8'
+    JR NZ, .invalid
+    LD A, (P23_WORKSPACE_MAGIC_2)
+    CP '5'
+    JR NZ, .invalid
+    LD A, (P23_WORKSPACE_VERSION)
+    CP P23_WORKSPACE_SCHEMA
+    JR NZ, .invalid
+    LD A, (P23_WORKSPACE_FLAGS)
+    AND P23_WORKSPACE_READY
+    JR Z, .invalid
+    LD HL, (P23_WORKSPACE_PTR_A)
+    LD DE, P7_MATRIX_A
+    OR A
+    SBC HL, DE
+    JR NZ, .invalid
+    LD HL, (P23_WORKSPACE_PTR_B)
+    LD DE, P7_MATRIX_B
+    OR A
+    SBC HL, DE
+    JR NZ, .invalid
+    LD HL, (P23_WORKSPACE_PTR_R)
+    LD DE, P7_MATRIX_RESULT
+    OR A
+    SBC HL, DE
+    JR NZ, .invalid
+    LD HL, (P23_WORKSPACE_PTR_W)
+    LD DE, P7_MATRIX_WORK
+    OR A
+    SBC HL, DE
+    JR NZ, .invalid
+    LD A, P23_WORKSPACE_READY
+    LD (P23_WORKSPACE_RUNTIME), A
+    OR A
+    RET
+.invalid:
+    SCF
+    RET
+
 phase14_find_free:
     LD IX, P14_DIRECTORY
     LD B, P14_ENTRY_COUNT

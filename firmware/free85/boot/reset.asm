@@ -46,9 +46,11 @@ state_init:
     JR NZ, .fresh
     LD A, (STATE_VERSION)
     CP STATE_SCHEMA_VERSION
-    JR Z, .validate_objects
+    JP Z, .validate_objects
     CP STATE_MIGRATION_VERSION
     JR Z, .migrate_objects
+    CP STATE_LEGACY_MIGRATION_VERSION
+    JR Z, .migrate_legacy
 .fresh:
     LD HL, SYSTEM_STATE_BASE
     LD DE, SYSTEM_STATE_BASE + 1
@@ -83,13 +85,27 @@ state_init:
     LD A, 7
     CALL bank_select
     CALL PHASE14_INIT
+    CALL PHASE23_WORKSPACE_VALIDATE
     LD A, 1
     CALL bank_select
     JR .volatile
 .migrate_objects:
     LD A, 7
     CALL bank_select
+    CALL PHASE23_WORKSPACE_MIGRATE
+    JR C, .migration_done
+    LD A, STATE_SCHEMA_VERSION
+    LD (STATE_VERSION), A
+.migration_done:
+    LD A, 1
+    CALL bank_select
+    JR .volatile
+.migrate_legacy:
+    LD A, 7
+    CALL bank_select
     CALL PHASE14_INIT
+    CALL PHASE23_WORKSPACE_MIGRATE
+    JP C, .fresh
     LD A, STATE_SCHEMA_VERSION
     LD (STATE_VERSION), A
     LD A, 1
@@ -100,6 +116,7 @@ state_init:
     CALL bank_select
     CALL PHASE14_VALIDATE
     CALL C, PHASE14_INIT
+    CALL PHASE23_WORKSPACE_VALIDATE
     LD A, 1
     CALL bank_select
 .volatile:

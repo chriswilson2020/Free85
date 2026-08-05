@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 1,
+  "firmwareTarget": "2.20.0",
+  "updateTiming": "after Phase 15.6 behaviour and screenshots are frozen",
+  "books": [
+    "docs/manual/Free85-Manual.md",
+    "docs/guidebook",
+    "docs/companion"
+  ],
+  "rules": [
+    "Do not preserve a pedagogical passage by continuing to describe behaviour which the released ROM no longer has.",
+    "Re-run every quoted calculation and key sequence against the final 2.20 ROM.",
+    "Regenerate every affected LCD capture from the final reproducible ROM rather than editing an old image.",
+    "Keep Euler and fixed-panel methods as lessons where useful, but distinguish them from the improved built-in defaults and selectable modes.",
+    "State supported ranges, tolerances, work limits, and refusal conditions without claiming arbitrary precision or stiff-equation support."
+  ],
+  "changes": [
+    {
+      "issue": "numeric.error-integrity",
+      "summaryForBooks": "SYNTAX ERROR will mean unreadable syntax; domain, division, overflow, recursion, and convergence failures will retain their own diagnostics across home, graph, table, and program evaluation.",
+      "documents": [
+        { "path": "docs/manual/Free85-Manual.md", "sections": ["When something goes wrong"] },
+        { "path": "docs/guidebook/appendix-c-errors.md", "sections": ["numeric and evaluator errors"] },
+        { "path": "docs/companion/04-calculus-1.md", "sections": ["Where the machine gives up, and why", "The derivative is a function"] }
+      ],
+      "mustRemoveOrCorrect": [
+        "claims that SYNTAX ERROR generally means there is no mathematical value",
+        "instructions to reinterpret a parser error as a domain or runtime result"
+      ],
+      "mustAdd": [
+        "one example for each distinct numerical error class",
+        "an explanation that UNDEF in a table is a display result whose diagnostic cause remains classified"
+      ]
+    },
+    {
+      "issue": "numeric.integration-safety",
+      "summaryForBooks": "FNINT will use bounded refinement and will report non-convergence or a numerical error when it cannot justify an answer; it will no longer silently present 9643.817428027 for the pendulum endpoint singularity.",
+      "documents": [
+        { "path": "docs/guidebook/03-mathematics.md", "sections": ["Numerical calculus"] },
+        { "path": "docs/guidebook/appendix-c-errors.md", "sections": ["numeric and evaluator errors"] },
+        { "path": "docs/companion/04-calculus-1.md", "sections": ["The definite integral as an average", "Riemann sums by program"] },
+        { "path": "docs/companion/05-calculus-2.md", "sections": ["Functions defined by integrals", "Improper integrals"] },
+        { "path": "docs/companion/08-engineering-mathematics.md", "sections": ["The pendulum, and the integral that will not behave"] },
+        { "path": "docs/companion/10-afterword.md", "sections": ["After the last exploration"] },
+        { "path": "docs/companion/09-solutions.md", "sections": ["affected calculus and engineering solutions"] }
+      ],
+      "mustRemoveOrCorrect": [
+        "the statement that FNINT always uses exactly one 64-panel estimate",
+        "the claim that returning 9643 without warning is the preferred design",
+        "quoted FNINT results which change under refinement"
+      ],
+      "mustAdd": [
+        "the convergence/refusal behaviour and work limit",
+        "the pendulum example's new warning or result captured from the final ROM",
+        "why a substitution can still be mathematically preferable even when the calculator refuses unsafe quadrature"
+      ],
+      "captures": ["co08-naive-integral", "all FNINT result captures whose displayed digits change"]
+    },
+    {
+      "issue": "numeric.trig-reduction",
+      "summaryForBooks": "Circular functions will use bounded quotient-based range reduction with a published supported range instead of stopping after 63 subtractions near 399 radians.",
+      "documents": [
+        { "path": "docs/guidebook/03-mathematics.md", "sections": ["Trigonometry"] },
+        { "path": "docs/companion/04-calculus-1.md", "sections": ["Where the machine gives up, and why", "The same oscillation with a limit"] },
+        { "path": "docs/companion/09-solutions.md", "sections": ["Chapter 4 solutions"] },
+        { "path": "docs/companion/10-afterword.md", "sections": ["After the last exploration"] }
+      ],
+      "mustRemoveOrCorrect": [
+        "63-subtraction and 395.84-radian explanations as descriptions of the current ROM",
+        "SIN(399) or SIN(400) presented as the permanent range boundary"
+      ],
+      "mustAdd": [
+        "the measured guaranteed range and accuracy",
+        "examples on both sides of the old boundary",
+        "an honest explanation of loss of meaningful phase outside the supported range"
+      ],
+      "captures": ["co04-sin-cliff and every result/table image built around the old boundary"]
+    },
+    {
+      "issue": "numeric.calculus-context",
+      "summaryForBooks": "Existing active-equation calculus forms remain, while explicit-slot forms allow derivative and accumulator functions to be evaluated and plotted without recursive state corruption.",
+      "documents": [
+        { "path": "docs/guidebook/03-mathematics.md", "sections": ["Numerical calculus"] },
+        { "path": "docs/guidebook/04-cartesian-graphing.md", "sections": ["equations, tables, and analysis"] },
+        { "path": "docs/guidebook/appendix-a-command-catalog.md", "sections": ["calculus commands"] },
+        { "path": "docs/companion/04-calculus-1.md", "sections": ["The derivative is a function"] },
+        { "path": "docs/companion/05-calculus-2.md", "sections": ["Functions defined by integrals"] },
+        { "path": "docs/companion/08-engineering-mathematics.md", "sections": ["The pendulum, and the integral that will not behave"] },
+        { "path": "docs/companion/10-afterword.md", "sections": ["After the last exploration"] }
+      ],
+      "mustRemoveOrCorrect": [
+        "categorical statements that calculus commands cannot be plotted",
+        "UNDEF exercises whose only purpose is the old single-level-context failure"
+      ],
+      "mustAdd": [
+        "the final explicit-slot syntax with key sequences",
+        "worked derivative and accumulator plots",
+        "cycle-error examples distinct from valid cross-slot evaluation"
+      ],
+      "captures": ["new derivative-function graph", "new accumulator-function graph", "their tables"]
+    },
+    {
+      "issue": "graph.diffeq-state",
+      "summaryForBooks": "DEQ will expose editable X0 and Y0 settings and a normal reset action; changing an initial condition will preserve the equation and will not require deleting GDEQ.",
+      "documents": [
+        { "path": "docs/guidebook/07-differential-equation-graphing.md", "sections": ["The initial condition", "What the mode remembers"] },
+        { "path": "docs/guidebook/18-memory-management.md", "sections": ["GDEQ"] },
+        { "path": "docs/companion/07-differential-equations.md", "sections": ["Slope thinking", "Growth with a ceiling", "Equilibria, and the lever that resets them"] },
+        { "path": "docs/companion/08-engineering-mathematics.md", "sections": ["Shooting at a boundary"] },
+        { "path": "docs/companion/09-solutions.md", "sections": ["differential-equation and engineering solutions"] },
+        { "path": "docs/companion/10-afterword.md", "sections": ["After the last exploration"] }
+      ],
+      "mustRemoveOrCorrect": [
+        "every instruction to delete GDEQ merely to change the initial condition",
+        "claims that the seed is permanently frozen after first entry"
+      ],
+      "mustAdd": [
+        "the X0/Y0 editing and reset key sequences",
+        "what DEQ state persists and how older saved state migrates"
+      ],
+      "captures": ["DEQ setup/reset screen", "initial-condition examples and tables"]
+    },
+    {
+      "issue": "graph.diffeq-solver",
+      "summaryForBooks": "DEQ will retain selectable Euler and add Heun and RK4, with visible method/step controls and bounded failure behaviour; Free85 will not claim to solve stiff equations reliably.",
+      "documents": [
+        { "path": "docs/guidebook/07-differential-equation-graphing.md", "sections": ["Plotting a solution", "Tracing and the table"] },
+        { "path": "docs/companion/05-calculus-2.md", "sections": ["Newton's method"] },
+        { "path": "docs/companion/07-differential-equations.md", "sections": ["The window is the step", "Step-size experiments", "An Euler program", "Improved Euler"] },
+        { "path": "docs/companion/08-engineering-mathematics.md", "sections": ["Shooting at a boundary"] },
+        { "path": "docs/companion/09-solutions.md", "sections": ["differential-equation and engineering solutions"] }
+      ],
+      "mustRemoveOrCorrect": [
+        "claims that fixed Euler is the whole built-in numerical story",
+        "quoted DEQ graph/table values which depend on the former fixed method"
+      ],
+      "mustAdd": [
+        "method and step-control key sequences",
+        "Euler/Heun/RK4 accuracy comparisons using the final ROM",
+        "the explicit non-stiff scope and NO CONVERGENCE behaviour"
+      ],
+      "captures": ["method-selection screen", "same-equation Euler Heun and RK4 plots/tables"]
+    },
+    {
+      "issue": "collections.result-chaining",
+      "summaryForBooks": "List, matrix, vector, and complex editors will provide a consistent atomic USE R operation so results can become the next A input without manual transcription.",
+      "documents": [
+        { "path": "docs/guidebook/11-complex-numbers.md", "sections": ["register workflow"] },
+        { "path": "docs/guidebook/12-lists.md", "sections": ["editor and operations"] },
+        { "path": "docs/guidebook/13-matrices-and-vectors.md", "sections": ["Matrix operations", "Row operations and augmentation", "Coordinate conversions"] },
+        { "path": "docs/companion/02-business-mathematics.md", "sections": ["matrix row operations"] },
+        { "path": "docs/companion/06-linear-algebra.md", "sections": ["Row operations as algebra you can watch", "Building a frame of your own", "LU as elimination's ledger"] },
+        { "path": "docs/companion/08-engineering-mathematics.md", "sections": ["Vectors in the round"] },
+        { "path": "docs/companion/09-solutions.md", "sections": ["linear-algebra and engineering solutions"] }
+      ],
+      "mustRemoveOrCorrect": [
+        "manual retyping sequences used only to carry R forward",
+        "the claim that transcription is the necessary price of inspectable results"
+      ],
+      "mustAdd": [
+        "the final USE R key sequence in every affected editor",
+        "one chained calculation showing preservation of dimensions and complex components"
+      ],
+      "captures": ["USE R menu/action", "one chained matrix result"]
+    },
+    {
+      "issue": "program.for-expressions",
+      "summaryForBooks": "FOR will accept evaluated integer bounds and an optional positive or negative nonzero step instead of literal digits zero through nine only.",
+      "documents": [
+        { "path": "docs/guidebook/16-programming.md", "sections": ["Loops", "Limits"] },
+        { "path": "docs/guidebook/appendix-a-command-catalog.md", "sections": ["program control"] },
+        { "path": "docs/companion/03-probability-statistics.md", "sections": ["counted experiments"] },
+        { "path": "docs/companion/04-calculus-1.md", "sections": ["Riemann sums by program"] },
+        { "path": "docs/companion/07-differential-equations.md", "sections": ["An Euler program", "Improved Euler"] },
+        { "path": "docs/companion/08-engineering-mathematics.md", "sections": ["Series against closed forms"] },
+        { "path": "docs/companion/09-solutions.md", "sections": ["affected programming exercises"] }
+      ],
+      "mustRemoveOrCorrect": [
+        "instructions to replace FOR with WHILE solely because a bound exceeds nine",
+        "single-digit bounds listed as a current language limit"
+      ],
+      "mustAdd": [
+        "multi-digit expression-bound and descending-step examples",
+        "zero-step and non-integer error behaviour",
+        "revised programs where FOR now expresses the algorithm directly"
+      ],
+      "captures": ["program editor/run examples whose lines or answers change"]
+    }
+  ],
+  "finalVerification": [
+    "No stale limitation statement remains in any of the three books.",
+    "Every affected quoted result is produced by the final 2.20 ROM hash.",
+    "Every affected screenshot is regenerated and passes framebuffer provenance checks.",
+    "The generated command catalog and feature-status appendix match the 2.20 ledgers.",
+    "Typeset and web editions pass page, overflow, link, and traceability checks."
+  ]
+}

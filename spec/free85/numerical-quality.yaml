@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "baselineRelease": "2.11.1",
+  "targetRelease": "2.20.0",
+  "statuses": ["known-limitation", "resolved", "deferred"],
+  "issues": [
+    {
+      "id": "numeric.error-integrity",
+      "status": "known-limitation",
+      "owner": "15.1",
+      "targetRelease": "2.12.0",
+      "summary": "Nested graph and calculus evaluation can erase a numeric error or replace a runtime/context failure with SYNTAX ERROR.",
+      "baselineEvidence": [
+        "firmware/free85/graph/phase6.asm:p6_evaluate_slot_source",
+        "firmware/free85/graph/phase6.asm:p6_numeric_failure",
+        "firmware/free85/numeric/utilities.asm:utility_calculus_call"
+      ],
+      "acceptance": [
+        "syntax errors are reserved for unreadable expressions",
+        "domain divide overflow recursion and convergence failures retain distinct classes",
+        "home graph table and program contexts recover without losing the diagnostic"
+      ]
+    },
+    {
+      "id": "numeric.integration-safety",
+      "status": "known-limitation",
+      "owner": "15.1",
+      "targetRelease": "2.12.0",
+      "summary": "FNINT uses one fixed 64-panel Simpson estimate and can silently publish a grossly inaccurate finite result.",
+      "baselineEvidence": [
+        "firmware/free85/graph/phase6.asm:p6_calculate_integral",
+        "test/free85/phase15-baseline.test.js:[phase15.integration-safety]"
+      ],
+      "acceptance": [
+        "smooth reference integrals retain or improve existing accuracy",
+        "coarse and refined estimates are compared under a bounded work budget",
+        "undefined singular or non-convergent cases return a diagnostic rather than an unqualified value"
+      ]
+    },
+    {
+      "id": "numeric.trig-reduction",
+      "status": "known-limitation",
+      "owner": "15.2",
+      "targetRelease": "2.14.0",
+      "summary": "Circular functions reduce angles by at most 63 repeated additions or subtractions of two pi.",
+      "baselineEvidence": [
+        "firmware/free85/numeric/scientific.asm:scientific_prepare_angle",
+        "test/free85/phase15-baseline.test.js:[phase15.trig-range]"
+      ],
+      "acceptance": [
+        "SIN COS and TAN work beyond the current 399-radian boundary",
+        "large positive negative quadrant-boundary and degree-mode vectors match an independent reference",
+        "the supported range accuracy and failure behaviour are explicit"
+      ]
+    },
+    {
+      "id": "numeric.calculus-context",
+      "status": "known-limitation",
+      "owner": "15.3",
+      "targetRelease": "2.16.0",
+      "summary": "Calculus commands implicitly consume the active graph equation and cannot safely be evaluated from a graph slot.",
+      "baselineEvidence": [
+        "firmware/free85/graph/phase6.asm:p6_evaluate_slot",
+        "test/free85/graph-phase16.test.js:[graph.calculus-slot]",
+        "test/free85/phase15-baseline.test.js:[phase15.calculus-target]"
+      ],
+      "acceptance": [
+        "existing active-equation forms remain compatible",
+        "new explicit-slot forms evaluate without mutating caller state",
+        "self-reference and indirect cycles fail cleanly while unrelated slots continue"
+      ]
+    },
+    {
+      "id": "graph.diffeq-state",
+      "status": "known-limitation",
+      "owner": "15.4",
+      "targetRelease": "2.18.0",
+      "summary": "The DEQ initial Y is frozen in GDEQ and can only be reseeded by deleting the entire saved mode object.",
+      "baselineEvidence": [
+        "firmware/free85/graph/phase16.asm:P16_INITIAL_Y",
+        "docs/guidebook/07-differential-equation-graphing.md:The initial condition"
+      ],
+      "acceptance": [
+        "X0 and Y0 have a direct visible editing path",
+        "changing an initial condition preserves the differential equation",
+        "old saved state migrates transactionally and reset semantics are deterministic"
+      ]
+    },
+    {
+      "id": "graph.diffeq-solver",
+      "status": "known-limitation",
+      "owner": "15.4",
+      "targetRelease": "2.18.0",
+      "summary": "DEQ provides only fixed-step first-order Euler integration with no error estimate.",
+      "baselineEvidence": [
+        "firmware/free85/graph/phase16.asm",
+        "test/free85/graph-phase16.test.js:[graph.diffeq]"
+      ],
+      "acceptance": [
+        "Euler remains selectable for teaching and compatibility",
+        "Heun and RK4 are selectable and meet their expected convergence orders",
+        "work limits cancellation and non-convergence are enforced without claiming stiff-equation support"
+      ]
+    },
+    {
+      "id": "collections.result-chaining",
+      "status": "known-limitation",
+      "owner": "15.5",
+      "targetRelease": "2.19.0",
+      "summary": "Collection operations write a read-only R register but provide no atomic way to use R as the next A input.",
+      "baselineEvidence": [
+        "firmware/free85/collections/phase7.asm",
+        "docs/guidebook/13-matrices-and-vectors.md:Matrix operations"
+      ],
+      "acceptance": [
+        "lists matrices vectors and complex values expose one consistent USE R operation",
+        "values dimensions coordinate form and imaginary planes copy atomically",
+        "capacity failure leaves A unchanged"
+      ]
+    },
+    {
+      "id": "program.for-expressions",
+      "status": "known-limitation",
+      "owner": "15.5",
+      "targetRelease": "2.19.0",
+      "summary": "FOR accepts only literal bounds from zero through nine and always steps upward by one.",
+      "baselineEvidence": [
+        "firmware/free85/programming/phase10.asm:p10_command_for",
+        "test/free85/phase15-baseline.test.js:[phase15.program-for]"
+      ],
+      "acceptance": [
+        "bounds are evaluated integer expressions",
+        "an optional nonzero positive or negative step is supported",
+        "multi-digit negative variable-bound nested overflow and interruption cases are tested"
+      ]
+    }
+  ]
+}

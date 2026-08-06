@@ -10,12 +10,12 @@ Rebuild it with:
 npm run build:free85
 ```
 
-The bundled ROM follows the package version; development branches may therefore
-contain a newer Phase 17 image than the last stable release. Free85 2.21.0's
-exact stable size and SHA-256 digest remain recorded in
-`spec/free85/release.json`. `npm run release:free85` rebuilds and validates a
-complete release bundle, while `npm run verify:free85:reproducible` performs
-two independent ROM and GitHub Pages builds and checks their recorded hashes.
+The bundled ROM is the stable Free85 3.0.0 Phase 17.5 image. Its exact size and
+SHA-256 digest are recorded in `spec/free85/release.json` and independently
+confirmed by `spec/free85/reproducibility.json`. `npm run release:free85`
+rebuilds and validates the complete release bundle, while
+`npm run verify:free85:reproducible` performs two independent ROM and GitHub
+Pages builds and checks their recorded hashes.
 
 The ROM contains no Texas Instruments ROM code, disassembly, fonts, artwork,
 binary tables, or proprietary fixtures. Free85 does not redistribute and never

@@ -16,22 +16,28 @@ The repository includes:
 
 ## Current status
 
-Free85 3.0.0-dev.2 is the current Phase 17 development build. It adds a direct
-four-field graph-window editor: open the third zoom page and choose `WIN`,
-select `XMIN`, `XMAX`, `YMIN`, or `YMAX`, type an expression, press `ENTER`,
-then `SAVE`. All four draft bounds are validated and committed atomically;
-cancelled, malformed, or unordered input leaves the live window unchanged.
-The fourth drawing-menu page now adds `OVR` and `OFF`: `OVR` recalls `PIC1` as
-a one-shot underlay for the next graph, while `OFF`, leaving for Home, or the
-completed graph consumes/cancels that state. The stored picture is never
-modified by compositing. The home screen identifies this build as
-`VERSION 3.0 DEV2`.
+Free85 3.0.0 is the current stable Phase 17 release. It is a deterministic
+128 KiB ROM with persistent RAM schema 14, object-store schema 2, graph
+database version 3, complete applicable parity coverage, and independently
+reproducible ROM and GitHub Pages artifacts. The home screen identifies it as
+`VERSION 3.0.0`.
 
-Free85 2.21.0 remains the latest stable Phase 16 release. It is a deterministic 128 KiB
-ROM with complete coverage of the applicable Free85 2.0 parity ledger,
-persistent RAM schema 13, object-store schema 1, and independently reproducible
-ROM and GitHub Pages artifacts. The home screen identifies the running release
-as `VERSION 2.21`, and all three published books are written against that ROM.
+Version 3.0 adds four bounded expansions. The third zoom page has a direct
+four-field graph-window editor whose draft bounds commit atomically. The
+drawing menu can recall `PIC1` as a one-shot underlay without changing the
+stored picture. DEQ can integrate two coupled first-order equations with
+Euler, Heun, or RK4 and display either a time trace or phase plane. Real and
+complex matrix registers now accept up to three rows by six columns, while
+square-only determinant, inverse, solve, LU, and eigensystem operations remain
+bounded to 3x3. Existing 2.21 state migrates transactionally; insufficient or
+corrupt source storage is preserved for a retry rather than partially
+publishing the new schema.
+
+Free85 2.21.0 was the previous stable Phase 16 release. The currently published
+Manual, Guidebook, and *Explorations with Free85* editions are deliberately
+written against that 2.21 ROM; their 3.0 editorial revision is tracked
+separately by `spec/free85/v3-book-impact.yaml`. Version 2.21 used persistent
+RAM schema 13 and object-store schema 1 and displayed `VERSION 2.21`.
 Version 2.12 preserves numerical error classes through home,
 graph, table, and program evaluation, and makes `FNINT` compare bounded
 32/64/128-panel Simpson estimates before it publishes a result. Version 2.14
@@ -122,6 +128,14 @@ Phase 16 ships as 2.21.0: the general power operator, LU permutation reporting
 that leaves Vector `R` alone, a truthful simultaneous-editor `CELL`, and a
 matrix row-operation footer that fits the screen. Its book corrections are
 tracked in `spec/free85/v2.21-book-impact.yaml` and have been executed.
+Phase 17 ships as 3.0.0. Packages 17.1-17.4 add the direct window editor,
+picture underlays, two-state DEQ/phase planes, and the versioned 3x6 matrix
+workspace. Phase 17.5 freezes schema 14 and object-store schema 2 only after
+the public numerical and framebuffer suite, randomized rectangular-matrix
+probes, migration success/capacity/corruption rollback, performance budgets,
+10,000-event stress, 180-second soak, reproducible ROM and Pages builds, and
+optional private-oracle policy all pass. The exact implementation-to-book
+handoff remains separate from the book sources.
 
 ## Run the calculator
 
@@ -158,7 +172,7 @@ SJASMPLUS=/absolute/path/to/sjasmplus npm run verify:free85:reproducible
 The validation command runs the public functional, framebuffer, performance,
 10,000-event stress, 180-second soak, and Pages-build gates. Reproducibility
 requires `sjasmplus` 1.21.1 or newer; the current release evidence records
-`sjasmplus` 1.21.1.
+`sjasmplus` 1.23.1, while CI independently rebuilds with pinned 1.21.1.
 
 To add the optional private behavioural comparison:
 
@@ -191,7 +205,7 @@ SJASMPLUS=/absolute/path/to/sjasmplus npm run build:free85
 The build emits exactly eight 16 KiB pages at `ROM/FREE85.ROM` and reports
 per-bank usage under `firmware/free85/generated/`.
 
-To reproduce and validate the complete 2.0 release in one command:
+To reproduce and validate the complete 3.0 release in one command:
 
 ```sh
 SJASMPLUS=/absolute/path/to/sjasmplus npm run release:free85
@@ -277,6 +291,11 @@ screenshots come from `npm run build:companion:screens`.)
 - [Free85 2.20 work-package manifest](spec/free85/v2.20-roadmap.yaml)
 - [Free85 2.20 book-revision handoff](docs/Free85-2.20-book-handoff.md)
 - [Free85 2.20 book-impact ledger](spec/free85/v2.20-book-impact.yaml)
+- [Free85 3.0 execution roadmap](docs/Free85-3.0-roadmap.md)
+- [Free85 3.0 work-package manifest](spec/free85/v3-roadmap.yaml)
+- [Free85 3.0 capability ledger](spec/free85/v3-capabilities.yaml)
+- [Free85 3.0 engineering handoff](docs/Free85-3.0-engineering-handoff.md)
+- [Free85 3.0 book-impact ledger](spec/free85/v3-book-impact.yaml)
 - [Free85 typed object-store contract](docs/Free85-object-store.md)
 - [Free85 2.0 parity gap ledger](spec/free85/v2-parity-gaps.yaml)
 - [Guidebook command-level ledger](spec/free85/guidebook-command-ledger.yaml)

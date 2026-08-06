@@ -6,14 +6,15 @@ compatibility with TI programs, files, ROM calls, or internal data structures.
 
 ## Current release
 
-Free85 2.20.0 is the stable Phase 15.6 release. The eight-bank ROM is exactly
+Free85 3.0.0 is the stable Phase 17.5 release. The eight-bank ROM is exactly
 131,072 bytes; its SHA-256 digest is recorded in
 `spec/free85/release.json`.
-It freezes persistent RAM schema 13 and object-store schema 1. Run
+It freezes persistent RAM schema 14 and object-store schema 2. Run
 `npm run validate:free85` for the complete public validation package and use
 `SJASMPLUS=/path/to/sjasmplus npm run verify:free85:reproducible` to reproduce
 the ROM and Pages artifacts with `sjasmplus` 1.21.1 or newer. The current
-release evidence records `sjasmplus` 1.21.1.
+release evidence records `sjasmplus` 1.23.1; CI independently verifies the ROM
+with pinned `sjasmplus` 1.21.1.
 
 The Phase 1 diagnostic firmware boots, initializes interrupts and the LCD,
 shows an original Free85 splash, and then reports every physical key press.
@@ -168,14 +169,15 @@ product, minimum, maximum, mean, median, population standard deviation, sort,
 cumulative sum, sequence generation, dimension reporting, scalar fill,
 descending sort, and vector conversion.
 
-Matrices are limited to 3x3 and support rectangular dimensions, indexing,
-addition, subtraction, scalar and matrix multiplication, transpose,
-determinant, identity, inverse with row pivoting, reduced row-echelon form, and
-linear-system solving using the first column of matrix B as the right-hand
-side. Phase 14.6 adds elementary row operations, augmentation, row-echelon
-form, three matrix norms, condition number, random and scalar fill, combined
-LU storage, and bounded real eigensystems. Vectors contain two or three
-components and provide addition,
+Matrices accept up to three rows by six columns and support rectangular
+dimensions, indexing, addition, subtraction, scalar and matrix multiplication,
+transpose, determinant, identity, inverse with row pivoting, reduced
+row-echelon form, and linear-system solving using the first column of matrix B
+as the right-hand side. Determinant, identity, inverse, solve, LU, and
+eigensystem operations remain square-only and bounded to 3x3. Phase 14.6 adds
+elementary row operations, augmentation, row-echelon form, three matrix norms,
+condition number, random and scalar fill, combined LU storage, and bounded real
+eigensystems. Vectors contain two or three components and provide addition,
 subtraction, scalar multiplication, magnitude, normalisation, dot product,
 3D cross product, angle, dimension/fill operations, and list conversion.
 Dimension, singular-matrix, and zero-vector
@@ -432,6 +434,23 @@ fixed-ROM reset path accepts schema 13, migrates schema 12 transactionally, and
 initializes unsupported or corrupt state. The release command independently
 rebuilds the eight-bank ROM and Pages tree twice and binds their SHA-256 values
 to `spec/free85/reproducibility.json` and `spec/free85/release.json`.
+
+## Phase 17 Free85 3.0
+
+Phase 17.1 adds atomic direct entry of XMIN, XMAX, YMIN, and YMAX. Phase 17.2
+adds a one-shot recalled-picture graph underlay. Phase 17.3 grows the GDEQ
+payload to version 3 for two coupled first-order states, shared-stage
+Euler/Heun/RK4 integration, time traces, and phase-plane plots. Phase 17.4
+moves four real and imaginary matrix registers into a versioned 3x6 workspace.
+
+Reset migrates schema 13/object-store schema 1 to schema 14/store schema 2 only
+after validating available heap capacity. Capacity or corruption failures leave
+the old schema, heap, and matrix registers unchanged. Phase 17.5 freezes the
+3.0.0 ROM after numerical, visual, randomized, migration, performance, stress,
+soak, reproducibility, Pages, and optional-oracle gates pass. The exact evidence
+and deferred editorial changes are recorded in
+`docs/Free85-3.0-engineering-handoff.md` and
+`spec/free85/v3-book-impact.yaml`.
 
 ## Clean-room rules
 

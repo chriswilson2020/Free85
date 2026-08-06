@@ -101,3 +101,20 @@ test("[release.browser-docs] Pages embeds self-contained books without replacing
     assert.doesNotMatch(html, /Paged\.registerHandlers/);
   }
 });
+
+test("[release.readmes] every release-facing README identifies stable Free85 3.0", async () => {
+  const [root, firmware, rom] = await Promise.all([
+    readFile("README.md", "utf8"),
+    readFile("firmware/free85/README.md", "utf8"),
+    readFile("ROM/README.md", "utf8")
+  ]);
+  assert.match(root, /Free85 3\.0\.0 is the current stable Phase 17 release/);
+  assert.match(root, /VERSION 3\.0\.0/);
+  assert.match(firmware, /Free85 3\.0\.0 is the stable Phase 17\.5 release/);
+  assert.match(rom, /stable Free85 3\.0\.0 Phase 17\.5 image/);
+  for (const source of [root, firmware, rom]) {
+    assert.doesNotMatch(source, /3\.0\.0-dev\.2 is the current/);
+    assert.doesNotMatch(source, /2\.21\.0 remains the latest stable/);
+    assert.doesNotMatch(source, /2\.20\.0 is the stable/);
+  }
+});

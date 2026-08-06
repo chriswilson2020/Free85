@@ -289,8 +289,27 @@ be cancelled. `ClDrw` discards marks by redrawing the equations and axes.
 
 On DRAW page 3, [F3] `StPic` stores the exact LCD image as `PIC1`, [F4]
 `RcPic` recalls it, and [F5] `StGDB` stores the equations, window, table,
-format, and mode settings as `GDB1`. Press [MORE] once more and [F1] `RcGDB`
-to restore that database and redraw. Re-storing replaces the same named object,
+format, and mode settings as `GDB1`. Press [MORE] once more for page 4,
+`RCG OVR OFF`: [F1] `RcGDB` restores that database and redraws, [F2] `OVR`
+arms a picture overlay, and [F3] `OFF` disarms it.
+
+`RcPic` puts a stored picture on the screen, but the next plot clears it,
+which is no use for comparing two curves. `OVR` is the answer to that. It
+recalls `PIC1` and holds its 1,024 pixels as a one-shot underlay: the next
+graph draws *on top of* them instead of over a blank screen, so two plots
+share one picture. The underlay is spent once used, and the redraw after it
+clears normally.
+
+The sequence for comparing two functions is therefore: plot the first,
+[CUSTOM] and [MORE] twice and [F3] to store it as `PIC1`, change the
+equation, then [CUSTOM] and [MORE] three times and [F2] (`OVR`) before
+pressing [GRAPH]. Keep the window identical between the two or the
+comparison is meaningless, which is one of the things the window editor
+above is for.
+
+`PIC1` itself is never modified by any of this: the overlay reads it. [F3]
+(`OFF`) cancels an armed underlay if you change your mind, and arming `OVR`
+with no `PIC1` stored displays `NO PICTURE` and leaves nothing armed. Re-storing replaces the same named object,
 so repeated saves do not consume another directory entry.
 
 Pictures and graph databases are native Free85 objects shown by the memory

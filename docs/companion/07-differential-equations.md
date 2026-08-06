@@ -832,10 +832,28 @@ variables would have meant a second integrator, a second initial condition
 and a plotting mode that draws y against y rather than against x, and that
 there was not room. There was room.
 
-What travels instead is the thinking: the sign of the right-hand side, the
-equilibria where it vanishes, and whether neighbours join them or leave.
-That much you can do on paper for a system of any size, and this chapter is
-where you learn to.
+What travels beyond two states is still the thinking: the sign of the
+right-hand side, the equilibria where it vanishes, and whether neighbours
+join them or leave. That much you can do on paper for a system of any size,
+and the rest of this chapter is where you learned to.
+
+**Try it.**
+
+1. Change the oscillator to a damped one: `Y` in slot 1 and `-X-.1*Y` in
+   slot 2. Predict what the phase picture does before you plot it, then
+   plot it and say what the shape tells you that the time trace does not.
+2. Predator and prey, in the simplest form there is: dX/dT = `X-X*Y` and
+   dY/dT = `-Y+X*Y`. Start from `X0` and `Y0` both 1 and plot the phase
+   view. What kind of curve do you get, and what does it say about whether
+   either species dies out?
+3. Put the oscillator back and set `METHOD` to `EULER`. Count how many
+   revolutions it takes before the spiral is obviously not a ring. Then do
+   the same for `HEUN`. What ratio would you have predicted from section
+   7.5?
+4. The phase view uses the table step as its integration step and takes
+   128 samples. Work out, before touching the machine, what table step
+   draws exactly one revolution of the oscillator. Then set it and see how
+   close you were.
 
 **Try it.**
 

@@ -2376,11 +2376,11 @@ dy/dt = -x gives a direction perpendicular to the position vector, and
 always the same way round. So a solution must go round the origin in
 circles.
 
-No single Free85 equation shows you that. The phase plane needs two state
-variables and the mode integrates one, so this is the wall section 7.7
-describes. What you can do is deduce the circles on paper from the signs
-alone, and that reasoning transfers to systems the machine could never
-handle whatever its size.
+Section 7.8 draws it. Put `Y` in slot 1 and `-X` in slot 2, press [F1]
+(`SYS`), and the phase view plots exactly the circles you just deduced. The
+deduction is still the valuable half: signs at eight points told you the
+answer before the machine drew anything, and that reasoning carries to
+systems of any size, which this machine still cannot integrate.
 
 **5.** Take a rate like `.1*Y*(Y-3)*(Y-6)`, which vanishes at 0, 3 and 6.
 
@@ -2393,6 +2393,46 @@ Predicting the fate of a solution started in each gap needs only the sign of
 the product, which you can do in your head. Checking them all costs three
 keys each on the `DEQ SETUP` page: [F3], the [+] or [-] presses that move
 `Y0` where you want it, and [F5]. Check every one of them.
+
+### 7.8 Two equations at once, and the phase plane
+
+**1.** The damping term takes energy out, so the ring must close inwards:
+a spiral into the origin rather than a closed orbit. That is what you get.
+
+The time trace shows a cosine whose height shrinks, which you could also
+have guessed. What the phase picture adds is *where* it is going: every
+orbit, from any start, ends at the same point. The origin is an attractor,
+and one picture shows that for all starting conditions at once, which no
+single time trace can.
+
+**2.** A closed loop, and that is the whole answer. The populations cycle:
+prey rise, predators follow, prey crash, predators starve, prey recover.
+Because the curve closes rather than spiralling in or out, neither species
+dies out and neither settles down. The system is *neutrally* stable, which
+is a famous and slightly unrealistic property of this simplest model.
+
+Watch the method here. Euler's outward drift will eventually push the
+orbit into extinction and it will look like biology. It is arithmetic.
+Check any conclusion against `RK4` before you believe it.
+
+**3.** Euler shows a visible spiral within two or three revolutions. Heun
+takes long enough that you will lose count, which is the point.
+
+Section 7.5 measured the orders: halving the step divides Euler's error by
+two and Heun's by four. Per revolution the same ratio applies, so if Euler
+is obviously wrong after three turns, Heun should take roughly its square,
+around nine, and `RK4` far more than you have patience for.
+
+**4.** One revolution of dX/dT = y, dY/dT = -x takes 2 pi units of time.
+The view takes 128 samples, so the step wanted is 2 pi over 128, which is
+about `0.049`.
+
+The table step halves from 1, so the reachable values are 0.5, 0.25, 0.125,
+0.0625, 0.03125. Four halvings gives 0.0625, which draws about 1.27
+revolutions; five gives 0.03125 and about 0.64 of one. Neither is exact,
+and the near miss is the answer to the question: the step you want is not
+a power of two, so you choose between a little more than one loop and a
+little less.
 
 ## 9.8 Solutions for Chapter 8
 

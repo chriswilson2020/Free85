@@ -415,16 +415,26 @@ takings, that is a 2 by 3 matrix, and it fits the matrix editor exactly.
    steps 2 through 6 unwatched. Use it once you believe the steps and not
    before.
 
-The tableau register is the design to work within. A matrix holds at most
-`SIZE 3X3`, so a two-unknown system's 2 by 3 tableau fits and a
-three-unknown system's 3 by 4 does not.
+The tableau register holds three rows and up to six columns, so a
+two-unknown system's 2 by 3 tableau fits, a three-unknown system's 3 by 4
+fits, and there is room left over. Press [x-VAR] in the editor and the [+]
+and [-] keys resize columns instead of rows.
 
-That ceiling is also why the simplex method, which is what a real linear
-programme uses instead of section 2.3's picture, is not in this book. Even
-the joinery's little two-product problem needs a tableau of three rows and
-six columns once the slack variables are in, and there is nowhere to put
-it. Three unknowns and their takings belong to the simultaneous editor of
-section 2.1, or to the matrix editor's `SOLVE` key, which reads the
+That room is worth knowing about, because it is exactly enough for the
+simplex method, which is what a real linear programme uses instead of
+section 2.3's picture. The joinery's two-product problem needs a tableau of
+three rows and six columns once the slack variables are in, and three by
+six is precisely what the workspace holds.
+
+This book does not teach simplex, and that is now a choice about what
+belongs in an introduction rather than a fact about the machine. Earlier
+editions said there was nowhere to put the tableau. There is: I wrote that
+sentence, read it back, and built the workspace to fit it.
+
+What has not changed is that the square-only keys stay square. `DET`,
+`INV`, `ID`, `SOLVE`, `LU` and the eigensystem still want a 3 by 3, because
+that is what they mean. Three unknowns and their takings still belong to
+the simultaneous editor of section 2.1, or to `SOLVE`, which reads the
 coefficients from `A` and the right-hand sides from `B`'s first column.
 
 **Try it.**
@@ -439,9 +449,9 @@ coefficients from `A` and the right-hand sides from `B`'s first column.
 3. Swap the rows of the finished tableau, 0, 1, 30 above 1, 0, 40, and run
    `RREF` on it. Predict the answer before you press the key.
 4. Count the row operations `RREF` must be doing internally for the
-   framer's tableau, from your work in steps 2 to 6. Then count them for a
-   3 by 4 tableau, and say why the 3 by 3 ceiling bites so much harder than
-   it looks.
+   framer's tableau, from your work in steps 2 to 6. Then build the 3 by 4
+   tableau of a three-unknown system, run `RREF` on it, and count them
+   again. How does the work grow with the size?
 
 ## 2.5 The mathematics of money
 

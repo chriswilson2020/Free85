@@ -561,10 +561,12 @@ A 3 by 4 tableau needs to clear two entries below the first pivot, then one
 below the second, then two above, then three rescalings: six operations of
 four cells each, so around twenty-five updates, plus the swaps.
 
-The work grows like the cube of the size, which is why the 3 by 3 ceiling
-bites harder than it looks. It is not that you have lost one row. It is
-that everything a machine could usefully do with elimination lives on the
-other side of it.
+The work grows like the cube of the size, which is the thing worth taking
+away. Twelve updates against twenty-five for one extra row and column, and
+a 3 by 6 tableau costs more again. That growth, not the size of the
+register, is what limits elimination by hand: the register holds three rows
+by six columns, and by the time you have filled it you will not want to
+audit every step anyway.
 
 ### 2.5 The mathematics of money
 

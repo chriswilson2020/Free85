@@ -7,8 +7,8 @@ and the operations on the soft keys. Whenever the screen is showing `R`,
 the line above the soft keys reads `ENTER USE R`, and pressing [ENTER]
 copies the whole result into `A` in one action, dimensions and complex
 components intact, so a result can be used as the next operand without
-being read off and typed back in. A matrix is at most 3 by 3 and a
-vector has two or three components in this release. This chapter covers
+being read off and typed back in. A matrix has three rows and up to six
+columns, and a vector has two or three components in this release. This chapter covers
 both editors, the linear-algebra operations from determinants to
 eigensystems, the coordinate conversions, and the error screens that
 guard them, with every result quoted from the machine.
@@ -24,9 +24,28 @@ chapter 1) leads to the same place.
 Under the `MATRIX` banner, `SIZE 2X2` gives the dimensions, rows first;
 that is also where a fresh machine starts. [+] and [-] resize one row at
 a time; press [x-VAR] and the same keys resize columns instead, and
-[x-VAR] again hands them back to rows. Each dimension runs from 1 up to
-the release limit of 3, so pressing [+] beyond `SIZE 3X3` changes
-nothing.
+[x-VAR] again hands them back to rows. Rows run from 1 to 3 and columns
+from 1 to 6, so pressing [+] beyond either limit changes nothing.
+
+Those two limits are different on purpose, and the difference decides which
+operations are available. The editor and the `A`, `B` and `R` registers
+hold anything up to 3 by 6, real or complex, and the operations that make
+sense for a rectangle work across the whole of it: row operations,
+augmentation, `RREF`, addition, subtraction, scaling, and multiplication
+where the shapes agree. The operations that need a square keep their old
+3 by 3 ceiling, because that is what they mean: `DET`, `INV`, `ID`,
+`SOLVE`, `LU` and the eigensystem.
+
+Transposing is the case where the two limits collide. A matrix wider than
+three columns would transpose into more than three rows, which the
+workspace cannot hold, so `TRN` answers `DIMENSION ERROR` and leaves `R`
+as it was.
+
+![A matrix grown out to six columns](images/ch13-matrix-wide.png)
+
+Six columns is what makes an augmented system comfortable rather than
+cramped. Three equations in three unknowns plus a right-hand side is 3 by
+4; a two-product simplex tableau is 3 by 6 exactly.
 
 The `CELL` line tracks the selected cell as you move: the two figures
 after `CELL` are the cell's row and column, and the value of the cell

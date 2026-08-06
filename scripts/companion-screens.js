@@ -724,6 +724,11 @@ export const SCREEN_CASES = [
   },
   // Chapter 7 section 7.1: the tank's dye concentration decaying across the
   // standard window from the frozen initial condition 9.
+  // Section 1.1's window editor, new in 3.0.
+  {
+    name: "co01-window-editor",
+    keys: ["X-VAR", "X^2", "GRAPH", 2500, "2ND", "GRAPH", 60, "MORE", "MORE", 40, "F5", 80]
+  },
   { name: "co07-tank-decay", keys: [...CO07_TANK] },
   // Chapter 7 section 7.2: the same equation after one [+], the run re-based
   // on the new left window edge and the step halved with it.

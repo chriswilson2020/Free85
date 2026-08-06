@@ -782,36 +782,49 @@ and `PHAS`.
    [GRAPH] to store it in slot 1. Press [2nd] [2] for slot 2, type [(-)]
    [x-VAR] for `-X`, and press [GRAPH].
 
-2. Set the start. On the setup page press [F3] until the prompt reads
-   `EDIT X0`, press [+] once for `X0` of 1, and press [F5], `GO`.
+2. Set the start and the method. On the setup page press [F2] (`METH`)
+   twice for `RK4`, press [F3] (`NEXT`) once so the prompt reads
+   `EDIT X0`, press [+] eight times for an `X0` of 8, and press [F5],
+   `GO`.
 
-   In `TIME` you get a cosine, which you could have predicted and which
-   tells you little you did not know.
+   ![The oscillator in the time view](images/co07-system-time.png)
 
-3. Now press [2nd] [MORE] four times again and [MORE] once for `VIEW PHAS`,
-   then [F5]:
+   A cosine, which you could have predicted and which tells you little you
+   did not already know.
 
-   ![The oscillator's closed phase orbit](images/co07-phase-orbit.png)
+3. Now press [2nd] [MORE] four times again, press [MORE] once so `VIEW`
+   reads `PHAS`, and press [F5]:
 
-   A circle. Position against velocity, and the curve closes on itself,
-   which is the picture of a conserved quantity: the energy that the time
-   trace only implies. Nothing oscillates in that picture, and that is
-   exactly why it is worth having.
+   ![The oscillator's phase orbit, many revolutions on one ring](images/co07-phase-orbit.png)
 
-4. The closed orbit is also the cleanest test of a method you will find.
-   Press [F2] (`METH`) for `EULER` and replot: the orbit spirals outward,
-   because Euler's error at every step points the same way round the
-   circle and never cancels. `RK4` closes the loop to about a pixel.
+   Position against velocity, and the curve closes on itself. That is the
+   picture of a conserved quantity: the energy the time trace only
+   implies. Nothing oscillates in it, which is exactly why it is worth
+   having.
+
+   It is thick because you are seeing about twenty revolutions at once.
+   The phase view takes 128 samples and integrates each by the table step,
+   which is 1 by default, so 128 units of time go by and the orbit comes
+   round many times. Every one of those passes lands on the same ring, and
+   that is the point: the ring not spreading is the conservation, drawn.
+   Halve the table step in the table screen and you draw fewer, cleaner
+   loops.
+
+4. The orbit is also the cleanest test of a method you will find. Go back
+   to the setup page, press [F2] until `METHOD` reads `EULER`, and replot.
+
+   The ring stops being a ring. Euler's error at every step points the
+   same way round the circle and never cancels, so the orbit spirals
+   outward and the energy it is supposed to conserve grows visibly. `HEUN`
+   spirals more slowly. `RK4` holds the ring.
 
    A method's error is not a number here. It is a shape, and the shape
    tells you what kind of wrong it is.
 
-Two notes on what the phase view actually does, because they catch people.
-The graph window now bounds the *state space* rather than time, so `XMIN`
-and `XMAX` are limits on x and not on t. And the integration step is the
-table step, across 128 samples, so the table step decides how far round the
-orbit the picture gets. If a closed orbit comes out as an arc, that is the
-usual reason.
+One note on the phase view, because it catches people. The graph window
+now bounds the *state space* rather than time, so `XMIN` and `XMAX` are
+limits on x, not on t. An orbit of radius 8 needs a window that reaches 8,
+which is what section 1.1's window editor is for.
 
 This section is new. For most of this book's life the mode integrated one
 equation from one initial condition, and I wrote here that two state

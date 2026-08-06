@@ -146,6 +146,11 @@ function co04Spell(text) {
   return keys;
 }
 
+const CO07_SYSTEM = ["GRAPH", 100, "2ND", "MORE", "MORE", "MORE", "F4", 600,
+  "EXIT", 30, "ALPHA", "0", "GRAPH", 1500, "2ND", "2", 60, "(-)", "X-VAR",
+  "GRAPH", 1500, "2ND", "MORE", "MORE", "MORE", "MORE", 40, "F1", 40,
+  "F2", "F2", 40, "F3", 40, "+", "+", "+", "+", "+", "+", "+", "+", 40];
+
 // Chapter 5 spells FNINT( letter by letter on the home screen: [ALPHA]
 // plus the key carrying each letter, as the chapter instructs.
 const FNINT_KEYS = ["ALPHA", "LN", "ALPHA", "9", "ALPHA", ")", "ALPHA", "9",
@@ -736,12 +741,17 @@ export const SCREEN_CASES = [
       "ALPHA", "0", "GRAPH", 1500, "2ND", "MORE", "MORE", "MORE", "MORE", 40,
       "F1", 80]
   },
+  // The oscillator as a system: dX/dT = Y in slot 1, dY/dT = -X in slot 2,
+  // RK4, X0 stepped out to 8 so the orbit fills the standard window. The
+  // phase view runs 128 samples at the default table step, which is about
+  // twenty revolutions, all landing on one ring.
+  {
+    name: "co07-system-time",
+    keys: [...CO07_SYSTEM, "F5", 20000]
+  },
   {
     name: "co07-phase-orbit",
-    keys: ["GRAPH", 100, "2ND", "MORE", "MORE", "MORE", "F4", 600, "EXIT", 30,
-      "ALPHA", "0", "GRAPH", 1500, "2ND", "2", 60, "(-)", "X-VAR", "GRAPH", 1500,
-      "2ND", "MORE", "MORE", "MORE", "MORE", 40, "F1", 40,
-      "F3", "F3", "+", 40, "MORE", 40, "F5", 12000]
+    keys: [...CO07_SYSTEM, "MORE", 40, "F5", 20000]
   },
   { name: "co07-tank-decay", keys: [...CO07_TANK] },
   // Chapter 7 section 7.2: the same equation after one [+], the run re-based

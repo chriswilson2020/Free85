@@ -756,21 +756,68 @@ much worse, and the story is short and worth having.
    tell which you have by looking at the rule, without solving anything and
    without the machine.
 
-The honest scope of the mode ends here, and it is worth being precise about
-where.
+## 7.8 Two equations at once, and the phase plane
 
-Free85 integrates one first-order equation from one initial condition. So
-the questions this chapter can ask are the questions a single curve can
-answer. A predator and its prey, a mass on a spring, any pair of quantities
-that drive each other: those are systems of two equations whose natural
-picture is the phase plane, one quantity plotted against the other rather
-than against x.
+Everything so far has been one equation and one curve. A predator and its
+prey, a mass on a spring, any pair of quantities that drive each other, is
+a system of two, and its natural picture is not a curve against x at all.
+It is the phase plane: one quantity plotted against the other.
 
-Neither is available here, and no arrangement of the slots produces them,
-because the plot follows slot 1 alone. I would have liked to give you the
-phase plane. Two state variables would have meant a second integrator, a
-second initial condition to freeze, and a plotting mode that draws y
-against y rather than against x, and there was not room.
+The mode does both. Open the setup page with [2nd] [MORE] four times and
+press [F1], `SYS`:
+
+![The DEQ system setup: T0, X0, Y0, and the view](images/co07-deq-system.png)
+
+The banner reads `DEQ SYSTEM`, and three things have changed. Slot 1 is now
+dX/dT and slot 2 is dY/dT. The initial condition has three fields, `T0`,
+`X0` and `Y0`, which [F3] (`NEXT`) steps between and [+] and [-] move. And
+`VIEW` has appeared beside the method, which [MORE] switches between `TIME`
+and `PHAS`.
+
+1. Take the oscillator: a mass on a spring, where the velocity is one state
+   and the position is the other. Written as a system, dX/dT = y and
+   dY/dT = -x.
+
+   Press [EXIT] for the entry line, type [ALPHA] [0] for `Y`, and press
+   [GRAPH] to store it in slot 1. Press [2nd] [2] for slot 2, type [(-)]
+   [x-VAR] for `-X`, and press [GRAPH].
+
+2. Set the start. On the setup page press [F3] until the prompt reads
+   `EDIT X0`, press [+] once for `X0` of 1, and press [F5], `GO`.
+
+   In `TIME` you get a cosine, which you could have predicted and which
+   tells you little you did not know.
+
+3. Now press [2nd] [MORE] four times again and [MORE] once for `VIEW PHAS`,
+   then [F5]:
+
+   ![The oscillator's closed phase orbit](images/co07-phase-orbit.png)
+
+   A circle. Position against velocity, and the curve closes on itself,
+   which is the picture of a conserved quantity: the energy that the time
+   trace only implies. Nothing oscillates in that picture, and that is
+   exactly why it is worth having.
+
+4. The closed orbit is also the cleanest test of a method you will find.
+   Press [F2] (`METH`) for `EULER` and replot: the orbit spirals outward,
+   because Euler's error at every step points the same way round the
+   circle and never cancels. `RK4` closes the loop to about a pixel.
+
+   A method's error is not a number here. It is a shape, and the shape
+   tells you what kind of wrong it is.
+
+Two notes on what the phase view actually does, because they catch people.
+The graph window now bounds the *state space* rather than time, so `XMIN`
+and `XMAX` are limits on x and not on t. And the integration step is the
+table step, across 128 samples, so the table step decides how far round the
+orbit the picture gets. If a closed orbit comes out as an arc, that is the
+usual reason.
+
+This section is new. For most of this book's life the mode integrated one
+equation from one initial condition, and I wrote here that two state
+variables would have meant a second integrator, a second initial condition
+and a plotting mode that draws y against y rather than against x, and that
+there was not room. There was room.
 
 What travels instead is the thinking: the sign of the right-hand side, the
 equilibria where it vanishes, and whether neighbours join them or leave.

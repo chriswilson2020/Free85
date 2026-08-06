@@ -729,6 +729,20 @@ export const SCREEN_CASES = [
     name: "co01-window-editor",
     keys: ["X-VAR", "X^2", "GRAPH", 2500, "2ND", "GRAPH", 60, "MORE", "MORE", 40, "F5", 80]
   },
+  // Section 7.8's system setup and phase orbit, new in 3.0.
+  {
+    name: "co07-deq-system",
+    keys: ["GRAPH", 100, "2ND", "MORE", "MORE", "MORE", "F4", 600, "EXIT", 30,
+      "ALPHA", "0", "GRAPH", 1500, "2ND", "MORE", "MORE", "MORE", "MORE", 40,
+      "F1", 80]
+  },
+  {
+    name: "co07-phase-orbit",
+    keys: ["GRAPH", 100, "2ND", "MORE", "MORE", "MORE", "F4", 600, "EXIT", 30,
+      "ALPHA", "0", "GRAPH", 1500, "2ND", "2", 60, "(-)", "X-VAR", "GRAPH", 1500,
+      "2ND", "MORE", "MORE", "MORE", "MORE", 40, "F1", 40,
+      "F3", "F3", "+", 40, "MORE", 40, "F5", 12000]
+  },
   { name: "co07-tank-decay", keys: [...CO07_TANK] },
   // Chapter 7 section 7.2: the same equation after one [+], the run re-based
   // on the new left window edge and the step halved with it.

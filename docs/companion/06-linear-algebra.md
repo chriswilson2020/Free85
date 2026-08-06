@@ -3,9 +3,10 @@
 Linear algebra is the mathematics of flat things: lines, planes, and the
 transformations that carry them onto one another.
 
-Its habitat on Free85 is small. Matrices at most 3 by 3, vectors of two or
-three components. Small enough that every number in every register can be
-looked at, which is the point rather than the price.
+Its habitat on Free85 is small. Matrices of three rows and up to six
+columns, with the square-only operations confined to 3 by 3, and vectors of
+two or three components. Small enough that every number in every register
+can be looked at, which is the point rather than the price.
 
 Chapter 2 used the matrix editor as a bookkeeper. This chapter uses it as a
 laboratory: one system solved two ways, elimination watched move by move,
@@ -99,9 +100,12 @@ The simultaneous editor scales to four unknowns and names its verdicts in
 words, so it is the tool when only the answer matters. The tableau shows
 the structure behind the verdict.
 
-An augmented tableau fits the 3 by 3 world only up to two unknowns, so
-three unknowns belong to the simultaneous editor, or to the matrix `SOLVE`
-key with coefficients in `A` and right-hand sides down `B`'s first column.
+An augmented tableau has room to spare: three rows by six columns holds a
+three-unknown system's 3 by 4 comfortably. Press [x-VAR] in the editor and
+the [+] and [-] keys grow columns instead of rows. `SOLVE` remains the
+faster route when only the answer matters, reading coefficients from `A`
+and right-hand sides down `B`'s first column, but it will not show you the
+elimination, and the elimination is what this chapter is about.
 
 **Try it.**
 

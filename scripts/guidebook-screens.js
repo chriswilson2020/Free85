@@ -74,6 +74,22 @@ export const SCREEN_CASES = [
     keys: ["GRAPH", 100, "2ND", "MORE", "MORE", "MORE", "F4", 600, "EXIT", 30,
       "1", "GRAPH", 900, "2ND", "MORE", "MORE", "MORE", "MORE", 60]
   },
+  // The window editor, new in 3.0: zoom panel page 3, then F5 (WIN).
+  {
+    name: "ch04-window-editor",
+    keys: ["X-VAR", "GRAPH", 2500, "2ND", "GRAPH", 60, "MORE", "MORE", 40, "F5", 80]
+  },
+  // DEQ system setup, new in 3.0: the setup page with SYS toggled on.
+  {
+    name: "ch07-deq-system",
+    keys: ["GRAPH", 100, "2ND", "MORE", "MORE", "MORE", "F4", 600, "EXIT", 30,
+      "1", "GRAPH", 900, "2ND", "MORE", "MORE", "MORE", "MORE", 40, "F1", 80]
+  },
+  // A rectangular matrix, new in 3.0: columns grown out past three.
+  {
+    name: "ch13-matrix-wide",
+    keys: ["2ND", "7", 40, "X-VAR", "+", "+", "+", "+", 80]
+  },
   { name: "ch08-constants-menu", keys: ["2ND", "4"] },
   // CTOF( from the conversions menu's second page, applied to 100 degrees
   // Celsius, shows a conversion evaluated on the home screen.

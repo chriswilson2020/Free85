@@ -33,13 +33,15 @@ the graph screen to reach `DEQ SETUP`, the fourth graph-format page:
 ![The DEQ setup page: the method, the initial condition, and the keys that edit them](images/ch07-deq-setup.png)
 
 The page names the current method and shows the initial condition as
-`X0` and `Y0`, and its soft keys are `METH X0 Y0 RST GO`. [F2] (`X0`)
-and [F3] (`Y0`) choose which coordinate the [+] and [-] keys edit, and
-the line above the soft keys names the choice: `EDIT X0 WITH +/-`. Each
-press moves the chosen value by the table's step of chapter 4, one unit
-by default, so two presses of [+] carry `X0` from `-10` to `-8`. [F4]
-(`RST`) restores the defaults, `X0` at `XMIN`, `Y0` at `0`, and the
-method to `EULER`. [F5] (`GO`) leaves the page and redraws.
+`X0` and `Y0`, and its soft keys are `SYS METH NEXT RST GO`. [F3] (`NEXT`)
+steps the selection from field to field, and the line above the soft keys
+names the one you have: `EDIT X0 WITH +/-`. The [+] and [-] keys move the
+selected value by the table's step of chapter 4, one unit by default, so
+two presses of [+] carry `X0` from `-10` to `-8`. [F2] (`METH`) cycles the
+method, [F4] (`RST`) restores the defaults, `X0` at `XMIN`, `Y0` at `0`,
+and the method to `EULER`, and [F5] (`GO`) leaves the page and redraws.
+[F1] (`SYS`) switches between one equation and a two-state system, which
+the section after next covers.
 
 Nothing has to be deleted to change a seed. The equation, the window
 and the table position all stay as they are, and the new initial
@@ -100,6 +102,49 @@ reads `10`, `11`, `12`, `13`, `14`, `15`, the same line row by row.
 The query reaches every sample of the plot, so the table reads the
 window from edge to edge: one press of [▼] carries `X` on to `10`
 with `Y1` reading `20`, and only rows past `XMAX` answer `UNDEF`.
+
+## Systems of two equations, and the phase plane
+
+[F1] (`SYS`) on the setup page turns the mode from one equation into two,
+and the banner changes from `DEQ SETUP` to `DEQ SYSTEM`:
+
+![The DEQ system setup page, with T0, X0, Y0 and the view](images/ch07-deq-system.png)
+
+In system mode the two graph slots hold the two derivatives: slot 1 is
+dX/dT and slot 2 is dY/dT. The variables you may name in them are `T`, `X`
+and `Y`, and the initial condition gains a third field, so the page lists
+`T0`, `X0` and `Y0`. [F3] (`NEXT`) steps between all three and [+] and [-]
+move the selected one, exactly as in the single-equation page.
+
+`METH` still cycles `EULER`, `HEUN` and `RK4`, and in system mode both
+derivatives are evaluated from the same old stage before either state
+advances. That is what makes the pair a system rather than two independent
+equations: neither may see the other's new value part-way through a step.
+
+[MORE] switches the view, which the page shows as `VIEW TIME` or
+`VIEW PHAS`:
+
+- **`TIME`** plots the first state `X` against `T`, using the graph window
+  as usual, and the table exposes both states.
+- **`PHASE`** plots `X` against `Y`, with the graph window giving the
+  bounds of the *state space* rather than of time. Its integration step is
+  the table step, and it takes 128 samples, so the table step sets how far
+  round an orbit the picture goes.
+
+The worked example is the harmonic oscillator. Put `Y` in slot 1 and `-X`
+in slot 2, which is dX/dT = y and dY/dT = -x, set `X0` to 1 with `Y0` at 0,
+and plot. In `TIME` you get a cosine; in `PHASE` you get a circle, and the
+circle is the better picture, because it shows the conserved quantity that
+the time trace only implies.
+
+A closed orbit is also a test of the method. Euler spirals outward on this
+problem, because its error always points the same way round; `RK4` closes
+the loop to the width of a pixel. Cycling `METH` and replotting shows the
+difference more plainly than any table of numbers.
+
+Saved state grows with the mode. A `GDEQ` written by an earlier firmware
+loads as a single equation, and is rewritten as a two-state object only
+when you next save.
 
 ## Analysis reads the slope, not the solution
 

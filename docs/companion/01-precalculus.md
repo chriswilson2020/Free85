@@ -53,16 +53,28 @@ a small hill and valley between them: a shape worth framing deliberately.
    [ENTER] answers `= -5`. From the standard window, one press of [-]
    instead answers `= -20`.
 
-   The window bounds `XMIN`, `XMAX`, `YMIN` and `YMAX` are read-only. You
-   cannot type a window; you build one out of zooms.
+   The window bounds `XMIN`, `XMAX`, `YMIN` and `YMAX` are read-only *on
+   the home screen*. To set one exactly, there is an editor: from the graph
+   screen press [2nd] [GRAPH] for the zoom panel, [MORE] twice, then [F5],
+   `WIN`.
 
-   I should say why, because it looks like an omission and it was a
-   decision. A window editor is four numbers, four fields, cursor
-   handling, validation that the bounds are the right way round, and a
-   screen to put it on. The zoom keys cover the same ground in one press
-   each and cost almost nothing. On a machine this size that was the right
-   trade, and section 1.5 is where you will most wish I had chosen
-   otherwise.
+   ![The window editor, four bounds you can type](images/co01-window-editor.png)
+
+   [F1] to [F4] pick a bound, you type a value, [ENTER] puts it in a draft,
+   and [F5] (`SAVE`) commits all four together after checking that the
+   minimums really are below the maximums. Nothing reaches the plot until
+   `SAVE`, so a half-typed window cannot leave you looking at nonsense and
+   wondering which press did it.
+
+   What you type is an expression, not just digits, which is the whole
+   value of the thing: `2*PI` is a legal `XMAX`.
+
+   There was no editor when this book was first written, and I defended
+   that at some length here: four fields, cursor handling and validation
+   against zoom keys that cost one press each and almost no code. It was a
+   reasonable trade and I no longer think it was the right one, because
+   "one press each" is only cheap when you do not care exactly where you
+   land, and section 1.6 is full of windows where you do.
 
    [2nd] [+] restores the standard window whenever an experiment has taken
    you somewhere unhelpful. Learn that one now.
@@ -445,9 +457,10 @@ functions; here they earn their keep as graphs.
 ## 1.6 Trigonometric functions
 
 Periodic phenomena repeat, and their graphs only make sense in windows
-matched to the period. Nowhere does the window matter more than here, and
-this is where you will most want the window editor that section 1.1 said
-does not exist.
+matched to the period. Nowhere does the window matter more than here, which
+is why section 1.1's window editor earns its keep in this section: a period
+is rarely a round number, and `2*PI` typed into `XMAX` is exact where four
+presses of a zoom key are merely close.
 
 The angle mode matters too. Everything here runs in `RAD`, the fresh-boot
 default shown in the status line, until the walkthrough says otherwise.

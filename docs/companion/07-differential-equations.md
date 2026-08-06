@@ -756,26 +756,104 @@ much worse, and the story is short and worth having.
    tell which you have by looking at the rule, without solving anything and
    without the machine.
 
-The honest scope of the mode ends here, and it is worth being precise about
-where.
+## 7.8 Two equations at once, and the phase plane
 
-Free85 integrates one first-order equation from one initial condition. So
-the questions this chapter can ask are the questions a single curve can
-answer. A predator and its prey, a mass on a spring, any pair of quantities
-that drive each other: those are systems of two equations whose natural
-picture is the phase plane, one quantity plotted against the other rather
-than against x.
+Everything so far has been one equation and one curve. A predator and its
+prey, a mass on a spring, any pair of quantities that drive each other, is
+a system of two, and its natural picture is not a curve against x at all.
+It is the phase plane: one quantity plotted against the other.
 
-Neither is available here, and no arrangement of the slots produces them,
-because the plot follows slot 1 alone. I would have liked to give you the
-phase plane. Two state variables would have meant a second integrator, a
-second initial condition to freeze, and a plotting mode that draws y
-against y rather than against x, and there was not room.
+The mode does both. Open the setup page with [2nd] [MORE] four times and
+press [F1], `SYS`:
 
-What travels instead is the thinking: the sign of the right-hand side, the
-equilibria where it vanishes, and whether neighbours join them or leave.
-That much you can do on paper for a system of any size, and this chapter is
-where you learn to.
+![The DEQ system setup: T0, X0, Y0, and the view](images/co07-deq-system.png)
+
+The banner reads `DEQ SYSTEM`, and three things have changed. Slot 1 is now
+dX/dT and slot 2 is dY/dT. The initial condition has three fields, `T0`,
+`X0` and `Y0`, which [F3] (`NEXT`) steps between and [+] and [-] move. And
+`VIEW` has appeared beside the method, which [MORE] switches between `TIME`
+and `PHAS`.
+
+1. Take the oscillator: a mass on a spring, where the velocity is one state
+   and the position is the other. Written as a system, dX/dT = y and
+   dY/dT = -x.
+
+   Press [EXIT] for the entry line, type [ALPHA] [0] for `Y`, and press
+   [GRAPH] to store it in slot 1. Press [2nd] [2] for slot 2, type [(-)]
+   [x-VAR] for `-X`, and press [GRAPH].
+
+2. Set the start and the method. On the setup page press [F2] (`METH`)
+   twice for `RK4`, press [F3] (`NEXT`) once so the prompt reads
+   `EDIT X0`, press [+] eight times for an `X0` of 8, and press [F5],
+   `GO`.
+
+   ![The oscillator in the time view](images/co07-system-time.png)
+
+   A cosine, which you could have predicted and which tells you little you
+   did not already know.
+
+3. Now press [2nd] [MORE] four times again, press [MORE] once so `VIEW`
+   reads `PHAS`, and press [F5]:
+
+   ![The oscillator's phase orbit, many revolutions on one ring](images/co07-phase-orbit.png)
+
+   Position against velocity, and the curve closes on itself. That is the
+   picture of a conserved quantity: the energy the time trace only
+   implies. Nothing oscillates in it, which is exactly why it is worth
+   having.
+
+   It is thick because you are seeing about twenty revolutions at once.
+   The phase view takes 128 samples and integrates each by the table step,
+   which is 1 by default, so 128 units of time go by and the orbit comes
+   round many times. Every one of those passes lands on the same ring, and
+   that is the point: the ring not spreading is the conservation, drawn.
+   Halve the table step in the table screen and you draw fewer, cleaner
+   loops.
+
+4. The orbit is also the cleanest test of a method you will find. Go back
+   to the setup page, press [F2] until `METHOD` reads `EULER`, and replot.
+
+   The ring stops being a ring. Euler's error at every step points the
+   same way round the circle and never cancels, so the orbit spirals
+   outward and the energy it is supposed to conserve grows visibly. `HEUN`
+   spirals more slowly. `RK4` holds the ring.
+
+   A method's error is not a number here. It is a shape, and the shape
+   tells you what kind of wrong it is.
+
+One note on the phase view, because it catches people. The graph window
+now bounds the *state space* rather than time, so `XMIN` and `XMAX` are
+limits on x, not on t. An orbit of radius 8 needs a window that reaches 8,
+which is what section 1.1's window editor is for.
+
+This section is new. For most of this book's life the mode integrated one
+equation from one initial condition, and I wrote here that two state
+variables would have meant a second integrator, a second initial condition
+and a plotting mode that draws y against y rather than against x, and that
+there was not room. There was room.
+
+What travels beyond two states is still the thinking: the sign of the
+right-hand side, the equilibria where it vanishes, and whether neighbours
+join them or leave. That much you can do on paper for a system of any size,
+and the rest of this chapter is where you learned to.
+
+**Try it.**
+
+1. Change the oscillator to a damped one: `Y` in slot 1 and `-X-.1*Y` in
+   slot 2. Predict what the phase picture does before you plot it, then
+   plot it and say what the shape tells you that the time trace does not.
+2. Predator and prey, in the simplest form there is: dX/dT = `X-X*Y` and
+   dY/dT = `-Y+X*Y`. Start from `X0` and `Y0` both 1 and plot the phase
+   view. What kind of curve do you get, and what does it say about whether
+   either species dies out?
+3. Put the oscillator back and set `METHOD` to `EULER`. Count how many
+   revolutions it takes before the spiral is obviously not a ring. Then do
+   the same for `HEUN`. What ratio would you have predicted from section
+   7.5?
+4. The phase view uses the table step as its integration step and takes
+   128 samples. Work out, before touching the machine, what table step
+   draws exactly one revolution of the oscillator. Then set it and see how
+   close you were.
 
 **Try it.**
 

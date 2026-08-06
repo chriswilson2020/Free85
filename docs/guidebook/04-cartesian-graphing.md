@@ -113,8 +113,9 @@ For the complete zoom panel, press [2nd] [GRAPH]. Its three pages are:
   `ZSqr`;
 - page 2: [F1] `ZDecm`, [F2] `ZFit`, [F3] `ZInt`, [F4] `ZPrev`, and [F5]
   `ZTrig`;
-- page 3: [F1] stores the current window, [F2] performs `ZRcl`, and [F3]
-  or [F4] selects factor 2 or factor 4 for later zoom-in and zoom-out.
+- page 3: [F1] stores the current window, [F2] performs `ZRcl`, [F3]
+  or [F4] selects factor 2 or factor 4 for later zoom-in and zoom-out, and
+  [F5] `WIN` opens the window editor described below.
 
 Press [MORE] to cycle pages and [EXIT] to return to the plot. `ZBox` starts
 a movable cursor: position one corner with the arrow keys and press [ENTER],
@@ -125,9 +126,35 @@ horizontal range and derives a padded vertical range from the active curve.
 `ZPrev` exchanges the current and previous windows, while store and `ZRcl`
 provide a separate remembered window.
 
-The current bounds are readable on the home screen as `XMIN`, `XMAX`, `YMIN`,
-and `YMAX`. They are read-only system values; window changes go through the
-zoom controls above.
+The current bounds are readable on the home screen as `XMIN`, `XMAX`,
+`YMIN`, and `YMAX`. They are read-only there; to type a window directly,
+use the editor below.
+
+## The window editor
+
+Zoom keys reach a window by halving and doubling, which is quick and rarely
+exact. When the bounds matter, type them. From the graph screen press
+[2nd] [GRAPH] for the zoom panel, [MORE] twice for page 3, and [F5]
+(`WIN`):
+
+![The graph window editor with all four bounds](images/ch04-window-editor.png)
+
+The four bounds are listed with a cursor on the selected one, and the soft
+keys are `XMN XMX YMN YMX SAVE`. [F1] to [F4] select a bound; typing puts a
+value on the entry line, and [ENTER] commits it to a private draft. The
+line above the soft keys prompts `TYPE VALUE; ENTER` while you work.
+
+Two things make this safe to use on a window you care about. Drafts are
+private until you save: editing `XMIN` and then leaving changes nothing.
+And [F5] (`SAVE`) commits all four at once, after checking that `XMIN` is
+below `XMAX` and `YMIN` below `YMAX`. If they are not, the panel stays open
+with `DOMAIN ERROR` and the live window is untouched, so a half-entered
+window can never reach the plotter.
+
+Values are expressions, not just digits, which is the point of typing them.
+`2*PI` is a legal `XMAX`, and so is `LN(100)`; the whole entry line is
+evaluated when you press [ENTER]. [EXIT] cancels an expression in progress,
+and pressing it again returns to the zoom panel without saving.
 
 ## Trace
 

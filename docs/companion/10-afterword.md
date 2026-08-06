@@ -4,37 +4,57 @@ Eight chapters have used one small machine as a laboratory rather than as
 an oracle.
 
 Here is what it has, written out plainly. Three graph slots. Lists of eight
-samples. Matrices no bigger than 3 by 3. Vectors of three components.
-Polynomials to degree 4. Four programs of eight lines. An entry line of forty-eight characters, and a program line of
-the same forty-eight, because they share a buffer. One first-order equation
-in the DifEq mode, and one equation in the solver. Fourteen significant
-digits, which is seven bytes of packed decimal.
+samples. Matrices of three rows and up to six columns, and square-only work
+confined to 3 by 3. Vectors of three components. Polynomials to degree 4.
+Four programs of eight lines. An entry line of forty-eight characters, and
+a program line of the same forty-eight, because they share a buffer. Two
+coupled first-order equations in the DifEq mode, and one equation in the
+solver. Fourteen significant digits, which is seven bytes of packed
+decimal.
 
 Every one of those numbers is a decision I made, mostly about how much of a
 very small machine to spend on one feature. And every one of them has
 shaped an exploration in this book.
 
-Some of them closed a door, and this book has said so each time rather than
-pretending otherwise. There is no plot of pendulum period against
-amplitude, because a graph slot cannot hold `FNINT(` without being asked to
-integrate itself. There is no spiral past one revolution, because the polar
-sweep is exactly one turn. There is no phase plane, because the mode
-integrates one equation from one initial condition. There is no simplex
-tableau, because even a two-product problem needs three rows and six
-columns. There is no expression that would let `SOLV` do a shooting
-method's aiming for you. Sine gives up a little short of four hundred
-radians, because its argument reduction subtracts 2 pi at most sixty-three
-times.
+Some of them closed a door, and this book said so each time rather than
+pretending otherwise. Then most of those doors opened.
 
-Each time, the exploration went round instead: a table written out row by
-row, an identity applied on paper before the machine was asked, a straight
-line drawn through the last two misses.
+That paragraph used to list six of them. A graph slot could not hold
+`FNINT(`, so there was no plot of pendulum period against amplitude. Sine
+gave up a little short of four hundred radians. There was no phase plane,
+because the mode integrated one equation from one initial condition. There
+was no simplex tableau, because even a two-product problem needs three rows
+and six columns. There was no window editor. There was no way to hold one
+plot on the screen while another drew over it.
+
+Every one of those is now false. The calculus commands take an explicit
+slot and plot as functions of x. Reduction is by quotient and runs to a
+million radians. DEQ integrates two coupled states and draws the phase
+plane. The matrix workspace is three rows by six columns, which are the
+exact dimensions this paragraph named as the reason simplex was
+impossible. `WIN` gives four numeric fields. `OVR` lays a stored picture
+under the next graph.
+
+Two of those I wrote as permanent and they lasted one release. One of them
+I described as a design decision when it was a thing I had not got round
+to. Only the polar sweep of exactly one turn, and the absence of an
+expression that would let `SOLV` aim a shooting method for you, are still
+standing.
+
+Each time a door was shut, the exploration went round instead: a table
+written out row by row, an identity applied on paper before the machine was
+asked, a straight line drawn through the last two misses. Those detours are
+still in this book, and I have kept them, because the going-round is where
+the mathematics was. What has changed is that they are now choices rather
+than requirements, and the book says which is which.
 
 I want to be careful about what I am claiming here, because there is a
 comfortable and slightly dishonest version of this argument that says
-limitations are secretly good for you. They are not. If I could have given
-you nine graph slots and a phase plane I would have, and the book would
-have been better for it in places.
+limitations are secretly good for you. They are not. I wrote in an earlier
+edition that if I could have given you nine graph slots and a phase plane I
+would have, and that the book would have been better for it in places. I
+have since given you the phase plane, and the book is better for it in
+places, exactly as predicted. The graph slots are still three.
 
 What is true is narrower and I think more interesting. A bound you can see
 the whole of teaches you something a bound you cannot see does not.

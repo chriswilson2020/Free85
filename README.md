@@ -236,7 +236,12 @@ for Charter, Helvetica Neue and Menlo, and those are macOS system fonts.
 Built anywhere else, Chrome substitutes whatever it can find and every book
 silently repaginates. The workflow fails if a book's PDF does not have
 Charter, Helvetica Neue and Menlo embedded in it, which is what a missing
-font looks like from the outside.
+font looks like from the outside. It also fails before building anything if
+the release tag is behind `main`, listing the commits the tag is missing:
+the assets are built from the tag, so a tag cut before its documentation
+landed would otherwise ship the previous edition under the new banner.
+Refreshing an older release deliberately is still supported by dispatching
+with `allow_stale`.
 
 ## Documentation
 

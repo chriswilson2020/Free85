@@ -9,3 +9,10 @@ firmware/free85/generated/*.bin
 firmware/free85/generated/*.lst
 firmware/free85/generated/*.sym
 firmware/free85/generated/free85.map
+
+# Throwaway emulator probe scripts. Several of these were committed by
+# accident: they are written to the repository root, run once against the
+# ROM to check a screen or a number, and then forgotten, and a `git add -A`
+# sweeps them in. Nothing in the project has a root-level .mjs entry point,
+# so ignoring the pattern costs nothing and stops it happening again.
+/*.mjs

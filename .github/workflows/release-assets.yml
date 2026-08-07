@@ -33,6 +33,11 @@ on:
         description: "Release tag to build and attach assets to"
         required: true
         type: string
+      allow_stale:
+        description: "Build a tag that is behind main (refreshing an old release on purpose)"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -47,8 +52,64 @@ env:
   RELEASE_TAG: ${{ inputs.tag || github.event.release.tag_name }}
 
 jobs:
+  # Everything below builds the TAG, never main. That is deliberate: a release
+  # cut from an older commit must ship that commit's ROM and books rather than
+  # whatever main happens to be on the day someone reruns the build.
+  #
+  # The cost of that choice is a trap, and this job exists because the trap was
+  # sprung. Release_3.0 was tagged about eight hours before the 3.0 book
+  # revision merged, so every rebuild faithfully produced the previous
+  # edition's books: 258 pages where the current edition is 260, published
+  # under a 3.0 banner, with nothing failing anywhere. A release is silently
+  # wrong in exactly this way whenever its tag predates work you believe is in
+  # it, and nothing downstream can tell.
+  #
+  # So say it out loud before building. If the tag is behind main, list what is
+  # missing and stop. Refreshing an old release on purpose is still supported:
+  # dispatch with allow_stale, which turns the failure into a logged note.
+  preflight:
+    name: Check the tag is what you think it is
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the release tag with history
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ env.RELEASE_TAG }}
+          fetch-depth: 0
+
+      - name: Compare the release tag against main
+        env:
+          ALLOW_STALE: ${{ inputs.allow_stale }}
+        run: |
+          set -euo pipefail
+          git fetch --quiet origin main
+          behind=$(git rev-list --count "$RELEASE_TAG"..origin/main)
+          printf 'tag %s is %s commit(s) behind main\n' "$RELEASE_TAG" "$behind"
+          {
+            printf '### `%s`\n\n' "$RELEASE_TAG"
+            printf 'Commit `%s`, %s commit(s) behind `main`.\n' \
+              "$(git rev-parse --short "$RELEASE_TAG")" "$behind"
+          } >> "$GITHUB_STEP_SUMMARY"
+          if [ "$behind" -eq 0 ]; then
+            echo "The tag is current; the assets will match main."
+            exit 0
+          fi
+          {
+            printf '\nOn `main` but not in this tag:\n\n'
+            git log --oneline --no-merges "$RELEASE_TAG"..origin/main | sed 's/^/- /'
+          } >> "$GITHUB_STEP_SUMMARY"
+          echo "--- on main but not in this tag ---"
+          git log --oneline --no-merges "$RELEASE_TAG"..origin/main
+          if [ "${ALLOW_STALE:-false}" = "true" ]; then
+            echo "allow_stale was set, so building this older tag on purpose."
+            exit 0
+          fi
+          echo "::error::$RELEASE_TAG is behind main, so the assets would be built from older sources than you probably intend. Move the tag, or dispatch again with allow_stale to build it anyway." >&2
+          exit 1
+
   rom:
     name: Build and attach the ROM
+    needs: preflight
     runs-on: ubuntu-latest
     steps:
       - name: Check out the release tag
@@ -110,6 +171,7 @@ jobs:
 
   books:
     name: Build and attach the typeset PDFs
+    needs: preflight
     # macOS, because the design's fonts are macOS system fonts. See the note
     # at the top of this file: building these on Ubuntu silently repaginates
     # every book.

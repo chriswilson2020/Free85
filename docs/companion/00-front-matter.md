@@ -150,6 +150,10 @@ there, and goes round. That turns out to be the most useful thing in it.
 
 ## Contents
 
+1. [Explorations in Lines and Patterns](01-lines.md): one line written
+   three ways in three graph slots, parallel and perpendicular slopes and
+   the window that draws one of them wrongly, and direct against inverse
+   variation read from two columns.
 2. [Explorations in Quadratics](02-quadratics.md): the discriminant
    against a picture that cannot resolve it, and the vertex found exactly
    by `-b/2a` and approximately by the machine's minimum search.

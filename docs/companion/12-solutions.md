@@ -14,7 +14,143 @@ equation second: those two account for almost every discrepancy. A
 difference in the last digit alone is usually just a different route to the
 same answer, as section 6.6 found.
 
-## 12.1 Solutions for Chapter 2
+## 12.1 Solutions for Chapter 1
+
+### 1.1 Three forms, one line
+
+**1.** 4x + 2y = 6 becomes 2y = 6 - 4x, so y = 3 - 2x. Type `(6-4*X)/2` in
+slot 1 and `3-2*X` in slot 2, pressing [GRAPH] after each.
+
+The table shows two identical columns: at `X=0` both read `3`, then `1`,
+`-1`, `-3`, `-5`, `-7`. Letting the machine do the division is not cheating
+and it is not less rigorous, because `(6-4*X)/2` *is* the rearrangement,
+written out rather than simplified.
+
+**2.** Point-slope through (1, 4) with slope -2 is y = 4 - 2(x - 1), typed
+`4-2*(X-1)`. Multiplied out that is y = -2x + 6, typed `-2*X+6` with the
+[(-)] key.
+
+Both read `4` at `X=1`, which is the point you built them from, and both
+read `6` at `X=0`, which is the intercept the second form wears on its
+face. The forms differ in which fact they show you for free.
+
+**3.** The plot cannot tell them apart. Two lines a ten-thousandth apart
+are the same line on a screen 64 pixels tall covering 20 units, where one
+pixel is worth about a third of a unit.
+
+The table can, but not instantly, and the delay is the interesting part. At
+`X=0` the columns read `-5` and `-5.00`. The second column has run out of
+width and rounded, so the two look the same. At `X=1`, `-2` against `-2.00`,
+still no help.
+
+Read down to `X=2` and there it is: `1` against `0.999`. Then `4` against
+`3.999`, `7` against `6.999`, `10` against `9.999`.
+
+So the table settles it and the plot never can, but the table only settles
+it where the difference has climbed into the digits it has room to print. A
+column four characters wide is its own kind of window, and it hides things
+for the same reason the screen does.
+
+That is the honest limit of step 3's demonstration. Three plots landing on
+each other proves the three forms agree to about a third of a unit, which
+is not what the section claimed.
+
+**4.** Multiplying out, 3(x - 2) + 1 is 3x - 6 + 1, which is 3x - 5. The
+two are the same expression and always were; a page of algebra settles it
+with no machine involved.
+
+What the calculator was for is the *disbelief*. Knowing the algebra works
+and seeing three unlike expressions produce one column of numbers are
+different kinds of conviction, and the second one is the one that survives
+a year of not thinking about it. Use the machine to make a fact stick, not
+to establish it.
+
+### 1.2 Parallel, perpendicular, and a window that lies
+
+**1.** The perpendicular slope is -1/3, so store `3*X` and `-X/3`, and press
+[2nd] [-] for the square window.
+
+Three is easier to check by eye than two because the pair is further from
+symmetric: a steep line and a shallow one make a right angle that is
+obviously a right angle. The pair in step 2, slopes 2 and -1/2, sits closer
+to the 1 and -1 case where both lines are at forty-five degrees, and eyes
+are poor judges of near-symmetric angles.
+
+**2.** They look perpendicular, and they are, and it is luck.
+
+`X` and `-X` are mirror images in the vertical axis. Squashing the picture
+horizontally squashes both by the same factor and in opposite directions,
+so the symmetry survives and the right angle with it. Every other
+perpendicular pair loses its angle, because the two slopes are scaled by
+the same factor but start from different places. This pair is the one
+exception, which makes it the worst possible pair to test a window with.
+
+**3.** The angle stays right. Each [+] halves every bound, so `XMIN`,
+`XMAX`, `YMIN` and `YMAX` all halve together and the ratio between the two
+ranges is untouched.
+
+Squareness is about that ratio and nothing else. Zooming in and out cannot
+break it; only changing one range independently of the other can, which is
+what [2nd] [+] does when it puts the standard window back.
+
+**4.** 5 times -0.2 is -1, so yes, perpendicular.
+
+In the square window they cross at a visibly right angle, but a very steep
+line against a very shallow one is exactly the case where your eye is
+worst: near-vertical and near-horizontal look perpendicular whether they
+are or not. Store `5*X` and `-0.19*X` and you will not see the difference
+either. Check this kind by arithmetic and use the picture for
+reassurance, never the other way round.
+
+### 1.3 Direct and inverse, in two columns
+
+**1.** Through (4, 20): the direct model has k = 20/4 = 5, so `5*X`. The
+inverse model has k = 20 times 4 = 80, so `80/X`.
+
+The table settles it without leaving the rows it already shows. At `X=4`
+both columns read `20`, which is the point you built them from and the one
+place they are obliged to agree. Either side of it they part company at
+once: at `X=2` the direct model reads `10` and the inverse `40`, and at
+`X=5` they read `25` and `16`.
+
+Walk from `X=2` to `X=4`, which is a doubling of x. The direct column went
+10 to 20 and doubled with it. The inverse column went 40 to 20 and halved.
+That is the two definitions happening side by side in one screen.
+
+One point can never tell you which relationship you have, which is the
+whole reason to take a second reading. Notice also `26.66` at `X=3`, where
+80 divided by 3 has been cut off to fit the column rather than rounded up,
+and `UNDEF` at nought where the inverse model has nothing to say.
+
+**2.** At `X=5` the column shows `2.4`, so the product is 5 times 2.4,
+which is 12, matching every other row.
+
+Press [CLEAR] and ask `5*2.4`: `= 12`. That the displayed `2.4` is exact
+rather than rounded is worth noticing, and it is why the check works.
+
+**3.** Each [-] halves the step, so the rows run 0.5 then 0.25 either side
+of nought. The values grow without limit as the step shrinks: at `X=0.25`
+the column reads `48`, and halving again would double it.
+
+The `UNDEF` row never goes away. You can walk towards nought for as long as
+you have patience and the row at nought itself stays `UNDEF`, because there
+is no value there to find. That is the difference between a number the
+table has to work to reach and a number that does not exist.
+
+**4.** The cost of apples against weight is direct: twice the apples, twice
+the money, and nothing costs anything at nought weight. Journey time
+against speed is inverse: twice the speed, half the time, and the product
+speed times time is the fixed distance. The area of a square against its
+side is neither.
+
+The table gives the third away at once. Store `X^2` and read it: `0`, `1`,
+`4`, `9`, `16`, `25`. The ratios are 1, 2, 3, 4, 5, not constant, so it is
+not direct. The products are 0, 4, 18, 48, 100, not constant either, so it
+is not inverse. Both tests fail, and a relationship that fails both is
+telling you it needs a different shape of formula. It is the quadratic of
+chapter 2.
+
+## 12.2 Solutions for Chapter 2
 
 ### 2.1 The discriminant against the picture
 
@@ -114,7 +250,7 @@ able to do; predicting all fourteen would mean you had reimplemented the
 search, at which point you may as well have used `-b/2a` and had the answer
 exactly.
 
-## 12.2 Solutions for Chapter 4
+## 12.3 Solutions for Chapter 4
 
 ### 4.1 Functions and their windows
 
@@ -474,7 +610,7 @@ x = 1/y, which is the same relation.
 a function is its own inverse exactly when its graph is symmetric about the
 line y = x, which is a nice thing to be able to spot by eye.
 
-## 12.3 Solutions for Chapter 5
+## 12.4 Solutions for Chapter 5
 
 ### 5.1 Prices from receipts
 
@@ -775,7 +911,7 @@ shows up. It is fast at first and then slows, because each week closes a
 fixed fraction of the remaining gap. Most of the effect of the Station's
 renovation appears within a month; the last of it never quite arrives.
 
-## 12.4 Solutions for Chapter 6
+## 12.5 Solutions for Chapter 6
 
 ### 6.1 A week of small data
 
@@ -1125,7 +1261,7 @@ So the answer is `XYLN`, and the reason is the same property that made it
 untrustworthy in step 2. A plot that respects entry order is the only one
 that can show you something about entry order.
 
-## 12.5 Solutions for Chapter 7
+## 12.6 Solutions for Chapter 7
 
 ### 7.1 Limits by table and zoom
 
@@ -1505,7 +1641,7 @@ Check with [2nd] [F1] and you should find -1 and 3 to the usual dust.
 Designing backwards from the answer is how every exercise in this book was
 built, and it is a good habit for building your own.
 
-## 12.6 Solutions for Chapter 8
+## 12.7 Solutions for Chapter 8
 
 ### 8.1 Zeros of functions two ways
 
@@ -1927,7 +2063,7 @@ worse, exactly as the geometric series did. A real function with no real
 trouble at all, fenced in by a pair of complex numbers, is one of the better
 surprises in the subject.
 
-## 12.7 Solutions for Chapter 9
+## 12.8 Solutions for Chapter 9
 
 ### 9.1 One system, two tools
 
@@ -2185,7 +2321,7 @@ Two short passes and no elimination at all. That is what the ledger buys,
 and doing it once by hand is worth more than any amount of description: the
 second right-hand side would cost you the same two passes and no more.
 
-## 12.8 Solutions for Chapter 10
+## 12.9 Solutions for Chapter 10
 
 ### 10.1 Slope thinking
 
@@ -2534,7 +2670,7 @@ and the near miss is the answer to the question: the step you want is not
 a power of two, so you choose between a little more than one loop and a
 little less.
 
-## 12.9 Solutions for Chapter 11
+## 12.10 Solutions for Chapter 11
 
 ### 11.1 The pendulum, and the integral that will not behave
 

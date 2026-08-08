@@ -226,12 +226,41 @@ const co11Components = (values) => values.flatMap((value) => [
   "ENTER"
 ]);
 
+// Chapter 1 section 1.1: one line written three ways, in the three graph
+// slots. The plot shows a single line and the table shows why: three columns
+// of identical values, which is the claim the plot can only suggest.
+const CO01_THREE_FORMS = ["3", "*", "X-VAR", "-", "5", "GRAPH", 900,
+  "2ND", "2", 30, "1", "+", "3", "*", "(", "X-VAR", "-", "2", ")", "GRAPH", 1800,
+  "2ND", "3", 30, "(", "6", "*", "X-VAR", "-", "1", "0", ")", "/", "2",
+  "GRAPH", 2700];
+// Chapter 1 section 1.2: slopes 2 and -1/2 cross at a right angle on paper.
+// The standard window is 20 units over 128 pixels across and 20 over 64 down,
+// so it draws them at something plainly short of ninety degrees until
+// [2nd] [-] squares the pixels.
+const CO01_PERPENDICULAR = ["2", "*", "X-VAR", "GRAPH", 900,
+  "2ND", "2", 30, "(-)", "X-VAR", "/", "2", "GRAPH", 1800];
+// Chapter 1 section 1.3: y = 3x against y = 12/x. The table carries the
+// section: a constant ratio beside a constant product, and UNDEF where the
+// inverse relationship has nothing to say.
+const CO01_VARIATION = ["3", "*", "X-VAR", "GRAPH", 900,
+  "2ND", "2", 30, "1", "2", "/", "X-VAR", "GRAPH", 1800];
+
 // Chapter 2's quadratics differ in one coefficient, so they are built from
 // one template. The three discriminant cases are 3, 4 and 5.
 const co02Quadratic = (c) => ["X-VAR", "X^2", "-", "4", "*", "X-VAR", "+",
   ...String(c).split("")];
 
 export const SCREEN_CASES = [
+  { name: "co01-three-forms", keys: CO01_THREE_FORMS },
+  { name: "co01-three-forms-table", keys: [...CO01_THREE_FORMS, "MORE", 900] },
+  {
+    name: "co01-parallel",
+    keys: ["2", "*", "X-VAR", "+", "1", "GRAPH", 900,
+      "2ND", "2", 30, "2", "*", "X-VAR", "-", "3", "GRAPH", 1800]
+  },
+  { name: "co01-perp-standard", keys: CO01_PERPENDICULAR },
+  { name: "co01-perp-square", keys: [...CO01_PERPENDICULAR, "2ND", "-", 2400] },
+  { name: "co01-variation-table", keys: [...CO01_VARIATION, "MORE", 900] },
   // Chapter 2 section 2.1: two of the three discriminant cases in the
   // standard window, and the root search refusing the one that only touches
   // the axis. The touching case is the point of the section: on its own it

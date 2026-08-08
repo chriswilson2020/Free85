@@ -1,7 +1,7 @@
 # Explorations with Free85
 
-*Explorations with Free85* is a workbook. Its eight chapters follow the
-order of a mathematics course, from precalculus through to engineering
+*Explorations with Free85* is a workbook. Its ten chapters follow the
+order of a mathematics course, from school algebra through to engineering
 mathematics. Each section asks a question about the mathematics, works it
 through on the machine keystroke by keystroke, and then hands you exercises
 to carry on with on your own.

@@ -1,6 +1,6 @@
 # Afterword: After the last exploration
 
-Eight chapters have used one small machine as a laboratory rather than as
+Ten chapters have used one small machine as a laboratory rather than as
 an oracle.
 
 Here is what it has, written out plainly. Three graph slots. Lists of eight

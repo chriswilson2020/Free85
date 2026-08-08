@@ -227,3 +227,102 @@ wrong under pressure.
    the midpoint of (1, 2) and (4, 6) on paper, then use the vector editor
    to check that it is the same distance from each end. What should that
    distance be, given step 3's answer of `5`?
+
+## 3.3 Six points, one multiplication
+
+A transformation of the plane is a rule that moves every point. Rotate,
+reflect, stretch: each of them can be written as a small square of four
+numbers, and applying it to a point is a multiplication.
+
+That is the textbook fact. What the textbook cannot do is apply it to a
+whole shape at once, because doing six points by hand is six times the
+arithmetic and nobody learns anything from the fourth one.
+
+This machine can, and the reason is worth knowing. Matrices here used to
+stop at three columns, which meant a matrix could hold at most three
+points. Since firmware 3.0 the workspace runs to three rows by six columns.
+The rows are not the interesting part. **The columns are**, because a
+column is a point, and six columns is a polygon.
+
+Here is the shape, an L with six corners:
+
+    (1,0)  (3,0)  (3,1)  (2,1)  (2,3)  (1,3)
+
+Sketch it on squared paper before you start. You will want something to
+compare against.
+
+1. Press [2nd] [7] for the matrix editor. It opens on register `A` at
+   `SIZE 2X2`, which is the right size for the transformation.
+
+   The quarter turn anticlockwise sends (x, y) to (-y, x). Written out as
+   four numbers, reading across the top row and then the bottom, that is
+   0, -1, 1, 0. Type [0] [ENTER] [(-)] [1] [ENTER] [1] [ENTER] [0] [ENTER].
+
+2. Press [ALPHA] to switch to register `B`. The footer says `ALPHA A/B`,
+   which is that key telling you what it does.
+
+3. `B` has to hold six points, so it needs six columns. Press [x-VAR] to
+   move the size control from rows to columns, then press [+] four times.
+   The header reads `SIZE 2X6`.
+
+   Now type the shape. The top row is all six x values and the bottom row
+   is all six y values, so the points go in as columns: [1] [ENTER] [3]
+   [ENTER] [3] [ENTER] [2] [ENTER] [2] [ENTER] [1] [ENTER], then [0]
+   [ENTER] [0] [ENTER] [1] [ENTER] [1] [ENTER] [3] [ENTER] [3] [ENTER].
+
+   ![The B register at SIZE 2X6, holding the six corners as columns](images/co03-six-columns.png)
+
+4. Press [MORE] for the second soft-key page, `ADD SUB MUL SCL SOLVE`, and
+   press [F3], `MUL`.
+
+   The result arrives in `R` at `SIZE 2X6`. Step through it with [▶].
+
+   ![The turned shape in register R, the fifth cell reading -3](images/co03-turned.png)
+
+   The top row reads `0`, `0`, `-1`, `-1`, `-3`, `-3`. The bottom row reads
+   `1`, `3`, `3`, `2`, `2`, `1`.
+
+   Read those back as points: (0,1), (0,3), (-1,3), (-1,2), (-3,2), (-3,1).
+
+5. Now check it against your sketch, because this is the part that makes
+   the section worth doing. The first corner was (1,0) and it has become
+   (0,1). The second was (3,0) and is now (0,3). Every point has done the
+   same thing, and it is exactly the rule you started with: the old y, with
+   its sign flipped, is the new x, and the old x is the new y.
+
+   The whole L has turned a quarter circle anticlockwise about the origin,
+   and you pressed one key to do it.
+
+That is the entire idea, and it is why transformations are taught as
+matrices rather than as six separate instructions. The matrix does not know
+or care how many points you hand it. One multiplication is one
+multiplication whether the shape has three corners or six.
+
+Where the machine stops is worth knowing before you meet it. Six columns is
+six points, and a seventh corner will not fit. The square-only commands,
+`DET`, `INV`, `ID` and the rest, still want a 3 by 3 and will not look at a
+2 by 6. And the third row, which this section left unused, is what you
+would need if you wanted to slide the shape sideways as well as turn it,
+because a translation cannot be written as two-by-two multiplication at
+all. That is a genuinely deeper fact than it looks, and it is the reason
+computer graphics carries an extra coordinate everywhere.
+
+**Try it.**
+
+1. Reflect the L in the x axis instead. The rule sends (x, y) to (x, -y),
+   so write down the four numbers first, then run it and read both rows.
+   Which row comes back unchanged, and why should you have known that
+   without pressing anything?
+2. Turn the shape a half circle. Do it two ways: run the quarter turn on
+   the result of the quarter turn, and separately build the half turn as
+   its own four numbers. Predict both answers before either run.
+3. Double the size of the shape with 2, 0, 0, 2 in `A`. Say what happens to
+   the corner at (1,0) and what happens to the one at (2,3), and check
+   both.
+4. Try to multiply the other way round, with the six points in `A` and the
+   transformation in `B`. Before you do, work out the dimensions and say
+   whether the machine can possibly answer.
+5. Before firmware 3.0 a matrix stopped at three columns. Say what the
+   largest shape you could have transformed in one multiplication was, and
+   how you would have had to do this L instead. Then say what that would
+   have cost you in retyping.

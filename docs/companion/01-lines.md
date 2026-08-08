@@ -252,3 +252,102 @@ Take k = 3 for the direct one, and k = 12 for the inverse.
    of apples against their weight; the time for a journey against the speed
    travelled; the area of a square against its side. Then build a table for
    the one that is neither and say how the table gives it away.
+
+## 1.4 Sequences, which are functions in disguise
+
+A sequence is a list of numbers with a rule. Arithmetic sequences add the
+same amount each time, geometric ones multiply by the same amount, and
+school treats them as a separate topic with its own formulas.
+
+They are not a separate topic. An arithmetic sequence is the line of
+section 1.1 with only the whole numbers kept, and a geometric sequence is
+an exponential curve with the same restriction. Once you have seen that,
+the formulas stop being things to memorise.
+
+Take 3, 7, 11, 15, adding 4 each time, and 2, 4, 8, 16, doubling each time.
+
+1. The first is a line. It goes up 4 every step, so its slope is 4, and
+   working backwards to where it would cross at n = 0 gives -1. So the rule
+   is 4n - 1. Press [CLEAR], type `4*X-1`, and press [GRAPH].
+
+2. The second doubles, which is 2 to the power of n. Press [2nd] [2] for
+   slot 2, type `2^X`, and press [GRAPH].
+
+   Be patient with this one. An exponential is much slower to draw than a
+   line, and a press that arrives mid-draw goes nowhere. Let it reach the
+   right-hand edge.
+
+3. Press [MORE] for the table.
+
+   ![The table, an arithmetic column climbing by fours beside a geometric column doubling](images/co01-sequences-table.png)
+
+   `Y1` reads `-1`, `3`, `7`, `11`, `15`, `19`. `Y2` reads `1`, `2`, `4`,
+   `8`, `16`, `32`.
+
+   There are both sequences, side by side, and the difference between the
+   two kinds is visible rather than defined. Go down the first column
+   subtracting: 4 every time. Go down the second dividing: 2 every time. A
+   constant difference against a constant ratio, which is exactly the
+   distinction section 1.3 drew between direct and inverse variation, one
+   level up.
+
+4. Notice where each sequence starts. The table opens at `X=0`, and at
+   nought the columns read `-1` and `1`, neither of which is in the
+   sequences you were given. Your 3 and your 2 are on the `X=1` row.
+
+   That is not the machine being wrong. It is the difference between a
+   function, which is happy to be asked about nought, and a sequence, which
+   usually starts counting at one. The function is defined everywhere and
+   you are choosing which part of it to call the sequence.
+
+5. Now the other tool, for when you want a term a long way out. Four
+   program slots hold eight lines each, and a counted loop is the natural
+   shape.
+
+   Press [PRGM], then [F1], `NEW`, and type:
+
+   | Line | Text |
+   |---|---|
+   | 1 | `FOR A,3,15,4` |
+   | 2 | `DISP A` |
+   | 3 | `END` |
+   | 4 | `STOP` |
+
+   Press [F2] to run it. The screen shows `15`, then `DONE`.
+
+   `FOR A,3,15,4` counts from 3 to 15 in steps of 4, which is the sequence
+   exactly: 3, 7, 11, 15. The step is the third argument and it has been
+   there since firmware 2.19, along with the freedom to write the bounds as
+   expressions rather than single digits.
+
+6. But look at what the screen shows, because it is not what you might have
+   hoped. One number, `15`, and not the four terms.
+
+   `DISP` writes to the same place every time round the loop, so each term
+   overwrites the one before and only the last survives. The loop computed
+   the whole sequence and showed you the end of it.
+
+   That sounds like a limitation and it is, but it also tells you what this
+   tool is for. The table is how you look at a sequence: all of it at once,
+   in order, with the pattern visible. The program is how you ask for a
+   term you do not want to read your way down to. Two tools, two questions,
+   and using the wrong one is most of the frustration people have with
+   loops.
+
+**Try it.**
+
+1. From the table, state the common difference of the first sequence and
+   the common ratio of the second. Then say what the `X=6` row will read in
+   both columns before you scroll to it.
+2. Write a program to find the twentieth term of 3, 7, 11, 15. Then notice
+   what you had to know in order to write the loop's upper bound, and say
+   what that tells you about whether `FOR` was the right tool for this
+   particular question.
+3. Change the geometric program to double ten times starting from 1, using
+   `FOR A,1,10` with a line multiplying a stored value by 2. What does it
+   report, and is that the tenth term of 2, 4, 8, 16 or something else?
+   Explain the off-by-one either way.
+4. Section 1.1 said a line is fixed by two points. A sequence is usually
+   given by its first term and its common difference. Say why those are the
+   same two pieces of information, and use the table to check your claim on
+   `Y1`.

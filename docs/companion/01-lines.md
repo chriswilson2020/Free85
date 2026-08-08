@@ -10,6 +10,8 @@ slots, drawing one line. Then the two facts about slopes that everything
 else in coordinate geometry rests on, and a screen that lies about one of
 them until you tell it not to. Then two tables side by side, showing what
 makes a proportional relationship a different animal from an inverse one.
+And last, sequences, which turn out not to be a new topic at all: they are
+the curves of the first three sections with only the whole numbers kept.
 
 Nothing here needs anything the machine cannot do easily. Store an equation
 with [GRAPH], let the plot finish before pressing anything, and press

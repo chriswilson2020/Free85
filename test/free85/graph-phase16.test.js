@@ -416,7 +416,7 @@ test("[statistics.sort-x] the one-variable summary sorts a column that needs mor
   assert.deepEqual([reversed.min, reversed.max], [1, 5]);
   assert.deepEqual([reversed.q1, reversed.median, reversed.q3], [1.5, 3, 4.5]);
 
-  // The shuffled week from companion chapter 3: used to stop at 1,2,3,6,8,5,4,7
+  // The shuffled week from companion chapter 6: used to stop at 1,2,3,6,8,5,4,7
   // and report the maximum as 7 while the column held an 8.
   const shuffled = summarise([3, 1, 6, 8, 2, 5, 4, 7]);
   assert.deepEqual(shuffled.sorted, [1, 2, 3, 4, 5, 6, 7, 8]);

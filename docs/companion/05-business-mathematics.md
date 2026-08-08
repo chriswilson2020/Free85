@@ -1,4 +1,4 @@
-# Chapter 2: Explorations in Business Mathematics
+# Chapter 5: Explorations in Business Mathematics
 
 Business mathematics runs on a few small machines. Linear systems that turn
 receipts into price lists. Inequalities that turn scarce resources into
@@ -9,11 +9,11 @@ Free85 has a tool for each, and this chapter visits them in turn: the
 simultaneous editor, the graph screen, the matrix editor's row operations,
 the solver workspace, and matrix multiplication.
 
-Chapter 1 ended section 1.5 with money growing at six per cent through
+Chapter 4 ended section 4.5 with money growing at six per cent through
 `EXP(` and `LN(`, because the power key would not take a fractional
 exponent. This chapter picks that thread up and follows it a long way.
 
-## 2.1 Prices from receipts
+## 5.1 Prices from receipts
 
 A receipt is a linear equation.
 
@@ -41,7 +41,7 @@ editor for exactly that.
    the coffees and kept the pastries, so the difference between the two
    receipts is two coffees for 4.40. That is what made this system easy,
    and it is worth noticing which pairs of receipts are easy and which are
-   not, because section 2.2 is entirely about the difference.
+   not, because section 5.2 is entirely about the difference.
 
 3. Three unknowns work the same way. A tea merchant blends three leaves
    costing 12, 9 and 6 per kilogram into a 10 kilogram batch worth 84, with
@@ -58,7 +58,7 @@ editor for exactly that.
    `SOLVE` answers `X 2`, `Y 4` and `Z 4`: two kilograms of the dear leaf
    and four of each of the others.
 
-   ![The tea blend solved in three unknowns](images/co02-simult-blend.png)
+   ![The tea blend solved in three unknowns](images/co05-simult-blend.png)
 
 4. Not every pair of receipts is bookkeeping in good order, and the editor
    will tell you which kind of trouble you are in.
@@ -107,9 +107,9 @@ way the two degenerate verdicts mirror the matrix editor's
    first two of step 1? Write one down, add a row, and see what the editor
    says.
 
-## 2.2 When the answer will not stay still
+## 5.2 When the answer will not stay still
 
-Section 2.1 solved two systems and both answers were solid. This section is
+Section 5.1 solved two systems and both answers were solid. This section is
 about the systems where they are not, and it is the most useful half hour
 in the chapter if you ever intend to trust a number somebody else computed.
 
@@ -130,7 +130,7 @@ on the system, by factors of hundreds.
 
    `SOLVE` answers `X 2.0142857142858` and `Y 3.0428571428571`:
 
-   ![A well-behaved system shrugging off a nudge in the data](images/co02-well-conditioned.png)
+   ![A well-behaved system shrugging off a nudge in the data](images/co05-well-conditioned.png)
 
    A one and a quarter per cent change in the data moved the answers by
    under one per cent and one and a half per cent. That is what you would
@@ -150,7 +150,7 @@ on the system, by factors of hundreds.
 
    `SOLVE` answers `X -5` and `Y 6.55`:
 
-   ![The same nudge sending a near-parallel system across the axis](images/co02-ill-conditioned.png)
+   ![The same nudge sending a near-parallel system across the axis](images/co05-ill-conditioned.png)
 
    Read that twice. The first unknown has gone from 5 to minus 5. A change
    of one part in eighty in one number has moved the answer by two hundred
@@ -168,8 +168,8 @@ on the system, by factors of hundreds.
    it.
 
    That is the whole idea, and it has a name: the system is
-   ill-conditioned. Chapter 6 measures it with a single number, `COND`, and
-   you should read section 6.3 before you next trust a solve. But it is
+   ill-conditioned. Chapter 9 measures it with a single number, `COND`, and
+   you should read section 9.3 before you next trust a solve. But it is
    worth meeting here, in receipts, because this is where you will actually
    hit it, and because the fix is often commercial rather than
    mathematical: get a pair of receipts that are genuinely different.
@@ -183,13 +183,13 @@ on the system, by factors of hundreds.
    and see how little the nudge moves the answer. What does that suggest
    about how to plan a set of measurements?
 3. In step 3's system, work out on paper what happens when the coefficient
-   1.01 becomes exactly 1. Which of section 2.1's two verdicts do you get,
+   1.01 becomes exactly 1. Which of section 5.1's two verdicts do you get,
    and why is that the honest end of this road?
-4. The tea blend of section 2.1 has three equations. Nudge the batch value
+4. The tea blend of section 5.1 has three equations. Nudge the batch value
    84 by one per cent and see how far the three answers move. Is it
    well-behaved or not?
 
-## 2.3 The best plan on a graph
+## 5.3 The best plan on a graph
 
 A joinery makes bookcases and benches. A bookcase uses one sheet of timber
 and three workshop hours; a bench uses two sheets and two hours; the week
@@ -203,7 +203,7 @@ corner of it, and the graph screen can find every corner. Why the best plan
 must be at a corner is worth convincing yourself of before you start, and
 step 5 shows you the picture that does it.
 
-![The feasible region with its four corners, and the profit line sliding out until it touches the last one](images/fig-02-feasible.svg)
+![The feasible region with its four corners, and the profit line sliding out until it touches the last one](images/fig-05-feasible.svg)
 
 1. Solve each constraint's boundary for y and store the lines. Type [(] [1]
    [6] [-] [x-VAR] [)] [÷] [2] and press [GRAPH] to put `(16-X)/2`, the
@@ -248,7 +248,7 @@ step 5 shows you the picture that does it.
 
    Now press [2nd] [3], [CLEAR], type `(360-30*X)/40`, and press [GRAPH]:
 
-   ![The 360 profit line resting on the corner](images/co02-lp-profit.png)
+   ![The 360 profit line resting on the corner](images/co05-lp-profit.png)
 
    The 360 line settles onto the region's outermost corner, touching it at
    (4, 6) alone.
@@ -335,9 +335,9 @@ step 6 does.
    through (4, 6), and show that adding it leaves the best plan unchanged.
    What is its shadow price?
 
-## 2.4 Elimination as bookkeeping
+## 5.4 Elimination as bookkeeping
 
-Section 2.1's `SOLVE` answers in one press, which is convenient and opaque.
+Section 5.1's `SOLVE` answers in one press, which is convenient and opaque.
 The matrix editor's row operations let you watch the same arithmetic done
 slowly, receipt by receipt, the way a clerk would cross-check a ledger.
 
@@ -401,7 +401,7 @@ takings, that is a 2 by 3 matrix, and it fits the matrix editor exactly.
    the selection already sits in row 1 at `CELL 1 2`. Press [F3], `RADD`,
    and `R` reads `1`, `0`, `40`, `0`, `1`, `30`:
 
-   ![The finished tableau naming the prices](images/co02-tableau-solved.png)
+   ![The finished tableau naming the prices](images/co05-tableau-solved.png)
 
    A print is 40 and a frame is 30, each row of the finished tableau naming
    one price.
@@ -422,7 +422,7 @@ and [-] keys resize columns instead of rows.
 
 That room is worth knowing about, because it is exactly enough for the
 simplex method, which is what a real linear programme uses instead of
-section 2.3's picture. The joinery's two-product problem needs a tableau of
+section 5.3's picture. The joinery's two-product problem needs a tableau of
 three rows and six columns once the slack variables are in, and three by
 six is precisely what the workspace holds.
 
@@ -434,12 +434,12 @@ sentence, read it back, and built the workspace to fit it.
 What has not changed is that the square-only keys stay square. `DET`,
 `INV`, `ID`, `SOLVE`, `LU` and the eigensystem still want a 3 by 3, because
 that is what they mean. Three unknowns and their takings still belong to
-the simultaneous editor of section 2.1, or to `SOLVE`, which reads the
+the simultaneous editor of section 5.1, or to `SOLVE`, which reads the
 coefficients from `A` and the right-hand sides from `B`'s first column.
 
 **Try it.**
 
-1. Rework the café receipts of section 2.1 as a tableau: 2, 5, 7.9 and 4,
+1. Rework the café receipts of section 5.1 as a tableau: 2, 5, 7.9 and 4,
    5, 12.3. No swap is needed and four row operations reach the identity.
    Which scales do you store along the way? Write them down first.
 2. The `AUG` key on the same page appends `B`'s columns to `A`. Build the
@@ -453,9 +453,9 @@ coefficients from `A` and the right-hand sides from `B`'s first column.
    tableau of a three-unknown system, run `RREF` on it, and count them
    again. How does the work grow with the size?
 
-## 2.5 The mathematics of money
+## 5.5 The mathematics of money
 
-Section 1.5 left money compounding through `EXP(` and `LN(`. The `^` key
+Section 4.5 left money compounding through `EXP(` and `LN(`. The `^` key
 will now take a fractional exponent directly, and for a whole number of
 years it is the exact route and the better one, but the identity b to the x
 equals e to the x ln b is what the solver below needs: an equation it can
@@ -468,7 +468,7 @@ unknown, and that is a genuinely different way of working.
 
 1. First the reconciliation. On the home screen, `500*EXP(8*LN(1.06))`
    (with `EXP(` on [2nd] [LN] and `LN(` on [LN]) answers
-   `= 796.92403726725`, exactly the figure section 1.5 promised for 500
+   `= 796.92403726725`, exactly the figure section 4.5 promised for 500
    invested at six per cent for eight years.
 
 2. Now the general equation. The solver hunts for a zero, so write the
@@ -527,7 +527,7 @@ unknown, and that is a genuinely different way of working.
    Press `VAR` once for `VAR A`, and try the bounds a hopeful borrower
    would: `0` and `300`. `SOLV` stops at the `NO BOUNDED ROOT` notice:
 
-   ![No payment under 300 clears the loan](images/co02-solver-no-root.png)
+   ![No payment under 300 clears the loan](images/co05-solver-no-root.png)
 
    No payment up to 300 clears this loan in 24 months. That screen is an
    answer, not a failure, and it is the answer to a question worth asking.
@@ -536,7 +536,7 @@ unknown, and that is a genuinely different way of working.
    workspace kept), reopen with [2nd] [GRAPH], page to `UPPER`, and raise
    it to `1000`. `SOLV` answers a `ROOT` of `470.73472221384`:
 
-   ![The loan payment found by the solver](images/co02-solver-payment.png)
+   ![The loan payment found by the solver](images/co05-solver-payment.png)
 
    The true monthly payment.
 
@@ -579,7 +579,7 @@ That is worth planning for when you write the equation.
    Then find the payment at which it takes 1000. What are those two numbers
    converging on, and why?
 
-## 2.6 Loyalty in the long run
+## 5.6 Loyalty in the long run
 
 Three coffee shops share a harbour town: the Harbour, the Mill and the
 Station.
@@ -592,7 +592,7 @@ A table of switching fractions is a transition matrix, its powers are
 forecasts, and the matrix editor can raise them and find where the
 switching settles.
 
-![The three shops with the switching fractions on the arrows between them](images/fig-02-markov.svg)
+![The three shops with the switching fractions on the arrows between them](images/fig-05-markov.svg)
 
 1. Press [2nd] [7], then [+] [x-VAR] [+] [x-VAR] to reach `SIZE 3X3`, and
    type the matrix row by row, one row per shop: .8, .1, .1, then .2, .7,
@@ -648,7 +648,7 @@ switching settles.
    Stepping through `R` reads `1`, `0`, `-2.5`, then `0`, `1`, `-1.5`, then
    a row of zeros:
 
-   ![The steady-state proportions in register R](images/co02-markov-steady.png)
+   ![The steady-state proportions in register R](images/co05-markov-steady.png)
 
    The row of zeros is not a failure. It is the system telling you that the
    three equations are not independent, which they cannot be: if two shares

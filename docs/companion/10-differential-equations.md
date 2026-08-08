@@ -1,4 +1,4 @@
-# Chapter 7: Explorations in Differential Equations
+# Chapter 10: Explorations in Differential Equations
 
 Most of the equations in this book say what a quantity *is*. A differential
 equation says only how fast it is changing, and leaves you to reconstruct
@@ -11,7 +11,7 @@ no error control, no cleverness at all.
 
 That plainness is the opportunity. Every choice the method makes is
 visible, its error can be measured against solutions you work out yourself,
-and the program environment of Chapter 4 can be pointed at the same
+and the program environment of Chapter 7 can be pointed at the same
 equation to see whether a better step does better. A more sophisticated
 integrator would hide all of that behind an answer.
 
@@ -23,7 +23,7 @@ The initial value is seeded from the ordinary variable `Y` when the mode
 is *first entered*, so store it before you switch modes. Storing a new one
 into `Y` afterwards does nothing: from then on the initial condition
 belongs to the mode, and it is edited on the mode's own setup page,
-reached with [2nd] [MORE] pressed four times. Section 7.7 works that page
+reached with [2nd] [MORE] pressed four times. Section 10.7 works that page
 properly.
 
 The entry line never clears itself: the home screen hands the stored slope
@@ -33,7 +33,7 @@ holds, so an empty line pressed into [GRAPH] wipes the equation.
 And every plot must be left to draw to its end. Integrating one column at a
 time is slow work and presses arriving mid-draw are dropped.
 
-## 7.1 Slope thinking
+## 10.1 Slope thinking
 
 A differential equation is a rule for the tangent.
 
@@ -42,7 +42,7 @@ plane, the direction a solution through that point must set off in. Nothing
 has been solved. A direction has been posted at every address, and reading
 those directions before you touch the machine is most of the skill.
 
-![A grid of short slope marks, with one solution curve threaded through them so that it runs along the mark at every point it passes](images/fig-07-slopefield.svg)
+![A grid of short slope marks, with one solution curve threaded through them so that it runs along the mark at every point it passes](images/fig-10-slopefield.svg)
 
 That picture is the way to think about it, and it is worth saying at once
 that Free85 will not draw it for you. The mode integrates solutions; it
@@ -76,7 +76,7 @@ minutes, the rule is dy/dx = -0.15y.
 2. Seed the initial value, and check the method while you are at it: the
    mode starts on `EULER`, which is what this section wants, and [2nd]
    [MORE] pressed four times shows it under `METHOD` on the `DEQ SETUP`
-   page. Section 7.5 changes it.
+   page. Section 10.5 changes it.
 
    Press [CLEAR], type [9] [STO▶] [ALPHA] [0] (the
    letter `Y`), and press [ENTER]: `= 9`.
@@ -93,7 +93,7 @@ minutes, the rule is dy/dx = -0.15y.
    [(-)] [.] [1] [5] [×] [ALPHA] [0] so the line reads `-.15*Y`, and press
    [GRAPH]:
 
-   ![The tank's dye concentration falling across the window](images/co07-tank-decay.png)
+   ![The tank's dye concentration falling across the window](images/co10-tank-decay.png)
 
    Let the plot finish.
 
@@ -114,8 +114,8 @@ minutes, the rule is dy/dx = -0.15y.
 
 Slots 2 and 3 exist in this mode but the plot ignores them. One
 first-order equation is what the mode integrates, so the habit of stacking
-a family three at a time, learned in Chapter 1, does not travel here. That
-turns out to matter a great deal in section 7.6, where a family is exactly
+a family three at a time, learned in Chapter 4, does not travel here. That
+turns out to matter a great deal in section 10.6, where a family is exactly
 what you want.
 
 **Try it.**
@@ -136,7 +136,7 @@ what you want.
    minute. Predict how its half-way time compares with the original's,
    then check by storing `-.075*Y`.
 
-## 7.2 The window is the step
+## 10.2 The window is the step
 
 Euler's method needs a step size, and Free85 never asks you for one.
 
@@ -182,7 +182,7 @@ answer.
    [(-)] [.] [1] [5] [×] [ALPHA] [0], press [GRAPH] to store the equation
    back and replot, then press [+] once and let the replot finish:
 
-   ![The same equation in the halved window](images/co07-narrow-window.png)
+   ![The same equation in the halved window](images/co10-narrow-window.png)
 
 5. Press [MORE] for the table. The `X=0` row now reads `4.232`, not
    `1.972`.
@@ -207,7 +207,7 @@ nothing on its own. That is a badly designed experiment and it is worth
 recognising as one: if you change two things and the answer moves, you have
 learned nothing about either.
 
-Section 7.3 turns it into a controlled measurement.
+Section 10.3 turns it into a controlled measurement.
 
 **Try it.**
 
@@ -220,12 +220,12 @@ Section 7.3 turns it into a controlled measurement.
    exact value that `9*EXP(-.75)` gives.
 3. The `Y2` and `Y3` columns read `-` throughout. Store something in slot 2
    with [2nd] [2], see what the column does, and explain it from the note
-   that closes section 7.1.
+   that closes section 10.1.
 4. Step 5 said narrowing the window re-bases the run. Work out what the
    `X=0` row would read after *two* presses of [+], before you press
    anything, then check.
 
-## 7.3 Step-size experiments
+## 10.3 Step-size experiments
 
 To measure how a method converges you hold the question still and vary only
 the step.
@@ -238,10 +238,10 @@ that out on paper first, because looking up the wrong row is the easiest
 mistake in this section.
 
 1. In the standard window press [MORE] for the table, which opens where
-   section 7.2 left it, at `X=-10` in steps of 1. Press [-] once to halve
+   section 10.2 left it, at `X=-10` in steps of 1. Press [-] once to halve
    the table step to 0.5, then press [▼] once to page down five rows:
 
-   ![The 3.5-minute reading in the standard window](images/co07-step-table.png)
+   ![The 3.5-minute reading in the standard window](images/co10-step-table.png)
 
    The rows run `-7.5` to `-5`, and the `X=-6.5` row reads `5.290`.
 
@@ -274,7 +274,7 @@ mistake in this section.
 
 Halve the step and the error halves. That is Euler's signature and its
 disappointment: the method is first order, so one more decimal place costs
-ten times the work. Compare the midpoint rule of Chapter 4, which quartered
+ten times the work. Compare the midpoint rule of Chapter 7, which quartered
 its error per halving, and you can see why nobody integrates anything
 seriously with Euler.
 
@@ -297,9 +297,9 @@ short to show the curve at all.
    derivative of the true solution near this point. Work that out on paper
    from the exact solution and see how close 0.21 is.
 
-## 7.4 An Euler program
+## 10.4 An Euler program
 
-The window is symmetric, so section 7.3 could not hold the interval fixed
+The window is symmetric, so section 10.3 could not hold the interval fixed
 while the step shrank. A program has no such trouble, because the step
 becomes a number in a memory instead of a consequence of the picture.
 
@@ -341,12 +341,12 @@ the last plot happened to stop.
    times the slope at the old y. Everything else is bookkeeping.
 
    Seven steps of 0.5 carry the walk 3.5 minutes from the dose, which is
-   section 7.3's question asked a second way, and now with the interval
+   section 10.3's question asked a second way, and now with the interval
    held still.
 
 2. Press [F2], `RUN`:
 
-   ![Seven Euler steps of 0.5 landing short of the truth](images/co07-euler-run.png)
+   ![Seven Euler steps of 0.5 landing short of the truth](images/co10-euler-run.png)
 
    The run screen answers `RUN P1` over `LINE 9`, the output line shows
    `5.2147637585268`, and the status reads `DONE`. Against the truth of
@@ -366,7 +366,7 @@ the last plot happened to stop.
    | `.125` | `28` | `5.2975280205725` | 0.026 |
 
    The interval never moved and the errors still halve, which is the clean
-   version of section 7.3's measurement. And the two tables agree on the
+   version of section 10.3's measurement. And the two tables agree on the
    constant as well: gap over step sits near 0.21 in all six rows, which is
    a stronger result than either table on its own.
 
@@ -376,7 +376,7 @@ the last plot happened to stop.
 
    Press [F2]: `1.9489119504254`.
 
-   Now look back at section 7.1, step 5. That is the trace readout, digit
+   Now look back at section 10.1, step 5. That is the trace readout, digit
    for digit. The plot and the program are not two methods that agree; they
    are one walk, computed twice.
 
@@ -385,14 +385,14 @@ The environment shaped two decisions here.
 `FOR` bounds were single digits when this was written, so a counted loop
 could not reach fourteen passes, and the countdown in `N` is what bought an
 arbitrary step count. Firmware 2.19 lifted that: `FOR N,1,127` is now a
-legal line, and section 7.4's walk would fit it. The countdown is kept
+legal line, and section 10.4's walk would fit it. The countdown is kept
 because `N` is doing double duty as the loop's remaining work and as
 something the run screen can show you.
 
 And `EVAL(` takes the slope at the current `Y` but at a *typed* `X`, so a
 model containing `X` would need the running x stepped alongside `Y`, which
 is a ninth line the slot has not got. This equation does not mention x,
-which is exactly why eight lines suffice. Section 7.6 stays inside that
+which is exactly why eight lines suffice. Section 10.6 stays inside that
 constraint too, and it is not a coincidence: the models that fit this
 machine are the autonomous ones.
 
@@ -410,7 +410,7 @@ machine are the autonomous ones.
    Delete line 1, run it twice in a row, and watch what happens. Then put
    it back.
 
-## 7.5 Improved Euler
+## 10.5 Improved Euler
 
 Euler takes the slope at the start of a step and trusts it for the whole
 step, which is why it lags a bending curve. Every improvement on it is some
@@ -466,7 +466,7 @@ makes one driver run any method you like.
    `RUN`. The pair takes noticeably longer than a single slot, because
    every step now calls `EVAL(` twice; let it finish:
 
-   ![Improved Euler landing on the far side of the truth](images/co07-heun-run.png)
+   ![Improved Euler landing on the far side of the truth](images/co10-heun-run.png)
 
    The run screen answers `5.3267712168309`.
 
@@ -475,7 +475,7 @@ makes one driver run any method you like.
    plain ones missed by 0.109: forty times better for twice the work.
 
 4. Halve twice more. Press [PRGM] for the list, which returns with `P2`
-   selected, press [F1], and edit lines 2 and 3 as in section 7.4, [CLEAR]
+   selected, press [F1], and edit lines 2 and 3 as in section 10.4, [CLEAR]
    before each retype: `.25->H` with `14->N`, then `.125->H` with `28->N`.
 
 | `H` | `N` | Run screen | Gap |
@@ -512,18 +512,18 @@ drawn.
 **Try it.**
 
 1. Change `P2`'s line 5 back to `Y+H*EVAL(0)->Y` and delete `P3`. Confirm
-   the driver alone reproduces section 7.4's numbers, and say what that
+   the driver alone reproduces section 10.4's numbers, and say what that
    proves about where the improvement actually lives.
 2. Write a midpoint step into the fourth slot: slope at the start, half a
    step forward, slope there, then a whole step from the *original* point
    with that slope. Mind the line that must remember the original `Y`.
 3. Run the improved pair at `20/127->H` with `64->N`. How far apart are the
    plot and the better method by the middle of the window?
-4. The gaps in the table are all above the truth and section 7.4's were all
+4. The gaps in the table are all above the truth and section 10.4's were all
    below. Design a differential equation for which you would expect the
    reverse of both, and test it.
 
-## 7.6 Growth with a ceiling
+## 10.6 Growth with a ceiling
 
 Everything so far has decayed. Now let something grow, and give it
 somewhere to stop.
@@ -570,7 +570,7 @@ Take k = 0.5 and a ceiling of 10.
    [÷] [1] [0] [)] so the line reads `.5*Y*(1-Y/10)`. Press [GRAPH] and
    let it draw, which takes a while:
 
-   ![The logistic S-curve rising to its ceiling](images/co07-logistic-plot.png)
+   ![The logistic S-curve rising to its ceiling](images/co10-logistic-plot.png)
 
    There is the S. It is one of the most recognisable shapes in applied
    mathematics and you have just made the machine derive it from a rule
@@ -579,7 +579,7 @@ Take k = 0.5 and a ceiling of 10.
 5. Read the bend off the table. Press [MORE], then [▲] twice, letting each
    page settle:
 
-   ![The logistic table through its steepest stretch](images/co07-logistic-table.png)
+   ![The logistic table through its steepest stretch](images/co10-logistic-table.png)
 
    From `X=-10` the rows read `1`, `1.530`, `2.273`, `3.247`, `4.410`,
    `5.653`.
@@ -629,7 +629,7 @@ predicts.
    This one is slow. Every Euler step now costs a logarithm on top of
    everything else, and there are 127 of them. Let it finish:
 
-   ![The Gompertz curve, bending earlier than the logistic](images/co07-gompertz-plot.png)
+   ![The Gompertz curve, bending earlier than the logistic](images/co10-gompertz-plot.png)
 
    Put that beside the picture from step 4. Same seed, same ceiling, and a
    visibly different route: the Gompertz curve is already turning while the
@@ -640,7 +640,7 @@ predicts.
     thing in the book: each row is a complete Euler walk from the window
     edge, and each step of each walk wants a logarithm.
 
-    ![The Gompertz table closing slowly on the ceiling](images/co07-gompertz-table.png)
+    ![The Gompertz table closing slowly on the ceiling](images/co10-gompertz-table.png)
 
     From `X=0` the rows read `8.936`, `9.205`, `9.409`, `9.561`, `9.675`,
     `9.760`.
@@ -680,7 +680,7 @@ would be one screen. It is four, and the numbers are the compensation.
    the same point at the same x. Do the two curves then agree anywhere
    else?
 
-## 7.7 Equilibria, and the lever that resets them
+## 10.7 Equilibria, and the lever that resets them
 
 Change one thing in the tank and a whole family appears.
 
@@ -696,7 +696,7 @@ This section takes A = 3 with k = 0.4, and it needs the initial value to
 change, which is what the setup page is for. It used to be for something
 much worse, and the story is short and worth having.
 
-1. The seed from section 7.6 is still 1, below A, so start there and come
+1. The seed from section 10.6 is still 1, below A, so start there and come
    back for the other side. Press [PRGM] to leave any run screen, press
    [EXIT] for home, press [CLEAR], type [.] [4] [×] [(] [3] [-] [ALPHA]
    [0] [)] so the line reads `.4*(3-Y)`, press [GRAPH], and let it finish.
@@ -707,7 +707,7 @@ much worse, and the story is short and worth having.
 3. Now cross the equilibrium. Press [EXIT] to leave the table, then press
    [2nd] [MORE] four times for the `DEQ SETUP` page:
 
-   ![The DEQ setup page, where the initial condition lives](images/co07-deq-setup.png)
+   ![The DEQ setup page, where the initial condition lives](images/co10-deq-setup.png)
 
    `METHOD` names the solver, and `X0` and `Y0` are the initial condition.
    [F2] and [F3] choose which of the two the [+] and [-] keys move, and
@@ -728,7 +728,7 @@ much worse, and the story is short and worth having.
 
 5. Press [F5] (`GO`):
 
-   ![The same equilibrium approached from below](images/co07-equilibrium.png)
+   ![The same equilibrium approached from below](images/co10-equilibrium.png)
 
    Let the plot finish. The curve climbs out of the bottom of the window
    and flattens along the same level as before.
@@ -756,7 +756,7 @@ much worse, and the story is short and worth having.
    tell which you have by looking at the rule, without solving anything and
    without the machine.
 
-## 7.8 Two equations at once, and the phase plane
+## 10.8 Two equations at once, and the phase plane
 
 Everything so far has been one equation and one curve. A predator and its
 prey, a mass on a spring, any pair of quantities that drive each other, is
@@ -766,7 +766,7 @@ It is the phase plane: one quantity plotted against the other.
 The mode does both. Open the setup page with [2nd] [MORE] four times and
 press [F1], `SYS`:
 
-![The DEQ system setup: T0, X0, Y0, and the view](images/co07-deq-system.png)
+![The DEQ system setup: T0, X0, Y0, and the view](images/co10-deq-system.png)
 
 The banner reads `DEQ SYSTEM`, and three things have changed. Slot 1 is now
 dX/dT and slot 2 is dY/dT. The initial condition has three fields, `T0`,
@@ -787,7 +787,7 @@ and `PHAS`.
    `EDIT X0`, press [+] eight times for an `X0` of 8, and press [F5],
    `GO`.
 
-   ![The oscillator in the time view](images/co07-system-time.png)
+   ![The oscillator in the time view](images/co10-system-time.png)
 
    A cosine, which you could have predicted and which tells you little you
    did not already know.
@@ -795,7 +795,7 @@ and `PHAS`.
 3. Now press [2nd] [MORE] four times again, press [MORE] once so `VIEW`
    reads `PHAS`, and press [F5]:
 
-   ![The oscillator's phase orbit, many revolutions on one ring](images/co07-phase-orbit.png)
+   ![The oscillator's phase orbit, many revolutions on one ring](images/co10-phase-orbit.png)
 
    Position against velocity, and the curve closes on itself. That is the
    picture of a conserved quantity: the energy the time trace only
@@ -824,7 +824,7 @@ and `PHAS`.
 One note on the phase view, because it catches people. The graph window
 now bounds the *state space* rather than time, so `XMIN` and `XMAX` are
 limits on x, not on t. An orbit of radius 8 needs a window that reaches 8,
-which is what section 1.1's window editor is for.
+which is what section 4.1's window editor is for.
 
 This section is new. For most of this book's life the mode integrated one
 equation from one initial condition, and I wrote here that two state
@@ -849,7 +849,7 @@ and the rest of this chapter is where you learned to.
 3. Put the oscillator back and set `METHOD` to `EULER`. Count how many
    revolutions it takes before the spiral is obviously not a ring. Then do
    the same for `HEUN`. What ratio would you have predicted from section
-   7.5?
+   10.5?
 4. The phase view uses the table step as its integration step and takes
    128 samples. Work out, before touching the machine, what table step
    draws exactly one revolution of the oscillator. Then set it and see how
@@ -862,7 +862,7 @@ and the rest of this chapter is where you learned to.
    whether you were right.
 2. Find the equilibrium of `.2*(8-Y)-.5` by hand, then plot it from a seed
    above and a seed below and confirm the level from the table.
-3. The logistic of section 7.6 has *two* equilibria. Find them both from
+3. The logistic of section 10.6 has *two* equilibria. Find them both from
    the rule, decide which is stable and which is not, and check both by
    seeding near each.
 4. On paper, sketch the directions of the pair dx/dt = y, dy/dt = -x at

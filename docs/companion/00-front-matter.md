@@ -82,7 +82,7 @@ Every section closes with a **Try it** block of exercises. Nearly every one
 is answerable with the technique the section has just shown, and where one
 is not, the chapter says so and sends you to paper.
 
-Chapter 9 works all of them out, with the key presses and the numbers the
+Chapter 12 works all of them out, with the key presses and the numbers the
 machine gives back.
 
 I went back and forth about printing those. An answer at the back of the
@@ -124,7 +124,7 @@ forthcoming about where you are. These are the ways back.
   equation, so go back with the equation on the line.
 - **The DifEq mode freezes its initial value** when the mode is first
   entered, and storing a new one into `Y` afterwards changes nothing.
-  Section 7.6 has the deliberately stiff lever that resets it.
+  Section 10.6 has the deliberately stiff lever that resets it.
 
 If all else fails, the memory browser at [2nd] [+] and the Guidebook,
 chapter 18 will show you what the machine is actually holding.
@@ -150,41 +150,41 @@ there, and goes round. That turns out to be the most useful thing in it.
 
 ## Contents
 
-1. [Explorations in Precalculus](01-precalculus.md): windows and what
+4. [Explorations in Precalculus](04-precalculus.md): windows and what
    they hide, families of curves three at a time, zeros and
    intersections, transformations, growth, and the trigonometric graphs.
-2. [Explorations in Business Mathematics](02-business-mathematics.md):
+5. [Explorations in Business Mathematics](05-business-mathematics.md):
    prices from receipts by simultaneous solving, linear programming on
    the graph screen, elimination as bookkeeping, the mathematics of
    money, and Markov chains run to their long-run state.
-3. [Explorations in Probability and Statistics](03-probability-statistics.md):
+6. [Explorations in Probability and Statistics](06-probability-statistics.md):
    descriptive statistics on eight-sample columns, random numbers that
    repeat, simulation by program, least squares built by hand, regression
    families, forecasting, and the four statistical plots.
-4. [Explorations in Calculus I](04-calculus-1.md): limits by table and
+7. [Explorations in Calculus I](07-calculus-1.md): limits by table and
    zoom, limits that do not exist, the derivative built from difference
    quotients, extrema by search, the definite integral as an average,
    Riemann sums by program, and areas between curves.
-5. [Explorations in Calculus II](05-calculus-2.md): zeros two ways,
+8. [Explorations in Calculus II](08-calculus-2.md): zeros two ways,
    Newton's method, conics by parametric pair, polar curves, parametric
    motion, functions defined by integrals, indeterminate forms, improper
    integrals, and polynomial approximation.
-6. [Explorations in Linear Algebra](06-linear-algebra.md): one system
+9. [Explorations in Linear Algebra](09-linear-algebra.md): one system
    solved two ways, row operations watched move by move, norms and
    conditioning, orthogonality and an axis frame of your own, eigenvalues
    and eigenvectors, and `LU` as elimination's ledger.
-7. [Explorations in Differential Equations](07-differential-equations.md):
+10. [Explorations in Differential Equations](10-differential-equations.md):
    slope thinking in the DifEq mode, the window as the step size,
    step-size experiments, an Euler program and its improvement, the
    logistic and Gompertz models, and the qualitative behaviour of
    solution families.
-8. [Explorations in Engineering Mathematics](08-engineering-mathematics.md):
+11. [Explorations in Engineering Mathematics](11-engineering-mathematics.md):
    the pendulum and elliptic integrals, series summed against closed
    forms, a shooting method for a boundary-value problem, and vectors in
    the round.
 
-9. [Solutions](09-solutions.md): every Try it exercise in the book, worked
+12. [Solutions](12-solutions.md): every Try it exercise in the book, worked
    through with its key presses and the numbers that come back.
 
-[Afterword: after the last exploration](10-afterword.md): what a bounded
+[Afterword: after the last exploration](13-afterword.md): what a bounded
 instrument is for.

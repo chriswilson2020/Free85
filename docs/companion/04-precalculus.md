@@ -1,4 +1,4 @@
-# Chapter 1: Explorations in Precalculus
+# Chapter 4: Explorations in Precalculus
 
 Precalculus is where functions stop being formulas to evaluate and become
 objects to study: things with graphs, zeros, symmetries, families of
@@ -13,7 +13,7 @@ If you read only one section of this chapter, read the first. Almost every
 mistake anybody makes with a graphing calculator is a window mistake, and
 they all look like mathematics going wrong.
 
-## 1.1 Functions and their windows
+## 4.1 Functions and their windows
 
 A graph is a partnership between a function and a window.
 
@@ -33,7 +33,7 @@ a small hill and valley between them: a shape worth framing deliberately.
    the active slot `Y1` and plots it in the standard window, -10 to 10 on
    both axes.
 
-   ![The cubic X^3-4*X in the standard window](images/co01-cubic-window.png)
+   ![The cubic X^3-4*X in the standard window](images/co04-cubic-window.png)
 
 2. Press [▶] twice to trace two columns right of centre. The readout gives
    `X=0.393700787402` and `Y=-1.5137794055131`.
@@ -58,7 +58,7 @@ a small hill and valley between them: a shape worth framing deliberately.
    screen press [2nd] [GRAPH] for the zoom panel, [MORE] twice, then [F5],
    `WIN`.
 
-   ![The window editor, four bounds you can type](images/co01-window-editor.png)
+   ![The window editor, four bounds you can type](images/co04-window-editor.png)
 
    [F1] to [F4] pick a bound, you type a value, [ENTER] puts it in a draft,
    and [F5] (`SAVE`) commits all four together after checking that the
@@ -74,7 +74,7 @@ a small hill and valley between them: a shape worth framing deliberately.
    against zoom keys that cost one press each and almost no code. It was a
    reasonable trade and I no longer think it was the right one, because
    "one press each" is only cheap when you do not care exactly where you
-   land, and section 1.6 is full of windows where you do.
+   land, and section 4.6 is full of windows where you do.
 
    [2nd] [+] restores the standard window whenever an experiment has taken
    you somewhere unhelpful. Learn that one now.
@@ -121,7 +121,7 @@ a small hill and valley between them: a shape worth framing deliberately.
    find one in which it appears to have none. Neither is a lie; say what
    question each window is answering.
 
-## 1.2 Families of curves three at a time
+## 4.2 Families of curves three at a time
 
 A single graph answers a question about one function. A family answers a
 question about a parameter, which is usually the more interesting question.
@@ -147,7 +147,7 @@ thing, and one of it either side.
    Three lines through the origin, fanning anticlockwise as the slope
    grows:
 
-   ![The slope family X/2, X, and 3*X](images/co01-slope-family.png)
+   ![The slope family X/2, X, and 3*X](images/co04-slope-family.png)
 
 2. Press [MORE] on the graph screen for the table, which puts the family
    side by side in columns. The `X=4` row reads `2`, `4`, `12` across `Y1`,
@@ -195,7 +195,7 @@ retyping anything.
    member as the anchor. Which member did you choose to keep, and why does
    the choice matter?
 
-## 1.3 Symmetry and transformations
+## 4.3 Symmetry and transformations
 
 A function is even when f(-x) = f(x), mirror-symmetric about the y axis,
 and odd when f(-x) = -f(x), unchanged by a half-turn about the origin.
@@ -210,7 +210,7 @@ symmetry, and the machine will not tell you which pair to look at.
    for the minus signs. In `Y3`, type the x-axis reflection -f(x) as
    `-(X^3-4*X)`. Plot all three:
 
-   ![Three stored slots, two visible curves: the odd test](images/co01-odd-test.png)
+   ![Three stored slots, two visible curves: the odd test](images/co04-odd-test.png)
 
 2. Three equations are stored and the screen shows two curves. `Y2` and
    `Y3` land on exactly the same pixels.
@@ -256,7 +256,7 @@ symmetry, and the machine will not tell you which pair to look at.
    before you go near the machine, then find the one that is and check it
    with the three-slot test.
 
-## 1.4 Rational functions and the lines they approach
+## 4.4 Rational functions and the lines they approach
 
 Every function so far has been defined everywhere. Divide one polynomial by
 another and that stops being true, and what happens near the places it
@@ -269,12 +269,12 @@ worth knowing what it does far away as well as near that point.
    [1] [)] so the entry line reads `(X^2+1)/(X-1)`. Press [GRAPH] and let
    it finish:
 
-   ![The rational function with its vertical asymptote at X=1](images/co01-rational.png)
+   ![The rational function with its vertical asymptote at X=1](images/co04-rational.png)
 
    Two separate branches, and between them a gap where the curve rushes off
    the top and comes back from the bottom. That gap is at x = 1 and the
    near-vertical strokes either side of it are the plotter joining samples
-   that are very far apart, exactly as in Chapter 4's oscillating sine.
+   that are very far apart, exactly as in Chapter 7's oscillating sine.
 
    The machine is not drawing a vertical line there. It is drawing a very
    steep one, because it joined a sample high above the screen to one far
@@ -282,7 +282,7 @@ worth knowing what it does far away as well as near that point.
 
 2. The table is the honest instrument again. Press [MORE]:
 
-   The `X=1` row reads `UNDEF`. Compare Chapter 4's `SIN(X)/X`, which also
+   The `X=1` row reads `UNDEF`. Compare Chapter 7's `SIN(X)/X`, which also
    read `UNDEF` at its bad point. These are not the same kind of bad point
    at all. There, the function was heading somewhere definite and simply
    had no value at the destination. Here it is not heading anywhere: it
@@ -303,7 +303,7 @@ worth knowing what it does far away as well as near that point.
    Test it. Press [EXIT], press [2nd] [2] for slot `Y2`, type [x-VAR] [+]
    [1], and press [GRAPH]. Press [MORE] for the table:
 
-   ![The rational function converging on its slant asymptote](images/co01-slant-table.png)
+   ![The rational function converging on its slant asymptote](images/co04-slant-table.png)
 
    Reading `Y1` against `Y2`: at `X=0`, `-1` against `1`. At `X=1`, `UNDEF`
    against `2`. At `X=2`, `5` against `3`. At `X=3`, `5` against `4`. At
@@ -354,7 +354,7 @@ worth knowing what it does far away as well as near that point.
    its horizontal asymptote by less than a thousandth. Predict, then check
    with `EVAL(`.
 
-## 1.5 Exponential and logarithmic functions
+## 4.5 Exponential and logarithmic functions
 
 Exponential growth multiplies: each unit step in x scales y by the same
 factor. The natural versions are `EXP(`, typed with [2nd] [LN], and its
@@ -377,13 +377,13 @@ functions; here they earn their keep as graphs.
    `Y3`, then press [2nd] [-] on the graph screen for the square window,
    which makes one unit the same length on both axes:
 
-   ![EXP(X) and LN(X) mirrored in the line X](images/co01-exp-inverses.png)
+   ![EXP(X) and LN(X) mirrored in the line X](images/co04-exp-inverses.png)
 
    The two curves are reflections of one another in the third slot's line
    y = x, which is the picture of "inverse" itself. The square window is
    what keeps the mirror at forty-five degrees. In any other window the
    reflection is still true and no longer looks true, which is exactly the
-   sort of thing section 1.1 warned about.
+   sort of thing section 4.1 warned about.
 
 ### Two routes to the same power
 
@@ -433,7 +433,7 @@ functions; here they earn their keep as graphs.
    years is `500*1.06^8`, which answers `= 796.9240372654`, while
    `500*EXP(8*LN(1.06))` answers `= 796.92403726725`. Not quite two
    hundredths of a penny apart, on five hundred pounds, from nothing but
-   the route taken. Chapter 2 takes the mathematics of money much further,
+   the route taken. Chapter 5 takes the mathematics of money much further,
    and it takes this identity with it.
 
 **Try it.**
@@ -454,18 +454,18 @@ functions; here they earn their keep as graphs.
    check by computing each one again through `EXP(` and `LN(` and seeing
    which answers move.
 
-## 1.6 Trigonometric functions
+## 4.6 Trigonometric functions
 
 Periodic phenomena repeat, and their graphs only make sense in windows
 matched to the period. Nowhere does the window matter more than here, which
-is why section 1.1's window editor earns its keep in this section: a period
+is why section 4.1's window editor earns its keep in this section: a period
 is rarely a round number, and `2*PI` typed into `XMAX` is exact where four
 presses of a zoom key are merely close.
 
 The angle mode matters too. Everything here runs in `RAD`, the fresh-boot
 default shown in the status line, until the walkthrough says otherwise.
 
-![The unit circle, with the angle marked at the centre and the height of the point above the axis carried across to become the sine curve](images/fig-01-unitcircle.svg)
+![The unit circle, with the angle marked at the centre and the height of the point above the axis carried across to become the sine curve](images/fig-04-unitcircle.svg)
 
 That picture is where sine and cosine come from, and it is worth having in
 front of you: the sine of an angle is the *height* of a point going round a
@@ -478,7 +478,7 @@ to 1.
    The result is accurate and unflattering: a ripple a few pixels tall
    hugging the x axis. The window allows for values from -10 to 10 and the
    sine never leaves -1 to 1, so nine tenths of the screen is empty. This
-   is section 1.1's badly chosen window meeting a function that deserves
+   is section 4.1's badly chosen window meeting a function that deserves
    better.
 
 2. Open the zoom panel with [2nd] [GRAPH], press [MORE] for its second
@@ -509,7 +509,7 @@ to 1.
 
    The `X=0` row shows `0.999` beside `1`, which is the stored
    fourteen-digit `PI` falling a whisker short of the exact half turn. The
-   Guidebook, chapter 3 tells that story at `SIN(PI/2)`, and Chapter 5's
+   Guidebook, chapter 3 tells that story at `SIN(PI/2)`, and Chapter 8's
    cardioid meets it again.
 
 5. Angle mode belongs to the graph as much as to the home screen. Open the
@@ -523,7 +523,7 @@ to 1.
    whatever the angle mode, so in `DEG` it frames barely thirteen degrees.
    Degree-mode trigonometry wants windows hundreds of units wide, and the
    quick zooms are the way there. Return to `RAD` before moving on, and see
-   Chapter 4's warning about what happens if you forget.
+   Chapter 7's warning about what happens if you forget.
 
 6. Trigonometry earns its place modelling data. At a latitude of about
    fifty-five degrees north, the hours of daylight run roughly 4.3 hours
@@ -533,7 +533,7 @@ to 1.
    from twelve hours as `4.3*SIN(PI*X/6)` and plot it in the standard
    window:
 
-   ![Daylight hours above and below twelve across the year](images/co01-daylight-model.png)
+   ![Daylight hours above and below twelve across the year](images/co04-daylight-model.png)
 
    The table reads `0`, `2.15`, `3.723`, `4.299`, `3.723`, `2.149` down its
    first six rows: the equinox itself, a June solstice 4.3 hours over
@@ -560,7 +560,7 @@ to 1.
 5. Build a model for the tide, which turns roughly every 6 hours 13
    minutes. What goes inside the sine, and what window shows two days?
 
-## 1.7 Inverse functions by parametric pair
+## 4.7 Inverse functions by parametric pair
 
 The inverse of a function swaps the roles of input and output. The graph of
 the inverse is the graph of the function with its coordinates exchanged,
@@ -590,7 +590,7 @@ swapping the pair is exactly the coordinate exchange.
    The pair is now (f(t), t), and the plot is the inverse function: the
    cube-root-shaped curve lying on its side.
 
-   ![The inverse of t^3/10, drawn by the swapped pair](images/co01-inverse-pair.png)
+   ![The inverse of t^3/10, drawn by the swapped pair](images/co04-inverse-pair.png)
 
 4. The trace readout says the same thing pointwise. Two presses of [▶] from
    the centre of the sweep show `X=0.0061023744094928` and
@@ -607,7 +607,7 @@ swapping the pair is exactly the coordinate exchange.
 One pair is the design to work within, and it costs you something real
 here. The mode draws one curve at a time, so a function and its inverse are
 compared across two plots rather than overlaid, and the mirror line of
-section 1.5 cannot join them on screen.
+section 4.5 cannot join them on screen.
 
 What makes the comparison workable is that each graphing mode keeps its own
 equations and window. Press [F1] on the `GRAPH MODE` page to return to
@@ -627,7 +627,7 @@ problem.
    trace where the inverse crosses the x axis. Predict the number first:
    where did it live on the original line?
 2. Draw the inverse of `EXP(X)` as a pair and compare it, across a mode
-   switch, with the `LN(X)` plot of section 1.5. Why must the two pictures
+   switch, with the `LN(X)` plot of section 4.5. Why must the two pictures
    agree?
 3. The pair `X^2` and `X` draws the inverse of the squaring function, which
    is not a function. Plot it, trace it, and explain what the sweep from

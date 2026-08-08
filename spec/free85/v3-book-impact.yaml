@@ -6,7 +6,7 @@
   "releaseFreeze": {
     "version": "3.0.0",
     "romSha256": "f1e80e901e048fe59363613ec9ed0d237505aa748ca0e395300c692c62c3d6f4",
-    "pagesSha256": "c1ce800dc082e4704570fe569776d55a2095011c87fbde177b744859750fb9b1",
+    "pagesSha256": "e89e7d24273cbf8c43f567fcf349c6f32e821752014296a635160b6d558c5057",
     "stateSchema": 14,
     "objectStoreSchema": 2,
     "graphDatabaseVersion": 3,
@@ -34,8 +34,8 @@
         { "path": "docs/guidebook/05-polar-graphing.md", "sections": ["Window setup"] },
         { "path": "docs/guidebook/06-parametric-graphing.md", "sections": ["Window setup"] },
         { "path": "docs/guidebook/07-differential-equation-graphing.md", "sections": ["Window setup"] },
-        { "path": "docs/companion/01-precalculus.md", "sections": ["1.1", "1.5", "window editor limitation"] },
-        { "path": "docs/companion/10-afterword.md", "sections": ["machine limits"] }
+        { "path": "docs/companion/04-precalculus.md", "sections": ["4.1", "4.5", "window editor limitation"] },
+        { "path": "docs/companion/13-afterword.md", "sections": ["machine limits"] }
       ],
       "mustRemoveOrCorrect": [
         "the claim that Free85 has no direct window editor",
@@ -65,8 +65,8 @@
       "documents": [
         { "path": "docs/guidebook/04-cartesian-graphing.md", "sections": ["Pictures", "Drawing menu"] },
         { "path": "docs/guidebook/07-differential-equation-graphing.md", "sections": ["Comparing solutions"] },
-        { "path": "docs/companion/07-differential-equations.md", "sections": ["comparing models", "picture-store limitation"] },
-        { "path": "docs/companion/10-afterword.md", "sections": ["machine limits"] }
+        { "path": "docs/companion/10-differential-equations.md", "sections": ["comparing models", "picture-store limitation"] },
+        { "path": "docs/companion/13-afterword.md", "sections": ["machine limits"] }
       ],
       "mustRemoveOrCorrect": [
         "the claim that Free85 has no picture store suitable for graph comparison",
@@ -96,9 +96,9 @@
       "summaryForBooks": "DEQ SETUP now toggles between the compatible single equation and a two-state SYSTEM. In SYSTEM, slot 1 is dX/dT and slot 2 is dY/dT; T0, X0, and Y0 are directly selected with NEXT and adjusted by +/-. METH cycles Euler, Heun, and RK4, with both derivatives evaluated from the same old stage. MORE switches TIME and PHASE views. TIME plots state X against T and the table exposes both states. PHASE plots X against Y, uses the graph window for state-space bounds, and uses the table step as its integration step. GDEQ v1 and v2 objects load as single-state and grow transactionally to v3 only when saved.",
       "documents": [
         { "path": "docs/guidebook/07-differential-equation-graphing.md", "sections": ["DEQ setup", "systems", "phase planes", "tables and trace"] },
-        { "path": "docs/companion/07-differential-equations.md", "sections": ["coupled systems", "predator-prey", "phase-plane limitation"] },
-        { "path": "docs/companion/08-engineering-mathematics.md", "sections": ["coupled states", "oscillators"] },
-        { "path": "docs/companion/10-afterword.md", "sections": ["machine limits"] }
+        { "path": "docs/companion/10-differential-equations.md", "sections": ["coupled systems", "predator-prey", "phase-plane limitation"] },
+        { "path": "docs/companion/11-engineering-mathematics.md", "sections": ["coupled states", "oscillators"] },
+        { "path": "docs/companion/13-afterword.md", "sections": ["machine limits"] }
       ],
       "mustRemoveOrCorrect": [
         "the claim that Free85 integrates only one first-order state equation",
@@ -132,9 +132,9 @@
       "summaryForBooks": "The matrix editor and A, B, R registers now accept real or complex matrices up to 3x6. Columns grow through six, ENTER USE R preserves the complete real and imaginary result, and row operations, augmentation, RREF, addition, subtraction, scaling, and compatible multiplication use the active rectangular dimensions. Square-only determinant, inverse, identity, solve, LU, and eigensystem routines remain limited to 3x3. Transposing a matrix wider than three columns would require more than three result rows, so it reports DIMENSION ERROR and preserves R. Existing schema-13 matrices migrate into the versioned workspace on reset; insufficient object-heap capacity preserves the old state and reports MATRIX WORKSPACE FULL on matrix entry.",
       "documents": [
         { "path": "docs/guidebook/13-matrices-and-vectors.md", "sections": ["matrix editor", "row operations", "rectangular matrices", "limits"] },
-        { "path": "docs/companion/05-linear-algebra.md", "sections": ["matrix ceiling", "augmented systems", "linear programming"] },
-        { "path": "docs/companion/08-engineering-mathematics.md", "sections": ["rectangular matrix workflows"] },
-        { "path": "docs/companion/10-afterword.md", "sections": ["machine limits"] }
+        { "path": "docs/companion/09-linear-algebra.md", "sections": ["matrix ceiling", "augmented systems", "linear programming"] },
+        { "path": "docs/companion/11-engineering-mathematics.md", "sections": ["rectangular matrix workflows"] },
+        { "path": "docs/companion/13-afterword.md", "sections": ["machine limits"] }
       ],
       "mustRemoveOrCorrect": [
         "the blanket claim that every Free85 matrix is capped at 3x3",

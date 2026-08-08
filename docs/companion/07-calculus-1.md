@@ -1,4 +1,4 @@
-# Chapter 4: Explorations in Calculus I
+# Chapter 7: Explorations in Calculus I
 
 Calculus asks what functions do at places you cannot reach: infinitely
 close to a point, or added up across infinitely many slivers. A calculator
@@ -21,7 +21,7 @@ them anything. With nothing stored, `EVAL(` and its family answer
 `SYNTAX ERROR`. Once something is stored they answer whether or not you let
 the plot finish drawing.
 
-## 4.1 Limits by table and zoom
+## 7.1 Limits by table and zoom
 
 What is sin x divided by x, when x is nought?
 
@@ -62,7 +62,7 @@ most of what this section is about.
    edge before you touch anything, because presses that land mid-draw go
    nowhere and you will decide the key is broken.
 
-   ![The bump of SIN(X)/X, flattened almost to nothing by the standard window](images/co04-sinx-standard.png)
+   ![The bump of SIN(X)/X, flattened almost to nothing by the standard window](images/co07-sinx-standard.png)
 
 ### The graph, which is no help at all
 
@@ -71,7 +71,7 @@ side, the whole thing squashed into a band a few pixels high.
 
 That is the window's doing. You have made room for heights from -10 to 10,
 and this function never leaves the range -0.3 to 1, so nine tenths of the
-screen is empty sky. It is section 1.1's complaint in its natural habitat.
+screen is empty sky. It is section 4.1's complaint in its natural habitat.
 
 Fix it and get closer.
 
@@ -82,7 +82,7 @@ Fix it and get closer.
 5. Press [▶] twice. The readout says `X=0.0492125984252` and
    `Y=0.99959640223576`.
 
-   ![The zoomed bump with the trace two columns right of centre](images/co04-sinx-zoom-trace.png)
+   ![The zoomed bump with the trace two columns right of centre](images/co07-sinx-zoom-trace.png)
 
    So a twentieth of a unit right of the middle, the function is 0.9996.
    Encouraging.
@@ -112,7 +112,7 @@ the plot cannot.
 6. Press [2nd] [+] for the standard window, let it redraw, then [MORE] for
    the table.
 
-   ![The table, with UNDEF sitting on the X=0 row](images/co04-sinx-table.png)
+   ![The table, with UNDEF sitting on the X=0 row](images/co07-sinx-table.png)
 
    The `X=0` row says `UNDEF`. There it is. The machine has gone away, tried
    to divide nought by nought, failed, and come back and told you.
@@ -125,7 +125,7 @@ the plot cannot.
 7. Press [-] four times. Each press halves the table step, so you go 1,
    0.5, 0.25, 0.125, 0.0625. Let each redraw settle before the next press.
 
-   ![The same table at step 0.0625, the values climbing towards 1](images/co04-sinx-table-fine.png)
+   ![The same table at step 0.0625, the values climbing towards 1](images/co07-sinx-table-fine.png)
 
    Read the rows below the hole *upwards*, towards it: 0.983, 0.989, 0.994,
    0.997, 0.999. And the `X=0` row still says `UNDEF`.
@@ -191,7 +191,7 @@ five-character cell will hold. The calculus commands will do better.
 13. Now ask it the original question. Press [CLEAR], spell `EVAL(0)`, and
     press [ENTER]:
 
-    ![EVAL at the hole, stopped on DIVIDE BY ZERO](images/co04-sinx-eval-error.png)
+    ![EVAL at the hole, stopped on DIVIDE BY ZERO](images/co07-sinx-eval-error.png)
 
     `DIVIDE BY ZERO`, with `CLEAR OR EXIT` underneath. Which is exactly
     right: `SIN(X)/X` at zero divides by zero, and the machine has told you
@@ -237,7 +237,7 @@ Draw a unit circle and take a small angle x at the centre. There are three
 regions, each sitting inside the next: the triangle inside the sector, the
 sector itself, and the larger triangle outside it.
 
-![A unit circle sector with the triangle inside it and the triangle outside it, the three areas that squeeze sine over x](images/fig-04-squeeze.svg)
+![A unit circle sector with the triangle inside it and the triangle outside it, the three areas that squeeze sine over x](images/fig-07-squeeze.svg)
 
 Their areas are sin x over 2, then x over 2, then tan x over 2. Divide the
 lot through by sin x over 2, turn the inequality upside down, and what is
@@ -332,11 +332,11 @@ The answer 1 is not really a fact about sine. It is a fact about sine
    goes wrong. Fixing it is a two-line job once you spot the trouble.
 6. Put the machine in `DEG` and redo exercise 2. Predict the answer before
    you press a key, using what step 18 showed you. Then set it back to
-   `RAD`, because you will want it there for section 4.2.
+   `RAD`, because you will want it there for section 7.2.
 
-## 4.2 A limit that is not there
+## 7.2 A limit that is not there
 
-Section 4.1 could have left you with a comfortable and wrong idea: that if
+Section 7.1 could have left you with a comfortable and wrong idea: that if
 you probe hard enough, a number turns up. It does not always. Some
 functions have no limit at all at a point, and the useful skill is telling
 which kind you are looking at.
@@ -355,15 +355,15 @@ limit appear out of the same oscillation.
 1. Press [CLEAR], then [SIN], [1], [÷], [x-VAR], [)]. The line reads
    `SIN(1/X)`. Press [GRAPH] and let it finish, which takes a while.
 
-   ![SIN(1/X) in the standard window](images/co04-sinrecip-std.png)
+   ![SIN(1/X) in the standard window](images/co07-sinrecip-std.png)
 
    Away from the origin it is calm enough. It is the middle that matters.
 
 2. Press [+] three times, letting each replot finish.
 
-   ![The same curve zoomed in three times, thrashing near the origin](images/co04-sinrecip-zoom.png)
+   ![The same curve zoomed in three times, thrashing near the origin](images/co07-sinrecip-zoom.png)
 
-   Now compare that with section 4.1. There, zooming in made the picture
+   Now compare that with section 7.1. There, zooming in made the picture
    *calmer* every time, until the curve was nearly a straight line. Here
    zooming in makes it worse. The wiggles do not spread out as you
    magnify, they crowd together, because there are infinitely many of them
@@ -387,7 +387,7 @@ limit appear out of the same oscillation.
    | `EVAL(.005)` | `-0.87329729713503` |
    | `EVAL(.003)` | `0.31884634470865` |
 
-   Put those beside section 4.1's column of nines. There, every probe was
+   Put those beside section 7.1's column of nines. There, every probe was
    closer to the answer than the one before it. Here they are all over the
    place, and getting closer to nought does not help at all. Down, up,
    down, down, down, up. That is what no limit looks like when you meet one
@@ -397,7 +397,7 @@ limit appear out of the same oscillation.
 
 4. Keep going. Press [CLEAR] and ask `EVAL(.0025)`:
 
-   ![EVAL(.0025) answering the sine of 400 radians](images/co04-sin-cliff.png)
+   ![EVAL(.0025) answering the sine of 400 radians](images/co07-sin-cliff.png)
 
    `-0.85091935964129`. One over .0025 is 400, and the machine takes the
    sine of 400 radians without hesitating.
@@ -411,7 +411,7 @@ limit appear out of the same oscillation.
    Go past it and the machine stops, but not with a shrug. Press [CLEAR]
    and ask `EVAL(9E-7)`, which wants the sine of about 1.11 million:
 
-   ![PRECISION LOST at EVAL(9E-7), past the supported range](images/co04-sin-precision.png)
+   ![PRECISION LOST at EVAL(9E-7), past the supported range](images/co07-sin-precision.png)
 
    `PRECISION LOST`, and that name is the whole point. It is not saying
    the sine has no value there. It is saying that your input carries
@@ -455,14 +455,14 @@ limit appear out of the same oscillation.
 
 7. Press [+] three times, letting each replot finish.
 
-   ![X*SIN(1/X) pinched between the lines X and -X](images/co04-squeeze-zoom.png)
+   ![X*SIN(1/X) pinched between the lines X and -X](images/co07-squeeze-zoom.png)
 
    There is the whole argument in one picture. The two straight lines close
    on the origin like a pair of scissors, and the curve is trapped between
    them, oscillating as wildly as ever inside a gap that is being squeezed
    shut. It has no room left to oscillate in.
 
-   This is the squeeze of section 4.1 again, and this time you are not
+   This is the squeeze of section 7.1 again, and this time you are not
    taking it on trust from a diagram. It is on the screen, and the three
    slots are exactly the right number of slots to show it: the thing, and
    the two walls closing on it.
@@ -533,7 +533,7 @@ how narrow you make the window.
    of [+] it takes to satisfy it. Then halve the tolerance and do it again.
    Is the number of presses growing in a way you could have predicted?
 
-## 4.3 The derivative as a limit
+## 7.3 The derivative as a limit
 
 The slope of a curve at a point is the limit of the slopes of chords
 through it. Unlike most limits, this one can be watched converging digit by
@@ -551,7 +551,7 @@ That is a chord, and its slope is the change in height divided by the
 change in x. Now slide the second point towards the first. The chord pivots
 and, if the curve is well behaved, settles onto a definite direction.
 
-![Three chords through the same point, each shorter than the last, closing onto the tangent](images/fig-04-secant.svg)
+![Three chords through the same point, each shorter than the last, closing onto the tangent](images/fig-07-secant.svg)
 
 That settling is the whole idea. The tangent is not something you can
 measure directly, because it touches at only one point and one point does
@@ -589,7 +589,7 @@ where they are going.
    | .001 | `4.754501` |
 
    Each tenfold shrink buys roughly one more correct digit of 4.75. Compare
-   section 4.1, where each tenfold shrink bought two, and you can already
+   section 7.1, where each tenfold shrink bought two, and you can already
    tell these are different kinds of approximation. There the error went
    like x squared; here it goes like the step itself.
 
@@ -601,7 +601,7 @@ where they are going.
 
    Read those last two carefully, because the tidy one is the liar.
 
-   Section 4.1 said a number here is fourteen digits in seven bytes. As the
+   Section 7.1 said a number here is fourteen digits in seven bytes. As the
    step shrinks, f(1.5 + h) and f(1.5) come to agree in more and more of
    those fourteen, and the subtraction throws away every digit they share.
    At a step of 1E-9 you are subtracting two numbers that agree in nine
@@ -620,7 +620,7 @@ where they are going.
 6. The built-in command threads that needle for you. Press [CLEAR], spell
    `NDER(1.5)`, and press [ENTER]:
 
-   ![NDER agreeing with the paper derivative](images/co04-nder-result.png)
+   ![NDER agreeing with the paper derivative](images/co07-nder-result.png)
 
    `= 4.75`. `NDER(` takes a central difference, sampling on both sides of
    the point and dividing by twice the step, which cancels the largest
@@ -668,7 +668,7 @@ meeting first.
 9. Now put the true answer beside it. Press [2nd] [2], press [CLEAR], type
    `3*X^2-2`, and press [GRAPH]. Press [MORE] for the table:
 
-   ![The difference quotient sitting just above the true derivative](images/co04-diffquot-table.png)
+   ![The difference quotient sitting just above the true derivative](images/co07-diffquot-table.png)
 
    Reading `Y1` against `Y2` down the rows: `-1.99` against `-2`, `1.030`
    against `1`, `10.06` against `10`, `25.09` against `25`, `46.12` against
@@ -710,7 +710,7 @@ meeting first.
    best this machine can do with a one-sided chord, and now you know the
    number.
 
-## 4.4 Extrema by search
+## 7.4 Extrema by search
 
 Where a smooth curve turns, its slope passes through zero. Finding the
 turning points is the first genuinely useful thing calculus sells, and the
@@ -724,7 +724,7 @@ with height 16/3, the valley at 2 with height -16/3.
 1. Press [CLEAR], type [x-VAR], [^], [3], [÷], [3], [-], [4], [×], [x-VAR]
    so the line reads `X^3/3-4*X`, press [GRAPH], and let the plot finish.
 
-   ![The designed cubic with turning points at -2 and 2](images/co04-extrema-cubic.png)
+   ![The designed cubic with turning points at -2 and 2](images/co07-extrema-cubic.png)
 
 2. Press [F3], the maximum search. It sweeps the window and takes a few
    seconds, so let it work. It publishes `= -1.9997326856359`.
@@ -798,7 +798,7 @@ with height 16/3, the valley at 2 with height -16/3.
    little the height changes for a hundredth of movement in x. Now do the
    same either side of x = 0, where the curve is steep.
 
-## 4.5 The definite integral as an average
+## 7.5 The definite integral as an average
 
 Most books introduce the integral as an area. This one does it as an
 average, and then shows you the area afterwards, because the average is the
@@ -895,7 +895,7 @@ The wrinkle arrives the moment the curve goes below the axis.
    Press [CLEAR], type [x-VAR], [x²], [-], [2], [×], [x-VAR], [-], [3] so
    the line reads `X^2-2*X-3`, press [GRAPH], and let it finish:
 
-   ![The parabola dipping below the axis between -1 and 3](images/co04-dip-area.png)
+   ![The parabola dipping below the axis between -1 and 3](images/co07-dip-area.png)
 
 8. Press [F5], the integral key, and let it work: `= 606.66666666667`. The
    window is the interval, so that is the integral from -10 to 10, and on
@@ -941,7 +941,7 @@ The wrinkle arrives the moment the curve goes below the axis.
    step 9, then find where the curve takes that value, and check that your
    answer sits inside the interval as the mean value theorem promises.
 
-## 4.6 Riemann sums by program
+## 7.6 Riemann sums by program
 
 `FNINT(` answers in a second and tells you nothing about how. A Riemann sum
 is the how: cut the interval into slices, guess each slice's area from one
@@ -952,7 +952,7 @@ to be called an integral at all.
 The function is f(x) = x^2 + 1 on the interval 0 to 2, whose integral is
 14/3.
 
-![Left, right and midpoint rectangles over the same curve, one undershooting, one overshooting, one splitting the difference](images/fig-04-riemann.svg)
+![Left, right and midpoint rectangles over the same curve, one undershooting, one overshooting, one splitting the difference](images/fig-07-riemann.svg)
 
 1. Store the equation first, because every program below reads it. Press
    [CLEAR], type [x-VAR], [x²], [+], [1] so the line reads `X^2+1`, press
@@ -986,7 +986,7 @@ With four slices the width is 2/4 = 0.5, and the left edges are at 0, 0.5,
    corner. Press [▲] four times when you have finished typing and you land
    back on line 3:
 
-   ![The editor standing on line 3, showing one line and its number](images/co04-editor-p1.png)
+   ![The editor standing on line 3, showing one line and its number](images/co07-editor-p1.png)
 
    That is worth knowing before you start, because it means you cannot see
    your program. You have to hold it in your head or on paper, and check it
@@ -1048,7 +1048,7 @@ With four slices the width is 2/4 = 0.5, and the left edges are at 0, 0.5,
 
    Press [F2]:
 
-   ![The eight-slice midpoint sum closing in on 14/3](images/co04-riemann-run.png)
+   ![The eight-slice midpoint sum closing in on 14/3](images/co07-riemann-run.png)
 
    `4.65625`.
 
@@ -1105,7 +1105,7 @@ rules fall straight out of them.
 
 The environment shaped the design here and it is worth saying how. When
 this chapter was written `FOR` bounds were single digits, so a counted loop
-passed at most ten times, which is why the finer slicings in Chapter 3 hand
+passed at most ten times, which is why the finer slicings in Chapter 6 hand
 the count to a `WHILE` countdown instead. Firmware 2.19 gave `FOR`
 evaluated bounds and an optional step, so that particular wall is gone; the
 countdown shape is kept here because it is still a good way to see a loop's
@@ -1133,7 +1133,7 @@ every one of them ignorant of which function it was measuring.
    `FNINT(`'s answer to six decimals, and say whether the eight-line slot
    could ever run it.
 
-## 4.7 Areas between curves
+## 7.7 Areas between curves
 
 Two curves enclose a region. How much is in it?
 
@@ -1150,7 +1150,7 @@ which cross where x^2 + x - 2 = 0, at x = -2 and at x = 1.
    `2-X^2/2`, and press [GRAPH]. When the plot finishes, press [2nd] [2] to
    move to slot `Y2`, type [x-VAR], [÷], [2], [+], [1], and press [GRAPH]:
 
-   ![The arch and the line crossing at -2 and 1](images/co04-between-curves.png)
+   ![The arch and the line crossing at -2 and 1](images/co07-between-curves.png)
 
 2. Press [2nd] [F1], the intersection search, and let it settle:
    `= -1.9999999999999` with the residual line `R=1E-13`.
@@ -1196,7 +1196,7 @@ which cross where x^2 + x - 2 = 0, at x = -2 and at x = 1.
 That is the whole workflow, and it is worth keeping: plot the pair, search
 out the crossings, store the difference, integrate between them.
 
-One trap, and it is section 4.5's sign convention arriving where nobody
+One trap, and it is section 7.5's sign convention arriving where nobody
 wants it. The difference was typed with the arch on top, which is the curve
 that really is on top over this interval, so the integral came out
 positive. Type it the other way round and the same region gives you -2.25.

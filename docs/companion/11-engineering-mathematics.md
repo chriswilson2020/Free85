@@ -1,4 +1,4 @@
-# Chapter 8: Explorations in Engineering Mathematics
+# Chapter 11: Explorations in Engineering Mathematics
 
 Engineering asks the same questions as the earlier chapters and refuses the
 same answers.
@@ -11,7 +11,7 @@ you.
 
 Free85 has a tool pointed at each. `FNINT(` for integrals with no closed
 form, the four program slots for sums no hand would face, the DifEq mode of
-Chapter 7 working with the solver workspace, and the vector editor for
+Chapter 10 working with the solver workspace, and the vector editor for
 statics in the round. The Guidebook covers all four: chapter 3 for the
 calculus commands, 16 for programs, 14 for the solver, 13 for vectors.
 
@@ -21,7 +21,7 @@ so press [CLEAR] before typing at home. The calculus commands read the
 active stored equation, so store it with [GRAPH] first. And plots must be
 left to finish, because presses arriving mid-draw are dropped.
 
-## 8.1 The pendulum, and the integral that will not behave
+## 11.1 The pendulum, and the integral that will not behave
 
 The formula every textbook prints for a pendulum, 2 pi times the square
 root of length over gravity, is not the period of a pendulum.
@@ -41,7 +41,7 @@ The specimen is a garden swing: a seat on ropes 2.5 metres long, with
 gravity taken as 9.8.
 
 ![A pendulum of length L held at an angle theta from the vertical, with the
-rest position dashed below the pivot](images/fig-08-pendulum.svg)
+rest position dashed below the pivot](images/fig-11-pendulum.svg)
 
 ### The fiction first
 
@@ -74,7 +74,7 @@ in, because what happens next is the most useful thing in this section.
 4. Press [EXIT], press [CLEAR], spell `FNINT(0,A)`, and press [ENTER]. Give
    it time.
 
-   ![The pendulum integral refused: DIVIDE BY ZERO](images/co08-naive-integral.png)
+   ![The pendulum integral refused: DIVIDE BY ZERO](images/co11-naive-integral.png)
 
    `DIVIDE BY ZERO`.
 
@@ -166,7 +166,7 @@ should have been given in the first place.
 
    Against the textbook's `3.1734878129702`. A 45-degree swing runs about
    four per cent slow, which is a great deal more than most people expect
-   and is the subject of section 8.2.
+   and is the subject of section 11.2.
 
 **Try it.**
 
@@ -189,18 +189,18 @@ should have been given in the first place.
    x = pi/2 before you press a key, then store `1->K` and ask
    `FNINT(0,PI/2)`. What has the substitution failed to save you from?
 
-## 8.2 How wrong is the textbook formula?
+## 11.2 How wrong is the textbook formula?
 
-Section 8.1 built a working integral. Now use it for something: measure the
+Section 11.1 built a working integral. Now use it for something: measure the
 circular error across the whole range of swings, from a gentle rock to
 nearly upside down, and find out where the textbook formula stops being
 good enough.
 
 The quantity to track is the ratio of the true period to the small-angle
-one, which is 2 over pi times the integral of section 8.1. If the ratio is
+one, which is 2 over pi times the integral of section 11.1. If the ratio is
 1.01 the swing runs one per cent slow.
 
-1. With the integrand of section 8.1 still stored and `K` holding 0 on a
+1. With the integrand of section 11.1 still stored and `K` holding 0 on a
    fresh machine, press [CLEAR], type [2] [×], spell `FNINT`, and type
    `(0,PI/2)/PI`. Press [ENTER]: `= 1`.
 
@@ -254,7 +254,7 @@ one, which is 2 over pi times the integral of section 8.1. If the ratio is
    seconds. Press [CLEAR], type [4] [×] [2nd] [x²] [2] [.] [5] [÷] [9] [.]
    [8] [)] [×] and spell `FNINT(0,PI/2)`, then press [ENTER]:
 
-   ![The swing's true period at a 150-degree amplitude](images/co08-pendulum-period.png)
+   ![The swing's true period at a 150-degree amplitude](images/co11-pendulum-period.png)
 
    The entry line wraps onto a second row rather than clipping, and the
    answer is `= 5.5923320594903` seconds against the fiction's
@@ -277,7 +277,7 @@ of a series, and it is worth knowing exactly how far you can trust it.
    `= 1.154212568767` against `1.1803405990146`. Not even two.
 
    So the series is superb where you did not need it and useless where you
-   did, which is the usual arrangement with series. Section 8.3 is about
+   did, which is the usual arrangement with series. Section 11.3 is about
    exactly that trade.
 
 **Try it.**
@@ -303,11 +303,11 @@ of a series, and it is worth knowing exactly how far you can trust it.
 One route is closed here, and it is worth knowing why before you go looking
 for it. A graph slot cannot hold `FNINT(`, so there is no plot of period
 against amplitude. The command integrates whichever equation is active, and
-a slot holding it would be asking to integrate itself. Chapter 4 met the
-same refusal from `NDER(`, and Chapter 5 meets it again. The table above is
+a slot holding it would be asking to integrate itself. Chapter 7 met the
+same refusal from `NDER(`, and Chapter 8 meets it again. The table above is
 the graph, written out by hand, one store and one probe per row.
 
-## 8.3 Series against closed forms
+## 11.3 Series against closed forms
 
 A closed form is a promise about infinitely many terms. A partial sum is
 what you can actually hold. They agree in the limit, so the question worth
@@ -354,7 +354,7 @@ is one of the genuine surprises of the subject: pi squared over six.
 
    Repeat for `100->N`, which takes noticeably longer. Let it finish:
 
-   ![A hundred reciprocal squares still short of the closed form](images/co08-basel-run.png)
+   ![A hundred reciprocal squares still short of the closed form](images/co11-basel-run.png)
 
 4. Now the promise. Press [PRGM] for the list, [EXIT] for the home screen,
    and [CLEAR]. Type [2nd] [^] [x²] [÷] [6] and press [ENTER]:
@@ -402,7 +402,7 @@ is one of the genuine surprises of the subject: pi squared over six.
 
    Press [F2] and let it run:
 
-   ![A hundred terms added upwards, stopping on a tolerance](images/co08-tolerance-run.png)
+   ![A hundred terms added upwards, stopping on a tolerance](images/co11-tolerance-run.png)
 
    `1.634983900181`.
 
@@ -439,7 +439,7 @@ then a sixty-fourth, and total a third.
 7. Press [F2]: `0.333251953125`, six rebounds. Reopen the editor as in step
    3, put `12->N` on line 2, and run again:
 
-   ![Twelve rebounds closing on a third](images/co08-damper-run.png)
+   ![Twelve rebounds closing on a third](images/co11-damper-run.png)
 
    `0.3333333134651`. Once more with `24->N` and the run screen shows
    `0.33333333333333`.
@@ -498,9 +498,9 @@ a time.
    how far apart they get. Then say why this series shows the effect more
    clearly than the reciprocal squares did.
 
-## 8.4 Shooting at a boundary
+## 11.4 Shooting at a boundary
 
-The differential equations of Chapter 7 all started at a known point and
+The differential equations of Chapter 10 all started at a known point and
 walked forward. Engineering more often knows the two *ends* and not the
 beginning: the temperature at both faces of a wall, the deflection at both
 supports of a beam, the concentration at the outlet of a treatment works.
@@ -509,7 +509,7 @@ The oldest way to answer that with a forward-marching method is the
 shooting method, and it is exactly what its name says. Guess the starting
 value. Integrate to the far end. See how far you missed. Adjust. Repeat.
 
-![Two shots from the same start, one falling short of the target at the far end and one going over, with the straight line between the misses picking the next guess](images/fig-08-shooting.svg)
+![Two shots from the same start, one falling short of the target at the far end and one going over, with the straight line between the misses picking the next guess](images/fig-11-shooting.svg)
 
 The specimen is a reed bed 20 metres from inlet to outlet, treating a
 stream whose pollutant the bed removes at a rate proportional to the
@@ -527,7 +527,7 @@ may leave the outlet, and the question is what the inlet may carry.
    [MORE] twice more for the page reading `FN POL PAR DEQ GC`. Press [F4],
    `DEQ`. Let the replot finish and press [EXIT] for the home screen.
 
-3. The entry line is empty, as section 7.1 found. Type [(-)] [.] [0] [2]
+3. The entry line is empty, as section 10.1 found. Type [(-)] [.] [0] [2]
    [×] [ALPHA] [0] [x²] so the line reads `-.02*Y^2`, and press [GRAPH].
    Let the plot finish.
 
@@ -538,7 +538,7 @@ may leave the outlet, and the question is what the inlet may carry.
 4. Press [MORE] for the table, which opens at `X=0` in steps of 1, then
    press [▼] once and let it settle:
 
-   ![The first shot landing short of the outlet consent](images/co08-first-shot.png)
+   ![The first shot landing short of the outlet consent](images/co11-first-shot.png)
 
    The rows run `X=5` to `X=10`, and the last of them, the outlet, reads
    `1.979` where the paperwork says 2. The seed of 10 has undershot.
@@ -579,7 +579,7 @@ may leave the outlet, and the question is what the inlet may carry.
 
 ### So the mode gives the picture and a program gives the practice
 
-6. The walk is the one section 7.4 built: the new y is the old y plus the
+6. The walk is the one section 10.4 built: the new y is the old y plus the
    step times the slope, with `EVAL(` reading the stored slope so the
    program never names the model.
 
@@ -593,7 +593,7 @@ may leave the outlet, and the question is what the inlet may carry.
    | 2 | `20/127->H` | [2] [0] [÷] [1] [2] [7] [STO▶] [H] |
    | 3 | `127->N` | [1] [2] [7] [STO▶] [N] |
 
-   Lines 4 to 8 are section 7.4's walk, unchanged and typed the same way:
+   Lines 4 to 8 are section 10.4's walk, unchanged and typed the same way:
    `WHILE N`, `Y+H*EVAL(0)->Y`, `N-1->N`, `END`, `DISP Y`.
 
    Only the first three lines are new, and their step and count are the
@@ -634,7 +634,7 @@ may leave the outlet, and the question is what the inlet may carry.
 
     Press [CLEAR], [PRGM], [F1], [CLEAR], type `10.559->Y`, and press [F2]:
 
-    ![The fourth shot landing on the consent condition](images/co08-shot-run.png)
+    ![The fourth shot landing on the consent condition](images/co11-shot-run.png)
 
     `2.0000403856688`. Four shots have found the inlet the bed can take: a
     little over 10.5 milligrams per litre.
@@ -704,7 +704,7 @@ two answers is the integrator's error wearing a modeller's coat.
    dy/dx = -0.02 y squared on paper from y(0) = c, and check that your
    answer gives step 12's expression at x = 20.
 
-## 8.5 Vectors in the round
+## 11.5 Vectors in the round
 
 Two dimensions let you get away with signed numbers and a convention.
 Three do not. A force has a direction that needs naming, a moment has an
@@ -719,13 +719,13 @@ The site is a radio mast 12 metres tall at the origin, held by three guys
 running from its top to ground anchors 9 metres out on bearings of 0, 120
 and 240 degrees, each tensioned to 1500 newtons.
 
-![The guyed mast, with the three anchors at 120 degrees to each other and one guy vector marked from the mast top to its anchor](images/fig-08-mast.svg)
+![The guyed mast, with the three anchors at 120 degrees to each other and one guy vector marked from the mast top to its anchor](images/fig-11-mast.svg)
 
 1. Bearings are degrees, so put the machine in degrees. Press [2nd] [MORE]
    for the mode screen and press [F1], `ANG`, once: the second line changes
    from `ANGLE RAD` to `ANGLE DEG`. Press [EXIT].
 
-   Remember to put it back before Chapter 8 is over. Section 4.1 has the
+   Remember to put it back before Chapter 11 is over. Section 7.1 has the
    cautionary tale.
 
 2. The second anchor arrives as a bearing and a distance, which is a
@@ -799,11 +799,11 @@ and 240 degrees, each tensioned to 1500 newtons.
    the second soft-key page and [F1], `ADD`: `450`, `779.42286341`,
    `-2400`.
 
-   Carry that into `A` the way Chapter 6 carries a result: with `R` on the
+   Carry that into `A` the way Chapter 9 carries a result: with `R` on the
    screen the prompt reads `ENTER USE R`, so press [ENTER]. Put the third
    force into `B` and press [MORE] [F1] again:
 
-   ![Three guy tensions adding to a pure downward pull](images/co08-guy-sum.png)
+   ![Three guy tensions adding to a pure downward pull](images/co11-guy-sum.png)
 
    `R` reads `0`, then `0`, then `-3600`.
 

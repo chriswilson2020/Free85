@@ -1,4 +1,4 @@
-# Chapter 5: Explorations in Calculus II
+# Chapter 8: Explorations in Calculus II
 
 The second course in calculus widens the field of play.
 
@@ -11,13 +11,13 @@ Free85 keeps a tool for each: the polynomial editor and solver workspace of
 the Guidebook, chapter 14, the polar and parametric modes of chapters 5 and
 6, and the calculus commands of chapter 3.
 
-The habits from Chapter 4 still govern. The calculus commands read the
+The habits from Chapter 7 still govern. The calculus commands read the
 active stored equation, so store with [GRAPH] before asking them anything.
 Let plots draw to the end, because presses arriving mid-draw are dropped.
 And press [CLEAR] at home before typing a command, because the graph hands
 its equation back to the entry line.
 
-## 5.1 Zeros of functions two ways
+## 8.1 Zeros of functions two ways
 
 Factoring finds the roots the algebra teacher chose. Most polynomials met
 in the wild need a hunter, and Free85 keeps two: the polynomial editor,
@@ -38,7 +38,7 @@ of 2, and 1 plus or minus the square root of 3.
 2. Press [F1], `SOLV`, and give the search a few seconds. The root browser
    replaces the editor:
 
-   ![The quartic's root browser opening on 1 plus root 3](images/co05-poly-roots.png)
+   ![The quartic's root browser opening on 1 plus root 3](images/co08-poly-roots.png)
 
    `ROOT 1` shows `RE 2.7320508075688` with `IM 0`, which is 1 plus root 3,
    one digit of dust short of the paper value.
@@ -102,18 +102,18 @@ usually obvious once you have both in mind.
    is the residual actually measuring, and why should handing it the exact
    root produce zero?
 
-## 5.2 Newton's method
+## 8.2 Newton's method
 
-The solver of section 5.1 hunts roots and does not tell you how. This
+The solver of section 8.1 hunts roots and does not tell you how. This
 section builds the method that most root hunters are made of, in four
 useful lines, and then breaks it.
 
-The idea is one you already have from Chapter 4. At any point on a curve
+The idea is one you already have from Chapter 7. At any point on a curve
 you can compute the tangent. A tangent is a straight line, and finding
 where a straight line crosses the axis is arithmetic. So: stand somewhere,
 follow the tangent down to the axis, and stand there instead. Repeat.
 
-![A curve with a tangent drawn at the first guess, running down to the axis at a point much nearer the root, and a second tangent from there landing nearer still](images/fig-05-newton.svg)
+![A curve with a tangent drawn at the first guess, running down to the axis at a point much nearer the root, and a second tangent from there landing nearer still](images/fig-08-newton.svg)
 
 If x is the current guess, the tangent crosses the axis at x minus f(x)
 over f'(x), and that is the whole method.
@@ -169,14 +169,14 @@ near 2.09.
    | 4 | `2.0945514815424` |
    | 5 | `2.0945514815424` |
 
-   ![Newton settled on the root after four steps](images/co05-newton-converged.png)
+   ![Newton settled on the root after four steps](images/co08-newton-converged.png)
 
    Read down the correct digits: 2, then 5, then 10, then all fourteen, and
    then it stops moving because there is nowhere left to move to.
 
    The number of correct digits roughly *doubles* at every step. That is
    what quadratic convergence means, and it is why Newton's method is the
-   one everybody reaches for. Compare Chapter 7's Euler, which halved its
+   one everybody reaches for. Compare Chapter 10's Euler, which halved its
    error per halving of the step, or the bisection the solver uses, which
    buys one bit a go. This buys everything it already has, again, every
    time.
@@ -226,7 +226,7 @@ gracefully. It leaves.
    That is the working method for Newton in practice: use a picture or a
    coarse search to get close, then let the doubling take you the rest of
    the way.
-   The solver of section 5.1 does something similar internally, which is
+   The solver of section 8.1 does something similar internally, which is
    why it asks you for bounds.
 
 **Try it.**
@@ -240,13 +240,13 @@ gracefully. It leaves.
    paper what line 4 does to this particular function, and you will find
    you have rediscovered a very old algorithm for square roots.
 4. Put `COS(X)-X` in the slot and run Newton from 1. Compare the answer
-   with section 5.1's solver result of `0.7390856742858`, and compare how
+   with section 8.1's solver result of `0.7390856742858`, and compare how
    long each took.
 5. Newton needs `NDER(` at every step, which is two evaluations of the
    stored equation. Count the evaluations for four Newton steps against the
    solver's bisection to the same accuracy. Which is actually cheaper here?
 
-## 5.3 Conic sections by parametric pair
+## 8.3 Conic sections by parametric pair
 
 A circle fails the vertical line test, so no function slot can draw one.
 The parametric mode can, because it plots any pair x(t), y(t) you give it,
@@ -273,7 +273,7 @@ by 5 at one metre per unit, so A is 5 and B is 2.5.
 
 2. Press [2nd] [-], the square window, and let the replot finish:
 
-   ![The 10 by 5 pond ellipse in the square window](images/co05-pond-ellipse.png)
+   ![The 10 by 5 pond ellipse in the square window](images/co08-pond-ellipse.png)
 
    Now one unit is the same length on both axes and the ellipse shows its
    true proportions, twice as wide as tall. Any time a circle looks like an
@@ -315,7 +315,7 @@ draws its whole rim including the right-hand vertex.
 4. Work out what pair draws a circle of radius 3 centred at (4, 1), then
    plot it and trace a point to check.
 
-## 5.4 Polar curves
+## 8.4 Polar curves
 
 Some curves are unwieldy in x and y and a single line in polar form, where
 each point is named by its distance r from the origin at angle theta.
@@ -331,7 +331,7 @@ remember.
    slow plot, so let it sweep to the end. Then press [2nd] [-] for the
    square window and let the replot finish:
 
-   ![The four-petal rose of 4*SIN(2X)](images/co05-polar-rose.png)
+   ![The four-petal rose of 4*SIN(2X)](images/co08-polar-rose.png)
 
    Doubling the angle folds the revolution into four petals on the
    diagonals. Work out why four and not two: the radius goes negative for
@@ -352,7 +352,7 @@ remember.
 
 3. The spiral. Press [CLEAR], type `X/2`, and press [GRAPH]:
 
-   ![The spiral X/2 stopping after one revolution](images/co05-polar-spiral.png)
+   ![The spiral X/2 stopping after one revolution](images/co08-polar-spiral.png)
 
    The radius grows with the angle, half a unit per radian, and the curve
    winds outward until the single revolution is spent, stopping mid-air at
@@ -392,7 +392,7 @@ remember.
    radius is negative, and check your reasoning against which petal gets
    drawn when.
 
-## 5.5 Parametric motion
+## 8.5 Parametric motion
 
 A parametric pair is a motion, not just a shape. The parameter is time, and
 the trace key becomes a slow-motion replay.
@@ -406,7 +406,7 @@ it.
 1. In parametric mode, store the motion: `3*X` in slot 1, then [2nd] [2]
    and `9*X-5*X^2` in slot 2. Let the plot finish:
 
-   ![The pebble's flight from 3*X and 9*X-5*X^2](images/co05-projectile.png)
+   ![The pebble's flight from 3*X and 9*X-5*X^2](images/co08-projectile.png)
 
    The arc rises from the origin and returns to the axis.
 
@@ -459,14 +459,14 @@ zooming reframes time as well as space: the window is the clock.
    Work out the apex and landing on paper first, then find them with the
    tools of steps 3 and 4.
 2. The apex time 0.9 is exact on paper. Why does `FMAX(` stop a whisker
-   short? Chapter 4's extremum searches told the story.
+   short? Chapter 7's extremum searches told the story.
 3. Launch from a 2-metre wall at 2 metres per second horizontally: the pair
    is `2*X` and `2+9*X-5*X^2`. Where does the trace say the pebble lands,
    and what guess and bounds make the solver agree?
 4. Step 3's root hunt found the launch rather than the landing. Find a
    window that makes it find the landing instead, without using the solver.
 
-## 5.6 Functions defined by integrals
+## 8.6 Functions defined by integrals
 
 An integral with a variable upper limit is a function. Call it A(x): the
 area accumulated under a curve from a fixed start out to x.
@@ -514,7 +514,7 @@ somebody you already know.
    area from 1 to 2, both being doublings, even though the two slabs look
    nothing alike. Press [CLEAR] and ask `FNINT(3,6)`:
 
-   ![The area from 3 to 6 matching the area from 1 to 2](images/co05-accumulator.png)
+   ![The area from 3 to 6 matching the area from 1 to 2](images/co08-accumulator.png)
 
    `= 0.69314718242103`, agreeing with step 2's probe to eleven decimal
    places. Two differently shaped slabs, equal because both are doublings.
@@ -553,7 +553,7 @@ Name the slot and the ambiguity disappears. `FNINT(1,0,X)` reads
 the asking. Put `2*X` in `Y1` and `FNINT(1,0,X)` in `Y2` and press
 [GRAPH]:
 
-![The accumulator of 2*X plotted beside it](images/co05-accumulator-plot.png)
+![The accumulator of 2*X plotted beside it](images/co08-accumulator-plot.png)
 
 `Y1` draws its line and `Y2` draws x², which is what the accumulator of 2x
 is. The table carries both columns, so the function you were building by
@@ -587,7 +587,7 @@ it is how you check that you were right.
    function. What is the relationship between the two, and can you predict
    `FNINT(2,6)` from step 5's answer without computing it?
 
-## 5.7 Indeterminate forms by table
+## 8.7 Indeterminate forms by table
 
 When the top and bottom of a fraction both head for zero, the quotient's
 fate is genuinely undecided. Nought over nought can settle anywhere at all,
@@ -595,7 +595,7 @@ and only the route taken decides where. The same holds when both head for
 infinity, and when a base heading for 1 is raised to a power heading for
 infinity.
 
-Chapter 4 probed limits with the table. Here the same tool takes on three
+Chapter 7 probed limits with the table. Here the same tool takes on three
 indeterminate forms, one specimen each.
 
 1. The nought-over-nought specimen divides e to the 2x minus 1 by x, which
@@ -638,7 +638,7 @@ indeterminate forms, one specimen each.
    `3.009` at 512, `3.006` at 768, `3.004` at 1024, and `3.003` at 1280.
 
    The overshoot has drained away and the far right of the table settles
-   onto 3, the ratio of the leading coefficients. As in Chapter 4, the
+   onto 3, the ratio of the leading coefficients. As in Chapter 7, the
    probes point and the algebra pins: dividing top and bottom by x squared
    proves it in one line.
 
@@ -651,7 +651,7 @@ indeterminate forms, one specimen each.
    The specimen is (1 + h) to the power 1/h as h heads for 0. You can type
    that directly now, and it is worth doing once: `(1+.1)^(1/.1)` answers
    `= 2.5937424601`, exactly, because 1/.1 is 10 and a whole exponent takes
-   the exact route of section 1.5.
+   the exact route of section 4.5.
 
    It is written below through that section's identity instead, b to the
    power x is e to the power x ln b, for two reasons. The first is that the
@@ -675,14 +675,14 @@ indeterminate forms, one specimen each.
 6. Press [CLEAR] and spell `EXP(1)`: `= 2.7182818284583`.
 
    That is where the column is going, and the column is going there
-   slowly. Compare Chapter 4's `sin x` over `x`, which bought two more
+   slowly. Compare Chapter 7's `sin x` over `x`, which bought two more
    correct digits for every tenfold shrink. This one buys about one, which
    is the difference between an error that goes like h squared and one that
    goes like h.
 
    The limit is e, and this is where e comes from: not from a button, but
    from asking what happens when compound interest is compounded
-   infinitely often. Chapter 1 left money growing at six per cent through
+   infinitely often. Chapter 4 left money growing at six per cent through
    `EXP(` and `LN(` without saying where the `EXP(` came from. This is
    where.
 
@@ -702,7 +702,7 @@ indeterminate forms, one specimen each.
    need to be for ten correct digits, and say whether the machine's
    fourteen digits would survive the arithmetic.
 
-## 5.8 Improper integrals
+## 8.8 Improper integrals
 
 An integral to infinity is a limit in disguise: the area out to b, as b
 grows without bound. Some settle and some do not, and a machine confined to
@@ -749,7 +749,7 @@ The convergent specimen is 1/x^2 from 1 onward, whose area out to b is
    `= 0.6931471824209` for `FNINT(1,2)`, `= 0.6931471824212` for
    `FNINT(2,4)`, and `= 0.69314718242097` for `FNINT(4,8)`.
 
-   Section 5.6's logarithm constant, every octave the same. The slabs
+   Section 8.6's logarithm constant, every octave the same. The slabs
    refuse to shrink, the total climbs by 0.693 per octave forever, and the
    integral diverges.
 
@@ -782,14 +782,14 @@ The convergent specimen is 1/x^2 from 1 onward, whose area out to b is
    collecting evidence that the limit is 2, this probe would have destroyed
    your confidence in an answer that was perfectly correct.
 
-   It is Chapter 8's pendulum again, and by now you should recognise the
+   It is Chapter 11's pendulum again, and by now you should recognise the
    shape of it. Sixty-four panels across an interval containing a spike
    that goes to infinity, one panel lands near the spike, and its enormous
    value swamps the honest ones. The narrower you make the interval around
    the singularity, the worse it gets, because the panel that lands nearest
    gets closer to the infinity.
 
-5. So handle it the way Chapter 8 did: change the integral rather than the
+5. So handle it the way Chapter 11 did: change the integral rather than the
    integrator. Substituting x = u squared turns the integrand into a
    constant 2 over the whole range, and the integral becomes trivially 2.
 
@@ -817,7 +817,7 @@ this book keeps asking you to work things out on paper first.
 5. Design an integrand that is infinite at the *right* endpoint instead,
    and predict what `FNINT(` will do before you try it.
 
-## 5.9 Polynomial approximation
+## 8.9 Polynomial approximation
 
 Polynomials are the only functions arithmetic can touch directly. Every
 machine's sine is secretly a polynomial's impersonation of one, this one
@@ -842,7 +842,7 @@ which is exactly the right number for the comparison this section needs.
    powers are whole and inside `^`'s range, and the factorials are typed as
    divisors:
 
-   ![The sine with its degree-3 and degree-5 impersonators](images/co05-taylor-slots.png)
+   ![The sine with its degree-3 and degree-5 impersonators](images/co08-taylor-slots.png)
 
    Near the origin three curves travel as one. The cubic peels off first,
    diving where the sine turns; the quintic holds the pose almost a full
@@ -866,7 +866,7 @@ which is exactly the right number for the comparison this section needs.
    The important thing about that table is the direction of travel. Every
    time you add a term, the agreement gets wider. Add enough terms and you
    can match sine as far out as you like. That is not true of every
-   function, and section 5.9's second half is about the ones where it
+   function, and section 8.9's second half is about the ones where it
    fails.
 
 ### A function where more terms do not help at all
@@ -882,7 +882,7 @@ which is exactly the right number for the comparison this section needs.
    Press [2nd] [+] for the standard window if you have wandered, then press
    [MORE] for the table:
 
-   ![The geometric impersonators failing outside the interval](images/co05-geometric-table.png)
+   ![The geometric impersonators failing outside the interval](images/co08-geometric-table.png)
 
    Down the `X=0` to `X=5` rows, `Y1` reads `1`, `0.5`, `0.333`, `0.25`,
    `0.2`, `0.166`. `Y2` reads `1`, `0`, `-5`, `-20`, `-51`, `-104`. `Y3`
@@ -918,7 +918,7 @@ which is exactly the right number for the comparison this section needs.
 Three slots shape the comparison: a target and two rivals at a time. The
 degree-1 impersonator, the plain line `X`, sat the sine plot out; swapping
 it in is a one-slot edit, the family growing three at a time as in Chapter
-1.
+4.
 
 **Try it.**
 

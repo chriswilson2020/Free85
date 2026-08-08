@@ -27,6 +27,9 @@ jobs:
       - name: Run Free85 tests
         run: npm run validate:free85
 
+      - name: Resolve the books' cross-references
+        run: npm run check:companion:crossrefs
+
       - name: Build pinned sjasmplus
         run: |
           curl --fail --location --silent --show-error \

@@ -204,18 +204,18 @@ function markNumHeavyBlocks(html) {
   return html;
 }
 
-// Explorations numbers its sections in the heading text ("## 1.1 Functions
+// Explorations numbers its sections in the heading text ("## 4.1 Functions
 // and their windows"). Lift the number out of the text into the same hung
 // outer-margin ladder the Guidebook generates from counters, so the two books
 // look alike and the heading reads as prose. The book's own dot form is kept
-// (not the Guidebook's "4-3") because its cross-references say "section 1.4".
-// Unnumbered H2s (chapter 8's closing section) are left alone.
+// (not the Guidebook's "4-3") because its cross-references say "section 4.4".
+// Unnumbered H2s (chapter 11's closing section) are left alone.
 function hangSectionNumbers(html, stats) {
   return html.replace(/<h2 id="([^"]+)">(\d+\.\d+)\s+([\s\S]*?)<\/h2>/g,
     (m, id, no, title) => {
-      // Chapter 9's sections are worked solutions and have no Try it panel,
+      // Chapter 12's sections are worked solutions and have no Try it panel,
       // so they are tallied apart from the explorations they answer.
-      if (no.startsWith("9.")) stats.solutions += 1;
+      if (no.startsWith("12.")) stats.solutions += 1;
       else stats.sections += 1;
       return `<h2 id="${id}" data-secno="${no}">${title.trim()}</h2>`;
     });
@@ -852,15 +852,15 @@ function buildCompanion() {
   // blank line above it: pandoc then reads the heading as ordinary paragraph
   // text, the section silently disappears from the book and the TOC, and
   // nothing else in the build notices. That has happened once.
-  // Chapter 9 is the solutions and carries no Try it panels of its own, so
+  // Chapter 12 is the solutions and carries no Try it panels of its own, so
   // it is counted separately and excluded from the comparison.
   if (stats.sections !== stats.tryits) {
     throw new Error(`companion: ${stats.sections} numbered sections in chapters `
-      + `1 to 8 but ${stats.tryits} Try it panels. A section heading has `
+      + `4 to 11 but ${stats.tryits} Try it panels. A section heading has `
       + `probably lost the blank line above it and been swallowed into the `
       + `previous paragraph.`);
   }
-  // Chapter 9 answers every Try it panel, one solution section per chapter.
+  // Chapter 12 answers every Try it panel, one solution section per chapter.
   if (stats.solutions !== 8) {
     throw new Error("companion: expected 8 solution sections, one per "
       + `chapter, found ${stats.solutions}`);

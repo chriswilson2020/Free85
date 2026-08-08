@@ -1,4 +1,4 @@
-# Chapter 9: Solutions
+# Chapter 12: Solutions
 
 Every Try it exercise in the book, worked through.
 
@@ -12,17 +12,17 @@ A word on the numbers. Every one below came off the emulator, so if yours
 differ in the last digit or two, check the angle mode first and the stored
 equation second: those two account for almost every discrepancy. A
 difference in the last digit alone is usually just a different route to the
-same answer, as section 3.6 found.
+same answer, as section 6.6 found.
 
-## 9.1 Solutions for Chapter 1
+## 12.1 Solutions for Chapter 4
 
-### 1.1 Functions and their windows
+### 4.1 Functions and their windows
 
 **1.** The three crossings of `X^3-4*X` and `X` are where x cubed minus
 four x equals x, so x cubed equals five x, so x is 0 or plus or minus the
 square root of five.
 
-Section 1.1 found the negative one at `= -2.2360679774997`. For the other
+Section 4.1 found the negative one at `= -2.2360679774997`. For the other
 two, trace to the neighbourhood first: the search reads the traced position,
 so trace near the origin and press [2nd] [F1] for `= 0`, then trace right of
 2 and press [2nd] [F1] again for the positive root.
@@ -32,7 +32,7 @@ Check it: press [CLEAR] and type [2nd] [x²] [5] [)] for `SQRT(5)`:
 
 Notice the last digit. The intersection search answered `2.2360679774997`
 and the square root answers `...98`. Neither is wrong; the search stops when
-its bracket is tight, and the root is computed. Section 4.4 has more on why
+its bracket is tight, and the root is computed. Section 7.4 has more on why
 searches stop where they do.
 
 **2.** `X^3-4*X+3` factors as (x - 1)(x² + x - 3), so its zeros are 1 and
@@ -51,7 +51,7 @@ so `X^3-4*X` behaves like `-4*X`. The curve comes to resemble the line
 y = -4x.
 
 Reading `XMIN` after each press of [+], from the standard window: `-5`,
-`-2.5`, `-1.25`, `-0.625`, `-0.3125`. Each press halves it, as section 1.1
+`-2.5`, `-1.25`, `-0.625`, `-0.3125`. Each press halves it, as section 4.1
 said.
 
 By four or five presses the curve is straight to the eye. Check the slope
@@ -66,16 +66,16 @@ a window that sits entirely to the right of 2.
 Neither window is lying. Each is answering the question "what does this
 function do *here*", and the answer genuinely is "it has one zero" or "it
 has none" on that interval. The mistake is only ever in reading a local
-answer as a global one, which is the whole reason section 1.1 comes first.
+answer as a global one, which is the whole reason section 4.1 comes first.
 
-### 1.2 Families of curves three at a time
+### 4.2 Families of curves three at a time
 
 **1.** All three lines have slope 1, so they are parallel. They cross the y
 axis at 4, 0 and -3, which are the constants themselves.
 
 The table makes it plain: at `X=0` the row reads `4`, `0`, `-3`. Adding a
 constant to a function moves its graph vertically by that constant, which is
-section 1.3's rule arriving early.
+section 4.3's rule arriving early.
 
 **2.** Store `X^2` in `Y1`, `-X^2` in `Y2` and `-4*X^2` in `Y3`, using
 [(-)] for the signs.
@@ -108,7 +108,7 @@ though they were never on screen together.
 Choose a different anchor and the two plots have nothing in common, which
 makes them two experiments rather than one.
 
-### 1.3 Symmetry and transformations
+### 4.3 Symmetry and transformations
 
 **1.** `X^2-6` is even: replacing x by -x changes nothing, because the
 square kills the sign. `X^3+1` is neither: f(-x) is -x³ + 1, which is
@@ -149,7 +149,7 @@ along the axis, with the table reading `0` across every row. It is a
 degenerate answer and it is the only one, which is what makes the question
 worth asking.
 
-### 1.4 Rational functions and the lines they approach
+### 4.4 Rational functions and the lines they approach
 
 **1.** `(X^2-4)/(X-2)` divides out exactly: it is (x - 2)(x + 2) over
 (x - 2), which is x + 2 for every x except 2.
@@ -162,7 +162,7 @@ it met there.
 
 The values from both sides are heading for 4, which is what x + 2 gives at
 x = 2. The function has a *hole*, not a pole: one point missing from an
-otherwise perfectly ordinary line. Chapter 4's `SIN(X)/X` is the same shape
+otherwise perfectly ordinary line. Chapter 7's `SIN(X)/X` is the same shape
 of trouble.
 
 So `UNDEF` in a table means only that the machine could not compute a value.
@@ -205,11 +205,11 @@ Check both sides of the boundary. Press [CLEAR] and spell `EVAL(44.73)`:
 And press [CLEAR] and type `2/(45^2-1)`: `= 0.00098814229249012`, which is
 the gap the algebra predicted, to eleven digits.
 
-That is a much faster convergence than section 1.4's slant case, where the
+That is a much faster convergence than section 4.4's slant case, where the
 gap was 2/(x - 1) and you had to go out to 2001. Squaring the denominator
 squares how quickly the curve settles.
 
-### 1.5 Exponential and logarithmic functions
+### 4.5 Exponential and logarithmic functions
 
 **1.** The mirror symmetry is still true and stops *looking* true. `EXP(X)`
 and `LN(X)` are reflections of each other in y = x whatever window you use,
@@ -271,12 +271,12 @@ that did not need it, and the last three digits paid for it.
 to every digit, because for a fractional exponent the identity is not an
 alternative to what the key does. It is a description of it.
 
-### 1.6 Trigonometric functions
+### 4.6 Trigonometric functions
 
 **1.** `SIN(X)+2` lifts the whole wave two units, keeping its shape.
 `SIN(X+2)` slides it two units to the *left*, keeping its height. The first
 is a change outside the sine, the second is inside it, which is section
-1.3's rule again.
+4.3's rule again.
 
 The table settles it: at `X=0` the three columns read `0`, `2` and `0.909`.
 The second is 2 above the first. The third is the value the plain sine has
@@ -299,7 +299,7 @@ would have chosen.
 
 The standard window hides it almost entirely: the curve never leaves -1 to
 1 while the window allows for -10 to 10, so it is a flat ripple on the axis.
-It is section 1.6's opening complaint all over again, and the fix is the
+It is section 4.6's opening complaint all over again, and the fix is the
 same: zoom in vertically until the wave fills the screen.
 
 What the standard window hides is not the shape but the *scale*. Both towns
@@ -308,7 +308,7 @@ amplitude is exactly what a badly chosen vertical range destroys.
 
 **4.** Sine is 0, 1, 0, -1 at x = 0, π/2, π and 3π/2. Cosine at those four
 places is 1, 0, -1, 0: it does the same thing a quarter turn earlier, which
-is what section 1.6 step 4 showed.
+is what section 4.6 step 4 showed.
 
 Check them. Press [CLEAR] and spell `COS(0)`: `= 1`. Then `COS(PI/2)`:
 `= -6.51527649229E-11`. Then `COS(PI)`: `= -1.0000041678092`. Then
@@ -316,7 +316,7 @@ Check them. Press [CLEAR] and spell `COS(0)`: `= 1`. Then `COS(PI/2)`:
 
 The last three are 0, -1 and 0 under the machine's fourteen-digit `PI`,
 which is not quite pi. Read `-6.5E-11` as zero and `-1.0000042` as minus
-one. That dust appears in section 5.4's cardioid too, and it is worth
+one. That dust appears in section 8.4's cardioid too, and it is worth
 learning to recognise rather than chase.
 
 **5.** Six hours thirteen minutes is 6.2166666666666 hours. A sine repeats
@@ -329,7 +329,7 @@ window's -10 to 10 shows barely three, so you want a window several times
 wider in x and much narrower in y. Press [-] twice for x and zoom in
 vertically, or accept the trig window and read only part of the picture.
 
-### 1.7 Inverse functions by parametric pair
+### 4.7 Inverse functions by parametric pair
 
 **1.** The inverse crosses the x axis where the original crossed the *y*
 axis, because the coordinates have been swapped. The original line 2t - 6
@@ -374,9 +374,9 @@ x = 1/y, which is the same relation.
 a function is its own inverse exactly when its graph is symmetric about the
 line y = x, which is a nice thing to be able to spot by eye.
 
-## 9.2 Solutions for Chapter 2
+## 12.2 Solutions for Chapter 5
 
-### 2.1 Prices from receipts
+### 5.1 Prices from receipts
 
 **1.** Press [2nd] [STAT] and enter 3, 2, 12.3, then 2, 3, 10.7. `SOLVE`
 answers `X 2.7` and `Y 2.1`: juices are 2.70 and flapjacks 2.10.
@@ -408,7 +408,7 @@ here it does not, so `SOLVE` answers `NO SOLUTION`.
 For infinitely many, make everything proportional: 2, 4, 10 then 1, 2, 5.
 `SOLVE` answers `UNDERDETERMINED`.
 
-The two are one keystroke apart, which is the point of section 2.1 step 5.
+The two are one keystroke apart, which is the point of section 5.1 step 5.
 
 **4.** Any third receipt whose coefficients are a combination of the first
 two but whose takings are not. The first two are 3, 2 and 2, 3; their sum
@@ -419,7 +419,7 @@ Grow the editor to `3X3` and enter all three: with 23 the answer is still
 `X 2.7`, `Y 2.1`; with 24 it is `NO SOLUTION`. A third receipt cannot add
 information, only agreement or contradiction.
 
-### 2.2 When the answer will not stay still
+### 5.2 When the answer will not stay still
 
 **1.** Predict: the two lines are ten times closer to parallel, so the
 trouble should be about ten times worse.
@@ -460,10 +460,10 @@ The original answer was `X 2`, `Y 4`, `Z 4`. The nudged one is `X 1.72`,
 A one per cent change in one number has moved the dear leaf by fourteen per
 cent and the middle leaf by twenty-one. So the tea blend is moderately
 ill-conditioned too, amplifying by fifteen or twenty, which nobody would
-have guessed from looking at it. Section 6.3 puts a number on that with
+have guessed from looking at it. Section 9.3 puts a number on that with
 `COND`, and this system is worth running through it when you get there.
 
-### 2.3 The best plan on a graph
+### 5.3 The best plan on a graph
 
 **1.** Predict from the slope. The profit line 60x + 30y = k solves to
 y = (k - 60x)/30, a slope of -2, which is steeper than either constraint
@@ -525,7 +525,7 @@ A constraint that is satisfied exactly at the optimum but has zero shadow
 price is called degenerate, and it is a genuinely awkward case in real
 linear programming. You have just built one on purpose.
 
-### 2.4 Elimination as bookkeeping
+### 5.4 Elimination as bookkeeping
 
 **1.** The tableau is 2, 5, 7.9 then 4, 5, 12.3, and no swap is needed
 because the top-left is already nonzero.
@@ -536,14 +536,14 @@ leaves row 2 as 0, -5, -3.5. Then -0.2, to turn that -5 into a 1, leaving
 2 into a 1.
 
 The finished tableau reads 1, 0, 2.2 and 0, 1, 0.7: coffee 2.20, pastry
-0.70, which is section 2.1's answer arrived at the slow way.
+0.70, which is section 5.1's answer arrived at the slow way.
 
 **2.** Put the coefficients 2, 1, 1, 3 in a 2 by 2 `A` and the takings 110,
 130 in a 2 by 1 `B`, then press `AUG`.
 
 The result lands in `R`, as every result does. Before row operations can
 touch it you must carry it into `A` by hand, which is the same cost section
-2.4 charges everywhere: the row-operation keys read `A` and nothing else.
+5.4 charges everywhere: the row-operation keys read `A` and nothing else.
 
 **3.** Predict first: `RREF` sorts the rows into echelon form, and the row
 starting with a 1 in the first column must end up on top. So the print row
@@ -568,7 +568,7 @@ register, is what limits elimination by hand: the register holds three rows
 by six columns, and by the time you have filled it you will not want to
 audit every step anyway.
 
-### 2.5 The mathematics of money
+### 5.5 The mathematics of money
 
 **1.** Predict from the doubling. Trebling needs ln 3 over ln 2 as many
 years as doubling, which is about 1.585 times 11.9, so about nineteen.
@@ -600,7 +600,7 @@ three times to step X, Y, Z, A. Fence the search at 0 and 1000 and press
 [F1], `SOLV`: a `ROOT` of `256.6377251642` with `RES 2.56E-7`.
 
 Three presses of `VAR` is the price of naming the unknown `A` in an
-equation whose other letter is `G`. Section 2.5's closing note is about
+equation whose other letter is `G`. Section 5.5's closing note is about
 exactly this: choose letters that march forward from X and you pay one
 press instead of three.
 
@@ -624,7 +624,7 @@ eventually, and any payment at or below it never does.
 The curve of payment against term has a horizontal asymptote, and the
 asymptote is the interest.
 
-### 2.6 Loyalty in the long run
+### 5.6 Loyalty in the long run
 
 **1.** Start with 0, 0, 1 in a `SIZE 1X3` `A`, keep P in `B`, and multiply,
 carrying each result back into `A`.
@@ -675,9 +675,9 @@ shows up. It is fast at first and then slows, because each week closes a
 fixed fraction of the remaining gap. Most of the effect of the Station's
 renovation appears within a month; the last of it never quite arrives.
 
-## 9.3 Solutions for Chapter 3
+## 12.3 Solutions for Chapter 6
 
-### 3.1 A week of small data
+### 6.1 A week of small data
 
 **1.** The eight values total 132, so the mean is 16.5. Ordered, the middle
 two are 16 and 17, so the median is 16.5 as well.
@@ -708,7 +708,7 @@ Now square the `P SD` figure: press [CLEAR] and type
 Exact, and it should be. The `P SD` line is the square root of the
 population variance, so squaring it undoes the root, and the machine keeps
 enough digits that nothing is lost on the round trip. Compare the `S SD`
-line of section 3.1 step 5, which sat a whisker under its true value; that
+line of section 6.1 step 5, which sat a whisker under its true value; that
 one lost a digit because 94 has no exact square root and 82.25 does not
 need one.
 
@@ -736,7 +736,7 @@ different pattern, so the box plot's whiskers and box are not symmetric.
 The lesson is that equal mean and median rules out gross skew and does not
 rule out asymmetry. Two numbers cannot describe a shape.
 
-### 3.2 Random numbers that repeat
+### 6.2 Random numbers that repeat
 
 **1.** From a fresh machine, `RANDI(1,6)` ten times gives 3, 5, 3, 5, 6, 4,
 6, 1, 1, 4.
@@ -750,7 +750,7 @@ and six faces, the chance that some face is missing is better than sixty
 per cent, so a missing face is the *expected* outcome rather than a
 surprise.
 
-Small samples are like this. Section 3.3's thirty-six rolls produce eight
+Small samples are like this. Section 6.3's thirty-six rolls produce eight
 sixes and then thirteen, and neither is news either.
 
 **2.** 1 is impossible because the smallest each die can show is 1, so the
@@ -782,7 +782,7 @@ The generator does not know that the answer was foregone. It draws, then
 maps the draw onto the range you asked for, and a range of one maps
 everything to the same place.
 
-### 3.3 Simulation by program
+### 6.3 Simulation by program
 
 **1.** Line 1 changes, from `36->N` to `99->N`. Nothing else: the tally, the
 test and the display are all independent of the count, which is what makes
@@ -825,7 +825,7 @@ to store the roll and one to tally it, which is the real lesson: without
 comparison operators, anything that uses a value twice has to store it
 first.
 
-### 3.4 Two columns and a family of models
+### 6.4 Two columns and a family of models
 
 **1.** Predict `R` of exactly 1: the data is a straight line with no noise
 at all, and correlation measures how nearly the points sit on a line.
@@ -843,7 +843,7 @@ A e^(Bx). It predicts too low at both ends and too high in the middle, or
 the other way about, because an exponential curves and the data does not.
 
 The residuals drift in a pattern rather than scattering, which is section
-3.4's central point arriving from the other direction: a wrong model shows
+6.4's central point arriving from the other direction: a wrong model shows
 itself in the *shape* of its errors, not their size. A drift means the
 model is missing something systematic.
 
@@ -866,14 +866,14 @@ Notice the differences between consecutive values before you go on: each is
 an arithmetic one.
 
 Enter those against weeks 1 to 5 and fit `LIN`. The slope comes back as
-0.69314718..., which is section 3.4's `B` to every digit.
+0.69314718..., which is section 6.4's `B` to every digit.
 
 They agree because taking logarithms turns the exponential model into a
 linear one. If y is A e^(Bx) then ln y is ln A plus Bx, a straight line of
 slope B. So `EXPR` and this hand-built `LIN` are the same fit computed two
 ways, and that is exactly how `EXPR` works inside.
 
-### 3.5 What "best fit" actually means
+### 6.5 What "best fit" actually means
 
 **1.** Predict 0. The line y = 4 + 2x passes through every one of the
 points 6, 8, 10, 12, 14, 16 exactly, so every residual is zero and so is
@@ -940,7 +940,7 @@ hopeless.
 When two models are on the table, compare their scores rather than their
 correlations.
 
-### 3.6 Forecasting the full pond
+### 6.6 Forecasting the full pond
 
 **1.** Predict from the doubling: week 5 is 96, so week 6 is 192 and week 7
 is 384. Press [CLEAR] and type `3*128`: `= 384`.
@@ -979,7 +979,7 @@ outside the range in which the model can be true and should not be quoted.*
 The arithmetic is correct and the answer is meaningless. Knowing the
 difference is the whole job.
 
-### 3.7 Four pictures of one week
+### 6.7 Four pictures of one week
 
 **1.** `BOX` reads the `X` column, sorts it internally to find the
 quartiles, and draws five numbers. Sorting the column first therefore
@@ -1006,7 +1006,7 @@ bins is 7.75 wide: 12 to 19.75, 19.75 to 27.5, 27.5 to 35.25, 35.25 to 43.
 Sorting the eight counts into those: 12, 15, 15, 17, 18, 19 fall in the
 first, 21 in the second, nothing in the third, 43 in the fourth.
 
-So the bars are 6, 1, 0, 1, which is what section 3.7 step 6 shows.
+So the bars are 6, 1, 0, 1, which is what section 6.7 step 6 shows.
 
 **4.** `HIST` would show it as a bar one taller than it should be, which
 you would only notice if you knew the right answer.
@@ -1025,9 +1025,9 @@ So the answer is `XYLN`, and the reason is the same property that made it
 untrustworthy in step 2. A plot that respects entry order is the only one
 that can show you something about entry order.
 
-## 9.4 Solutions for Chapter 4
+## 12.4 Solutions for Chapter 7
 
-### 4.1 Limits by table and zoom
+### 7.1 Limits by table and zoom
 
 **1.** Store `(1-COS(X))/X` and probe, pressing [CLEAR] before each:
 `EVAL(.1)` gives `0.04995834722`, `EVAL(.01)` gives `0.00499995834`, and
@@ -1098,9 +1098,9 @@ so sin(2x)/x picks up that factor once: the limit becomes 2 times π/180,
 which is π/90, about 0.0349.
 
 Predict it, then check with `EVAL(.001)`, and set the machine back to `RAD`
-before section 4.2 or nothing there will work.
+before section 7.2 or nothing there will work.
 
-### 4.2 A limit that is not there
+### 7.2 A limit that is not there
 
 **1.** Far from the origin, one over x is small and changing slowly, so the
 sine's argument barely moves and the curve is nearly flat. At x = 10 the
@@ -1161,7 +1161,7 @@ the tolerance costs one press. That is a prediction you could have made
 from the walls being straight lines, and it is exactly why this squeeze is
 easy while `SIN(1/X)`'s is impossible.
 
-### 4.3 The derivative as a limit
+### 7.3 The derivative as a limit
 
 **1.** Predict: the quotient of `X^2` at step .01 is (x + .01)² - x² over
 .01, which is 2x + .01. So it sits exactly 0.01 above `2*X` everywhere, and
@@ -1220,7 +1220,7 @@ method error is tiny, large enough that the subtraction still has digits to
 work with. Every fixed-precision machine has one and its position depends
 only on how many digits it keeps.
 
-### 4.4 Extrema by search
+### 7.4 Extrema by search
 
 **1.** `X^2*(X^2-4)/4` is even, so its graph is symmetric about the y axis
 and its two minima must be at plus and minus the same number.
@@ -1266,7 +1266,7 @@ a maximum precisely is hard and locating a steep crossing is easy. Root
 finders are accurate; extremum finders are not; and it is the same fact
 seen twice.
 
-### 4.5 The definite integral as an average
+### 7.5 The definite integral as an average
 
 **1.** The model is `17-3*COS(PI*X/12)`, on the pattern of step 1 with 17
 for the centre and 3 for the swing.
@@ -1281,7 +1281,7 @@ trailing digits are the machine's `PI`, as before.
 `PI*X/12` equal to π/2 and 3π/2, so x = 6 and x = 18.
 
 Check both with `EVAL(`. Six in the morning and six in the evening, which
-is what section 4.5 step 6 found for the harbour and is true for any model
+is what section 7.5 step 6 found for the harbour and is true for any model
 of this shape.
 
 **3.** `FNINT(-1,1)` answers `= -5.3333333333333` and `FNINT(1,3)` answers
@@ -1309,10 +1309,10 @@ The curve takes that value where x² - 2x - 3 equals -8/3, which solves to
 x = 1 plus or minus root(4 - 8/3), so about 1 ± 1.155: at -0.155 and 2.155.
 
 Both sit inside (-1, 3), as the mean value theorem for integrals promises.
-That theorem is the same statement section 4.5 step 6 made about the
+That theorem is the same statement section 7.5 step 6 made about the
 harbour, and it holds for every continuous function on every interval.
 
-### 4.6 Riemann sums by program
+### 7.6 Riemann sums by program
 
 **1.** Predict from step 5's relation. At eight slices the width is 0.25,
 so the gap between the left and right sums is (f(2) - f(0)) times 0.25,
@@ -1363,7 +1363,7 @@ which on this machine is minutes of work for a number `FNINT(` gives you in
 a second. That is the honest limit of doing numerical integration by hand
 here, and it is why `FNINT(` exists.
 
-### 4.7 Areas between curves
+### 7.7 Areas between curves
 
 **1.** Predict -2.25. The difference has been turned upside down, so every
 height changes sign and so does the integral.
@@ -1390,7 +1390,7 @@ net.
 For the total enclosed area on both sides, integrate the two pieces
 separately and add their sizes: `FNINT(-2,1)` gives 2.25 and `FNINT(1,4)`
 gives a negative number whose size you add rather than subtract. That is
-section 4.5's sign convention arriving exactly where nobody wants it, for
+section 7.5's sign convention arriving exactly where nobody wants it, for
 the second time.
 
 **4.** Pick the crossings first: to cross at -1 and 3, the difference must
@@ -1405,9 +1405,9 @@ Check with [2nd] [F1] and you should find -1 and 3 to the usual dust.
 Designing backwards from the answer is how every exercise in this book was
 built, and it is a good habit for building your own.
 
-## 9.5 Solutions for Chapter 5
+## 12.5 Solutions for Chapter 8
 
-### 5.1 Zeros of functions two ways
+### 8.1 Zeros of functions two ways
 
 **1.** Multiply, say, x² - 3 by x² - 4x + 1 to get
 x⁴ - 4x³ - 2x² + 12x - 3, whose roots are plus and minus root 3 and
@@ -1449,7 +1449,7 @@ vanish there and the arithmetic happens to confirm it in fourteen digits.
 That is a check on the *root*, not on the hunt: it says the number you
 supplied satisfies the equation, which is what you wanted to know.
 
-### 5.2 Newton's method
+### 8.2 Newton's method
 
 **1.** Predict: 3 is further from the root than 2, so it should take at
 least as many steps.
@@ -1485,7 +1485,7 @@ have just derived it from Newton's method in one line of algebra.
 **4.** Store `COS(X)-X` and run from 1. Three steps give `0.7390851333854`
 and four give `0.7390851332152`.
 
-Section 5.1's solver gave `0.7390856742858` for the same root. The two
+Section 8.1's solver gave `0.7390856742858` for the same root. The two
 disagree in the seventh digit, and Newton is the one that is right: the
 true root is 0.73908513321516.
 
@@ -1504,14 +1504,14 @@ far more on a harder one, provided it converges at all. That proviso is the
 whole trade: bisection is slow and cannot fail, Newton is fast and can end
 up at -75.3.
 
-### 5.3 Conic sections by parametric pair
+### 8.3 Conic sections by parametric pair
 
 **1.** A basin 8 across and 8 deep is a circle of radius 4, so the pair is
 `4*COS(X)` and `4*SIN(X)`.
 
 In the square window it draws a circle rather than an ellipse, which is the
 visual check. Trace a point and test it against x² + y² = 16: the sum should
-come back as 16 to all fourteen digits, exactly as section 5.3's ellipse
+come back as 16 to all fourteen digits, exactly as section 8.3's ellipse
 did.
 
 **2.** Swapping to `2.5*COS(X)` and `5*SIN(X)` gives the same ellipse
@@ -1536,7 +1536,7 @@ radius.
 
 Trace any point and check that (x - 4)² + (y - 1)² comes back as 9.
 
-### 5.4 Polar curves
+### 8.4 Polar curves
 
 **1.** `4*SIN(3X)` draws three petals, not six. Predict three: with an odd
 multiplier the negative half of each cycle retraces petals that the
@@ -1546,13 +1546,13 @@ Doubling gave four petals from two cycles because even multipliers put the
 negative lobes in the gaps. That is the rule: `SIN(nX)` gives n petals for
 odd n and 2n for even n, which is worth checking with `4*SIN(4X)`.
 
-**2.** `2.5*(1-COS(X))` faces the other way from section 5.4's cardioid:
+**2.** `2.5*(1-COS(X))` faces the other way from section 8.4's cardioid:
 its cusp is at angle 0 rather than at pi, because the radius now vanishes
 when the cosine is 1.
 
 Press [CLEAR] and ask `EVAL(0)`: `= 0`. Exactly zero this time, with no
 dust at all, because 1 - cos 0 is 1 - 1 and the machine's cosine of exactly
-zero is exactly one. The dust in section 5.4 came from `PI` not being pi;
+zero is exactly one. The dust in section 8.4 came from `PI` not being pi;
 here the awkward angle never appears.
 
 **3.** The half-the-angle rule holds at every stop, because the slot text
@@ -1572,7 +1572,7 @@ quadrant rather than the second. Working out which petal gets drawn when is
 the whole trick of reading a rose, and the answer is that consecutive
 quarter-turns of the parameter draw petals on opposite diagonals.
 
-### 5.5 Parametric motion
+### 8.5 Parametric motion
 
 **1.** On paper: the pebble lands when 12t - 5t² is zero again, at
 t = 12/5 = 2.4 seconds, and the range is 2 times 2.4, which is 4.8 metres.
@@ -1586,7 +1586,7 @@ essentially 2.4.
 
 **2.** `FMAX(` stops a whisker short because the curve is flat at its apex,
 so a wide range of t values all look equally like the top. That is section
-4.4's story exactly, and it is why the section reaches for `EVAL(.9)` at
+7.4's story exactly, and it is why the section reaches for `EVAL(.9)` at
 the exact value rather than at the search's answer.
 
 **3.** With `2*X` and `2+9*X-5*X^2`, the pebble starts 2 metres up and
@@ -1607,7 +1607,7 @@ narrowing until the left edge is past 0 while the landing at 1.8 is still
 inside, which the zoom keys alone cannot quite do, since they always centre
 on the origin. That is a real limitation and the solver is the answer.
 
-### 5.6 Functions defined by integrals
+### 8.6 Functions defined by integrals
 
 **1.** Predict from the first two probes. `FNINT(0,1)` on `3*X^2` gives 1
 and `FNINT(0,2)` gives `8`.
@@ -1663,7 +1663,7 @@ So `FNINT(2,6)` should be ln 3, since 6 over 2 is 3. Check it:
 You can predict it from step 5's answer without computing anything: 2 to 6
 is a tripling, and every tripling accumulates ln 3.
 
-### 5.7 Indeterminate forms by table
+### 8.7 Indeterminate forms by table
 
 **1.** Predict from the cosine series. cos x is 1 - x²/2 + x⁴/24, so
 1 - cos x is x²/2 - x⁴/24, and dividing by x² leaves 1/2 - x²/24.
@@ -1687,7 +1687,7 @@ three decimals needs steps out beyond 1000.
 
 **3.** Build it backwards. You want a quotient heading for 7, so take
 7x over x, and disguise it: `(EXP(7*X)-1)/X` heads for 7, by exactly the
-argument section 5.7 used for the 2.
+argument section 8.7 used for the 2.
 
 Probe at .01 and .001 and watch it approach 7 from above.
 
@@ -1708,11 +1708,11 @@ two hundredths of a per cent beyond monthly.
 
 The arithmetic would not survive it. At h = 1E-10, computing 1 + h loses ten
 of the fourteen digits immediately, so `LN(1+h)` is working with four
-significant figures and the answer is worthless. This is chapter 4's
+significant figures and the answer is worthless. This is chapter 7's
 cancellation cliff in a new costume, and it is why nobody computes e this
 way.
 
-### 5.8 Improper integrals
+### 8.8 Improper integrals
 
 **1.** Predict a quartering: each octave out multiplies x by 2, and 1/x³
 falls by 8, while the interval width doubles, so the slab falls by 4.
@@ -1727,7 +1727,7 @@ paper answer.
 **2.** `FNINT(1,1000)` on `1/X^3` answers `= 5.2083129209853`.
 
 The truth is just under 0.5, so the single long probe is out by a factor of
-ten. Trust the octave walk. The reason is exactly section 5.8's: sixty-four
+ten. Trust the octave walk. The reason is exactly section 8.8's: sixty-four
 panels across a thousand units puts each panel fifteen units wide, and
 nearly all of this integral lives in the first unit.
 
@@ -1775,7 +1775,7 @@ Predict the same failure mode, and you get it: `FNINT(0,.75)` is fine,
 nonsense. `FNINT(` has no idea which end its trouble is at, because it
 treats the interval symmetrically.
 
-### 5.9 Polynomial approximation
+### 8.9 Polynomial approximation
 
 **1.** The plain line `X` differs from the sine by about x³/6, so it stays
 within 0.01 while x³ is under 0.06, which is x under about 0.39.
@@ -1827,9 +1827,9 @@ worse, exactly as the geometric series did. A real function with no real
 trouble at all, fenced in by a pair of complex numbers, is one of the better
 surprises in the subject.
 
-## 9.6 Solutions for Chapter 6
+## 12.6 Solutions for Chapter 9
 
-### 6.1 One system, two tools
+### 9.1 One system, two tools
 
 **1.** Predict: the two lines x + 2y = 4 and x + 2y = 5 are parallel and
 distinct, so nothing satisfies both.
@@ -1864,9 +1864,9 @@ nudge the second to 2.002: the answer jumps to x = 0, y = 2.
 A thousandth of a nudge moved the answer by a whole unit, and `DET` gave no
 warning at all. That is the lesson: a determinant tells you whether a matrix
 is singular, and says almost nothing about whether it is *nearly* singular
-in a way that matters. `COND` in section 6.3 is the number that does.
+in a way that matters. `COND` in section 9.3 is the number that does.
 
-### 6.2 Row operations as algebra you can watch
+### 9.2 Row operations as algebra you can watch
 
 **1.** After the swap ([F2], `SWP`) the tableau is 3, 4, 11 on top and
 1, 2, 5 beneath. The
@@ -1902,7 +1902,7 @@ The tableau returns to 1, 2, 5, 0, 1, 2. Every row operation has an inverse
 of the same kind, which is exactly why the solution set cannot move: an
 operation that lost information could not be undone.
 
-### 6.3 Norms and the condition number
+### 9.3 Norms and the condition number
 
 **1.** Predict 3. The identity stretches nothing, so its Frobenius norm is
 root 3 and its inverse is itself, and root 3 times root 3 is 3.
@@ -1933,7 +1933,7 @@ Step 8's jump softens by the same factor. The relationship between how
 nearly dependent the rows are and how badly the answer moves is linear, and
 this is the cheapest way to see it.
 
-**4.** Section 2.2's near-parallel pair was x + 2y = 8 with
+**4.** Section 5.2's near-parallel pair was x + 2y = 8 with
 1.01x + 2y = 8.05. As a matrix that is 1, 2, 1.01, 2, and its `COND` comes
 back in the hundreds.
 
@@ -1942,9 +1942,9 @@ The well-behaved pair 1, 2, 3, -1 gives a `COND` of a few.
 So yes, the number predicts what you saw. `COND` in the hundreds warned of
 the two-hundred-per-cent swing, and `COND` of a few promised the one and a
 half per cent. Running a system through `COND` before trusting it costs one
-keystroke and would have saved section 2.2 a nasty surprise.
+keystroke and would have saved section 5.2 a nasty surprise.
 
-### 6.4 Building a frame of your own
+### 9.4 Building a frame of your own
 
 **1.** Press [2nd] [8], type 3, 1, 2 into `A`, press [ALPHA], type 1, 1, 1
 into `B`, press [ALPHA], and press [F3], `DOT`: `6`.
@@ -1993,11 +1993,11 @@ Take (1, 0, 0), (1, 1, 0) and (1, 1, 1). The shadows are all 1 over 1, so
 every subtraction is exact, and the frame comes out as the three axes with
 every dot product exactly 0.
 
-What was special about section 6.4's numbers was the two thirds: a repeating
+What was special about section 9.4's numbers was the two thirds: a repeating
 decimal typed as a rounded one. Choose data whose arithmetic terminates and
 the dust never appears.
 
-### 6.5 Eigenvalues and eigenvectors
+### 9.5 Eigenvalues and eigenvectors
 
 **1.** By symmetry, 3, 1, 1, 3 keeps the directions (1, 1) and (1, -1): the
 first is stretched by 3 + 1 = 4 and the second by 3 - 1 = 2.
@@ -2038,7 +2038,7 @@ The machine agrees to the dust the normalisation introduced. Multiplying is
 exact arithmetic where the eigenvalue search was iterative, so this is the
 right way round to check.
 
-### 6.6 LU as elimination's ledger
+### 9.6 LU as elimination's ledger
 
 **1.** Press `DET` on 3, 1, 0 / 6, 4, 1 / 0, 2, 5: `24`.
 
@@ -2085,9 +2085,9 @@ Two short passes and no elimination at all. That is what the ledger buys,
 and doing it once by hand is worth more than any amount of description: the
 second right-hand side would cost you the same two passes and no more.
 
-## 9.7 Solutions for Chapter 7
+## 12.7 Solutions for Chapter 10
 
-### 7.1 Slope thinking
+### 10.1 Slope thinking
 
 **1.** A quantity falling at 15 per cent of itself per minute halves after
 ln 2 over 0.15 minutes. Press [CLEAR] and spell `LN(2)/.15`:
@@ -2098,7 +2098,7 @@ x = -10 + 4.62, which is about -5.38. Trace there and the readout should
 show about 4.5, half of 9.
 
 The plot will not put it exactly at 4.5, because Euler undershoots. That
-gap is section 7.2's subject.
+gap is section 10.2's subject.
 
 **2.** With `-.3*Y` the tank empties twice as fast, so it reaches any level
 in half the time. Press [CLEAR] and spell `LN(2)/.3`:
@@ -2121,7 +2121,7 @@ along each horizontal row.
 
 Two solutions started at different *times* are therefore the same curve slid
 sideways. That is what an autonomous equation means, and it is why section
-7.4's program can ignore x entirely.
+10.4's program can ignore x entirely.
 
 **5.** Twice the volume with the same flow loses 7.5 per cent a minute, so
 it takes twice as long: press [CLEAR] and spell `LN(2)/.075`:
@@ -2131,7 +2131,7 @@ Predicting that needs no arithmetic at all. Halving the rate constant
 doubles every time in the problem, because the rate constant is the only
 thing setting the clock.
 
-### 7.2 The window is the step
+### 10.2 The window is the step
 
 **1.** [-] doubles the window to -20 to 20, so the step is 40 over 127.
 Press [CLEAR] and type `40/127`: `= 0.31496062992126`, twice the old step.
@@ -2150,12 +2150,12 @@ column is the 32nd, at about x = -4.96.
 
 Trace there and compare with `9*EXP(-.75)`, which answers
 `= 4.2512989746699`. The trace will read a little low, by about 1.8 per
-cent, which is section 7.2 step 3's figure.
+cent, which is section 10.2 step 3's figure.
 
 **3.** Storing something in slot 2 changes nothing: the `Y2` column still
 reads `-` throughout.
 
-The mode integrates slot 1 alone, as the note at the end of section 7.1
+The mode integrates slot 1 alone, as the note at the end of section 10.1
 says. Slots 2 and 3 exist because the graph screen has three slots in every
 mode, not because this mode can use them.
 
@@ -2166,7 +2166,7 @@ The truth there is 9 times e to the minus 0.375, which is about 6.19. So
 the `X=0` row should read a little under that, and the value has gone *up*
 from 1.972 to about 6.18 without anything about the tank changing at all.
 
-### 7.3 Step-size experiments
+### 10.3 Step-size experiments
 
 **1.** A third press of [+] leaves the window at -1.25 to 1.25, so the dose
 is at -1.25 and 3.5 minutes after it is at x = 2.25, which is outside the
@@ -2175,7 +2175,7 @@ window.
 The row reads `UNDEF`, because the run is the window. So refining the step
 by zooming eventually refines it out of the range you wanted to measure.
 That is the trap: the zoom keys control the step and the interval together
-and you cannot have one without the other. Section 7.4's program exists
+and you cannot have one without the other. Section 10.4's program exists
 precisely to separate them.
 
 **2.** For a gap under 0.001 at 0.21 times the step, you need the step below
@@ -2206,7 +2206,7 @@ The global constant accumulates over the whole run, which is why it is
 several times bigger. Working out which of the two you have measured is the
 useful part of the exercise.
 
-### 7.4 An Euler program
+### 10.4 An Euler program
 
 **1.** Predict half of 0.026, so about 0.013.
 
@@ -2247,10 +2247,10 @@ possible demonstration of why line 1 is there. A program that does not seed
 its own state is not a program, it is a continuation of whatever happened
 before.
 
-### 7.5 Improved Euler
+### 10.5 Improved Euler
 
 **1.** With line 5 back to `Y+H*EVAL(0)->Y` and `P3` deleted, the driver
-alone reproduces `5.2147637585268` at `.5` and `7`, which is section 7.4's
+alone reproduces `5.2147637585268` at `.5` and `7`, which is section 10.4's
 plain Euler exactly.
 
 That proves the improvement lives entirely in `P3`. The driver is
@@ -2290,7 +2290,7 @@ Test it and you should find Euler now overshoots and Heun undershoots. The
 signs follow the curvature, always, and knowing which way a solution bends
 tells you which way your integrator will be wrong before you run it.
 
-### 7.6 Growth with a ceiling
+### 10.6 Growth with a ceiling
 
 **1.** Predict: seeded above the ceiling, the bracket 1 - y/10 is negative,
 so the growth rate is negative and the population falls.
@@ -2339,7 +2339,7 @@ you nothing, and this exercise exists to make that concrete: two curves
 through one point can disagree everywhere else, and choosing between models
 needs the whole shape.
 
-### 7.7 Equilibria, and the lever that resets them
+### 10.7 Equilibria, and the lever that resets them
 
 **1.** Predict: seeded at exactly 3, the bracket 3 - Y is zero, so the rate
 is zero and nothing moves. The solution is the constant 3.
@@ -2376,7 +2376,7 @@ dy/dt = -x gives a direction perpendicular to the position vector, and
 always the same way round. So a solution must go round the origin in
 circles.
 
-Section 7.8 draws it. Put `Y` in slot 1 and `-X` in slot 2, press [F1]
+Section 10.8 draws it. Put `Y` in slot 1 and `-X` in slot 2, press [F1]
 (`SYS`), and the phase view plots exactly the circles you just deduced. The
 deduction is still the valuable half: signs at eight points told you the
 answer before the machine drew anything, and that reasoning carries to
@@ -2394,7 +2394,7 @@ the product, which you can do in your head. Checking them all costs three
 keys each on the `DEQ SETUP` page: [F3], the [+] or [-] presses that move
 `Y0` where you want it, and [F5]. Check every one of them.
 
-### 7.8 Two equations at once, and the phase plane
+### 10.8 Two equations at once, and the phase plane
 
 **1.** The damping term takes energy out, so the ring must close inwards:
 a spiral into the origin rather than a closed orbit. That is what you get.
@@ -2418,7 +2418,7 @@ Check any conclusion against `RK4` before you believe it.
 **3.** Euler shows a visible spiral within two or three revolutions. Heun
 takes long enough that you will lose count, which is the point.
 
-Section 7.5 measured the orders: halving the step divides Euler's error by
+Section 10.5 measured the orders: halving the step divides Euler's error by
 two and Heun's by four. Per revolution the same ratio applies, so if Euler
 is obviously wrong after three turns, Heun should take roughly its square,
 around nine, and `RK4` far more than you have patience for.
@@ -2434,9 +2434,9 @@ and the near miss is the answer to the question: the step you want is not
 a power of two, so you choose between a little more than one loop and a
 little less.
 
-## 9.8 Solutions for Chapter 8
+## 12.8 Solutions for Chapter 11
 
-### 8.1 The pendulum, and the integral that will not behave
+### 11.1 The pendulum, and the integral that will not behave
 
 **1.** Predict: a smaller amplitude puts the singularity closer to the lower
 limit in relative terms but the interval is shorter, so the panels are
@@ -2464,7 +2464,7 @@ part.
 which is ten sevenths.
 
 Multiply that by step 2's best value, 2.283248630129, and you get about
-3.262. Section 8.1's transformed answer was `3.3003427304458`.
+3.262. Section 11.1's transformed answer was `3.3003427304458`.
 
 They are close and not equal, because the truncated integral is still
 missing the sliver nearest the top. Push the cut to A - 0.0001 and the two
@@ -2492,7 +2492,7 @@ infinite, and the integral is right to diverge. The mathematics and the
 machine agree, and this is the one case in the section where the infinite
 answer is the true one.
 
-### 8.2 How wrong is the textbook formula?
+### 11.2 How wrong is the textbook formula?
 
 **1.** With the corrected term, the rule is 1 plus A²/16 plus 11A⁴/3072.
 
@@ -2545,7 +2545,7 @@ least pi/2, and the ratio is at least 1.
 A real pendulum is always slower than its linearisation, never faster, and
 that follows from the shape of the integrand without computing anything.
 
-### 8.3 Series against closed forms
+### 11.3 Series against closed forms
 
 **1.** Predict: `1E6` instead of `1E4` stops when the term falls below a
 millionth, which is when N passes 1000. So a hundred times as many terms.
@@ -2594,7 +2594,7 @@ shifted only three places; but there are many more terms of comparable size
 being shifted, so the accumulated loss is larger. The reciprocal squares
 fall away so fast that only the first few terms matter at all.
 
-### 8.4 Shooting at a boundary
+### 11.4 Shooting at a boundary
 
 **1.** Predict halving again: the coarse walk undershot by 0.0204, the
 doubled one by 0.0102, so `20/508->H` with `508->N` should undershoot by
@@ -2634,9 +2634,9 @@ It costs more shots, typically two or three extra, and it can diverge if
 your guessed slope has the wrong sign. What the second miss buys is exactly
 that slope: two points determine the line, and the line is the whole method.
 
-That is the secant method, and it is Newton's method of section 5.2 with the
+That is the secant method, and it is Newton's method of section 8.2 with the
 derivative estimated from two points rather than computed. The connection is
-worth noticing: chapter 5 hunted a root of an equation, and this hunts a
+worth noticing: chapter 8 hunted a root of an equation, and this hunts a
 root of "the miss as a function of the seed", which is the same problem
 wearing different clothes.
 
@@ -2651,7 +2651,7 @@ Deriving it takes two lines and confirms that the closed form the section
 pulled out of the air is the honest solution of the equation rather than a
 convenient fiction.
 
-### 8.5 Vectors in the round
+### 11.5 Vectors in the round
 
 **1.** The third anchor is at bearing 240 and distance 9. Type 9, 240, 0
 into `A` and press `CY>R`.

@@ -1,4 +1,4 @@
-# Chapter 3: Explorations in Probability and Statistics
+# Chapter 6: Explorations in Probability and Statistics
 
 Statistics is usually taught on data sets too big to think about, where
 the machine's summaries have to be taken on trust.
@@ -17,9 +17,9 @@ four statistical plots.
 
 The statistics editor is the Guidebook, chapter 15.
 
-## 3.1 A week of small data
+## 6.1 A week of small data
 
-The harbour town of Chapter 2 keeps a lighthouse, and the keeper tallies
+The harbour town of Chapter 5 keeps a lighthouse, and the keeper tallies
 its visitors: 15 on Monday, then 12, 17, 15, 19, 21, 18 through the week,
 and 43 on the bank holiday Monday that closes the log.
 
@@ -49,7 +49,7 @@ for, and few enough to audit afterwards.
    them in.
 
 4. The editor is a different matter, and so is the line plot of section
-   3.7: both show the column exactly as stored.
+   6.7: both show the column exactly as stored.
 
    Press [CLEAR] to return to the editor, press [MORE] four times to the
    `P4 FCX FCY SX SY` page, and press [F4], the ascending sort `SX`. The
@@ -82,7 +82,7 @@ for, and few enough to audit afterwards.
 
 7. Press [F5], `BOX`:
 
-   ![The box plot of the keeper's week](images/co03-box-visitors.png)
+   ![The box plot of the keeper's week](images/co06-box-visitors.png)
 
    The plot hangs the three quartile bars between edges standing for 12 and
    43, and all three crowd into the left third of the screen.
@@ -123,7 +123,7 @@ hand, so the machine is never believed, only checked.
    box plot is still visibly lopsided. Is that possible? Argue it out
    before you type anything.
 
-## 3.2 Random numbers that repeat
+## 6.2 Random numbers that repeat
 
 A random number generator is a paradox to keep in a pocket: a fixed rule
 pretending to be chance.
@@ -179,7 +179,7 @@ functions are `RAND()`, a four-decimal value between 0 and 1, and
 4. Predict what `RANDI(1,1)` does, and how far it advances the stream.
    Then check.
 
-## 3.3 Simulation by program
+## 6.3 Simulation by program
 
 Rolling a die thirty-six times by hand is character-building. A program
 does it in one keypress and never loses count.
@@ -188,7 +188,7 @@ Two builds follow, a nine-flip warm-up and a thirty-six-roll dice
 experiment, in the program environment of the Guidebook, chapter 16.
 
 1. Press [PRGM], then [F1], `NEW`. The editor opens on `EDIT P1`, `LINE 1`.
-   Remember from Chapter 4 that it shows you one line at a time and never a
+   Remember from Chapter 7 that it shows you one line at a time and never a
    listing, so keep the table below in front of you as you type.
 
    Letters are [ALPHA] plus the key carrying the letter, spaces are
@@ -207,11 +207,11 @@ experiment, in the program environment of the Guidebook, chapter 16.
    output line shows `3`, the status reads `DONE`, and the footer `ON STOP`
    names the panic button.
 
-   Three heads in nine flips, from the stream section 3.2 was reading.
+   Three heads in nine flips, from the stream section 6.2 was reading.
 
 3. Nine used to be as far as a counted loop went. `FOR` took single-digit
    bounds until firmware 2.19, which is why this program counts down with
-   `WHILE`, exactly as Chapter 8's series do.
+   `WHILE`, exactly as Chapter 11's series do.
 
    It no longer has to. `FOR` now takes evaluated bounds and an optional
    step, so `FOR N,1,50` is a legal line and `FOR N,50,1,-1` counts back
@@ -241,13 +241,13 @@ experiment, in the program environment of the Guidebook, chapter 16.
    everything else. Then `S` tallies it.
 
    That trick, turning a test into a whole-part, is the single most useful
-   thing to know about programming this machine. Chapter 8 uses it again to
+   thing to know about programming this machine. Chapter 11 uses it again to
    stop a loop on a tolerance.
 
 4. Press [F2]. After a moment's spinning the run screen answers `8` on
    `LINE 8`:
 
-   ![Thirty-six rolls tallied by P2](images/co03-sim-run.png)
+   ![Thirty-six rolls tallied by P2](images/co06-sim-run.png)
 
    Eight sixes in thirty-six rolls, against an expected six.
 
@@ -278,7 +278,7 @@ count, shaped it too until firmware 2.19 removed it.
    There is more than one way; find one that uses `INT(` and one that does
    not.
 
-## 3.4 Two columns and a family of models
+## 6.4 Two columns and a family of models
 
 Paired data asks a sharper question than one column can: not "what is
 typical" but "what depends on what, and how".
@@ -302,7 +302,7 @@ seedling measured daily, and duckweed spreading across a pond.
    Check it against the data by hand, because it takes ten seconds. The
    line predicts 6, 8, 10, 12, 14, 16 for the six days, so the data misses
    it by 1, -1, 0, 0, -1, 1. Small errors, both directions, no drift. That
-   is what measurement noise looks like, and section 3.5 is about why those
+   is what measurement noise looks like, and section 6.5 is about why those
    particular numbers are the best any line could manage.
 
 3. Now the duckweed, logged weekly as square metres of the harbour
@@ -325,7 +325,7 @@ seedling measured daily, and duckweed spreading across a pond.
 
 5. Look at the shape. Press [CLEAR], then [F4], `SCAT`:
 
-   ![The duckweed pairs bending upward](images/co03-scat-duckweed.png)
+   ![The duckweed pairs bending upward](images/co06-scat-duckweed.png)
 
    The dots hug the floor and then leave it, each gain bigger than the last.
    Multiplication, not addition.
@@ -352,7 +352,7 @@ seedling measured daily, and duckweed spreading across a pond.
    fitted coefficients to four places, `EXP(` on [2nd] [LN]), and press
    [GRAPH], letting the slow plot finish. Press [MORE] for the table:
 
-   ![The two fitted models against the weeks](images/co03-fit-table.png)
+   ![The two fitted models against the weeks](images/co06-fit-table.png)
 
    Down the `X=1` to `X=5` rows, `Y1` reads `-6`, `15.6`, `37.2`, `58.8`,
    `80.4` while `Y2` reads `5.999`, `11.99`, `23.99`, `47.99`, `95.97`.
@@ -379,9 +379,9 @@ matters much less than where you put them.
    area on paper, type those into `Y`, and fit. Compare the slope with step
    6's `B`. Why should they agree?
 
-## 3.5 What "best fit" actually means
+## 6.5 What "best fit" actually means
 
-Section 3.4 pressed `LIN` and the machine handed back a line. This section
+Section 6.4 pressed `LIN` and the machine handed back a line. This section
 is about where that line comes from, because "best fit" is a phrase that
 sounds like it explains something and does not.
 
@@ -437,23 +437,23 @@ so it wants a program.
    That is the line y = 3 + 2.5x. Press [PRGM], select `P1`, and press
    [F2], `RUN`:
 
-   ![The score for a poor trial line](images/co03-ssd-poor.png)
+   ![The score for a poor trial line](images/co06-ssd-poor.png)
 
    `11.75`.
 
    That number means nothing on its own. It is only useful compared with
    another one, which is the next step.
 
-3. Now score the line `LIN` gave you in section 3.4, y = 4 + 2x. Press
+3. Now score the line `LIN` gave you in section 6.4, y = 4 + 2x. Press
    [PRGM] to leave the run screen, [EXIT], [CLEAR], store `4->B`, press
    [CLEAR], store `2->M`, then [PRGM] and [F2]:
 
-   ![The score for the least squares line](images/co03-ssd-best.png)
+   ![The score for the least squares line](images/co06-ssd-best.png)
 
    `4`.
 
    Much better, as it should be. Note also that it is exactly 4, and you
-   can see why from section 3.4: the six residuals were 1, -1, 0, 0, -1, 1,
+   can see why from section 6.4: the six residuals were 1, -1, 0, 0, -1, 1,
    and six squares of those add to 4.
 
 4. Now the part that makes the claim real. `LIN` says 4 + 2x is the *best*
@@ -497,16 +497,16 @@ so it wants a program.
 4. Score the flat line y = 11, the mean of the heights, by storing `11->B`
    and `0->M`. You should get `74`. Compare it with the 4 of step 3: the
    trend explains all but four seventy-fourths of the variation, and one
-   minus that fraction is where the `R` of section 3.4 comes from. Check
+   minus that fraction is where the `R` of section 6.4 comes from. Check
    that against `R` squared.
-5. Retype lines 2 to 4 for the duckweed data of section 3.4 and score the
+5. Retype lines 2 to 4 for the duckweed data of section 6.4 and score the
    straight line `LIN` gave, A -27.6 and B 21.6. Then score the doubling
    model by hand at the same five points. Which is smaller, and by how
    much?
 
-## 3.6 Forecasting the full pond
+## 6.6 Forecasting the full pond
 
-The pond holds one hundred square metres, and the model of section 3.4 says
+The pond holds one hundred square metres, and the model of section 6.4 says
 the duckweed doubles weekly.
 
 A model's job is to answer questions the data has not reached, and the
@@ -514,7 +514,7 @@ forecast keys do exactly that, reading their question from whichever entry
 the editor happens to be standing on. That last detail is the whole trick
 and the whole trap.
 
-1. Step off the table screen that closed section 3.4: press [EXIT] to the
+1. Step off the table screen that closed section 6.4: press [EXIT] to the
    plot, let the slow exponential finish redrawing, and press [EXIT] again
    for the home screen.
 
@@ -546,7 +546,7 @@ and the whole trap.
    wrap to `INDEX 6`, type 100, press [ENTER], and press [▲] to stand on
    it. Press [F2], `FCX`:
 
-   ![The pond-full forecast](images/co03-forecast-fcx.png)
+   ![The pond-full forecast](images/co06-forecast-fcx.png)
 
    `5.0588936890553` over the target `100`. The pond closes over early in
    the sixth week, about half a day in.
@@ -580,7 +580,7 @@ anything else, or your data will quietly acquire a point you invented.
    will answer. Say precisely what is wrong with the answer, in a sentence
    you would be happy to put in a report.
 
-## 3.7 Four pictures of one week
+## 6.7 Four pictures of one week
 
 A data set has no single true picture. Each plot answers one question and
 is silent on all the others, so choosing a plot is choosing a question.
@@ -597,7 +597,7 @@ where it starts.
 2. Press [MORE] five times to the `SHW XYLN LIN 1V 2V` page and press [F2],
    `XYLN`, the line plot:
 
-   ![The shuffled week drawn by XYLN](images/co03-xyline-zigzag.png)
+   ![The shuffled week drawn by XYLN](images/co06-xyline-zigzag.png)
 
    The plot joins the pairs in *entry order*, so the shuffled sheets draw a
    criss-cross that says nothing whatever about the week.
@@ -639,7 +639,7 @@ where it starts.
 
    One tall bar of six ordinary days, a single 21 beside it, an empty bin,
    and the bank holiday alone at the far right. This is the arrangement
-   section 3.1 used all along, visitors in `X`, and it is what `BOX` wants
+   section 6.1 used all along, visitors in `X`, and it is what `BOX` wants
    too: both plots read `X` and ignore `Y`.
 
 Four plots, one week. `XYLN` tells the story in time but only if the pairs

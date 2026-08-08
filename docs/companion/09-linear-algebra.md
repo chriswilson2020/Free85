@@ -1,4 +1,4 @@
-# Chapter 6: Explorations in Linear Algebra
+# Chapter 9: Explorations in Linear Algebra
 
 Linear algebra is the mathematics of flat things: lines, planes, and the
 transformations that carry them onto one another.
@@ -8,7 +8,7 @@ columns, with the square-only operations confined to 3 by 3, and vectors of
 two or three components. Small enough that every number in every register
 can be looked at, which is the point rather than the price.
 
-Chapter 2 used the matrix editor as a bookkeeper. This chapter uses it as a
+Chapter 5 used the matrix editor as a bookkeeper. This chapter uses it as a
 laboratory: one system solved two ways, elimination watched move by move,
 condition numbers, an orthonormal frame built by hand, eigenvectors, and
 the `LU` factorisation.
@@ -36,7 +36,7 @@ of an elimination you were checking *because* you did not trust it.
 
 Read the result. Then press [ENTER] and carry on.
 
-## 6.1 One system, two tools
+## 9.1 One system, two tools
 
 A system of two linear equations is a pair of lines, and solving it is
 finding their crossing.
@@ -49,7 +49,7 @@ and they explain themselves very differently. One names the point. The
 other rewrites the system until it names itself.
 
 1. Press [2nd] [STAT] (the `SIMULT` legend) for the simultaneous editor of
-   Chapter 2, section 2.1: a fresh machine shows `SIZE 2`. Each row takes
+   Chapter 5, section 5.1: a fresh machine shows `SIZE 2`. Each row takes
    its coefficients and then its right-hand side, so type [1] [ENTER] [2]
    [ENTER] [8] [ENTER] for the first line, then [3] [ENTER] [(-)] [1]
    [ENTER] [3] [ENTER] for the second.
@@ -73,7 +73,7 @@ other rewrites the system until it names itself.
    read `0` and then `2`: the first equation has become 1x + 0y = 2, and
    `CELL 1 3` holds the value of x:
 
-   ![The reduced tableau naming x](images/co06-rref-solution.png)
+   ![The reduced tableau naming x](images/co09-rref-solution.png)
 
    Three more presses read the second row, `0`, `1`, `3`, which says y = 3,
    and a sixth wraps the selection home.
@@ -81,7 +81,7 @@ other rewrites the system until it names itself.
    Notice what the tableau did that `SOLVE` did not. It did not compute the
    answer and report it; it rewrote the question until the answer was the
    only thing left written down. Those are genuinely different activities
-   and section 6.2 is about the second one.
+   and section 9.2 is about the second one.
 
 4. One number certifies that the crossing had to be unique. Press [ALPHA]
    twice to come back to `A`, then [-]: the resize keys still point at
@@ -93,7 +93,7 @@ other rewrites the system until it names itself.
 
    A nonzero determinant means the lines are not parallel, so they cross
    exactly once. A zero would have promised one of the two degenerate
-   verdicts instead, and section 2.2's near-parallel pair is the warning
+   verdicts instead, and section 5.2's near-parallel pair is the warning
    about how little comfort a *small* nonzero determinant should give you.
 
 The simultaneous editor scales to four unknowns and names its verdicts in
@@ -120,7 +120,7 @@ elimination, and the elimination is what this chapter is about.
    perfectly definite. Then nudge a right-hand side by a thousandth and see
    what happens. What does that say about using `DET` as a safety check?
 
-## 6.2 Row operations as algebra you can watch
+## 9.2 Row operations as algebra you can watch
 
 Elimination rewrites a system again and again, and the licence for it is
 that no row operation moves the solution set.
@@ -130,7 +130,7 @@ two rows each replace the system with a different description of the same
 crossing. Each is reversible, which is the whole proof, and it is worth
 convincing yourself of that before you start pressing keys.
 
-Section 2.4 taught the choreography: the scale in `B`'s top-left cell,
+Section 5.4 taught the choreography: the scale in `B`'s top-left cell,
 results landing in `R`, one selection cursor shared by the three registers.
 Here it serves the geometry.
 
@@ -155,7 +155,7 @@ The specimen is x + 2y = 5 and 3x + 4y = 11, two lines designed to cross at
    row says -2y = -4, which is the horizontal line y = 2. The pair of lines
    has changed. The crossing has not: (1, 2) still satisfies both.
 
-3. Carry the result forward as section 2.4 taught. The fifth [▶] left the
+3. Carry the result forward as section 5.4 taught. The fifth [▶] left the
    selection at `CELL 2 3`, so one more wraps it home, and [ALPHA] twice
    returns the view to `A`.
 
@@ -210,9 +210,9 @@ one unmoving point beneath all of them.
 4. Work out what row operation would turn the finished tableau back into
    the original one, and confirm that reversibility is not just a claim.
 
-## 6.3 Norms and the condition number
+## 9.3 Norms and the condition number
 
-Section 2.2 met a system whose answer would not stay still, and left the
+Section 5.2 met a system whose answer would not stay still, and left the
 diagnosis for this chapter. Here is the number that does it.
 
 A norm is a size for a matrix, and sizes feed a more useful quantity: how
@@ -269,7 +269,7 @@ the fourth soft-key page whose legend overruns the screen edge.
    then 1, 1.001, 1, then 1, 1, 1.001, with [ENTER] after each value. Press
    [MORE] [MORE] for the norms page and press [F4], `COND`:
 
-   ![COND warning of a near-dependent matrix](images/co06-cond-ill.png)
+   ![COND warning of a near-dependent matrix](images/co09-cond-ill.png)
 
    `9490.8400582879`.
 
@@ -290,7 +290,7 @@ the fourth soft-key page whose legend overruns the screen edge.
    [.] [0] [0] [1] [ENTER] over the first entry, press [ALPHA], and press
    [F5]:
 
-   ![The solution after a small nudge](images/co06-perturbed-solve.png)
+   ![The solution after a small nudge](images/co09-perturbed-solve.png)
 
    `R` now reads `3.001`, `0`, `0`.
 
@@ -300,7 +300,7 @@ the fourth soft-key page whose legend overruns the screen edge.
 
    Nearly repeated rows force the solve to take differences of nearly equal
    numbers, and tiny data errors decide those differences outright. It is
-   section 2.2's near-parallel receipts in three dimensions, and the
+   section 5.2's near-parallel receipts in three dimensions, and the
    condition number is the thing that would have warned you before you ran
    anything.
 
@@ -317,11 +317,11 @@ raises.
    side to 3.002 instead. Which unknowns jump this time, and by how much?
 3. Soften the trap: retype the near-repeats as 1.01 and ask `COND` again.
    How much smaller is the warning, and how big is step 8's jump now?
-4. Section 2.2's two-by-two receipts had the same disease. Put both of them
+4. Section 5.2's two-by-two receipts had the same disease. Put both of them
    into `A` in turn and compare their `COND` values. Does the number
    predict what you saw there?
 
-## 6.4 Building a frame of your own
+## 9.4 Building a frame of your own
 
 Two directions are orthogonal when they meet at a right angle, and the dot
 product turns that geometry into one number: zero exactly when the angle is
@@ -359,7 +359,7 @@ applied linear algebra.
    Press [EXIT], then [2nd] [8], and the first soft-key page is back. Press
    [F3], `DOT`: `0`, exactly. Press [F5], `ANG`:
 
-   ![A right angle earned by subtraction](images/co06-right-angle.png)
+   ![A right angle earned by subtraction](images/co09-right-angle.png)
 
    `1.5707963267949`: half of `PI` to fourteen digits, the right angle
    confirmed twice over.
@@ -471,7 +471,7 @@ list editor.
    checks come out exactly zero, and say what is special about the numbers
    you chose.
 
-## 6.5 Eigenvalues and eigenvectors
+## 9.5 Eigenvalues and eigenvectors
 
 Multiply a vector by a matrix and its direction usually turns.
 
@@ -562,7 +562,7 @@ one complex surprise.
    the other half lives on the final soft-key page: press [MORE], and an
    `IM` line appears under the selected cell:
 
-   ![A complex eigenvalue's IM line](images/co06-eigen-complex.png)
+   ![A complex eigenvalue's IM line](images/co09-eigen-complex.png)
 
    `IM -2` beneath the first cell, and after [▶], `IM 2` beneath the
    second. The eigenvalues are 1 minus 2i and 1 plus 2i.
@@ -585,7 +585,7 @@ one complex surprise.
    column by the matrix by hand and confirm you get 6 times it, dust
    included.
 
-## 6.6 LU as elimination's ledger
+## 9.6 LU as elimination's ledger
 
 Elimination does work worth keeping.
 
@@ -628,7 +628,7 @@ the multipliers of the unit lower triangle `L` below.
    Press [EXIT], then [2nd] [7] for the first page, and press [F1], `DET`:
    `6`. Now press [MORE] four times and press [F1], `LU`:
 
-   ![The ledger of a swapped elimination](images/co06-lu-pivot.png)
+   ![The ledger of a swapped elimination](images/co09-lu-pivot.png)
 
    Stepping through reads `2`, `4`, `6`, then `0`, `2`, `1`, then `0.5`,
    `-0.5`, `-1.5`.

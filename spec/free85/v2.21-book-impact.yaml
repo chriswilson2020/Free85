@@ -25,11 +25,11 @@
         { "path": "docs/guidebook/03-mathematics.md", "sections": ["Powers and roots"] },
         { "path": "docs/guidebook/appendix-a-command-catalog.md", "sections": ["arithmetic and power operators"] },
         { "path": "docs/companion/00-front-matter.md", "sections": ["A word on the machine's limits"] },
-        { "path": "docs/companion/01-precalculus.md", "sections": ["1.5 Exponential and logarithmic functions", "Where the power key gives up", "Try it"] },
-        { "path": "docs/companion/02-business-mathematics.md", "sections": ["2.5 The mathematics of money"] },
-        { "path": "docs/companion/05-calculus-2.md", "sections": ["5.7 Indeterminate forms by table", "The third form, and a number you know"] },
-        { "path": "docs/companion/09-solutions.md", "sections": ["Solutions for Chapter 1 section 1.5", "Solutions for Chapter 5 section 5.8"] },
-        { "path": "docs/companion/10-afterword.md", "sections": ["After the last exploration", "machine limits"] }
+        { "path": "docs/companion/04-precalculus.md", "sections": ["4.5 Exponential and logarithmic functions", "Where the power key gives up", "Try it"] },
+        { "path": "docs/companion/05-business-mathematics.md", "sections": ["5.5 The mathematics of money"] },
+        { "path": "docs/companion/08-calculus-2.md", "sections": ["8.7 Indeterminate forms by table", "The third form, and a number you know"] },
+        { "path": "docs/companion/12-solutions.md", "sections": ["Solutions for Chapter 4 section 4.5", "Solutions for Chapter 8 section 8.8"] },
+        { "path": "docs/companion/13-afterword.md", "sections": ["After the last exploration", "machine limits"] }
       ],
       "mustRemoveOrCorrect": [
         "the categorical limit 'whole exponents from -9 to 9'",
@@ -75,8 +75,8 @@
       "summaryForBooks": "LU no longer overwrites the vector editor's result register. Matrix R still holds the combined LU factors. The one-based row permutation now has dedicated state and is printed on the matrix result screen as P: followed by one digit per matrix row, for example P:213.",
       "documents": [
         { "path": "docs/guidebook/13-matrices-and-vectors.md", "sections": ["Decompositions and eigensystems", "LU"] },
-        { "path": "docs/companion/06-linear-algebra.md", "sections": ["6.6 LU as elimination's ledger"] },
-        { "path": "docs/companion/09-solutions.md", "sections": ["Solutions for Chapter 6 section 6.6"] }
+        { "path": "docs/companion/09-linear-algebra.md", "sections": ["9.6 LU as elimination's ledger"] },
+        { "path": "docs/companion/12-solutions.md", "sections": ["Solutions for Chapter 9 section 9.6"] }
       ],
       "mustRemoveOrCorrect": [
         "claims that LU records its permutation in Vector R",
@@ -90,7 +90,7 @@
       ],
       "captures": [
         "docs/guidebook/images/ch13-matrix-lu.png",
-        "docs/companion/images/co06-lu-pivot.png",
+        "docs/companion/images/co09-lu-pivot.png",
         "every LU result capture, because the P line is newly visible"
       ],
       "evidence": [
@@ -106,8 +106,8 @@
       "summaryForBooks": "The simultaneous-equation editor's CELL indicator now shows the selected one-based row and actual one-based column. It no longer displays the augmented-row width as the second figure.",
       "documents": [
         { "path": "docs/guidebook/14-solving-equations.md", "sections": ["The simultaneous editor"] },
-        { "path": "docs/companion/02-business-mathematics.md", "sections": ["2.1 Prices from receipts"] },
-        { "path": "docs/companion/06-linear-algebra.md", "sections": ["6.1 Two views of the same solve"] }
+        { "path": "docs/companion/05-business-mathematics.md", "sections": ["5.1 Prices from receipts"] },
+        { "path": "docs/companion/09-linear-algebra.md", "sections": ["9.1 Two views of the same solve"] }
       ],
       "mustRemoveOrCorrect": [
         "the warning that CELL's second figure always reads 3",
@@ -134,8 +134,8 @@
       "summaryForBooks": "The third matrix soft-key page now fits the 21-character LCD exactly as REF SWP RADD RMUL AUG. F2 remains the full SWAP operation; only its visible footer abbreviation changed to SWP. AUG is fully visible.",
       "documents": [
         { "path": "docs/guidebook/13-matrices-and-vectors.md", "sections": ["Row operations and augmentation"] },
-        { "path": "docs/companion/02-business-mathematics.md", "sections": ["2.4 Elimination as bookkeeping"] },
-        { "path": "docs/companion/06-linear-algebra.md", "sections": ["6.2 Row operations as algebra you can watch"] }
+        { "path": "docs/companion/05-business-mathematics.md", "sections": ["5.4 Elimination as bookkeeping"] },
+        { "path": "docs/companion/09-linear-algebra.md", "sections": ["9.2 Row operations as algebra you can watch"] }
       ],
       "mustRemoveOrCorrect": [
         "the statement that the row-operation page overruns the screen",
@@ -148,8 +148,8 @@
       ],
       "captures": [
         "every image showing the third matrix soft-key page",
-        "docs/companion/images/co02-tableau-solved.png if its footer is visible",
-        "docs/companion/images/co06-rref-solution.png if its footer is visible"
+        "docs/companion/images/co05-tableau-solved.png if its footer is visible",
+        "docs/companion/images/co09-rref-solution.png if its footer is visible"
       ],
       "evidence": [
         "firmware/free85/collections/phase17.asm:p17_menu_matrix_2",

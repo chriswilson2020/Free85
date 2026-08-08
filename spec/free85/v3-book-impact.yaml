@@ -6,7 +6,7 @@
   "releaseFreeze": {
     "version": "3.0.0",
     "romSha256": "f1e80e901e048fe59363613ec9ed0d237505aa748ca0e395300c692c62c3d6f4",
-    "pagesSha256": "3b2880dc9ed036a86d50cb9e6a0251d3197a8dd1893f0a116e2b1271bc18f9b1",
+    "pagesSha256": "985d3ab7a047525b8bba42b8b57eaa29c021b26c2157ea198ee89be7f2876594",
     "stateSchema": 14,
     "objectStoreSchema": 2,
     "graphDatabaseVersion": 3,

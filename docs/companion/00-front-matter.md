@@ -1,6 +1,6 @@
 # Explorations with Free85
 
-*Explorations with Free85* is a workbook. Its ten chapters follow the
+*Explorations with Free85* is a workbook. Its eleven chapters follow the
 order of a mathematics course, from school algebra through to engineering
 mathematics. Each section asks a question about the mathematics, works it
 through on the machine keystroke by keystroke, and then hands you exercises
@@ -157,6 +157,9 @@ there, and goes round. That turns out to be the most useful thing in it.
 2. [Explorations in Quadratics](02-quadratics.md): the discriminant
    against a picture that cannot resolve it, and the vertex found exactly
    by `-b/2a` and approximately by the machine's minimum search.
+3. [Explorations in Geometry and Right Triangles](03-geometry.md): SOH CAH
+   TOA in degrees and the mode that decides what an angle means, and
+   distance read as the length of the vector between two points.
 4. [Explorations in Precalculus](04-precalculus.md): windows and what
    they hide, families of curves three at a time, zeros and
    intersections, transformations, growth, and the trigonometric graphs.

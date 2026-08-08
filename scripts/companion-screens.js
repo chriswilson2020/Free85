@@ -251,6 +251,15 @@ const co02Quadratic = (c) => ["X-VAR", "X^2", "-", "4", "*", "X-VAR", "+",
   ...String(c).split("")];
 
 export const SCREEN_CASES = [
+  // Chapter 3 section 3.1: the mode screen, whose second line decides what
+  // every angle in the chapter means. Section 3.2: MAG on (3,4,0), the
+  // distance between (1,2) and (4,6) without forming a square or a root.
+  { name: "co03-mode-deg", keys: ["2ND", "MORE", 90, "F1", 120] },
+  {
+    name: "co03-vector-mag",
+    keys: ["2ND", "8", 90, "3", "ENTER", "4", "ENTER", "0", "ENTER", 60,
+      "F1", 600]
+  },
   { name: "co01-three-forms", keys: CO01_THREE_FORMS },
   { name: "co01-three-forms-table", keys: [...CO01_THREE_FORMS, "MORE", 900] },
   {

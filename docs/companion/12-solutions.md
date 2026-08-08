@@ -250,7 +250,124 @@ able to do; predicting all fourteen would mean you had reimplemented the
 search, at which point you may as well have used `-b/2a` and had the answer
 exactly.
 
-## 12.3 Solutions for Chapter 4
+## 12.3 Solutions for Chapter 3
+
+### 3.1 SOH CAH TOA, and the mode that decides what it means
+
+**1.** In `ANGLE DEG`, press [CLEAR] and [2nd] [SIN] [.] [6] [)] for
+`ASIN(.6)`: `= 36.869897645844`.
+
+Identical to step 2's `ATAN(3/4)`, digit for digit, and it had to be. Both
+are asking for the same angle of the same triangle by two of its three
+sides, and the machine reaches it by the same fourteen-digit route.
+
+Do not read that as a promise. Section 3.1 step 4 showed the same angle
+giving an exact sine and an inexact cosine, so agreeing in every digit is
+something to check rather than assume.
+
+**2.** The ladder is the hypotenuse and the 1.5 metres is adjacent to the
+ground angle, so cosine is 1.5/5. Press [CLEAR] and ask `ACOS(1.5/5)`:
+`= 72.542396876277`.
+
+For the height, do not go back through the angle. Ask
+`SQRT(5^2-1.5^2)`: `= 4.7696960070848`.
+
+That is the one to trust, and the reason is the angle you already have.
+`72.542396876277` is the true angle rounded to fourteen digits, so it is
+slightly wrong before you do anything else with it. Feed it to a sine and
+the answer inherits that error. Pythagoras never forms the angle at all, so
+there is no rounded intermediate for the error to hide in. Where two routes
+are open, prefer the one with fewer rounded numbers in the middle.
+
+**3.** `SIN(30)` gives `0.5`. `COS(60)` gives `0.49999999999989`.
+
+The first is exact. The second is not.
+
+You cannot tell from the answers which was computed more carefully, and
+that is the point. An exact-looking answer is not evidence of a better
+calculation; it is evidence that this particular rounding happened to land
+on a round number. `SIN(30)` might have been computed by a longer and
+sloppier route than `COS(60)` and still come out looking cleaner. Round
+answers are luck, not virtue, and treating them as a quality signal will
+mislead you eventually.
+
+**4.** `TAN(90)` gives `DOMAIN ERROR`, with `CLEAR OR EXIT` beneath it.
+Press [CLEAR].
+
+`TAN(89.999)` gives `= 57295.993533686`.
+
+These are not the same thing and the difference matters. At exactly 90
+degrees the tangent does not exist: the adjacent side is nought and you
+cannot divide by it, so the machine refuses. At 89.999 degrees it exists
+perfectly well and is merely enormous.
+
+So the refusal is not the machine saying "this number is too big for me".
+It is saying "there is no number here". The second answer proves it, by
+being a large but entirely ordinary number a thousandth of a degree away.
+
+**5.** In `ANGLE RAD`, `SIN(.5235987755983)` gives `= 0.5`.
+
+That number is pi over six to fourteen digits, and pi over six radians is
+thirty degrees. So it is the same question as `SIN(30)` in degree mode and
+returns the same exact `0.5`.
+
+Nobody wants to work this way because you have just typed thirteen decimal
+places to ask about an angle you could have written as `30`. Degree mode is
+not a simplification for beginners; it is the sensible way to talk about
+triangles, and the radian is the sensible way to talk about calculus. Use
+whichever suits the problem, and check which one you are in.
+
+### 3.2 Distance without the formula
+
+**1.** From (0, 0) to (5, 12) is across 5 and up 12. Press [2nd] [8] and
+type [5] [ENTER] [1] [2] [ENTER] [0] [ENTER], then [F1], `MAG`: `= 13`.
+
+Exact, as 5, 12, 13 promises.
+
+**2.** Entering -5 and -12 gives `MAG` of `= 13` again.
+
+Reversing the order of the two points reverses the vector between them, and
+a reversed vector has the same length. A distance cannot be negative
+because `MAG` squares each component before adding, and squaring destroys
+the sign. That is not a convention anyone chose; it falls out of the
+arithmetic.
+
+**3.** Press [CLEAR], type `11.180339887499` and press [x²]: `= 125`.
+
+Exactly 125, no dust. The distance was 5 times the square root of 5, so its
+square is 25 times 5, and the machine has come back through fourteen digits
+without losing anything.
+
+Compare that with section 3.1's cosine, where a round trip through an angle
+lost the last two digits. The difference is what happened in between.
+Squaring is one multiplication. Going from an angle to a cosine and back
+runs through a series and a rounded angle. The number of digits you keep
+depends on how far the number travelled, not on how tidy it looked when it
+set off.
+
+**4.** The third component measures how far the two points differ in the
+direction perpendicular to the page.
+
+For two points in a plane that difference is nought, exactly and not
+approximately, because both points genuinely have the same third
+coordinate. So nought is not a placeholder or a simplification. It is the
+correct value, and `MAG` squares it and adds nothing, which is precisely
+what should happen. A plane is not a special case of three dimensions
+needing special treatment; it is three dimensions with one difference
+honestly equal to nought.
+
+**5.** The midpoint of (1, 2) and (4, 6) is the average of each coordinate,
+so (2.5, 4).
+
+From (1, 2) to (2.5, 4) is across 1.5 and up 2. Press [2nd] [8], type [1]
+[.] [5] [ENTER] [2] [ENTER] [0] [ENTER], and press [F1]: `= 2.5`.
+
+Exactly half of the `5` from step 3, which is what "midpoint" has to mean.
+The other half gives the same 2.5 for the same reason, and the two halves
+are the same vector because the midpoint sits on the straight line between
+the ends rather than off to one side.
+
+## 12.4 Solutions for Chapter 4
 
 ### 4.1 Functions and their windows
 
@@ -610,7 +727,7 @@ x = 1/y, which is the same relation.
 a function is its own inverse exactly when its graph is symmetric about the
 line y = x, which is a nice thing to be able to spot by eye.
 
-## 12.4 Solutions for Chapter 5
+## 12.5 Solutions for Chapter 5
 
 ### 5.1 Prices from receipts
 
@@ -911,7 +1028,7 @@ shows up. It is fast at first and then slows, because each week closes a
 fixed fraction of the remaining gap. Most of the effect of the Station's
 renovation appears within a month; the last of it never quite arrives.
 
-## 12.5 Solutions for Chapter 6
+## 12.6 Solutions for Chapter 6
 
 ### 6.1 A week of small data
 
@@ -1261,7 +1378,7 @@ So the answer is `XYLN`, and the reason is the same property that made it
 untrustworthy in step 2. A plot that respects entry order is the only one
 that can show you something about entry order.
 
-## 12.6 Solutions for Chapter 7
+## 12.7 Solutions for Chapter 7
 
 ### 7.1 Limits by table and zoom
 
@@ -1641,7 +1758,7 @@ Check with [2nd] [F1] and you should find -1 and 3 to the usual dust.
 Designing backwards from the answer is how every exercise in this book was
 built, and it is a good habit for building your own.
 
-## 12.7 Solutions for Chapter 8
+## 12.8 Solutions for Chapter 8
 
 ### 8.1 Zeros of functions two ways
 
@@ -2063,7 +2180,7 @@ worse, exactly as the geometric series did. A real function with no real
 trouble at all, fenced in by a pair of complex numbers, is one of the better
 surprises in the subject.
 
-## 12.8 Solutions for Chapter 9
+## 12.9 Solutions for Chapter 9
 
 ### 9.1 One system, two tools
 
@@ -2321,7 +2438,7 @@ Two short passes and no elimination at all. That is what the ledger buys,
 and doing it once by hand is worth more than any amount of description: the
 second right-hand side would cost you the same two passes and no more.
 
-## 12.9 Solutions for Chapter 10
+## 12.10 Solutions for Chapter 10
 
 ### 10.1 Slope thinking
 
@@ -2670,7 +2787,7 @@ and the near miss is the answer to the question: the step you want is not
 a power of two, so you choose between a little more than one loop and a
 little less.
 
-## 12.10 Solutions for Chapter 11
+## 12.11 Solutions for Chapter 11
 
 ### 11.1 The pendulum, and the integral that will not behave
 

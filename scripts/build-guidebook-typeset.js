@@ -801,8 +801,8 @@ function buildCompanion() {
   const sources = readdirSync(`${root}docs/companion/`)
     .filter((f) => /^\d\d-.*\.md$/.test(f)).sort()
     .map((f) => `${root}docs/companion/${f}`);
-  if (sources.length !== 13) {
-    throw new Error("companion: expected front matter + 10 chapters + solutions "
+  if (sources.length !== 14) {
+    throw new Error("companion: expected front matter + 11 chapters + solutions "
       + `+ afterword, found ${sources.length} sources`);
   }
 
@@ -837,8 +837,8 @@ function buildCompanion() {
   for (const m of bookBody.matchAll(/<header class="chapter-opener" data-chapter="(\d+)">[\s\S]*?<h1 id="([^"]+)">([^<]+)<\/h1>/g)) {
     chapters.push({ group: "Chapters", no: m[1], id: m[2], title: m[3] });
   }
-  if (chapters.length !== 11) {
-    throw new Error(`companion: expected 11 chapter TOC entries, found ${chapters.length}`);
+  if (chapters.length !== 12) {
+    throw new Error(`companion: expected 12 chapter TOC entries, found ${chapters.length}`);
   }
   const afterword = bookBody.match(
     /<header class="chapter-opener appendix-opener afterword-opener">.*?<h1 id="([^"]+)">([^<]+)<\/h1>/);
@@ -861,8 +861,8 @@ function buildCompanion() {
       + `previous paragraph.`);
   }
   // Chapter 12 answers every Try it panel, one solution section per chapter.
-  if (stats.solutions !== 10) {
-    throw new Error("companion: expected 10 solution sections, one per "
+  if (stats.solutions !== 11) {
+    throw new Error("companion: expected 11 solution sections, one per "
       + `chapter, found ${stats.solutions}`);
   }
   frontMatter += tocHtml([...entries, ...chapters]);

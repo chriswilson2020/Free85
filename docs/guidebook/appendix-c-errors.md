@@ -110,11 +110,18 @@ your entry is exactly as you left it.
   million radians or one hundred million degrees; past that a
   fourteen-digit input no longer pins the angle down, so `SIN(1.1E6)`
   stops here rather than returning a plausible number (chapter 3).
-- **`NO CONVERGENCE`**: the work budget ran out before successive
-  estimates agreed. `FNINT(` compares 32-, 64- and 128-panel Simpson
-  estimates and stops here when they will not settle (chapter 3);
-  differential-equation mode reports it when a solution runs away faster
-  than the window can follow (chapter 7).
+- **`NO CONVERGENCE`**: the work ran out before successive estimates
+  agreed, or a search finished with nothing to report. `FNINT(` compares
+  32-, 64- and 128-panel Simpson estimates and stops here when they will
+  not settle (chapter 3); differential-equation mode reports it when a
+  solution runs away faster than the window can follow (chapter 7); and
+  the graph screen's root key [F1] and intersection search [2nd] [F1]
+  report it when they scan the window without bracketing a crossing.
+  That last case covers a function that never reaches zero, such as
+  `X^2+1`, one that touches zero without changing sign, such as
+  `X^2-4*X+4` (chapter 4), a polar radius that never crosses zero
+  (chapter 5), and a differential-equation slope that never crosses zero
+  (chapter 7).
 - **`RECURSION ERROR`**: a graph slot reached itself. One nested graph
   evaluation is available, so a slot may read another slot, but
   `NDER(1,X)` stored in slot 1, or a cycle between two slots, stops here
@@ -151,13 +158,6 @@ your entry is exactly as you left it.
 
 ## Solver messages
 
-- **`NO NUMERIC RESULT`**: a graph-screen numeric search found nothing
-  to report: the root finder and its companion soft keys when the
-  search fails (chapter 4), including on a polar radius or a
-  differential-equation slope that never crosses zero (chapters 5
-  and 7). Earlier firmware also answered it from the general solver;
-  the 2.10 solver workspace reports through its own four notices
-  below instead.
 - **`ENTER EQUATION HOME`**, **`LOWER MUST BE < UPP`**,
   **`EQUATION DOMAIN ERR`**, and **`NO BOUNDED ROOT`**: the four
   notices guarding `SOLV` in chapter 14's general solver. The first

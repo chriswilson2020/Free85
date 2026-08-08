@@ -21,7 +21,7 @@ like the ones that follow them, only slower.
    Arithmetic and geometric sequences, which `FOR V,start,end[,step]` and
    the `seq` list command express directly since firmware 2.19.
 2. **Quadratics.** The discriminant against the picture: two intercepts,
-   one, or none, with `NO NUMERIC RESULT` from the root finder as the
+   one, or none, with `NO CONVERGENCE` from the root finder as the
    machine's own way of saying the third case. Then `-b/2a` worked on paper
    against the graph's minimum search, which answers something like
    `0.00011982342365967`. Exact method against numerical method,

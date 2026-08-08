@@ -216,8 +216,11 @@ result on the home screen. With `X^2-4` plotted:
   residual line.
 
 When a search fails, for instance [F1] on `X^2+1`, which never crosses
-zero, the answer is the `NO NUMERIC RESULT` notice rather than a made-up
-number; [CLEAR] or [EXIT] dismisses it.
+zero, the answer is the `NO CONVERGENCE` notice rather than a made-up
+number, with the usual `CLEAR OR EXIT` way back (chapter 1). The same
+notice answers a root that the scan cannot bracket, such as the double
+root of `X^2-4*X+4`, where the curve touches zero without changing
+sign.
 
 These are the graph-side counterparts of the home-screen calculus commands
 (`EVAL(`, `NDER(`, `FNINT(`, `FMIN(`, `FMAX(`) described in chapter 3: same

@@ -112,7 +112,7 @@ interval `XMIN` to `XMAX`, not over one revolution. With the circle
 
 - [F4] answers `= 0`, the derivative of a constant radius;
 - [F5] answers `= 100`, the integral of 5 across the 20-unit window;
-- [F1] answers the `NO NUMERIC RESULT` notice, since the radius never
+- [F1] answers the `NO CONVERGENCE` notice, since the radius never
   crosses zero;
 - `EVAL(2)` on the home screen answers `= 5`, the radius at angle 2.
 

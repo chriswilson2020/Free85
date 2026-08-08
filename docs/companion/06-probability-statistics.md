@@ -188,8 +188,8 @@ Two builds follow, a nine-flip warm-up and a thirty-six-roll dice
 experiment, in the program environment of the Guidebook, chapter 16.
 
 1. Press [PRGM], then [F1], `NEW`. The editor opens on `EDIT P1`, `LINE 1`.
-   Remember from Chapter 7 that it shows you one line at a time and never a
-   listing, so keep the table below in front of you as you type.
+   It shows you one line at a time and never a listing, so keep the table
+   below in front of you as you type.
 
    Letters are [ALPHA] plus the key carrying the letter, spaces are
    [2nd] [0] in this editor, and [STO▶] types the `->` arrow.

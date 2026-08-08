@@ -281,6 +281,15 @@ export const SCREEN_CASES = [
     keys: [...CO03_TRANSFORM, "MORE", 60, "F3", 900,
       "RIGHT", 30, "RIGHT", 30, "RIGHT", 30, "RIGHT", 30]
   },
+  // Chapter 1 section 1.4: an arithmetic sequence as the line 4n-1 beside a
+  // geometric one as 2^n, both read off the table at whole numbers. The
+  // exponential is an order of magnitude slower to plot than the line, so it
+  // gets the settle frames to match.
+  {
+    name: "co01-sequences-table",
+    keys: ["4", "*", "X-VAR", "-", "1", "GRAPH", 1200, "2ND", "2", 60,
+      "2", "^", "X-VAR", "GRAPH", 16000, "MORE", 1500]
+  },
   { name: "co01-three-forms", keys: CO01_THREE_FORMS },
   { name: "co01-three-forms-table", keys: [...CO01_THREE_FORMS, "MORE", 900] },
   {

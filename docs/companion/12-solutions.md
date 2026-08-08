@@ -150,6 +150,59 @@ is not inverse. Both tests fail, and a relationship that fails both is
 telling you it needs a different shape of formula. It is the quadratic of
 chapter 2.
 
+### 1.4 Sequences, which are functions in disguise
+
+**1.** The common difference is 4 and the common ratio is 2, both read
+straight down the table.
+
+At `X=6` the columns will read `23` and `64`. The first is 19 plus another
+4, or 4 times 6 minus 1, which are the same arithmetic reached two ways.
+The second is 32 doubled.
+
+Notice that you can predict both without the machine, which is the point of
+having found the rule. A sequence you can only continue by looking at the
+next row is a sequence you have not understood yet.
+
+**2.** The loop is `FOR A,3,79,4` with `DISP A`, `END` and `STOP` beneath
+it, and it reports `79`.
+
+Now the sting, which is what the exercise is really for. To write `79` as
+the upper bound you had to already know the twentieth term. The loop did
+not find it; it counted up to a number you supplied and told you the number
+you supplied.
+
+So `FOR` was the wrong tool here. The right one is the rule: 4 times 20
+minus 1 is 79, one line of arithmetic and no program at all. A counted loop
+earns its keep when each term depends on the one before in a way no formula
+shortcuts, which is exactly the case in the differential-equation chapters
+later on. For a sequence with a closed form it is ceremony.
+
+**3.** With `1->G`, `FOR A,1,10`, `2*G->G`, `DISP G`, `END`, `STOP` the
+program reports `1024`.
+
+That is 2 to the tenth. Whether it is the tenth term depends on where you
+started counting, which is the same off-by-one as step 4 of the section.
+The sequence 2, 4, 8, 16 has 2 as its first term, so its tenth term is 2 to
+the tenth, which is 1024, and the two agree. But the program started from a
+stored 1, which is 2 to the nought and is not a term of the sequence at
+all. It is scaffolding, and it doubled ten times to reach the tenth term.
+
+Count what the loop does rather than what it holds, and the off-by-one
+stops being confusing.
+
+**4.** They are the same information because a first term and a common
+difference are a point and a slope.
+
+The common difference is how much the sequence climbs per step, which is
+the slope. The first term is one point on it, at n = 1. Section 1.1's
+point-slope form is built from exactly that pair, so "first term and common
+difference" is point-slope wearing different words.
+
+Check it on `Y1`. The rule was 4n - 1, so at n = 1 the first term is 3 and
+the difference is 4. Point-slope through (1, 3) with slope 4 gives
+y = 3 + 4(n - 1), which multiplies out to 4n - 1. The table agrees: `3` at
+`X=1`, climbing by 4.
+
 ## 12.2 Solutions for Chapter 2
 
 ### 2.1 The discriminant against the picture

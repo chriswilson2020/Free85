@@ -14,7 +14,107 @@ equation second: those two account for almost every discrepancy. A
 difference in the last digit alone is usually just a different route to the
 same answer, as section 6.6 found.
 
-## 12.1 Solutions for Chapter 4
+## 12.1 Solutions for Chapter 2
+
+### 2.1 The discriminant against the picture
+
+**1.** The discriminant is 36 - 4c, so `X^2-6*X+8` has 4, `X^2-6*X+9` has 0
+and `X^2-6*X+10` has -4. The search answers the first and refuses the other
+two.
+
+Store each with [GRAPH] and press [F1]. `X^2-6*X+8` gives
+`= 1.9999999999998`, hunting the root at 2. The other two give
+`NO CONVERGENCE`; press [CLEAR] to dismiss each notice.
+
+That first answer is worth a second look. The root is exactly 2 and the
+search stopped two units in the last place short of it. Compare section
+2.1's `X^2-4*X+3`, where [F1] answered a clean `= 1`. Neither is more
+correct than the other. Where a bracket happens to close is not something
+you can predict from the curve, and a round answer is luck rather than a
+sign that this hunt went better than that one.
+
+**2.** The discriminant is what is left of the quadratic at its vertex, so
+`EVAL(2)` reads the vertex height in all three cases: `= -1`, `= 0`, `= 1`.
+Press [CLEAR] between them.
+
+The middle answer is the one that matters. `= 0`, exactly, with no dust,
+settles what the picture in step 3 could not. A curve whose lowest point is
+at height exactly nought touches the axis and does not cross it. The screen
+could not resolve that; one evaluation at the right place did, because you
+told the machine where to look instead of asking it to find out.
+
+**3.** Press [F2] on `X^2-4*X+4` for `= 1.9997326856359`, the location of
+the minimum, and the root is at the same place because for this curve the
+minimum *is* the root. That is exactly the coincidence that defeats [F1]:
+the curve reaches nought without passing through it.
+
+It would not work on `X^2-4*X+3`, whose minimum is at 2 and whose roots are
+at 1 and 3. There the minimum sits below the axis and has nothing to do
+with either crossing. The trick works here only because the discriminant is
+0, which is another way of saying the two roots have collided at the
+vertex.
+
+**4.** Store `-X^2+4*X-5` with [(-)] for the leading sign and press [F1]:
+`NO CONVERGENCE` again. Press [CLEAR], then press [F3] for the maximum:
+`= 1.9997326856359`.
+
+Turning the curve over turns its minimum into a maximum and leaves the
+crossings exactly where they were, which is nowhere. The refusal is about
+the curve, not about the method's taste in directions. A sign-change hunt
+needs the function to take both signs, and this one is negative everywhere
+whichever way up you draw it.
+
+### 2.2 The vertex, exactly and approximately
+
+**1.** For `2*X^2-6*X+1`, `-b/2a` is 6 over 4, which is 1.5 exactly.
+
+`FMIN(0,3)` is centred on 1.5 and answers `= 1.5000898675678`, a whisker
+above. `FMIN(-1,4)` is not centred on it, and answers `= 1.4998502207205`,
+a whisker below. The rule from section 2.2 step 5 predicts both: a centred
+interval leaves the answer high, an off-centre one can approach from either
+side.
+
+Press [CLEAR] and ask `EVAL(1.5)` for the height: `= -3.5`, exact.
+
+**2.** The bounds -4 to 4 are twice the width of -2 to 2, so the miss should
+be about twice `0.00011982342365967`. Running it gives
+`= 0.00023964684729095`.
+
+Doubling the published answer by hand gets you the first eleven digits and
+then parts company. The proportionality is a very good description of what
+the search does and not a law it obeys: the bracket halves a fixed number
+of times, but where inside the final bracket it stops still depends on the
+numbers it met on the way.
+
+**3.** The height above the vertex is x^2, so at `0.00059911711827895` the
+curve should sit about three ten-millionths above -4. Ask
+`EVAL(0.00059911711827895)`: `= -3.9999996410587`.
+
+Four digits of horizontal error bought seven digits of vertical agreement.
+That is the squaring at work, and it is why no amount of patience with
+these searches will produce a sharp answer: the quantity the search can see
+is losing precision twice as fast as the quantity you want.
+
+**4.** Each [+] halves every bound, so three presses take the window from
+-10 to 10 down to -1.25 to 1.25 and the dip fills the screen.
+
+It still will not give you the vertex to more digits, and the reason is the
+128 columns. The machine works out a height at 128 places across whatever
+window you set and joins them up. Zooming gives you 128 *closer together*
+places, never a reading between two of them, and the vertex is essentially
+never one of the 128. What you are reading off the screen is the best of
+128 samples, not the turning point, and that stays true at every zoom.
+
+**5.** Doubling the bounds to `FMIN(0,6)` should roughly double the miss,
+giving about 3.00018. It answers `= 3.0001797351354`.
+
+Close but not exact, for the reason exercise 2 gives. Predicting the first
+several digits of a numerical search's error is a reasonable thing to be
+able to do; predicting all fourteen would mean you had reimplemented the
+search, at which point you may as well have used `-b/2a` and had the answer
+exactly.
+
+## 12.2 Solutions for Chapter 4
 
 ### 4.1 Functions and their windows
 
@@ -374,7 +474,7 @@ x = 1/y, which is the same relation.
 a function is its own inverse exactly when its graph is symmetric about the
 line y = x, which is a nice thing to be able to spot by eye.
 
-## 12.2 Solutions for Chapter 5
+## 12.3 Solutions for Chapter 5
 
 ### 5.1 Prices from receipts
 
@@ -675,7 +775,7 @@ shows up. It is fast at first and then slows, because each week closes a
 fixed fraction of the remaining gap. Most of the effect of the Station's
 renovation appears within a month; the last of it never quite arrives.
 
-## 12.3 Solutions for Chapter 6
+## 12.4 Solutions for Chapter 6
 
 ### 6.1 A week of small data
 
@@ -1025,7 +1125,7 @@ So the answer is `XYLN`, and the reason is the same property that made it
 untrustworthy in step 2. A plot that respects entry order is the only one
 that can show you something about entry order.
 
-## 12.4 Solutions for Chapter 7
+## 12.5 Solutions for Chapter 7
 
 ### 7.1 Limits by table and zoom
 
@@ -1405,7 +1505,7 @@ Check with [2nd] [F1] and you should find -1 and 3 to the usual dust.
 Designing backwards from the answer is how every exercise in this book was
 built, and it is a good habit for building your own.
 
-## 12.5 Solutions for Chapter 8
+## 12.6 Solutions for Chapter 8
 
 ### 8.1 Zeros of functions two ways
 
@@ -1827,7 +1927,7 @@ worse, exactly as the geometric series did. A real function with no real
 trouble at all, fenced in by a pair of complex numbers, is one of the better
 surprises in the subject.
 
-## 12.6 Solutions for Chapter 9
+## 12.7 Solutions for Chapter 9
 
 ### 9.1 One system, two tools
 
@@ -2085,7 +2185,7 @@ Two short passes and no elimination at all. That is what the ledger buys,
 and doing it once by hand is worth more than any amount of description: the
 second right-hand side would cost you the same two passes and no more.
 
-## 12.7 Solutions for Chapter 10
+## 12.8 Solutions for Chapter 10
 
 ### 10.1 Slope thinking
 
@@ -2434,7 +2534,7 @@ and the near miss is the answer to the question: the step you want is not
 a power of two, so you choose between a little more than one loop and a
 little less.
 
-## 12.8 Solutions for Chapter 11
+## 12.9 Solutions for Chapter 11
 
 ### 11.1 The pendulum, and the integral that will not behave
 

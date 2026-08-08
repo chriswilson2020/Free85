@@ -226,7 +226,30 @@ const co11Components = (values) => values.flatMap((value) => [
   "ENTER"
 ]);
 
+// Chapter 2's quadratics differ in one coefficient, so they are built from
+// one template. The three discriminant cases are 3, 4 and 5.
+const co02Quadratic = (c) => ["X-VAR", "X^2", "-", "4", "*", "X-VAR", "+",
+  ...String(c).split("")];
+
 export const SCREEN_CASES = [
+  // Chapter 2 section 2.1: two of the three discriminant cases in the
+  // standard window, and the root search refusing the one that only touches
+  // the axis. The touching case is the point of the section: on its own it
+  // cannot be read as touching rather than just missing or just crossing,
+  // which is the picture failing at a question the discriminant settles in
+  // one subtraction. The third case is left to the reader's own screen.
+  { name: "co02-disc-two", keys: [...co02Quadratic(3), "GRAPH", 900] },
+  { name: "co02-disc-one", keys: [...co02Quadratic(4), "GRAPH", 900] },
+  {
+    name: "co02-no-convergence",
+    keys: [...co02Quadratic(4), "GRAPH", 900, "F1", 2400]
+  },
+  // Chapter 2 section 2.2: X^2-4, whose vertex is exactly at nought because
+  // b is nought, so -b/2a needs no arithmetic at all.
+  {
+    name: "co02-vertex-plot",
+    keys: ["X-VAR", "X^2", "-", "4", "GRAPH", 900]
+  },
   // Chapter 4 section 4.1: the cubic X^3-4*X in the standard window.
   { name: "co05-well-conditioned", keys: co05Solve([1, 2, 8.1, 3, -1, 3]) },
   { name: "co05-ill-conditioned", keys: co05Solve([1, 2, 8.1, 1.01, 2, 8.05]) },

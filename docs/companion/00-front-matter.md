@@ -150,6 +150,9 @@ there, and goes round. That turns out to be the most useful thing in it.
 
 ## Contents
 
+2. [Explorations in Quadratics](02-quadratics.md): the discriminant
+   against a picture that cannot resolve it, and the vertex found exactly
+   by `-b/2a` and approximately by the machine's minimum search.
 4. [Explorations in Precalculus](04-precalculus.md): windows and what
    they hide, families of curves three at a time, zeros and
    intersections, transformations, growth, and the trigonometric graphs.

@@ -6,12 +6,14 @@ the rest. Trigonometry is the machinery for going between them, and a
 calculator is the first tool that makes it quick enough to explore rather
 than merely survive.
 
-Two sections here, and both are about the same quiet danger. The machine
-will answer whatever you ask it, in whatever units it happens to be
-holding, and it will not tell you that you asked the wrong question. The
-first section is about the mode that decides what your angles mean. The
-second is about reading a distance off two points without ever writing down
-the formula.
+The first two sections are about the same quiet danger. The machine will
+answer whatever you ask it, in whatever units it happens to be holding, and
+it will not tell you that you asked the wrong question. One is about the
+mode that decides what your angles mean, the other about reading a distance
+off two points without ever writing down the formula.
+
+The third is about doing all of that to a whole shape at once, which is
+what a transformation is and what the matrix workspace is for.
 
 ## 3.1 SOH CAH TOA, and the mode that decides what it means
 

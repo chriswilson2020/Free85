@@ -253,10 +253,10 @@ with `allow_stale`.
   from the emulator, and `npm run test:guidebook` checks that the book
   covers every completed command in the ledger.
 - [Explorations with Free85](docs/companion/00-front-matter.md): a workbook
-  of eight chapters, from precalculus to engineering mathematics, that puts
-  the calculator to work on invented problems. Every exploration, data set,
-  and exercise was written for this machine, and every key sequence and
-  quoted result in it was run on the emulator.
+  of eleven chapters, from school algebra through precalculus to engineering
+  mathematics, that puts the calculator to work on invented problems. Every
+  exploration, data set, and exercise was written for this machine, and
+  every key sequence and quoted result in it was run on the emulator.
 - Typeset editions, ready to read or print (A5, covers, full table of
   contents): read the
   [Manual online](https://chriswilson2020.github.io/Free85/public/guidebook/Free85-Manual-typeset.html),

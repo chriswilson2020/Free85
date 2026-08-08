@@ -250,6 +250,15 @@ const CO01_VARIATION = ["3", "*", "X-VAR", "GRAPH", 900,
 const co02Quadratic = (c) => ["X-VAR", "X^2", "-", "4", "*", "X-VAR", "+",
   ...String(c).split("")];
 
+// Chapter 3 section 3.3: register A takes the quarter turn as four numbers,
+// then [ALPHA] switches to B, [x-VAR] moves the size control to the column
+// axis, and four presses of [+] make room for six points.
+const CO03_CELLS = (values) => values.flatMap((value) => [
+  ...String(value).split("").map((c) => (c === "-" ? "(-)" : c)), "ENTER"]);
+const CO03_TRANSFORM = ["2ND", "7", 90, ...CO03_CELLS([0, -1, 1, 0]), 60,
+  "ALPHA", 60, "X-VAR", 30, "+", 30, "+", 30, "+", 30, "+", 60,
+  ...CO03_CELLS([1, 3, 3, 2, 2, 1, 0, 0, 1, 1, 3, 3]), 60];
+
 export const SCREEN_CASES = [
   // Chapter 3 section 3.1: the mode screen, whose second line decides what
   // every angle in the chapter means. Section 3.2: MAG on (3,4,0), the
@@ -259,6 +268,18 @@ export const SCREEN_CASES = [
     name: "co03-vector-mag",
     keys: ["2ND", "8", 90, "3", "ENTER", "4", "ENTER", "0", "ENTER", 60,
       "F1", 600]
+  },
+  // Chapter 3 section 3.3: six corners of an L as the columns of a 2x6, and
+  // the quarter turn that moves all of them in one press of MUL. Before 3.0
+  // a matrix stopped at three columns, so the shape would not have fitted.
+  {
+    name: "co03-six-columns",
+    keys: [...CO03_TRANSFORM]
+  },
+  {
+    name: "co03-turned",
+    keys: [...CO03_TRANSFORM, "MORE", 60, "F3", 900,
+      "RIGHT", 30, "RIGHT", 30, "RIGHT", 30, "RIGHT", 30]
   },
   { name: "co01-three-forms", keys: CO01_THREE_FORMS },
   { name: "co01-three-forms-table", keys: [...CO01_THREE_FORMS, "MORE", 900] },

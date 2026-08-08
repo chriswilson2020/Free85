@@ -367,6 +367,64 @@ The other half gives the same 2.5 for the same reason, and the two halves
 are the same vector because the midpoint sits on the straight line between
 the ends rather than off to one side.
 
+### 3.3 Six points, one multiplication
+
+**1.** Reflecting in the x axis sends (x, y) to (x, -y), so `A` is 1, 0, 0,
+-1. Run `MUL` and step through `R`.
+
+The top row reads `1`, `3`, `3`, `2`, `2`, `1` and the bottom reads `0`,
+`0`, `-1`, `-1`, `-3`, `-3`.
+
+The top row is unchanged, and you should have known that before pressing
+anything: reflecting in the x axis does not move any point sideways. The
+first row of the result is the x coordinates, the rule leaves x alone, so
+that row had to come back exactly as it went in. Getting a prediction like
+that right is worth more than the run confirming it.
+
+**2.** The half turn sends (x, y) to (-x, -y), so `A` is -1, 0, 0, -1.
+
+Both routes agree. The top row reads `-1`, `-3`, `-3`, `-2`, `-2`, `-1` and
+the bottom reads `0`, `0`, `-1`, `-1`, `-3`, `-3`.
+
+They have to agree, and the reason is the whole point of writing
+transformations as matrices. Doing one turn and then another is the same as
+doing the single turn that combines them, and combining them is a matrix
+multiplication of the two transformations. Turning twice by a quarter is a
+half, on the machine and on paper, by the same arithmetic.
+
+**3.** With 2, 0, 0, 2 in `A`, the top row reads `2`, `6`, `6`, `4`, `4`,
+`2` and the bottom reads `0`, `0`, `2`, `2`, `6`, `6`.
+
+The corner at (1,0) goes to (2,0), which has moved one unit. The corner at
+(2,3) goes to (4,6), which has moved rather further. Both doubled their
+distance from the origin, and a corner that started further out therefore
+travelled further. That is what makes this a scaling about the origin
+rather than a shape simply getting bigger where it stands.
+
+**4.** It cannot answer, and the dimensions say so before you press
+anything.
+
+The six points are a 2 by 6 and the transformation is a 2 by 2. A matrix
+product needs the columns of the first to match the rows of the second, so
+2 by 6 against 2 by 2 asks six to equal two. It does not, and there is no
+product to compute.
+
+Put the other way round, 2 by 2 against 2 by 6 asks two to equal two, which
+is fine, and the answer comes out 2 by 6: as many points as you started
+with, which is the only sensible shape for the answer to have. The order is
+not a convention anyone chose. It is the only order that means anything.
+
+**5.** Three columns meant three points, so the largest shape you could
+transform in one multiplication was a triangle.
+
+This L would have had to go through in two halves, three corners at a time,
+with the transformation retyped or at least reselected between them, and
+the two results copied out and rejoined by hand. That is not merely slower.
+The two halves come back as two separate results, so the shape stops being
+one object at exactly the moment you are trying to show that a
+transformation treats it as one. Six columns did not make an old exercise
+quicker; it made this exercise possible.
+
 ## 12.4 Solutions for Chapter 4
 
 ### 4.1 Functions and their windows
